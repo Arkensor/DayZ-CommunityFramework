@@ -10,16 +10,29 @@ modded class MissionGameplay
     {
         super.OnKeyPress( key );
 
-        if ( key == KeyCode.KC_K )
+        switch ( key )
         {
-            GetGame().GetPlayer().MessageStatus( "Sending Test RPC" );
-            RPCTestAction testAction = GetRPCManager().GetAction( RPCMANAGER_UNKNOWN_TYPE + 1 );
-            if ( testAction )
+            case KeyCode.KC_K:
             {
-                testAction.Send( 0 );
-                GetGame().GetPlayer().MessageStatus( "Sent Test RPC" );
-            } else {
-                GetGame().GetPlayer().MessageStatus( "Failed to send Test RPC" );
+                PlayerBase player = GetGame().GetPlayer();
+
+                ref RPCManager rpcmanager = GetRPCManager();
+                if ( !rpcmanager )
+                {
+                    player.MessageStatus( "RPCManager does not exist!" );
+                    break;
+                }
+
+                player.MessageStatus( "Sending Test RPC" );
+                RPCTestAction testAction = GetRPCManager().GetAction( RPCMANAGER_UNKNOWN_TYPE + 1 );
+                if ( testAction )
+                {
+                    testAction.Send( 0 );
+                    player.MessageStatus( "Sent Test RPC" );
+                } else {
+                    player.MessageStatus( "Failed to send Test RPC" );
+                }
+                break;
             }
         }
     }

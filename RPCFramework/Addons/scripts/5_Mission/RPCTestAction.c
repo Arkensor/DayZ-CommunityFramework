@@ -2,7 +2,7 @@ class RPCTestAction extends RPCActionBase
 {
     override int GetRPCType()
     {
-        return RPCMANAGER_UNKNOWN_TYPE + 1;
+        return super.GetRPCType() + 1;
     }   
 
     protected override ref Param ServerRead( ParamsReadContext ctx )
@@ -28,19 +28,19 @@ class RPCTestAction extends RPCActionBase
     }  
 
     // Verifies the action
-    protected override bool VerifyAction( ref Param params, PlayerIdentity sender )
+    protected override bool VerifyAction( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
     {
         return true;
     }
 
     // Performs the action on the server (or in local multiplayer).
-    protected override void PerformServer( ref Param params, PlayerIdentity sender )
+    protected override void PerformServer( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
     {
         LogError( "Testing on the server!" );
     }
 
     // Performs the action on the client.
-    protected override void PerformClient( ref Param params, PlayerIdentity sender )
+    protected override void PerformClient( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
     {
         LogError( "Testing on the client!" );
     }

@@ -10,7 +10,7 @@ class RPCActionBase
 
     int GetRPCType()
     {
-        return 1000;
+        return RPCMANAGER_UNKNOWN_TYPE;
     }
 
     // Retrieves the data from the client to be called on the server.
@@ -44,18 +44,18 @@ class RPCActionBase
     }
 
     // Verifies the action
-    protected bool VerifyAction( ref Param params, PlayerIdentity sender )
+    protected bool VerifyAction( ref Param params, ref PlayerIdentity sender, ref Object target = NULL  )
     {
         return true;
     }
 
     // Performs the action on the server (or in local multiplayer).
-    protected void PerformServer( ref Param params, ref PlayerIdentity sender, ref Object target )
+    protected void PerformServer( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
     {
     }
 
     // Performs the action on the client.
-    protected void PerformClient( ref Param params, ref PlayerIdentity sender, ref Object target )
+    protected void PerformClient( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
     {
     }
 

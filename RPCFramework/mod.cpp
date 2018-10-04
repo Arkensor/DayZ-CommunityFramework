@@ -7,7 +7,7 @@ class CfgMods
 		action = "";
 		hideName = 1;
 		hidePicture = 1;
-		name = "RPC Framework";
+		name = "RPCFramework";
 		credits = "Jacob_Mango";
 		author = "Jacob_Mango";
 		authorID = "0"; 

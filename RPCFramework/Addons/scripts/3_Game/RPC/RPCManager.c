@@ -9,8 +9,6 @@ class RPCManager
     void RPCManager()
     {
         m_RPCActions = new ref map< int, ref RPCActionBase >;
-
-		DayZGame.Cast( GetGame() ).Event_OnRPC.Insert( this.OnRPC );
     }
 
     void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
@@ -29,12 +27,12 @@ class RPCManager
         }
     }
 
-    RPCActionBase GetAction( int id )
+    ref RPCActionBase GetAction( int id )
     {
         return m_RPCActions.Get( id );
     }
 
-    void AddAction( RPCActionBase action )
+    void AddAction( ref RPCActionBase action )
     {
         if ( action )
         {
@@ -48,5 +46,12 @@ static ref RPCManager g_RPCManager;
 
 static ref RPCManager GetRPCManager()
 {
+    if ( !g_RPCManager )
+    {
+        g_RPCManager = new ref RPCManager;
+
+		DayZGame.Cast( GetGame() ).Event_OnRPC.Insert( g_RPCManager.OnRPC );
+    }
+
     return g_RPCManager;
 }
