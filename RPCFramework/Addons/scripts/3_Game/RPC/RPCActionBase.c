@@ -44,27 +44,30 @@ class RPCActionBase
     }
 
     // Verifies the action
-    protected bool VerifyAction( ref Param params, ref PlayerIdentity sender, ref Object target = NULL  )
+    protected bool VerifyAction( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL  )
     {
         return true;
     }
 
     // Performs the action on the server (or in local multiplayer).
-    protected void PerformServer( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
+    protected void PerformServer( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL )
     {
     }
 
     // Performs the action on the client.
-    protected void PerformClient( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
+    protected void PerformClient( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL )
     {
     }
 
     // Sends the data to the server
     void SendServer( ref Param params )
     {
+        //PlayerBase player = GetGame().GetPlayer();
+
         if ( !GetGame().IsMultiplayer() )
         {
             PerformServer( params, NULL );
+            //PerformServer( params, player );
             return;
         }
 
@@ -73,8 +76,6 @@ class RPCActionBase
 		m_ParamCache.Set(0, params);
 
         /*
-        PlayerBase player = GetGame().GetPlayer();
-
         if ( player )
         {
             GetDayZGame().RPC( player, GetRPCType(), m_ParamCache, true, NULL );

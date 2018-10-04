@@ -23,12 +23,10 @@ modded class MissionGameplay
                     break;
                 }
 
-                player.MessageStatus( "Sending Test RPC" );
                 RPCTestAction testAction = GetRPCManager().GetAction( RPCMANAGER_UNKNOWN_TYPE + 1 );
                 if ( testAction )
                 {
                     testAction.Send( 0 );
-                    player.MessageStatus( "Sent Test RPC" );
                 } else {
                     player.MessageStatus( "Failed to send Test RPC" );
                 }

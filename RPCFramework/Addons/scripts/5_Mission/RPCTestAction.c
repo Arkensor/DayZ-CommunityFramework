@@ -28,21 +28,26 @@ class RPCTestAction extends RPCActionBase
     }  
 
     // Verifies the action
-    protected override bool VerifyAction( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
+    protected override bool VerifyAction( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL )
     {
         return true;
     }
 
     // Performs the action on the server (or in local multiplayer).
-    protected override void PerformServer( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
+    protected override void PerformServer( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL )
     {
-        LogError( "Testing on the server!" );
+        ref Param1< int > param = getParams;
+
+        Send( param.param1 );
     }
 
     // Performs the action on the client.
-    protected override void PerformClient( ref Param params, ref PlayerIdentity sender, ref Object target = NULL )
+    protected override void PerformClient( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL )
     {
-        LogError( "Testing on the client!" );
+        ref Param1< int > param = getParams;
+
+        PlayerBase player = GetGame().GetPlayer();
+        player.MessageStatus( "Recieved the param " + param.param1 );
     }
 
     void Send( int number )
