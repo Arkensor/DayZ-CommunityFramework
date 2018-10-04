@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Deploy",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d", "/c"
+                        ]
+                    }
+                }
+            },
+            "command": "deploy.bat",
+            "args": [
+                "${workspaceRoot}", "C:\\Games\\steamapps\\common\\DayZ", "C:\\Games\\steamapps\\common\\DayZServer", "RPCFramework", "RPCFramework.ChernarusPlus"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d", "/c"
+                        ]
+                    }
+                }
+            },
+            "command": "launch.bat",
+            "args": [
+                "${workspaceRoot}", "C:\\Games\\steamapps\\common\\DayZ", "C:\\Games\\steamapps\\common\\DayZServer", "RPCFramework", "RPCFramework.ChernarusPlus"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
