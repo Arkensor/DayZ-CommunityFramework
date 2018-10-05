@@ -10,22 +10,36 @@ class TestGame
         E_TEST_RPCS.RPC_TEST = GetRPCManager().AddRPC( this, "TestRPCCommand" );
     }
 
-    void TestRPCCommand( ref Param getParams, ref PlayerIdentity sender, ref Object target = NULL )
+    void TestRPCCommand( ref Param getParams, ref PlayerIdentity sender, ref Object target )
     {
+
         if ( GetGame().IsServer() && GetGame().IsMultiplayer())
         {
-            ref Param1< int > param = getParams;
-
-            GetRPCManager().SendRPC( E_TEST_RPCS.RPC_TEST, param.param1, NULL, NULL );
+            TestRPCCommand_OnServer( getParams, sender, target );
         }
 
         if ( GetGame().IsClient() ) 
         {
-            ref Param1< int > param = getParams;
-
-            PlayerBase player = GetGame().GetPlayer();
-            player.MessageStatus( "Recieved the param " + param.param1 );
+            TestRPCCommand_OnClient( getParams, sender, target )
         }
+    }
+
+    void TestRPCCommand_OnServer( ref Param1< int > param, ref PlayerIdentity sender, ref Object target )
+    {
+        ref RPCManager rpcmanager = GetRPCManager();
+
+        if ( !rpcmanager && !param )
+        {
+            return;
+        }
+
+        rpcmanager.SendRPC( E_TEST_RPCS.RPC_TEST, param, NULL, NULL );
+    }
+
+    void TestRPCCommand_OnClient( ref Param1< int > param, ref PlayerIdentity sender, ref Object target )
+    {
+        PlayerBase player = GetGame().GetPlayer();
+        player.MessageStatus( "Recieved the param " + param.param1 );
     }
 
     void OnKeyPress( int key )
@@ -43,7 +57,7 @@ class TestGame
                     break;
                 }
 
-                GetRPCManager().SendRPC( E_TEST_RPCS.RPC_TEST, new ref Param1< int >( 10 ), sender, NULL );
+                rpcmanager.SendRPC( E_TEST_RPCS.RPC_TEST, new ref Param1< int >( 10 ), NULL, NULL );
                 break;
             }
         }
