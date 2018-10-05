@@ -1,44 +1,93 @@
-static const int RPCMANAGER_UNKNOWN_TYPE = 1000;
+class RPCObject
+{
+    protected Class m_Object;
+	protected string m_strCallbackFunction;
+	protected string m_strShortcut;
+	protected string m_strDescription;
+
+    void RPCObject( Class object, string callback, string shortcut = "", string description = "" ) 
+	{
+		m_Object = object;
+		
+		m_strCallbackFunction = callback;
+		m_strShortcut = shortcut;
+		m_strDescription = description;
+	}
+    
+    Class GetObject() 
+	{
+		return m_Object;
+	}
+	
+	string GetShortcut() 
+	{
+		return m_strShortcut;
+	}
+	
+	string GetDescription() 
+	{
+		return m_strDescription;
+	}
+	
+	string GetCallBackFunction() 
+	{
+		return m_strCallbackFunction;
+	}
+}
 
 class RPCManager
 {
-    private ref map< int, ref RPCActionBase > m_RPCActions;
+    private ref map< int, ref RPCObject > m_RPCActions;
 
-    private int m_LastInsertedRPCType = RPCMANAGER_UNKNOWN_TYPE;
+    private int m_LastRPCID;
+    
+    private ref array<ref Param> m_ParamCache;
 
     void RPCManager()
     {
-        m_RPCActions = new ref map< int, ref RPCActionBase >;
+        m_RPCActions = new ref map< int, ref RPCObject >;
+
+		m_ParamCache = new array<ref Param>;
+		m_ParamCache.Insert( NULL );
     }
 
     void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
     {
-        ref RPCActionBase base;
+        ref RPCObject rpcObject;
 
-        if ( m_RPCActions.Find( rpc_type, base ) )
+        if ( m_RPCActions.Find( rpc_type, rpcObject ) )
         {
-            if ( GetGame().IsServer() )
+            Param param;
+            if ( ctx.Read( param ) )
             {
-                base.OnServer( ctx, sender, target );
-            } else if ( GetGame().IsClient() )
-            {
-                base.OnClient( ctx, sender, target );
+                GetGame().GameScript.CallFunction(rpcObject.GetObject(), rpcObject.GetCallBackFunction(), NULL, new Param3<Param, PlayerIdentity, Object>(param, sender, target)  );
             }
         }
     }
 
-    ref RPCActionBase GetAction( int id )
+    void SendRPC( int rpc_type, Param param, PlayerIdentity sendToIdentity, Object sendToTarget, bool guaranteed = true )
     {
-        return m_RPCActions.Get( id );
+        ref RPCObject rpcObject;
+
+        if ( m_RPCActions.Find( rpc_type, rpcObject ) )
+        {
+            if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
+            {
+		        m_ParamCache.Set(0, param);
+
+                GetDayZGame().RPC( sendToTarget, rpc_type, m_ParamCache, guaranteed, sendToIdentity );
+            } else {
+                GetGame().GameScript.CallFunction(rpcObject.GetObject(), rpcObject.GetCallBackFunction(), NULL, new Param3<Param, PlayerIdentity, Object>(param, sendToIdentity, sendToTarget) );
+            }
+        }
     }
 
-    void AddAction( ref RPCActionBase action )
+    int AddRPC( Class object, string callBackFunc )
     {
-        if ( action )
-        {
-            m_LastInsertedRPCType = action.GetRPCType();
-            m_RPCActions.Insert( action.GetRPCType(), action );
-        }
+        m_LastRPCID = m_LastRPCID + 1;
+        m_RPCActions.Insert( m_LastRPCID, new ref RPCObject( object, callBackFunc ) );
+
+        return m_LastRPCID;
     }
 }
 
