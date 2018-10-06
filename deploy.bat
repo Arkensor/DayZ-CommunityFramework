@@ -18,7 +18,7 @@ RD /s /q "%gameDir%\%modName%" > NUL
 echo "Packaging PBO's for DayZ Client"
 xcopy /s/e /y /i "%workspaceDir%\%modName%" "%gameDir%\%modName%" > NUL
 for /D %%s in ("%gameDir%\%modName%\Addons\*") do (
-    %makePBO% -U -P -D -N "%%s" "%%s.pbo"
+    %makePBO% -U -P -D -N "%%s" "%%s.pbo" > NUL
     RD /s /q "%%s" > NUL
 )
 
@@ -26,15 +26,15 @@ echo "Finished copying to DayZ Client"
 
 echo "Copying to DayZ Server"
 
-RD /s /q "%serverDir%\Missions\%missionName%" > NUL
-xcopy /s/e /y /i "%workspaceDir%\MPMissions\%missionName%" "%serverDir%\Missions\%missionName%" > NUL
+RD /s /q "%serverDir%\MPMissions\%missionName%" > NUL
+xcopy /s/e /y /i "%workspaceDir%\Missions\%missionName%" "%serverDir%\MPMissions\%missionName%" > NUL
 
-RD /s /q "%serverDir%\%modName%" > NUL\
+RD /s /q "%serverDir%\%modName%" > NUL
 
 echo "Packaging PBO's for DayZ Server"
 xcopy /s/e /y /i "%workspaceDir%\%modName%" "%serverDir%\%modName%" > NUL
 for /D %%s in ("%serverDir%\%modName%\Addons\*") do (
-    %makePBO% -U -P -D -N "%%s" "%%s.pbo"
+    %makePBO% -U -P -D -N "%%s" "%%s.pbo" > NUL
     RD /s /q "%%s" > NUL
 )
 

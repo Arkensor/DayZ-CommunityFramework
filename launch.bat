@@ -24,4 +24,4 @@ TIMEOUT /T 2 /NOBREAK
 
 chdir /d "%gameDir%"
 
-start DayZ_BE.exe -exe DayZ_x64.exe -connect=120.148.181.194 -port=2302 -dologs -scriptDebug=true -freezecheck -nosplash -noPause -noBenchmark -adminlog -netlog -name=Jacob_Mango -freezecheck -mod=%modName%
+start DayZ_BE.exe -exe DayZ_x64.exe -connect=127.0.0.1 -port=2302 -dologs -scriptDebug=true -freezecheck -nosplash -noPause -noBenchmark -adminlog -netlog -name=COMTester -mod=%modName%
