@@ -1,31 +1,32 @@
-class E_TEST_RPCS
-{
-    static int RPC_TEST = -1;
-}
-
 class TestGame
 {
     void TestGame()
     {
-        E_TEST_RPCS.RPC_TEST = GetRPCManager().AddRPC( this, "TestRPCCommand", false );
+        GetRPCManager().AddRPC( this, "TestRPCCommand", false );
     }
 
-    void TestRPCCommand_OnServer( ref Param1< int > param, ref PlayerIdentity sender, ref Object target )
+    void TestRPCCommand_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
-        ref RPCManager rpcmanager = GetRPCManager();
+		Param1< int > data;
+		ctx.Read( data );
 
-        if ( !rpcmanager && !param )
+        auto rpc = GetRPCManager();
+
+        if ( !rpc || !data )
         {
             return;
         }
 
-        rpcmanager.SendRPC( E_TEST_RPCS.RPC_TEST, param, NULL, NULL );
+        rpc.SendRPC( "TestRPCCommand", data, true, sender, target );
     }
 
-    void TestRPCCommand_OnClient( ref Param1< int > param, ref PlayerIdentity sender, ref Object target )
+    void TestRPCCommand_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
+		Param1< int > data;
+		ctx.Read( data );
+		
         PlayerBase player = GetGame().GetPlayer();
-        player.MessageStatus( "Recieved the param " + param.param1 );
+        player.MessageStatus( "Recieved the data " + data.param1 );
     }
 
     void OnKeyPress( int key )
@@ -34,18 +35,20 @@ class TestGame
         {
             case KeyCode.KC_K:
             {
-                PlayerBase player = GetGame().GetPlayer();
-
-                ref RPCManager rpcmanager = GetRPCManager();
-                if ( !rpcmanager )
+                auto rpc = GetRPCManager();
+				
+                if ( !rpc )
                 {
+					PlayerBase player = GetGame().GetPlayer();
                     player.MessageStatus( "RPCManager does not exist!" );
                     break;
                 }
 
-                rpcmanager.SendRPC( E_TEST_RPCS.RPC_TEST, new ref Param1< int >( 10 ), NULL, NULL );
+				Param1< int > sendData = new Param1< int >( 10 );
+				rpc.SendRPC( "TestRPCCommand", sendData );
+				
                 break;
             }
         }
     }
-}
+};

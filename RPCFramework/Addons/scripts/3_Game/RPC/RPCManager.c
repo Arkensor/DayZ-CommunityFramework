@@ -1,109 +1,117 @@
-class RPCObject
+class RPCWrapper
 {
-    protected Class m_Object;
-	protected string m_strCallbackFunction;
-
+    protected Class m_Instance;
+	protected string m_CallbackFunction;
     protected bool m_SingleplayerUseServer;
 
-    void RPCObject( Class object, string callback, bool singleplayerUseServer ) 
+    void RPCWrapper( Class instance, string callBackFunc, bool singleplayerUseServer ) 
 	{
-		m_Object = object;
+		m_Instance = instance;
 		
-		m_strCallbackFunction = callback;
-        
+		m_CallbackFunction = callBackFunc;
+		
         m_SingleplayerUseServer = singleplayerUseServer;
 	}
     
-    Class GetObject() 
+    Class GetInstance() 
 	{
-		return m_Object;
+		return m_Instance;
 	}
 	
 	string GetCallBackFunction() 
 	{
-		return m_strCallbackFunction;
+		return m_CallbackFunction;
 	}
-
-	bool SinglePlayerUsesServer() 
+	
+	bool GetAllowServerFunctionInSingeplayer() 
 	{
 		return m_SingleplayerUseServer;
 	}
-}
+};
 
 class RPCManager
 {
-    private ref map< int, ref RPCObject > m_RPCActions;
-
-    private int m_LastRPCID;
+	protected int m_LastRPCId;
+    protected ref map< int, ref RPCWrapper > m_RPCActions;
+    protected ref map< string, int > m_AliasMapping;
 
     void RPCManager()
     {
-        m_RPCActions = new ref map< int, ref RPCObject >;
-        m_LastRPCID = 1000;
+        m_RPCActions = new ref map< int, ref RPCWrapper >;
+        m_AliasMapping = new ref map< string, int >;
+        m_LastRPCId = 1000;
+		
+		GetDayZGame().Event_OnRPC.Insert( OnRPC );
     }
 
     void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
     {
-        Debug.Log( "Recieving" + rpc_type.ToString() );
-        Print( "Recieving " + rpc_type.ToString() );
+        ref RPCWrapper wrapper;
 
-        ref RPCObject rpcObject;
-
-        if ( m_RPCActions.Find( rpc_type, rpcObject ) )
+        if ( m_RPCActions.Find( rpc_type, wrapper ) )
         {
-            Print( "Found the RPC?" );
-            Param6<Class,Class,Class,Class,Class,Class> params;
-
-            Print( ctx.ToString() );
-            Print( ctx );
-
-            if ( ctx.Read( params ) )
-            {
-                Print( "Converted the RPC?" );
-                RunRPC( rpcObject, params, sender, target );
-            }
+			RunRPC( wrapper, ctx, sender, target );
         }
     }
 
-    protected void RunRPC( ref RPCObject rpcObject, ref Param params, ref PlayerIdentity sender, ref Object target )
+    protected void RunRPC( ref RPCWrapper wrapper, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
-        if ( GetGame().IsServer() && GetGame().IsMultiplayer() || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && rpcObject.SinglePlayerUsesServer() ) ) 
+		auto fncName = wrapper.GetCallBackFunction();
+		
+        if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.GetAllowServerFunctionInSingeplayer() ) ) 
         {
-            GetGame().GameScript.CallFunctionParams(rpcObject.GetObject(), rpcObject.GetCallBackFunction() + "_OnServer", NULL, new Param3<Param, PlayerIdentity, Object>( params, sender, target ) );
-        } else if ( GetGame().IsClient() || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && !rpcObject.SinglePlayerUsesServer() ) ) 
-        {
-            GetGame().GameScript.CallFunctionParams(rpcObject.GetObject(), rpcObject.GetCallBackFunction() + "_OnClient", NULL, new Param3<Param, PlayerIdentity, Object>( params, sender, target ) );
+			fncName += "_OnServer";
         }
+		else
+		{
+			fncName += "_OnClient";
+		}
+		
+		auto functionCallData = new Param3< ref ParamsReadContext, ref PlayerIdentity, ref Object >( ctx, sender, target );
+		
+		GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), fncName, NULL, functionCallData );
     }
 
-    void SendRPC( int rpc_type, Param params, PlayerIdentity sendToIdentity, Object sendToTarget, bool guaranteed = true )
+    void SendRPC( string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL)
     {
-        ref RPCObject rpcObject;
+		if( m_AliasMapping.Contains( funcName ) )
+		{
+			// if ( GetGame().IsMultiplayer() ) //Todo remove commented section if Jacob agrees on the way to use it like this.
+			// {
+				GetGame().RPCSingleParam( sendToTarget, m_AliasMapping[ funcName ], params, guaranteed, sendToIdentity );
+			// } 
+			// else 
+			// {
+				// ref RPCWrapper wrapper;
 
-        if ( m_RPCActions.Find( rpc_type, rpcObject ) )
-        {
-            if ( GetGame().IsMultiplayer() )
-            {
-                GetGame().RPCSingleParam( sendToTarget, rpc_type, params, guaranteed, sendToIdentity );
-
-                Debug.Log( "Sending " + rpc_type.ToString() );
-                Print( "Sending " + rpc_type.ToString() );
-            } else {
-                Debug.Log( "Calling " + rpc_type.ToString() );
-                Print( "Calling " + rpc_type.ToString() );
-                RunRPC( rpcObject, params, sendToIdentity, sendToTarget );
-            }
-        }
+				// if ( m_RPCActions.Find( m_AliasMapping[ funcName ], wrapper ) )
+				// {
+					// auto ctx = new ScriptRPC;
+					// ctx.Write( params );
+					
+					// RunRPC( wrapper, ctx, sendToIdentity, sendToTarget );
+				// }
+			// }
+		}
     }
 
-    int AddRPC( Class object, string callBackFunc, bool singleplayerUseServer = true )
+    bool AddRPC( Class instance, string callBackFunc, bool singleplayerUseServer = true )
     {
-        m_LastRPCID = m_LastRPCID + 1;
-        m_RPCActions.Insert( m_LastRPCID, new ref RPCObject( object, callBackFunc, singleplayerUseServer ) );
-
-        return m_LastRPCID;
+		if( !m_AliasMapping.Contains( callBackFunc ) )
+		{
+			m_LastRPCId++;
+			
+			auto wrapper = new ref RPCWrapper( instance, callBackFunc, singleplayerUseServer );
+			
+			m_RPCActions.Set( m_LastRPCId, wrapper );
+			m_AliasMapping.Set( callBackFunc, m_LastRPCId );
+			
+			return true;
+		}
+		
+		return false;
     }
-}
+};
 
 static ref RPCManager g_RPCManager;
 
@@ -112,8 +120,6 @@ static ref RPCManager GetRPCManager()
     if ( !g_RPCManager )
     {
         g_RPCManager = new ref RPCManager;
-
-		DayZGame.Cast( GetGame() ).Event_OnRPC.Insert( g_RPCManager.OnRPC );
     }
 
     return g_RPCManager;
