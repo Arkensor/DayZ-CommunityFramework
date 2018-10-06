@@ -7,20 +7,7 @@ class TestGame
 {
     void TestGame()
     {
-        E_TEST_RPCS.RPC_TEST = GetRPCManager().AddRPC( this, "TestRPCCommand" );
-    }
-
-    void TestRPCCommand( ref Param getParams, ref PlayerIdentity sender, ref Object target )
-    {
-        if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
-        {
-            TestRPCCommand_OnServer( getParams, sender, target );
-        }
-
-        if ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) 
-        {
-            TestRPCCommand_OnClient( getParams, sender, target );
-        }
+        E_TEST_RPCS.RPC_TEST = GetRPCManager().AddRPC( this, "TestRPCCommand", false );
     }
 
     void TestRPCCommand_OnServer( ref Param1< int > param, ref PlayerIdentity sender, ref Object target )
