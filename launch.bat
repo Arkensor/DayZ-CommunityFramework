@@ -18,10 +18,10 @@ CALL deploy.bat "%workspaceDir%" "%gameDir%" "%serverDir%" "%modName%" "%mission
 
 chdir /d "%serverDir%"
 
-start DayZServer_x64.exe -config=serverDZ.cfg -port=2302 -profiles=%profiles% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 -mod=%modName%;
+start DayZServer_x64.exe -config=serverDZ.cfg -port=2302 -profiles=%profiles% -dologs -scriptDebug=true -freezecheck -nosplash -noPause -noBenchmark -adminlog -netlog -cpuCount=4 -mod=%modName%;
 
 TIMEOUT /T 2 /NOBREAK
 
 chdir /d "%gameDir%"
 
-start DayZ_BE.exe -exe DayZ_x64.exe -connect=120.148.181.194 -port=2302  -dologs -adminlog -netlog -scriptDebug=true -name=Jacob_Mango -freezecheck -mod=%modName%
+start DayZ_BE.exe -exe DayZ_x64.exe -connect=120.148.181.194 -port=2302 -dologs -scriptDebug=true -freezecheck -nosplash -noPause -noBenchmark -adminlog -netlog -name=Jacob_Mango -freezecheck -mod=%modName%

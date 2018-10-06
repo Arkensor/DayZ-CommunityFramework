@@ -12,15 +12,14 @@ class TestGame
 
     void TestRPCCommand( ref Param getParams, ref PlayerIdentity sender, ref Object target )
     {
-
-        if ( GetGame().IsServer() && GetGame().IsMultiplayer())
+        if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
         {
             TestRPCCommand_OnServer( getParams, sender, target );
         }
 
-        if ( GetGame().IsClient() ) 
+        if ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) 
         {
-            TestRPCCommand_OnClient( getParams, sender, target )
+            TestRPCCommand_OnClient( getParams, sender, target );
         }
     }
 

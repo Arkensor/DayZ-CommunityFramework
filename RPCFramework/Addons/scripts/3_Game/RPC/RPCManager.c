@@ -58,9 +58,14 @@ class RPCManager
         if ( m_RPCActions.Find( rpc_type, rpcObject ) )
         {
             Param param;
+
             if ( ctx.Read( param ) )
             {
-                GetGame().GameScript.CallFunction(rpcObject.GetObject(), rpcObject.GetCallBackFunction(), NULL, new Param3<Param, PlayerIdentity, Object>(param, sender, target)  );
+                if ( GetGame().IsClient() )
+                {
+                    Print( "Because GetPlayer doesn't work!!!" );
+                }
+                GetGame().GameScript.CallFunctionParams(rpcObject.GetObject(), rpcObject.GetCallBackFunction(), NULL, new Param3<Param, PlayerIdentity, Object>(param, sender, target)  );
             }
         }
     }
@@ -71,13 +76,13 @@ class RPCManager
 
         if ( m_RPCActions.Find( rpc_type, rpcObject ) )
         {
-            if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
+            if ( GetGame().IsMultiplayer() )
             {
 		        m_ParamCache.Set(0, param);
 
                 GetDayZGame().RPC( sendToTarget, rpc_type, m_ParamCache, guaranteed, sendToIdentity );
             } else {
-                GetGame().GameScript.CallFunction(rpcObject.GetObject(), rpcObject.GetCallBackFunction(), NULL, new Param3<Param, PlayerIdentity, Object>(param, sendToIdentity, sendToTarget) );
+                GetGame().GameScript.CallFunctionParams(rpcObject.GetObject(), rpcObject.GetCallBackFunction(), NULL, new Param3<Param, PlayerIdentity, Object>(param, sendToIdentity, sendToTarget) );
             }
         }
     }
