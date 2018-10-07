@@ -2,7 +2,7 @@ class TestGame
 {
     void TestGame()
     {
-        GetRPCManager().AddRPC( this, "TestRPCFunction", false );
+        GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, false );
     }
 
     void TestRPCFunction_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
@@ -12,7 +12,7 @@ class TestGame
 
         data.param1 = "World, Hello!";
 
-        GetRPCManager().SendRPC( "TestRPCFunction", data, true, sender, target );
+        GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
     }
 
     void TestRPCFunction_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
@@ -30,7 +30,7 @@ class TestGame
         {
             case KeyCode.KC_K:
             {
-                GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >( "Hello, World!" ) );
+                GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( "Hello, World!" ) );
                 break;
             }
         }
