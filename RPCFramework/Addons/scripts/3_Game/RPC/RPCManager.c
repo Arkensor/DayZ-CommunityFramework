@@ -81,18 +81,16 @@ class RPCManager
 		}
     }
 
-    bool AddRPC( Class instance, string callBackFunc, string modName, bool singleplayerUseServer = true )
+    bool AddRPC( Class instance, string callBackFunc, bool singleplayerUseServer = true )
     {
-		string name = modName + "_" + callBackFunc;
-		
-		if( !m_AliasMapping.Contains( name ) )
+		if( !m_AliasMapping.Contains( callBackFunc ) )
 		{
 			m_LastRPCId++;
 			
-			auto wrapper = new ref RPCWrapper( instance, name, singleplayerUseServer );
+			auto wrapper = new ref RPCWrapper( instance, callBackFunc, singleplayerUseServer );
 			
 			m_RPCActions.Set( m_LastRPCId, wrapper );
-			m_AliasMapping.Set( name, m_LastRPCId );
+			m_AliasMapping.Set( callBackFunc, m_LastRPCId );
 			
 			return true;
 		}

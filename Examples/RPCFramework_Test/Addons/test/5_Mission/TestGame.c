@@ -2,7 +2,7 @@ class TestGame
 {
     void TestGame()
     {
-        GetRPCManager().AddRPC( this, "TestRPCFunction", "RPCTestMod", false );
+        GetRPCManager().AddRPC( this, "TestRPCFunction", false );
     }
 
     void TestRPCFunction_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
