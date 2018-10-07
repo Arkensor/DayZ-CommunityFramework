@@ -1,3 +1,4 @@
+#ifdef RPCFRAMEWORK_TESTING
 modded class MissionGameplay
 {
     ref TestGame m_TestGame;
@@ -16,3 +17,4 @@ modded class MissionGameplay
         m_TestGame.OnKeyPress( key );
     }
 }
+#endif

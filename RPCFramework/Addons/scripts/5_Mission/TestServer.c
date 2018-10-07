@@ -1,3 +1,4 @@
+#ifdef RPCFRAMEWORK_TESTING
 modded class MissionServer
 {
     ref TestGame m_TestGame;
@@ -9,3 +10,4 @@ modded class MissionServer
         Print( "Loaded TestServer");
     }
 }
+#endif

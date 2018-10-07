@@ -23,7 +23,8 @@ class RPCWrapper
 		return m_CallbackFunction;
 	}
 	
-	bool GetAllowServerFunctionInSingeplayer() 
+	// Determines if the server or client function is what is called in singleplayer mode
+	bool ServerFunctionCalledInSingleplayer() 
 	{
 		return m_SingleplayerUseServer;
 	}
@@ -58,7 +59,7 @@ class RPCManager
     {
 		auto fncName = wrapper.GetCallBackFunction();
 		
-        if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.GetAllowServerFunctionInSingeplayer() ) ) 
+        if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.ServerFunctionCalledInSingleplayer() ) ) 
         {
 			fncName += "_OnServer";
         }
@@ -76,22 +77,7 @@ class RPCManager
     {
 		if( m_AliasMapping.Contains( funcName ) )
 		{
-			// if ( GetGame().IsMultiplayer() ) //Todo remove commented section if Jacob agrees on the way to use it like this.
-			// {
-				GetGame().RPCSingleParam( sendToTarget, m_AliasMapping[ funcName ], params, guaranteed, sendToIdentity );
-			// } 
-			// else 
-			// {
-				// ref RPCWrapper wrapper;
-
-				// if ( m_RPCActions.Find( m_AliasMapping[ funcName ], wrapper ) )
-				// {
-					// auto ctx = new ScriptRPC;
-					// ctx.Write( params );
-					
-					// RunRPC( wrapper, ctx, sendToIdentity, sendToTarget );
-				// }
-			// }
+			GetGame().RPCSingleParam( sendToTarget, m_AliasMapping[ funcName ], params, guaranteed, sendToIdentity );
 		}
     }
 
