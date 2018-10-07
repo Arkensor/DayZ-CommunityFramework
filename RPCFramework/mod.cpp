@@ -8,14 +8,14 @@ class CfgMods
 		hideName = 1;
 		hidePicture = 1;
 		name = "RPCFramework";
-		credits = "Jacob_Mango";
-		author = "Jacob_Mango";
+		credits = "Jacob_Mango, Arkensor";
+		author = "Jacob_Mango, Arkensor";
 		authorID = "0"; 
 		version = "0.1"; 
 		extra = 0;
 		type = "mod";
 		
-		dependencies[] = {"Game", "World", "Mission"};
+		dependencies[] = { "Game" };
 		
 		class defs
 		{
@@ -23,18 +23,6 @@ class CfgMods
 			{
 				value = "";
 				files[] = {"JM/RPC/scripts/3_Game"};
-			};
-
-			class worldScriptModule
-			{
-				value = "";
-				files[] = {"JM/RPC/scripts/4_World"};
-			};
-
-			class missionScriptModule
-			{
-				value = "";
-				files[] = {"JM/RPC/scripts/5_Mission"};
 			};
 		}
 	};

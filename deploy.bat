@@ -4,14 +4,10 @@ set workspaceDir=%~1
 set gameDir=%~2
 set serverDir=%~3
 set modName=%~4
-set missionName=%~5
 
 set makePBO="C:\Program Files (x86)\Mikero\DePboTools\bin\MakePbo.exe"
 
 echo "Copying to DayZ Client"
-
-RD /s /q "%gameDir%\Missions\%missionName%" > NUL
-xcopy /s/e /y /i "%workspaceDir%\Missions\%missionName%" "%gameDir%\Missions\%missionName%" > NUL
 
 RD /s /q "%gameDir%\%modName%" > NUL
 
@@ -25,9 +21,6 @@ for /D %%s in ("%gameDir%\%modName%\Addons\*") do (
 echo "Finished copying to DayZ Client"
 
 echo "Copying to DayZ Server"
-
-RD /s /q "%serverDir%\MPMissions\%missionName%" > NUL
-xcopy /s/e /y /i "%workspaceDir%\Missions\%missionName%" "%serverDir%\MPMissions\%missionName%" > NUL
 
 RD /s /q "%serverDir%\%modName%" > NUL
 
