@@ -3,7 +3,34 @@ This is an RPC framework for DayZ SA which aims to resolve the issue of conflict
 
 ## How To Use
 
-This is how you would use it in your mod.
+This is how you would use this framework within your mod. 
+
+### Setup
+
+You would want to install the pre-packaged mod found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/releases) in the releases section.
+
+Unzip the file and drag the folder `RPCFramework` into the root of your game and server directory. It is already signed.
+
+When starting the game and/or server, make sure to add the mod first by using `-mod=RPCFramework;` and then append the rest of your mods afterwards. Seperate using the `;` character.
+
+To use the framework with your mod you would want to add the mod to the config.cpp of your scripts PBO.
+
+e.g.
+
+```cpp
+class CfgPatches
+{
+    class ...
+    {
+        ...
+        requiredAddons[]=
+        {
+			"RPC_Scripts",
+			...
+        };
+    };
+};
+```
 
 ### Define an RPC Function
 In a class you would have to define the functions which the RPC will call. There is a seperate function for both the server and the client.
@@ -57,4 +84,4 @@ GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >("") );
 ```
 
 ### Example
-The example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/RPCFramework/Addons/scripts/5_Mission/TestGame.c).
+An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/RPCFramework/Addons/scripts/5_Mission/TestGame.c).
