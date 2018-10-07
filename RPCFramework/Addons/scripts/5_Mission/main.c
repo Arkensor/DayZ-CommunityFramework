@@ -1,1 +1,0 @@
-#define RPCFRAMEWORK_TESTING
