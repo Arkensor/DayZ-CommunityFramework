@@ -85,3 +85,9 @@ GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >("") );
 
 ### Example
 An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/RPCFramework/Addons/scripts/5_Mission/TestGame.c).
+
+## Contributors
+
+* [Jacob_Mango](https://github.com/Jacob-Mango)
+* [Arkensor](https://github.com/Arkensor): Fixed the Params not being read.
+* [Lystic](https://gitlab.desolationredux.com/kegan): Suggested a better way to make this framework.
