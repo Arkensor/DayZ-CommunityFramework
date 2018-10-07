@@ -64,10 +64,12 @@ To add an RPC function you would add this line to the constructor of a shared cl
 e.g.
 
 ```java
-GetRPCManager().AddRPC( TestGame, "TestRPCFunction", true );
+GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, true ); 
 ```
 
-* For the class variable 'TestGame' you would add the instance of the Class which the function resides.
+* For the class variable 'RPCTestMod' you would add the mod name.
+
+* For the class variable 'this' you would add the instance of the Class which the function resides.
 
 * For the string variable 'TestRPCFunction' you would add the function name. Note: This is without the '_OnServer' or '_OnClient' appended to the function.
 
@@ -75,12 +77,12 @@ GetRPCManager().AddRPC( TestGame, "TestRPCFunction", true );
 
 
 ### Call an RPC Function
-To call an RPC function you would call the function `SendRPC`. The first argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
+To call an RPC function you would call the function `SendRPC`. The first argument would be the mod name which you would set. The second argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
 
 e.g.
 
 ```java
-GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >("") );
+GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( "Hello, World!" ) );  
 ```
 
 ### Example
