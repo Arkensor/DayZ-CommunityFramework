@@ -5,6 +5,12 @@ enum SingeplayerExecutionType
 	Both
 }
 
+enum CallType
+{
+	Server = 0,
+	Client
+}
+
 class RPCMetaWrapper
 {
     protected Class m_Instance;
@@ -47,7 +53,7 @@ class RPCManager
 			return;
 		}
 		
-		Param2< string, string > metaData
+		Param2< string, string > metaData;
 		ctx.Read( metaData );
 		
 		string modName = metaData.param1;
@@ -59,22 +65,24 @@ class RPCManager
 			{
 				ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
 				
-				auto functionCallData = new Param3< ref ParamsReadContext, ref PlayerIdentity, ref Object >( ctx, sender, target );
+				auto functionCallData = new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Server, ctx, sender, target );
 				
 				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Server || wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) ) ) 
 				{
-					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), ( funcName + "_OnServer" ), NULL, functionCallData );
+					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
 				}
 
 				if( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Client || wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) ) ) 
 				{
-					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), ( funcName + "_OnClient" ), NULL, functionCallData );
+					//Update call type
+					functionCallData.param1 = CallType.Client;
+					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
 				}
 			}
 		}
     }
 
-    void SendRPC( string modName, string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL)
+    void SendRPC( string modName, string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL ) //Todo make an overload for an array
     {
 		auto sendData = new ref array< ref Param >;
 		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
@@ -95,12 +103,12 @@ class RPCManager
 					}
 				}
 			}
-		}	
+		}
 
 		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
     }
 
-    bool AddRPC( string modName, string funcName, Class instance, bool singleplayerUseServer = true )
+    bool AddRPC( string modName, string funcName, Class instance, int singleplayerUseServer = SingeplayerExecutionType.Client )
     {
 		if( !m_RPCActions.Contains( modName ) )
 		{

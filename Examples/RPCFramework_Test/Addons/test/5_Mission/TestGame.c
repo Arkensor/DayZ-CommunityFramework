@@ -5,30 +5,28 @@ class TestGame
         GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingeplayerExecutionType.Client );
     }
 
-    void TestRPCFunction_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+    void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
 		Param1< string > data;
 		if ( !ctx.Read( data ) ) return;
-
-        data.param1 = "World, Hello!";
 		
-		Print( "Server function called: " + data.param1 );
-		
-		if( GetGame().IsMultiplayer() ) //We don't need to forward the message again in singleplayer ... this is just for mp testing
+		if( type == CallType.Server )
 		{
-			GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
+			Print( "Server function called!" );
+			
+			data.param1 = "World, Hello!";
+			
+			if( GetGame().IsMultiplayer() ) //We don't need to forward the message again in singleplayer ... this is just for mp testing
+			{
+				GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
+			}
 		}
-    }
-
-    void TestRPCFunction_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
-    {
-		Print( "Client function called!" );
-		
-		Param1< string > data;
-		if ( !ctx.Read( data ) ) return;
-		
-        PlayerBase player = GetGame().GetPlayer();
-        player.MessageStatus( data.param1 );
+		else
+		{
+			Print( "Client function called!" );
+			PlayerBase player = GetGame().GetPlayer();
+			player.MessageStatus( data.param1 );
+		}
     }
 
     void OnKeyPress( int key )
