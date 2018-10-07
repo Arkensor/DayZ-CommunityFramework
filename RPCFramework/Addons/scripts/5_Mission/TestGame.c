@@ -1,53 +1,39 @@
-//#define RPCFRAMEWORK_TESTING
+#define RPCFRAMEWORK_TESTING
 
 #ifdef RPCFRAMEWORK_TESTING
 class TestGame
 {
     void TestGame()
     {
-        GetRPCManager().AddRPC( this, "TestRPCCommand", false );
+        GetRPCManager().AddRPC( this, "TestRPCFunction", false );
     }
 
-    void TestRPCCommand_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+    void TestRPCFunction_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
 		Param1< string > data;
 		if ( !ctx.Read( data ) ) return;
 
         data.param1 = "World, Hello!";
 
-        GetRPCManager().SendRPC( "TestRPCCommand", data, true, sender, target );
+        GetRPCManager().SendRPC( "TestRPCFunction", data, true, sender, target );
     }
 
-    void TestRPCCommand_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+    void TestRPCFunction_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
 		Param1< string > data;
 		if ( !ctx.Read( data ) ) return;
 		
         PlayerBase player = GetGame().GetPlayer();
-        player.MessageStatus( "Recieved the data: " + data.param1 );
+        player.MessageStatus( data.param1 );
     }
 
     void OnKeyPress( int key )
     {
-		PlayerBase player = GetGame().GetPlayer();
-
         switch ( key )
         {
             case KeyCode.KC_K:
             {
-                auto rpc = GetRPCManager();
-				
-                if ( !rpc )
-                {
-                    player.MessageStatus( "RPCManager does not exist!" );
-                    break;
-                } else 
-                {
-                    player.MessageStatus( "Sending RPC!" );
-                }
-
-				rpc.SendRPC( "TestRPCCommand", new Param1< string >( "Hello, World!" ) );
-				
+                GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >( "Hello, World!" ) );
                 break;
             }
         }
