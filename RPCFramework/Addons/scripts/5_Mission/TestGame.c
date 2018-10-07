@@ -1,4 +1,4 @@
-// #define RPCFRAMEWORK_TESTING
+//#define RPCFRAMEWORK_TESTING
 
 #ifdef RPCFRAMEWORK_TESTING
 class TestGame
@@ -12,6 +12,8 @@ class TestGame
     {
 		Param1< string > data;
 		if ( !ctx.Read( data ) ) return;
+
+        data.param1 = "World, Hello!";
 
         GetRPCManager().SendRPC( "TestRPCCommand", data, true, sender, target );
     }
