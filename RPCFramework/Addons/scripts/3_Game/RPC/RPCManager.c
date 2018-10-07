@@ -1,14 +1,11 @@
-class RPCWrapper
+class RPCMetaWrapper
 {
     protected Class m_Instance;
-	protected string m_CallbackFunction;
     protected bool m_SingleplayerUseServer;
 
-    void RPCWrapper( Class instance, string callBackFunc, bool singleplayerUseServer ) 
+    void RPCMetaWrapper( Class instance, bool singleplayerUseServer ) 
 	{
 		m_Instance = instance;
-		
-		m_CallbackFunction = callBackFunc;
 		
         m_SingleplayerUseServer = singleplayerUseServer;
 	}
@@ -16,11 +13,6 @@ class RPCWrapper
     Class GetInstance() 
 	{
 		return m_Instance;
-	}
-	
-	string GetCallBackFunction() 
-	{
-		return m_CallbackFunction;
 	}
 	
 	// Determines if the server or client function is what is called in singleplayer mode
@@ -32,70 +24,69 @@ class RPCWrapper
 
 class RPCManager
 {
-	protected int m_LastRPCId;
-    protected ref map< int, ref RPCWrapper > m_RPCActions;
-    protected ref map< string, int > m_AliasMapping;
+	protected const int FRAMEWORK_RPC_ID = 10042;
+    protected ref map< string, ref map< string, ref RPCMetaWrapper > > m_RPCActions;
 
     void RPCManager()
     {
-        m_RPCActions = new ref map< int, ref RPCWrapper >;
-        m_AliasMapping = new ref map< string, int >;
-        m_LastRPCId = 1000;
-		
+        m_RPCActions = new ref map< string, ref map< string, ref RPCMetaWrapper > >;
 		GetDayZGame().Event_OnRPC.Insert( OnRPC );
     }
 
     void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
     {
-        ref RPCWrapper wrapper;
-
-        if ( m_RPCActions.Find( rpc_type, wrapper ) )
-        {
-			RunRPC( wrapper, ctx, sender, target );
-        }
-    }
-
-    protected void RunRPC( ref RPCWrapper wrapper, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
-    {
-		auto fncName = wrapper.GetCallBackFunction();
-		
-        if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.ServerFunctionCalledInSingleplayer() ) ) 
-        {
-			fncName += "_OnServer";
-        }
-		else
+		if( rpc_type != FRAMEWORK_RPC_ID )
 		{
-			fncName += "_OnClient";
+			return;
 		}
 		
-		auto functionCallData = new Param3< ref ParamsReadContext, ref PlayerIdentity, ref Object >( ctx, sender, target );
+		Param1< string > modName, funcName;
+		ctx.Read( modName );
+		ctx.Read( funcName );
 		
-		GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), fncName, NULL, functionCallData );
-    }
-
-    void SendRPC( string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL)
-    {
-		if( m_AliasMapping.Contains( funcName ) )
+		if( m_RPCActions.Contains( modName.param1 ) )
 		{
-			GetGame().RPCSingleParam( sendToTarget, m_AliasMapping[ funcName ], params, guaranteed, sendToIdentity );
+			if( m_RPCActions[ modName.param1 ].Contains( funcName.param1 ) )
+			{
+				ref RPCMetaWrapper wrapper = m_RPCActions[ modName.param1 ][ funcName.param1 ];
+
+				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.ServerFunctionCalledInSingleplayer() ) ) 
+				{
+					funcName.param1 += "_OnServer";
+				}
+				else
+				{
+					funcName.param1 += "_OnClient";
+				}
+				
+				auto functionCallData = new Param3< ref ParamsReadContext, ref PlayerIdentity, ref Object >( ctx, sender, target );
+				
+				GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName.param1, NULL, functionCallData );
+			}
 		}
     }
 
-    bool AddRPC( Class instance, string callBackFunc, bool singleplayerUseServer = true )
+    void SendRPC( string modName, string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL)
     {
-		if( !m_AliasMapping.Contains( callBackFunc ) )
+		auto sendData = new ref array< ref Param >;
+		sendData.Insert( new ref Param1< string >( modName ) );
+		sendData.Insert( new ref Param1< string >( funcName ) );
+		sendData.Insert( params );
+		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
+    }
+
+    bool AddRPC( string modName, string funcName, Class instance, bool singleplayerUseServer = true )
+    {
+		if( !m_RPCActions.Contains( modName ) )
 		{
-			m_LastRPCId++;
-			
-			auto wrapper = new ref RPCWrapper( instance, callBackFunc, singleplayerUseServer );
-			
-			m_RPCActions.Set( m_LastRPCId, wrapper );
-			m_AliasMapping.Set( callBackFunc, m_LastRPCId );
-			
-			return true;
+			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );
 		}
 		
-		return false;
+		auto wrapper = new ref RPCMetaWrapper( instance, singleplayerUseServer );
+		
+		m_RPCActions[ modName ].Set( funcName, wrapper );
+
+		return true;
     }
 };
 
