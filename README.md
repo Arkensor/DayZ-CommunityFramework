@@ -84,7 +84,7 @@ GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >("") );
 ```
 
 ### Example
-An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/RPCFramework/Addons/scripts/5_Mission/TestGame.c).
+An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/Examples/RPCFramework_Test/Addons/test/5_Mission/TestGame.c).
 
 ## Contributors
 
