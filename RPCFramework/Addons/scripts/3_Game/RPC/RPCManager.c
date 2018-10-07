@@ -40,28 +40,30 @@ class RPCManager
 			return;
 		}
 		
-		Param1< string > modName, funcName;
-		ctx.Read( modName );
-		ctx.Read( funcName );
+		Param2< string, string > metaData
+		ctx.Read( metaData );
 		
-		if( m_RPCActions.Contains( modName.param1 ) )
+		string modName = metaData.param1;
+		string funcName = metaData.param2;
+		
+		if( m_RPCActions.Contains( modName ) )
 		{
-			if( m_RPCActions[ modName.param1 ].Contains( funcName.param1 ) )
+			if( m_RPCActions[ modName ].Contains( funcName ) )
 			{
-				ref RPCMetaWrapper wrapper = m_RPCActions[ modName.param1 ][ funcName.param1 ];
+				ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
 
 				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.ServerFunctionCalledInSingleplayer() ) ) 
 				{
-					funcName.param1 += "_OnServer";
+					funcName += "_OnServer";
 				}
 				else
 				{
-					funcName.param1 += "_OnClient";
+					funcName += "_OnClient";
 				}
 				
 				auto functionCallData = new Param3< ref ParamsReadContext, ref PlayerIdentity, ref Object >( ctx, sender, target );
 				
-				GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName.param1, NULL, functionCallData );
+				GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
 			}
 		}
     }
@@ -69,8 +71,7 @@ class RPCManager
     void SendRPC( string modName, string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL)
     {
 		auto sendData = new ref array< ref Param >;
-		sendData.Insert( new ref Param1< string >( modName ) );
-		sendData.Insert( new ref Param1< string >( funcName ) );
+		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
 		sendData.Insert( params );
 		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
     }
