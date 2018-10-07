@@ -41,8 +41,11 @@ GetRPCManager().AddRPC( TestGame, "TestRPCFunction", true );
 ```
 
 ⋅⋅* For the class variable 'TestGame' you would add the instance of the Class which the function resides.
-⋅⋅* For the string variable 'TestRPCFunction' you would add the function name. Note: This is without the _OnServer or _OnClient appended to the function.
-⋅⋅* For the boolean variable 'true' you would add a true or false statement depending on if you want the _OnServer version of the function to be called in SP or the _OnClient. Default is true.
+
+⋅⋅* For the string variable 'TestRPCFunction' you would add the function name. Note: This is without the '_OnServer' or '_OnClient' appended to the function.
+
+⋅⋅* For the boolean variable 'true' you would add a true or false statement depending on if you want the '_OnServer' version of the function to be called in SP or the '_OnClient'. Default is true.
+
 
 ### Call an RPC Function
 To call an RPC function you would call the function `SendRPC`. The first argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
@@ -54,4 +57,4 @@ GetRPCManager().SendRPC( "TestRPCFunction", new Param1< string >("") );
 ```
 
 ### Example
-The example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/RPCFramework/Addons/scripts/5_Mission/TestGame.c).
+The example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/RPCFramework/Addons/scripts/5_Mission/TestGame.c).
