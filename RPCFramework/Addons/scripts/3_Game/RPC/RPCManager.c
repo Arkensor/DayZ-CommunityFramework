@@ -1,9 +1,16 @@
+enum SingeplayerExecutionType
+{
+	Server = 0,
+	Client,
+	Both
+}
+
 class RPCMetaWrapper
 {
     protected Class m_Instance;
-    protected bool m_SingleplayerUseServer;
+    protected int m_SingleplayerUseServer;
 
-    void RPCMetaWrapper( Class instance, bool singleplayerUseServer ) 
+    void RPCMetaWrapper( Class instance, int singleplayerUseServer ) 
 	{
 		m_Instance = instance;
 		
@@ -16,7 +23,7 @@ class RPCMetaWrapper
 	}
 	
 	// Determines if the server or client function is what is called in singleplayer mode
-	bool ServerFunctionCalledInSingleplayer() 
+	int ServerFunctionCalledInSingleplayer() 
 	{
 		return m_SingleplayerUseServer;
 	}
@@ -51,19 +58,18 @@ class RPCManager
 			if( m_RPCActions[ modName ].Contains( funcName ) )
 			{
 				ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
-
-				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && wrapper.ServerFunctionCalledInSingleplayer() ) ) 
-				{
-					funcName += "_OnServer";
-				}
-				else
-				{
-					funcName += "_OnClient";
-				}
 				
 				auto functionCallData = new Param3< ref ParamsReadContext, ref PlayerIdentity, ref Object >( ctx, sender, target );
 				
-				GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
+				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Server || wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) ) ) 
+				{
+					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), ( funcName + "_OnServer" ), NULL, functionCallData );
+				}
+
+				if( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Client || wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) ) ) 
+				{
+					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), ( funcName + "_OnClient" ), NULL, functionCallData );
+				}
 			}
 		}
     }
@@ -73,6 +79,24 @@ class RPCManager
 		auto sendData = new ref array< ref Param >;
 		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
 		sendData.Insert( params );
+		
+		//In case we are in the singleplayer and the data is consumed twice for both client and server, we need to add it twice. Better than making a deep copy with more complicated rules on receiving
+		if( !GetGame().IsMultiplayer() )
+		{
+			if( m_RPCActions.Contains( modName ) )
+			{
+				if( m_RPCActions[ modName ].Contains( funcName ) )
+				{
+					ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
+					
+					if( ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) )
+					{
+						sendData.Insert( params );
+					}
+				}
+			}
+		}	
+
 		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
     }
 

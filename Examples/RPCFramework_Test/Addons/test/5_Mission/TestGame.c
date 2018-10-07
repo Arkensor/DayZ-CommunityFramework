@@ -2,7 +2,7 @@ class TestGame
 {
     void TestGame()
     {
-        GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, false );
+        GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingeplayerExecutionType.Client );
     }
 
     void TestRPCFunction_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
@@ -11,12 +11,19 @@ class TestGame
 		if ( !ctx.Read( data ) ) return;
 
         data.param1 = "World, Hello!";
-
-        GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
+		
+		Print( "Server function called: " + data.param1 );
+		
+		if( GetGame().IsMultiplayer() ) //We don't need to forward the message again in singleplayer ... this is just for mp testing
+		{
+			GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
+		}
     }
 
     void TestRPCFunction_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
+		Print( "Client function called!" );
+		
 		Param1< string > data;
 		if ( !ctx.Read( data ) ) return;
 		
@@ -45,7 +52,7 @@ modded class MissionServer
     {
         m_TestGame = new ref TestGame();
 
-        Print( "Loaded Server Mission");
+        Print( "Loaded Server Mission" );
     }
 };
 
@@ -57,7 +64,7 @@ modded class MissionGameplay
     {
         m_TestGame = new ref TestGame();
 
-        Print( "Loaded Client Mission");
+        Print( "Loaded Client Mission" );
     }
 
     override void OnKeyPress( int key )
