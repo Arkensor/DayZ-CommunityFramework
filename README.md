@@ -89,5 +89,5 @@ An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/
 ## Contributors
 
 * [Jacob_Mango](https://github.com/Jacob-Mango)
-* [Arkensor](https://github.com/Arkensor): Fixed the Params not being read.
-* [Lystic](https://gitlab.desolationredux.com/kegan): Suggested a better way to make this framework.
+* [Arkensor](https://github.com/Arkensor)
+* [Kegan Hollern](https://gitlab.desolationredux.com/kegan) Suggested a better way to make this framework.
