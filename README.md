@@ -1,6 +1,8 @@
 # RPC Framework for DayZ SA
 This is an RPC framework for DayZ SA which aims to resolve the issue of conflicting RPC type ID's and mods.
 
+This framework allows the use of cross mod RPC calling, better defining of the functions and is less prone to errors with mismatching RPC ID's.
+
 ## How To Use
 
 This is how you would use this framework within your mod. 
@@ -33,28 +35,27 @@ class CfgPatches
 ```
 
 ### Define an RPC Function
-In a class you would have to define the functions which the RPC will call. There is a seperate function for both the server and the client.
-These are defined by 'TestRPCFunction_OnServer' and 'TestRPCFunction_OnClient'.
+In a class you would have to define the functions which the RPC will call. 
 
-Within the functions, you would need to define the expected Param data that would be sent.
+Within the function, you would need to define the expected Param data that would be sent. You would also add a check to define how the function is being called (on server or on client). 
 
 e.g.
 
 ```java
-void TestRPCFunction_OnServer( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 {
-	Param1< string > data; // The param type you are trying to read.
-	if ( !ctx.Read( data ) ) return;
+    Param1< string > data;
+    if ( !ctx.Read( data ) ) return;
 
-    ...
-}
-
-void TestRPCFunction_OnClient( ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
-{
-	Param1< string > data; // The param type you are trying to read.
-	if ( !ctx.Read( data ) ) return;
-	
-    ...
+    if( type == CallType.Server )
+    {        
+        data.param1 = "World, Hello!";
+    }
+    else
+    {
+        PlayerBase player = GetGame().GetPlayer();
+        player.MessageStatus( data.param1 );
+    }
 }
 ```
 
@@ -64,20 +65,16 @@ To add an RPC function you would add this line to the constructor of a shared cl
 e.g.
 
 ```java
-GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, true ); 
+GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingeplayerExecutionType.Both ); 
 ```
 
-* For the class variable 'RPCTestMod' you would add the mod name.
-
+* For the string variable 'RPCTestMod' you would add the mod name. This would be a namespace. Try to make this as unique as possible.
 * For the class variable 'this' you would add the instance of the Class which the function resides.
-
-* For the string variable 'TestRPCFunction' you would add the function name. Note: This is without the '_OnServer' or '_OnClient' appended to the function.
-
-* For the boolean variable 'true' you would add a true or false statement depending on if you want the '_OnServer' version of the function to be called in SP or the '_OnClient'. Default is true.
-
+* For the string variable 'TestRPCFunction' you would add the function name. 
+* For the SingeplayerExecutionType variable 'Both' which would define how you would want the function to be called in SinglePlayer (Offline Mode).
 
 ### Call an RPC Function
-To call an RPC function you would call the function `SendRPC`. The first argument would be the mod name which you would set. The second argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
+To call an RPC function you would call the function `SendRPC`. The first argument would be the mod name which you would have defined. The second argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
 
 e.g.
 
@@ -85,11 +82,42 @@ e.g.
 GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( "Hello, World!" ) );  
 ```
 
+### Alternative Methods
+
+Alternatively, you could make a function within your main game class (the example being labelled TestGame) which would perform the AddRPC and SendRPC commands without the need to retype the mod name.
+
+e.g.
+
+```java
+private static const string m_ModName = "RPCTestMod";
+
+static void AddRPC( string funcName, Class instance, int singlePlayerExecType = SingeplayerExecutionType.Client )
+{
+    GetRPCManager().AddRPC( m_ModName, funcName, params, singlePlayerExecType );
+}
+
+static void SendRPC( string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
+{
+    GetRPCManager().SendRPC( m_ModName, funcName, params, guaranteed, sendToIdentity, sendToTarget );
+}
+```
+
 ### Example
 An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/Examples/RPCFramework_Test/Addons/test/5_Mission/TestGame.c).
+
+## Projects
+
+Here are some projects that are already planned to use this Framework.
+
+* HypeTrain by Arkensor
+* DayZBR by Lystic_
 
 ## Contributors
 
 * [Jacob_Mango](https://github.com/Jacob-Mango)
 * [Arkensor](https://github.com/Arkensor)
-* [Kegan Hollern](https://gitlab.desolationredux.com/kegan) Suggested a better way to make this framework.
+* [Kegan Hollern](https://gitlab.desolationredux.com/kegan)
+
+## Donate
+
+PayPal link coming soon.

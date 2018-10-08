@@ -14,13 +14,13 @@ enum CallType
 class RPCMetaWrapper
 {
     protected Class m_Instance;
-    protected int m_SingleplayerUseServer;
+    protected int m_SPExecType;
 
-    void RPCMetaWrapper( Class instance, int singleplayerUseServer ) 
+    void RPCMetaWrapper( Class instance, int spExecType ) 
 	{
 		m_Instance = instance;
 		
-        m_SingleplayerUseServer = singleplayerUseServer;
+        m_SPExecType = spExecType;
 	}
     
     Class GetInstance() 
@@ -29,9 +29,9 @@ class RPCMetaWrapper
 	}
 	
 	// Determines if the server or client function is what is called in singleplayer mode
-	int ServerFunctionCalledInSingleplayer() 
+	int GetSPExecutionType() 
 	{
-		return m_SingleplayerUseServer;
+		return m_SPExecType;
 	}
 };
 
@@ -97,7 +97,7 @@ class RPCManager
 				{
 					ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
 					
-					if( ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) )
+					if( ( wrapper.GetSPExecutionType() == SingeplayerExecutionType.Both ) )
 					{
 						sendData.Insert( params );
 					}
@@ -108,14 +108,14 @@ class RPCManager
 		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
     }
 
-    bool AddRPC( string modName, string funcName, Class instance, int singleplayerUseServer = SingeplayerExecutionType.Client )
+    bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingeplayerExecutionType.Server )
     {
 		if( !m_RPCActions.Contains( modName ) )
 		{
 			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );
 		}
 		
-		auto wrapper = new ref RPCMetaWrapper( instance, singleplayerUseServer );
+		auto wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
 		
 		m_RPCActions[ modName ].Set( funcName, wrapper );
 
