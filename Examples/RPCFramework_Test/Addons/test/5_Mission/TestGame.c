@@ -1,20 +1,8 @@
 class TestGame
 {
-    private static const string m_ModName = "RPCTestMod";
-
     void TestGame()
     {
-        AddRPC( "TestRPCFunction", this, SingeplayerExecutionType.Both );
-    }
-
-    static void AddRPC( string funcName, Class instance, int singlePlayerExecType = SingeplayerExecutionType.Server )
-    {
-        GetRPCManager().AddRPC( m_ModName, funcName, params, singlePlayerExecType );
-    }
-
-    static void SendRPC( string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
-    {
-        GetRPCManager().SendRPC( m_ModName, funcName, params, guaranteed, sendToIdentity, sendToTarget );
+        GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingeplayerExecutionType.Client );
     }
 
     void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
@@ -24,10 +12,18 @@ class TestGame
 		
 		if( type == CallType.Server )
 		{
+			Print( "Server function called!" );
+			
 			data.param1 = "World, Hello!";
+			
+			if( GetGame().IsMultiplayer() )
+			{
+				GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
+			}
 		}
 		else
 		{
+			Print( "Client function called!" );
 			PlayerBase player = GetGame().GetPlayer();
 			player.MessageStatus( data.param1 );
 		}
@@ -39,7 +35,7 @@ class TestGame
         {
             case KeyCode.KC_K:
             {
-                SendRPC( "TestRPCFunction", new Param1< string >( "Hello, World!" ) );
+                GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( "Hello, World!" ) );
                 break;
             }
         }

@@ -67,12 +67,12 @@ class RPCManager
 				
 				auto functionCallData = new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Server, ctx, sender, target );
 				
-				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Server || wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) ) ) 
+				if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingeplayerExecutionType.Server || wrapper.GetSPExecutionType() == SingeplayerExecutionType.Both ) ) ) 
 				{
 					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
 				}
 
-				if( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Client || wrapper.ServerFunctionCalledInSingleplayer() == SingeplayerExecutionType.Both ) ) ) 
+				if( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingeplayerExecutionType.Client || wrapper.GetSPExecutionType() == SingeplayerExecutionType.Both ) ) ) 
 				{
 					//Update call type
 					functionCallData.param1 = CallType.Client;

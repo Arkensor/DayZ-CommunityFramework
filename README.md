@@ -49,12 +49,11 @@ void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdenti
 
     if( type == CallType.Server )
     {        
-        data.param1 = "World, Hello!";
+        ...
     }
     else
     {
-        PlayerBase player = GetGame().GetPlayer();
-        player.MessageStatus( data.param1 );
+        ...
     }
 }
 ```
@@ -82,26 +81,6 @@ e.g.
 GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( "Hello, World!" ) );  
 ```
 
-### Alternative Methods
-
-Alternatively, you could make a function within your main game class (the example being labelled TestGame) which would perform the AddRPC and SendRPC commands without the need to retype the mod name.
-
-e.g.
-
-```java
-private static const string m_ModName = "RPCTestMod";
-
-static void AddRPC( string funcName, Class instance, int singlePlayerExecType = SingeplayerExecutionType.Client )
-{
-    GetRPCManager().AddRPC( m_ModName, funcName, params, singlePlayerExecType );
-}
-
-static void SendRPC( string funcName, ref Param params, bool guaranteed = true, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
-{
-    GetRPCManager().SendRPC( m_ModName, funcName, params, guaranteed, sendToIdentity, sendToTarget );
-}
-```
-
 ### Example
 An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/Examples/RPCFramework_Test/Addons/test/5_Mission/TestGame.c).
 
@@ -110,14 +89,10 @@ An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/
 Here are some projects that are already planned to use this Framework.
 
 * HypeTrain by Arkensor
-* DayZBR by Lystic_
+* DayZBR by Kegan Hollern
 
 ## Contributors
 
 * [Jacob_Mango](https://github.com/Jacob-Mango)
 * [Arkensor](https://github.com/Arkensor)
 * [Kegan Hollern](https://gitlab.desolationredux.com/kegan)
-
-## Donate
-
-PayPal link coming soon.
