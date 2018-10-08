@@ -11,7 +11,7 @@ class CfgMods
 		credits = "Jacob_Mango, Arkensor";
 		author = "Jacob_Mango, Arkensor";
 		authorID = "0"; 
-		version = "0.1"; 
+		version = "1.0"; 
 		extra = 0;
 		type = "mod";
 		
