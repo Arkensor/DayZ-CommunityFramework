@@ -27,8 +27,8 @@ class CfgPatches
         ...
         requiredAddons[]=
         {
-			"RPC_Scripts",
-			...
+            "RPC_Scripts",
+            ...
         };
     };
 };
@@ -48,12 +48,12 @@ void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdenti
     if ( !ctx.Read( data ) ) return;
 
     if( type == CallType.Server )
-    {        
-        ...
+    {
+        Print( "Server function called!" );
     }
     else
     {
-        ...
+        Print( "Client function called!" );
     }
 }
 ```
