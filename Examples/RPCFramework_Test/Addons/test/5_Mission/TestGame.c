@@ -7,26 +7,17 @@ class TestGame
 
     void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
     {
-		Param1< string > data;
-		if ( !ctx.Read( data ) ) return;
-		
-		if( type == CallType.Server )
-		{
-			Print( "Server function called!" );
-			
-			data.param1 = "World, Hello!";
-			
-			if( GetGame().IsMultiplayer() )
-			{
-				GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", data, true, sender, target );
-			}
-		}
-		else
-		{
-			Print( "Client function called!" );
-			PlayerBase player = GetGame().GetPlayer();
-			player.MessageStatus( data.param1 );
-		}
+        Param1< string > data;
+        if ( !ctx.Read( data ) ) return;
+        
+        if( type == CallType.Server )
+        {
+            Print( "Server function called!" );
+        }
+        else
+        {
+            Print( "Client function called!" );
+        }
     }
 
     void OnKeyPress( int key )
