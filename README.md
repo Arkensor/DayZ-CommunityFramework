@@ -13,9 +13,9 @@ This is how you would use this framework within your mod.
 
 You would want to install the pre-packaged mod found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/releases) in the releases section.
 
-Unzip the file and drag the folder `RPCFramework` into the root of your game and server directory. It is already signed.
+Unzip the file and drag the folder `@RPCFramework` into the root of your game and server directory. It is already signed.
 
-When starting the game and/or server, make sure to add the mod first by using `-mod=RPCFramework;` and then append the rest of your mods afterwards. Seperate using the `;` character.
+When starting the game and/or server, make sure to add the mod first by using `-mod=@RPCFramework;` and then append the rest of your mods afterwards. Seperate using the `;` character.
 
 To use the framework with your mod you would want to add the mod to the config.cpp of your scripts PBO.
 
