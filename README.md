@@ -1,4 +1,6 @@
 # RPC Framework for DayZ SA
+## This fork was done just to update release files to Workshop version. All credits goes to Jacob-Mango and his team
+
 This is an RPC framework for DayZ SA which aims to resolve the issue of conflicting RPC type ID's and mods.
 
 This framework allows the use of cross mod RPC calling, better defining of the functions and is less prone to errors with mismatching RPC ID's.
