@@ -118,7 +118,7 @@ if %failed%==1 (
     goto:eof
 )
 
-set temporaryDirectory=%workDrive%temp\
+set temporaryDirectory=%workDrive%Mods\
 
 set makePBO=%toolsDirectory%MakePbo.exe
 set signFile=%toolsDirectory%DSSignFile.exe
@@ -127,6 +127,7 @@ echo "Packaging Addons"
 
 rmdir /S /Q "%temporaryDirectory%%modName%\Addons\"
 
+mkdir "%temporaryDirectory%"
 mkdir "%temporaryDirectory%%modName%\"
 mkdir "%temporaryDirectory%%modName%\Addons\"
 mkdir "%temporaryDirectory%%modName%\Keys\"

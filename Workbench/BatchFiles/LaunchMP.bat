@@ -41,6 +41,11 @@ set clientEXE=
 set serverEXE=
 set clientLaunchParams=
 set serverLaunchParams=
+set workDrive=
+
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg WorkDrive') do (
+    set workDrive=%%a
+)
 
 for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ModName') do (
     set modName=%%a
@@ -91,6 +96,12 @@ for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg S
 )
 
 setlocal enableextensions enabledelayedexpansion
+
+echo WorkDrive is: "%workDrive%"
+if "%workDrive%"=="" (
+    set /a failed=1
+    echo WorkDrive parameter was not set in the project.cfg
+)
 
 echo ClientLaunchParams is: "%clientLaunchParams%"
 if "%clientLaunchParams%"=="" (
@@ -179,11 +190,11 @@ if %failed%==1 (
 CALL %batchFileDirectory%Exit.bat
 
 chdir /d "%serverDirectory%"
-echo start %serverEXE% %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -port=%port% "-profiles=%serverProfileDirectory%" -password=%password% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mission=%mission%" "-mod=%mods%"
-start %serverEXE% %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -port=%port% "-profiles=%serverProfileDirectory%" -password=%password% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mission=%mission%" "-mod=%mods%"
+echo start "" "%serverDirectory%%serverEXE%" %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -port=%port% "-profiles=%serverProfileDirectory%" -password=%password% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mission=%mission%" "-mod=%mods%"
+start "" "%serverDirectory%%serverEXE%" %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -port=%port% "-profiles=%serverProfileDirectory%" -password=%password% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mission=%mission%" "-mod=%mods%"
 
 TIMEOUT /T 5 /NOBREAK
 
 chdir /d "%gameDirectory%"
-echo start %clientEXE% %clientLaunchParams% -connect=127.0.0.1 -port=%port% -password=%password% "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
-start %clientEXE% %clientLaunchParams% -connect=127.0.0.1 -port=%port% -password=%password% "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
+echo start "" "%gameDirectory%%clientEXE%" %clientLaunchParams% -connect=127.0.0.1 -port=%port% -password=%password% "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
+start "" "%gameDirectory%%clientEXE%" %clientLaunchParams% -connect=127.0.0.1 -port=%port% -password=%password% "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
