@@ -14,7 +14,7 @@ class CfgPatches
 
 class CfgMods
 {
-	class RPCFramework
+	class JM_RPCFramework
 	{
 		dir = "JM";
 		picture = "";

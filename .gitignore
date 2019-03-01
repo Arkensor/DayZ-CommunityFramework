@@ -1,3 +1,20 @@
-BIN/
-dayz.gproj
-ToolAddons/
+# DayZ SA
+*.biprivatekey
+project.cfg
+DayZCommunityOfflineMode.bat
+DeployMov.bat
+LaunchMPSteve.bat
+LaunchSPSteve.bat
+LaunchDebugSteve.bat
+
+# VSCode
+.vscode/
+Workbench/BatchFiles/ModTest.bat
+Workbench/BatchFiles/DeployMovMenu.bat
+Workbench/BatchFiles/ModTestMenu.bat
+Workbench/BatchFiles/DeployMovServer.bat
+Workbench/BatchFiles/DeployScripts.bat
+Workbench/BatchFiles/ModTestMenuCOT.bat
+Workbench/BatchFiles/LaunchClientOnly.bat
+Workbench/BatchFiles/ExpansionTest.bat
+Workbench/BatchFiles/BaronessDeploy.bat
