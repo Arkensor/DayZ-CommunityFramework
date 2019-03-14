@@ -1,0 +1,49 @@
+class CfgPatches
+{
+    class JM_CF_Scripts
+    {
+        units[]={};
+        weapons[]={};
+        requiredVersion=0.1;
+        requiredAddons[]=
+        {
+			"DZ_Data"
+        };
+    };
+};
+
+class CfgMods
+{
+	class JM_CommunityFramework
+	{
+		dir = "JM/CF";
+		picture = "";
+		action = "";
+		hideName = 0;
+		hidePicture = 1;
+		name = "Community Framework";
+		credits = "Jacob_Mango, Arkensor";
+		creditsJson = "JM/CF/Scripts/Data/Credits.json";
+		author = "Jacob_Mango";
+		authorID = "76561198103677868"; 
+		version = "1.0"; 
+		extra = 0;
+		type = "mod";
+		
+		dependencies[] = { "Game", "World", "Mission" };
+		
+		class defs
+		{
+			class gameScriptModule
+			{
+				value = "";
+				files[] = {"JM/CF/Scripts/3_Game"};
+			};
+			class missionScriptModule
+			{
+				value = "";
+				files[] = {"JM/CF/Scripts/5_Mission"};
+			};
+		};
+	};
+};
