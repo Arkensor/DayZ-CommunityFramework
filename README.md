@@ -86,10 +86,7 @@ An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/
 
 ## Projects
 
-Here are some projects that are already planned to use this Framework.
-
-* HypeTrain by Arkensor
-* DayZBR by Kegan Hollern
+Almost every script mod on the steam workshop for DayZ SA uses this mod.
 
 ## Contributors
 

@@ -33,6 +33,7 @@ set workDrive=
 set gameDirectory=
 set serverDirectory=
 set modName=
+set modSymlinkDirectory=
 set prefixLinkRoot=
 set privateKey=
 set publicKey=
@@ -51,6 +52,10 @@ for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg S
 
 for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ModName') do (
     set modName=%%a
+)
+
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ModSymlinkDirectory') do (
+    set modSymlinkDirectory=%%a
 )
 
 for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg PrefixLinkRoot') do (
@@ -91,6 +96,12 @@ if "%workDrive%"=="" (
     echo WorkDrive parameter was not set in the project.cfg
 )
 
+echo ModSymlinkDirectory is: "%modSymlinkDirectory%"
+if "%modSymlinkDirectory%"=="" (
+    set /a failed=1
+    echo ModSymlinkDirectory parameter was not set in the project.cfg
+)
+
 echo GameDirectory is: "%gameDirectory%"
 if "%gameDirectory%"=="" (
     set /a failed=1
@@ -118,29 +129,46 @@ if %failed%==1 (
     goto:eof
 )
 
-set temporaryDirectory=%workDrive%Mods\
-
 set makePBO=%toolsDirectory%MakePbo.exe
 set signFile=%toolsDirectory%DSSignFile.exe
 
 echo "Packaging Addons"
 
-rmdir /S /Q "%temporaryDirectory%%modName%\Addons\"
+rmdir /S /Q "%modSymlinkDirectory%%modName%\Addons\"
 
-mkdir "%temporaryDirectory%"
-mkdir "%temporaryDirectory%%modName%\"
-mkdir "%temporaryDirectory%%modName%\Addons\"
-mkdir "%temporaryDirectory%%modName%\Keys\"
+mkdir "%modSymlinkDirectory%%modName%\"
+mkdir "%modSymlinkDirectory%%modName%\Addons\"
+mkdir "%modSymlinkDirectory%%modName%\Keys\"
 
-copy "%publicKey%" "%temporaryDirectory%%modName%\Keys\" > nul
+copy "%publicKey%" "%modSymlinkDirectory%%modName%\Keys\" > nul
 
 mklink /J "%workDrive%%prefixLinkRoot%\" "%githubDirectory%%prefixLinkRoot%\"
 
-mklink /J "%gameDirectory%%modName%\" "%temporaryDirectory%%modName%\"
-mklink /J "%serverDirectory%%modName%\" "%temporaryDirectory%%modName%\"
+mklink /J "%gameDirectory%%modName%\" "%modSymlinkDirectory%%modName%\"
+mklink /J "%serverDirectory%%modName%\" "%modSymlinkDirectory%%modName%\"
 
-%makePBO% -U -P -D -N "%workDrive%%prefixLinkRoot%\Scripts" "%temporaryDirectory%%modName%\Addons\Scripts.pbo"
-%signFile% "%privateKey%" "%temporaryDirectory%%modName%\Addons\Scripts.pbo"
+for /f "tokens=*" %%D in ('dir /b /s "%workDrive%%prefixLinkRoot%\*"') do (
+	IF EXIST "%%~fD\config.cpp" (
+        IF NOT EXIST "%%~fD\..\config.cpp" (
+            IF NOT EXIST "%%~fD\..\..\config.cpp" (
+                IF NOT EXIST "%%~fD\..\..\..\config.cpp" (
+                    IF NOT EXIST "%%~fD\..\..\..\..\config.cpp" (
+                        IF NOT EXIST "%%~fD\..\..\..\..\..\config.cpp" (
+                            IF NOT EXIST "%%~fD\..\..\..\..\..\..\config.cpp" (
+                                set pboName=%%~pnD
+                                set pboName=!pboName:\%prefixLinkRoot%\=!
+                                set pboName=!pboName:\=_!
+
+                                %makePBO% -U -P -D -N "%%~dpnxD" "%modSymlinkDirectory%%modName%\Addons\!pboName!.pbo"
+                                %signFile% "%privateKey%" "%modSymlinkDirectory%%modName%\Addons\!pboName!.pbo"
+                            )
+                        )
+                    )
+                )
+            )
+        )
+	)
+)
 
 endlocal
 

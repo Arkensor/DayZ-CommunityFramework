@@ -41,11 +41,6 @@ set clientEXE=
 set serverEXE=
 set clientLaunchParams=
 set serverLaunchParams=
-set workDrive=
-
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg WorkDrive') do (
-    set workDrive=%%a
-)
 
 for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ModName') do (
     set modName=%%a
@@ -88,12 +83,6 @@ for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg C
 )
 
 setlocal enableextensions enabledelayedexpansion
-
-echo WorkDrive is: "%workDrive%"
-if "%workDrive%"=="" (
-    set /a failed=1
-    echo WorkDrive parameter was not set in the project.cfg
-)
 
 echo ClientEXE is: "%clientEXE%"
 if "%clientEXE%"=="" (
@@ -164,6 +153,5 @@ if %failed%==1 (
 CALL %batchFileDirectory%Exit.bat
 
 chdir /d "%gameDirectory%"
-
-echo start "" "%gameDirectory%%clientEXE%" %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
-start "" "%gameDirectory%%clientEXE%" %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
+echo start %clientEXE% %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
+start %clientEXE% %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
