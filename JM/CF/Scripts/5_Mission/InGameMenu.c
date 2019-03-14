@@ -161,10 +161,8 @@ modded class InGameMenu
 	{
 		int id = w.GetUserID() - m_StartUserID;
 
-        Print( "ID: " + id );
 		if ( id >= 0 && id < m_ButtonHandlers.Count() )
 		{
-            Print( "Function: " + m_ButtonHandlers[id].GetFunction() );
 		    GetGame().GameScript.CallFunctionParams( this, m_ButtonHandlers[id].GetFunction(), NULL, new Param );
 			return true;
 		}
