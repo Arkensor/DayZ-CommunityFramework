@@ -3,7 +3,7 @@ This is an Community framework for DayZ SA.
 
 This framework allows the use of cross mod RPC calling, better defining of the functions and is less prone to errors with mismatching RPC ID's.
 
-This framework also allows you to use 
+This framework also allows you to add credits into the mod and extend the In-Game menu.
 
 ## How To Use
 
