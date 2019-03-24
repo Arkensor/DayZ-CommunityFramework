@@ -1,7 +1,9 @@
-# RPC Framework for DayZ SA
-This is an RPC framework for DayZ SA which aims to resolve the issue of conflicting RPC type ID's and mods.
+# Community Framework for DayZ SA
+This is an Community framework for DayZ SA.
 
 This framework allows the use of cross mod RPC calling, better defining of the functions and is less prone to errors with mismatching RPC ID's.
+
+This framework also allows you to use 
 
 ## How To Use
 
@@ -9,11 +11,11 @@ This is how you would use this framework within your mod.
 
 ### Setup
 
-You would want to install the pre-packaged mod found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/releases) in the releases section.
+You would want to install the pre-packaged mod found on the steam workshop [here](https://steamcommunity.com/sharedfiles/filedetails/?id=1559212036).
 
-Unzip the file and drag the folder `RPCFramework` into the root of your game and server directory. It is already signed.
+Unzip the file and drag the folder `@Community-Framework` into the root of your game and server directory. It is already signed.
 
-When starting the game and/or server, make sure to add the mod first by using `-mod=RPCFramework;` and then append the rest of your mods afterwards. Seperate using the `;` character.
+When starting the game and/or server, make sure to add the mod first by using `-mod=@Community-Framework;` and then append the rest of your mods afterwards. Seperate using the `;` character. Enclose the argument in quotation marks.
 
 To use the framework with your mod you would want to add the mod to the config.cpp of your scripts PBO.
 
@@ -27,7 +29,7 @@ class CfgPatches
         ...
         requiredAddons[]=
         {
-            "RPC_Scripts",
+            "JM_CF_Scripts",
             ...
         };
     };
@@ -82,7 +84,7 @@ GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( 
 ```
 
 ### Example
-An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/Examples/RPCFramework_Test/Addons/test/5_Mission/TestGame.c).
+An example can be found [here](https://github.com/Jacob-Mango/DayZ-Community-Framework/blob/master/Examples/RPCFramework_Test/Addons/test/5_Mission/TestGame.c).
 
 ## Projects
 
