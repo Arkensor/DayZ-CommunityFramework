@@ -30,10 +30,12 @@ GameProjectClass {
 	  "DayZExpansion/GUI/imagesets/expansion_helicopter_ui.imageset"
 	  "DayZExpansion/GUI/imagesets/expansion_iconset.imageset"
 	  "DayZExpansion/GUI/imagesets/expansion_newsfeed.imageset"
+	  "DayZExpansion/GUI/imagesets/expansion_book_assets.imageset"
 	 }
 	 widgetStyles {
 	  "gui/looknfeel/dayzwidgets.styles" 
 	  "gui/looknfeel/widgets.styles"
+	  "DayZExpansion/GUI/looknfeel/dayzexpansionwidgets.styles"
 	 }
 	 ScriptModules {
 		ScriptModulePathClass {
@@ -54,7 +56,8 @@ GameProjectClass {
 			Name "game"
 			Paths {
 				"scripts/3_Game"
-				"RPCFramework/scripts/3_Game"
+				"JM/CF/Scripts/3_Game"
+				"JM/COT/Scripts/5_Mission"
 				"DayZExpansion/Scripts/3_Game"
 			}
 			EntryPoint "CreateGame"
@@ -62,24 +65,27 @@ GameProjectClass {
 		ScriptModulePathClass {
 			Name "world"
 			Paths {
-			 "scripts/4_World"
-			 "DayZExpansion/Scripts/4_World"
-			 }
+				"scripts/4_World"
+				"JM/COT/Scripts/5_Mission"
+				"DayZExpansion/Scripts/4_World"
+			}
 			EntryPoint ""
 		}
 		ScriptModulePathClass {
 			Name "mission"
 			Paths {
-			 "scripts/5_Mission"
-			 "DayZExpansion/Scripts/5_Mission"
-			 }
+				"scripts/5_Mission"
+				"JM/CF/Scripts/5_Mission"
+				"JM/COT/Scripts/5_Mission"
+				"DayZExpansion/Scripts/5_Mission"
+			}
 			EntryPoint "CreateMission"
 		}
 		ScriptModulePathClass {
 			Name "workbench"
 			Paths {
-			 "scripts/editor/Workbench"
-			 "scripts/editor/plugins"
+				"scripts/editor/Workbench"
+				"scripts/editor/plugins"
 			}
 			EntryPoint ""
 		} 
