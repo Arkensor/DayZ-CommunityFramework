@@ -6,11 +6,22 @@ if exist ../../project.cfg (
     echo Found the project.cfg
     cd ../../
 ) else (
-    echo project.cfg doesn't exist in first directory, trying the next possible directory.
     if exist project.cfg (
         echo Found the project.cfg
     ) else (
-        echo Failed to find the project.cfg
+        echo Failed to find the project.cfg file, exitting.
+        set /a failed=1
+    )
+)
+
+if exist ../../user.cfg (
+    echo Found the user.cfg
+    cd ../../
+) else (
+    if exist user.cfg (
+        echo Found the user.cfg
+    ) else (
+        echo Failed to find the user.cfg file, exitting.
         set /a failed=1
     )
 )
@@ -38,35 +49,35 @@ set prefixLinkRoot=
 set privateKey=
 set publicKey=
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg WorkDrive') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg WorkDrive') do (
     set workDrive=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg GameDirectory') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg GameDirectory') do (
     set gameDirectory=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ServerDirectory') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ServerDirectory') do (
     set serverDirectory=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ModName') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ModName') do (
     set modName=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg ModSymlinkDirectory') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ModSymlinkDirectory') do (
     set modSymlinkDirectory=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg PrefixLinkRoot') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg PrefixLinkRoot') do (
     set prefixLinkRoot=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg PrivateKey') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg PrivateKey') do (
     set privateKey=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg PublicKey') do (
+for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg PublicKey') do (
     set publicKey=%%a
 )
 
@@ -126,6 +137,7 @@ if %failed%==1 (
     echo Failed to package the mod.
 
     cd %batchFileDirectory%
+    pause
     goto:eof
 )
 

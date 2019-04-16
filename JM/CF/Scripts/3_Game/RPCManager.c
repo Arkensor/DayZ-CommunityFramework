@@ -5,6 +5,13 @@ enum SingeplayerExecutionType
     Both
 }
 
+enum SingleplayerExecutionType
+{
+    Server = 0,
+    Client,
+    Both
+}
+
 enum CallType
 {
     Server = 0,
@@ -69,12 +76,12 @@ class RPCManager
                 {
                     auto functionCallData = new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Server, ctx, sender, target );
                 
-                    if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingeplayerExecutionType.Server || wrapper.GetSPExecutionType() == SingeplayerExecutionType.Both ) ) ) 
+                    if( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Server || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
                     {
                         GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
                     }
 
-                    if( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingeplayerExecutionType.Client || wrapper.GetSPExecutionType() == SingeplayerExecutionType.Both ) ) ) 
+                    if( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Client || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
                     {
                         //Update call type
                         functionCallData.param1 = CallType.Client;
@@ -100,7 +107,7 @@ class RPCManager
                 {
                     ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
                     
-                    if( ( wrapper.GetSPExecutionType() == SingeplayerExecutionType.Both ) )
+                    if( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
                     {
                         sendData.Insert( params );
                     }
@@ -111,7 +118,7 @@ class RPCManager
         GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
     }
 
-    bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingeplayerExecutionType.Server )
+    bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingleplayerExecutionType.Server )
     {
         if( !m_RPCActions.Contains( modName ) )
         {
