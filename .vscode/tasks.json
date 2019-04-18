@@ -15,14 +15,12 @@
                     }
                 }
             },
-            "command": "deploy.bat",
-            "args": [
-                "${workspaceRoot}", "C:\\Games\\steamapps\\common\\DayZ", "C:\\Games\\steamapps\\common\\DayZServer", "@RPCFramework", ""
-            ],
+            "command": "Workbench/BatchFiles/Deploy.bat",
+            "args": [],
             "problemMatcher": []
         },
         {
-            "label": "Launch",
+            "label": "Launch MP",
             "windows": {
                 "options": {
                     "shell": {
@@ -33,10 +31,40 @@
                     }
                 }
             },
-            "command": "launch.bat",
-            "args": [
-                "${workspaceRoot}", "C:\\Games\\steamapps\\common\\DayZ", "C:\\Games\\steamapps\\common\\DayZServer", "@RPCFramework", ""
-            ],
+            "command": "Workbench/BatchFiles/LaunchMP.bat",
+            "args": [],
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch SP",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d", "/c"
+                        ]
+                    }
+                }
+            },
+            "command": "Workbench/BatchFiles/LaunchSP.bat",
+            "args": [],
+            "problemMatcher": []
+        },
+        {
+            "label": "Exit",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": [
+                            "/d", "/c"
+                        ]
+                    }
+                }
+            },
+            "command": "Workbench/BatchFiles/Exit.bat",
+            "args": [],
             "problemMatcher": []
         }
     ]

@@ -1,3 +1,7 @@
-BIN/
-dayz.gproj
-ToolAddons/
+# DayZ SA
+*.biprivatekey
+
+user.cfg
+
+# VSCode
+.vscode/

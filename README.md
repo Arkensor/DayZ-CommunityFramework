@@ -1,9 +1,11 @@
-# RPC Framework for DayZ SA
+# Community Framework for DayZ SA
 ## This fork was done just to update release files to Workshop version. All credits goes to Jacob-Mango and his team
 
-This is an RPC framework for DayZ SA which aims to resolve the issue of conflicting RPC type ID's and mods.
+This is an Community framework for DayZ SA.
 
 This framework allows the use of cross mod RPC calling, better defining of the functions and is less prone to errors with mismatching RPC ID's.
+
+This framework also allows you to add credits into the your own mods and it extends the In-Game menu for you to add in your own buttons.
 
 ## How To Use
 
@@ -11,11 +13,11 @@ This is how you would use this framework within your mod.
 
 ### Setup
 
-You would want to install the pre-packaged mod found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/releases) in the releases section.
+You would want to install the pre-packaged mod found on the steam workshop [here](https://steamcommunity.com/sharedfiles/filedetails/?id=1559212036).
 
-Unzip the file and drag the folder `@RPCFramework` into the root of your game and server directory. It is already signed.
+Drag the folder `@Community-Framework` into the root of your game and server directory. It is already signed.
 
-When starting the game and/or server, make sure to add the mod first by using `-mod=@RPCFramework;` and then append the rest of your mods afterwards. Seperate using the `;` character.
+When starting the game and/or server, make sure to add the mod first by using `-mod=@Community-Framework;` and then append the rest of your mods afterwards. Seperate using the `;` character. Enclose the argument in quotation marks.
 
 To use the framework with your mod you would want to add the mod to the config.cpp of your scripts PBO.
 
@@ -29,7 +31,7 @@ class CfgPatches
         ...
         requiredAddons[]=
         {
-            "RPC_Scripts",
+            "JM_CF_Scripts",
             ...
         };
     };
@@ -66,13 +68,13 @@ To add an RPC function you would add this line to the constructor of a shared cl
 e.g.
 
 ```java
-GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingeplayerExecutionType.Both ); 
+GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingleplayerExecutionType.Both ); 
 ```
 
 * For the string variable 'RPCTestMod' you would add the mod name. This would be a namespace. Try to make this as unique as possible.
 * For the class variable 'this' you would add the instance of the Class which the function resides.
 * For the string variable 'TestRPCFunction' you would add the function name. 
-* For the SingeplayerExecutionType variable 'Both' which would define how you would want the function to be called in SinglePlayer (Offline Mode).
+* For the SingleplayerExecutionType variable 'Both' which would define how you would want the function to be called in SinglePlayer (Offline Mode).
 
 ### Call an RPC Function
 To call an RPC function you would call the function `SendRPC`. The first argument would be the mod name which you would have defined. The second argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
@@ -84,14 +86,11 @@ GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( 
 ```
 
 ### Example
-An example can be found [here](https://github.com/Jacob-Mango/DayZ-RPCFramework/blob/master/Examples/RPCFramework_Test/Addons/test/5_Mission/TestGame.c).
+An example can be found [here](https://github.com/Jacob-Mango/DayZ-Community-Framework/blob/master/Examples/5_Mission/TestGame.c).
 
 ## Projects
 
-Here are some projects that are already planned to use this Framework.
-
-* HypeTrain by Arkensor
-* DayZBR by Kegan Hollern
+Almost every script mod on the steam workshop for DayZ SA uses this mod.
 
 ## Contributors
 

@@ -1,0 +1,27 @@
+{
+    "Departments": [
+        {
+            "DepartmentName": "Community Framework",
+            "Sections": [
+                {
+                    "SectionName": "Developers",
+                    "SectionLines": [
+                        "Jacob_Mango",
+                        "Arkensor",
+                        "AWOL",
+                        "DirtySanchez"
+                    ]
+                },
+                {
+                    "SectionName": "Special Thanks",
+                    "SectionLines": [
+                        "Kegan Hollern",
+                        "DannyDog",
+                        "Sumrak",
+                        "Epoch Mod"
+                    ]
+                }
+            ]
+        }
+    ]
+}
