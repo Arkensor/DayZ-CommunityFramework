@@ -276,5 +276,5 @@ start %serverEXE% %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -
 TIMEOUT /T 5 /NOBREAK
 
 chdir /d "%gameDirectory%"
-echo start %clientEXE% %clientLaunchParams% "-connectDefer=127.0.0.1" "-portDefer=%port%" "-password=%password%" "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
-start %clientEXE% %clientLaunchParams% "-connectDefer=127.0.0.1" "-portDefer=%port%" "-password=%password%" "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
+echo start %clientEXE% %clientLaunchParams% "-connect=127.0.0.1" "-port=%port%" "-password=%password%" "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
+start %clientEXE% %clientLaunchParams% "-connect=127.0.0.1" "-port=%port%" "-password=%password%" "-mod=%mods%" -dologs -adminlog -freezecheck -scriptDebug=true
