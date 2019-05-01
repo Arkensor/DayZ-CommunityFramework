@@ -217,7 +217,7 @@ modded class InGameMenu
 		return false;
 	}
 	
-	bool IsFocusable( Widget w )
+	override bool IsFocusable( Widget w )
 	{
 		if( w && w.GetUserID() > m_StartUserID )
         {
@@ -228,7 +228,7 @@ modded class InGameMenu
 	}
 	
 	//Coloring functions (Until WidgetStyles are useful)
-	void ColorRed( Widget w )
+	override void ColorRed( Widget w )
 	{
 		SetFocus( w );
 		
@@ -239,7 +239,7 @@ modded class InGameMenu
 		}
 	}
 	
-	void ColorWhite( Widget w, Widget enterW )
+	override void ColorWhite( Widget w, Widget enterW )
 	{
 		#ifdef PLATFORM_WINDOWS
 		SetFocus( null );
