@@ -9,7 +9,7 @@ This framework also allows you to add credits into the your own mods and it exte
 
 This is how you would use this framework within your mod. 
 
-### Setup
+### OUTDATED: Setup
 
 You would want to install the pre-packaged mod found on the steam workshop [here](https://steamcommunity.com/sharedfiles/filedetails/?id=1559212036).
 
@@ -84,7 +84,7 @@ GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( 
 ```
 
 ### Example
-An example can be found [here](https://github.com/Jacob-Mango/DayZ-Community-Framework/blob/master/Examples/5_Mission/TestGame.c).
+An example project can be found [here](https://github.com/Jacob-Mango/DayZ-SampleMod/blob/master/MyPrefix/MyMod/Scripts/5_Mission/TestGame.c).
 
 ## Projects
 

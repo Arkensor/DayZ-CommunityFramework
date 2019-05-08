@@ -1,44 +1,29 @@
 @echo off
 
+cd /D "%~dp0"
+
 set /a failed=0
 
-if exist ../../project.cfg (
-    echo Found the project.cfg
-    cd ../../
+if exist ../project.cfg (
+	echo Found the project.cfg
 ) else (
-    if exist project.cfg (
-        echo Found the project.cfg
-    ) else (
-        echo Failed to find the project.cfg file, exitting.
-        set /a failed=1
-    )
+	echo Failed to find the project.cfg file, exitting.
+	set /a failed=1
 )
 
-if exist ../../user.cfg (
-    echo Found the user.cfg
-    cd ../../
+if exist ../user.cfg (
+	echo Found the user.cfg
 ) else (
-    if exist user.cfg (
-        echo Found the user.cfg
-    ) else (
-        echo Failed to find the user.cfg file, exitting.
-        set /a failed=1
-    )
+	echo Failed to find the user.cfg file, exitting.
+	set /a failed=1
 )
 
 if %failed%==1 (
     endlocal
 
     echo Failed to package the mod.
-
-    cd %batchFileDirectory%
     goto:eof
 )
-
-set githubDirectory=%cd%\
-set workbenchDataDirectory=%githubDirectory%Workbench\
-set toolsDirectory=%workbenchDataDirectory%Tools\
-set batchFileDirectory=%workbenchDataDirectory%BatchFiles\
 
 set /a port=0
 set password=
@@ -52,45 +37,50 @@ set clientEXE=
 set serverEXE=
 set clientLaunchParams=
 set serverLaunchParams=
+set modBuildDirectory=
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ModName') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModName') do (
     set modName=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg AdditionalSPMods') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg AdditionalSPMods') do (
     set mods=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg Port') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg Port') do (
     set /a port=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ServerPassword') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ServerPassword') do (
     set password=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg GameDirectory') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg GameDirectory') do (
     set gameDirectory=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ServerDirectory') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ServerDirectory') do (
     set serverDirectory=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ServerProfileDirectory') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ServerProfileDirectory') do (
     set serverProfileDirectory=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg SPMission') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg SPMission') do (
     set mission=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ClientEXE') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ClientEXE') do (
     set clientEXE=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg ClientLaunchParams') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ClientLaunchParams') do (
     set clientLaunchParams=%%a
+)
+
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModBuildDirectory') do (
+	set modBuildDirectory=%%a
 )
 
 setlocal enableextensions enabledelayedexpansion
@@ -152,17 +142,32 @@ if "%serverProfileDirectory%"=="" (
     echo ServerProfileDirectory parameter was not set in the project.cfg
 )
 
+echo ModBuildDirectory is: "%modBuildDirectory%"
+if "%modBuildDirectory%"=="" (
+	set /a failed=1
+	echo ModBuildDirectory parameter was not set in the project.cfg
+)
+
 if %failed%==1 (
     endlocal
 
     echo Failed to package the mod.
-
-    cd %batchFileDirectory%
     goto:eof
 )
 
-CALL %batchFileDirectory%Exit.bat
+CALL Exit.bat
+
+for %%a in ("%mods:;=" "%") do (
+    set mod=%%~a
+    if not defined modList (
+        set modList=%modBuildDirectory%!mod!
+    ) else (
+        set modList=!modList!;%modBuildDirectory%!mod!
+    )
+)
 
 chdir /d "%gameDirectory%"
-echo start %clientEXE% %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
+echo start %clientEXE% %clientLaunchParams% "-mod=%modList%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
 start %clientEXE% %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
+
+endlocal

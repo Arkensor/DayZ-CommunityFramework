@@ -39,6 +39,11 @@ class CfgMods
 				value = "";
 				files[] = {"JM/CF/Scripts/3_Game"};
 			};
+			class worldScriptModule
+			{
+				value = "";
+				files[] = {"JM/CF/Scripts/4_World"};
+			};
 			class missionScriptModule
 			{
 				value = "";

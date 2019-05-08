@@ -1,63 +1,48 @@
 @echo off
 
+cd /D "%~dp0"
+
 set /a failed=0
 
-if exist ../../project.cfg (
-    echo Found the project.cfg
-    cd ../../
+if exist ../project.cfg (
+	echo Found the project.cfg
 ) else (
-    if exist project.cfg (
-        echo Found the project.cfg
-    ) else (
-        echo Failed to find the project.cfg file, exitting.
-        set /a failed=1
-    )
+	echo Failed to find the project.cfg file, exitting.
+	set /a failed=1
 )
 
-if exist ../../user.cfg (
-    echo Found the user.cfg
-    cd ../../
+if exist ../user.cfg (
+	echo Found the user.cfg
 ) else (
-    if exist user.cfg (
-        echo Found the user.cfg
-    ) else (
-        echo Failed to find the user.cfg file, exitting.
-        set /a failed=1
-    )
+	echo Failed to find the user.cfg file, exitting.
+	set /a failed=1
 )
 
 if %failed%==1 (
     endlocal
 
     echo Failed to package the mod.
-
-    cd %batchFileDirectory%
     goto:eof
 )
-
-set githubDirectory=%cd%\
-set workbenchDataDirectory=%githubDirectory%Workbench\
-set toolsDirectory=%workbenchDataDirectory%Tools\
-set batchFileDirectory=%workbenchDataDirectory%BatchFiles\
 
 set workDrive=
 set /a majorVersion=0
 set /a minorVersion=0
 set versionFileLocation=
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg WorkDrive') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkDrive') do (
     set workDrive=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg MajorVersion') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg MajorVersion') do (
     set /a majorVersion=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg MinorVersion') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg MinorVersion') do (
     set /a minorVersion=%%a
 )
 
-for /f "delims=" %%a in ('call %batchFileDirectory%ExtractData.bat project.cfg user.cfg VersionFileLocation') do (
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg VersionFileLocation') do (
     set versionFileLocation=%%a
 )
 
@@ -91,10 +76,6 @@ if %failed%==1 (
     endlocal
 
     echo Failed to package the mod.
-
-    cd %batchFileDirectory%
-    pause
-    
     goto:eof
 )
 
@@ -105,8 +86,7 @@ for /f "tokens=1-3 delims=." %%a in (%workDrive%%versionFileLocation%) do (
     echo BuildVersion is: !build!
 )
 
-
 echo %version%>%workDrive%%versionFileLocation%
 echo Version: %version%
 
-cd %batchFileDirectory%
+endlocal

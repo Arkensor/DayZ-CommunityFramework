@@ -8,7 +8,11 @@ GameProjectClass {
 			FileSystem {
 				FileSystemPathClass {
 					Name "Game Root"
-					Directory "./"
+					Directory "P:"
+				}
+				FileSystemPathClass {
+					Name "Community Framework"
+					Directory "P:\JM\CF"
 				}
 			}
 			imageSets {
@@ -72,9 +76,10 @@ GameProjectClass {
 					Paths {
 						"scripts/editor/Workbench"
 						"scripts/editor/plugins"
+						"JM/CF/Scripts/Workbench/Plugins"
 					}
 					EntryPoint ""
-				} 
+				}
 			}
 		}
 		GameProjectConfigClass XBOX_ONE {
