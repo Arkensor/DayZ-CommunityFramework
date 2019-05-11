@@ -1,23 +1,37 @@
 ButtonWidgetClass button {
- visible 1
- color 0.0392 0.0392 0.0392 1
+ ignorepointer 0
+ color 0 0 0 0
  position 0 0
  size 1 38
- halign center_ref
- valign bottom_ref
  hexactpos 1
  vexactpos 1
  hexactsize 0
  vexactsize 1
- userID 102
- style DayZDefaultButtonSides
- "no focus" 1
- "next left" ""
- "next right" ""
- "next up" ""
- "next down" ""
- text ""
- text_proportion 0.55
- font "gui/fonts/sdf_MetronLight24"
- switch normal
-}
+ {
+  PanelWidgetClass button_panel {
+   ignorepointer 1
+   color 0 0 0 0
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style DayZDefaultPanel
+  }
+  TextWidgetClass button_label {
+   clipchildren 0
+   ignorepointer 1
+   size 1 0.55
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   text "#main_menu_exit"
+   font "gui/fonts/sdf_MetronLight72"
+   "text halign" center
+   "text valign" center
+  }
+ }
