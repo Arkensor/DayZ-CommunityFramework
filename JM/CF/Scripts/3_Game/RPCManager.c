@@ -96,7 +96,7 @@ class RPCManager
         }
     }
 
-    void SendRPC( string modName, string funcName, ref Param params, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
+    void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
     {
         auto sendData = new ref array< ref Param >;
         sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
