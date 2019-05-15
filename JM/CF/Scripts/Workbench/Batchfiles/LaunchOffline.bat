@@ -168,6 +168,6 @@ for %%a in ("%mods:;=" "%") do (
 
 chdir /d "%gameDirectory%"
 echo start %clientEXE% %clientLaunchParams% "-mod=%modList%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
-start %clientEXE% %clientLaunchParams% "-mod=%mods%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
+start %clientEXE% %clientLaunchParams% "-mod=%modList%" "-mission=%mission%" -dologs -adminlog -freezecheck -scriptDebug=true
 
 endlocal

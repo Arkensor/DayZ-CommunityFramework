@@ -47,7 +47,7 @@ modded class InGameMenu
 		m_RestartDeadButton	= m_Root.FindAnyWidget( "restartdeadbtn" );
 		m_OptionsButton		= m_Root.FindAnyWidget( "optionsbtn" );
 		
-		if ( GetGame().IsMultiplayer() )
+		if ( GetGame().IsMultiplayer() && GetGame().IsClient() )
 		{
 			ButtonSetText( m_RestartButton, "#main_menu_respawn" );
 			ButtonSetText( m_RestartDeadButton, "#main_menu_respawn" );
@@ -66,34 +66,31 @@ modded class InGameMenu
 		
 		SetGameVersion();
 
-		if ( m_ButtonHandlers.Count() > 0 )
+		ref InGameMenuButton data;
+		ButtonWidget button;
+		TextWidget text;
+
+		for ( int i = 0; i < m_ButtonHandlers.Count(); i++ )
 		{
-			ref InGameMenuButton data;
-			ButtonWidget button;
-			TextWidget text;
+			data = m_ButtonHandlers.Get( i );
 
-			for ( int i = 0; i < m_ButtonHandlers.Count(); i++ )
-			{
-				data = m_ButtonHandlers.Get( i );
-
-				button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( m_ButtonLayoutFileLocation, m_Root.FindAnyWidget( "top" ) ) );
-				button.SetUserID( m_StartUserID + i );
-				ButtonSetText( button, data.GetText() );
-				
+			button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( m_ButtonLayoutFileLocation, m_Root.FindAnyWidget( "top" ) ) );
+			button.SetUserID( m_StartUserID + i );
+			ButtonSetText( button, data.GetText() );
+			
 /*
-				if ( data.DisableWhen() == 2 && !( GetGame().CanRespawnPlayer() || ( player && player.IsUnconscious() ) ) )
-				{
-					button.Enable(false);
-				}
+			if ( data.DisableWhen() == 2 && !( GetGame().CanRespawnPlayer() || ( player && player.IsUnconscious() ) ) )
+			{
+				button.Enable(false);
+			}
 
-				if ( data.DisableWhen() == 1 && ( GetGame().CanRespawnPlayer() || ( player && player.IsUnconscious() ) ) )
-				{
-					button.Enable(false);
-				}
+			if ( data.DisableWhen() == 1 && ( GetGame().CanRespawnPlayer() || ( player && player.IsUnconscious() ) ) )
+			{
+				button.Enable(false);
+			}
 */
 
-				m_Buttons.Insert( button );
-			}
+			m_Buttons.Insert( button );
 		}
 
 		return m_Root;
@@ -228,21 +225,21 @@ modded class InGameMenu
 	
 	protected void UpdateGUI()
 	{
-		if ( GetGame().IsMultiplayer() )
+		Man player = GetGame().GetPlayer();
+		bool player_is_alive = false;
+	
+		if (player)
 		{
-			Man player = GetGame().GetPlayer();
-			bool player_is_alive = false;
+			int life_state = player.GetPlayerState();
 	
-			if (player)
+			if (life_state == EPlayerStates.ALIVE)
 			{
-				int life_state = player.GetPlayerState();
-	
-				if (life_state == EPlayerStates.ALIVE)
-				{
-					player_is_alive = true;
-				}
+				player_is_alive = true;
 			}
-			
+		}
+
+		if ( GetGame().IsMultiplayer() && GetGame().IsClient() )
+		{
 			m_ContinueButton.Show( player_is_alive );
 			m_RestartButton.Show( (player_is_alive && player.IsUnconscious()) );
 			m_RestartDeadButton.Show( !player_is_alive );
