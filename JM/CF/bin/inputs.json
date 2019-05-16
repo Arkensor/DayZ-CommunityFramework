@@ -20,12 +20,8 @@
 					"DisplayName": "Teleport To Cursor"
 				},
 				{
-					"InputName": "UACameraToolEnableCamera",
-					"DisplayName": "Enable Freecam"
-				},
-				{
-					"InputName": "UACameraToolDisableCamera",
-					"DisplayName": "Disable Freecam"
+					"InputName": "UACameraToolToggleCamera",
+					"DisplayName": "Toggles Freecam"
 				}
 			]
 		},

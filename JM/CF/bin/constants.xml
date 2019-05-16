@@ -7,8 +7,7 @@
 		<input name="UACOTModuleToggleMenu" />
 		<input name="UACOTModuleCloseCOT" />
 		<input name="UATeleportModuleTeleportCursor" />
-		<input name="UACameraToolEnableCamera" />>
-		<input name="UACameraToolDisableCamera" />
+		<input name="UACameraToolToggleCamera" />
 
 		<!-- DayZ Expansion -->
 		<input name="UAExpHeliDiveForward" />
