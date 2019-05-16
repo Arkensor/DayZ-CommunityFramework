@@ -11,7 +11,7 @@ class Debugging
 	{
 		m_FileName = "$profile:Debugging.json";
 	}
-	
+
 	void Log( string text, string type )
 	{
 		bool printOut = false;
@@ -24,9 +24,26 @@ class Debugging
 		}
 	}
 	
+	void Err( string text, string type )
+	{
+		bool printOut = false;
+		
+		int success = EnScript.GetClassVar( this, type, 0, printOut );
+		
+		if ( success == 0 && printOut )
+		{
+			Print( "" + text );
+		}
+		
+		Error( "" + text );
+	}
+	
 	static ref Debugging Load()
 	{
 		ref Debugging settings = new Debugging();
+		
+		if ( GetGame().IsClient() )
+			return settings;
 
 		if ( FileExist( settings.m_FileName ) )
 		{
@@ -46,6 +63,24 @@ class Debugging
 	
 	void Defaults()
 	{
+	}
+	
+	void Send( PlayerIdentity sendTo )
+	{
+        GetRPCManager().SendRPC( "CF", "LoadDebugging", new Param1< ref Debugging >( this ), false, sendTo );
+	}
+	
+	/**
+	\brief Saves and sends the debugging information
+		@code
+			GetDebugging().JM_CF_Mods = true;
+			GetDebugging().Update();
+		@endcode
+	*/
+	void Update()
+	{
+		Send( NULL );
+		Save();
 	}
 }
 
