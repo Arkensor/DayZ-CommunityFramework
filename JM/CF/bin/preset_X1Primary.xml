@@ -1,0 +1,302 @@
+<preset>
+	<!-- MOVEMENT -->
+	<input name="UAMoveForward">
+		<btn name="x1LeftThumbUp" />
+	</input>
+	<input name="UAMoveBack">
+		<btn name="x1LeftThumbDown" />
+	</input>
+	<input name="UAMoveLeft">
+		<btn name="x1LeftThumbLeft" />
+	</input>
+	<input name="UAMoveRight">
+		<btn name="x1LeftThumbRight" />
+	</input>
+	<input name="UAToggleTurbo">
+		<btn name="x1ThumbLeft" />
+	</input>
+    <input name="UAWalkForward">
+		<btn name="x1LeftThumbUp" />
+    </input>
+    <input name="UAWalkBack">
+		<btn name="x1LeftThumbDown" />
+    </input>
+    <input name="UAWalkLeft">
+		<btn name="x1LeftThumbLeft" />
+    </input>
+    <input name="UAWalkRight">
+		<btn name="x1LeftThumbRight" />
+    </input>
+	
+	<!-- Jump, Climb -->
+	<input name="UAGetOver">
+        <btn name="x1A">
+			<event name="clickorhold" />
+		</btn>
+    </input>
+	<input name="UAStance">
+        <btn name="x1B" />
+	</input>
+	
+	<!-- Leaning -->
+	<input name="UALeanLeft">
+        <btn name="x1ShoulderLeft" />
+	</input>
+	<input name="UALeanRight">
+        <btn name="x1ShoulderRight" />
+	</input>
+		
+	<!-- CAMERA -->	
+	<input name="UAAimLeft">
+		<btn name="x1RightThumbLeft" />
+	</input>
+	<input name="UAAimRight">
+		<btn name="x1RightThumbRight" />
+	</input>
+	<input name="UAAimUp">
+		<btn name="x1RightThumbUp" />
+	</input>
+	<input name="UAAimDown">
+		<btn name="x1RightThumbDown" />
+	</input>
+	
+	<!-- Change Perspective -->
+	<input name="UAPersonView">
+		<btn name="x1ThumbRight" >
+			<event name="doubleclick" />
+		</btn>		
+	</input>
+	
+	<!-- Freelook Modifier -->
+	<input name="UALookAround">
+		<btn name="x1ShoulderLeft" >
+			<event name="hold" />
+		</btn>
+	</input>
+	
+	<!-- Eyezoom -->
+	<input name="UAZoomInToggle">
+		<btn name="x1ShoulderLeft" >
+      <event name="doubleclick" />
+		</btn>
+	</input>
+
+	<!-- Switch to Iron Sights -->
+	<input name="UAADSToggle">
+		<btn name="x1ThumbRight" />
+	</input>
+	
+	<!-- Switch between Iron Sights and Optics, Zoom in Optics -->
+    <input name="UAZoomInOptics">
+		<btn name="x1PadRight">
+			<event name="click" />
+		</btn>	
+    </input>
+    <input name="UAZoomOutOptics">
+		<btn name="x1PadRight" >
+			<event name="hold" />
+		</btn>	
+    </input>
+	
+	<!-- ACTIONS -->
+	
+	<!-- Inventory toggle -->
+	<input name="UAGear">
+		<btn name="x1View" />
+	</input>
+
+	<!-- Attack -->
+	<input name="UAFire">
+		<btn name="x1TriggerRight" />
+	</input>
+	<input name="UAHeavyMeleeAttack">
+		<btn name="x1Y" >
+			<event name="hold" />
+		</btn>
+	</input>
+	
+	<input name="UAHoldBreath">
+        <btn name="x1ThumbLeft" />
+    </input>
+	
+	<!-- User Action -->
+	<input name="UADefaultAction">
+		<btn name="x1TriggerRight" />
+	</input>
+	
+	<!-- Enviro Interaction -->
+	<input name="UAAction">
+		<btn name="x1X" />
+	</input>
+
+	<!-- Scrolling Interaction -->
+	<input name="UAPrevAction">
+		<btn name="x1PadUp" />
+	</input>
+
+	<input name="UADropItem">
+		<btn name="x1X" >
+			<event name="hold" />
+		</btn>	
+	</input>
+
+	<!-- Raise Hands -->
+	<input name="UATempRaiseWeapon">
+		<btn name="x1TriggerLeft" />
+	</input>
+	
+	<!-- Firearms Reload, Unjam -->
+	<input name="UAQuickReload">
+		<btn name="x1Y" >
+			<event name="press" />
+		</btn>	
+	</input>
+	
+	<!-- Firearms Zeroing -->
+	<input name="UAZeroingUp">
+		<btn name="x1PadUp" />
+	</input>
+	<input name="UAZeroingDown">
+		<btn name="x1PadDown" />
+	</input>
+	
+	<!-- Firearms Modes -->
+	<input name="UAToggleWeapons">
+		<btn name="x1PadLeft" />
+	</input>
+	
+	<!-- COMMUNICATION -->
+	
+	<!-- Voice Over Network -->
+	<input name="UAVoiceOverNet">
+		<btn name="x1PadDown" />
+	</input> 
+	
+	<!-- VEHICLES -->
+	<input name="UACarLeft">
+		<btn name="x1LeftThumbLeft" />
+	</input>
+	<input name="UACarRight">
+		<btn name="x1LeftThumbRight" />
+	</input>
+	<input name="UACarForward">
+		<btn name="x1TriggerRight" />
+	</input>
+	<input name="UACarBack">
+		<btn name="x1TriggerLeft" />
+	</input>
+	<input name="UACarShiftGearUp">
+		<btn name="x1B" />
+	</input>
+	<input name="UACarShiftGearDown">
+		<btn name="x1A" />
+	</input>
+	
+	<!-- USER INTERFACE -->	
+	<input name="UAUILeft">
+		<btn name="x1PadLeft" />
+		<btn name="x1LeftThumbLeft" />
+		<btn name="x1RightThumbLeft" />
+	</input>
+	<input name="UAUIRight">
+		<btn name="x1PadRight" />
+		<btn name="x1LeftThumbRight" />
+		<btn name="x1RightThumbRight" />
+	</input>
+	<input name="UAUIUp">
+		<btn name="x1PadUp" />
+		<btn name="x1LeftThumbUp" />
+		<btn name="x1RightThumbUp" />
+	</input>
+	<input name="UAUIDown">
+		<btn name="x1PadDown" />
+		<btn name="x1LeftThumbDown" />
+		<btn name="x1RightThumbDown" />
+	</input>
+	
+	<input name="UAUISelect">
+		<btn name="x1A" />
+	</input>
+	<input name="UAUIBack">
+		<btn name="x1B" >
+			<event name="release" />
+		</btn>	
+	</input>
+	<input name="UAUICtrlX">
+		<btn name="x1X" />
+	</input>
+	<input name="UAUICtrlY">
+		<btn name="x1Y" />
+	</input>
+	<input name="UAUIMenu">
+		<btn name="x1Menu" />
+	</input>
+
+	<input name="UAUITabLeft">
+		<btn name="x1ShoulderLeft" />
+	</input>
+	<input name="UAUITabRight">
+		<btn name="x1ShoulderRight" />
+	</input>
+
+	<input name="UAUIRightStickHorizontal">
+		<btn name="x1RightThumbHorizontal" />
+	</input>
+	<input name="UAUIRightStickVertical">
+		<btn name="x1RightThumbVertical" />
+	</input>
+
+	<!-- RADIAL MENUS -->
+
+	<input name="UAUIGesturesOpen">
+		<btn name="x1PadRight" />
+	</input>
+	<input name="UAUIQuickbarRadialOpen">
+		<btn name="x1ShoulderRight" />
+	</input>
+		<input name="UAUIQuickbarRadialInventoryOpen">
+		<btn name="x1ThumbLeft" />
+	</input>
+		
+	<!-- INVENTORY -->
+	<input name="UAUINextUp">
+		<btn name="x1TriggerLeft" />
+	</input>
+	<input name="UAUINextDown">
+		<btn name="x1TriggerRight" />
+	</input>
+
+	<input name="UAUIFastEquipOrSplit">
+		<btn name="x1Y" />
+	</input>
+
+	<input name="UAUIFastTransferToVicinity">
+		<btn name="x1X">
+			<event name="hold" />
+		</btn>
+	</input>
+	<input name="UAUIExpandCollapseContainer">
+		<btn name="x1ThumbRight" />
+	</input>
+	<input name="UAUISelectItem">
+		<btn name="x1A" />
+	</input>
+		<input name="UAUIFastTransferItem" >
+		<btn name="x1X" />
+	</input>
+
+	<!-- ****** -->
+	<!-- DEBUG SPECIFIC -->
+	<!-- ****** -->
+	
+
+	<!-- Freefly Camera -->
+	<input name="UAMoveUp">
+		<btn name="x1TriggerRight" />
+	</input>
+	<input name="UAMoveDown">
+		<btn name="x1TriggerLeft" />
+	</input>	
+	
+
+</preset>

@@ -1,0 +1,199 @@
+<inputs>
+
+	<!-- Sensitivity modificators -->
+	<modificator name="1st" loc="STR_MODIFIER_SENSITIVITY_1ST">
+		<val name="vert" value="1.0" />
+		<val name="horz" value="1.0" />
+		<val name="lvert" value="1.0" />
+		<val name="lhorz" value="1.0" />
+		<val name="rvert" value="1.0" />
+		<val name="rhorz" value="1.0" />
+	</modificator>
+	<modificator name="3rd" loc="STR_MODIFIER_SENSITIVITY_3RD">
+		<val name="vert" value="1.0" />
+		<val name="horz" value="1.0" />
+		<val name="lvert" value="1.0" />
+		<val name="lhorz" value="1.0" />
+		<val name="rvert" value="1.0" />
+		<val name="rhorz" value="1.0" />
+	</modificator>
+	<modificator name="scope" loc="STR_MODIFIER_SENSITIVITY_SCOPE">
+		<val name="vert" value="1.0" />
+		<val name="horz" value="1.0" />
+		<val name="lvert" value="1.0" />
+		<val name="lhorz" value="1.0" />
+		<val name="rvert" value="1.0" />
+		<val name="rhorz" value="1.0" />
+	</modificator>
+
+	<!-- UI sort -->
+	<sorting name="infantry" loc="STR_USRACT_GROUP_INFANTRY">
+	</sorting>
+	<sorting name="vehicle" loc="STR_USRACT_GROUP_VEHICLE">
+	</sorting>
+	<sorting name="flying" loc="STR_USRACT_GROUP_FLYING">
+	</sorting>
+	<sorting name="heli" loc="STR_USRACT_GROUP_HELI">
+	</sorting>
+	
+	<!-- Control context -->
+	<context name="ironsights">
+		<input name="UALeanLeft" />
+		<input name="UALeanRight" />
+		<input name="UAHoldBreath" />
+		<input name="UAHoldBreathToggle" />
+		<input name="UAZoomInOptics" />
+		<input name="UAZoomOutOptics" />
+	</context>
+
+	<context name="melee">
+		<input name="UAHeavyMeleeAttack" />
+	</context>
+
+	<context name="gun">
+		<input name="UAZeroingUp" />
+		<input name="UAZeroingDown" />
+		<input name="UAToggleWeapons" />
+	</context>
+
+  <context name="car">
+    <input name="UACarLeft" />
+    <input name="UACarRight" />
+    <input name="UACarForward" />
+    <input name="UACarBack" />
+    <input name="UACarShiftGearUp" />
+    <input name="UACarShiftGearDown" />
+    <input name="UAVehicleTurbo" />
+    <input name="UAVehicleSlow" />
+  </context>
+
+  <context name="ui">
+    <input name="UAUILeft" />
+    <input name="UAUIRight" />
+    <input name="UAUIUp" />
+    <input name="UAUIDown" />
+    <input name="UAUISelect" />
+    <input name="UAUIBack" />
+    <input name="UAUICtrlX" />
+    <input name="UAUICtrlY" />
+    <input name="UAUITabLeft" />
+    <input name="UAUITabRight" />
+    <input name="UAUIRightStickHorizontal" />
+    <input name="UAUIRightStickVertical" />
+    <input name="UAUIRadialMenuPick" />
+    <input name="UAUIGesturesOpen" />
+    <input name="UAUIQuickbarRadialOpen" />
+    <input name="UAUIQuickbarRadialInventoryOpen" />
+    <input name="UAUINextUp" />
+    <input name="UAUINextDown" />
+    <input name="UAUIFastEquipOrSplit" />
+    <input name="UAUIFastTransferItem" />
+    <input name="UAUIFastTransferToVicinity" />
+    <input name="UAUIExpandCollapseContainer" />
+    <input name="UAUISelectItem" />
+  </context>
+
+  <!-- Inputs excluded when in inventory -->
+  <exclude name="inventory">
+    <!--
+    <input name="UAMoveForward" />
+    <input name="UAMoveBack" />
+    <input name="UAMoveLeft" />
+    <input name="UAMoveRight" />
+    <input name="UAWalkRunTemp" />
+    -->
+    <input name="UAAimLeft" />
+    <input name="UAAimRight" />
+    <input name="UAAimUp" />
+    <input name="UAAimDown" />
+    <input name="UATurbo" />
+    <input name="UAGetOver" />
+    <input name="UAStance" />
+    <input name="UAStand" />
+    <input name="UACrouch" />
+    <input name="UAProne" />
+    <input name="UAGestureSlot01" />
+    <input name="UAGestureSlot02" />
+    <input name="UAGestureSlot03" />
+    <input name="UAGestureSlot04" />
+    <input name="UAGestureSlot05" />
+    <input name="UAGestureSlot06" />
+    <input name="UAGestureSlot07" />
+    <input name="UAGestureSlot08" />
+    <input name="UAGestureSlot09" />
+    <input name="UAGestureSlot10" />
+    <input name="UAGestureSlot11" />
+    <input name="UAGestureSlot12" />
+    <input name="UAPersonView" />
+    <input name="UALookAround" />
+    <input name="UAFire" />
+    <input name="UAHeavyMeleeAttack" />
+    <input name="UADefaultAction" />
+    <input name="UAAction" />
+    <input name="UADropitem" />
+    <input name="UATempRaiseWeapon" />
+    <input name="UAReloadMagazine" />
+    <input name="UAQuickReload" />
+    <input name="UAZeroingUp" />
+    <input name="UAZeroingDown" />
+    <input name="UAToggleWeapons" />
+    <input name="UAUIQuickbarToggle" />
+    <input name="UALeanLeft" />
+    <input name="UALeanRight" />
+    <input name="UAZoomIn" />
+    <input name="UAZoomInOptics" />
+    <input name="UAZoomOutOptics" />
+    <input name="UAZoomInToggle" />	
+    <input name="UACarLeft" />
+    <input name="UACarRight" />
+    <input name="UACarForward" />
+    <input name="UACarBack" />
+    <input name="UACarShiftGearUp" />
+    <input name="UACarShiftGearDown" />
+    <input name="UAVehicleTurbo" />
+    <input name="UAVehicleSlow" />
+    <input name="UATrackLeft" />
+    <input name="UATrackRight" />
+    <input name="UATrackUp" />
+    <input name="UATrackDown" />
+  </exclude>
+
+  <!-- Inputs excluded when in main menu -->
+  <exclude name="menu">
+    <include name="inventory" />
+    <input name="UAGear" />
+    <input name="UAMoveForward" />
+    <input name="UAMoveBack" />
+    <input name="UAMoveLeft" />
+    <input name="UAMoveRight" />
+    <input name="UAWalkRunTemp" />
+    <!-- "walk" below are only used on consoles now? Remove if not needed -->
+    <input name="UAWalkForward" />
+    <input name="UAWalkBack" />
+    <input name="UAWalkLeft" />
+    <input name="UAWalkRight" />	
+  </exclude>
+	
+  <!-- Inputs excluded when in radial menu -->
+  <exclude name="radialmenu">
+    <input name="UAAimLeft" />
+    <input name="UAAimRight" />
+    <input name="UAAimUp" />
+    <input name="UAAimDown" />
+    <input name="UAFire" />
+    <input name="UADefaultAction" />
+    <input name="UAAction" />
+    <input name="UADropitem" />
+    <input name="UATempRaiseWeapon" />
+    <input name="UAQuickReload" />
+    <input name="UAReloadMagazine" />
+    <input name="UAGear" />
+    <input name="UAUIMenu" />
+    <input name="UALeanLeft" />
+    <input name="UAEvasiveLeft" />
+    <input name="UALeanRight" />
+    <input name="UAEvasiveRight" />
+  </exclude>
+
+
+</inputs>

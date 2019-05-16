@@ -1,0 +1,24 @@
+<inputs>
+
+	<!-- main user preset (initial to create localy) -->
+	<preset name="user" file="dayz_preset_User.xml" source1="keymouse1" source2="ctrl1" main="true"/>
+
+	<!-- source keyboard and mouse -->
+	<preset name="keymouse1" file="preset_KeyMousePrimary.xml"/>
+
+	<!-- source controller -->
+	<preset name="ctrl1" file="preset_X1Primary.xml" />
+
+
+	<!-- default options -->
+	<options>
+		<item name="IRTracker_HScale" value="2" />
+		<item name="IRTracker_VScale" value="2" />
+		<item name="IRTracker" value="true" />
+		<item name="RazerChroma" value="false" />
+		<item name="InvertYAxis" value="false" />
+        <item name="MouseButtonsSwapped" value="false" />
+        <item name="PS4GuiConfirmationButtonsSwapped" value="false" />
+	</options>
+
+</inputs>

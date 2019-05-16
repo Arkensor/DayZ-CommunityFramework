@@ -24,7 +24,8 @@ class CfgMods
 		name = "Community Framework";
 		credits = "Jacob_Mango, Arkensor";
 		creditsJson = "JM/CF/Scripts/Data/Credits.json";
-		version = "JM/CF/scripts/Data/Version.hpp";
+		version = "1.0.0";
+		versionPath = "JM/CF/scripts/Data/Version.hpp";
 		author = "Jacob_Mango";
 		authorID = "76561198103677868"; 
 		extra = 0;
