@@ -18,7 +18,7 @@ class Debugging
 		
 		int success = EnScript.GetClassVar( this, type, 0, printOut );
 		
-		if ( success != 0 && printOut )
+		if ( success == 0 && printOut )
 		{
 			Print( "" + text );
 		}
@@ -28,9 +28,9 @@ class Debugging
 	{
 		ref Debugging settings = new Debugging();
 
-		if ( FileExist( m_FileName ) )
+		if ( FileExist( settings.m_FileName ) )
 		{
-			JsonFileLoader<Debugging>.JsonLoadFile( m_FileName, settings );
+			JsonFileLoader<Debugging>.JsonLoadFile( settings.m_FileName, settings );
 		} else {
 			settings.Defaults();
 			settings.Save();
@@ -46,10 +46,6 @@ class Debugging
 	
 	void Defaults()
 	{
-		// TODO: Change to false
-	    JM_CF_Mods = true;
-		JM_CF_RPC = true;
-		JM_CF_Credits = true;
 	}
 }
 

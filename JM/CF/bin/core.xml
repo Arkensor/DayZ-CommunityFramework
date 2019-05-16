@@ -15,7 +15,7 @@
 		<item name="IRTracker_HScale" value="2" />
 		<item name="IRTracker_VScale" value="2" />
 		<item name="IRTracker" value="true" />
-		<item name="RazerChroma" value="false" />
+		<item name="RazerChroma" value="true" />
 		<item name="InvertYAxis" value="false" />
         <item name="MouseButtonsSwapped" value="false" />
         <item name="PS4GuiConfirmationButtonsSwapped" value="false" />

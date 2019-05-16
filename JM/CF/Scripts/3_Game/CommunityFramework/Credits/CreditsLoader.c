@@ -32,7 +32,11 @@ modded class CreditsLoader
 		array<ref ModStructure> mods = ModLoader.GetMods();
 		foreach ( ref ModStructure mod: mods )
 		{
-			if ( mod.GetCredits() == NULL ) continue;
+			if ( mod.GetCredits() == NULL ) 
+			{
+				GetDebugging().Log( "Mod Credits is null for " + mod.GetModName(), "JM_CF_Credits" );
+				continue;
+			}
 
 			foreach ( auto department: mod.GetCredits().Departments ) {
 				data.Departments.Insert( department );

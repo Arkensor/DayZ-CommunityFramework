@@ -13,11 +13,16 @@ modded class ModLoader
 		
 		int mod_count = GetGame().ConfigGetChildrenCount( "CfgMods" );
 		
-		for( int i = 0; i < mod_count; i++ )
+		GetDebugging().Log( "Number of mods found: " + mod_count, "JM_CF_Mods" );
+		
+		for( int i = 2; i < mod_count; i++ )
 		{
 			string mod_name;
 			GetGame().ConfigGetChildName( "CfgMods", i, mod_name );
+			
 			m_Mods.Insert( new ModStructure( i, "CfgMods " + mod_name ) );
+			
+			GetDebugging().Log( "    Mod Class Name: " + mod_name, "JM_CF_Mods" );
 		}
 		
 		m_Loaded = true;
