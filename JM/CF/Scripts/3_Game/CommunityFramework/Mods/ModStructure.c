@@ -92,4 +92,44 @@ modded class ModStructure
 	{
 		return m_Credits;
 	}
+
+	string GetModPath()
+	{
+		return m_ModPath;
+	}
+	
+	string GetModName()
+	{
+		return m_ModName;
+	}
+	
+	string GetModLogo()
+	{
+		return m_ModLogo;
+	}
+	
+	string GetModLogoSmall()
+	{
+		return m_ModLogoSmall;
+	}
+	
+	string GetModLogoOver()
+	{
+		return m_ModLogoOver;
+	}
+	
+	string GetModActionURL()
+	{
+		return m_ModActionURL;
+	}
+	
+	string GetModToltip()
+	{
+		return m_ModTooltip;
+	}
+	
+	string GetModOverview()
+	{
+		return m_ModOverview;
+	}
 }

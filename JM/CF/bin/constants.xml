@@ -1,43 +1,71 @@
 <inputs version="116">
-	
 	<actions>
 		<!-- Community Online Tools -->
-		<input name="UACOTModuleFocusGame" />
-		<input name="UACOTModuleFocusUI" />
+		<input name="UACOTModuleFocusGame" visible="false" />
+		<input name="UACOTModuleFocusUI" visible="false" />
 		<input name="UACOTModuleToggleCOT" />
 		<input name="UACOTModuleToggleMenu" />
 		<input name="UACOTModuleCloseCOT" />
 		<input name="UATeleportModuleTeleportCursor" />
-		<input name="UACameraToolToggleCamera" />
+		<input name="UACameraToolEnableCamera" />>
+		<input name="UACameraToolDisableCamera" />
+
+		<!-- DayZ Expansion -->
+		<input name="UAExpHeliDiveForward" />
+		<input name="UAExpHeliDiveBackward" />
+		<input name="UAExpHeliRollLeft" />
+		<input name="UAExpHeliRollRight" />
+		<input name="UAExpHeliLiftUp" />
+		<input name="UAExpHeliLiftDown" />
+		<input name="UAExpHeliRotateLeft" />
+		<input name="UAExpHeliRotateRight" />
+		<input name="UAExpPlaneEnginePowerUp" />
+		<input name="UAExpPlaneEnginePowerDown" />
+		<input name="UAExpPlanePitchUp" />
+		<input name="UAExpPlanePitchDown" />
+		<input name="UAExpPlaneRollLeft" />
+		<input name="UAExpPlaneRollRight" />
+		<input name="UAExpPlaneRudderLeft" />
+		<input name="UAExpPlaneRudderRight" />
+		<input name="UAOpenBook" />
+		<input name="UASnappingMUp" visible="false" />
+		<input name="UASnappingMDown" visible="false" />
+		<input name="UAToggleHologramSnapping" />
+		<input name="UASwitchChatChannel" />
+		<input name="UAToggleAutoRun" />
+		<input name="UAToggleAutoRun" />
+		<input name="UATestingNotificationShow" visible="false" />
+		<input name="UATestingNotificationHide" visible="false" />
+		<input name="UATestingNotification5th" visible="false" />
 		
 		<!-- UAMoveForward == 0 !!! -->
 		<input name="UAMoveForward" loc="STR_USRACT_MOVE_FORWARD" />
 		<input name="UAMoveBack" loc="STR_USRACT_MOVE_BACK" />
-		<input name="UAMoveUp" loc="STR_USRACT_MOVE_UP" />
-		<input name="UAMoveDown" loc="STR_USRACT_MOVE_DOWN" />
+		<input name="UAMoveUp" loc="STR_USRACT_MOVE_UP" visible="false" />
+		<input name="UAMoveDown" loc="STR_USRACT_MOVE_DOWN" visible="false" />
 		<input name="UAMoveLeft" loc="STR_USRACT_TURN_LEFT" />
 		<input name="UAMoveRight" loc="STR_USRACT_TURN_RIGHT" />
-		<!--input name="UAEvasiveForward" loc="STR_USRACT_EVASIVE_FORWARD" /-->
-		<input name="UAEvasiveLeft" loc="STR_USRACT_EVASIVE_LEFT" />
-		<input name="UAEvasiveRight" loc="STR_USRACT_EVASIVE_RIGHT" />
-		<!--input name="UAEvasiveBack" loc="STR_USRACT_EVASIVE_BACK" /-->
+		<!--input name="UAEvasiveForward" loc="STR_USRACT_EVASIVE_FORWARD" visible="false" /-->
+		<input name="UAEvasiveLeft" loc="STR_USRACT_EVASIVE_LEFT" visible="false" />
+		<input name="UAEvasiveRight" loc="STR_USRACT_EVASIVE_RIGHT" visible="false" />
+		<!--input name="UAEvasiveBack" loc="STR_USRACT_EVASIVE_BACK" visible="false" /-->
 		<input name="UAStance" loc="STR_USRACT_STANCE" />
 		<input name="UAStand" loc="STR_USRACT_STAND" />
 		<input name="UACrouch" loc="STR_USRACT_CROUCH" />
 		<input name="UAProne" loc="STR_USRACT_PRONE" />
 		<input name="UALeanLeft" loc="STR_USRACT_LEAN_LEFT" />
 		<input name="UALeanRight" loc="STR_USRACT_LEAN_RIGHT" />
-		<input name="UALeanIronsightLeft" loc="STR_USRACT_LEAN_IRONSIGHT_LEFT" />
-		<input name="UALeanIronsightRight" loc="STR_USRACT_LEAN_IRONSIGHT_RIGHT" />
-		<input name="UALeanLeftToggle" loc="STR_USRACT_LEAN_LEFT_TOGGLE" />
-		<input name="UALeanRightToggle" loc="STR_USRACT_LEAN_RIGHT_TOGGLE" />
-		<input name="UAPersonCamSwitchSide" loc="STR_USRACT_PERSON_CAM_SWITCH_SIDE" />
+		<input name="UALeanIronsightLeft" loc="STR_USRACT_LEAN_IRONSIGHT_LEFT" visible="false" />
+		<input name="UALeanIronsightRight" loc="STR_USRACT_LEAN_IRONSIGHT_RIGHT" visible="false" />
+		<input name="UALeanLeftToggle" loc="STR_USRACT_LEAN_LEFT_TOGGLE" visible="false" />
+		<input name="UALeanRightToggle" loc="STR_USRACT_LEAN_RIGHT_TOGGLE" visible="false" />
+		<input name="UAPersonCamSwitchSide" loc="STR_USRACT_PERSON_CAM_SWITCH_SIDE" visible="false" />
 		<input name="UAWalkRunToggle" loc="STR_USRACT_WALK_RUN_TOGGLE" />
 		<input name="UAWalkRunTemp" loc="STR_USRACT_WALK_RUN_TEMP" />
-		<input name="UAWalkForward" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" />
-		<input name="UAWalkBack" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" />
-		<input name="UAWalkLeft" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" />
-		<input name="UAWalkRight" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" />
+		<input name="UAWalkForward" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" visible="false" />
+		<input name="UAWalkBack" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" visible="false" />
+		<input name="UAWalkLeft" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" visible="false" />
+		<input name="UAWalkRight" loc="STR_USRACT_WALK_RUN_TEMP" rangefrom="0.00" rangeto="0.55" visible="false" />
 
 		<input name="UAAimUp" loc="STR_USRACT_AIM_UP" />
 		<input name="UAAimDown" loc="STR_USRACT_AIM_DOWN" />
@@ -47,70 +75,70 @@
 		<input name="UAToggleWeapons" loc="STR_USRACT_UAToggleWeapons" />
 		<input name="UAFire" loc="STR_USRACT_FIRE" />
 		<input name="UADefaultAction" loc="STR_USRACT_ACTION" />
-		<input name="UAHeavyMeleeAttack" loc="STR_USRACT_UAHeavyMeleeAttack" />
-		<input name="UAWeaponMeleeAttack" loc="STR_USRACT_UAHeavyMeleeAttack" />
+		<input name="UAHeavyMeleeAttack" loc="STR_USRACT_UAHeavyMeleeAttack" visible="false" />
+		<input name="UAWeaponMeleeAttack" loc="STR_USRACT_UAHeavyMeleeAttack" visible="false" />
 		<input name="UAReloadMagazine" loc="STR_USRACT_RELOAD_MAGAZINE" />
 		<input name="UAQuickReload" loc="STR_USRACT_UAQuickReload" />
 		<input name="UATempRaiseWeapon" loc="STR_USRACT_TEMP_RAISE_WEAPON" />
-		<input name="UAToggleRaiseWeapon" loc="" />
-		<input name="UATempOptics" loc="" />
+		<input name="UAToggleRaiseWeapon" loc="" visible="false" />
+		<input name="UATempOptics" loc="" visible="false" />
 
 		<input name="UAAction" loc="STR_USRACT_UAAction" />
 		<input name="UAPrevAction" loc="STR_USRACT_UAPrevAction" />
 		<input name="UANextAction" loc="STR_USRACT_UANextAction" />
 
-		<input name="UAThrowitem" loc="" />
+		<input name="UAThrowitem" loc="" visible="false" />
 		<input name="UADropitem" loc="STR_USRACT_UADropItem" />
-		<input name="UAMoveItemFromHandsToInventory" loc="" />
-		<input name="UAHeadlights" loc="" />
+		<input name="UAMoveItemFromHandsToInventory" loc="" visible="false" />
+		<input name="UAHeadlights" loc="" visible="false" />
 
-		<input name="UANightVision" loc="" />
-		<input name="UAMiniMap" loc="" />
-		<input name="UAMiniMapToggle" loc="" />
-		<input name="UAShowMap" loc="" />
-		<input name="UAHideMap" loc="" />
-		<input name="UAHelp" loc="" />
+		<input name="UANightVision" loc="" visible="false" />
+		<input name="UAMiniMap" loc="" visible="false" />
+		<input name="UAMiniMapToggle" loc="" visible="false" />
+		<input name="UAShowMap" loc="" visible="false" />
+		<input name="UAHideMap" loc="" visible="false" />
+		<input name="UAHelp" loc="" visible="false" />
 
-		<input name="UAOptics" loc="" />
-		<input name="UAOpticsMode" loc="" />
+		<input name="UAOptics" loc="" visible="false" />
+		<input name="UAOpticsMode" loc="" visible="false" />
 		<input name="UAPersonView" loc="STR_USRACT_PERSON_VIEW" />
 		<input name="UAZoomIn" loc="STR_USRACT_ZOOM_IN" />
-		<input name="UAZoomInToggle" loc="STR_USRACT_ZOOM_IN" />
-		<input name="UAZoomOut" loc="" />
-		<input name="UAZoomOutToggle" loc="" />
-		<input name="UAZoomContIn" loc="" />
-		<input name="UAZoomContOut" loc="" />
+		<input name="UAZoomInToggle" loc="STR_USRACT_ZOOM_IN" visible="false" />
+		<input name="UAZoomOut" loc="" visible="false" />
+		<input name="UAZoomOutToggle" loc="" visible="false" />
+		<input name="UAZoomContIn" loc="" visible="false" />
+		<input name="UAZoomContOut" loc="" visible="false" />
 
 		<input name="UAZoomInOptics" loc="STR_USRACT_UAZoomInOptics" />
 		<input name="UAZoomOutOptics" loc="STR_USRACT_UAZoomOutOptics" />
 
 		<input name="UAZeroingUp" loc="STR_USRACT_ZEROING_UP" />
 		<input name="UAZeroingDown" loc="STR_USRACT_ZEROING_DOWN" />
-		<input name="UAToggleFlashlight" loc="" />
+		<input name="UAToggleFlashlight" loc="" visible="false" />
 		<input name="UAToggleNVG" loc="TOGGLE_NVG" />
 		<input name="UAToggleHeadlight" loc="TOGGLE_LIGHT_HEAD" />
 		
 		<input name="UALookAround" loc="STR_USRACT_ACTION_FREELOOK" />
 
-		<input name="UAPrevChannel" loc="" />
-		<input name="UANextChannel" loc="" />
+		<input name="UAPrevChannel" loc="" visible="false" />
+		<input name="UANextChannel" loc="" visible="false" />
 		<input name="UAChat" loc="STR_USRACT_CHAT" />
 		<input name="UAVoiceOverNet" loc="STR_USRACT_VOICE_OVER_NET" />
 
-		<input name="UANetworkStats" loc="" />
+		<input name="UANetworkStats" loc="" visible="false" />
 		<!-- 	//#if 1 || _ENABLE_UA_NETWORK_PLAYERS -->
-		<input name="UANetworkPlayers" loc="" />
+		<input name="UANetworkPlayers" loc="" visible="false" />
 		<!-- 	//#endif -->
-		<input name="UADSInterface" loc="" />
+		<input name="UADSInterface" loc="" visible="false" />
 			
-		<input name="UAToggleAutorun" loc="" />
+		<input name="UAToggleAutorun" loc="" visible="false" />
 		<input name="UATurbo" loc="STR_USRACT_TURBO" />
-		<input name="UAToggleTurbo" loc="STR_USRACT_UAToggleTurbo" />
+		<input name="UAToggleTurbo" loc="STR_USRACT_UAToggleTurbo" visible="false" />
 		<input name="UAVehicleTurbo" loc="STR_USRACT_VEHICLE_TURBO" />
 		<input name="UAVehicleSlow" loc="STR_USRACT_CAR_SLOW_FORWARD" />
-		<input name="UAWalk" loc="" />
+		<input name="UAWalk" loc="" visible="false" />
 		<input name="UAHoldBreath" loc="STR_USRACT_UAHoldBreath" />
-		<input name="UAHoldBreathToggle" loc="STR_USRACT_UAHoldBreath" />
+		<input name="UAHoldBreathToggle" loc="STR_USRACT_UAHoldBreath" visible="false" />
 
 		<input name="UAGestureSlot01" loc="STR_USRACT_UAGestureSlot01" />
 		<input name="UAGestureSlot02" loc="STR_USRACT_UAGestureSlot02" />
@@ -123,68 +151,68 @@
 		<input name="UAGestureSlot09" loc="STR_USRACT_UAGestureSlot09" />
 		<input name="UAGestureSlot10" loc="STR_USRACT_UAGestureSlot10" />
 		<input name="UAGestureSlot11" loc="STR_USRACT_UAGestureSlot11" />
-		<input name="UAGestureSlot12" loc="STR_USRACT_UAGestureSlot12" />
+		<input name="UAGestureSlot12" loc="STR_USRACT_UAGestureSlot12" visible="false" />
 
-		<input name="UAThrow" loc="" />
+		<input name="UAThrow" loc="" visible="false" />
 
 		<input name="UAGetOver" loc="STR_USRACT_UAGetOver" />
-		<input name="UAStandGetOver" loc="" />
-		<input name="UAIngamePause" loc="" />
-		<input name="UAMenuSelect" loc="" />
-		<input name="UAMenuBack" loc="" />
+		<input name="UAStandGetOver" loc="" visible="false" />
+		<input name="UAIngamePause" loc="" visible="false" />
+		<input name="UAMenuSelect" loc="" visible="false" />
+		<input name="UAMenuBack" loc="" visible="false" />
 
-		<input name="UAHeliUp" loc="" />
-		<input name="UAHeliDown" loc="" />
-		<input name="UAHeliLeft" loc="" />
-		<input name="UAHeliRight" loc="" />
-		<input name="UAAirBankLeft" loc="" />
-		<input name="UAAirBankRight" loc="" />
-		<input name="UAHeliRudderLeft" loc="" />
-		<input name="UAHeliRudderRight" loc="" />
-		<input name="UAHeliForward" loc="" />
-		<input name="UAHeliBack" loc="" />
-		<input name="UAHeliFastForward" loc="" />
-		<input name="UAAutoHover" loc="" />
-		<input name="UAAutoHoverCancel" loc="" />
-		<input name="UAHeliThrottlePos" loc="" />
-		<input name="UAHeliThrottleNeg" loc="" />
+		<!--input name="UAHeliUp" loc="" visible="false" />
+		<input name="UAHeliDown" loc="" visible="false" />
+		<input name="UAHeliLeft" loc="" visible="false" />
+		<input name="UAHeliRight" loc="" visible="false" />
+		<input name="UAAirBankLeft" loc="" visible="false" />
+		<input name="UAAirBankRight" loc="" visible="false" />
+		<input name="UAHeliRudderLeft" loc="" visible="false" />
+		<input name="UAHeliRudderRight" loc="" visible="false" />
+		<input name="UAHeliForward" loc="" visible="false" />
+		<input name="UAHeliBack" loc="" visible="false" />
+		<input name="UAHeliFastForward" loc="" visible="false" />
+		<input name="UAAutoHover" loc="" visible="false" />
+		<input name="UAAutoHoverCancel" loc="" visible="false" />
+		<input name="UAHeliThrottlePos" loc="" visible="false" />
+		<input name="UAHeliThrottleNeg" loc="" visible="false" />
 
-		<input name="UAHeliCyclicForward" loc="" />
-		<input name="UAHeliCyclicBack" loc="" />
-		<input name="UAHeliCyclicLeft" loc="" />
-		<input name="UAHeliCyclicRight" loc="" />
-		<input name="UAHeliCollectiveRaise" loc="" />
-		<input name="UAHeliCollectiveLower" loc="" />
-		<input name="UAHeliCollectiveRaiseCont" loc="" />
-		<input name="UAHeliCollectiveLowerCont" loc="" />
+		<input name="UAHeliCyclicForward" loc="" visible="false" />
+		<input name="UAHeliCyclicBack" loc="" visible="false" />
+		<input name="UAHeliCyclicLeft" loc="" visible="false" />
+		<input name="UAHeliCyclicRight" loc="" visible="false" />
+		<input name="UAHeliCollectiveRaise" loc="" visible="false" />
+		<input name="UAHeliCollectiveLower" loc="" visible="false" />
+		<input name="UAHeliCollectiveRaiseCont" loc="" visible="false" />
+		<input name="UAHeliCollectiveLowerCont" loc="" visible="false" />
 
-		<input name="UAHeliThrottleIncrease1" loc="" />
-		<input name="UAHeliThrottleDecrease1" loc="" />
-		<input name="UAHeliThrottleIncrease2" loc="" />
-		<input name="UAHeliThrottleDecrease2" loc="" />
-		<input name="UAHeliThrottleIncrease3" loc="" />
-		<input name="UAHeliThrottleDecrease3" loc="" />
-		<input name="UAHeliStarterToggle1" loc="" />
-		<input name="UAHeliStarterToggle2" loc="" />
-		<input name="UAHeliStarterToggle3" loc="" />
-		<input name="UAHeliBatteriesToggle" loc="" />
-		<input name="UAHeliRotorBrakeToggle" loc="" />
-		<input name="UAHeliEnginesToggle" loc="" />
-		<input name="UAHeliAPUToggle" loc="" />
-		<input name="UAHeliWheelsBrake" loc="" />
-		<input name="UAHeliTrimLeft" loc="" />
-		<input name="UAHeliTrimRight" loc="" />
-		<input name="UAHeliTrimForward" loc="" />
-		<input name="UAHeliTrimBackward" loc="" />
-		<input name="UAHeliTrimRudderLeft" loc="" />
-		<input name="UAHeliTrimRudderRight" loc="" />
-		<input name="UAEject" loc="" />
-		<input name="UALandGear" loc="" />
-		<input name="UALandGearUp" loc="" />
-		<input name="UAFlapsDown" loc="" />
-		<input name="UAFlapsUp" loc="" />
-		<input name="UAHelicopterTrimOn" loc="" />
-		<input name="UAHelicopterTrimOff" loc="" />
+		<input name="UAHeliThrottleIncrease1" loc="" visible="false" />
+		<input name="UAHeliThrottleDecrease1" loc="" visible="false" />
+		<input name="UAHeliThrottleIncrease2" loc="" visible="false" />
+		<input name="UAHeliThrottleDecrease2" loc="" visible="false" />
+		<input name="UAHeliThrottleIncrease3" loc="" visible="false" />
+		<input name="UAHeliThrottleDecrease3" loc="" visible="false" />
+		<input name="UAHeliStarterToggle1" loc="" visible="false" />
+		<input name="UAHeliStarterToggle2" loc="" visible="false" />
+		<input name="UAHeliStarterToggle3" loc="" visible="false" />
+		<input name="UAHeliBatteriesToggle" loc="" visible="false" />
+		<input name="UAHeliRotorBrakeToggle" loc="" visible="false" />
+		<input name="UAHeliEnginesToggle" loc="" visible="false" />
+		<input name="UAHeliAPUToggle" loc="" visible="false" />
+		<input name="UAHeliWheelsBrake" loc="" visible="false" />
+		<input name="UAHeliTrimLeft" loc="" visible="false" />
+		<input name="UAHeliTrimRight" loc="" visible="false" />
+		<input name="UAHeliTrimForward" loc="" visible="false" />
+		<input name="UAHeliTrimBackward" loc="" visible="false" />
+		<input name="UAHeliTrimRudderLeft" loc="" visible="false" />
+		<input name="UAHeliTrimRudderRight" loc="" visible="false" />
+		<input name="UAEject" loc="" visible="false" />
+		<input name="UALandGear" loc="" visible="false" />
+		<input name="UALandGearUp" loc="" visible="false" />
+		<input name="UAFlapsDown" loc="" visible="false" />
+		<input name="UAFlapsUp" loc="" visible="false" />
+		<input name="UAHelicopterTrimOn" loc="" visible="false" />
+		<input name="UAHelicopterTrimOff" loc="" visible="false" /-->
 
 		<input name="UACarLeft" loc="STR_USRACT_CAR_LEFT" />
 		<input name="UACarRight" loc="STR_USRACT_CAR_RIGHT" />
@@ -194,7 +222,7 @@
 		<input name="UACarShiftGearDown" loc="STR_USRACT_UACarShiftGearDown" />
 
 		<input name="UAGear" loc="STR_USRACT_GEAR" />
-		<input name="UAGetOut" loc="" />
+		<input name="UAGetOut" loc="" visible="false" />
 
 		<!-- // Buldozer actions -->
 		<input name="UABuldFreeLook" loc="" />
@@ -274,51 +302,51 @@
 		<input name="UAItem7" loc="STR_USRACT_ITEM_7" />
 		<input name="UAItem8" loc="STR_USRACT_ITEM_8" />
 		<input name="UAItem9" loc="STR_USRACT_ITEM_9" />
-		<input name="UAItemsShow" loc="" />
+		<input name="UAItemsShow" loc="" visible="false" />
 
-		<!--input name="UAAltTab" loc="" /-->
+		<!--input name="UAAltTab" loc="" visible="false" /-->
 
-		<input name="UAUISelect" loc="STR_USRACT_MENU_SELECT" />
-		<input name="UAUIBack" loc="STR_USRACT_MENU_BACK" core="true" />
-		<input name="UAUILeft" loc="STR_USRACT_MENU_LEFT" deadzone="0.55" noinvert="false" />
-		<input name="UAUIRight" loc="STR_USRACT_MENU_RIGHT" deadzone="0.55" noinvert="false" />
-		<input name="UAUIUp" loc="STR_USRACT_MENU_UP" deadzone="0.55" noinvert="false" />
-		<input name="UAUIDown" loc="STR_USRACT_MENU_DOWN" deadzone="0.55" noinvert="false" />
-		<input name="UAUIMenu" loc="STR_USRACT_UAUIMenu" core="true" />
-		<input name="UAUIDrag" loc="" />
-		<input name="UAUITabLeft" loc="STR_USRACT_UAUITabLeft" />
-		<input name="UAUITabRight" loc="STR_USRACT_UAUITabRight" />
-		<input name="UAUIRightStickHorizontal" loc="STR_USRACT_UAUIRightStickHorizontal" />
-		<input name="UAUIRightStickVertical" loc="STR_USRACT_UAUIRightStickVertical" />
-		<input name="UAUIRadialMenuPick" loc="STR_USRACT_UAUIRadialMenuPick" />
+		<input name="UAUISelect" loc="STR_USRACT_MENU_SELECT" visible="false" />
+		<input name="UAUIBack" loc="STR_USRACT_MENU_BACK" visible="false" core="true" />
+		<input name="UAUILeft" loc="STR_USRACT_MENU_LEFT" deadzone="0.55" visible="false" noinvert="false" />
+		<input name="UAUIRight" loc="STR_USRACT_MENU_RIGHT" deadzone="0.55" visible="false" noinvert="false" />
+		<input name="UAUIUp" loc="STR_USRACT_MENU_UP" deadzone="0.55" visible="false" noinvert="false" />
+		<input name="UAUIDown" loc="STR_USRACT_MENU_DOWN" deadzone="0.55" visible="false" noinvert="false" />
+		<input name="UAUIMenu" loc="STR_USRACT_UAUIMenu" visible="false" core="true" />
+		<input name="UAUIDrag" loc="" visible="false" />
+		<input name="UAUITabLeft" loc="STR_USRACT_UAUITabLeft" visible="false" />
+		<input name="UAUITabRight" loc="STR_USRACT_UAUITabRight" visible="false" />
+		<input name="UAUIRightStickHorizontal" loc="STR_USRACT_UAUIRightStickHorizontal" visible="false" />
+		<input name="UAUIRightStickVertical" loc="STR_USRACT_UAUIRightStickVertical" visible="false" />
+		<input name="UAUIRadialMenuPick" loc="STR_USRACT_UAUIRadialMenuPick" visible="false" />
 		<input name="UAUIGesturesOpen" loc="STR_USRACT_UAUIGesturesOpen" />
-		<input name="UAUIQuickbarRadialOpen" loc="STR_USRACT_UAUIQuickbarRadialOpen" />
-		<input name="UAUIQuickbarRadialInventoryOpen" loc="STR_USRACT_UAUIQuickbarRadialInventoryOpen" />
+		<input name="UAUIQuickbarRadialOpen" loc="STR_USRACT_UAUIQuickbarRadialOpen" visible="false" />
+		<input name="UAUIQuickbarRadialInventoryOpen" loc="STR_USRACT_UAUIQuickbarRadialInventoryOpen" visible="false" />
 		<input name="UAUIQuickbarToggle" loc="STR_USRACT_UI_QUICKBAR_TOGGLE" />
-		<input name="UAUINextUp" loc="STR_USRACT_UAUINextUp" />
-		<input name="UAUINextDown" loc="STR_USRACT_UAUINextDown" />
-		<input name="UAUIFastEquipOrSplit" loc="STR_USRACT_UAUIFastEquipOrSplit" />
-		<input name="UAUIFastTransferItem" loc="STR_USRACT_UAUIFastTransferItem" />
-		<input name="UAUIFastTransferToVicinity" loc="STR_USRACT_UAUIFastTransferToVicinity" />
-		<input name="UAUIExpandCollapseContainer" loc="STR_USRACT_UAUIExpandCollapseContainer" />
-		<input name="UAUISelectItem" loc="STR_USRACT_UAUISelectItem" />
-		<input name="UAUIRotateInventory" loc="todo:" />
+		<input name="UAUINextUp" loc="STR_USRACT_UAUINextUp" visible="false" />
+		<input name="UAUINextDown" loc="STR_USRACT_UAUINextDown" visible="false" />
+		<input name="UAUIFastEquipOrSplit" loc="STR_USRACT_UAUIFastEquipOrSplit" visible="false" />
+		<input name="UAUIFastTransferItem" loc="STR_USRACT_UAUIFastTransferItem" visible="false" />
+		<input name="UAUIFastTransferToVicinity" loc="STR_USRACT_UAUIFastTransferToVicinity" visible="false" />
+		<input name="UAUIExpandCollapseContainer" loc="STR_USRACT_UAUIExpandCollapseContainer" visible="false" />
+		<input name="UAUISelectItem" loc="STR_USRACT_UAUISelectItem" visible="false" />
+		<input name="UAUIRotateInventory" loc="todo:" visible="false" />
 
-		<input name="UACameraFovLookCompensationToggle" loc="" />
-		<input name="UAFreeCamLowerSensitivity" loc="" />
-		<input name="UAFreeCamRaiseSensitivity" loc="" />
+		<input name="UACameraFovLookCompensationToggle" loc="" visible="false" />
+		<input name="UAFreeCamLowerSensitivity" loc="" visible="false" />
+		<input name="UAFreeCamRaiseSensitivity" loc="" visible="false" />
 		
 		<!-- Additional configuration :: Not compatible with old actions -->
 		<input name="UAADSToggle" loc="STR_USRACT_UAADSToggle" />
-		<input name="UAUICtrlX" loc="STR_USRACT_UAUICtrlX" />
-		<input name="UAUICtrlY" loc="STR_USRACT_UAUICtrlY" />
+		<input name="UAUICtrlX" loc="STR_USRACT_UAUICtrlX" visible="false" />
+		<input name="UAUICtrlY" loc="STR_USRACT_UAUICtrlY" visible="false" />
 		
-		<input name="UATrackLeft" loc=""  />
-		<input name="UATrackRight" loc=""  />
-		<input name="UATrackUp" loc=""  />
-		<input name="UATrackDown" loc=""  />
-		<!--input name="UATrackLeanLeft" loc=""  />
-		<input name="UATrackLeanRight" loc=""  /-->
+		<input name="UATrackLeft" loc=""  visible="false" />
+		<input name="UATrackRight" loc=""  visible="false" />
+		<input name="UATrackUp" loc=""  visible="false" />
+		<input name="UATrackDown" loc=""  visible="false" />
+		<!--input name="UATrackLeanLeft" loc=""  visible="false" />
+		<input name="UATrackLeanRight" loc=""  visible="false" /-->
 	</actions>
 	
 	<!-- action with mouse range factor spceial handling - range factor eaters -->
@@ -686,6 +714,20 @@
 		<input name="UABuldRecedeAnimation" />
 		<input name="UABuldAdvanceAnimation" />
 	</group>
+	
+<!--
+	<group name="communityonlinetools" >
+		<input name="UACOTModuleFocusGame" />
+		<input name="UACOTModuleFocusUI" />
+		<input name="UACOTModuleToggleCOT" />
+		<input name="UACOTModuleToggleMenu" />
+		<input name="UACOTModuleCloseCOT" />
+		<input name="UATeleportModuleTeleportCursor" />
+		<input name="UACameraToolToggleCamera" />
+
+		<input name="UAUIMenu" />
+	</group>
+-->
 
 
 </inputs>

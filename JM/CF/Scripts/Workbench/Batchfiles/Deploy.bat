@@ -128,7 +128,6 @@ if %failed%==1 (
 	endlocal
 
 	echo Failed to package the mod.
-	pause
 	goto:eof
 )
 
@@ -137,26 +136,31 @@ set signFile="%_DAYZTOOLSPATH%\Bin\DsUtils\DSSignFile.exe"
 
 IF exist "%modBuildDirectory%%modName%\" (
 	echo Removing folder "%modBuildDirectory%%modName%\"
-	rmdir /S /Q "%modBuildDirectory%%modName%\"
+	rmdir /S /Q "%modBuildDirectory%%modName%\" > NUL
 )
 
 IF NOT exist "%modBuildDirectory%%modName%\" (
 	echo Creating folder "%modBuildDirectory%%modName%\"
-	mkdir "%modBuildDirectory%%modName%\"
+	mkdir "%modBuildDirectory%%modName%\" > NUL
 )
 
 IF NOT exist "%modBuildDirectory%%modName%\Keys\" (
 	echo Creating folder "%modBuildDirectory%%modName%\Keys\"
-	mkdir "%modBuildDirectory%%modName%\Keys\"
+	mkdir "%modBuildDirectory%%modName%\Keys\" > NUL
 )
 
 IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
 	echo Creating folder "%modBuildDirectory%%modName%\Addons\"
-	mkdir "%modBuildDirectory%%modName%\Addons\"
+	mkdir "%modBuildDirectory%%modName%\Addons\" > NUL
+)
+
+IF NOT exist "%modBuildDirectory%%modName%\dta\" (
+	echo Creating folder "%modBuildDirectory%%modName%\dta\"
+	mkdir "%modBuildDirectory%%modName%\dta\" > NUL
 )
 
 echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
-copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > nul
+copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > NUL
 
 echo Packaging %modName% PBO's
 
@@ -184,5 +188,8 @@ for /f "tokens=*" %%D in ('dir /b /s "%workDrive%%prefixLinkRoot%\*"') do (
 		)
 	)
 )
+
+copy "%modBuildDirectory%%modName%\Addons\bin.pbo" "%modBuildDirectory%%modName%\dta\" > NUL
+copy "%modBuildDirectory%%modName%\Addons\bin.pbo.%keyName%.bisign" "%modBuildDirectory%%modName%\dta\" > NUL
 
 endlocal

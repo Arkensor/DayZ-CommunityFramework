@@ -1,0 +1,61 @@
+WrapSpacerWidgetClass subgroup {
+ position 0 0
+ size 1 0
+ hexactpos 1
+ vexactpos 1
+ hexactsize 0
+ vexactsize 1
+ Padding 0
+ Margin 0
+ "Size To Content H" 1
+ "Size To Content V" 1
+ {
+  PanelWidgetClass subgroup_header {
+   visible 1
+   ignorepointer 1
+   color 0 0 0 0.9608
+   position 0 0
+   size 1 36
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   style rover_sim_colorable
+   {
+    TextWidgetClass subgroup_text {
+     visible 1
+     clipchildren 0
+     ignorepointer 1
+     position 0 0
+     size 1 22
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 1
+     style Normal
+     font "gui/fonts/sdf_MetronLight24"
+     "text offset" 20 0
+     "exact text" 0
+     "text valign" center
+    }
+   }
+  }
+  WrapSpacerWidgetClass subgroup_content {
+   ignorepointer 1
+   color 0 0 0 0.8627
+   position 0 0
+   size 1 1
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   style Colorable
+   "no focus" 1
+   Padding 8
+   Margin 4
+   "Size To Content H" 1
+   "Size To Content V" 1
+  }
+ }
+}

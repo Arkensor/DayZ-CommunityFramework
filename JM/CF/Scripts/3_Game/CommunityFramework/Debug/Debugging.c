@@ -6,6 +6,7 @@ class Debugging
     bool JM_CF_Mods;
 	bool JM_CF_RPC;
 	bool JM_CF_Credits;
+	bool JM_CF_KeyBindings;
 	
 	private void Debugging()
 	{
