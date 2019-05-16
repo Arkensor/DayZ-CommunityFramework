@@ -3,10 +3,10 @@ class ExitModTool: DayZTool
 {
 	string BatchFile;
 
-    void ExitModTool()
-    {
-        BatchFile = GetWorkDriveDirectory() + "Batchfiles\\Exit.bat";
-    }
+	void ExitModTool()
+	{
+		BatchFile = GetWorkDriveDirectory() + "Batchfiles\\Exit.bat";
+	}
 	
 	override void Run()
 	{

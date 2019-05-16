@@ -1,6 +1,6 @@
 modded class DayZTool
 {
-    override void RunDayZBat(string filepath, bool wait = false)
+	override void RunDayZBat(string filepath, bool wait = false)
 	{
 		if (filepath.Length() < 2) return;
 		
@@ -26,7 +26,7 @@ modded class DayZTool
 		
 		string path = filepath.Substring(0, last_index);
 		string bat = filepath.Substring(last_index + 1, filepath.Length() - last_index - 1);
-        
+		
 		Workbench.RunCmd("cmd /c \"chdir /D " + path + " & call " + bat + "\"", wait);
 	}
 }

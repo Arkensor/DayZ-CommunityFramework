@@ -43,17 +43,17 @@ modded class MissionGameplay
 		}
 	}
 	
-    void LoadDebugging( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
-    {
+	void LoadDebugging( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+	{
 		Print("test");
-        Param1< ref Debugging > data;
+		Param1< ref Debugging > data;
 		Print(data);
 		Print(type);
-        if ( type == CallType.Client && ctx.Read( data ) ) 
+		if ( type == CallType.Client && ctx.Read( data ) ) 
 		{
 			Print(data.param1);
 			g_Debugging = data.param1;
 			Print(g_Debugging);
 		}
-    }
+	}
 }

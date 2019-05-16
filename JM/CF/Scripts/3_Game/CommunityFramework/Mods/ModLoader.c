@@ -22,7 +22,7 @@ modded class ModLoader
 			
 			m_Mods.Insert( new ModStructure( i, "CfgMods " + mod_name ) );
 			
-			GetDebugging().Log( "    Mod Class Name: " + mod_name, "JM_CF_Mods" );
+			GetDebugging().Log( "	Mod Class Name: " + mod_name, "JM_CF_Mods" );
 		}
 		
 		m_Loaded = true;

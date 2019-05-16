@@ -3,10 +3,10 @@ class LaunchLocalMPModTool: DayZTool
 {
 	string BatchFile;
 
-    void LaunchLocalMPModTool()
-    {
-        BatchFile = GetWorkDriveDirectory() + "Batchfiles\\LaunchLocalMP.bat";
-    }
+	void LaunchLocalMPModTool()
+	{
+		BatchFile = GetWorkDriveDirectory() + "Batchfiles\\LaunchLocalMP.bat";
+	}
 	
 	override void Run()
 	{

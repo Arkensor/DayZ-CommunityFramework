@@ -3,10 +3,10 @@ class DeployModTool: DayZTool
 {
 	string BatchFile;
 
-    void DeployModTool()
-    {
-        BatchFile = GetWorkDriveDirectory() + "Batchfiles\\Deploy.bat";
-    }
+	void DeployModTool()
+	{
+		BatchFile = GetWorkDriveDirectory() + "Batchfiles\\Deploy.bat";
+	}
 	
 	override void Run()
 	{

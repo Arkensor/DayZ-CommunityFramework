@@ -3,10 +3,10 @@ class UpdateVersionModTool: DayZTool
 {
 	string BatchFile;
 
-    void UpdateVersionModTool()
-    {
-        BatchFile = GetWorkDriveDirectory() + "Batchfiles\\UpdateVersion.bat";
-    }
+	void UpdateVersionModTool()
+	{
+		BatchFile = GetWorkDriveDirectory() + "Batchfiles\\UpdateVersion.bat";
+	}
 	
 	override void Run()
 	{

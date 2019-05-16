@@ -3,7 +3,7 @@ class Debugging
 	[NonSerialized()]
 	string m_FileName;
 	
-    bool JM_CF_Mods;
+	bool JM_CF_Mods;
 	bool JM_CF_RPC;
 	bool JM_CF_Credits;
 	bool JM_CF_KeyBindings;
@@ -68,7 +68,7 @@ class Debugging
 	
 	void Send( PlayerIdentity sendTo )
 	{
-        GetRPCManager().SendRPC( "CF", "LoadDebugging", new Param1< ref Debugging >( this ), false, sendTo );
+		GetRPCManager().SendRPC( "CF", "LoadDebugging", new Param1< ref Debugging >( this ), false, sendTo );
 	}
 	
 	/**
@@ -89,10 +89,10 @@ static ref Debugging g_Debugging;
 
 static ref Debugging GetDebugging()
 {
-    if ( !g_Debugging )
-    {
-        g_Debugging = Debugging.Load();
-    }
+	if ( !g_Debugging )
+	{
+		g_Debugging = Debugging.Load();
+	}
 
-    return g_Debugging;
+	return g_Debugging;
 }

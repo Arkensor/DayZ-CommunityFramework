@@ -3,10 +3,10 @@ class LaunchOfflineModTool: DayZTool
 {
 	string BatchFile;
 
-    void LaunchOfflineModTool()
-    {
-        BatchFile = GetWorkDriveDirectory() + "Batchfiles\\LaunchOffline.bat";
-    }
+	void LaunchOfflineModTool()
+	{
+		BatchFile = GetWorkDriveDirectory() + "Batchfiles\\LaunchOffline.bat";
+	}
 	
 	override void Run()
 	{

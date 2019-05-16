@@ -1,28 +1,28 @@
 {
-    "Departments": [
-        {
-            "DepartmentName": "Community Framework",
-            "Sections": [
-                {
-                    "SectionName": "Developers",
-                    "SectionLines": [
-                        "Jacob_Mango",
-                        "Arkensor",
-                        "AWOL",
-                        "DirtySanchez"
-                    ]
-                },
-                {
-                    "SectionName": "Thank you to",
-                    "SectionLines": [
-                        "Kegan Hollern",
-                        "DannyDog",
-                        "Sumrak",
-                        "Epoch Mod Team",
-                        "Expansion Mod Team"
-                    ]
-                }
-            ]
-        }
-    ]
+	"Departments": [
+		{
+			"DepartmentName": "Community Framework",
+			"Sections": [
+				{
+					"SectionName": "Developers",
+					"SectionLines": [
+						"Jacob_Mango",
+						"Arkensor",
+						"AWOL",
+						"DirtySanchez"
+					]
+				},
+				{
+					"SectionName": "Thank you to",
+					"SectionLines": [
+						"Kegan Hollern",
+						"DannyDog",
+						"Sumrak",
+						"Epoch Mod Team",
+						"Expansion Mod Team"
+					]
+				}
+			]
+		}
+	]
 }

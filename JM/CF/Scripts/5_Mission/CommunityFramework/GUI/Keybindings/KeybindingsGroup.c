@@ -1,6 +1,6 @@
 modded class KeybindingsGroup
 {
-    void KeybindingsGroup( int index, Input input, Widget parent, KeybindingsMenu menu )
+	void KeybindingsGroup( int index, Input input, Widget parent, KeybindingsMenu menu )
 	{
 		Widget subgroup	= m_Root.FindAnyWidget( "group_content" );
 
@@ -9,18 +9,18 @@ modded class KeybindingsGroup
 		
 		for( int i = 0; i < GetReadableInputs().Mods.Count(); i++ )
 		{
-            ReadableMod mod = GetReadableInputs().Mods.Get( i );
-            bool display = GetGame().ConfigIsExisting( "CfgMods " + mod.ModClassName );
+			ReadableMod mod = GetReadableInputs().Mods.Get( i );
+			bool display = GetGame().ConfigIsExisting( "CfgMods " + mod.ModClassName );
 
-		    TIntArray tempActions = new TIntArray;
+			TIntArray tempActions = new TIntArray;
 
 			AddCFSubgroup( subgroup, input, mod, display, actions, tempActions );
 
-            actions.Clear();
-            actions.Copy( tempActions );
+			actions.Clear();
+			actions.Copy( tempActions );
 		}
 
-        AddDayZSubgroup( subgroup, input, actions );
+		AddDayZSubgroup( subgroup, input, actions );
 		
 		subgroup.Update();
 		
@@ -29,68 +29,68 @@ modded class KeybindingsGroup
 
 	void AddCFAction( int index, Widget parent, Input input, string displayName )
 	{
-        ref KeybindingElement ele = new ref KeybindingElement( index, parent, this );
-        ele.R_WasSet = true;
-        ele.R_DisplayName = displayName;
-        ele.Reload();
+		ref KeybindingElement ele = new ref KeybindingElement( index, parent, this );
+		ele.R_WasSet = true;
+		ele.R_DisplayName = displayName;
+		ele.Reload();
 		m_KeyWidgets.Insert( index, ele );
 	}
 
-    override void AddSubgroup( /*int index, */Widget parent, Input input )
+	override void AddSubgroup( /*int index, */Widget parent, Input input )
 	{
-        // does nothing
-    }
+		// does nothing
+	}
 
 	void AddCFSubgroup( Widget parent, Input input, ReadableMod mod, bool display, TIntArray inActions, out TIntArray remainingActions )
 	{
-        Widget subgroup_content;
+		Widget subgroup_content;
 
-        if ( display )
-        {
-            Widget subgroup = GetGame().GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/keybinding_subgroup.layout", parent );
-            TextWidget subgroup_name = TextWidget.Cast( subgroup.FindAnyWidget( "subgroup_text" ) );
+		if ( display )
+		{
+			Widget subgroup = GetGame().GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/keybinding_subgroup.layout", parent );
+			TextWidget subgroup_name = TextWidget.Cast( subgroup.FindAnyWidget( "subgroup_text" ) );
 
-            string modDisplayName = "";
-            GetGame().ConfigGetText( "CfgMods " + mod.ModClassName + " name", modDisplayName );
+			string modDisplayName = "";
+			GetGame().ConfigGetText( "CfgMods " + mod.ModClassName + " name", modDisplayName );
 
-            subgroup_name.SetText( modDisplayName );
-            subgroup_content = subgroup.FindAnyWidget( "subgroup_content" );
-        }
+			subgroup_name.SetText( modDisplayName );
+			subgroup_content = subgroup.FindAnyWidget( "subgroup_content" );
+		}
 		
 		GetDebugging().Log( "Attempting: " + mod.ModClassName, "JM_CF_KeyBindings" );
 
 		for ( int i = 0; i < inActions.Count(); i++ )
 		{
-            string displayName = "";
-            bool found = false;
-            for ( int j = 0; j < mod.Inputs.Count(); j++ )
-            {
-                int id = GetUApi().GetInputByName( mod.Inputs[j].InputName ).ID();
-                if ( id == inActions[i] )
-                {
-                    displayName = mod.Inputs[j].DisplayName;
-                    found = true;
-                }
-            }
+			string displayName = "";
+			bool found = false;
+			for ( int j = 0; j < mod.Inputs.Count(); j++ )
+			{
+				int id = GetUApi().GetInputByName( mod.Inputs[j].InputName ).ID();
+				if ( id == inActions[i] )
+				{
+					displayName = mod.Inputs[j].DisplayName;
+					found = true;
+				}
+			}
 
-            if ( found )
-            {
-                if ( display )
-                {
-			        AddCFAction( inActions.Get( i ), subgroup_content, input, displayName );
-                }
-            } else
-            {
-                remainingActions.Insert( inActions.Get( i ) );
-            }
+			if ( found )
+			{
+				if ( display )
+				{
+					AddCFAction( inActions.Get( i ), subgroup_content, input, displayName );
+				}
+			} else
+			{
+				remainingActions.Insert( inActions.Get( i ) );
+			}
 
-		    // GetDebugging().Log( "  Found: " + found, "JM_CF_KeyBindings" );
+			// GetDebugging().Log( "  Found: " + found, "JM_CF_KeyBindings" );
 		}
 		
-        if ( display )
-        {
-		    subgroup_content.Update();
-        }
+		if ( display )
+		{
+			subgroup_content.Update();
+		}
 	}
 
 	void AddDayZSubgroup( Widget parent, Input input, TIntArray inActions )
