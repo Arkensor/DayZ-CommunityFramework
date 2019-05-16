@@ -26,6 +26,15 @@
 			]
 		},
 		{
+			"ModClassName": "DayZExpansionChat",
+			"Inputs": [
+				{
+					"InputName": "UASwitchChatChannel",
+					"DisplayName": "Switch Chat Channel"
+				}
+			]
+		},
+		{
 			"ModClassName": "DayZExpansion",
 			"Inputs": [
 				{
