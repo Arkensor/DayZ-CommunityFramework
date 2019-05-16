@@ -32,7 +32,6 @@
 		<input name="UAToggleHologramSnapping" />
 		<input name="UASwitchChatChannel" />
 		<input name="UAToggleAutoRun" />
-		<input name="UAToggleAutoRun" />
 		<input name="UATestingNotificationShow" visible="false" />
 		<input name="UATestingNotificationHide" visible="false" />
 		<input name="UATestingNotification5th" visible="false" />

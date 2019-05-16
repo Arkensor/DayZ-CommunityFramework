@@ -624,4 +624,81 @@
 	<input name="UACameraToolToggleCamera">
 		<btn name="kInsert" />
 	</input>
+
+	<!-- DayZ Expansion -->
+	<input name="UAExpHeliDiveForward">
+		<btn name="kW" />
+	</input>
+	<input name="UAExpHeliDiveBackward">
+		<btn name="kS" />
+	</input>
+	<input name="UAExpHeliRollLeft">
+		<btn name="kA" />
+	</input>
+	<input name="UAExpHeliRollRight">
+		<btn name="kD" />
+	</input>
+	<input name="UAExpHeliLiftUp">
+		<btn name="kLShift" />
+	</input>
+	<input name="UAExpHeliLiftDown">
+		<btn name="kZ" />
+	</input>
+	<input name="UAExpHeliRotateLeft">
+		<btn name="kQ" />
+	</input>
+	<input name="UAExpHeliRotateRight">
+		<btn name="kE" />
+	</input>
+	<input name="UAExpPlaneEnginePowerUp">
+		<btn name="kLShift" />
+	</input>
+	<input name="UAExpPlaneEnginePowerDown">
+		<btn name="kZ" />
+	</input>
+	<input name="UAExpPlanePitchUp">
+		<btn name="kS" />
+	</input>
+	<input name="UAExpPlanePitchDown">
+		<btn name="kW" />
+	</input>
+	<input name="UAExpPlaneRollLeft">
+		<btn name="kA" />
+	</input>
+	<input name="UAExpPlaneRollRight">
+		<btn name="kD" />
+	</input>
+	<input name="UAExpPlaneRudderLeft">
+		<btn name="kQ" />
+	</input>
+	<input name="UAExpPlaneRudderRight">
+		<btn name="kE" />
+	</input>
+	<input name="UAOpenBook">
+		<btn name="kM" />
+	</input>
+	<input name="UASnappingMUp">
+		<btn name="mWheelUp" />
+	</input>
+	<input name="UASnappingMDown">
+		<btn name="mWheelDown" />
+	</input>
+	<input name="UAToggleHologramSnapping">
+		<btn name="kX" />
+	</input>
+	<input name="UASwitchChatChannel">
+		<btn name="kComma" />
+	</input>
+	<input name="UAToggleAutoRun">
+		<btn name="kZ" />
+	</input>
+	<input name="UATestingNotificationShow">
+		<btn name="kJ" />
+	</input>
+	<input name="UATestingNotificationHide">
+		<btn name="kK" />
+	</input>
+	<input name="UATestingNotification5th">
+		<btn name="kL" />
+	</input>
 </preset>
