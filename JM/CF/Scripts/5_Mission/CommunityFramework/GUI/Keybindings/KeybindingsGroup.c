@@ -6,11 +6,12 @@ modded class KeybindingsGroup
 
 		TIntArray actions = new TIntArray;
 		GetUApi().GetActiveInputs( actions );
-		
-		for( int i = 0; i < GetReadableInputs().Mods.Count(); i++ )
+
+		for( int i = 0; i < ModLoader.GetMods().Count(); i++ )
 		{
-			ReadableMod mod = GetReadableInputs().Mods.Get( i );
-			bool display = GetGame().ConfigIsExisting( "CfgMods " + mod.ModClassName );
+			ModStructure mod = ModLoader.GetMods().Get( i );
+
+			bool display = GetGame().ConfigIsExisting( mod.GetModPath() + " inputs" );
 
 			TIntArray tempActions = new TIntArray;
 
@@ -41,7 +42,7 @@ modded class KeybindingsGroup
 		// does nothing
 	}
 
-	void AddCFSubgroup( Widget parent, Input input, ReadableMod mod, bool display, TIntArray inActions, out TIntArray remainingActions )
+	void AddCFSubgroup( Widget parent, Input input, ModStructure mod, bool display, TIntArray inActions, out TIntArray remainingActions )
 	{
 		Widget subgroup_content;
 
@@ -51,24 +52,25 @@ modded class KeybindingsGroup
 			TextWidget subgroup_name = TextWidget.Cast( subgroup.FindAnyWidget( "subgroup_text" ) );
 
 			string modDisplayName = "";
-			GetGame().ConfigGetText( "CfgMods " + mod.ModClassName + " name", modDisplayName );
+			GetGame().ConfigGetText( mod.GetModPath() + " name", modDisplayName );
 
 			subgroup_name.SetText( modDisplayName );
 			subgroup_content = subgroup.FindAnyWidget( "subgroup_content" );
 		}
 		
-		GetDebugging().Log( "Attempting: " + mod.ModClassName, "JM_CF_KeyBindings" );
+		GetDebugging().Log( "Attempting: " + mod.GetModPath(), "JM_CF_KeyBindings" );
 
 		for ( int i = 0; i < inActions.Count(); i++ )
 		{
 			string displayName = "";
 			bool found = false;
-			for ( int j = 0; j < mod.Inputs.Count(); j++ )
+
+			for ( int j = 0; j < mod.GetModInputs().Count(); j++ )
 			{
-				int id = GetUApi().GetInputByName( mod.Inputs[j].InputName ).ID();
+				int id = GetUApi().GetInputByName( mod.GetModInputs()[j].Name ).ID();
 				if ( id == inActions[i] )
 				{
-					displayName = mod.Inputs[j].DisplayName;
+					displayName = mod.GetModInputs()[j].Localization;
 					found = true;
 				}
 			}

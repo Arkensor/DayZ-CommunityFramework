@@ -1,5 +1,7 @@
 modded class ModStructure
 {
+	protected ref array< ref ModInput > m_ModInputs = new array< ref ModInput >;
+
 	protected ref JsonDataCredits m_Credits;
 	
 	protected string m_Version;
@@ -85,9 +87,22 @@ modded class ModStructure
 			}
 			
 			GetDebugging().Log( "	Mod version is " + m_Version, "JM_CF_Mods" );
+
+			if ( GetGame().ConfigIsExisting( m_ModPath + " inputs" ) )
+			{
+				string inputPath;
+				GetGame().ConfigGetText( m_ModPath + " inputs", inputPath );
+
+				// parse the xml file...
+			}
 		}
 	}
 	
+	ref array< ref ModInput > GetModInputs()
+	{
+		return m_ModInputs;
+	}
+
 	ref JsonDataCredits GetCredits()
 	{
 		return m_Credits;

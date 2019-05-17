@@ -2,7 +2,7 @@ modded class ModLoader
 {	
 	override static array<ref ModStructure> GetMods()
 	{
-		//if( !m_Loaded )
+		if( !m_Loaded )
 			LoadMods();
 		return m_Mods;
 	}
