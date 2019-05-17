@@ -154,10 +154,10 @@ IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
 	mkdir "%modBuildDirectory%%modName%\Addons\" > NUL
 )
 
-IF NOT exist "%modBuildDirectory%%modName%\dta\" (
-	echo Creating folder "%modBuildDirectory%%modName%\dta\"
-	mkdir "%modBuildDirectory%%modName%\dta\" > NUL
-)
+REM IF NOT exist "%modBuildDirectory%%modName%\dta\" (
+REM 	echo Creating folder "%modBuildDirectory%%modName%\dta\"
+REM 	mkdir "%modBuildDirectory%%modName%\dta\" > NUL
+REM )
 
 echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
 copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > NUL
@@ -189,7 +189,7 @@ for /f "tokens=*" %%D in ('dir /b /s "%workDrive%%prefixLinkRoot%\*"') do (
 	)
 )
 
-copy "%modBuildDirectory%%modName%\Addons\bin.pbo" "%modBuildDirectory%%modName%\dta\" > NUL
-copy "%modBuildDirectory%%modName%\Addons\bin.pbo.%keyName%.bisign" "%modBuildDirectory%%modName%\dta\" > NUL
+REM copy "%modBuildDirectory%%modName%\Addons\bin.pbo" "%modBuildDirectory%%modName%\dta\" > NUL
+REM copy "%modBuildDirectory%%modName%\Addons\bin.pbo.%keyName%.bisign" "%modBuildDirectory%%modName%\dta\" > NUL
 
 endlocal
