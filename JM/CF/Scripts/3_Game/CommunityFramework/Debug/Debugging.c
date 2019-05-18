@@ -47,7 +47,7 @@ class Debugging
 		bool found = Modes.Find( type, shouldPrintOut );
 		
 		if ( found && shouldPrintOut )
-			Print( "" + text );
+			Print( type + ": " + text );
 	}
 	
 	void Err( string text, string type )
@@ -60,7 +60,7 @@ class Debugging
 		//bool found = Modes.Find( type, shouldPrintOut );
 		
 		//if ( found && shouldPrintOut )
-			Error( "" + text );
+			Error( type + ": " + text );
 	}
 	
 	static ref Debugging Load()
