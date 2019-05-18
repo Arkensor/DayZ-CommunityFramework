@@ -45,10 +45,10 @@ modded class MissionGameplay
 	
 	void LoadDebugging( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
-		Param1< ref Debugging > data;
+		Param1< ref CFLogger > data;
 		if ( type == CallType.Client && ctx.Read( data ) ) 
 		{
-			g_Debugging = data.param1;
+			g_CFLogger = data.param1;
 		}
 	}
 }

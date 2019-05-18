@@ -192,4 +192,4 @@ chdir /d "%serverDirectory%"
 echo start %serverEXE% %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -port=%port% "-profiles=%serverProfileDirectory%" -password=%password% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mission=%mission%" "-mod=%modList%"
 start %serverEXE% %serverLaunchParams% -scrAllowFileWrite -config=serverDZ.cfg -port=%port% "-profiles=%serverProfileDirectory%" -password=%password% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mission=%mission%" "-mod=%modList%"
 
-TIMEOUT /T 5 /NOBREAK
+endlocal

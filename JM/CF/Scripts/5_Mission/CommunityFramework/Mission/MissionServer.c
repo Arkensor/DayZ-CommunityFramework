@@ -45,7 +45,7 @@ modded class MissionServer
 	{
 		super.InvokeOnConnect( player, identity );
 		
-		GetDebugging().Send( identity );
+		GetLogger().Send( identity );
 	}
 
 }

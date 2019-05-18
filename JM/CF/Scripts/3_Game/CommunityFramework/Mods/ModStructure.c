@@ -14,11 +14,11 @@ modded class ModStructure
 
 		if ( GetGame().ConfigIsExisting( m_ModPath ) )
 		{
-			GetDebugging().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
+			GetLogger().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
 			
 			if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
 			{
-				GetDebugging().Log( "	Found JSON Credits", "JM_CF_Mods" );
+				GetLogger().Log( "	Found JSON Credits", "JM_CF_Mods" );
 				
 				string creditsPath;
 				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
@@ -26,48 +26,51 @@ modded class ModStructure
 				JsonFileLoader<ref JsonDataCredits>.JsonLoadFile( creditsPath, m_Credits );
 			} else if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
 			{
-				GetDebugging().Log( "	Using Raw Credits", "JM_CF_Mods" );
+				GetLogger().Log( "	Using Raw Credits", "JM_CF_Mods" );
 				
 				string credits = "";
 
 				m_Credits = new ref JsonDataCredits;
 				m_Credits.Departments = new array< ref JsonDataCreditsDepartment >;
 
-				GetGame().ConfigGetText( m_ModPath + " credits", credits );
-
 				ref JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
 				mod_department_header.Sections = new array<ref JsonDataCreditsSection>;
 				mod_department_header.DepartmentName = "				" + m_ModName;
 
+				string author = "";
 				bool hasAuthor = GetGame().ConfigIsExisting( m_ModPath + " author" );
-				GetDebugging().Log( "	Has author: " + hasAuthor, "JM_CF_Mods" );
-				if ( hasAuthor )
+				GetGame().ConfigGetText( m_ModPath + " author", author );
+
+				GetLogger().Log( "	Has author: " + hasAuthor, "JM_CF_Mods" );
+				GetLogger().Log( "	Author: " + author, "JM_CF_Mods" );
+				if ( hasAuthor && author != "" )
 				{
-					string author = "";
-					
 					ref JsonDataCreditsSection mod_section_modheader_author = new JsonDataCreditsSection;
 					mod_section_modheader_author.SectionLines = new array<string>;
 					mod_section_modheader_author.SectionName = ( "Author" );
-					
-					GetGame().ConfigGetText( m_ModPath + " author", author );
 					
 					mod_section_modheader_author.SectionLines.Insert( author );
 					
 					mod_department_header.Sections.Insert( mod_section_modheader_author );
 				}
 				
-				ref JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
-				mod_section_modheader.SectionLines = new array<string>;
-				mod_section_modheader.SectionName = ( "Credits" );
-				
-				array<string> creditsArray = new array<string>;
-				credits.Split(", ", creditsArray);
-				foreach ( string credit: creditsArray )
+				GetGame().ConfigGetText( m_ModPath + " credits", credits );
+				GetLogger().Log( "	Credits: " + credits, "JM_CF_Mods" );
+				if ( credits != "" )
 				{
-					mod_section_modheader.SectionLines.Insert( credit );
+					ref JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
+					mod_section_modheader.SectionLines = new array<string>;
+					mod_section_modheader.SectionName = ( "Credits" );
+					
+					array<string> creditsArray = new array<string>;
+					credits.Split(", ", creditsArray);
+					foreach ( string credit: creditsArray )
+					{
+						mod_section_modheader.SectionLines.Insert( credit );
+					}
+					
+					mod_department_header.Sections.Insert( mod_section_modheader );
 				}
-				
-				mod_department_header.Sections.Insert( mod_section_modheader );
 
 				m_Credits.Departments.Insert( mod_department_header );
 			} else
@@ -91,7 +94,7 @@ modded class ModStructure
 				GetGame().ConfigGetText( m_ModPath + " version", m_Version );
 			}
 			
-			GetDebugging().Log( "	Mod version is " + m_Version, "JM_CF_Mods" );
+			GetLogger().Log( "	Mod version is " + m_Version, "JM_CF_Mods" );
 
 			if ( GetGame().ConfigIsExisting( m_ModPath + " inputs" ) )
 			{
@@ -119,7 +122,7 @@ modded class ModStructure
 
 				bool isInRightPlace = false;
 
-				GetDebugging().Log( "Formatting XML file!", "JM_CF_Mods" );
+				GetLogger().Log( "Formatting XML file!", "JM_CF_Mods" );
 				ref array<string> rawInputs = new array<string>;
 				for ( int i = 0; i < m_XMLData.Count(); ++i )
 				{
@@ -140,10 +143,10 @@ modded class ModStructure
 					{
 						xmlLine.TrimInPlace();
 						rawInputs.Insert( xmlLine );
-						GetDebugging().Log( "	" + xmlLine, "JM_CF_Mods" );
+						GetLogger().Log( "	" + xmlLine, "JM_CF_Mods" );
 					}
 				}
-				GetDebugging().Log( "Finished XML file!", "JM_CF_Mods" );
+				GetLogger().Log( "Finished XML file!", "JM_CF_Mods" );
 
 				for (int x = 0; x < rawInputs.Count(); ++x)
 				{
@@ -155,9 +158,9 @@ modded class ModStructure
 					int localisationIndex = rawInput.IndexOfFrom( 0, "loc=" );
 					int visibleIndex = rawInput.IndexOfFrom( 0, "visible=" );
 
-					GetDebugging().Log( "nameIndex: " + nameIndex, "JM_CF_Mods" );
-					GetDebugging().Log( "localisationIndex: " + localisationIndex, "JM_CF_Mods" );
-					GetDebugging().Log( "visibleIndex: " + visibleIndex, "JM_CF_Mods" );
+					GetLogger().Log( "nameIndex: " + nameIndex, "JM_CF_Mods" );
+					GetLogger().Log( "localisationIndex: " + localisationIndex, "JM_CF_Mods" );
+					GetLogger().Log( "visibleIndex: " + visibleIndex, "JM_CF_Mods" );
 
 					int startQuotation = -1;
 					int endQuotation = -1;
@@ -167,12 +170,12 @@ modded class ModStructure
 						startQuotation = rawInput.IndexOfFrom( nameIndex, "\"" );
 						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
 
-						GetDebugging().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
-						GetDebugging().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
+						GetLogger().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
+						GetLogger().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
 
 						modInput.Name = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
 
-						GetDebugging().Log( "modInput.Name: " + modInput.Name, "JM_CF_Mods" );
+						GetLogger().Log( "modInput.Name: " + modInput.Name, "JM_CF_Mods" );
 
 						startQuotation = -1;
 						endQuotation = -1;
@@ -183,12 +186,12 @@ modded class ModStructure
 						startQuotation = rawInput.IndexOfFrom( localisationIndex, "\"" );
 						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
 
-						GetDebugging().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
-						GetDebugging().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
+						GetLogger().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
+						GetLogger().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
 
 						modInput.Localization = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
 
-						GetDebugging().Log( "modInput.Localization: " + modInput.Localization, "JM_CF_Mods" );
+						GetLogger().Log( "modInput.Localization: " + modInput.Localization, "JM_CF_Mods" );
 
 						startQuotation = -1;
 						endQuotation = -1;
@@ -202,20 +205,20 @@ modded class ModStructure
 						startQuotation = rawInput.IndexOfFrom( visibleIndex, "\"" );
 						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
 
-						GetDebugging().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
-						GetDebugging().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
+						GetLogger().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
+						GetLogger().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
 
 						string visBool = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
 						visBool.ToLower();
 
-						GetDebugging().Log( "visBool: " + visBool, "JM_CF_Mods" );
+						GetLogger().Log( "visBool: " + visBool, "JM_CF_Mods" );
 
 						if ( visBool.Contains( "true" ) )
 							modInput.Visible = true;
 						else if ( visBool.Contains( "false" ) )
 							modInput.Visible = false;
 
-						GetDebugging().Log( "modInput.Visible: " + modInput.Visible, "JM_CF_Mods" );
+						GetLogger().Log( "modInput.Visible: " + modInput.Visible, "JM_CF_Mods" );
 
 						startQuotation = -1;
 						endQuotation = -1;

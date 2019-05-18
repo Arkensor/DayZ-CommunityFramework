@@ -192,4 +192,4 @@ chdir /d "%gameDirectory%"
 echo start %clientEXE% %clientLaunchParams% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mod=%modList%"
 start %clientEXE% %clientLaunchParams% -dologs -adminlog -freezecheck -scriptDebug=true -cpuCount=4 "-mod=%modList%"
 
-TIMEOUT /T 5 /NOBREAK
+endlocal

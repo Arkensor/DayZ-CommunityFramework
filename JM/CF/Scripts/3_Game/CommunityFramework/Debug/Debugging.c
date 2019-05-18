@@ -1,18 +1,18 @@
-class Debugging
+class CFLogger
 {
 	[NonSerialized()]
 	static ref ScriptInvoker OnUpdate = new ScriptInvoker;
 
 	[NonSerialized()]
-	string m_FileName;
+	protected string m_FileName;
 
 	bool EnableDebug;
 
 	autoptr map< string, bool > Modes = new ref map< string, bool >;
 	
-	protected void Debugging()
+	void CFLogger()
 	{
-		m_FileName = "$profile:Debugging.json";
+		m_FileName = "$profile:CFLogger.json";
 
 		Modes.Insert( "JM_CF_Mods", false );
 		Modes.Insert( "JM_CF_RPC", false );
@@ -20,7 +20,7 @@ class Debugging
 		Modes.Insert( "JM_CF_KeyBindings", false );
 	}
 
-	void Copy( ref Debugging cpy )
+	void Copy( ref CFLogger cpy )
 	{
 		EnableDebug = cpy.EnableDebug;
 
@@ -63,16 +63,16 @@ class Debugging
 			Error( type + ": " + text );
 	}
 	
-	static ref Debugging Load()
+	static ref CFLogger Load()
 	{
-		ref Debugging settings = new Debugging();
+		ref CFLogger settings = new CFLogger();
 		
 		if ( GetGame().IsClient() )
 			return settings;
 
 		if ( FileExist( settings.m_FileName ) )
 		{
-			JsonFileLoader<Debugging>.JsonLoadFile( settings.m_FileName, settings );
+			JsonFileLoader<CFLogger>.JsonLoadFile( settings.m_FileName, settings );
 		} else {
 			settings.Defaults();
 			settings.Save();
@@ -83,7 +83,7 @@ class Debugging
 
 	void Save()
 	{
-		JsonFileLoader<Debugging>.JsonSaveFile( m_FileName, this );
+		JsonFileLoader<CFLogger>.JsonSaveFile( m_FileName, this );
 	}
 	
 	void Defaults()
@@ -92,14 +92,14 @@ class Debugging
 	
 	void Send( PlayerIdentity sendTo )
 	{
-		GetRPCManager().SendRPC( "CF", "LoadDebugging", new Param1< ref Debugging >( this ), false, sendTo );
+		GetRPCManager().SendRPC( "CF", "LoadDebugging", new Param1< ref CFLogger >( this ), false, sendTo );
 	}
 	
 	/**
 	\brief Saves and sends the debugging information
 		@code
-			GetDebugging().JM_CF_Mods = true;
-			GetDebugging().Update();
+			GetLogger().JM_CF_Mods = true;
+			GetLogger().Update();
 		@endcode
 	*/
 	void Update()
@@ -114,14 +114,14 @@ class Debugging
 	}
 }
 
-static ref Debugging g_Debugging;
+static ref CFLogger g_CFLogger;
 
-static ref Debugging GetDebugging()
+static ref CFLogger GetLogger()
 {
-	if ( !g_Debugging )
+	if ( !g_CFLogger )
 	{
-		g_Debugging = Debugging.Load();
+		g_CFLogger = CFLogger.Load();
 	}
 
-	return g_Debugging;
+	return g_CFLogger;
 }
