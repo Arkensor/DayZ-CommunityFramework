@@ -1,6 +1,6 @@
 modded class ModStructure
 {
-	protected ref array< ref ModInput > m_ModInputs = new array< ref ModInput >;
+	protected ref array< ref ModInput > m_ModInputs;
 
 	protected ref JsonDataCredits m_Credits;
 	
@@ -9,6 +9,8 @@ modded class ModStructure
 	override void LoadData()
 	{
 		super.LoadData();
+
+		m_ModInputs = new ref array< ref ModInput >;
 
 		if ( GetGame().ConfigIsExisting( m_ModPath ) )
 		{
@@ -68,6 +70,9 @@ modded class ModStructure
 				mod_department_header.Sections.Insert( mod_section_modheader );
 
 				m_Credits.Departments.Insert( mod_department_header );
+			} else
+			{
+				m_Credits = new ref JsonDataCredits;
 			}
 			
 			if ( GetGame().ConfigIsExisting( m_ModPath + " versionPath" ) )
@@ -92,8 +97,135 @@ modded class ModStructure
 			{
 				string inputPath;
 				GetGame().ConfigGetText( m_ModPath + " inputs", inputPath );
+				
+				string C_START = "<input";
+				string C_END = "/>";
 
-				// parse the xml file...
+				string ACTION_OPEN = "<actions>";
+				string ACTION_CLOSE = "</actions>";
+
+				array<string> m_XMLData = new array<string>;
+
+				FileHandle currentFile = OpenFile( inputPath, FileMode.READ);
+				string line_content = "";
+				if ( currentFile != 0 )
+				{
+					while ( FGets( currentFile, line_content ) >= 0 )
+					{
+						m_XMLData.Insert( line_content );
+					}
+					CloseFile( currentFile );
+				}
+
+				bool isInRightPlace = false;
+
+				GetDebugging().Log( "Formatting XML file!", "JM_CF_Mods" );
+				ref array<string> rawInputs = new array<string>;
+				for ( int i = 0; i < m_XMLData.Count(); ++i )
+				{
+					string xmlLine = m_XMLData[i];
+
+					if ( xmlLine.Contains( ACTION_CLOSE ) && isInRightPlace )
+					{
+						break;
+					}
+
+					if ( xmlLine.Contains( ACTION_OPEN ) )
+					{
+						isInRightPlace = true;
+						continue;
+					}
+
+					if ( isInRightPlace )
+					{
+						xmlLine.TrimInPlace();
+						rawInputs.Insert( xmlLine );
+						GetDebugging().Log( "	" + xmlLine, "JM_CF_Mods" );
+					}
+				}
+				GetDebugging().Log( "Finished XML file!", "JM_CF_Mods" );
+
+				for (int x = 0; x < rawInputs.Count(); ++x)
+				{
+					ref ModInput modInput = new ref ModInput;
+
+					string rawInput = rawInputs[x];
+					
+					int nameIndex = rawInput.IndexOfFrom( 0, "name=" );
+					int localisationIndex = rawInput.IndexOfFrom( 0, "loc=" );
+					int visibleIndex = rawInput.IndexOfFrom( 0, "visible=" );
+
+					GetDebugging().Log( "nameIndex: " + nameIndex, "JM_CF_Mods" );
+					GetDebugging().Log( "localisationIndex: " + localisationIndex, "JM_CF_Mods" );
+					GetDebugging().Log( "visibleIndex: " + visibleIndex, "JM_CF_Mods" );
+
+					int startQuotation = -1;
+					int endQuotation = -1;
+
+					if ( nameIndex >= 0 )
+					{
+						startQuotation = rawInput.IndexOfFrom( nameIndex, "\"" );
+						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
+
+						GetDebugging().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
+						GetDebugging().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
+
+						modInput.Name = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
+
+						GetDebugging().Log( "modInput.Name: " + modInput.Name, "JM_CF_Mods" );
+
+						startQuotation = -1;
+						endQuotation = -1;
+					}
+
+					if ( localisationIndex >= 0 )
+					{
+						startQuotation = rawInput.IndexOfFrom( localisationIndex, "\"" );
+						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
+
+						GetDebugging().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
+						GetDebugging().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
+
+						modInput.Localization = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
+
+						GetDebugging().Log( "modInput.Localization: " + modInput.Localization, "JM_CF_Mods" );
+
+						startQuotation = -1;
+						endQuotation = -1;
+					} else
+					{
+						modInput.Localization = modInput.Name;
+					}
+
+					if ( visibleIndex >= 0 )
+					{
+						startQuotation = rawInput.IndexOfFrom( visibleIndex, "\"" );
+						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
+
+						GetDebugging().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
+						GetDebugging().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
+
+						string visBool = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
+						visBool.ToLower();
+
+						GetDebugging().Log( "visBool: " + visBool, "JM_CF_Mods" );
+
+						if ( visBool.Contains( "true" ) )
+							modInput.Visible = true;
+						else if ( visBool.Contains( "false" ) )
+							modInput.Visible = false;
+
+						GetDebugging().Log( "modInput.Visible: " + modInput.Visible, "JM_CF_Mods" );
+
+						startQuotation = -1;
+						endQuotation = -1;
+					} else 
+					{
+						modInput.Visible = true;
+					}
+
+					m_ModInputs.Insert( modInput );
+				}
 			}
 		}
 	}
