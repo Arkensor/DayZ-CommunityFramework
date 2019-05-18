@@ -1,42 +1,66 @@
 class Debugging
 {
 	[NonSerialized()]
+	static ref ScriptInvoker OnUpdate = new ScriptInvoker;
+
+	[NonSerialized()]
 	string m_FileName;
+
+	bool EnableDebug;
+
+	autoptr map< string, bool > Modes = new ref map< string, bool >;
 	
-	bool JM_CF_Mods;
-	bool JM_CF_RPC;
-	bool JM_CF_Credits;
-	bool JM_CF_KeyBindings;
-	
-	private void Debugging()
+	protected void Debugging()
 	{
 		m_FileName = "$profile:Debugging.json";
+
+		Modes.Insert( "JM_CF_Mods", false );
+		Modes.Insert( "JM_CF_RPC", false );
+		Modes.Insert( "JM_CF_Credits", false );
+		Modes.Insert( "JM_CF_KeyBindings", false );
+	}
+
+	void Copy( ref Debugging cpy )
+	{
+		EnableDebug = cpy.EnableDebug;
+
+		for ( int i = 0; i < cpy.Modes.Count(); i++)
+		{
+			string name = cpy.Modes.GetKey( i );
+
+			if ( Modes.Contains( name ) )
+			{
+				Modes.Set( name, cpy.Modes.GetElement( i ) );
+			}
+		}
+
+		Update();
 	}
 
 	void Log( string text, string type )
 	{
-		bool printOut = false;
+		if ( !EnableDebug )
+			return
+
+		bool shouldPrintOut = false;
 		
-		int success = EnScript.GetClassVar( this, type, 0, printOut );
+		bool found = Modes.Find( type, shouldPrintOut );
 		
-		if ( success == 0 && printOut )
-		{
+		if ( found && shouldPrintOut )
 			Print( "" + text );
-		}
 	}
 	
 	void Err( string text, string type )
 	{
-		bool printOut = false;
+		//if ( !EnableDebug )
+		//	return
+
+		//bool shouldPrintOut = false;
 		
-		int success = EnScript.GetClassVar( this, type, 0, printOut );
+		//bool found = Modes.Find( type, shouldPrintOut );
 		
-		if ( success == 0 && printOut )
-		{
-			Print( "" + text );
-		}
-		
-		Error( "" + text );
+		//if ( found && shouldPrintOut )
+			Error( "" + text );
 	}
 	
 	static ref Debugging Load()
@@ -80,8 +104,13 @@ class Debugging
 	*/
 	void Update()
 	{
-		Send( NULL );
-		Save();
+		if ( GetGame().IsServer() )
+		{
+			Send( NULL );
+			Save();
+		}
+
+		OnUpdate.Invoke();
 	}
 }
 
