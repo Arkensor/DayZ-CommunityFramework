@@ -16,11 +16,12 @@ class CFLogger
 
 		Modes.Insert( "JM_CF_Mods", false );
 		Modes.Insert( "JM_CF_RPC", false );
+		Modes.Insert( "JM_CF_RPC_Client", false );
 		Modes.Insert( "JM_CF_Credits", false );
 		Modes.Insert( "JM_CF_KeyBindings", false );
 	}
 
-	void Copy( ref CFLogger cpy )
+	void Copy( CFLogger cpy )
 	{
 		EnableDebug = cpy.EnableDebug;
 
@@ -37,16 +38,25 @@ class CFLogger
 		Update();
 	}
 
+	bool IsOn( string type )
+	{
+		if ( !EnableDebug )
+			return false;
+
+		bool on = false;
+
+		if ( Modes.Find( type, on ) )
+			return on;
+
+		return false;
+	}
+
 	void Log( string text, string type )
 	{
 		if ( !EnableDebug )
 			return
-
-		bool shouldPrintOut = false;
 		
-		bool found = Modes.Find( type, shouldPrintOut );
-		
-		if ( found && shouldPrintOut )
+		if ( IsOn( type ) )
 			Print( type + ": " + text );
 	}
 	
@@ -55,11 +65,7 @@ class CFLogger
 		//if ( !EnableDebug )
 		//	return
 
-		//bool shouldPrintOut = false;
-		
-		//bool found = Modes.Find( type, shouldPrintOut );
-		
-		//if ( found && shouldPrintOut )
+		//if ( IsOn( type ) )
 			Error( type + ": " + text );
 	}
 	
@@ -73,6 +79,8 @@ class CFLogger
 		if ( FileExist( settings.m_FileName ) )
 		{
 			JsonFileLoader<CFLogger>.JsonLoadFile( settings.m_FileName, settings );
+			
+			OnUpdate.Invoke();
 		} else {
 			settings.Defaults();
 			settings.Save();
@@ -92,7 +100,7 @@ class CFLogger
 	
 	void Send( PlayerIdentity sendTo )
 	{
-		GetRPCManager().SendRPC( "CF", "LoadDebugging", new Param1< ref CFLogger >( this ), false, sendTo );
+		GetRPCManager().SendRPC( "CF", "SetCFLogger", new Param1< ref CFLogger >( this ), false, sendTo );
 	}
 	
 	/**

@@ -6,7 +6,7 @@ modded class MissionGameplay
 	{
 		m_bLoaded = false;
 		
-		GetRPCManager().AddRPC( "CF", "LoadDebugging", this, SingeplayerExecutionType.Client );
+		GetRPCManager().AddRPC( "CF", "SetCFLogger", this, SingeplayerExecutionType.Client );
 	}
 
 	void ~MissionGameplay()
@@ -43,12 +43,13 @@ modded class MissionGameplay
 		}
 	}
 	
-	void LoadDebugging( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+	void SetCFLogger( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
 		Param1< ref CFLogger > data;
 		if ( type == CallType.Client && ctx.Read( data ) ) 
 		{
-			g_CFLogger = data.param1;
+			GetLogger().Copy( data.param1 );
+			GetLogger().Update();
 		}
 	}
 }

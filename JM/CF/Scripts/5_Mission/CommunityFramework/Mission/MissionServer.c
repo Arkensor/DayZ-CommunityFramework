@@ -3,7 +3,7 @@ modded class MissionServer
 	protected bool m_bLoaded;
 
 	void MissionServer()
-	{		
+	{
 		m_bLoaded = false;
 	}
 
