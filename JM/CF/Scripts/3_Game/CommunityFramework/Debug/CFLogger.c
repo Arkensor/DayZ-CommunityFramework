@@ -60,13 +60,15 @@ class CFLogger
 			Print( type + ": " + text );
 	}
 	
-	void Err( string text, string type )
+	void Err( string text, string type, bool stackTrce = true )
 	{
-		//if ( !EnableDebug )
-		//	return
-
-		//if ( IsOn( type ) )
+		if ( stackTrce )
+		{
 			Error( type + ": " + text );
+		} else 
+		{
+			Print( type + ": " + text );
+		}
 	}
 	
 	static ref CFLogger Load()

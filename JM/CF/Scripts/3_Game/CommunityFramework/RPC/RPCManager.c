@@ -110,7 +110,7 @@ class RPCManager
 	void OnUpdate( float timeSlice )
 	{
 		string str = "";
-		bool anyChanged = false
+		bool anyChanged = false;
 
 		if ( m_AmountPreviousSent != m_AmountSent )
 		{
@@ -199,7 +199,7 @@ class RPCManager
 		Param2< string, string > metaData;
 		if ( !ctx.Read( metaData ) )
 		{
-			GetLogger().Err( "Failed reading the RPC metadata!", m_UpdateChecker );
+			GetLogger().Err( "Failed reading the RPC metadata!", m_UpdateChecker, false );
 			return;
 		}
 
@@ -253,11 +253,11 @@ class RPCManager
 				}
 			} else
 			{
-				GetLogger().Err( modName + "::" + funcName + " does not exist as an RPC function!", m_UpdateChecker );
+				GetLogger().Err( recievedFrom + " tried sending " + modName + "::<" + funcName + "> which does not seem to exist!", m_UpdateChecker, false );
 			}
 		} else
 		{
-			GetLogger().Err( modName + " does not exist as an RPC mod!", m_UpdateChecker );
+			GetLogger().Err( recievedFrom + " tried sending <" + modName + ">::" + funcName + " which does not seem to exist!", m_UpdateChecker, false );
 		}
 	}
 
@@ -267,10 +267,18 @@ class RPCManager
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
 		
-		string sendTo = "everyone";
+		string sendTo = "server";
 
-		if ( GetGame().IsServer() && GetGame().IsMultiplayer() && sendToIdentity != NULL )
-			sendTo = sendToIdentity.GetPlainId();
+		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
+		{
+			if ( sender == NULL )
+			{
+				sendTo = "everyone";
+			} else 
+			{
+				sendTo = sender.GetPlainId();
+			}
+		}
 
 		GetLogger().Log( "Sending RPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
@@ -307,10 +315,18 @@ class RPCManager
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
 
-		string sendTo = "everyone";
+		string sendTo = "server";
 
-		if ( GetGame().IsServer() && GetGame().IsMultiplayer() && sendToIdentity != NULL )
-			sendTo = sendToIdentity.GetPlainId();
+		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
+		{
+			if ( sender == NULL )
+			{
+				sendTo = "everyone";
+			} else 
+			{
+				sendTo = sender.GetPlainId();
+			}
+		}
 
 		GetLogger().Log( "Sending MRPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
@@ -328,7 +344,7 @@ class RPCManager
 					
 					if ( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
 					{
-						GetLogger().Err( modName + "::" + funcName + " does not support \"SingleplayerExecutionType.Both\" when using RPCManager::SendRPCs, use RPCManager::SendRPC instead!", m_UpdateChecker );
+						GetLogger().Err( modName + "::" + funcName + " does not support \"SingleplayerExecutionType.Both\" when using RPCManager::SendRPCs, use RPCManager::SendRPC instead!", m_UpdateChecker, false );
 					}
 				}
 			}
