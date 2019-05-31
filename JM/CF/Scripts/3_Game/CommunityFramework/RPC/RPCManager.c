@@ -271,12 +271,12 @@ class RPCManager
 
 		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
 		{
-			if ( sender == NULL )
+			if ( sendToIdentity == NULL )
 			{
 				sendTo = "everyone";
 			} else 
 			{
-				sendTo = sender.GetPlainId();
+				sendTo = sendToIdentity.GetPlainId();
 			}
 		}
 
@@ -319,12 +319,12 @@ class RPCManager
 
 		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
 		{
-			if ( sender == NULL )
+			if ( sendToIdentity == NULL )
 			{
 				sendTo = "everyone";
 			} else 
 			{
-				sendTo = sender.GetPlainId();
+				sendTo = sendToIdentity.GetPlainId();
 			}
 		}
 
