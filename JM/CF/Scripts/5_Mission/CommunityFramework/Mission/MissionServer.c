@@ -36,9 +36,9 @@ modded class MissionServer
 		{
 			m_bLoaded = true;
 			OnMissionLoaded();
-		} else {
-			super.OnUpdate( timeslice );
 		}
+		
+		super.OnUpdate( timeslice );
 	}
 
 	override void InvokeOnConnect( PlayerBase player, PlayerIdentity identity)

@@ -38,9 +38,9 @@ modded class MissionGameplay
 		{
 			m_bLoaded = true;
 			OnMissionLoaded();
-		} else {
-			super.OnUpdate( timeslice );
 		}
+
+		super.OnUpdate( timeslice );
 	}
 	
 	void SetCFLogger( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
