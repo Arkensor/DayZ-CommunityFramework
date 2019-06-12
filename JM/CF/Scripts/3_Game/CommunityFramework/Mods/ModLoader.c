@@ -1,6 +1,6 @@
 modded class ModLoader
 {
-	autoptr map< string, string > m_LoadedMods = new map< string, string >;
+	protected static autoptr map< string, string > m_LoadedMods = new map< string, string >;
 
 	override static array< ref ModStructure > GetMods()
 	{
