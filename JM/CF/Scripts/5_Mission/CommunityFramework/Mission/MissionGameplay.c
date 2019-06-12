@@ -7,6 +7,8 @@ modded class MissionGameplay
 		m_bLoaded = false;
 		
 		GetRPCManager().AddRPC( "CF", "SetCFLogger", this, SingeplayerExecutionType.Client );
+
+		GetRPCManager().AddRPC( "CF", "SendModList", this, SingeplayerExecutionType.Client );
 	}
 
 	void ~MissionGameplay()
@@ -50,6 +52,15 @@ modded class MissionGameplay
 		{
 			GetLogger().Copy( data.param1 );
 			GetLogger().Update();
+		}
+	}
+
+	void SendModList( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
+	{
+		Param1< autoptr map< string, string > > data;
+		if ( type == CallType.Client && ctx.Read( data ) ) 
+		{
+			GetRPCManager().SendRPC( "CF", "RecieveModList", new Param1< autoptr map< string, string > >( ModLoader.GetModMetaData() ), false, NULL );
 		}
 	}
 }

@@ -282,4 +282,9 @@ modded class ModStructure
 	{
 		return m_ModOverview;
 	}
+
+	string GetModVersion()
+	{
+		return m_Version;
+	}
 }
