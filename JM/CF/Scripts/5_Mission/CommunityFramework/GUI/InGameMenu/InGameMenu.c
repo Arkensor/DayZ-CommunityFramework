@@ -5,8 +5,8 @@ modded class InGameMenu
 
 	protected int m_StartUserID = 104245;
 
-	protected ref array< ref ButtonWidget > m_Buttons = new ref array< ref ButtonWidget >;
-	protected ref array< ref InGameMenuButton > m_ButtonHandlers = new ref array< ref InGameMenuButton >;
+	protected autoptr array< ref ButtonWidget > m_Buttons = new array< ref ButtonWidget >;
+	protected autoptr array< ref InGameMenuButton > m_ButtonHandlers = new array< ref InGameMenuButton >;
 	
 	void InGameMenu()
 	{
@@ -36,7 +36,8 @@ modded class InGameMenu
 	{
 		EnterScriptedMenu( MENU_CREDITS );
 	}
-
+	
+	/*
 	override Widget Init()
 	{
 		m_Root = GetGame().GetWorkspace().CreateWidgets( m_MainLayoutFileLocation );
@@ -77,18 +78,6 @@ modded class InGameMenu
 			button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( m_ButtonLayoutFileLocation, m_Root.FindAnyWidget( "top" ) ) );
 			button.SetUserID( m_StartUserID + i );
 			ButtonSetText( button, data.GetText() );
-			
-/*
-			if ( data.DisableWhen() == 2 && !( GetGame().CanRespawnPlayer() || ( player && player.IsUnconscious() ) ) )
-			{
-				button.Enable(false);
-			}
-
-			if ( data.DisableWhen() == 1 && ( GetGame().CanRespawnPlayer() || ( player && player.IsUnconscious() ) ) )
-			{
-				button.Enable(false);
-			}
-*/
 
 			m_Buttons.Insert( button );
 		}
@@ -129,4 +118,5 @@ modded class InGameMenu
 
 		return super.OnClick( w, x, y, button );
 	}
+	*/
 }
