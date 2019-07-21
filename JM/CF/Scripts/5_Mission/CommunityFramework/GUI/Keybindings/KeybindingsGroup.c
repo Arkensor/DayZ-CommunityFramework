@@ -69,8 +69,13 @@ modded class KeybindingsGroup
 			{
 				int id = GetUApi().GetInputByName( mod.GetModInputs()[j].Name ).ID();
 				if ( id == inActions[i] )
-				{
-					displayName = mod.GetModInputs()[j].Localization;
+				{ 
+					displayName = Widget.TranslateString( "#" + mod.GetModInputs()[j].Localization );
+					int hashSymbol = displayName.IndexOf( " " );
+					if ( hashSymbol < 1 )
+					{
+						displayName = mod.GetModInputs()[j].Localization;
+					}
 					found = true;
 				}
 			}

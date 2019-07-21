@@ -141,7 +141,7 @@ modded class ModStructure
 
 					if ( isInRightPlace )
 					{
-						xmlLine.TrimInPlace();
+						//xmlLine.TrimInPlace();
 						rawInputs.Insert( xmlLine );
 						GetLogger().Log( "	" + xmlLine, "JM_CF_Mods" );
 					}
