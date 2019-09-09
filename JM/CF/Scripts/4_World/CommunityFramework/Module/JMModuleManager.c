@@ -443,15 +443,20 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		GetLogger().Log( "JMModuleManager::OnClientDisconnected()", "JM_COT_ModuleFramework" );
 
+		bool handled = false;
+
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientDisconnected( player, identity, logoutTime, authFailed ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() )
 			{
-				return true;
+				if ( m_Modules.GetElement( i ).OnClientDisconnected( player, identity, logoutTime, authFailed ) )
+				{
+					handled = true;
+				}
 			}
 		}
 
-		return false;
+		return handled;
 	}
 }
 

@@ -40,24 +40,24 @@ class CFLogger
 
 	bool IsOn( string type )
 	{
-		if ( !EnableDebug )
-			return false;
-
-		bool on = false;
-
-		if ( Modes.Find( type, on ) )
-			return on;
+		//if ( !EnableDebug )
+		//	return false;
+		//
+		//bool on = false;
+		//
+		//if ( Modes.Find( type, on ) )
+		//	return on;
 
 		return false;
 	}
 
 	void Log( string text, string type )
 	{
-		if ( !EnableDebug )
-			return
-		
-		if ( IsOn( type ) )
-			Print( type + ": " + text );
+		//if ( !EnableDebug )
+		//	return
+		//
+		//if ( IsOn( type ) )
+		//	Print( type + ": " + text );
 	}
 	
 	void Err( string text, string type, bool stackTrce = true )
