@@ -1,6 +1,6 @@
-class JMModuleConstructor: JMModuleConstructorBase
+class JMModuleConstructor extends JMModuleConstructorBase
 {
-    override void RegisterModules( TTypenameArray modules )
+    override void RegisterModules( out array< typename > modules )
 	{
         super.RegisterModules( modules );
     }

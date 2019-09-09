@@ -48,6 +48,8 @@ class JMModuleManager: JMModuleManagerBase
 		{
 			RegisterModule( m_Modules.GetElement( i ) );
 		}
+
+		Print_DumpModules();
 	}
 
 	override void OnSettingsUpdated()
@@ -58,7 +60,10 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			m_Modules.GetElement( i ).OnSettingsUpdated();
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				m_Modules.GetElement( i ).OnSettingsUpdated();
+			}
 		}
 	}
 
@@ -70,7 +75,10 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			m_Modules.GetElement( i ).OnMissionStart();
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				m_Modules.GetElement( i ).OnMissionStart();
+			}
 		}
 	}
 
@@ -82,7 +90,10 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			m_Modules.GetElement( i ).OnMissionFinish();
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				m_Modules.GetElement( i ).OnMissionFinish();
+			}
 		}
 	}
 
@@ -94,7 +105,10 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			m_Modules.GetElement( i ).OnMissionLoaded();
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				m_Modules.GetElement( i ).OnMissionLoaded();
+			}
 		}
 	}
 
@@ -119,7 +133,7 @@ class JMModuleManager: JMModuleManagerBase
 		{
 			JMModuleBase module = m_Modules.GetElement( i );
 
-			if ( !module.IsPreventingInput() && ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) )
+			if ( module.IsEnabled() && !module.IsPreventingInput() && ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) )
 			{
 				for ( int kb = 0; kb < module.GetBindings().Count(); kb++ )
 				{
@@ -200,7 +214,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnWorldCleanup() )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnWorldCleanup() )
 			{
 				return true;
 			}
@@ -218,7 +232,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnMPSessionStart() )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionStart() )
 			{
 				return true;
 			}
@@ -236,7 +250,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnMPSessionPlayerReady() )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionPlayerReady() )
 			{
 				return true;
 			}
@@ -254,7 +268,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnMPSessionFail() )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionFail() )
 			{
 				return true;
 			}
@@ -272,7 +286,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnMPSessionEnd() )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionEnd() )
 			{
 				return true;
 			}
@@ -290,7 +304,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnMPConnectAbort() )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPConnectAbort() )
 			{
 				return true;
 			}
@@ -308,7 +322,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnMPConnectionLost( duration ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPConnectionLost( duration ) )
 			{
 				return true;
 			}
@@ -326,7 +340,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnRespawn( time ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnRespawn( time ) )
 			{
 				return true;
 			}
@@ -341,7 +355,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientLogoutCancelled( player, identity ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientLogoutCancelled( player, identity ) )
 			{
 				return true;
 			}
@@ -356,7 +370,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientNew( player, identity, pos, ctx ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientNew( player, identity, pos, ctx ) )
 			{
 				return true;
 			}
@@ -371,7 +385,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientReady( player, identity ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientReady( player, identity ) )
 			{
 				return true;
 			}
@@ -386,7 +400,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
 			{
 				return true;
 			}
@@ -401,7 +415,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientReconnect( player, identity ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientReconnect( player, identity ) )
 			{
 				return true;
 			}
@@ -416,7 +430,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientRespawn( player, identity ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientRespawn( player, identity ) )
 			{
 				return true;
 			}
@@ -431,7 +445,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).OnClientDisconnected( player, identity, logoutTime, authFailed ) )
+			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientDisconnected( player, identity, logoutTime, authFailed ) )
 			{
 				return true;
 			}

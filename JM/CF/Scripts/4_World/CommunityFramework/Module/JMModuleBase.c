@@ -50,6 +50,24 @@ class JMModuleBase
 		return m_PreventInput;
 	}
 
+	/**
+	 * Can't change dynamically, only used on module init, if false 
+	 * and is mission host, the module is destroyed and forgotten.
+	 */
+	bool IsServer()
+	{
+		return true;
+	}
+
+	/**
+	 * Can't change dynamically, only used on module init, if false 
+	 * and is mission client, the module is destroyed and forgotten.
+	 */
+	bool IsClient()
+	{
+		return true;
+	}
+
 	void RegisterKeyMouseBindings() 
 	{
 	}
@@ -73,8 +91,13 @@ class JMModuleBase
 		return m_Bindings;
 	}
 
-	// Override events 
+	// Events 
 
+	/**
+	 * Is called every mission frame
+	 * 
+	 * @timeslice time of previous update
+	 */
 	void OnUpdate( float timeslice ) 
 	{
 	}
@@ -95,76 +118,121 @@ class JMModuleBase
 	{
 	}
 
+	/**
+	 * See: WorldCleaupEventTypeID
+	 */
 	bool OnWorldCleanup()
 	{
 		return false;
 	}
 
+	/**
+	 * See: MPSessionStartEventTypeID
+	 */
 	bool OnMPSessionStart()
 	{
 		return false;
 	}
 
+	/**
+	 * See: MPSessionPlayerReadyEventTypeID
+	 */
 	bool OnMPSessionPlayerReady()
 	{
 		return false;
 	}
 
+	/**
+	 * See: MPSessionFailEventTypeID
+	 */
 	bool OnMPSessionFail()
 	{
 		return false;
 	}
 
+	/**
+	 * See: MPSessionEndEventTypeID
+	 */
 	bool OnMPSessionEnd()
 	{
 		return false;
 	}
 
+	/**
+	 * See: ConnectingAbortEventTypeID
+	 */
 	bool OnMPConnectAbort()
 	{
 		return false;
 	}
 
+	/**
+	 * See: MPConnectionLostEventTypeID
+	 */
 	bool OnMPConnectionLost( int duration )
 	{
 		return false;
 	}
 
+	/**
+	 * See: RespawnEventTypeID
+	 */
 	bool OnRespawn( int time )
 	{
 		return false;
 	}
 
+	/**
+	 * See: LogoutCancelEventTypeID
+	 */
 	bool OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
 		return false;
 	}
 
+	/**
+	 * See: ClientNewEventTypeID
+	 */
 	bool OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
 		return false;
 	}
 
+	/**
+	 * See: ClientRespawnEventTypeID
+	 */
 	bool OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
 		return false;
 	}
 
+	/**
+	 * See: ClientReadyEventTypeID
+	 */
 	bool OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
 		return false;
 	}
 
+	/**
+	 * See: ClientPrepareEventTypeID
+	 */
 	bool OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
 		return false;
 	}
 
+	/**
+	 * See: ClientReconnectEventTypeID
+	 */
 	bool OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
 		return false;
 	}
 
+	/**
+	 * See: ClientDisconnectedEventTypeID
+	 */
 	bool OnClientDisconnected( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
 		return false;
