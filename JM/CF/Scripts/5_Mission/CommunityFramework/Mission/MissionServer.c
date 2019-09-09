@@ -6,14 +6,11 @@ modded class MissionServer
 	{
 		m_bLoaded = false;
 
-		CreateModuleManager();
-
 		GetRPCManager().AddRPC( "CF", "RecieveModList", this, SingeplayerExecutionType.Server );
 	}
 
 	void ~MissionServer()
 	{
-        DestroyModuleManager();
 	}
 
 	override void OnInit()
@@ -25,10 +22,7 @@ modded class MissionServer
 	{
 		super.OnMissionStart();
 
-		GetModuleManager().ConstructModules( new JMModuleConstructor );
-		GetModuleManager().RegisterModules();
-		GetModuleManager().OnInit();
-		GetModuleManager().ReloadSettings();
+		GetModuleManager().OnSettingsUpdated();
 		GetModuleManager().OnMissionStart();
 	}
 
@@ -97,9 +91,10 @@ modded class MissionServer
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-		super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
-
-		GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
+		if ( !GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
+		{
+			super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
+		}
 	}
 
 	override void InvokeOnConnect( PlayerBase player, PlayerIdentity identity)

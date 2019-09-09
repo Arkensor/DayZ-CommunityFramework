@@ -6,9 +6,9 @@ modded class DayZGame
 
 	override void DeferredInit()
 	{
+		super.DeferredInit();
+
 		GetRPCManager();
 		GetLogger();
-
-		super.DeferredInit();
 	}
 }

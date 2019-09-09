@@ -73,21 +73,15 @@ class JMModuleBase
 		return m_Bindings;
 	}
 
-	// Override functions 
-	
+	// Override events 
+
 	void OnUpdate( float timeslice ) 
 	{
 	}
 
-	void ReloadSettings()
+	void OnSettingsUpdated()
 	{
 	}
-
-	void OnClientPermissionsUpdated()
-	{
-	}
-	
-	/* Mission Functions */
 	
 	void OnMissionStart()
 	{
@@ -99,6 +93,46 @@ class JMModuleBase
 	
 	void OnMissionLoaded()
 	{
+	}
+
+	bool OnWorldCleanup()
+	{
+		return false;
+	}
+
+	bool OnMPSessionStart()
+	{
+		return false;
+	}
+
+	bool OnMPSessionPlayerReady()
+	{
+		return false;
+	}
+
+	bool OnMPSessionFail()
+	{
+		return false;
+	}
+
+	bool OnMPSessionEnd()
+	{
+		return false;
+	}
+
+	bool OnMPConnectAbort()
+	{
+		return false;
+	}
+
+	bool OnMPConnectionLost( int duration )
+	{
+		return false;
+	}
+
+	bool OnRespawn( int time )
+	{
+		return false;
 	}
 
 	bool OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )

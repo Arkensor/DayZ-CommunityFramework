@@ -42,12 +42,12 @@ class CfgMods
 			};
 			class worldScriptModule
 			{
-				value = "";
+				value = "";//"CFWorldMain";
 				files[] = {"JM/CF/Scripts/4_World"};
 			};
 			class missionScriptModule
 			{
-				value = "";
+				value = "CFMissionMain";
 				files[] = {"JM/CF/Scripts/5_Mission"};
 			};
 		};
