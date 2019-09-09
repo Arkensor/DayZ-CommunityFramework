@@ -101,6 +101,8 @@ class JMModuleManager: JMModuleManagerBase
 	override void OnUpdate( float timeslice )
 	{
 		super.OnUpdate( timeslice );
+		
+		GetLogger().Log( "JMModuleManager::OnUpdate()", "JM_COT_ModuleFramework" );
 
 		bool inputIsFocused = false;
 
