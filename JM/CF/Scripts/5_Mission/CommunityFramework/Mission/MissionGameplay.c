@@ -5,6 +5,8 @@ modded class MissionGameplay
 	void MissionGameplay()
 	{
 		m_bLoaded = false;
+
+		CreateModuleManager();
 		
 		GetRPCManager().AddRPC( "CF", "SetCFLogger", this, SingeplayerExecutionType.Client );
 
@@ -13,6 +15,7 @@ modded class MissionGameplay
 
 	void ~MissionGameplay()
 	{
+        DestroyModuleManager();
 	}
 
 	override void OnInit()
@@ -23,26 +26,37 @@ modded class MissionGameplay
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
+
+		GetModuleManager().ConstructModules( new JMModuleConstructor );
+		GetModuleManager().RegisterModules();
+		GetModuleManager().OnInit();
+		GetModuleManager().ReloadSettings();
+		GetModuleManager().OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
+
+		GetModuleManager().OnMissionFinish();
 	}
 
 	void OnMissionLoaded()
 	{
+		GetModuleManager().OnMissionLoaded();
 	}
 
 	override void OnUpdate( float timeslice )
 	{
-		if( !m_bLoaded && !GetDayZGame().IsLoading() )
+		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
 		{
 			m_bLoaded = true;
 			OnMissionLoaded();
 		}
-
+		
 		super.OnUpdate( timeslice );
+
+		GetModuleManager().OnUpdate( timeslice );
 	}
 	
 	void SetCFLogger( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )

@@ -6,11 +6,14 @@ modded class MissionServer
 	{
 		m_bLoaded = false;
 
+		CreateModuleManager();
+
 		GetRPCManager().AddRPC( "CF", "RecieveModList", this, SingeplayerExecutionType.Server );
 	}
 
 	void ~MissionServer()
 	{
+        DestroyModuleManager();
 	}
 
 	override void OnInit()
@@ -21,26 +24,82 @@ modded class MissionServer
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
+
+		GetModuleManager().ConstructModules( new JMModuleConstructor );
+		GetModuleManager().RegisterModules();
+		GetModuleManager().OnInit();
+		GetModuleManager().ReloadSettings();
+		GetModuleManager().OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
+
+		GetModuleManager().OnMissionFinish();
 	}
 
 	void OnMissionLoaded()
 	{
+		GetModuleManager().OnMissionLoaded();
 	}
 
 	override void OnUpdate( float timeslice )
 	{
-		if( !m_bLoaded && !GetDayZGame().IsLoading() )
+		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
 		{
 			m_bLoaded = true;
 			OnMissionLoaded();
 		}
 		
 		super.OnUpdate( timeslice );
+
+		GetModuleManager().OnUpdate( timeslice );
+	}
+
+	override void OnClientReadyEvent( PlayerIdentity identity, PlayerBase player )
+	{
+		super.OnClientReadyEvent( identity, player );
+
+		GetModuleManager().OnClientReady( player, identity );
+	}
+	
+	override void OnClientReconnectEvent( PlayerIdentity identity, PlayerBase player )
+	{
+		super.OnClientReconnectEvent( identity, player );
+
+		GetModuleManager().OnClientReconnect( player, identity );
+	}
+	
+	override void OnClientRespawnEvent( PlayerIdentity identity, PlayerBase player )
+	{
+		super.OnClientRespawnEvent( identity, player );
+
+		GetModuleManager().OnClientRespawn( player, identity );
+	}
+	
+	override void OnClientDisconnectedEvent( PlayerIdentity identity, PlayerBase player, int logoutTime, bool authFailed )
+	{
+		super.OnClientDisconnectedEvent( identity, player, logoutTime, authFailed );
+
+		GetModuleManager().OnClientDisconnected( player, identity, logoutTime, authFailed );
+	}
+
+	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
+	{
+		if ( !GetModuleManager().OnClientNew( m_player, identity, pos, ctx ) )
+		{
+			return super.OnClientNewEvent( identity, pos, ctx );
+		}
+
+		return m_player;
+	}
+
+	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
+	{
+		super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
+
+		GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
 	}
 
 	override void InvokeOnConnect( PlayerBase player, PlayerIdentity identity)
