@@ -1,3 +1,7 @@
+
+
+static bool DISABLE_ALL_INPUT = false;
+
 class JMModuleManager: JMModuleManagerBase
 {
 	protected autoptr map< typename, ref JMModuleBase > m_Modules;
