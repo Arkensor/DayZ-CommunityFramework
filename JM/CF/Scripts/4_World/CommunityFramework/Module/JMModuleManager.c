@@ -4,12 +4,12 @@ class JMModuleManager: JMModuleManagerBase
 
 	void JMModuleManager()
 	{
-		GetLogger().Log( "JMModuleManager::JMModuleManager()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::JMModuleManager()", "JM_COT_ModuleFramework" );
 	}
 
 	void ~JMModuleManager()
 	{
-		GetLogger().Log( "JMModuleManager::~JMModuleManager()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::~JMModuleManager()", "JM_COT_ModuleFramework" );
 	}
 
 	void ConstructModules( JMModuleConstructorBase construct )
@@ -42,7 +42,7 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		super.RegisterModules();
 
-		GetLogger().Log( "JMModuleManager::RegisterModules()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::RegisterModules()", "JM_COT_ModuleFramework" );
         
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -56,7 +56,7 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		super.OnSettingsUpdated();
 
-		GetLogger().Log( "JMModuleManager::OnSettingsUpdated()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnSettingsUpdated()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -71,7 +71,7 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		super.OnMissionStart();
 
-		GetLogger().Log( "JMModuleManager::OnMissionStart()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMissionStart()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -86,7 +86,7 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		super.OnMissionFinish();
 
-		GetLogger().Log( "JMModuleManager::OnMissionFinish()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMissionFinish()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -101,7 +101,7 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		super.OnMissionLoaded();
 
-		GetLogger().Log( "JMModuleManager::OnMissionLoaded()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMissionLoaded()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -116,7 +116,7 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		super.OnUpdate( timeslice );
 		
-		GetLogger().Log( "JMModuleManager::OnUpdate()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnUpdate()", "JM_COT_ModuleFramework" );
 
 		bool inputIsFocused = false;
 
@@ -210,7 +210,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnWorldCleanup() )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnWorldCleanup()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnWorldCleanup()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -228,7 +228,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnMPSessionStart() )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnMPSessionStart()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMPSessionStart()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -246,7 +246,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnMPSessionPlayerReady() )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnMPSessionPlayerReady()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMPSessionPlayerReady()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -264,7 +264,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnMPSessionFail() )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnMPSessionFail()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMPSessionFail()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -282,7 +282,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnMPSessionEnd() )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnMPSessionEnd()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMPSessionEnd()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -300,7 +300,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnMPConnectAbort() )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnMPConnectAbort()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMPConnectAbort()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -318,7 +318,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnMPConnectionLost( duration ) )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnMPConnectionLost()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnMPConnectionLost()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -336,7 +336,7 @@ class JMModuleManager: JMModuleManagerBase
 		if ( super.OnRespawn( time ) )
 			return true;
 
-		GetLogger().Log( "JMModuleManager::OnRespawn()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnRespawn()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -351,7 +351,7 @@ class JMModuleManager: JMModuleManagerBase
 	
 	bool OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientLogoutCancelled()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientLogoutCancelled()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -366,7 +366,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	bool OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -381,7 +381,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	bool OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientReady()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientReady()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -396,7 +396,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	bool OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientPrepare()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientPrepare()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -411,7 +411,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	bool OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientReconnect()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientReconnect()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -426,7 +426,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	bool OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientRespawn()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientRespawn()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
@@ -441,7 +441,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	bool OnClientDisconnected( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
-		GetLogger().Log( "JMModuleManager::OnClientDisconnected()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientDisconnected()", "JM_COT_ModuleFramework" );
 
 		bool handled = false;
 

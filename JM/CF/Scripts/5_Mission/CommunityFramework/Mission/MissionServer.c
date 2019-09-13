@@ -101,7 +101,7 @@ modded class MissionServer
 	{
 		super.InvokeOnConnect( player, identity );
 		
-		GetLogger().Send( identity );
+		//GetLogger().Send( identity );
 
 		// GetRPCManager().SendRPC( "CF", "SendModList", new Param1< autoptr map< string, string > >( ModLoader.GetModMetaData() ), false, identity );
 	}

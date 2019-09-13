@@ -79,32 +79,32 @@ class RPCManager
 	{
 		m_RPCActions = new map< string, ref map< string, ref RPCMetaWrapper > >;
 		GetDayZGame().Event_OnRPC.Insert( OnRPC );
-		GetLogger().OnUpdate.Insert( OnLogger );
+		//GetLogger().OnUpdate.Insert( OnLogger );
 
 		m_UpdateChecker = "JM_CF_RPC";
 
 		if ( GetGame().IsClient() )
 			m_UpdateChecker = "JM_CF_RPC_Client";
 
-		OnLogger();
+		//OnLogger();
 	}
 
 	void ~RPCManager()
 	{
 		GetDayZGame().Event_OnRPC.Remove( OnRPC );
-		GetLogger().OnUpdate.Remove( OnLogger );
+		//GetLogger().OnUpdate.Remove( OnLogger );
 		delete m_RPCActions;
 	}
 
 	void OnLogger()
 	{
-		if ( GetLogger().IsOn( m_UpdateChecker ) )
-		{
-			GetDayZGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Insert( OnUpdate );
-		} else
-		{
-			GetDayZGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Remove( OnUpdate );
-		}
+		//if ( GetLogger().IsOn( m_UpdateChecker ) )
+		//{
+		//	GetDayZGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Insert( OnUpdate );
+		//} else
+		//{
+		//	GetDayZGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Remove( OnUpdate );
+		//}
 	}
 	
 	void OnUpdate( float timeSlice )
@@ -160,8 +160,8 @@ class RPCManager
 			str = str + "S R " + timeSlice + "s: " + m_AmountSuccessRecievedInUpdate;
 		}
 
-		if ( anyChanged )
-			GetLogger().Log( str, m_UpdateChecker );
+		//if ( anyChanged )
+			//GetLogger().Log( str, m_UpdateChecker );
 
 		m_AmountSentInUpdate = 0;
 		m_AmountRecievedInUpdate = 0;
@@ -199,7 +199,7 @@ class RPCManager
 		Param2< string, string > metaData;
 		if ( !ctx.Read( metaData ) )
 		{
-			GetLogger().Err( "Failed reading the RPC metadata!", m_UpdateChecker, false );
+			//GetLogger().Err( "Failed reading the RPC metadata!", m_UpdateChecker, false );
 			return;
 		}
 
@@ -223,7 +223,7 @@ class RPCManager
 			}
 		}
 
-		GetLogger().Log( "Recieved RPC " + modName + "::" + funcName + " from " + recievedFrom + ", target " + target, m_UpdateChecker );
+		//GetLogger().Log( "Recieved RPC " + modName + "::" + funcName + " from " + recievedFrom + ", target " + target, m_UpdateChecker );
 		
 		if ( m_RPCActions.Contains( modName ) )
 		{
@@ -280,7 +280,7 @@ class RPCManager
 			}
 		}
 
-		GetLogger().Log( "Sending RPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
+		//GetLogger().Log( "Sending RPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
 		auto sendData = new ref array< ref Param >;
 		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
@@ -328,7 +328,7 @@ class RPCManager
 			}
 		}
 
-		GetLogger().Log( "Sending MRPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
+		//GetLogger().Log( "Sending MRPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
 		params.InsertAt( new ref Param2< string, string >( modName, funcName ), 0 );
 
@@ -355,11 +355,11 @@ class RPCManager
 	{
 		if ( !m_RPCActions.Contains( modName ) )
 		{
-			GetLogger().Log( "Creating RPC mod " + modName, m_UpdateChecker );
+			//GetLogger().Log( "Creating RPC mod " + modName, m_UpdateChecker );
 			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );
 		}
 		
-		GetLogger().Log( "Creating RPC function " + modName + "::" + funcName, m_UpdateChecker );
+		//GetLogger().Log( "Creating RPC function " + modName + "::" + funcName, m_UpdateChecker );
 		auto wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
 		
 		m_RPCActions[ modName ].Set( funcName, wrapper );

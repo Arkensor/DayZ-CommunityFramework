@@ -9,6 +9,6 @@ modded class DayZGame
 		super.DeferredInit();
 
 		GetRPCManager();
-		GetLogger();
+		//GetLogger();
 	}
 }

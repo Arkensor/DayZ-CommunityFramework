@@ -58,7 +58,7 @@ modded class KeybindingsGroup
 			subgroup_content = subgroup.FindAnyWidget( "subgroup_content" );
 		}
 		
-		GetLogger().Log( "Attempting: " + mod.GetModPath(), "JM_CF_KeyBindings" );
+		//GetLogger().Log( "Attempting: " + mod.GetModPath(), "JM_CF_KeyBindings" );
 
 		for ( int i = 0; i < inActions.Count(); i++ )
 		{
@@ -91,7 +91,7 @@ modded class KeybindingsGroup
 				remainingActions.Insert( inActions.Get( i ) );
 			}
 
-			// GetLogger().Log( "  Found: " + found, "JM_CF_KeyBindings" );
+			// //GetLogger().Log( "  Found: " + found, "JM_CF_KeyBindings" );
 		}
 		
 		if ( display )

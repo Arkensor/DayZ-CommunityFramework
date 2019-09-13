@@ -58,8 +58,8 @@ modded class MissionGameplay
 		Param1< ref CFLogger > data;
 		if ( type == CallType.Client && ctx.Read( data ) ) 
 		{
-			GetLogger().Copy( data.param1 );
-			GetLogger().Update();
+			//GetLogger().Copy( data.param1 );
+			//GetLogger().Update();
 		}
 	}
 
