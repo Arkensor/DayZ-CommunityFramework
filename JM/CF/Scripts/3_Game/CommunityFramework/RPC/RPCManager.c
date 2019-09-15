@@ -75,10 +75,11 @@ class RPCManager
 	protected const int FRAMEWORK_RPC_ID = 10042;
 	protected autoptr map< string, ref map< string, ref RPCMetaWrapper > > m_RPCActions;
 
+	protected bool m_RPCManagerEnabled = false;
+
 	void RPCManager()
 	{
 		m_RPCActions = new map< string, ref map< string, ref RPCMetaWrapper > >;
-		GetDayZGame().Event_OnRPC.Insert( OnRPC );
 		//GetLogger().OnUpdate.Insert( OnLogger );
 
 		m_UpdateChecker = "JM_CF_RPC";
@@ -363,6 +364,13 @@ class RPCManager
 		auto wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
 		
 		m_RPCActions[ modName ].Set( funcName, wrapper );
+
+		if ( !m_RPCManagerEnabled )
+		{
+			GetDayZGame().Event_OnRPC.Insert( OnRPC );
+
+			m_RPCManagerEnabled = true;
+		}
 
 		return true;
 	}

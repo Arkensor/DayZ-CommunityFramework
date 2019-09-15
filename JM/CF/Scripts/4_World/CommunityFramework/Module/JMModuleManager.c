@@ -133,6 +133,7 @@ class JMModuleManager: JMModuleManagerBase
 					continue;
 
 				module.OnRPC( sender, target, rpc_type, ctx );
+				return;
 			}
 		}
 	}
