@@ -9,13 +9,10 @@ class JMModuleBase
 		m_Enabled = true;
 		m_PreventInput = false;
 		m_Bindings = new set< ref JMModuleBinding >;
-
-		GetDayZGame().Event_OnRPC.Insert( OnRPC );
 	}
 	
 	void ~JMModuleBase()
 	{
-		GetDayZGame().Event_OnRPC.Remove( OnRPC );
 	}
 	
 	void Init()
@@ -121,8 +118,18 @@ class JMModuleBase
 	{
 	}
 
-	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
+	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
+	}
+
+	int GetRPCMin()
+	{
+		return -1;
+	}
+
+	int GetRPCMax()
+	{
+		return -1;
 	}
 
 	/**

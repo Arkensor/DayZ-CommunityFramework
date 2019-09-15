@@ -56,6 +56,10 @@ class JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMissionLoaded()", "JM_COT_ModuleFramework" );
 	}
+	
+	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
+	{
+	}
 
 	void OnUpdate( float timeslice )
 	{

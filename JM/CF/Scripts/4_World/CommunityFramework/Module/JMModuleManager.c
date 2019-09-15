@@ -116,6 +116,27 @@ class JMModuleManager: JMModuleManagerBase
 		}
 	}
 
+	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
+	{
+		for ( int i = 0; i < m_Modules.Count(); i++ )
+		{
+			JMModuleBase module = m_Modules.GetElement( i );
+			if ( module.IsEnabled() )
+			{
+				int min = module.GetRPCMin();
+				int max = module.GetRPCMax();
+
+				if ( min == -1 || rpc_type <= min )
+					continue;
+
+				if ( max == -1 || rpc_type >= max )
+					continue;
+
+				module.OnRPC( sender, target, rpc_type, ctx );
+			}
+		}
+	}
+
 	override void OnUpdate( float timeslice )
 	{
 		super.OnUpdate( timeslice );
