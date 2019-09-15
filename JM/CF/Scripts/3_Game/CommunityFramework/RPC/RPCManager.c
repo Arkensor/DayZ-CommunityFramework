@@ -225,12 +225,12 @@ class RPCManager
 
 		//GetLogger().Log( "Recieved RPC " + modName + "::" + funcName + " from " + recievedFrom + ", target " + target, m_UpdateChecker );
 		
-		if ( m_RPCActions.Contains( modName ) )
+		map< string, ref RPCMetaWrapper > functions;
+		if ( m_RPCActions.Find( modName, functions ) )
 		{
-			if ( m_RPCActions[ modName ].Contains( funcName ) )
+			RPCMetaWrapper wrapper;
+			if ( functions.Find( funcName, wrapper ) )
 			{
-				ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
-				
 				if ( wrapper.GetInstance() )
 				{
 					m_AmountSuccessRecieved++;

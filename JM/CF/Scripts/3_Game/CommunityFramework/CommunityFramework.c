@@ -13,3 +13,11 @@ static bool IsMissionClient()
 
     return GetGame().IsClient() || !GetGame().IsMultiplayer();
 }
+
+static bool IsMissionOffline()
+{
+	if ( !GetGame() )
+		return false;
+
+    return GetGame().IsServer() && !GetGame().IsMultiplayer();
+}
