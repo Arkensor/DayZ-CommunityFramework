@@ -159,7 +159,7 @@ class JMModuleManager: JMModuleManagerBase
 		{
 			JMModuleBase module = m_Modules.GetElement( i );
 
-			if ( module.IsEnabled() && !module.IsPreventingInput() && ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) )
+			if ( module.IsEnabled() && !module.IsPreventingInput() && !inputIsFocused && !DISABLE_ALL_INPUT && ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) )
 			{
 				for ( int kb = 0; kb < module.GetBindings().Count(); kb++ )
 				{
@@ -173,12 +173,14 @@ class JMModuleManager: JMModuleManagerBase
 						}
 					}
 
-					if ( DISABLE_ALL_INPUT || inputIsFocused )
+					string inputName = k_m_Binding.GetUAInputName();
+
+					UAInput input = GetUApi().GetInputByName( inputName );
+
+					if ( input.ConflictCount() != 0 )
 					{
 						continue;
 					}
-
-					UAInput input = GetUApi().GetInputByName( k_m_Binding.GetUAInputName() );
 
 					bool localPress = input.LocalPress();
 					bool localRelease = input.LocalRelease();
