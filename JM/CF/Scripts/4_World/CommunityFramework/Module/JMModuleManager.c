@@ -177,11 +177,6 @@ class JMModuleManager: JMModuleManagerBase
 
 					UAInput input = GetUApi().GetInputByName( inputName );
 
-					if ( input.ConflictCount() != 0 )
-					{
-						continue;
-					}
-
 					bool localPress = input.LocalPress();
 					bool localRelease = input.LocalRelease();
 					bool localHold = input.LocalHold();
