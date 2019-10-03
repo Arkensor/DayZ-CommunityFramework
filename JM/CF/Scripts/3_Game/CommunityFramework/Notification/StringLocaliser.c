@@ -52,7 +52,6 @@ class StringLocaliser
 
     string Format()
     {
-        Print( "StringLocaliser::Format" );
         string text = m_text;
 
         string p1 = m_param1;
@@ -64,17 +63,6 @@ class StringLocaliser
         string p7 = m_param7;
         string p8 = m_param8;
         string p9 = m_param9;
-
-        Print( text );
-        Print( p1 );
-        Print( p2 );
-        Print( p3 );
-        Print( p4 );
-        Print( p5 );
-        Print( p6 );
-        Print( p7 );
-        Print( p8 );
-        Print( p9 );
 
         if ( m_translates )
         {
@@ -134,17 +122,6 @@ class StringLocaliser
                 p9 = m_param9;
             }
         }
-
-        Print( text );
-        Print( p1 );
-        Print( p2 );
-        Print( p3 );
-        Print( p4 );
-        Print( p5 );
-        Print( p6 );
-        Print( p7 );
-        Print( p8 );
-        Print( p9 );
 
         return string.Format( text, p1, p2, p3, p4, p5, p6, p7, p8, p9 );
     }
