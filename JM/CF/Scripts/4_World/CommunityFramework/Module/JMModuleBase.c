@@ -105,6 +105,10 @@ class JMModuleBase
 	void OnSettingsUpdated()
 	{
 	}
+
+	void OnInit()
+	{
+	}
 	
 	void OnMissionStart()
 	{

@@ -54,6 +54,8 @@ class JMModuleManager: JMModuleManagerBase
 		}
 
 		Print_DumpModules();
+
+		OnInit();
 	}
 
 	override void OnSettingsUpdated()
@@ -67,6 +69,21 @@ class JMModuleManager: JMModuleManagerBase
 			if ( m_Modules.GetElement( i ).IsEnabled() )
 			{
 				m_Modules.GetElement( i ).OnSettingsUpdated();
+			}
+		}
+	}
+
+	override void OnInit()
+	{
+		super.OnInit();
+
+		//GetLogger().Log( "JMModuleManagerBase::OnInit()", "JM_COT_ModuleFramework" );
+
+		for ( int i = 0; i < m_Modules.Count(); i++ )
+		{
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				m_Modules.GetElement( i ).OnInit();
 			}
 		}
 	}
