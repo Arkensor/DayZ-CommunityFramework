@@ -63,11 +63,11 @@ modded class NotificationSystem
 
 	private void RPC_CreateNotification( ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target )
 	{
-		ref StringLocaliser title = new StringLocaliser();
+		ref StringLocaliser title = new StringLocaliser( "" );
 		if ( !ctx.Read( title ) )
 			return;
 
-		ref StringLocaliser text = new StringLocaliser();
+		ref StringLocaliser text = new StringLocaliser( "" );
 		if ( !ctx.Read( text ) )
 			return;
 
