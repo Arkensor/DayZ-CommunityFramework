@@ -13,7 +13,7 @@ class JMModuleConstructorBase
 		{
 			if ( moduleArrayNames[i].IsInherited( JMModuleBase ) )
 			{
-				ref JMModuleBase module = moduleArrayNames[i].Spawn();
+				ref JMModuleBase module = JMModuleBase.Cast( moduleArrayNames[i].Spawn() );
 
 				if ( IsMissionHost() )
 				{

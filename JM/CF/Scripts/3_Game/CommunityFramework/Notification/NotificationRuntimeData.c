@@ -8,7 +8,7 @@ modded class NotificationRuntimeData
 	bool m_HasShown;
 
 	void NotificationRuntimeData( float time, NotificationData data, string detail_text )
-	{
+	{		
 		m_StaticData = data;
 		m_Icon = data.m_Icon;
 		m_TitleText = data.m_TitleText;
