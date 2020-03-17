@@ -29,15 +29,21 @@ modded class NotificationSystem
 
     static void Create( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
     {
+		Print("NotificationSystem::Create - Start");
+		
         if ( !m_Instance )
             return;
         
         m_Instance.CreateNotification( title, text, icon, color, time, sendTo );
+		
+		Print("NotificationSystem::Create - End");
     }
 
 	// ------------------------------------------------------------
 	void CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
 	{
+		Print("NotificationSystem::CreateNotification - Start");
+		
 		if ( IsMissionHost() )
 		{
 			ScriptRPC rpc = new ScriptRPC();
@@ -47,22 +53,31 @@ modded class NotificationSystem
 			rpc.Write( color );
 			rpc.Write( time );
 			rpc.Send( NULL, NotificationSystemRPC.Create, true, sendTo );
-		} else
+		} 
+		else
 		{
 			Exec_CreateNotification( title, text, icon, color, time );
 		}
+		
+		Print("NotificationSystem::CreateNotification - End");
 	}
 
 	private void Exec_CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time )
 	{
+		Print("NotificationSystem::CreateNotification - Start");
+		
 		ref NotificationRuntimeData data = new NotificationRuntimeData( time, new NotificationData( icon, title.Format() ), text.Format() );
 		data.SetColor( color );
 
         AddNotif( data );
+		
+		Print("NotificationSystem::Exec_CreateNotification - End");
 	}
 
 	private void RPC_CreateNotification( ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target )
 	{
+		Print("NotificationSystem::RPC_CreateNotification - Start");
+		
 		ref StringLocaliser title = new StringLocaliser( "" );
 		if ( !ctx.Read( title ) )
 			return;
@@ -84,6 +99,8 @@ modded class NotificationSystem
 			return;
 
 		Exec_CreateNotification( title, text, icon, color, time );
+		
+		Print("NotificationSystem::RPC_CreateNotification - End");
 	}
 
     /*
@@ -91,6 +108,8 @@ modded class NotificationSystem
     */
     protected void AddNotif( ref NotificationRuntimeData data )
     {
+		Print("NotificationSystem::AddNotif - Start");
+		
 		if ( m_TimeArray.Count() < MAX_NOTIFICATIONS )
 		{
 			float time = GetGame().GetTickTime() + data.GetTime();
@@ -98,14 +117,17 @@ modded class NotificationSystem
 
 		    m_TimeArray.Insert( data );
 		    m_OnNotificationAdded.Invoke( data );
-        } else
+        } 
+		else
         {
             m_DeferredArray.Insert( data );
         }
+		
+		Print("NotificationSystem::AddNotif - End");
     }
 
 	override NotificationData GetNotificationData( NotificationType type )
-	{
+	{		
 		if ( m_DataArray.Contains(type) )
 		{
 			return m_DataArray.Get( type );

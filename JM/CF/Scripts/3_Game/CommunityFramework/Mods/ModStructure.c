@@ -248,37 +248,37 @@ modded class ModStructure
 		return m_ModPath;
 	}
 	
-	string GetModName()
+	override string GetModName()
 	{
 		return m_ModName;
 	}
 	
-	string GetModLogo()
+	override string GetModLogo()
 	{
 		return m_ModLogo;
 	}
 	
-	string GetModLogoSmall()
+	override string GetModLogoSmall()
 	{
 		return m_ModLogoSmall;
 	}
 	
-	string GetModLogoOver()
+	override string GetModLogoOver()
 	{
 		return m_ModLogoOver;
 	}
 	
-	string GetModActionURL()
+	override string GetModActionURL()
 	{
 		return m_ModActionURL;
 	}
 	
-	string GetModToltip()
+	override string GetModToltip()
 	{
 		return m_ModTooltip;
 	}
 	
-	string GetModOverview()
+	override string GetModOverview()
 	{
 		return m_ModOverview;
 	}
