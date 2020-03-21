@@ -80,14 +80,12 @@ modded class MissionServer
 	}
 
 	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
-	{
-		if ( !GetModuleManager().OnClientNew( m_player, identity, pos, ctx ) )
-		{
-			return super.OnClientNewEvent( identity, pos, ctx );
-		}
+    {
+        PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
+        GetModuleManager().OnClientNew( player , identity, pos, ctx );
 
-		return m_player;
-	}
+        return player;
+    } 
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
