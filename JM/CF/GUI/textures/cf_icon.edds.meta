@@ -1,0 +1,16 @@
+MetaFileClass {
+ Name "{B317E22444BAF88A}JM/CF/GUI/textures/cf_icon.edds"
+ Author "desktop-9st395p"
+ ChangeDate -1213913243
+ Configurations {
+  TGAResourceClass PC {
+   SourceFile "cf_icon.tga"
+  }
+  TGAResourceClass XBOX_ONE : PC {
+  }
+  TGAResourceClass PS4 : PC {
+  }
+  TGAResourceClass LINUX : PC {
+  }
+ }
+}
