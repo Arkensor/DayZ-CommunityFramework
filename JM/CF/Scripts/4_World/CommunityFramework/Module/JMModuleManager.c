@@ -138,20 +138,20 @@ class JMModuleManager: JMModuleManagerBase
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
 			JMModuleBase module = m_Modules.GetElement( i );
-			if ( module.IsEnabled() )
-			{
-				int min = module.GetRPCMin();
-				int max = module.GetRPCMax();
+			if ( !module.IsEnabled() )
+				continue;
 
-				if ( min == -1 || rpc_type <= min )
-					continue;
+			int min = module.GetRPCMin();
+			int max = module.GetRPCMax();
 
-				if ( max == -1 || rpc_type >= max )
-					continue;
+			if ( min == -1 || rpc_type <= min )
+				continue;
 
-				module.OnRPC( sender, target, rpc_type, ctx );
-				return;
-			}
+			if ( max == -1 || rpc_type >= max )
+				continue;
+
+			module.OnRPC( sender, target, rpc_type, ctx );
+			return;
 		}
 	}
 
