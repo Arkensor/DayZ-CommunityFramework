@@ -22,7 +22,6 @@ if %failed%==1 (
 	endlocal
 
 	echo Failed to package the mod.
-	pause
 	goto:eof
 )
 
@@ -136,31 +135,26 @@ set signFile="%_DAYZTOOLSPATH%\Bin\DsUtils\DSSignFile.exe"
 
 IF exist "%modBuildDirectory%%modName%\" (
 	echo Removing folder "%modBuildDirectory%%modName%\"
-	rmdir /S /Q "%modBuildDirectory%%modName%\" > NUL
+	rmdir /S /Q "%modBuildDirectory%%modName%\"
 )
 
 IF NOT exist "%modBuildDirectory%%modName%\" (
 	echo Creating folder "%modBuildDirectory%%modName%\"
-	mkdir "%modBuildDirectory%%modName%\" > NUL
+	mkdir "%modBuildDirectory%%modName%\"
 )
 
 IF NOT exist "%modBuildDirectory%%modName%\Keys\" (
 	echo Creating folder "%modBuildDirectory%%modName%\Keys\"
-	mkdir "%modBuildDirectory%%modName%\Keys\" > NUL
+	mkdir "%modBuildDirectory%%modName%\Keys\"
 )
 
 IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
 	echo Creating folder "%modBuildDirectory%%modName%\Addons\"
-	mkdir "%modBuildDirectory%%modName%\Addons\" > NUL
+	mkdir "%modBuildDirectory%%modName%\Addons\"
 )
 
-REM IF NOT exist "%modBuildDirectory%%modName%\dta\" (
-REM 	echo Creating folder "%modBuildDirectory%%modName%\dta\"
-REM 	mkdir "%modBuildDirectory%%modName%\dta\" > NUL
-REM )
-
 echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
-copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > NUL
+copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > nul
 
 echo Packaging %modName% PBO's
 
@@ -178,7 +172,7 @@ for /f "tokens=*" %%D in ('dir /b /s "%workDrive%%prefixLinkRoot%\*"') do (
 								set pboName=!pboName:\%prefixLinkRoot%\=!
 								set pboName=!pboName:\=_!
 
-								%makePBO% -U -P -D -N "%%~dpnxD" "%modBuildDirectory%%modName%\Addons\!pboName!.pbo"
+								%makePBO% -U -P -D "%%~dpnxD" "%modBuildDirectory%%modName%\Addons\!pboName!.pbo"
 								%signFile% "%keyDirectory%%keyName%.biprivatekey" "%modBuildDirectory%%modName%\Addons\!pboName!.pbo"
 							)
 						)
@@ -188,8 +182,5 @@ for /f "tokens=*" %%D in ('dir /b /s "%workDrive%%prefixLinkRoot%\*"') do (
 		)
 	)
 )
-
-REM copy "%modBuildDirectory%%modName%\Addons\bin.pbo" "%modBuildDirectory%%modName%\dta\" > NUL
-REM copy "%modBuildDirectory%%modName%\Addons\bin.pbo.%keyName%.bisign" "%modBuildDirectory%%modName%\dta\" > NUL
 
 endlocal
