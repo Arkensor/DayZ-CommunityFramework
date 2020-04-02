@@ -2,25 +2,49 @@ class JMModuleConstructorBase
 {
     void Generate( out map< typename, ref JMModuleBase > moduleMap )
 	{
-		ref array< typename > moduleArrayNames = new array< typename >;
+		array< typename > moduleArrayNames = new array< typename >;
 		RegisterModules( moduleArrayNames );
 
 		// Sort( moduleArrayNames, moduleArrayNames.Count() );
-		
+
+		string pNames[ 1000 ];
+		int pIndices[ 1000 ];
+		int i;
+		int j;
+
+		for ( i = 0; i < moduleArrayNames.Count(); i++ )
+		{
+			pNames[ i ] = moduleArrayNames[ i ].ToString();
+		}
+
+		Sort( pNames, moduleArrayNames.Count() );
+
+		for ( i = 0; i < moduleArrayNames.Count(); i++ )
+		{
+			for ( j = 0; j < moduleArrayNames.Count(); j++ )
+			{
+				if ( pNames[ j ] == moduleArrayNames[ i ].ToString() )
+				{
+					pIndices[ i ] = j;
+				}
+			}
+		}
+
 		moduleMap = new map< typename, ref JMModuleBase >;
 		
-		for ( int i = 0; i < moduleArrayNames.Count(); i++ )
+		for ( i = 0; i < moduleArrayNames.Count(); i++ )
 		{
-			if ( moduleArrayNames[i].IsInherited( JMModuleBase ) )
+			int idx = pIndices[ i ];
+			if ( moduleArrayNames[ idx ].IsInherited( JMModuleBase ) )
 			{
-				ref JMModuleBase module = JMModuleBase.Cast( moduleArrayNames[i].Spawn() );
+				ref JMModuleBase module = JMModuleBase.Cast( moduleArrayNames[ idx ].Spawn() );
 
 				if ( IsMissionHost() )
 				{
 					if ( module.IsServer() )
 					{
 						Print( "Inserted Module (HOST): " + module.GetModuleName() );
-						moduleMap.Insert( moduleArrayNames[i], module );
+						moduleMap.Insert( moduleArrayNames[ idx ], module );
 						continue;
 					}
 				}
@@ -30,7 +54,7 @@ class JMModuleConstructorBase
 					if ( module.IsClient() )
 					{
 						Print( "Inserted Module (CLIENT): " + module.GetModuleName() );
-						moduleMap.Insert( moduleArrayNames[i], module );
+						moduleMap.Insert( moduleArrayNames[ idx ], module );
 						continue;
 					}
 				}

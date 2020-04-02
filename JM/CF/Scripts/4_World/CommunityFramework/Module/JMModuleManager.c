@@ -479,9 +479,9 @@ class JMModuleManager: JMModuleManagerBase
 		return false;
 	}
 
-	bool OnClientDisconnected( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
+	bool OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
-		//GetLogger().Log( "JMModuleManager::OnClientDisconnected()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManager::OnClientLogout()", "JM_COT_ModuleFramework" );
 
 		bool handled = false;
 
@@ -489,7 +489,47 @@ class JMModuleManager: JMModuleManagerBase
 		{
 			if ( m_Modules.GetElement( i ).IsEnabled() )
 			{
-				if ( m_Modules.GetElement( i ).OnClientDisconnected( player, identity, logoutTime, authFailed ) )
+				if ( m_Modules.GetElement( i ).OnClientLogout( player, identity, logoutTime, authFailed ) )
+				{
+					handled = true;
+				}
+			}
+		}
+
+		return handled;
+	}
+
+	bool OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
+	{
+		//GetLogger().Log( "JMModuleManager::OnClientDisconnect()", "JM_COT_ModuleFramework" );
+
+		bool handled = false;
+
+		for ( int i = 0; i < m_Modules.Count(); i++ )
+		{
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				if ( m_Modules.GetElement( i ).OnClientDisconnect( player, identity, uid ) )
+				{
+					handled = true;
+				}
+			}
+		}
+
+		return handled;
+	}
+
+	bool OnClientLogoutCancelled( PlayerBase player )
+	{
+		//GetLogger().Log( "JMModuleManager::OnClientLogoutCancelled()", "JM_COT_ModuleFramework" );
+
+		bool handled = false;
+
+		for ( int i = 0; i < m_Modules.Count(); i++ )
+		{
+			if ( m_Modules.GetElement( i ).IsEnabled() )
+			{
+				if ( m_Modules.GetElement( i ).OnClientLogoutCancelled( player ) )
 				{
 					handled = true;
 				}

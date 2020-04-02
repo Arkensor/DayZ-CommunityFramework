@@ -13,6 +13,23 @@ modded class MissionServer
 	{
 	}
 
+	override void OnEvent( EventType eventTypeId, Param params ) 
+	{
+		super.OnEvent( eventTypeId, params );
+
+		switch( eventTypeId )
+		{
+		case LogoutCancelEventTypeID:
+			LogoutCancelEventParams logoutCancelParams;
+			
+			Class.CastTo( logoutCancelParams, params );
+
+			GetModuleManager().OnClientLogoutCancelled( PlayerBase.Cast( logoutCancelParams.param1 ) );
+
+			break;
+		}
+	}
+
 	override void OnInit()
 	{
 		super.OnInit();
@@ -76,13 +93,21 @@ modded class MissionServer
 	{
 		super.OnClientDisconnectedEvent( identity, player, logoutTime, authFailed );
 
-		GetModuleManager().OnClientDisconnected( player, identity, logoutTime, authFailed );
+		GetModuleManager().OnClientLogout( player, identity, logoutTime, authFailed );
+	}
+
+	override void PlayerDisconnected( PlayerBase player, PlayerIdentity identity, string uid )
+	{
+        GetModuleManager().OnClientDisconnect( player, identity, uid );
+
+		super.PlayerDisconnected( player, identity, uid );
 	}
 
 	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
     {
         PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
-        GetModuleManager().OnClientNew( player , identity, pos, ctx );
+
+        GetModuleManager().OnClientNew( player, identity, pos, ctx );
 
         return player;
     } 
@@ -94,10 +119,4 @@ modded class MissionServer
 			super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
 		}
 	}
-
-	override void InvokeOnConnect( PlayerBase player, PlayerIdentity identity)
-	{
-		super.InvokeOnConnect( player, identity );
-	}
-
 }

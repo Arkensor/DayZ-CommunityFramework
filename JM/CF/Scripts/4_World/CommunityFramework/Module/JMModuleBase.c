@@ -251,7 +251,23 @@ class JMModuleBase
 	/**
 	 * See: ClientDisconnectedEventTypeID
 	 */
-	bool OnClientDisconnected( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
+	bool OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
+	{
+		return false;
+	}
+
+	/**
+	 * See: MissionServer::PlayerDisconnected - Fires when the player has disconnected from the server (OnClientReconnect won't fire)
+	 */
+	bool OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
+	{
+		return false;
+	}
+
+	/**
+	 * See: LogoutCancelEventTypeID
+	 */
+	bool OnClientLogoutCancelled( PlayerBase player )
 	{
 		return false;
 	}
