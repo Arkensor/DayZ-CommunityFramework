@@ -3,7 +3,7 @@ static bool IsMissionHost()
 	if ( !GetGame() )
 		return false;
 
-    return GetGame().IsServer() || !GetGame().IsMultiplayer();
+	return GetGame().IsServer() || !GetGame().IsMultiplayer();
 }
 
 static bool IsMissionClient()
@@ -11,7 +11,7 @@ static bool IsMissionClient()
 	if ( !GetGame() )
 		return false;
 
-    return GetGame().IsClient() || !GetGame().IsMultiplayer();
+	return GetGame().IsClient() || !GetGame().IsMultiplayer();
 }
 
 static bool IsMissionOffline()
@@ -19,7 +19,7 @@ static bool IsMissionOffline()
 	if ( !GetGame() )
 		return false;
 
-    return GetGame().IsServer() && !GetGame().IsMultiplayer();
+	return GetGame().IsServer() && !GetGame().IsMultiplayer();
 }
 
 static void CF_DumpWidgets( Widget root, int tabs = 0 )

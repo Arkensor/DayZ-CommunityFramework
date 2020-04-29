@@ -2,8 +2,8 @@
 modded class DayZPlayerCameras
 {
 	static override void RegisterCameras( DayZPlayerType pType )
-    {
-        JMAnimRegister.Register( pType );
+	{
+		JMAnimRegister.Register( pType );
 
 		pType.ResetCameraCreators();
 

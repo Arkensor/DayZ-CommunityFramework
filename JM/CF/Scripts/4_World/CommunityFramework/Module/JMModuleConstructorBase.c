@@ -1,6 +1,6 @@
 class JMModuleConstructorBase
 {
-    void Generate( out map< typename, ref JMModuleBase > moduleMap )
+	void Generate( out map< typename, ref JMModuleBase > moduleMap )
 	{
 		array< typename > moduleArrayNames = new array< typename >;
 		RegisterModules( moduleArrayNames );
@@ -68,7 +68,7 @@ class JMModuleConstructorBase
 		}
 	}
 
-    void RegisterModules( out array< typename > modules )
+	void RegisterModules( out array< typename > modules )
 	{
-    }
+	}
 }

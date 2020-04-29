@@ -47,7 +47,7 @@ class JMModuleManager: JMModuleManagerBase
 		super.RegisterModules();
 
 		//GetLogger().Log( "JMModuleManager::RegisterModules()", "JM_COT_ModuleFramework" );
-        
+		
 		for ( int i = 0; i < m_Modules.Count(); i++ )
 		{
 			RegisterModule( m_Modules.GetElement( i ) );

@@ -1,8 +1,8 @@
 modded class DayZGame
 {
-    void DayZGame()
+	void DayZGame()
 	{
-    }
+	}
 
 	override void DeferredInit()
 	{

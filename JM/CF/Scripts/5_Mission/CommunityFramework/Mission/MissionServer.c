@@ -98,19 +98,19 @@ modded class MissionServer
 
 	override void PlayerDisconnected( PlayerBase player, PlayerIdentity identity, string uid )
 	{
-        GetModuleManager().OnClientDisconnect( player, identity, uid );
+		GetModuleManager().OnClientDisconnect( player, identity, uid );
 
 		super.PlayerDisconnected( player, identity, uid );
 	}
 
 	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
-    {
-        PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
+	{
+		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
 
-        GetModuleManager().OnClientNew( player, identity, pos, ctx );
+		GetModuleManager().OnClientNew( player, identity, pos, ctx );
 
-        return player;
-    } 
+		return player;
+	} 
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
