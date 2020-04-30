@@ -128,9 +128,8 @@ modded class MissionServer
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-		if ( !GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
-		{
-			super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
-		}
+		GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
+		
+		super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
 	}
 }
