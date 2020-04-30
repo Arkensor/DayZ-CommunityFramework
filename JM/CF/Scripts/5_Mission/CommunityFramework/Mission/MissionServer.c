@@ -68,6 +68,20 @@ modded class MissionServer
 		GetModuleManager().OnUpdate( timeslice );
 	}
 
+	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
+	{
+		super.InvokeOnConnect( player, identity );
+
+		GetModuleManager().OnInvokeConnect( player, identity );
+	}
+
+	override void InvokeOnDisconnect( PlayerBase player )
+	{
+		super.InvokeOnDisconnect( player );
+
+		GetModuleManager().OnInvokeDisconnect( player );
+	}
+
 	override void OnClientReadyEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientReadyEvent( identity, player );

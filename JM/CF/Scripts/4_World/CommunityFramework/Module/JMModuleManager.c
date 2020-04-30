@@ -6,6 +6,8 @@ class JMModuleManager: JMModuleManagerBase
 {
 	protected autoptr map< typename, ref JMModuleBase > m_Modules;
 
+	protected autoptr array< JMModuleBase > m_ModuleList;
+
 	void JMModuleManager()
 	{
 		//GetLogger().Log( "JMModuleManager::JMModuleManager()", "JM_COT_ModuleFramework" );
@@ -18,12 +20,7 @@ class JMModuleManager: JMModuleManagerBase
 
 	void ConstructModules( JMModuleConstructorBase construct )
 	{
-		construct.Generate( m_Modules );
-	}
-
-	protected void RegisterModule( ref JMModuleBase module )
-	{
-		module.Init();
+		construct.Generate( m_Modules, m_ModuleList );
 	}
 
 	ref JMModuleBase GetModule( typename type )
@@ -36,21 +33,26 @@ class JMModuleManager: JMModuleManagerBase
 		super.Print_DumpModules();
 
 		Print( "Modules Loaded" );
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			Print( "" + i + " -> " + m_Modules.GetElement( i ).GetModuleName() );
+			Print( "" + i + " -> " + m_ModuleList[i].GetModuleName() );
 		}
 	}
 
-	override void RegisterModules()
+	protected void InitModule( ref JMModuleBase module )
 	{
-		super.RegisterModules();
+		module.Init();
+	}
 
-		//GetLogger().Log( "JMModuleManager::RegisterModules()", "JM_COT_ModuleFramework" );
+	override void InitModules()
+	{
+		super.InitModules();
+
+		//GetLogger().Log( "JMModuleManager::InitModules()", "JM_COT_ModuleFramework" );
 		
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			RegisterModule( m_Modules.GetElement( i ) );
+			InitModule( m_ModuleList[i] );
 		}
 
 		Print_DumpModules();
@@ -64,11 +66,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnSettingsUpdated()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				m_Modules.GetElement( i ).OnSettingsUpdated();
+				m_ModuleList[i].OnSettingsUpdated();
 			}
 		}
 	}
@@ -79,11 +81,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManagerBase::OnInit()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				m_Modules.GetElement( i ).OnInit();
+				m_ModuleList[i].OnInit();
 			}
 		}
 	}
@@ -94,11 +96,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMissionStart()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				m_Modules.GetElement( i ).OnMissionStart();
+				m_ModuleList[i].OnMissionStart();
 			}
 		}
 	}
@@ -109,11 +111,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMissionFinish()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				m_Modules.GetElement( i ).OnMissionFinish();
+				m_ModuleList[i].OnMissionFinish();
 			}
 		}
 	}
@@ -124,20 +126,20 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMissionLoaded()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				m_Modules.GetElement( i ).OnMissionLoaded();
+				m_ModuleList[i].OnMissionLoaded();
 			}
 		}
 	}
 
 	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			JMModuleBase module = m_Modules.GetElement( i );
+			JMModuleBase module = m_ModuleList[i];
 			if ( !module.IsEnabled() )
 				continue;
 
@@ -172,9 +174,9 @@ class JMModuleManager: JMModuleManagerBase
 			}
 		}
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			JMModuleBase module = m_Modules.GetElement( i );
+			JMModuleBase module = m_ModuleList[i];
 
 			if ( module.IsEnabled() && !module.IsPreventingInput() && !inputIsFocused && !DISABLE_ALL_INPUT && ( GetGame().IsClient() || !GetGame().IsMultiplayer() ) )
 			{
@@ -252,9 +254,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnWorldCleanup()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnWorldCleanup() )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnWorldCleanup() )
 			{
 				return true;
 			}
@@ -270,9 +272,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMPSessionStart()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionStart() )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionStart() )
 			{
 				return true;
 			}
@@ -288,9 +290,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMPSessionPlayerReady()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionPlayerReady() )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionPlayerReady() )
 			{
 				return true;
 			}
@@ -306,9 +308,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMPSessionFail()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionFail() )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionFail() )
 			{
 				return true;
 			}
@@ -324,9 +326,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMPSessionEnd()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPSessionEnd() )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionEnd() )
 			{
 				return true;
 			}
@@ -342,9 +344,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMPConnectAbort()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPConnectAbort() )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPConnectAbort() )
 			{
 				return true;
 			}
@@ -360,9 +362,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnMPConnectionLost()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnMPConnectionLost( duration ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPConnectionLost( duration ) )
 			{
 				return true;
 			}
@@ -378,9 +380,9 @@ class JMModuleManager: JMModuleManagerBase
 
 		//GetLogger().Log( "JMModuleManager::OnRespawn()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnRespawn( time ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnRespawn( time ) )
 			{
 				return true;
 			}
@@ -393,9 +395,39 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientLogoutCancelled()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientLogoutCancelled( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientLogoutCancelled( player, identity ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
+	{
+		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
+
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
+		{
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnInvokeConnect( player, identity ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool OnInvokeDisconnect( PlayerBase player )
+	{
+		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
+
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
+		{
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnInvokeDisconnect( player ) )
 			{
 				return true;
 			}
@@ -408,9 +440,9 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientNew( player, identity, pos, ctx ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientNew( player, identity, pos, ctx ) )
 			{
 				return true;
 			}
@@ -423,9 +455,9 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientReady()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientReady( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientReady( player, identity ) )
 			{
 				return true;
 			}
@@ -438,9 +470,9 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientPrepare()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
 			{
 				return true;
 			}
@@ -453,9 +485,9 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientReconnect()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientReconnect( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientReconnect( player, identity ) )
 			{
 				return true;
 			}
@@ -468,9 +500,9 @@ class JMModuleManager: JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientRespawn()", "JM_COT_ModuleFramework" );
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() && m_Modules.GetElement( i ).OnClientRespawn( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientRespawn( player, identity ) )
 			{
 				return true;
 			}
@@ -485,11 +517,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		bool handled = false;
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				if ( m_Modules.GetElement( i ).OnClientLogout( player, identity, logoutTime, authFailed ) )
+				if ( m_ModuleList[i].OnClientLogout( player, identity, logoutTime, authFailed ) )
 				{
 					handled = true;
 				}
@@ -505,11 +537,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		bool handled = false;
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				if ( m_Modules.GetElement( i ).OnClientDisconnect( player, identity, uid ) )
+				if ( m_ModuleList[i].OnClientDisconnect( player, identity, uid ) )
 				{
 					handled = true;
 				}
@@ -525,11 +557,11 @@ class JMModuleManager: JMModuleManagerBase
 
 		bool handled = false;
 
-		for ( int i = 0; i < m_Modules.Count(); i++ )
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_Modules.GetElement( i ).IsEnabled() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				if ( m_Modules.GetElement( i ).OnClientLogoutCancelled( player ) )
+				if ( m_ModuleList[i].OnClientLogoutCancelled( player ) )
 				{
 					handled = true;
 				}
@@ -552,6 +584,6 @@ static void CreateModuleManager( JMModuleConstructorBase construct )
 	if ( Class.CastTo( manager, g_cot_ModuleManager) )
 	{
 		manager.ConstructModules( construct );
-		manager.RegisterModules();
+		manager.InitModules();
 	}
 }

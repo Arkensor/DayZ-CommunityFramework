@@ -1,50 +1,27 @@
 class JMModuleConstructorBase
 {
-	void Generate( out map< typename, ref JMModuleBase > moduleMap )
+	void Generate( out map< typename, ref JMModuleBase > moduleMap, out array< JMModuleBase > moduleArr )
 	{
 		array< typename > moduleArrayNames = new array< typename >;
 		RegisterModules( moduleArrayNames );
 
-		// Sort( moduleArrayNames, moduleArrayNames.Count() );
-
-		string pNames[ 1000 ];
-		int pIndices[ 1000 ];
-		int i;
-		int j;
-
-		for ( i = 0; i < moduleArrayNames.Count(); i++ )
-		{
-			pNames[ i ] = moduleArrayNames[ i ].ToString();
-		}
-
-		Sort( pNames, moduleArrayNames.Count() );
-
-		for ( i = 0; i < moduleArrayNames.Count(); i++ )
-		{
-			for ( j = 0; j < moduleArrayNames.Count(); j++ )
-			{
-				if ( pNames[ j ] == moduleArrayNames[ i ].ToString() )
-				{
-					pIndices[ i ] = j;
-				}
-			}
-		}
-
 		moduleMap = new map< typename, ref JMModuleBase >;
+		moduleArr = new array< JMModuleBase >;
 		
-		for ( i = 0; i < moduleArrayNames.Count(); i++ )
+		for ( int idx = 0; idx < moduleArrayNames.Count(); idx++ )
 		{
-			int idx = pIndices[ i ];
-			if ( moduleArrayNames[ idx ].IsInherited( JMModuleBase ) )
+			typename moduleType = moduleArrayNames[ idx ];
+			if ( moduleType.IsInherited( JMModuleBase ) )
 			{
-				ref JMModuleBase module = JMModuleBase.Cast( moduleArrayNames[ idx ].Spawn() );
+				ref JMModuleBase module = JMModuleBase.Cast( moduleType.Spawn() );
 
 				if ( IsMissionHost() )
 				{
 					if ( module.IsServer() )
 					{
 						Print( "Inserted Module (HOST): " + module.GetModuleName() );
-						moduleMap.Insert( moduleArrayNames[ idx ], module );
+						moduleMap.Insert( moduleType, module );
+						moduleArr.Insert( module );
 						continue;
 					}
 				}
@@ -54,7 +31,8 @@ class JMModuleConstructorBase
 					if ( module.IsClient() )
 					{
 						Print( "Inserted Module (CLIENT): " + module.GetModuleName() );
-						moduleMap.Insert( moduleArrayNames[ idx ], module );
+						moduleMap.Insert( moduleType, module );
+						moduleArr.Insert( module );
 						continue;
 					}
 				}
@@ -64,7 +42,7 @@ class JMModuleConstructorBase
 				continue;
 			}
 
-			Print( "Failed Module: " + moduleArrayNames[i].ToString() );
+			Print( "Failed Module: " + moduleType.ToString() );
 		}
 	}
 

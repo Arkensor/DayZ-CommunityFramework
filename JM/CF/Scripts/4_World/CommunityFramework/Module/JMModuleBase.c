@@ -137,7 +137,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: WorldCleaupEventTypeID
+	 * @brief See: WorldCleaupEventTypeID
 	 */
 	bool OnWorldCleanup()
 	{
@@ -145,7 +145,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: MPSessionStartEventTypeID
+	 * @brief See: MPSessionStartEventTypeID
 	 */
 	bool OnMPSessionStart()
 	{
@@ -153,7 +153,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: MPSessionPlayerReadyEventTypeID
+	 * @brief See: MPSessionPlayerReadyEventTypeID
 	 */
 	bool OnMPSessionPlayerReady()
 	{
@@ -161,7 +161,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: MPSessionFailEventTypeID
+	 * @brief See: MPSessionFailEventTypeID
 	 */
 	bool OnMPSessionFail()
 	{
@@ -169,7 +169,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: MPSessionEndEventTypeID
+	 * @brief See: MPSessionEndEventTypeID
 	 */
 	bool OnMPSessionEnd()
 	{
@@ -177,7 +177,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ConnectingAbortEventTypeID
+	 * @brief See: ConnectingAbortEventTypeID
 	 */
 	bool OnMPConnectAbort()
 	{
@@ -185,7 +185,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: MPConnectionLostEventTypeID
+	 * @brief See: MPConnectionLostEventTypeID
 	 */
 	bool OnMPConnectionLost( int duration )
 	{
@@ -193,7 +193,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: RespawnEventTypeID
+	 * @brief See: RespawnEventTypeID
 	 */
 	bool OnRespawn( int time )
 	{
@@ -201,7 +201,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: LogoutCancelEventTypeID
+	 * @brief See: LogoutCancelEventTypeID
 	 */
 	bool OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
@@ -209,7 +209,23 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ClientNewEventTypeID
+	 * @brief See: MissionServer::InvokeOnConnect
+	 */
+	bool OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
+	{
+		return false;
+	}
+
+	/**
+	 * @brief See: MissionServer::InvokeOnDisconnect
+	 */
+	bool OnInvokeDisconnect( PlayerBase player )
+	{
+		return false;
+	}
+
+	/**
+	 * @brief See: ClientNewEventTypeID
 	 */
 	bool OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
@@ -217,7 +233,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ClientRespawnEventTypeID
+	 * @brief See: ClientRespawnEventTypeID
 	 */
 	bool OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
@@ -225,7 +241,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ClientReadyEventTypeID
+	 * @brief See: ClientReadyEventTypeID
 	 */
 	bool OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
@@ -233,7 +249,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ClientPrepareEventTypeID
+	 * @brief See: ClientPrepareEventTypeID
 	 */
 	bool OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
@@ -241,7 +257,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ClientReconnectEventTypeID
+	 * @brief See: ClientReconnectEventTypeID
 	 */
 	bool OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
@@ -249,7 +265,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: ClientDisconnectedEventTypeID
+	 * @brief See: ClientDisconnectedEventTypeID
 	 */
 	bool OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
@@ -257,7 +273,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: MissionServer::PlayerDisconnected - Fires when the player has disconnected from the server (OnClientReconnect won't fire)
+	 * @brief See: MissionServer::PlayerDisconnected - Fires when the player has disconnected from the server (OnClientReconnect won't fire)
 	 */
 	bool OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
 	{
@@ -265,7 +281,7 @@ class JMModuleBase
 	}
 
 	/**
-	 * See: LogoutCancelEventTypeID
+	 * @brief See: LogoutCancelEventTypeID
 	 */
 	bool OnClientLogoutCancelled( PlayerBase player )
 	{

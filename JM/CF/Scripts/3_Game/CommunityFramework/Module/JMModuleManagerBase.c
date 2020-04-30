@@ -22,9 +22,9 @@ class JMModuleManagerBase
 		m_PreventModuleBindings = prevent;
 	}
 
-	void RegisterModules()
+	void InitModules()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::RegisterModules()", "JM_COT_ModuleFramework" );
+		//GetLogger().Log( "JMModuleManagerBase::InitModules()", "JM_COT_ModuleFramework" );
 	}
 
 	void Print_DumpModules()
