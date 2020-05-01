@@ -139,152 +139,133 @@ class JMModuleBase
 	/**
 	 * @brief See: WorldCleaupEventTypeID
 	 */
-	bool OnWorldCleanup()
+	void OnWorldCleanup()
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MPSessionStartEventTypeID
 	 */
-	bool OnMPSessionStart()
+	void OnMPSessionStart()
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MPSessionPlayerReadyEventTypeID
 	 */
-	bool OnMPSessionPlayerReady()
+	void OnMPSessionPlayerReady()
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MPSessionFailEventTypeID
 	 */
-	bool OnMPSessionFail()
+	void OnMPSessionFail()
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MPSessionEndEventTypeID
 	 */
-	bool OnMPSessionEnd()
+	void OnMPSessionEnd()
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ConnectingAbortEventTypeID
 	 */
-	bool OnMPConnectAbort()
+	void OnMPConnectAbort()
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MPConnectionLostEventTypeID
 	 */
-	bool OnMPConnectionLost( int duration )
+	void OnMPConnectionLost( int duration )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: RespawnEventTypeID
 	 */
-	bool OnRespawn( int time )
+	void OnRespawn( int time )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: LogoutCancelEventTypeID
 	 */
-	bool OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
+	void OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MissionServer::InvokeOnConnect
 	 */
-	bool OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
+	void OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MissionServer::InvokeOnDisconnect
 	 */
-	bool OnInvokeDisconnect( PlayerBase player )
+	void OnInvokeDisconnect( PlayerBase player )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ClientNewEventTypeID
 	 */
-	bool OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
+	void OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ClientRespawnEventTypeID
 	 */
-	bool OnClientRespawn( PlayerBase player, PlayerIdentity identity )
+	void OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ClientReadyEventTypeID
 	 */
-	bool OnClientReady( PlayerBase player, PlayerIdentity identity )
+	void OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ClientPrepareEventTypeID
 	 */
-	bool OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
+	void OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ClientReconnectEventTypeID
 	 */
-	bool OnClientReconnect( PlayerBase player, PlayerIdentity identity )
+	void OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: ClientDisconnectedEventTypeID
 	 */
-	bool OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
+	void OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: MissionServer::PlayerDisconnected - Fires when the player has disconnected from the server (OnClientReconnect won't fire)
 	 */
-	bool OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
+	void OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
 	{
-		return false;
 	}
 
 	/**
 	 * @brief See: LogoutCancelEventTypeID
 	 */
-	bool OnClientLogoutCancelled( PlayerBase player )
+	void OnClientLogoutCancelled( PlayerBase player )
 	{
-		return false;
 	}
 }

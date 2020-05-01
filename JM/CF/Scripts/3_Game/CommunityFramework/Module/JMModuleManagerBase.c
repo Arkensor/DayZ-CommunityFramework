@@ -57,7 +57,7 @@ class JMModuleManagerBase
 		//GetLogger().Log( "JMModuleManagerBase::OnMissionLoaded()", "JM_COT_ModuleFramework" );
 	}
 	
-	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
+	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
 	}
 
@@ -66,52 +66,44 @@ class JMModuleManagerBase
 		//GetLogger().Log( "JMModuleManagerBase::OnUpdate()", "JM_COT_ModuleFramework" );
 	}
 
-	bool OnWorldCleanup()
+	void OnWorldCleanup()
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnWorldCleanup()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnMPSessionStart()
+	void OnMPSessionStart()
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionStart()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnMPSessionPlayerReady()
+	void OnMPSessionPlayerReady()
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionPlayerReady()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnMPSessionFail()
+	void OnMPSessionFail()
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionFail()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnMPSessionEnd()
+	void OnMPSessionEnd()
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionEnd()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnMPConnectAbort()
+	void OnMPConnectAbort()
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMPConnectAbort()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnMPConnectionLost( int duration )
+	void OnMPConnectionLost( int duration )
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnMPConnectionLost()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 
-	bool OnRespawn( int time )
+	void OnRespawn( int time )
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnRespawn()", "JM_COT_ModuleFramework" );
-		return false;
 	}
 }
 

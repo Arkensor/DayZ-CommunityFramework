@@ -135,13 +135,11 @@ class JMModuleManager: JMModuleManagerBase
 		}
 	}
 
-	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
+	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			JMModuleBase module = m_ModuleList[i];
-			if ( !module.IsEnabled() )
-				continue;
 
 			int min = module.GetRPCMin();
 			int max = module.GetRPCMax();
@@ -152,7 +150,11 @@ class JMModuleManager: JMModuleManagerBase
 			if ( max == -1 || rpc_type >= max )
 				continue;
 
-			module.OnRPC( sender, target, rpc_type, ctx );
+			if ( module.IsEnabled() )
+			{
+				module.OnRPC( sender, target, rpc_type, ctx );
+			}
+
 			return;
 		}
 	}
@@ -247,328 +249,251 @@ class JMModuleManager: JMModuleManagerBase
 		}
 	}
 
-	override bool OnWorldCleanup()
+	override void OnWorldCleanup()
 	{
-		if ( super.OnWorldCleanup() )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnWorldCleanup()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnWorldCleanup() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnWorldCleanup();
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnMPSessionStart()
+	override void OnMPSessionStart()
 	{
-		if ( super.OnMPSessionStart() )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnMPSessionStart()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionStart() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnMPSessionStart();
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnMPSessionPlayerReady()
+	override void OnMPSessionPlayerReady()
 	{
-		if ( super.OnMPSessionPlayerReady() )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnMPSessionPlayerReady()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionPlayerReady() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnMPSessionPlayerReady();
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnMPSessionFail()
+	override void OnMPSessionFail()
 	{
-		if ( super.OnMPSessionFail() )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnMPSessionFail()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionFail() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnMPSessionFail();
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnMPSessionEnd()
+	override void OnMPSessionEnd()
 	{
-		if ( super.OnMPSessionEnd() )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnMPSessionEnd()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPSessionEnd() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnMPSessionEnd();
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnMPConnectAbort()
+	override void OnMPConnectAbort()
 	{
-		if ( super.OnMPConnectAbort() )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnMPConnectAbort()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPConnectAbort() )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnMPConnectAbort();
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnMPConnectionLost( int duration )
+	override void OnMPConnectionLost( int duration )
 	{
-		if ( super.OnMPConnectionLost( duration ) )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnMPConnectionLost()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnMPConnectionLost( duration ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnMPConnectionLost( duration );
 			}
 		}
-
-		return false;
 	}
 
-	override bool OnRespawn( int time )
+	override void OnRespawn( int time )
 	{
-		if ( super.OnRespawn( time ) )
-			return true;
-
 		//GetLogger().Log( "JMModuleManager::OnRespawn()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnRespawn( time ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnRespawn( time );
 			}
 		}
-
-		return false;
 	}
 	
-	bool OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
+	void OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientLogoutCancelled()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientLogoutCancelled( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnClientLogoutCancelled( player, identity );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
+	void OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnInvokeConnect( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnInvokeConnect( player, identity );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnInvokeDisconnect( PlayerBase player )
+	void OnInvokeDisconnect( PlayerBase player )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnInvokeDisconnect( player ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnInvokeDisconnect( player );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
+	void OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientNew()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientNew( player, identity, pos, ctx ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnClientNew( player, identity, pos, ctx );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnClientReady( PlayerBase player, PlayerIdentity identity )
+	void OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientReady()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientReady( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnClientReady( player, identity );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
+	void OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientPrepare()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnClientReconnect( PlayerBase player, PlayerIdentity identity )
+	void OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientReconnect()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientReconnect( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnClientReconnect( player, identity );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnClientRespawn( PlayerBase player, PlayerIdentity identity )
+	void OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientRespawn()", "JM_COT_ModuleFramework" );
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			if ( m_ModuleList[i].IsEnabled() && m_ModuleList[i].OnClientRespawn( player, identity ) )
+			if ( m_ModuleList[i].IsEnabled() )
 			{
-				return true;
+				m_ModuleList[i].OnClientRespawn( player, identity );
 			}
 		}
-
-		return false;
 	}
 
-	bool OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
+	void OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientLogout()", "JM_COT_ModuleFramework" );
 
-		bool handled = false;
-
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
 			{
-				if ( m_ModuleList[i].OnClientLogout( player, identity, logoutTime, authFailed ) )
-				{
-					handled = true;
-				}
+				m_ModuleList[i].OnClientLogout( player, identity, logoutTime, authFailed );
 			}
 		}
-
-		return handled;
 	}
 
-	bool OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
+	void OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientDisconnect()", "JM_COT_ModuleFramework" );
 
-		bool handled = false;
-
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
 			{
-				if ( m_ModuleList[i].OnClientDisconnect( player, identity, uid ) )
-				{
-					handled = true;
-				}
+				m_ModuleList[i].OnClientDisconnect( player, identity, uid );
 			}
 		}
-
-		return handled;
 	}
 
-	bool OnClientLogoutCancelled( PlayerBase player )
+	void OnClientLogoutCancelled( PlayerBase player )
 	{
 		//GetLogger().Log( "JMModuleManager::OnClientLogoutCancelled()", "JM_COT_ModuleFramework" );
 
-		bool handled = false;
-
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
 			{
-				if ( m_ModuleList[i].OnClientLogoutCancelled( player ) )
-				{
-					handled = true;
-				}
+				m_ModuleList[i].OnClientLogoutCancelled( player )
 			}
 		}
-
-		return handled;
 	}
 }
 
