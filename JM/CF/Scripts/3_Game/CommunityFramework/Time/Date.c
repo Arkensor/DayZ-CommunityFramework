@@ -52,23 +52,23 @@ class Date
      * 
      * @return Timestamp in Seconds
      */
-    static int GetTimestamp(int year, int month, int day, int hours, int minutes, int seconds)
-    {
-        const bool isLeapYear = IsLeapYear(year);
+	static int Timestamp(int year, int month, int day, int hours, int minutes, int seconds)
+	{
+		bool isLeapYear = IsLeapYear(year);
         int timestamp = 0;
 
         for (int iYear = 1970; iYear < year; ++iYear)
         {
-            if (isLeapYear(iYear))
+            if (IsLeapYear(iYear))
                 timestamp += 86400 * 366;
             else
                 timestamp += 86400 * 365;
         }
-        for (int iMonth = 0; iMonth < month; iMonth++)
+        for (int iMonth = 1; iMonth < month; iMonth++)
         {
-            if (isLeapYear && iMonth == 1)
+            if (isLeapYear && iMonth == 2)
                 timestamp += 86400;
-            timestamp += m_DaysInMonth[iMonth] * 86400;
+            timestamp += m_DaysInMonth[iMonth - 1] * 86400;
         }
         for (int iDay = 1; iDay < day; iDay++)
         {
@@ -78,7 +78,7 @@ class Date
         timestamp += minutes * 60;
         timestamp += seconds;
         return timestamp;
-    }
+	}
 
     static void TimestampToDate(int timestamp, out int year, out int month, out int day, out int hours, out int minutes, out int seconds)
     {
@@ -100,31 +100,31 @@ class Date
 
         while (iTimestamp < timestamp)
         {
-            if (isLeapYear(iYear))
+            if (IsLeapYear(year))
             {
-                if ((iTimestamp + 31622400)‬ > timestamp) break;
+				if ( iTimestamp + 31622400 < timestamp ) break;
                 iTimestamp += 31622400;
             }
-            else
-            {
-                if ((iTimestamp + 31536000)‬ > timestamp) break;
-                iTimestamp += 31536000‬;
-            }
+			else
+			{
+				if ( iTimestamp + 31536000 < timestamp ) break;
+				iTimestamp += 31536000;
+			}
             year++;
         }
         return iTimestamp;
     }
 
-    static int TimestampCalculMonth(int iTimestamp, int timestamp int year, out int month)
+	static int TimestampCalculMonth(int iTimestamp, int timestamp, int year, out int month)
     {
-        bool isLeapYear = isLeapYear(year);
+        bool isLeapYear = IsLeapYear(year);
         month = 0;
 
         while (iTimestamp < timestamp)
         {
-            if ((iTimestamp + m_DaysInMonth[month] * 86400) > timestamp) return iTimestamp;
-            iTimestamp += m_DaysInMonth[month] * 86400;
-            if (isLeapYear && month == 1)
+            if ((iTimestamp + m_DaysInMonth[month - 1] * 86400) > timestamp) return iTimestamp;
+            iTimestamp += m_DaysInMonth[month - 1] * 86400;
+            if (isLeapYear && month == 2)
             {
                 if ((iTimestamp + 86400) > timestamp) return iTimestamp;
                 iTimestamp += 86400;
@@ -184,6 +184,16 @@ class Date
         }
         return iTimestamp;
     }
+	
+	string DateToString()
+	{
+		string dateToString = GetFullMonthString();
+
+		dateToString += " " + m_Day;
+		dateToString += ", " + m_Year;
+		dateToString += " " + m_Hours + ":" + m_Minutes + ":" + m_Seconds;
+		return dateToString;
+	}
 
     /** Getters */
     bool UseUTC()
@@ -203,15 +213,15 @@ class Date
 
     string GetFullMonthString()
     {
-        if (-1 < m_Month && m_Month < 12)
-            return m_MonthsFullName[m_Month];
+        if (0 < m_Month && m_Month < 13)
+            return m_MonthsFullName[m_Month - 1];
         return "undefined";
     }
 
     string GetShortMonthString()
     {
-        if (-1 < m_Month && m_Month < 12)
-            return m_MonthsShortName[m_Month];
+        if (0 < m_Month && m_Month < 13)
+            return m_MonthsShortName[m_Month - 1];
         return "undefined";
     }
 
@@ -234,6 +244,11 @@ class Date
     {
         return m_Seconds;
     }
+	
+	int GetTimestamp()
+	{
+		return Timestamp(m_Year, m_Month, m_Day, m_Hours, m_Minutes, m_Seconds);
+	}
 
     /** Setters */
     void SetDate(int year, int month, int day, int hours, int minutes, int seconds)
@@ -283,7 +298,7 @@ class Date
 
     void SetMonth(int month)
     {
-        if (month > -1 && month < 13)
+        if (-1 < month && month < 13)
             m_Month = month;
     }
 
