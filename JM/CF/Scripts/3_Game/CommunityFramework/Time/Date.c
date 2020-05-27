@@ -47,19 +47,26 @@ class Date
     }
 
     /**
-     * Based on: https://en.wikipedia.org/wiki/Unix_time
-     * 
-     * @param {int} year
-     * @param {int} month
-     * @param {int} day
-     * @param {int} hours
-     * @param {int} minutes
-     * @param {int} seconds
-     * 
-     * @return Timestamp in Seconds
-     */
+	* Based on: https://en.wikipedia.org/wiki/Unix_time
+	*
+	* MAJOR NOTE:
+	*	Timestamp start at Year 1970, if any functions / methods linked
+	*	to Timestamp, be aware of using any date at least starting at this
+	*	year.
+	*
+	* @param {int} m_Year
+	* @param {int} month
+	* @param {int} m_Day
+	* @param {int} m_Hours
+	* @param {int} m_Minutes
+	* @param {int} m_Seconds
+	*
+	* @return Timestamp in m_Seconds
+	*/
 	static int Timestamp( int year, int month, int day, int hours, int minutes, int seconds )
 	{
+		if ( year < 1970 ) return 0;
+
 		bool isLeapYear = IsLeapYear( year );
         int timestamp = 0;
 
@@ -74,6 +81,7 @@ class Date
                 timestamp += 31536000;
 			}
         }
+
         for ( int iMonth = 1; iMonth < month; iMonth++ )
         {
             if ( isLeapYear && iMonth == 2 )
@@ -82,10 +90,12 @@ class Date
 			}
             timestamp += DAYS_IN_MONTH[ iMonth - 1 ] * 86400;
         }
+
         for ( int iDay = 1; iDay < day; iDay++ )
         {
             timestamp += 86400;
         }
+
         timestamp += hours * 3600;
         timestamp += minutes * 60;
         timestamp += seconds;
@@ -94,6 +104,8 @@ class Date
 
     static void TimestampToDate( int timestamp, out int year, out int month, out int day, out int hours, out int minutes, out int seconds )
     {
+		if (timestamp < 0) return;
+
         int iTimestamp = 0;
 
         iTimestamp = TimestampCalculYear( timestamp, year );
@@ -336,7 +348,7 @@ class Date
 		}
 		else
 		{
-			GetLogger().Err("Invalid SetMonth: " + month + ". Expected a value between 1 and 12", "Date", false);
+			GetLogger().Err("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!", "Date", false);
 		}
     }
 
@@ -354,7 +366,7 @@ class Date
 		}
 		else
 		{
-			GetLogger().Err( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ], "Date", false );
+			GetLogger().Err( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ] + "!", "Date", false );
 		}
     }
 
@@ -366,7 +378,7 @@ class Date
 		}
 		else
 		{
-			GetLogger().Err( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23", "Date", false );
+			GetLogger().Err( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23!", "Date", false );
 		}
     }
 
@@ -378,7 +390,7 @@ class Date
 		}
 		else
 		{
-			GetLogger().Err( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59", "Date", false );
+			GetLogger().Err( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!", "Date", false );
 		}
     }
 
@@ -390,7 +402,7 @@ class Date
 		}
 		else
 		{
-			GetLogger().Err( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59", "Date", false );
+			GetLogger().Err( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!", "Date", false );
 		}
     }
 };
