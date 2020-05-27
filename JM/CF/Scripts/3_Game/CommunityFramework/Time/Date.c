@@ -116,7 +116,7 @@ class Date
         iTimestamp = TimestampCalculSeconds( iTimestamp, timestamp, seconds );
     }
 
-    static int TimestampCalculYear( int timestamp, out int year )
+    protected static int TimestampCalculYear( int timestamp, out int year )
     {
         int iTimestamp = 0;
         year = 1970;
@@ -140,7 +140,7 @@ class Date
         return iTimestamp;
     }
 
-	static int TimestampCalculMonth( int iTimestamp, int timestamp, int year, out int month )
+	protected static int TimestampCalculMonth( int iTimestamp, int timestamp, int year, out int month )
     {
         bool isLeapYear = IsLeapYear( year );
         month = 0;
@@ -164,7 +164,7 @@ class Date
         return iTimestamp;
     }
 
-    static int TimestampCalculDays( int iTimestamp, int timestamp, out int days )
+    protected static int TimestampCalculDays( int iTimestamp, int timestamp, out int days )
     {
         days = 1;
 
@@ -177,7 +177,7 @@ class Date
         return iTimestamp;
     }
 
-    static int TimestampCalculHours( int iTimestamp, int timestamp, out int hours )
+    protected static int TimestampCalculHours( int iTimestamp, int timestamp, out int hours )
     {
         hours = 0;
 
@@ -190,7 +190,7 @@ class Date
         return iTimestamp;
     }
 
-    static int TimestampCalculMinutes( int iTimestamp, int timestamp, out int minutes )
+    protected static int TimestampCalculMinutes( int iTimestamp, int timestamp, out int minutes )
     {
         minutes = 0;
 
@@ -203,7 +203,7 @@ class Date
         return iTimestamp;
     }
 
-    static int TimestampCalculSeconds( int iTimestamp, int timestamp, out int seconds )
+    protected static int TimestampCalculSeconds( int iTimestamp, int timestamp, out int seconds )
     {
         seconds = 0;
 
