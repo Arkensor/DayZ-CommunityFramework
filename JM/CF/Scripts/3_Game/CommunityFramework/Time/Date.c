@@ -1,48 +1,53 @@
-class Date
+class Date : Managed
 {
-    static const string MONTHS_FULL_NAME[12] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-    static const string MONTHS_SHORT_NAME[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    static const int DAYS_IN_MONTH[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    // TODO: Stringtable
+    static const string MONTHS_FULL_NAME[12] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+    static const string MONTHS_SHORT_NAME[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    static const int DAYS_IN_MONTH[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-    protected bool m_UseUTC;
-    protected int m_Year;
-    protected int m_Month;
-    protected int m_Day;
-    protected int m_Hours;
-    protected int m_Minutes;
-    protected int m_Seconds;
+    private bool m_UseUTC;
 
-    void Date( bool useUTC = true )
+    private int m_Year;
+    private int m_Month;
+    private int m_Day;
+    private int m_Hour;
+    private int m_Minute;
+    private int m_Second;
+
+    private void Date()
     {
-        m_UseUTC = useUTC;
+    }
 
-        if ( useUTC )
+    static Date Now( bool useUTC )
+    {
+        ref Date date = new Date();
+        date.m_UseUTC = useUTC;
+
+        if ( date.m_UseUTC )
         {
-            GetYearMonthDayUTC( m_Year, m_Month, m_Day );
-            GetHourMinuteSecondUTC( m_Hours, m_Minutes, m_Seconds );
-        }
-        else
+            GetYearMonthDayUTC( date.m_Year, date.m_Month, date.m_Day );
+            GetHourMinuteSecondUTC( date.m_Hour, date.m_Minute, date.m_Second );
+        } else
         {
-            GetYearMonthDay( m_Year, m_Month, m_Day );
-            GetHourMinuteSecond( m_Hours, m_Minutes, m_Seconds );
+            GetYearMonthDay( date.m_Year, date.m_Month, date.m_Day );
+            GetHourMinuteSecond( date.m_Hour, date.m_Minute, date.m_Second );
         }
+
+        return date;
     }
 
     /** Utils */
     static bool IsLeapYear( int year )
     {
         if ( year % 400 == 0 )
-		{
             return true;
-		}
+
         if ( year % 100 == 0 )
-		{
             return false;
-		}
+
         if ( year % 4 == 0 )
-		{
             return true;
-		}
+
         return false;
     }
 
@@ -57,15 +62,16 @@ class Date
 	* @param {int} m_Year
 	* @param {int} month
 	* @param {int} m_Day
-	* @param {int} m_Hours
-	* @param {int} m_Minutes
-	* @param {int} m_Seconds
+	* @param {int} m_Hour
+	* @param {int} m_Minute
+	* @param {int} m_Second
 	*
-	* @return Timestamp in m_Seconds
+	* @return Timestamp in m_Second
 	*/
 	static int Timestamp( int year, int month, int day, int hours, int minutes, int seconds )
 	{
-		if ( year < 1970 ) return 0;
+		if ( year < 1970 )
+            return 0;
 
 		bool isLeapYear = IsLeapYear( year );
         int timestamp = 0;
@@ -104,10 +110,10 @@ class Date
 
     static void TimestampToDate( int timestamp, out int year, out int month, out int day, out int hours, out int minutes, out int seconds )
     {
-		if (timestamp < 0) return;
+		if (timestamp < 0)
+            return;
 
         int iTimestamp = 0;
-
         iTimestamp = TimestampCalculYear( timestamp, year );
         iTimestamp = TimestampCalculMonth( iTimestamp, timestamp, year, month );
         iTimestamp = TimestampCalculDays( iTimestamp, timestamp, day );
@@ -126,17 +132,17 @@ class Date
 			int yearTimestamp;
 
             if ( IsLeapYear( year ) )
-			{
                 yearTimestamp = 31622400;
-			}
 			else
-			{
 				yearTimestamp = 31536000;
-			}
-			if ( iTimestamp + yearTimestamp > timestamp ) break;
+
+			if ( iTimestamp + yearTimestamp > timestamp )
+                break;
+
 			iTimestamp += yearTimestamp;
             year++;
         }
+
         return iTimestamp;
     }
 
@@ -149,17 +155,17 @@ class Date
         {
 			int monthTimestamp;
 			if ( isLeapYear && month == 1 )
-			{
 				monthTimestamp = 2505600;
-			}
 			else
-			{
 				monthTimestamp = DAYS_IN_MONTH[ month ] * 86400;
-			}
-			if ( iTimestamp + monthTimestamp > timestamp ) break;
+
+			if ( iTimestamp + monthTimestamp > timestamp )
+                break;
+
 			iTimestamp += monthTimestamp;
             month++;
         }
+
 		month++;
         return iTimestamp;
     }
@@ -170,10 +176,13 @@ class Date
 
         while ( iTimestamp < timestamp )
         {
-            if ( iTimestamp + 86400 > timestamp ) break;
+            if ( iTimestamp + 86400 > timestamp )
+                break;
+
             iTimestamp += 86400;
             days++;
         }
+
         return iTimestamp;
     }
 
@@ -183,10 +192,13 @@ class Date
 
         while ( iTimestamp < timestamp )
         {
-            if ( iTimestamp + 3600 > timestamp ) break;
+            if ( iTimestamp + 3600 > timestamp )
+                break;
+
             iTimestamp += 3600;
             hours++;
         }
+
         return iTimestamp;
     }
 
@@ -196,10 +208,12 @@ class Date
 
         while ( iTimestamp < timestamp )
         {
-            if ( iTimestamp + 60 > timestamp ) break;
+            if ( iTimestamp + 60 > timestamp )
+                break;
             iTimestamp += 60;
             minutes++;
         }
+
         return iTimestamp;
     }
 
@@ -212,6 +226,7 @@ class Date
             iTimestamp++;
             seconds++;
         }
+
         return iTimestamp;
     }
 
@@ -227,12 +242,176 @@ class Date
 
 		dateToString += " " + m_Day;
 		dateToString += ", " + m_Year;
-		dateToString += " " + m_Hours + ":" + m_Minutes + ":" + m_Seconds;
+		dateToString += " " + m_Hour + ":" + m_Minute + ":" + m_Second;
 		return dateToString;
 	}
 
+    // Supply a format such as "YYYY-MM-DD hh:mm:ss"
+    string ToString( string format )
+    {
+        format = FormatYear( format );
+        format = FormatMonth( format );
+        format = FormatDay( format );
+        format = FormatHour( format );
+        format = FormatMinute( format );
+        format = FormatSecond( format );
+        return format;
+    }
+
+    private string FormatYear( string format )
+    {
+        string year = "" + m_Year;
+        int i = year.Length();
+        if ( format.IndexOf( "YYYY" ) != -1 )
+        {
+            if ( i > 4 )
+            {
+                year = year.Substring( i - 4, 4 );
+            } else if ( i < 4 )
+            {
+                for ( i; i < 4; i++ )
+                {
+                    year = "0" + year;
+                }
+            }
+
+            format.Replace( "YYYY", year );
+        } else if ( format.IndexOf( "YY" ) != -1 )
+        {
+            if ( i > 2 )
+            {
+                year = year.Substring( i - 2, 2 );
+            } else if ( i < 2 )
+            {
+                for ( i; i < 2; i++ )
+                {
+                    year = "0" + year;
+                }
+            }
+
+            format.Replace( "YY", year );
+        }
+
+        return format;
+    }
+
+    private string FormatMonth( string format )
+    {
+        string month = "" + m_Month;
+        int i = month.Length();
+        if ( format.IndexOf( "MM" ) != -1 )
+        {
+            if ( i > 2 )
+            {
+                month = month.Substring( i - 2, 2 );
+            } else if ( i < 2 )
+            {
+                for ( i; i < 2; i++ )
+                {
+                    month = "0" + month;
+                }
+            }
+
+            format.Replace( "MM", month );
+        }
+
+        return format;
+    }
+
+    private string FormatDay( string format )
+    {
+        string day = "" + m_Day;
+        int i = day.Length();
+        if ( format.IndexOf( "DD" ) != -1 )
+        {
+            if ( i > 2 )
+            {
+                day = day.Substring( i - 2, 2 );
+            } else if ( i < 2 )
+            {
+                for ( i; i < 2; i++ )
+                {
+                    day = "0" + day;
+                }
+            }
+
+            format.Replace( "DD", day );
+        }
+
+        return format;
+    }
+
+    private string FormatHour( string format )
+    {
+        string hour = "" + m_Hour;
+        int i = hour.Length();
+        if ( format.IndexOf( "hh" ) != -1 )
+        {
+            if ( i > 2 )
+            {
+                hour = hour.Substring( i - 2, 2 );
+            } else if ( i < 2 )
+            {
+                for ( i; i < 2; i++ )
+                {
+                    hour = "0" + hour;
+                }
+            }
+
+            format.Replace( "hh", hour );
+        }
+
+        return format;
+    }
+
+    private string FormatMinute( string format )
+    {
+        string minute = "" + m_Minute;
+        int i = minute.Length();
+        if ( format.IndexOf( "mm" ) != -1 )
+        {
+            if ( i > 2 )
+            {
+                minute = minute.Substring( i - 2, 2 );
+            } else if ( i < 2 )
+            {
+                for ( i; i < 2; i++ )
+                {
+                    minute = "0" + minute;
+                }
+            }
+
+            format.Replace( "mm", minute );
+        }
+
+        return format;
+    }
+
+    private string FormatSecond( string format )
+    {
+        string second = "" + m_Second;
+        int i = second.Length();
+        if ( format.IndexOf( "ss" ) != -1 )
+        {
+            if ( i > 2 )
+            {
+                second = second.Substring( i - 2, 2 );
+            } else if ( i < 2 )
+            {
+                for ( i; i < 2; i++ )
+                {
+                    second = "0" + second;
+                }
+            }
+
+            format.Replace( "ss", second );
+        }
+
+        return format;
+    }
+
     /** Getters */
-    bool isUsingUTC()
+    bool IsUsingUTC()
     {
         return m_UseUTC;
     }
@@ -253,6 +432,7 @@ class Date
 		{
             return MONTHS_FULL_NAME[ m_Month - 1 ];
 		}
+
         return "undefined";
     }
 
@@ -262,6 +442,7 @@ class Date
 		{
             return MONTHS_SHORT_NAME[ m_Month - 1 ];
 		}
+
         return "undefined";
     }
 
@@ -272,22 +453,22 @@ class Date
 
     int GetHours()
     {
-        return m_Hours;
+        return m_Hour;
     }
 
     int GetMinutes()
     {
-        return m_Minutes;
+        return m_Minute;
     }
 
     int GetSeconds()
     {
-        return m_Seconds;
+        return m_Second;
     }
 	
 	int GetTimestamp()
 	{
-		return Timestamp( m_Year, m_Month, m_Day, m_Hours, m_Minutes, m_Seconds );
+		return Timestamp( m_Year, m_Month, m_Day, m_Hour, m_Minute, m_Second );
 	}
 
     /** Setters */
@@ -345,8 +526,7 @@ class Date
 			{
 				m_Day = DAYS_IN_MONTH[ m_Month - 1 ];
 			}
-		}
-		else
+		} else
 		{
 			GetLogger().Err("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!", "Date", false);
 		}
@@ -360,11 +540,11 @@ class Date
 		{
             monthDays++;
 		}
+
         if ( 0 < day && day < monthDays )
 		{
             m_Day = day;
-		}
-		else
+		} else
 		{
 			GetLogger().Err( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ] + "!", "Date", false );
 		}
@@ -374,9 +554,8 @@ class Date
     {
         if ( -1 < hours && hours < 24 )
 		{
-            m_Hours = hours;
-		}
-		else
+            m_Hour = hours;
+		} else
 		{
 			GetLogger().Err( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23!", "Date", false );
 		}
@@ -386,9 +565,8 @@ class Date
     {
         if ( -1 < minutes && minutes < 60 )
 		{
-            m_Minutes = minutes;
-		}
-		else
+            m_Minute = minutes;
+		} else
 		{
 			GetLogger().Err( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!", "Date", false );
 		}
@@ -398,9 +576,8 @@ class Date
     {
         if ( -1 < seconds && seconds < 60 )
 		{
-            m_Seconds = seconds;
-		}
-		else
+            m_Second = seconds;
+		} else
 		{
 			GetLogger().Err( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!", "Date", false );
 		}
