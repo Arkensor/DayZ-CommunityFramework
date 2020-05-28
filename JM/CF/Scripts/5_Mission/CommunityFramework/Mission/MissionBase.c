@@ -2,6 +2,9 @@ modded class MissionBase
 {
 	void MissionBase()
 	{
+		CreateDiscordManager();
+		CreateSteamManager();
+
 		if ( !ModuleManagerExists() )
 		{
 			Print( "Creating ModuleManager" );
