@@ -156,6 +156,9 @@ IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
 echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
 copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > nul
 
+echo Copying over "%workDrive%\%prefixLinkRoot%\mod.cpp" to "%modBuildDirectory%%modName%\"
+copy "%workDrive%%prefixLinkRoot%\mod.cpp" "%modBuildDirectory%%modName%\" > nul
+
 echo Packaging %modName% PBO's
 
 @echo off
