@@ -14,6 +14,13 @@ modded class DayZGame
 
 	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
+		if ( rpc_type == NotificationSystemRPC.Create )
+		{
+			NotificationSystem.RPC_CreateNotification( sender, target, ctx );
+
+			return;
+		}
+	
 		g_cot_ModuleManager.OnRPC( sender, target, rpc_type, ctx );
 
 		super.OnRPC( sender, target, rpc_type, ctx );
