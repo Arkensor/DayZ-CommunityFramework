@@ -1,4 +1,4 @@
-class Date : Managed
+class JMDate : Managed
 {
     // TODO: Stringtable
     static const string MONTHS_FULL_NAME[12] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
@@ -14,13 +14,13 @@ class Date : Managed
     private int m_Minute;
     private int m_Second;
 
-    private void Date()
+    private void JMDate()
     {
     }
 
-    static Date Now( bool useUTC )
+    static JMDate Now( bool useUTC )
     {
-        ref Date date = new Date();
+        ref JMDate date = new JMDate();
         date.m_UseUTC = useUTC;
 
         if ( date.m_UseUTC )
@@ -231,7 +231,7 @@ class Date : Managed
     }
 
 	/**
-	*	@return {string} Date with format: "month day, year hours:minutes:seconds"
+	*	@return {string} JMDate with format: "month day, year hours:minutes:seconds"
 	*
 	*	Note:
 	*		0 in front of numbers are not includes.
@@ -528,7 +528,7 @@ class Date : Managed
 			}
 		} else
 		{
-			GetLogger().Err("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!", "Date", false);
+			GetLogger().Err("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!", "JMDate", false);
 		}
     }
 
@@ -546,7 +546,7 @@ class Date : Managed
             m_Day = day;
 		} else
 		{
-			GetLogger().Err( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ] + "!", "Date", false );
+			GetLogger().Err( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ] + "!", "JMDate", false );
 		}
     }
 
@@ -557,7 +557,7 @@ class Date : Managed
             m_Hour = hours;
 		} else
 		{
-			GetLogger().Err( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23!", "Date", false );
+			GetLogger().Err( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23!", "JMDate", false );
 		}
     }
 
@@ -568,7 +568,7 @@ class Date : Managed
             m_Minute = minutes;
 		} else
 		{
-			GetLogger().Err( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!", "Date", false );
+			GetLogger().Err( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!", "JMDate", false );
 		}
     }
 
@@ -579,7 +579,7 @@ class Date : Managed
             m_Second = seconds;
 		} else
 		{
-			GetLogger().Err( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!", "Date", false );
+			GetLogger().Err( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!", "JMDate", false );
 		}
     }
 };
