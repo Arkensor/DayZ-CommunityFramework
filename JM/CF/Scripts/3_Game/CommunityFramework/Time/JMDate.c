@@ -528,7 +528,7 @@ class JMDate : Managed
 			}
 		} else
 		{
-			GetLogger().Err("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!", "JMDate", false);
+			Error("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!");
 		}
     }
 
@@ -546,7 +546,7 @@ class JMDate : Managed
             m_Day = day;
 		} else
 		{
-			GetLogger().Err( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ] + "!", "JMDate", false );
+			Error( "Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[ m_Month - 1 ] + "!");
 		}
     }
 
@@ -557,7 +557,7 @@ class JMDate : Managed
             m_Hour = hours;
 		} else
 		{
-			GetLogger().Err( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23!", "JMDate", false );
+			Error( "Invalid SetHours: " + hours + ". Expected a value between 0 and 23!");
 		}
     }
 
@@ -568,7 +568,7 @@ class JMDate : Managed
             m_Minute = minutes;
 		} else
 		{
-			GetLogger().Err( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!", "JMDate", false );
+			Error( "Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!");
 		}
     }
 
@@ -579,7 +579,7 @@ class JMDate : Managed
             m_Second = seconds;
 		} else
 		{
-			GetLogger().Err( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!", "JMDate", false );
+			Error( "Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!");
 		}
     }
 };
