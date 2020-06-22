@@ -2,7 +2,7 @@ class XMLTag : Managed
 {
     private string _name;
 
-    private autoptr array< ref XMLAttribute > _attributes;
+    private autoptr map< string, ref XMLAttribute > _attributes;
 
     private ref XMLElement _element;
 
@@ -10,7 +10,7 @@ class XMLTag : Managed
 
     void XMLTag( ref XMLElement parent, string name )
     {
-        _attributes = new array< ref XMLAttribute >;
+        _attributes = new map< string, ref XMLAttribute >;
         _parentElement = parent;
         _name = name;
         _element = new XMLElement( this );
@@ -20,12 +20,17 @@ class XMLTag : Managed
     {
         for ( int i = 0; i < _attributes.Count(); ++i )
         {
-            delete _attributes[i];
+            delete _attributes.GetElement( i );
         }
 
         delete _attributes;
 
         delete _element;
+    }
+
+    string GetName()
+    {
+        return _name;
     }
 
     ref XMLTag CreateTag( string name )
@@ -37,9 +42,19 @@ class XMLTag : Managed
     {
         XMLAttribute attrb = new XMLAttribute( this, name );
 
-        _attributes.Insert( attrb );
+        _attributes.Insert( name, attrb );
 
         return attrb;
+    }
+
+    ref XMLAttribute GetAttribute( string name )
+    {
+        return _attributes.Get( name );
+    }
+
+    XMLElement GetContent()
+    {
+        return _element;
     }
 
     XMLElement GetParent()
@@ -57,7 +72,7 @@ class XMLTag : Managed
         Print( indent + "Attributes: count=" + _attributes.Count() );
         for ( int i = 0; i < _attributes.Count(); ++i )
         {
-            _attributes[i].Debug( level );
+            _attributes.GetElement( i ).Debug( level );
         }
 
         Print( indent + "Element:" );

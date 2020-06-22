@@ -22,6 +22,37 @@ class XMLAttribute : Managed
         return _value;
     }
 
+    string ValueAsString()
+    {
+        return _value;
+    }
+
+    bool ValueAsBool()
+    {
+        if ( _value == "true" )
+            return true;
+
+        return false;
+    }
+
+    int ValueAsInt()
+    {
+        return _value.ToInt();
+    }
+
+    float ValueAsFloat()
+    {
+        return _value.ToFloat();
+    }
+
+    vector ValueAsVector()
+    {
+        array<string> tokens = new array<string>;
+        _value.Split( " ", tokens );
+
+        return Vector( tokens[0].ToFloat(), tokens[1].ToFloat(), tokens[2].ToFloat() );
+    }
+
     XMLTag GetParent()
     {
         return _parentTag;
