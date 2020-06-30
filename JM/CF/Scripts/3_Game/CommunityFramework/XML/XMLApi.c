@@ -1,37 +1,46 @@
 class XMLApi
 {
-    private ref array< ref XMLDocument > _documents = new array< ref XMLDocument >;
+    private ref array< ref Param2< string, XMLCallback > > _threads = new array< ref Param2< string, XMLCallback > >;
 
     void Read( string file, notnull ref XMLCallback callback )
     {
-        ref XMLDocument document = new XMLDocument();
-        _documents.Insert( document );
-		GetGame().GameScript.Call( this, "ReadInt", new Param3< ref XMLDocument, ref XMLReader, ref XMLCallback >( document, XMLReader.Open( file ), callback ) );
+        _threads.Insert( new Param2< string, XMLCallback >( file, callback ) );
+
+		GetGame().GameScript.Call( this, "ThreadRead", NULL );
     }
 
-    private void ReadInt( Param3< ref XMLDocument, ref XMLReader, ref XMLCallback > params )
+    private void ThreadRead()
     {
-        params.param3.OnStart( params.param1 );
+        XMLDocument document = new XMLDocument();
+        XMLReader reader = XMLReader.Open( _threads[0].param1 );
+        XMLCallback callback = _threads[0].param2;
+
+        _threads.Remove( 0 );
+
+        Sleep( 10 );
+
+        callback.OnStart( document );
 
         bool success = false;
-        if ( params.param1 && params.param2 )
+        if ( document && reader )
         {
-            success = params.param1.Read( params.param2 );
+            success = document.Read( reader );
         }
 
         if ( success )
         {
-            params.param3.OnSuccess( params.param1 );
+            callback.OnSuccess( document );
         } else 
         {
-            params.param3.OnFailure( params.param1 );
+            callback.OnFailure( document );
         }
     }
 };
 
+static ref XMLApi g_reader;
+
 static ref XMLApi GetXMLApi()
 {
-    static ref XMLApi g_reader;
     if ( g_reader == NULL )
         g_reader = new XMLApi();
 
