@@ -491,7 +491,7 @@ class JMModuleManager: JMModuleManagerBase
 		{
 			if ( m_ModuleList[i].IsEnabled() )
 			{
-				m_ModuleList[i].OnClientLogoutCancelled( player )
+				m_ModuleList[i].OnClientLogoutCancelled( player );
 			}
 		}
 	}
@@ -499,16 +499,15 @@ class JMModuleManager: JMModuleManagerBase
 
 static ref JMModuleManager GetModuleManager()
 {
-	return JMModuleManager.Cast( g_cot_ModuleManager );
+	return JMModuleManager.Cast( g_cf_ModuleManager );
 }
 
 static void CreateModuleManager( JMModuleConstructorBase construct )
 {
-	g_cot_ModuleManager = new JMModuleManager;
-	JMModuleManager manager;
-	if ( Class.CastTo( manager, g_cot_ModuleManager) )
-	{
-		manager.ConstructModules( construct );
-		manager.InitModules();
-	}
+	ref JMModuleManager manager = new JMModuleManager;
+
+	manager.ConstructModules( construct );
+	manager.InitModules();
+
+	g_cf_ModuleManager = manager;
 }

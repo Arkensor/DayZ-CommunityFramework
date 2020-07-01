@@ -107,14 +107,14 @@ class JMModuleManagerBase
 	}
 }
 
-ref JMModuleManagerBase g_cot_ModuleManager = NULL;
+ref JMModuleManagerBase g_cf_ModuleManager = NULL;
 
 static void DestroyModuleManager()
 {
-	delete g_cot_ModuleManager;
+	delete g_cf_ModuleManager;
 }
 
 static bool ModuleManagerExists()
 {
-	return g_cot_ModuleManager != NULL;
+	return g_cf_ModuleManager != NULL;
 }

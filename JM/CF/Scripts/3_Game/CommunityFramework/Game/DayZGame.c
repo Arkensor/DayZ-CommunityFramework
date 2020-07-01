@@ -21,7 +21,7 @@ modded class DayZGame
 			return;
 		}
 	
-		g_cot_ModuleManager.OnRPC( sender, target, rpc_type, ctx );
+		g_cf_ModuleManager.OnRPC( sender, target, rpc_type, ctx );
 
 		super.OnRPC( sender, target, rpc_type, ctx );
 	}
