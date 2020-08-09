@@ -103,11 +103,15 @@ class XMLTag : Managed
         FPrint( handle, indent );
         FPrint( handle, "<" );
         FPrint( handle, _name );
-        FPrint( handle, " " );
-        
-        for ( int i = 0; i < _attributes.Count(); ++i )
+
+        if ( _attributes.Count() > 0 )
         {
-            _attributes.GetElement( i ).OnWrite( handle, depth );
+            FPrint( handle, " " );
+            
+            for ( int i = 0; i < _attributes.Count(); ++i )
+            {
+                _attributes.GetElement( i ).OnWrite( handle, depth );
+            }
         }
 
         if ( _element.Count() > 0 )
@@ -119,6 +123,10 @@ class XMLTag : Managed
             FPrint( handle, indent );
             FPrint( handle, "<" );
             FPrint( handle, _name );
+            FPrint( handle, " " );
+        } else if ( _attributes.Count() == 0 )
+        {
+            FPrint( handle, " " );
         }
 
         FPrint( handle, "/>\n" );
