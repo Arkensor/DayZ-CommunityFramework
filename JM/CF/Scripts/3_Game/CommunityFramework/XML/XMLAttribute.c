@@ -12,6 +12,20 @@ class XMLAttribute : Managed
         _value = "";
     }
 
+    ref XMLAttribute Copy( ref XMLTag parent = NULL )
+    {
+        ref XMLAttribute element = new XMLAttribute( parent, _name );
+
+        element._value = _value;
+
+        return element;
+    }
+
+    string GetName()
+    {
+        return _name;
+    }
+
     void SetValue( string value )
     {
         _value = value;
@@ -62,5 +76,13 @@ class XMLAttribute : Managed
     {
         string indent = CF_Indent( level );
         Print( indent + " name=" + _name + " value=" + _value );
+    }
+
+    void OnWrite( FileHandle handle, int depth )
+    {
+        FPrint( handle, _name );
+        FPrint( handle, "=\"" );
+        FPrint( handle, _value );
+        FPrint( handle, "\" " );
     }
 };

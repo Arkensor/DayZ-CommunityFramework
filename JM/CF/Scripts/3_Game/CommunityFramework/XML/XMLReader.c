@@ -180,28 +180,24 @@ class XMLReader : Managed
 
     bool IsLetterOrDigit( string c, bool isQuoted )
     {
-        int i = _cf_characters.Find( c );
-        if ( i == -1 )
-        {
+        int i = _cf_characters.Find( c ) + 32;
+        if ( i < 32 )
             return false;
-        }
 
         if ( isQuoted && i >= 32 && i <= 126 )
-        {
             return true;
-        }
             
         if ( i >= 48 && i <= 57 )
-        {
             return true;
-        }
 
-        i -= 32;
+        if ( i == 95 )
+            return true;
+
+        if ( i > 90 )
+            i -= 32;
 
         if ( i >= 65 && i <= 90 )
-        {
             return true;
-        }
 
         return false;
     }

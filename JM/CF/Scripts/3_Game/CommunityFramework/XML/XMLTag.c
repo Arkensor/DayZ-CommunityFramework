@@ -8,12 +8,14 @@ class XMLTag : Managed
 
     private XMLElement _parentElement;
 
-    void XMLTag( ref XMLElement parent, string name )
+    void XMLTag( ref XMLElement parent, string name, bool isCopy = false )
     {
         _attributes = new map< string, ref XMLAttribute >;
         _parentElement = parent;
         _name = name;
-        _element = new XMLElement( this );
+
+        if ( !isCopy )
+            _element = new XMLElement( this );
     }
 
     void ~XMLTag()
@@ -26,6 +28,21 @@ class XMLTag : Managed
         delete _attributes;
 
         delete _element;
+    }
+
+    ref XMLTag Copy( ref XMLElement parent = NULL )
+    {
+        ref XMLTag tag = new XMLTag( parent, _name );
+
+        for ( int i = 0; i < _attributes.Count(); ++i )
+        {
+            ref XMLAttribute attrib = _attributes.GetElement( i ).Copy( tag );
+            tag._attributes.Insert( attrib.GetName(), attrib );
+        }
+
+        tag._element = _element.Copy( tag );
+
+        return tag;
     }
 
     string GetName()
@@ -77,5 +94,33 @@ class XMLTag : Managed
 
         Print( indent + "Element:" );
         _element.Debug( level + 1 );
+    }
+
+    void OnWrite( FileHandle handle, int depth )
+    {
+        string indent = CF_XML_Indent( depth );
+
+        FPrint( handle, indent );
+        FPrint( handle, "<" );
+        FPrint( handle, _name );
+        FPrint( handle, " " );
+        
+        for ( int i = 0; i < _attributes.Count(); ++i )
+        {
+            _attributes.GetElement( i ).OnWrite( handle, depth );
+        }
+
+        if ( _element.Count() > 0 )
+        {
+            FPrint( handle, ">\n" );
+
+            _element.OnWrite( handle, depth + 1 );
+
+            FPrint( handle, indent );
+            FPrint( handle, "<" );
+            FPrint( handle, _name );
+        }
+
+        FPrint( handle, "/>\n" );
     }
 };

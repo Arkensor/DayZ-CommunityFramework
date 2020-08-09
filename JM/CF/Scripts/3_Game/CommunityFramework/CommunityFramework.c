@@ -1,36 +1,36 @@
 const autoptr TStringArray _cf_characters = {
-		"",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
+//		"",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
         " ",
         "!",
         "\"",
@@ -128,6 +128,17 @@ const autoptr TStringArray _cf_characters = {
         "~",
         ""
     };
+
+//TODO: remove this when the CF refactor is completed
+static string CF_XML_Indent( int level )
+{
+	string str = "";
+
+	for ( int i = 0; i < level; ++i )
+		str += "\t";
+
+	return str;
+}
 
 static bool IsMissionHost()
 {

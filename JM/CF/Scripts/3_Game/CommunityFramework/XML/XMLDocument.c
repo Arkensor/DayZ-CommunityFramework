@@ -17,6 +17,18 @@ class XMLDocument : XMLElement
         return _currentTag;
     }
 
+    ref XMLDocument CopyDocument()
+    {
+        ref XMLDocument document = new XMLDocument( NULL );
+
+        for ( int i = 0; i < _tags.Count(); ++i )
+        {
+            document._tags.Insert( _tags[i].Copy( this ) );
+        }
+
+        return document;
+    }
+
     private bool ReadAttribute()
     {
         if ( !_currentTag )
@@ -145,5 +157,25 @@ class XMLDocument : XMLElement
 
         delete _reader;
         return true;
+    }
+
+    void Save( string path )
+    {
+        ThreadWrite( path );
+		//GetGame().GameScript.Call( this, "ThreadWrite", path );
+    }
+
+    private void ThreadWrite( string path )
+    {
+        Print( "ThreadWrite" );
+        FileHandle handle = OpenFile( path, FileMode.WRITE );
+
+        Print( handle );
+		if ( handle != 0 )
+		{
+			OnWrite( handle, 0 );
+			
+			CloseFile( handle );
+		}
     }
 };

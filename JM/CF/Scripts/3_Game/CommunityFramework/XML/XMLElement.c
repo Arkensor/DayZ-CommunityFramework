@@ -1,10 +1,10 @@
 class XMLElement : Managed
 {
-    private autoptr array< ref XMLTag > _tags;
+    protected autoptr array< ref XMLTag > _tags;
 
-    private XMLTag _parentTag;
+    protected XMLTag _parentTag;
 
-    private string _data;
+    protected string _data;
     
     void XMLElement( ref XMLTag parent = NULL )
     {
@@ -20,6 +20,20 @@ class XMLElement : Managed
         }
 
         delete _tags;
+    }
+
+    ref XMLElement Copy( ref XMLTag parent = NULL )
+    {
+        ref XMLElement element = new XMLElement( parent );
+
+        for ( int i = 0; i < _tags.Count(); ++i )
+        {
+            element._tags.Insert( _tags[i].Copy( element ) );
+        }
+
+        element._data = "" + _data;
+
+        return element;
     }
 
     ref XMLTag CreateTag( string name )
@@ -86,6 +100,14 @@ class XMLElement : Managed
         for ( int i = 0; i < _tags.Count(); ++i )
         {
             _tags[i].Debug( level + 1 );
+        }
+    }
+
+    void OnWrite( FileHandle handle, int depth )
+    {
+        for ( int i = 0; i < _tags.Count(); ++i )
+        {
+            _tags[i].OnWrite( handle, depth );
         }
     }
 };
