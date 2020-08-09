@@ -31,6 +31,32 @@ class XMLAttribute : Managed
         _value = value;
     }
 
+    void SetValue( bool value )
+    {
+        if ( value )
+        {
+            _value = "true";
+        } else
+        {
+            _value = "false";
+        }
+    }
+
+    void SetValue( int value )
+    {
+        _value = "" + value;
+    }
+
+    void SetValue( float value )
+    {
+        _value = "" + value;
+    }
+
+    void SetValue( vector value )
+    {
+        _value = "" + value[0] + " " + value[1] + " " + value[2];
+    }
+
     string GetValue()
     {
         return _value;
