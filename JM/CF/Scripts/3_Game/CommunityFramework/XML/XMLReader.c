@@ -75,7 +75,7 @@ class XMLReader : Managed
 
     bool EOF()
     {
-        return _arrIdx > _lines.Count() || ( _arrIdx == _lines.Count() - 1 && _bufIdx >= _lines[_arrIdx].Length() );
+        return _arrIdx >= _lines.Count() || ( _arrIdx == _lines.Count() - 1 && _bufIdx >= _lines[_arrIdx].Length() );
     }
 
     private void SkipComment()
