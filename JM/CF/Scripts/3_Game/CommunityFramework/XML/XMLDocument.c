@@ -143,16 +143,13 @@ class XMLDocument : XMLElement
     {
         _reader = reader;
 
-        bool reading = true;
-        while ( reading )
+        while ( !_reader.EOF() )
         {
             if ( !ReadTag() )
             {
                 delete _reader;
                 return false;
             }
-
-            reading = !_reader.EOF();
         }
 
         delete _reader;

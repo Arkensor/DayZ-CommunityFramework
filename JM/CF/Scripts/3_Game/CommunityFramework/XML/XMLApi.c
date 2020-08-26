@@ -6,7 +6,7 @@ class XMLApi
     {
         _threads.Insert( new Param2< string, XMLCallback >( file, callback ) );
 
-		GetGame().GameScript.Call( this, "ThreadRead", NULL );
+		thread ThreadRead();
     }
 
     private void ThreadRead()
@@ -17,7 +17,9 @@ class XMLApi
 
         _threads.Remove( 0 );
 
+		#ifndef COMPONENT_SYSTEM
         Sleep( 10 );
+		#endif
 
         callback.OnStart( document );
 

@@ -180,7 +180,7 @@ class XMLReader : Managed
 
     bool IsLetterOrDigit( string c, bool isQuoted )
     {
-        int i = _cf_characters.Find( c ) + 32;
+        int i = c.Hash();
         if ( i < 32 )
             return false;
 
