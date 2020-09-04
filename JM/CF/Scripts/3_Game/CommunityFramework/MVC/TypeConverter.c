@@ -74,7 +74,7 @@ class TypeConverter
 	void GetFromController(Class context, string name, int index);
 }
 
-
+// Inherit from THIS for creating Custom TypeConversions
 class TypeConversionTemplate<Class T>: TypeConverter
 {
 	protected T m_Value;
@@ -109,6 +109,7 @@ class TypeConversionTemplate<Class T>: TypeConverter
 		EnScript.GetClassVar(context, name, index, m_Value);
 	}
 }
+
 
 class TypeConversionBool: TypeConversionTemplate<bool>
 {

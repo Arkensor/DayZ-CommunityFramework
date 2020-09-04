@@ -7,9 +7,8 @@ class MVC
 	protected static ref TypenameHashMap m_WidgetControllerHashMap;
 	static WidgetController GetWidgetController(Class data)
 	{
-		if (!_MVC) {
+		if (!_MVC)
 			_MVC = new MVC();
-		}
 	
 		WidgetController widget_controller = m_WidgetControllerHashMap.Get(data.Type()).Spawn();
 		g_Script.Call(widget_controller, "SetWidget", data);
@@ -20,11 +19,8 @@ class MVC
 	protected static ref TypeConversionHashMap m_TypeConverterHashMap;
 	static TypeConverter GetTypeConversion(typename type) 
 	{
-		if (!_MVC) {
+		if (!_MVC)
 			_MVC = new MVC();
-		}
-		// todo remove
-		//_MVC = new MVC();
 		
 		return m_TypeConverterHashMap.Get(type).Spawn(); 
 	}
@@ -48,6 +44,8 @@ class MVC
 	}
 	
 	// Override THIS to add your own Custom Conversion Templates
+	// this determines how data is represented in the UI itself
+	// i.e. you can assign a TextWidget to float, due to the TypeConversion's GetString()
 	void RegisterConversionTemplates(out TypeConversionHashMap type_conversions)
 	{
 		GetLogger().Log("MVC::RegisterConversionTemplates", "JM_CF_MVC");
@@ -59,6 +57,9 @@ class MVC
 		type_conversions.Insert(Widget, TypeConversionWidget);
 	}
 	
+	// Override THIS to add your own Widget Controllers 
+	// this determins how the Widget controls the data sent to it
+	// Great for prefabs
 	void RegisterWidgetControllers(out TypenameHashMap widget_controllers)
 	{
 		GetLogger().Log("MVC::RegisterWidgetControllers", "JM_CF_MVC");
@@ -80,7 +81,7 @@ class MVC
 	
 
 	
-	
+	// Generic Errors
 	static void PropertyNotFoundError(string property_name)
 	{
 		GetLogger().Log(string.Format("Property '%1' not found", property_name), "JM_CF_MVC");
