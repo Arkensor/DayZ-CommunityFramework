@@ -7,17 +7,20 @@ class ViewBinding: MVCEventHandler
 	// Name of Binding. If blank, uses the Widget name (not advised)
 	protected reference string Binding_Name;
 	
+	// Index of Binding
+	protected reference int Binding_Index;
+	
 	// Function called when type is Clicked, Selected, or Changed
-	reference string Command_Execute;
+	protected reference string Command_Execute;
 	
 	// Function that returns bool defining whether or not the Command_Execute can be called
-	reference string Command_CanExecute;
+	protected reference string Command_CanExecute;
 	
 	// Only valid if type is ObservableCollection
-	reference string Selected_Item;
+	protected reference string Selected_Item;
 	
 	// If true, Bindings go both ways. Otherwise the controller is the master
-	reference bool Two_Way_Binding;
+	protected reference bool Two_Way_Binding;
 	
 	
 	Widget GetRoot() { 
@@ -27,16 +30,13 @@ class ViewBinding: MVCEventHandler
 	string GetBindingName() { 
 		return Binding_Name; 
 	}
-	
-	void SetBindingName(string binding_name) {
-		Binding_Name = binding_name;
-	}
+
 	
 	typename GetPropertyType(string property_name) {
 		return m_Controller.GetPropertyType(property_name);
 	}
 	
-	protected typename m_PropertyType;
+
 	
 	protected Controller m_Controller;
 	protected ref TypeConverter m_PropertyDataConverter;
@@ -51,19 +51,19 @@ class ViewBinding: MVCEventHandler
 	{ 
 		GetLogger().Log("ViewBinding::SetController: %1", controller.GetLayoutRoot().GetName());
 		m_Controller = controller;
-		m_PropertyType = GetPropertyType(Binding_Name);
+	
 		
-		if (!m_PropertyType) {
+		if (!GetPropertyType(Binding_Name)) {
 			MVC.PropertyNotFoundError(Binding_Name);
 		}
 
 		if (Selected_Item != string.Empty)
 			m_SelectedDataConverter = MVC.GetTypeConversion(GetPropertyType(Selected_Item));
 				
-		if (m_PropertyType.IsInherited(Observable)) {			
-			m_PropertyDataConverter = MVC.GetTypeConversion(Observable.Cast(m_PropertyType.Spawn()).GetType());
+		if (GetPropertyType(Binding_Name).IsInherited(Observable)) {
+			m_PropertyDataConverter = MVC.GetTypeConversion(Observable.Cast(GetPropertyType(Binding_Name).Spawn()).GetType());
 		} else {
-			m_PropertyDataConverter = MVC.GetTypeConversion(m_PropertyType);
+			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
 		}
 		
 		// Updates the view on first load
@@ -102,7 +102,7 @@ class ViewBinding: MVCEventHandler
 
 		
 		if (!m_PropertyDataConverter) {
-			MVC.TypeConversionError(m_PropertyType);
+			MVC.TypeConversionError(GetPropertyType(Binding_Name));
 			return;			
 		}
 		
@@ -151,9 +151,12 @@ class ViewBinding: MVCEventHandler
 	{
 		GetLogger().Log("ViewBinding::UpdateView", "JM_CF_MVC");
 
-		if (!m_PropertyDataConverter) {
-			MVC.TypeConversionError(m_PropertyType);
-			return;
+		if (!m_PropertyDataConverter) {	
+			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
+			if (!m_PropertyDataConverter) {
+				MVC.TypeConversionError(GetPropertyType(Binding_Name));
+				return;
+			}
 		}
 		
 		if (m_SelectedDataConverter) {
@@ -161,7 +164,7 @@ class ViewBinding: MVCEventHandler
 			m_WidgetController.SetSelection(m_SelectedDataConverter);
 		}
 
-		m_PropertyDataConverter.GetFromController(m_Controller, Binding_Name, 0);
+		m_PropertyDataConverter.GetFromController(m_Controller, Binding_Name, Binding_Index);
 		m_WidgetController.SetData(m_PropertyDataConverter);
 	}
 	
@@ -169,9 +172,13 @@ class ViewBinding: MVCEventHandler
 	{
 		GetLogger().Log("ViewBinding::UpdateModel", "JM_CF_MVC");
 		
-		if (!m_PropertyDataConverter) {
-			MVC.TypeConversionError(m_PropertyType);
-			return;
+		
+		if (!m_PropertyDataConverter) {	
+			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
+			if (!m_PropertyDataConverter) {
+				MVC.TypeConversionError(GetPropertyType(Binding_Name));
+				return;
+			}
 		}
 		
 		if (m_SelectedDataConverter) {

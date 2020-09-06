@@ -8,7 +8,7 @@ class Controller: MVCEventHandler
 	
 		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
-	protected ref PropertyHashMap m_PropertyHashMap;
+	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
 	typename GetPropertyType(string property_name) {
 		return m_PropertyHashMap.Get(property_name);
 	}
@@ -25,7 +25,6 @@ class Controller: MVCEventHandler
 		}
 		
 		// Load all properties of the inheriting Controller
-		m_PropertyHashMap = PropertyHashMap.FromType(Type());
 	}
 	
 	void ~Controller() { 
