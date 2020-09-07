@@ -20,7 +20,7 @@ class Controller: MVCEventHandler
 	{
 		GetLogger().Log("Controller", "JM_CF_MVC");
 		if (Type() == Controller) {
-			EditorLog.Error("You cannot bind to data without creating your own controller class!");
+			MVC.Error("You cannot bind to data without creating your own controller class!");
 			return;
 		}
 		
@@ -46,14 +46,15 @@ class Controller: MVCEventHandler
 		//	m_PropertyHashMap.Remove(name);
 		//}
 		
-		EditorLog.Info(string.Format("%1 Properties found!", m_PropertyHashMap.Count()));
+		GetLogger().Log(string.Format("%1 Properties found!", m_PropertyHashMap.Count()), "JM_CF_MVC");
+		
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
 		if (binding_count == 0) {
-			EditorLog.Warning("No DataBindings found! Is the controller in a parent Widget?");
+			GetLogger().Log("No DataBindings found! Is the controller in a parent Widget?", "JM_CF_MVC");
 		} else {
-			EditorLog.Info(string.Format("%1 DataBindings found!", binding_count));
+			GetLogger().Log(string.Format("%1 DataBindings found!", binding_count),  "JM_CF_MVC");
 		}
 		
 		

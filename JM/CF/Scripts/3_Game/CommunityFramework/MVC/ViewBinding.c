@@ -86,19 +86,19 @@ class ViewBinding: MVCEventHandler
 		
 		// Check for two way binding support
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
-			EditorLog.Error("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
+			MVC.Error(string.Format("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString()));
 		}
 	}
 	
 	void OnPropertyChanged()
 	{
-		GetLogger().Log("ViewBinding::OnPropertyChanged: %1", Binding_Name);
+		GetLogger().Log(string.Format("ViewBinding::OnPropertyChanged: %1", Binding_Name), "JM_CF_MVC");
 		UpdateView();
 	}
 
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)
 	{
-		GetLogger().Log("ViewBinding::OnCollectionChanged: %1", Binding_Name);
+		GetLogger().Log(string.Format("ViewBinding::OnCollectionChanged: %1", Binding_Name), "JM_CF_MVC");
 
 		
 		if (!m_PropertyDataConverter) {
@@ -111,7 +111,7 @@ class ViewBinding: MVCEventHandler
 			return;
 		}
 
-		EditorLog.Debug("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
+		GetLogger().Log(string.Format("Updating Collection View: %1", m_LayoutRoot.Type().ToString()), "JM_CF_MVC");
 			
 		// Anonymouse Data Setter
 		m_PropertyDataConverter.SetParam(args.param4);

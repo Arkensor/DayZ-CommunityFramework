@@ -48,9 +48,9 @@ class ViewBindingHashMap: ref map<Widget, ref ViewBindingSet>
 	void DebugPrint()
 	{
 		foreach (Widget w, ViewBindingSet view_set: this) {
-			EditorLog.Debug(string.Format("[%1]:", w.GetName())); 
+			GetLogger().Log(string.Format("[%1]:", w.GetName()), "JM_CF_MVC"); 
 			foreach (ViewBinding view: view_set) {
-				EditorLog.Debug(string.Format("    %1", view.GetRoot().GetName()));
+				GetLogger().Log(string.Format("    %1", view.GetRoot().GetName()), "JM_CF_MVC");
 			}
 		}		
 	}
@@ -74,9 +74,9 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 	void DebugPrint()
 	{
 		foreach (string name, ViewBindingSet view_set: this) {
-			EditorLog.Debug(string.Format("[%1]:", name)); 
+			GetLogger().Log(string.Format("[%1]:", name), "JM_CF_MVC"); 
 			foreach (ViewBinding view: view_set) {
-				EditorLog.Debug(string.Format("    %1", view.GetRoot().GetName()));
+				GetLogger().Log(string.Format("    %1", view.GetRoot().GetName()), "JM_CF_MVC");
 			}
 		}
 	}

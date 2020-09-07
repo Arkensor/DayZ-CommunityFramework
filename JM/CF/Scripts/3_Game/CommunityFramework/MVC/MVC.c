@@ -105,6 +105,12 @@ class MVC
 			GetLogger().Log(string.Format("Could not find TypeConversion for Type %1\nUse MVC.RegisterConversionTemplates to register custom types", property_type.ToString()), "JM_CF_MVC");
 		}
 	}
+
+	static void Error(string message)
+	{
+		//GetLogger().Error();
+		Error(message);
+	}
 	
 
 	
