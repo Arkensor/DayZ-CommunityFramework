@@ -7,14 +7,11 @@ class ViewBinding: MVCWidgetHandler
 	// Name of Binding. If blank, uses the Widget name (not advised)
 	protected reference string Binding_Name;
 	
-	// Index of Binding
-	protected reference int Binding_Index;
-	
 	// Function called when type is Clicked, Selected, or Changed
 	protected reference string Command_Execute;
 	
 	// Function that returns bool defining whether or not the Command_Execute can be called
-	protected reference string Command_CanExecute;
+	//protected reference string Command_CanExecute;
 	
 	// Only valid if type is ObservableCollection
 	protected reference string Selected_Item;
@@ -164,7 +161,7 @@ class ViewBinding: MVCWidgetHandler
 			m_WidgetController.SetSelection(m_SelectedDataConverter);
 		}
 
-		m_PropertyDataConverter.GetFromController(m_Controller, Binding_Name, Binding_Index);
+		m_PropertyDataConverter.GetFromController(m_Controller, Binding_Name, 0);
 		m_WidgetController.SetData(m_PropertyDataConverter);
 	}
 	
@@ -250,6 +247,7 @@ class ViewBinding: MVCWidgetHandler
 	
 	void UpdateCommand()
 	{
+		/*
 		if (Command_CanExecute == string.Empty) {
 			return;
 		}
@@ -268,7 +266,7 @@ class ViewBinding: MVCWidgetHandler
 			if (GetFocus() == m_LayoutRoot) {
 				SetFocus(null);
 			}
-		}
+		}*/
 	}
 }
 
