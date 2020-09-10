@@ -49,7 +49,7 @@ class ViewBinding: MVCEventHandler
 	
 	void SetController(Controller controller) 
 	{ 
-		GetLogger().Log("ViewBinding::SetController: %1", controller.GetLayoutRoot().GetName());
+		//GetLogger().Log("ViewBinding::SetController: %1", controller.GetLayoutRoot().GetName());
 		m_Controller = controller;
 	
 		
@@ -73,7 +73,7 @@ class ViewBinding: MVCEventHandler
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
-		GetLogger().Log("[%1] ViewBinding::Init", w.GetName());
+		//GetLogger().Log("[%1] ViewBinding::Init", w.GetName());
 		
 		if (Binding_Name == string.Empty) {
 			Binding_Name = m_LayoutRoot.GetName();
@@ -92,13 +92,13 @@ class ViewBinding: MVCEventHandler
 	
 	void OnPropertyChanged()
 	{
-		GetLogger().Log(string.Format("ViewBinding::OnPropertyChanged: %1", Binding_Name), "JM_CF_MVC");
+		//GetLogger().Log(string.Format("ViewBinding::OnPropertyChanged: %1", Binding_Name), "JM_CF_MVC");
 		UpdateView();
 	}
 
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)
 	{
-		GetLogger().Log(string.Format("ViewBinding::OnCollectionChanged: %1", Binding_Name), "JM_CF_MVC");
+		//GetLogger().Log(string.Format("ViewBinding::OnCollectionChanged: %1", Binding_Name), "JM_CF_MVC");
 
 		
 		if (!m_PropertyDataConverter) {
@@ -111,7 +111,7 @@ class ViewBinding: MVCEventHandler
 			return;
 		}
 
-		GetLogger().Log(string.Format("Updating Collection View: %1", m_LayoutRoot.Type().ToString()), "JM_CF_MVC");
+		PrintFormat("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 			
 		// Anonymouse Data Setter
 		m_PropertyDataConverter.SetParam(args.param4);
@@ -149,7 +149,7 @@ class ViewBinding: MVCEventHandler
 	
 	private void UpdateView()
 	{
-		GetLogger().Log("ViewBinding::UpdateView", "JM_CF_MVC");
+		//GetLogger().Log("ViewBinding::UpdateView", "JM_CF_MVC");
 
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
@@ -170,7 +170,7 @@ class ViewBinding: MVCEventHandler
 	
 	private void UpdateModel()
 	{
-		GetLogger().Log("ViewBinding::UpdateModel", "JM_CF_MVC");
+		//GetLogger().Log("ViewBinding::UpdateModel", "JM_CF_MVC");
 		
 		
 		if (!m_PropertyDataConverter) {	
@@ -230,13 +230,10 @@ class ViewBinding: MVCEventHandler
 				InvokeCommand(new XComboBoxCommandArgs(XComboBoxWidget.Cast(w), XComboBoxWidget.Cast(w).GetCurrentItem()));
 				break;
 			}
-			
 		}
 
-		UpdateModel();
-		
+		UpdateModel();		
 		return false;
-		//return super.OnChange(w, x, y, finished);
 	}
 	
 	
@@ -284,7 +281,7 @@ class ViewBinding: MVCEventHandler
 			return;
 		}
 				
-		GetLogger().Log("ViewBinding::InvokeCommand", "JM_CF_MVC");
+		//GetLogger().Log("ViewBinding::InvokeCommand", "JM_CF_MVC");
 		g_Script.CallFunction(m_Controller, Command_Execute, null, params);
 	}
 	
@@ -294,7 +291,7 @@ class ViewBinding: MVCEventHandler
 			return;
 		}
 		
-		GetLogger().Log("ViewBinding::UpdateCommand", "JM_CF_MVC");
+		//GetLogger().Log("ViewBinding::UpdateCommand", "JM_CF_MVC");
 		
 		bool result;
 		if (g_Script.CallFunction(m_Controller, Command_CanExecute, result, 0) != 0) {

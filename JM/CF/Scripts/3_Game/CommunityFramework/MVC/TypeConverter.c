@@ -2,18 +2,10 @@
 
 typedef map<typename, typename> TypenameHashMap;
 
-
 class TypeConversionHashMap
 {
 	private ref map<typename, typename> value = new map<typename, typename>();
 	
-	void TypeConversionHashMap() {
-		GetLogger().Log("TypeConversionHashMap", "JM_CF_MVC");
-	}
-	
-	void ~TypeConversionHashMap() { 
-		GetLogger().Log("~TypeConversionHashMap", "JM_CF_MVC"); 
-	}
 	
 	typename Get(typename conversion_type) {
 		return value.Get(conversion_type);
@@ -25,10 +17,9 @@ class TypeConversionHashMap
 	
 	void Set(typename conversion_type, typename conversion_class)
 	{
-		GetLogger().Log("TypeConverterHashMap::Set", "JM_CF_MVC");
-		
+		//GetLogger().Log("TypeConverterHashMap::Set", "JM_CF_MVC");
 		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
-			GetLogger().Err(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()), "JM_CF_MVC");
+			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
 			return;
 		}
 		
@@ -37,10 +28,9 @@ class TypeConversionHashMap
 	
 	bool Insert(typename conversion_type, typename conversion_class)
 	{
-		GetLogger().Log("TypeConverterHashMap::Insert", "JM_CF_MVC");
-		
+		//GetLogger().Log("TypeConverterHashMap::Insert", "JM_CF_MVC");
 		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
-			GetLogger().Err(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()), "JM_CF_MVC");
+			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
 			return false;
 		}
 		
@@ -50,8 +40,6 @@ class TypeConversionHashMap
 
 class TypeConverter
 {
-	void TypeConverter() { GetLogger().Log("TypeConverter", "JM_CF_MVC"); }
-	void ~TypeConverter() { GetLogger().Log("~TypeConverter", "JM_CF_MVC"); }
 	typename GetType();
 	
 	bool GetBool();
@@ -80,12 +68,10 @@ class TypeConversionTemplate<Class T>: TypeConverter
 	protected T m_Value;
 	
 	void SetData(T value) {
-		GetLogger().Log("TypeConversionTemplate::SetData", "JM_CF_MVC");
 		m_Value = value;
 	}
 	
 	T GetData() {
-		GetLogger().Log("TypeConversionTemplate::GetData", "JM_CF_MVC");
 		return m_Value;
 	}
 	

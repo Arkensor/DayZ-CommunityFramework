@@ -11,7 +11,9 @@ class Observable
 		m_VariableName = variable_name; m_Controller = parent_controller;
 	}
 	
-	typename GetType() { return m_Type; }
+	typename GetType() { 
+		return m_Type; 
+	}
 }
 
 class ObservableDictionary<Class TKey, Class TValue>: Observable

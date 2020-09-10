@@ -9,16 +9,14 @@ class Controller: MVCEventHandler
 		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
 	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
+	
 	typename GetPropertyType(string property_name) {
 		return m_PropertyHashMap.Get(property_name);
 	}
 	
-	
-	
-	
 	void Controller()
 	{
-		GetLogger().Log("Controller", "JM_CF_MVC");
+		//GetLogger().Log("Controller", "JM_CF_MVC");
 		if (Type() == Controller) {
 			MVC.Error("You cannot bind to data without creating your own controller class!");
 			return;
@@ -27,15 +25,16 @@ class Controller: MVCEventHandler
 		// Load all properties of the inheriting Controller
 	}
 	
-	void ~Controller() { 
-		GetLogger().Log("~Controller", "JM_CF_MVC"); 
+	void ~Controller() 
+	{ 
+		//GetLogger().Log("~Controller", "JM_CF_MVC"); 
 	}
 	
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
 		
-		GetLogger().Log("Controller::Init", "JM_CF_MVC");
+		//GetLogger().Log("Controller::Init", "JM_CF_MVC");
 		// User must inherit from controller, not use it in ScriptClass
 
 		
@@ -46,15 +45,15 @@ class Controller: MVCEventHandler
 		//	m_PropertyHashMap.Remove(name);
 		//}
 		
-		GetLogger().Log(string.Format("%1 Properties found!", m_PropertyHashMap.Count()), "JM_CF_MVC");
+		PrintFormat("%1 Properties found!", m_PropertyHashMap.Count());
 		
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
 		if (binding_count == 0) {
-			GetLogger().Log("No DataBindings found! Is the controller in a parent Widget?", "JM_CF_MVC");
+			//GetLogger().Log("No DataBindings found! Is the controller in a parent Widget?", "JM_CF_MVC");
 		} else {
-			GetLogger().Log(string.Format("%1 DataBindings found!", binding_count),  "JM_CF_MVC");
+			//GetLogger().Log(string.Format("%1 DataBindings found!", binding_count),  "JM_CF_MVC");
 		}
 		
 		
@@ -73,7 +72,7 @@ class Controller: MVCEventHandler
 	// This must be called manually by the user
 	void NotifyPropertyChanged(string property_name)
 	{
-		GetLogger().Log("Controller::NotifyPropertyChanged " + property_name, "JM_CF_MVC");
+		//GetLogger().Log("Controller::NotifyPropertyChanged " + property_name, "JM_CF_MVC");
 		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(property_name);
 		
 		if (view_set) {
@@ -88,7 +87,7 @@ class Controller: MVCEventHandler
 	// This gets called automatically when a collection is changed
 	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
 	{
-		GetLogger().Log("Controller::NotifyCollectionChanged " + collection_name, "JM_CF_MVC");
+		//GetLogger().Log("Controller::NotifyCollectionChanged " + collection_name, "JM_CF_MVC");
 		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(collection_name);
 		
 		if (view_set) {
@@ -108,8 +107,6 @@ class Controller: MVCEventHandler
 	// Override this when you want to have an event AFTER collection is changed
 	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
 	
-	
-	
 	private int LoadDataBindings(Widget w, out DataBindingHashMap binding_map)
 	{
 		ViewBinding view_binding;
@@ -127,12 +124,8 @@ class Controller: MVCEventHandler
 		if (w.GetSibling() != null) 
 			LoadDataBindings(w.GetSibling(), binding_map);
 		
-		
 		return binding_map.Count();
 	}
-	
-	
-	
 }
 
 

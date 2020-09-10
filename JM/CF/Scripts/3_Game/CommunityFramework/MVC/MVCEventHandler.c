@@ -2,7 +2,7 @@
 static ref ScriptInvoker OnMVCEventHandlerCreated = new ScriptInvoker();
 static void MVCEventHandlerCreated(MVCEventHandler event_handler)
 {
-	GetLogger().Log("ViewBindingCreated", "JM_CF_MVC");
+	//GetLogger().Log("ViewBindingCreated", "JM_CF_MVC");
 	OnMVCEventHandlerCreated.Invoke(event_handler);
 }
 
