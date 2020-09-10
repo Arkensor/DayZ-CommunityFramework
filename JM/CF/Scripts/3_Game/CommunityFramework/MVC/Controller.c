@@ -1,7 +1,7 @@
 
 
 
-class Controller: MVCEventHandler
+class Controller: MVCWidgetHandler
 {
 	// Private members
 	private ref PropertyHashMap m_ControllerPropertyHashMap;

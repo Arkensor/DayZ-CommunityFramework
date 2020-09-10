@@ -1,7 +1,7 @@
 
 
 
-class ViewBinding: MVCEventHandler
+class ViewBinding: MVCWidgetHandler
 {
 	
 	// Name of Binding. If blank, uses the Widget name (not advised)
@@ -237,44 +237,7 @@ class ViewBinding: MVCEventHandler
 	}
 	
 	
-	
-	override void MVCOnMouseDown(Widget target, int button, int x, int y)
-		m_Controller.MVCOnMouseDown(target, button, x, y);
-	
-	override void MVCOnMouseUp(Widget target, int button, int x, int y)
-		m_Controller.MVCOnMouseUp(target, button, x, y);
-	
-	override void MVCOnMouseWheel(Widget target, int direction, int x, int y)
-		m_Controller.MVCOnMouseWheel(target, direction, x, y);
-	
-	override void MVCOnClick(Widget target, int button, int x, int y)
-		m_Controller.MVCOnClick(target, button, x, y);
-	
-	override void MVCOnDoubleClick(Widget target, int button, int x, int y)
-		m_Controller.MVCOnDoubleClick(target, button, x, y);
-	
-//	override void MVCOnKeyPress(int key)
-		//m_Controller.OnKeyPress(key);
-	
-	override void MVCOnMouseEnter(Widget target, int x, int y)
-		m_Controller.MVCOnMouseEnter(target, x, y);
-	
-	override void MVCOnMouseLeave(Widget target, int x, int y)
-		m_Controller.MVCOnMouseLeave(target, x, y);
-	
-	override void MVCOnDrag(Widget target, int x, int y) 
-		m_Controller.MVCOnDrag(target, x, y);
-	
-	override void MVCOnDrop(Widget target, Widget drop_target, int x, int y)
-		m_Controller.MVCOnDrop(target, drop_target, x, y);
-	
-	override void MVCOnDragging(Widget target, int x, int y)
-		m_Controller.MVCOnDragging(target, x, y);
-	
-	override void MVCOnDropReceived(Widget target, Widget received_target, int x, int y)
-		m_Controller.MVCOnDropReceived(target, received_target, x, y);
 		
-	
 	void InvokeCommand(Param params)
 	{
 		if (Command_Execute == string.Empty) {
