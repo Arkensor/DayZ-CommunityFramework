@@ -9,18 +9,44 @@ enum NotifyCollectionChangedAction {
 
 
 // Event Args for Collection Changed
-// 0: Observable that was changed
+// 0: Collection that was changed
 // 1: Collection Changed Action
-// 2: Changed Index
-// 3: Changed Value
-typedef Param4<Class, int, int, ref Param> CollectionChangedEventArgs;
+// 2: Collection Changed Index
+// 3: Collection Changed Value
+class CollectionChangedEventArgs: Param4<Class, int, int, ref Param>
+{
+	Observable GetCollection() {
+		return Observable.Cast(param1);
+	}
+	
+	NotifyCollectionChangedAction GetChangedAction() {
+		return param2;
+	}
+	
+	int GetChangedIndex() {
+		return param3;
+	}
+	
+	Param GetChangedValue() {
+		return param4;
+	}
+}
 
 
 
 // Event Args for Property Changed
 // 0: Name of property changed
 // 1: New property value
-typedef Param2<string, Class> PropertyChangedEventArgs;
+class PropertyChangedEventArgs: Param2<string, Class>
+{
+	string GetPropertyName() {
+		return param1;
+	}
+	
+	Class GetPropertyValue() {
+		return param2;
+	}
+}
 
 
 
@@ -103,7 +129,7 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 class ButtonCommandArgs: Param3<ButtonWidget, int, bool>
 {
 	ButtonWidget GetButtonWidget() { 
-		return ButtonWidget.Cast(param1); 
+		return param1; 
 	}
 	
 	int GetMouseButton() {
@@ -118,15 +144,42 @@ class ButtonCommandArgs: Param3<ButtonWidget, int, bool>
 
 // 0: Source Widget
 // 1: CheckBox State
-typedef Param2<CheckBoxWidget, bool> CheckBoxCommandArgs;
+class CheckBoxCommandArgs: Param2<CheckBoxWidget, bool>
+{
+	CheckBoxWidget GetCheckBoxWidget() {
+		return param1;
+	}
+	
+	bool GetCheckBoxState() {
+		return param2;
+	}
+}
 
 // 0: Source Widget
 // 1: Selected Item
-typedef Param2<XComboBoxWidget, int> XComboBoxCommandArgs; // unused 
+class XComboBoxCommandArgs: Param2<XComboBoxWidget, int>
+{
+	XComboBoxWidget GetComboBoxWidget() {
+		return param1;
+	}
+	
+	int GetSelectedIndex() {
+		return param2;
+	}
+}
 
 // 0: Source Widget
 // 1: Selected Widget
-typedef Param2<WrapSpacerWidget, Widget> WrapSpacerCommandArgs; // unused
+class WrapSpacerCommandArgs: Param2<WrapSpacerWidget, Widget>
+{
+	WrapSpacerWidget GetWrapSpacerWidget() {
+		return param1;
+	}
+	
+	Widget GetSelectedWidget() {
+		return param2;
+	}
+}
 
 // 0: Call Context
 // 1: Command Args (see above)
