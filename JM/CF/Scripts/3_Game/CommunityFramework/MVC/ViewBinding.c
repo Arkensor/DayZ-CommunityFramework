@@ -40,10 +40,10 @@ class ViewBinding: MVCWidgetHandler
 	// Weak reference to Parent controller	
 	protected Controller m_Controller;
 	
-	protected ref RelayCommand m_RelayCommand;
-	protected ref TypeConverter m_PropertyDataConverter;
-	protected ref WidgetController m_WidgetController;
-	protected ref TypeConverter m_SelectedDataConverter;
+	protected ref RelayCommand 		m_RelayCommand;
+	protected ref TypeConverter 	m_PropertyDataConverter;
+	protected ref WidgetController 	m_WidgetController;
+	protected ref TypeConverter 	m_SelectedDataConverter;
 	
 	
 	override void OnWidgetScriptInit(Widget w)
@@ -56,8 +56,11 @@ class ViewBinding: MVCWidgetHandler
 		}
 		
 		if (Relay_Command != string.Empty) {
-			if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
-				MVC.Error(string.Format("%1 must inherit from RelayCommand", Relay_Command));
+			
+			if (!Relay_Command.ToType()) {
+				MVC.Error("Type not found: %1", Relay_Command);
+			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
+				MVC.Error("%1 must inherit from RelayCommand", Relay_Command);
 			} else {
 				m_RelayCommand = Relay_Command.ToType().Spawn();
 			}

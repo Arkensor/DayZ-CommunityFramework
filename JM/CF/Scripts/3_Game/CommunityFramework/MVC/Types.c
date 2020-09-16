@@ -98,9 +98,23 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 
 
 // 0: Source Widget
-// 1: Button
+// 1: Mouse Button
 // 2: Button State
-typedef Param3<ButtonWidget, int, bool> ButtonCommandArgs;
+class ButtonCommandArgs: Param3<ButtonWidget, int, bool>
+{
+	ButtonWidget GetButtonWidget() { 
+		return ButtonWidget.Cast(param1); 
+	}
+	
+	int GetMouseButton() {
+		return param2;
+	}
+	
+	bool GetButtonState() {
+		return param3;
+	}
+}
+
 
 // 0: Source Widget
 // 1: CheckBox State
