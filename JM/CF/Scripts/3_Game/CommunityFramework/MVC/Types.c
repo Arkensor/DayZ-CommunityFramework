@@ -106,16 +106,33 @@ typedef Param3<ButtonWidget, int, bool> ButtonCommandArgs;
 // 1: CheckBox State
 typedef Param2<CheckBoxWidget, bool> CheckBoxCommandArgs;
 
-
 // 0: Source Widget
 // 1: Selected Item
-typedef Param2<XComboBoxWidget, int> XComboBoxCommandArgs;
+typedef Param2<XComboBoxWidget, int> XComboBoxCommandArgs; // unused 
+
+// 0: Source Widget
+// 1: Selected Widget
+typedef Param2<WrapSpacerWidget, Widget> WrapSpacerCommandArgs; // unused
+
+// 0: Call Context
+// 1: Command Args (see above)
+class RelayCommandArgs
+{
+	Class Context;
+	Param CommandArgs;
+	typename CommandArgsType;
+	
+	void RelayCommandArgs(Class context, Param command_args)
+	{
+		Context = context;
+		CommandArgs = command_args;
+		CommandArgsType = CommandArgs.Type();
+	}
+	
+}
 
 
-typedef Param2<WrapSpacerWidget, Widget> WrapSpacerCommandArgs;
-
-
-enum WidgetEventType {
+enum WidgetEventType { // unused
 	WidgetEventChange,
 	WidgetEventChildAdd,
 	WidgetEventChildRemove,

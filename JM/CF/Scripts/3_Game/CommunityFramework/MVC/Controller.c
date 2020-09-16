@@ -1,6 +1,6 @@
 
 
-
+// Abstract Class
 class Controller: MVCWidgetHandler
 {
 	// Private members
@@ -21,8 +21,6 @@ class Controller: MVCWidgetHandler
 			MVC.Error("You cannot bind to data without creating your own controller class!");
 			return;
 		}
-		
-		// Load all properties of the inheriting Controller
 	}
 	
 	void ~Controller() 
@@ -51,14 +49,16 @@ class Controller: MVCWidgetHandler
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
 		if (binding_count == 0) {
-			//GetLogger().Log("No DataBindings found! Is the controller in a parent Widget?", "JM_CF_MVC");
+			PrintFormat("No DataBindings found! Is the controller in a parent Widget?");
 		} else {
-			//GetLogger().Log(string.Format("%1 DataBindings found!", binding_count),  "JM_CF_MVC");
+			PrintFormat("%1 DataBindings found!", binding_count);
 		}
 		
 		
 		// debug
-		m_ViewBindingHashMap.DebugPrint();
+		//m_ViewBindingHashMap.DebugPrint();
+		
+		
 		/*
 		foreach (string data_name, DataBindingBase data: m_DataBindingHashMap) {
 			PropertyInfo prop = m_PropertyHashMap.GetPropertyInfo(data_name);

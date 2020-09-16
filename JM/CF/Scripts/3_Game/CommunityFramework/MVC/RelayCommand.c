@@ -1,10 +1,10 @@
 
-// Unused. tbd
+
+
+// Abstract Class
 class RelayCommand
-{	
-	void Execute();
-	bool CanExecute();
-	
-	void CanExecuteChanged();
+{		
+	void Execute(RelayCommandArgs args);
+	bool CanExecute() return true;
 }
 

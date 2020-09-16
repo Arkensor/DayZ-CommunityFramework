@@ -3,7 +3,6 @@
 
 class ViewBinding: MVCWidgetHandler
 {
-	
 	// Name of Binding. If blank, uses the Widget name (not advised)
 	protected reference string Binding_Name;
 	
@@ -19,7 +18,9 @@ class ViewBinding: MVCWidgetHandler
 	// If true, Bindings go both ways. Otherwise the controller is the master
 	protected reference bool Two_Way_Binding;
 	
-	
+	// Name of RelayCommand class that is controlled by ViewBinding
+	protected reference string Relay_Command;
+
 	Widget GetRoot() { 
 		return m_LayoutRoot; 
 	}
@@ -27,28 +28,61 @@ class ViewBinding: MVCWidgetHandler
 	string GetBindingName() { 
 		return Binding_Name; 
 	}
-
 	
+	string GetRelayCommand() {
+		return Relay_Command;
+	}
+
 	typename GetPropertyType(string property_name) {
 		return m_Controller.GetPropertyType(property_name);
 	}
 	
-
-	
+	// Weak reference to Parent controller	
 	protected Controller m_Controller;
+	
+	protected ref RelayCommand m_RelayCommand;
 	protected ref TypeConverter m_PropertyDataConverter;
 	protected ref WidgetController m_WidgetController;
-	
 	protected ref TypeConverter m_SelectedDataConverter;
 	
-	void ViewBinding() { /*GetLogger().Log("ViewBinding");*/ }
-	void ~ViewBinding() { /*GetLogger().Log("~ViewBinding");*/ }
+	
+	override void OnWidgetScriptInit(Widget w)
+	{
+		super.OnWidgetScriptInit(w);
+		//GetLogger().Log("[%1] ViewBinding::Init", w.GetName());
+		
+		if (Binding_Name == string.Empty) {
+			Binding_Name = m_LayoutRoot.GetName();
+		}
+		
+		if (Relay_Command != string.Empty) {
+			if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
+				MVC.Error(string.Format("%1 must inherit from RelayCommand", Relay_Command));
+			} else {
+				m_RelayCommand = Relay_Command.ToType().Spawn();
+			}
+		}
+		
+		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
+		if (!m_WidgetController) {
+			MVC.UnsupportedTypeError(m_LayoutRoot.Type());
+		}
+		
+		// Check for two way binding support
+		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
+			MVC.Error(string.Format("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString()));
+		}
+	}
 	
 	void SetController(Controller controller) 
 	{ 
 		//GetLogger().Log("ViewBinding::SetController: %1", controller.GetLayoutRoot().GetName());
 		m_Controller = controller;
 	
+		if (!m_Controller) {
+			MVC.Error("ViewBinding::SetController: Controller is null!");
+			return;
+		}
 		
 		if (!GetPropertyType(Binding_Name)) {
 			MVC.PropertyNotFoundError(Binding_Name);
@@ -67,26 +101,6 @@ class ViewBinding: MVCWidgetHandler
 		UpdateView();
 	}
 	
-	override void OnWidgetScriptInit(Widget w)
-	{
-		super.OnWidgetScriptInit(w);
-		//GetLogger().Log("[%1] ViewBinding::Init", w.GetName());
-		
-		if (Binding_Name == string.Empty) {
-			Binding_Name = m_LayoutRoot.GetName();
-		}
-		
-		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
-		if (!m_WidgetController) {
-			MVC.UnsupportedTypeError(m_LayoutRoot.Type());
-		}
-		
-		// Check for two way binding support
-		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
-			MVC.Error(string.Format("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString()));
-		}
-	}
-	
 	void OnPropertyChanged()
 	{
 		//GetLogger().Log(string.Format("ViewBinding::OnPropertyChanged: %1", Binding_Name), "JM_CF_MVC");
@@ -97,7 +111,6 @@ class ViewBinding: MVCWidgetHandler
 	{
 		//GetLogger().Log(string.Format("ViewBinding::OnCollectionChanged: %1", Binding_Name), "JM_CF_MVC");
 
-		
 		if (!m_PropertyDataConverter) {
 			MVC.TypeConversionError(GetPropertyType(Binding_Name));
 			return;			
@@ -108,7 +121,7 @@ class ViewBinding: MVCWidgetHandler
 			return;
 		}
 
-		PrintFormat("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
+		//PrintFormat("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 			
 		// Anonymouse Data Setter
 		m_PropertyDataConverter.SetParam(args.param4);
@@ -147,7 +160,8 @@ class ViewBinding: MVCWidgetHandler
 	private void UpdateView()
 	{
 		//GetLogger().Log("ViewBinding::UpdateView", "JM_CF_MVC");
-
+		if (!m_Controller) return;
+		
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
 			if (!m_PropertyDataConverter) {
@@ -168,7 +182,7 @@ class ViewBinding: MVCWidgetHandler
 	private void UpdateModel()
 	{
 		//GetLogger().Log("ViewBinding::UpdateModel", "JM_CF_MVC");
-		
+		if (!m_Controller) return;
 		
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
@@ -237,12 +251,9 @@ class ViewBinding: MVCWidgetHandler
 		
 	void InvokeCommand(Param params)
 	{
-		if (Command_Execute == string.Empty) {
-			return;
-		}
-				
-		//GetLogger().Log("ViewBinding::InvokeCommand", "JM_CF_MVC");
-		g_Script.CallFunction(m_Controller, Command_Execute, null, params);
+		MVC.Trace("ViewBinding::InvokeCommand");
+		if (!m_RelayCommand || !m_RelayCommand.CanExecute()) return;
+		m_RelayCommand.Execute(new RelayCommandArgs(this, params));
 	}
 	
 	void UpdateCommand()

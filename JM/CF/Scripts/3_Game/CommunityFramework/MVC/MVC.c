@@ -104,14 +104,55 @@ class MVC
 			PrintFormat("Could not find TypeConversion for Type %1\nUse MVC.RegisterConversionTemplates to register custom types", property_type.ToString());
 		}
 	}
+	
+	static void Trace(string message)
+	{
+		PrintFormat("MVCLog::Trace %1", message);
+	}
+	
+	static void Log(string message)
+	{
+		PrintFormat("MVCLog::Log %1", message);
+	}
+	
+	static void Log(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
+	{
+		PrintFormat(message, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+	}
 
 	static void Error(string message)
 	{
 		//GetLogger().Error();
-		Error(message);
+		Error2("MVC Error", message);
+		
+#ifdef COMPONENT_SYSTEM
+		Workbench.Dialog("MVC Error", message);
+#endif
+	}	
+}
+
+
+// Abstract Class
+class MVCWidgetHandler: ScriptedWidgetEventHandler
+{
+	protected Widget m_LayoutRoot;
+	Widget GetLayoutRoot() {
+		return m_LayoutRoot;
 	}
 	
-
+	void MVCWidgetHandler()
+	{
+		if (GetLayoutFile() != string.Empty)
+			m_LayoutRoot = GetGame().GetWorkspace().CreateWidgets(GetLayoutFile(), null);
+	}
 	
+	void OnWidgetScriptInit(Widget w)
+	{
+		m_LayoutRoot = w;
+		m_LayoutRoot.SetHandler(this);
+	}		
+	
+	
+	protected string GetLayoutFile();
 }
 
