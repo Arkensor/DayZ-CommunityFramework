@@ -33,6 +33,7 @@ class Controller: ScriptedWidgetEventHandler
 	{
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
+		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		
 		//GetLogger().Log("Controller::Init", "JM_CF_MVC");
 		// User must inherit from controller, not use it in ScriptClass

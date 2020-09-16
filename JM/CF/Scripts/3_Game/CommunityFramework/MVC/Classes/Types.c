@@ -50,14 +50,14 @@ class ViewBindingHashMap: ref map<Widget, ref ViewBindingSet>
 		foreach (Widget w, ViewBindingSet view_set: this) {
 			PrintFormat("[%1]:", w.GetName()); 
 			foreach (ViewBinding view: view_set) {
-				PrintFormat("    %1", view.GetRoot().GetName());
+				PrintFormat("    %1", view.GetLayoutRoot().GetName());
 			}
 		}		
 	}
 	
 	void InsertView(ViewBinding view)
 	{
-		Widget key = view.GetRoot();
+		Widget key = view.GetLayoutRoot();
 		ViewBindingSet view_set = Get(key);
 		if (!view_set) {
 			view_set = new ViewBindingSet();
@@ -76,7 +76,7 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 		foreach (string name, ViewBindingSet view_set: this) {
 			PrintFormat("[%1]:", name); 
 			foreach (ViewBinding view: view_set) {
-				PrintFormat("    %1", view.GetRoot().GetName());
+				PrintFormat("    %1", view.GetLayoutRoot().GetName());
 			}
 		}
 	}
