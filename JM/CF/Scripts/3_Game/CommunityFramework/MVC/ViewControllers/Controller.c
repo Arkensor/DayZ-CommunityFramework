@@ -35,10 +35,10 @@ class Controller: ScriptedWidgetEventHandler
 		m_LayoutRoot.SetHandler(this);
 		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 	
-		// Gets rid of properties that only exist in the Controller type
+		// Removes properties that only exist in the Controller type
 		m_PropertyHashMap.RemoveType(Controller);
 		
-		MVC.Log("%1 Properties found!", m_PropertyHashMap.Count().ToString());
+		MVC.Log("%1 properties found!", m_PropertyHashMap.Count().ToString());
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
