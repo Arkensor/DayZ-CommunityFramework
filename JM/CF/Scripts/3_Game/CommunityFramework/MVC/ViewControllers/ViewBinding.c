@@ -275,30 +275,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
 		}
 	}
-	
-	void UpdateCommand()
-	{
-		/*
-		if (Command_CanExecute == string.Empty) {
-			return;
-		}
-		
-		//GetLogger().Log("ViewBinding::UpdateCommand", "JM_CF_MVC");
-		
-		bool result;
-		if (g_Script.CallFunction(m_Controller, Command_CanExecute, result, 0) != 0) {
-			return;
-		}
-		
-		if (result) {
-			m_LayoutRoot.ClearFlags(WidgetFlags.IGNOREPOINTER);
-		} else {
-			m_LayoutRoot.SetFlags(WidgetFlags.IGNOREPOINTER);
-			if (GetFocus() == m_LayoutRoot) {
-				SetFocus(null);
-			}
-		}*/
-	}
 }
 
 
