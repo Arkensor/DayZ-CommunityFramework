@@ -79,26 +79,6 @@ class MVC
 	
 
 	
-	// Generic Errors
-	static void PropertyNotFoundError(string property_name)
-	{
-		PrintFormat("Property '%1' not found", property_name);
-	}
-		
-	static void UnsupportedConversionError(typename from_type, typename to_type)
-	{
-		PrintFormat("Unsupported conversion from %1 to %2!", from_type.ToString(), to_type.ToString());
-	}
-	
-	static void TypeConversionError(typename property_type)
-	{
-		if (!property_type) {
-			PrintFormat("Data Binding not found!");
-		} else {
-			PrintFormat("Could not find TypeConversion for Type %1\nUse MVC.RegisterConversionTemplates to register custom types", property_type.ToString());
-		}
-	}
-	
 	static void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
 		PrintFormat("MVCLog::Trace %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));

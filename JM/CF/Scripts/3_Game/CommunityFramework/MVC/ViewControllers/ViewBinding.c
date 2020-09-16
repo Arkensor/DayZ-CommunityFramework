@@ -32,19 +32,19 @@ class ViewBinding: ScriptedWidgetEventHandler
 		return Relay_Command;
 	}
 
-	typename GetPropertyType(string property_name) {
-		return m_Controller.GetPropertyType(property_name);
-	}
-	
 	// Weak reference to Parent controller	
 	protected autoptr Controller m_Controller;
 	
 	protected autoptr ref RelayCommand 		m_RelayCommand;
-	protected autoptr ref TypeConverter 	m_PropertyDataConverter;
-	protected autoptr ref WidgetController 	m_WidgetController;
-	protected autoptr ref TypeConverter 	m_SelectedDataConverter;
+	protected autoptr ref TypeConverter 	m_PropertyConverter;
+	protected autoptr ref TypeConverter 	m_SelectedPropertyConverter;
 	
-	private bool m_IsInitialized;
+	protected autoptr ref WidgetController 	m_WidgetController;
+	
+	protected typename m_PropertyType;
+	protected typename m_SelectedPropertyType;
+	protected bool m_IsInitialized;
+	
 	
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -66,7 +66,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 				MVC.Log("ViewBinding: Type not found: %1 - Assuming it is function on Controller", Relay_Command);
 			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
 				MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
-				return;
 			} else {
 				m_RelayCommand = Relay_Command.ToType().Spawn();
 			}
@@ -74,13 +73,13 @@ class ViewBinding: ScriptedWidgetEventHandler
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
 		if (!m_WidgetController) {
-			MVC.Error("Unsupported Type: %1", m_LayoutRoot.Type().ToString());
+			MVC.Error("ViewBinding: Could not find WidgetController for type %1\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
 			return;
 		}
 		
 		// Check for two way binding support
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
-			MVC.Error("ViewBinding: Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
+			MVC.Log("ViewBinding: Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
 		}
 		
 		m_IsInitialized = true;
@@ -92,26 +91,32 @@ class ViewBinding: ScriptedWidgetEventHandler
 		m_Controller = controller;
 	
 		if (!m_Controller) {
-			MVC.Error("ViewBinding::SetController: Controller is null!");
+			MVC.Error("ViewBinding: Controller is null!");
 			return;
 		}
 		
-		if (!GetPropertyType(Binding_Name)) {
-			MVC.PropertyNotFoundError(Binding_Name);
-		}
-
-		if (Selected_Item != string.Empty)
-			m_SelectedDataConverter = MVC.GetTypeConversion(GetPropertyType(Selected_Item));
-				
-		if (GetPropertyType(Binding_Name).IsInherited(Observable)) {
-			m_PropertyDataConverter = MVC.GetTypeConversion(Observable.Cast(GetPropertyType(Binding_Name).Spawn()).GetType());
-		} else {
-			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
+		m_PropertyType = m_Controller.GetPropertyType(Binding_Name);
+		if (!m_PropertyType) {
+			MVC.Log("ViewBinding: Binding Property '%1' not found", Binding_Name);
 		}
 		
-		if (!m_PropertyDataConverter) {
-			MVC.TypeConversionError(GetPropertyType(Binding_Name));
-			return;			
+		m_PropertyConverter = MVC.GetTypeConversion(m_PropertyType);
+		if (!m_PropertyConverter) {
+			MVC.Error("ViewBinding: Could not find TypeConverter for type %1\nOverride MVC.RegisterConversionTemplates to register custom TypeConverters", m_PropertyType.ToString());
+			return;
+		}
+		
+		if (Selected_Item != string.Empty) {
+			m_SelectedPropertyType = m_Controller.GetPropertyType(Selected_Item);
+			if (m_SelectedPropertyType) {
+				m_SelectedPropertyConverter = MVC.GetTypeConversion(m_SelectedPropertyType);
+				if (!m_SelectedPropertyConverter) {
+					MVC.Error("ViewBinding: Property '%1' not found", Selected_Item);
+					return;
+				}
+			} else {
+				MVC.Log("ViewBinding: Selected Item Property '%1' not found", Selected_Item);
+			}
 		}
 		
 		// Updates the view on first load
@@ -123,28 +128,31 @@ class ViewBinding: ScriptedWidgetEventHandler
 		if (!m_Controller || !m_IsInitialized) return;	
 		MVC.Trace("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 
-		// Anonymouse Data Setter
-		m_PropertyDataConverter.SetParam(args.param4);
-		switch (args.param2) {
+		// We dont want to work with type Observable for everything
+		TypeConverter collection_converter = MVC.GetTypeConversion(args.GetCollection().GetType());
+		
+		// Anonymous Data Setter
+		collection_converter.SetParam(args.GetChangedValue());
+		switch (args.GetChangedAction()) {
 						
 			case NotifyCollectionChangedAction.Add: {
-				m_WidgetController.InsertData(args.param3, m_PropertyDataConverter);
+				m_WidgetController.InsertData(args.GetChangedIndex(), collection_converter);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Remove: {
-				m_WidgetController.RemoveData(args.param3, m_PropertyDataConverter);
+				m_WidgetController.RemoveData(args.GetChangedIndex(), collection_converter);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Set: {
-				m_WidgetController.ReplaceData(args.param3, m_PropertyDataConverter);
+				m_WidgetController.ReplaceData(args.GetChangedIndex(), collection_converter);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Move: {
 				// this ones a weird case /shrug
-				m_WidgetController.MoveData(args.param3, Param1<int>.Cast(args.param4).param1);
+				m_WidgetController.MoveData(args.GetChangedIndex(), Param1<int>.Cast(args.GetChangedValue()).param1);
 				break;	
 			}
 			
@@ -162,21 +170,19 @@ class ViewBinding: ScriptedWidgetEventHandler
 		if (!m_Controller || !m_IsInitialized) return;
 		MVC.Log("%1: Updating View...", Binding_Name);
 		
-		if (!m_PropertyDataConverter) {	
-			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
-			if (!m_PropertyDataConverter) {
-				MVC.TypeConversionError(GetPropertyType(Binding_Name));
-				return;
-			}
+		if (!m_PropertyConverter) {	
+			MVC.Error("%1: Cant update view, PropertyDataConverter is null", Binding_Name);
+			return;
 		}
 		
-		if (m_SelectedDataConverter) {
-			m_SelectedDataConverter.GetFromController(m_Controller, Selected_Item, 0);
-			m_WidgetController.SetSelection(m_SelectedDataConverter);
+		// Selected_Item handler
+		if (Selected_Item != string.Empty && m_SelectedPropertyConverter) {
+			m_SelectedPropertyConverter.GetFromController(m_Controller, Selected_Item, 0);
+			m_WidgetController.SetSelection(m_SelectedPropertyConverter);
 		}
 
-		m_PropertyDataConverter.GetFromController(m_Controller, Binding_Name, 0);
-		m_WidgetController.SetData(m_PropertyDataConverter);
+		m_PropertyConverter.GetFromController(m_Controller, Binding_Name, 0);
+		m_WidgetController.SetData(m_PropertyConverter);
 	}
 	
 	private void UpdateModel()
@@ -184,17 +190,15 @@ class ViewBinding: ScriptedWidgetEventHandler
 		if (!m_Controller || !m_IsInitialized) return;
 		MVC.Log("%1: Updating Model...", Binding_Name);
 		
-		if (!m_PropertyDataConverter) {	
-			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
-			if (!m_PropertyDataConverter) {
-				MVC.TypeConversionError(GetPropertyType(Binding_Name));
-				return;
-			}
+		if (!m_PropertyConverter) {	
+			MVC.Error("%1: Cant update model, PropertyDataConverter is null", Binding_Name);
+			return;
 		}
 		
-		if (m_SelectedDataConverter) {
-			m_WidgetController.GetSelection(m_SelectedDataConverter);
-			m_SelectedDataConverter.SetToController(m_Controller, Selected_Item, 0);
+		// Selected_Item handler
+		if (Selected_Item != string.Empty && m_SelectedPropertyConverter) {
+			m_WidgetController.GetSelection(m_SelectedPropertyConverter);
+			m_SelectedPropertyConverter.SetToController(m_Controller, Selected_Item, 0);
 			m_Controller.NotifyPropertyChanged(Selected_Item);
 		}
 		
@@ -204,8 +208,8 @@ class ViewBinding: ScriptedWidgetEventHandler
 		}
 
 				
-		m_WidgetController.GetData(m_PropertyDataConverter);
-		m_PropertyDataConverter.SetToController(m_Controller, Binding_Name, 0);
+		m_WidgetController.GetData(m_PropertyConverter);
+		m_PropertyConverter.SetToController(m_Controller, Binding_Name, 0);
 		m_Controller.NotifyPropertyChanged(Binding_Name);
 	}
 	
