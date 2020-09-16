@@ -21,7 +21,7 @@ class CustomDialogWindow: MVCLayout
 */
 
 
-class MVCLayout
+class MVCLayout: ScriptedWidgetEventHandler
 {
 	protected Widget m_LayoutRoot;
 	
@@ -58,11 +58,10 @@ class MVCLayout
 			return;
 		}
 
-		m_LayoutRoot.Show(true);
+		m_LayoutRoot.Show(false);
 		
 		m_PropertyTypeHashMap.RemoveType(MVCLayout);
 		int property_count = LoadWidgets();
-		
 		MVC.Log("MVCLayout: %1 properties found!", property_count.ToString());
 		if (GetControllerType()) {
 			m_Controller = GetControllerType().Spawn();
@@ -72,6 +71,7 @@ class MVCLayout
 			}
 			
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+			m_LayoutRoot.SetHandler(this);
 		}
 	}
 	
