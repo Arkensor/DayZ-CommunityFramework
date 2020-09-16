@@ -5,6 +5,8 @@
 class RelayCommand
 {		
 	void Execute(RelayCommandArgs args);
-	bool CanExecute() return true;
+	
+	bool CanExecute() 
+		return true;
 }
 
