@@ -12,6 +12,14 @@ class PropertyHashMap: ref map<string, typename>
 		
 		return hash_map;
 	}
+	
+	void RemoveType(typename removed_type)
+	{
+		PropertyHashMap hash_map = FromType(removed_type);
+		foreach (string name, typename type: this) {
+			Remove(name);
+		}
+	}
 }
 
 

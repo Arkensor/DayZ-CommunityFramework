@@ -48,13 +48,12 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 	void OnWidgetScriptInit(Widget w)
 	{
-		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
+		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		
 		if (!m_LayoutRoot) {
 			MVC.Error("ViewBinding: Layout was null!");
-			
 		}
 		
 		if (Binding_Name == string.Empty) {

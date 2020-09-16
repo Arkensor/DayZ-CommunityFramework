@@ -35,12 +35,8 @@ class Controller: ScriptedWidgetEventHandler
 		m_LayoutRoot.SetHandler(this);
 		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 	
-		// Gets rid of properties that only exist in this class
-		//PropertyHashMap controller_hashbrowns = PropertyHashMap.FromType(Controller);
-		// Commented due to crashes for whatever reason smile :)
-		//foreach (string name, typename type: controller_hashbrowns) {
-		//	m_PropertyHashMap.Remove(name);
-		//}
+		// Gets rid of properties that only exist in the Controller type
+		m_PropertyHashMap.RemoveType(Controller);
 		
 		MVC.Log("%1 Properties found!", m_PropertyHashMap.Count().ToString());
 		
