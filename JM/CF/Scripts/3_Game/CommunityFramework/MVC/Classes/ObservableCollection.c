@@ -20,6 +20,7 @@ class Observable
 	
 	// Abstract
 	typename GetType();
+	int Count();
 }
 
 class ObservableCollection<Class TValue>: Observable
@@ -86,7 +87,7 @@ class ObservableCollection<Class TValue>: Observable
 		return v;
 	}
 	
-	int Count() { 
+	override int Count() { 
 		return _data.Count(); 
 	}
 	
@@ -163,7 +164,7 @@ class ObservableSet<Class TValue>: Observable
 		return v;
 	}
 	
-	int Count() { 
+	override int Count() { 
 		return _data.Count(); 
 	}
 	
@@ -223,7 +224,7 @@ class ObservableDictionary<Class TKey, Class TValue>: Observable
 		return _data.GetKey(index);
 	}
 	
-	int Count() { 
+	override int Count() { 
 		return _data.Count(); 
 	}
 	

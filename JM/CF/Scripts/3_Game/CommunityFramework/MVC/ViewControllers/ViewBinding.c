@@ -42,9 +42,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	protected autoptr ref WidgetController 	m_WidgetController;
 	
 	protected typename m_PropertyType;
-	protected typename m_SelectedPropertyType;
-	protected bool m_IsInitialized;
-	
+	protected typename m_SelectedPropertyType;	
 	
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -81,8 +79,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
 			MVC.Log("ViewBinding: Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
 		}
-		
-		m_IsInitialized = true;
 	}
 	
 	void SetController(Controller controller) 
@@ -91,27 +87,28 @@ class ViewBinding: ScriptedWidgetEventHandler
 		m_Controller = controller;
 	
 		if (!m_Controller) {
-			MVC.Error("ViewBinding: Controller is null!");
+			MVC.Error("Controller is null!");
 			return;
 		}
 		
+		// This is going to log all the time, even if you arent using DataBinding
 		m_PropertyType = m_Controller.GetPropertyType(Binding_Name);
 		if (!m_PropertyType) {
 			MVC.Log("ViewBinding: Binding Property '%1' not found", Binding_Name);
+		} else {
+			m_PropertyConverter = MVC.GetTypeConversion(m_PropertyType);
+			if (!m_PropertyConverter) {
+				MVC.Error("Could not find TypeConverter for type %1\nOverride MVC.RegisterConversionTemplates to register custom TypeConverters", m_PropertyType.ToString());
+				return;
+			}
 		}
-		
-		m_PropertyConverter = MVC.GetTypeConversion(m_PropertyType);
-		if (!m_PropertyConverter) {
-			MVC.Error("ViewBinding: Could not find TypeConverter for type %1\nOverride MVC.RegisterConversionTemplates to register custom TypeConverters", m_PropertyType.ToString());
-			return;
-		}
-		
+	
 		if (Selected_Item != string.Empty) {
 			m_SelectedPropertyType = m_Controller.GetPropertyType(Selected_Item);
 			if (m_SelectedPropertyType) {
 				m_SelectedPropertyConverter = MVC.GetTypeConversion(m_SelectedPropertyType);
 				if (!m_SelectedPropertyConverter) {
-					MVC.Error("ViewBinding: Property '%1' not found", Selected_Item);
+					MVC.Error("Property '%1' not found", Selected_Item);
 					return;
 				}
 			} else {
@@ -122,10 +119,14 @@ class ViewBinding: ScriptedWidgetEventHandler
 		// Updates the view on first load
 		UpdateView();
 	}
+	
+	private bool IsInitialized() {
+		return (m_Controller && m_WidgetController);
+	}
 
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)
 	{
-		if (!m_Controller || !m_IsInitialized) return;	
+		if (!IsInitialized()) return;
 		MVC.Trace("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 
 		// We dont want to work with type Observable for everything
@@ -162,38 +163,28 @@ class ViewBinding: ScriptedWidgetEventHandler
 			}
 		}
 	}
-	
 
-	
 	void UpdateView()
 	{
-		if (!m_Controller || !m_IsInitialized) return;
+		if (!IsInitialized()) return;
 		MVC.Log("%1: Updating View...", Binding_Name);
-		
-		if (!m_PropertyConverter) {	
-			MVC.Error("%1: Cant update view, PropertyDataConverter is null", Binding_Name);
-			return;
-		}
 		
 		// Selected_Item handler
 		if (Selected_Item != string.Empty && m_SelectedPropertyConverter) {
 			m_SelectedPropertyConverter.GetFromController(m_Controller, Selected_Item, 0);
 			m_WidgetController.SetSelection(m_SelectedPropertyConverter);
 		}
-
-		m_PropertyConverter.GetFromController(m_Controller, Binding_Name, 0);
-		m_WidgetController.SetData(m_PropertyConverter);
+		
+		if (m_PropertyType && m_PropertyConverter) {
+			m_PropertyConverter.GetFromController(m_Controller, Binding_Name, 0);
+			m_WidgetController.SetData(m_PropertyConverter);
+		}
 	}
 	
 	private void UpdateModel()
 	{
-		if (!m_Controller || !m_IsInitialized) return;
+		if (!IsInitialized()) return;
 		MVC.Log("%1: Updating Model...", Binding_Name);
-		
-		if (!m_PropertyConverter) {	
-			MVC.Error("%1: Cant update model, PropertyDataConverter is null", Binding_Name);
-			return;
-		}
 		
 		// Selected_Item handler
 		if (Selected_Item != string.Empty && m_SelectedPropertyConverter) {
@@ -202,17 +193,29 @@ class ViewBinding: ScriptedWidgetEventHandler
 			m_Controller.NotifyPropertyChanged(Selected_Item);
 		}
 		
-		if (!Two_Way_Binding || !m_WidgetController.CanTwoWayBind()) {
-			m_Controller.NotifyPropertyChanged(Binding_Name);
-			return;
+		if (m_PropertyType && m_PropertyConverter) {
+			if (Two_Way_Binding && m_WidgetController && m_WidgetController.CanTwoWayBind()) {
+				m_WidgetController.GetData(m_PropertyConverter);
+				m_PropertyConverter.SetToController(m_Controller, Binding_Name, 0);
+				m_Controller.NotifyPropertyChanged(Binding_Name);
+			} else {
+				m_Controller.NotifyPropertyChanged(Binding_Name);
+			}
 		}
-
-				
-		m_WidgetController.GetData(m_PropertyConverter);
-		m_PropertyConverter.SetToController(m_Controller, Binding_Name, 0);
-		m_Controller.NotifyPropertyChanged(Binding_Name);
 	}
-	
+		
+	void InvokeCommand(Param params)
+	{
+		
+		MVC.Trace("ViewBinding::InvokeCommand");
+		
+		if (!m_RelayCommand && m_Controller) {
+			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
+		} 
+		else if (m_RelayCommand && m_RelayCommand.CanExecute()) {
+			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
+		}
+	}
 	
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
@@ -245,24 +248,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 
 		UpdateModel();		
 		return false;
-	}
-	
-	
-		
-	void InvokeCommand(Param params)
-	{
-		MVC.Trace("ViewBinding::InvokeCommand");
-		
-		if (!m_IsInitialized) return;
-		
-		if (!m_RelayCommand && m_Controller) {
-			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
-			return;
-		}
-		
-		if (m_RelayCommand.CanExecute()) {
-			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
-		}
 	}
 }
 

@@ -19,6 +19,10 @@ class MVC
 		if (!_MVC)
 			_MVC = new MVC();
 		
+		if (type.IsInherited(Observable)) {
+			type = Observable.Cast(type.Spawn()).GetType();
+		}
+		
 		return m_TypeConverterHashMap.Get(type).Spawn(); 
 	}
 	
@@ -53,6 +57,9 @@ class MVC
 		type_conversions.Insert(string, TypeConversionString);
 		type_conversions.Insert(vector, TypeConversionVector);
 		type_conversions.Insert(Widget, TypeConversionWidget);
+		type_conversions.Insert(ObservableSet, TypeConversionObservableSet);
+		type_conversions.Insert(ObservableCollection, TypeConversionObservableCollection);
+		type_conversions.Insert(ObservableDictionary, TypeConversionObservableDictionary);
 	}
 	
 	// Override THIS to add your own Widget Controllers 

@@ -65,11 +65,11 @@ class Controller: ScriptedWidgetEventHandler
 		//GetLogger().Log("Controller::NotifyPropertyChanged " + property_name, "JM_CF_MVC");
 		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(property_name);
 		
-		if (view_set) {
-			foreach (ViewBinding view: view_set) {
+		if (view_set) 
+			foreach (ViewBinding view: view_set)
 				view.UpdateView();
-			}
-		}
+			
+		
 		
 		PropertyChanged(property_name);
 	}
