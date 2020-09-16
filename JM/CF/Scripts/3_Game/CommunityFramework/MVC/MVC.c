@@ -3,7 +3,6 @@ static ref MVC _MVC;
 
 class MVC
 {
-	
 	protected static ref TypenameHashMap m_WidgetControllerHashMap;
 	static WidgetController GetWidgetController(Class data) {
 		if (!_MVC)
@@ -105,14 +104,9 @@ class MVC
 		}
 	}
 	
-	static void Trace(string message)
+	static void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
-		PrintFormat("MVCLog::Trace %1", message);
-	}
-	
-	static void Log(string message)
-	{
-		PrintFormat("MVCLog::Log %1", message);
+		PrintFormat("MVCLog::Trace %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 	
 	static void Log(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
@@ -139,20 +133,60 @@ class MVCWidgetHandler: ScriptedWidgetEventHandler
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
 	}
-	
-	void MVCWidgetHandler()
-	{
-		if (GetLayoutFile() != string.Empty)
-			m_LayoutRoot = GetGame().GetWorkspace().CreateWidgets(GetLayoutFile(), null);
-	}
-	
+		
 	void OnWidgetScriptInit(Widget w)
 	{
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
-	}		
+	}
+}
+
+// Abstract Class
+class MVCLayout: ScriptedWidgetEventHandler
+{
+	protected Widget m_LayoutRoot;
 	
+	protected PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
 	
-	protected string GetLayoutFile();
+	Widget GetLayoutRoot() {
+		return m_LayoutRoot;
+	}
+	
+	void MVCLayout()
+	{
+		string layout_file = GetLayoutFile();
+		if (layout_file != string.Empty) {
+			MVC.Trace("MVCLayout: %1", layout_file);
+			m_LayoutRoot = GetGame().GetWorkspace().CreateWidgets(layout_file, null);
+			if (m_LayoutRoot) {
+				m_LayoutRoot.SetHandler(this);
+				int property_count = LoadWidgets();
+				MVC.Log("%1 properties found!", property_count.ToString());
+			} else {
+				MVC.Error("MVCLayout: Invalid layout file!");
+			}
+		} else {
+			MVC.Error("MVCLayout: You must override GetLayoutFile with the .layout file path");
+		}
+	}
+	
+	int LoadWidgets()
+	{
+		int count;
+		foreach (string property_name, typename property_type: m_PropertyHashMap) {
+			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
+			if (target) {
+				EnScript.SetClassVar(this, property_name, 0, target);
+				count++;
+			}
+		}
+		
+		return count;
+	}
+		
+	// Abstract
+	protected string GetLayoutFile() {
+		return string.Empty;
+	}
 }
 
