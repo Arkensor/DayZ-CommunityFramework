@@ -51,10 +51,12 @@ class ViewBinding: ScriptedWidgetEventHandler
 		delete m_SelectedDataConverter;
 	}
 	
-	override void OnWidgetScriptInit(Widget w)
+	void OnWidgetScriptInit(Widget w)
 	{
-		super.OnWidgetScriptInit(w);
-		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", w.GetName());
+		m_LayoutRoot = w;
+		m_LayoutRoot.SetHandler(this);
+		
+		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		
 		if (!m_LayoutRoot) {
 			MVC.Error("ViewBinding: Layout was null!");
