@@ -6,7 +6,6 @@ class Controller: MVCWidgetHandler
 	// Private members
 	private ref PropertyHashMap m_ControllerPropertyHashMap;
 	
-		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
 	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
 	
@@ -43,7 +42,7 @@ class Controller: MVCWidgetHandler
 		//	m_PropertyHashMap.Remove(name);
 		//}
 		
-		PrintFormat("%1 Properties found!", m_PropertyHashMap.Count());
+		MVC.Log("%1 Properties found!", m_PropertyHashMap.Count().ToString());
 		
 		
 		// Load all child Widgets and obtain their DataBinding class

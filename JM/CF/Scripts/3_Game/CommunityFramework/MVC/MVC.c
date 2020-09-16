@@ -111,16 +111,17 @@ class MVC
 	
 	static void Log(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
-		PrintFormat(message, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+		PrintFormat("MVCLog::Log %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
-	static void Error(string message)
+	static void Error(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
-		//GetLogger().Error();
-		Error2("MVC Error", message);
+		string msg = string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+		//PrintFormat("MVCLog::Error %1", msg);
+		Error2("MVC Error", msg);
 		
 #ifdef COMPONENT_SYSTEM
-		Workbench.Dialog("MVC Error", message);
+		Workbench.Dialog("MVC Error", msg);
 #endif
 	}	
 }
@@ -142,31 +143,65 @@ class MVCWidgetHandler: ScriptedWidgetEventHandler
 }
 
 // Abstract Class
-class MVCLayout: ScriptedWidgetEventHandler
+class MVCLayout
 {
 	protected Widget m_LayoutRoot;
 	
-	protected PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
+	protected ref Controller m_Controller;
+	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
+	
+	private ref ScriptInvoker m_UpdateQueue = GetGame().GetUpdateQueue(CALL_CATEGORY_GUI);
 	
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
 	}
 	
+	Controller GetController() {
+		return m_Controller;
+	}
+	
 	void MVCLayout()
 	{
-		string layout_file = GetLayoutFile();
-		if (layout_file != string.Empty) {
-			MVC.Trace("MVCLayout: %1", layout_file);
-			m_LayoutRoot = GetGame().GetWorkspace().CreateWidgets(layout_file, null);
-			if (m_LayoutRoot) {
-				m_LayoutRoot.SetHandler(this);
-				int property_count = LoadWidgets();
-				MVC.Log("%1 properties found!", property_count.ToString());
-			} else {
-				MVC.Error("MVCLayout: Invalid layout file!");
-			}
-		} else {
+		MVC.Trace("MVCLayout");
+		if (GetLayoutFile() == string.Empty) {
 			MVC.Error("MVCLayout: You must override GetLayoutFile with the .layout file path");
+			return;
+		}		
+		
+		MVC.Log("MVCLayout: Loading %1", GetLayoutFile());
+		WorkspaceWidget workspace = GetGame().GetWorkspace();
+		if (!workspace) {
+			MVC.Log("MVCLayout: Workspace was null, try reloading Workbench");
+			return;
+		}
+		
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), null);
+		if (!m_LayoutRoot) {
+			MVC.Error("MVCLayout: Invalid layout file!");
+			return;
+		}
+		
+		m_LayoutRoot.Show(false);
+		
+		int property_count = LoadWidgets();
+		MVC.Log("MVCLayout: %1 properties found!", property_count.ToString());
+		
+		if (GetControllerType() != Controller) {
+			m_Controller = GetControllerType().Spawn();
+			if (!m_Controller) {
+				MVC.Error("MVCLayout: Invalid Controller %1", GetControllerType().ToString());
+				return;
+			}
+			
+			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+		}
+	}
+	
+	void ~MVCLayout()
+	{
+		//MVC.Trace("~MVCLayout");
+		if (m_UpdateQueue) {
+			m_UpdateQueue.Remove(Update);
 		}
 	}
 	
@@ -175,6 +210,12 @@ class MVCLayout: ScriptedWidgetEventHandler
 		int count;
 		foreach (string property_name, typename property_type: m_PropertyHashMap) {
 			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
+			
+			// Allows for LayoutRoot to be referenced aswell
+			if (!target && m_LayoutRoot.GetName() == property_name) {
+				target = m_LayoutRoot;
+			}
+			
 			if (target) {
 				EnScript.SetClassVar(this, property_name, 0, target);
 				count++;
@@ -187,6 +228,34 @@ class MVCLayout: ScriptedWidgetEventHandler
 	// Abstract
 	protected string GetLayoutFile() {
 		return string.Empty;
+	}
+	
+	protected typename GetControllerType() {
+		return Controller;
+	}
+	
+	protected void Update();
+	
+	void Show()
+	{
+		if (m_LayoutRoot) {
+			m_LayoutRoot.Show(true);
+			if (m_UpdateQueue) {
+				m_UpdateQueue.Insert(Update);
+			}
+		}
+	}
+	
+	void Close()
+	{
+		if (m_LayoutRoot) {
+			m_LayoutRoot.Show(false);
+			m_LayoutRoot.Unlink();
+			
+			if (m_UpdateQueue) {
+				m_UpdateQueue.Remove(Update);
+			}
+		}
 	}
 }
 
