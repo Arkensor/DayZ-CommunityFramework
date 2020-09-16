@@ -1,11 +1,15 @@
 
 
 
-class ViewBinding: MVCWidgetHandler
+class ViewBinding: ScriptedWidgetEventHandler
 {
-	// Name of Binding. If blank, uses the Widget name (not advised)
+	// Layout root - CANNOT be null
+	protected Widget m_LayoutRoot;
+	
+	// Variable name to bind to. If blank, uses the Widget name (not advised)
 	protected reference string Binding_Name;
 		
+	// Variable name to bind the Selected Item to
 	// Only valid if type is ObservableCollection
 	protected reference string Selected_Item;
 	
@@ -13,11 +17,11 @@ class ViewBinding: MVCWidgetHandler
 	protected reference bool Two_Way_Binding;
 	
 	// Name of RelayCommand class that is controlled by ViewBinding
-	// Can be either Class of type RelayCommand, OR a function inside of the controller
+	// Can be either name of Class that inherits from RelayCommand, OR a function within the controller
 	protected reference string Relay_Command;
 
-	Widget GetRoot() { 
-		return m_LayoutRoot; 
+	Widget GetLayoutRoot() {
+		return m_LayoutRoot;
 	}
 	
 	string GetBindingName() { 
@@ -33,18 +37,28 @@ class ViewBinding: MVCWidgetHandler
 	}
 	
 	// Weak reference to Parent controller	
-	protected Controller m_Controller;
+	protected autoptr Controller m_Controller;
 	
 	protected ref RelayCommand 		m_RelayCommand;
 	protected ref TypeConverter 	m_PropertyDataConverter;
 	protected ref WidgetController 	m_WidgetController;
 	protected ref TypeConverter 	m_SelectedDataConverter;
 	
+	void ~ViewBinding() {
+		delete m_RelayCommand;
+		delete m_PropertyDataConverter;
+		delete m_WidgetController;
+		delete m_SelectedDataConverter;
+	}
 	
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
-		//GetLogger().Log("[%1] ViewBinding::Init", w.GetName());
+		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", w.GetName());
+		
+		if (!m_LayoutRoot) {
+			MVC.Error("ViewBinding: Layout was null!");
+		}
 		
 		if (Binding_Name == string.Empty) {
 			Binding_Name = m_LayoutRoot.GetName();
@@ -53,9 +67,9 @@ class ViewBinding: MVCWidgetHandler
 		if (Relay_Command != string.Empty) {
 			
 			if (!Relay_Command.ToType()) {
-				MVC.Log("Type not found: %1 - Assuming it is function on Controller", Relay_Command);
+				MVC.Log("ViewBinding: Type not found: %1 - Assuming it is function on Controller", Relay_Command);
 			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
-				MVC.Error("%1 must inherit from RelayCommand", Relay_Command);
+				MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
 			} else {
 				m_RelayCommand = Relay_Command.ToType().Spawn();
 			}

@@ -1,11 +1,11 @@
 
 
 // Abstract Class
-class Controller: MVCWidgetHandler
+class Controller: ScriptedWidgetEventHandler
 {
-	// Private members
-	private ref PropertyHashMap m_ControllerPropertyHashMap;
-	
+	// Layout root - CAN be null
+	protected Widget m_LayoutRoot;
+		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
 	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
 	
@@ -13,23 +13,26 @@ class Controller: MVCWidgetHandler
 		return m_PropertyHashMap.Get(property_name);
 	}
 	
-	void Controller()
-	{
-		//GetLogger().Log("Controller", "JM_CF_MVC");
+	Widget GetLayoutRoot() {
+		return m_LayoutRoot;
+	}
+	
+	void Controller() {
+		MVC.Trace("Controller");
 		if (Type() == Controller) {
 			MVC.Error("You cannot bind to data without creating your own controller class!");
 			return;
 		}
 	}
 	
-	void ~Controller() 
-	{ 
-		//GetLogger().Log("~Controller", "JM_CF_MVC"); 
+	void ~Controller() { 
+		MVC.Trace("~Controller");
 	}
 	
-	override void OnWidgetScriptInit(Widget w)
+	void OnWidgetScriptInit(Widget w)
 	{
-		super.OnWidgetScriptInit(w);
+		m_LayoutRoot = w;
+		m_LayoutRoot.SetHandler(this);
 		
 		//GetLogger().Log("Controller::Init", "JM_CF_MVC");
 		// User must inherit from controller, not use it in ScriptClass
