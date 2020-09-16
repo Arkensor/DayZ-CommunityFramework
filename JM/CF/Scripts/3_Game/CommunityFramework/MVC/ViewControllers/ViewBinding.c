@@ -74,12 +74,13 @@ class ViewBinding: ScriptedWidgetEventHandler
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
 		if (!m_WidgetController) {
-			MVC.UnsupportedTypeError(m_LayoutRoot.Type());
+			MVC.Error("Unsupported Type: %1", m_LayoutRoot.Type().ToString());
+			return;
 		}
 		
 		// Check for two way binding support
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
-			MVC.Error(string.Format("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString()));
+			MVC.Error("ViewBinding: Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
 		}
 		
 		m_IsInitialized = true;
@@ -87,7 +88,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 	void SetController(Controller controller) 
 	{ 
-		//GetLogger().Log("ViewBinding::SetController: %1", controller.GetLayoutRoot().GetName());
+		MVC.Log("ViewBinding::SetController");
 		m_Controller = controller;
 	
 		if (!m_Controller) {
@@ -108,32 +109,20 @@ class ViewBinding: ScriptedWidgetEventHandler
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
 		}
 		
-		// Updates the view on first load
-		UpdateView();
-	}
-	
-	void OnPropertyChanged()
-	{
-		//GetLogger().Log(string.Format("ViewBinding::OnPropertyChanged: %1", Binding_Name), "JM_CF_MVC");
-		UpdateView();
-	}
-
-	void OnCollectionChanged(ref CollectionChangedEventArgs args)
-	{
-		//GetLogger().Log(string.Format("ViewBinding::OnCollectionChanged: %1", Binding_Name), "JM_CF_MVC");
-
 		if (!m_PropertyDataConverter) {
 			MVC.TypeConversionError(GetPropertyType(Binding_Name));
 			return;			
 		}
 		
-		if (!m_WidgetController) {
-			MVC.UnsupportedTypeError(m_LayoutRoot.Type());
-			return;
-		}
+		// Updates the view on first load
+		UpdateView();
+	}
 
-		//PrintFormat("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
-			
+	void OnCollectionChanged(ref CollectionChangedEventArgs args)
+	{
+		if (!m_Controller || !m_IsInitialized) return;	
+		MVC.Trace("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
+
 		// Anonymouse Data Setter
 		m_PropertyDataConverter.SetParam(args.param4);
 		switch (args.param2) {
@@ -168,10 +157,10 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 
 	
-	private void UpdateView()
+	void UpdateView()
 	{
-		//GetLogger().Log("ViewBinding::UpdateView", "JM_CF_MVC");
 		if (!m_Controller || !m_IsInitialized) return;
+		MVC.Log("%1: Updating View...", Binding_Name);
 		
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
@@ -192,8 +181,8 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 	private void UpdateModel()
 	{
-		//GetLogger().Log("ViewBinding::UpdateModel", "JM_CF_MVC");
 		if (!m_Controller || !m_IsInitialized) return;
+		MVC.Log("%1: Updating Model...", Binding_Name);
 		
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
@@ -223,8 +212,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		//GetLogger().Log("ViewBinding::OnClick " + w.Type());
-		
 		switch (w.Type()) {
 			case ButtonWidget: {
 				UpdateModel();
@@ -238,9 +225,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
-	{
-		//GetLogger().Log("ViewBinding::OnChange " + w.GetName());
-	
+	{	
 		switch (w.Type()) {
 			
 			case CheckBoxWidget: {

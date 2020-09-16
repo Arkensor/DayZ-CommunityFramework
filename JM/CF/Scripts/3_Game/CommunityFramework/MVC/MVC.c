@@ -84,12 +84,7 @@ class MVC
 	{
 		PrintFormat("Property '%1' not found", property_name);
 	}
-	
-	static void UnsupportedTypeError(typename type)
-	{
-		PrintFormat("Unsupported Type: %1", type.ToString());
-	}
-	
+		
 	static void UnsupportedConversionError(typename from_type, typename to_type)
 	{
 		PrintFormat("Unsupported conversion from %1 to %2!", from_type.ToString(), to_type.ToString());

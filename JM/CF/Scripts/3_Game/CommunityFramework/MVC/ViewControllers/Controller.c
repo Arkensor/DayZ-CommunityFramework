@@ -67,7 +67,7 @@ class Controller: ScriptedWidgetEventHandler
 		
 		if (view_set) {
 			foreach (ViewBinding view: view_set) {
-				view.OnPropertyChanged();
+				view.UpdateView();
 			}
 		}
 		
