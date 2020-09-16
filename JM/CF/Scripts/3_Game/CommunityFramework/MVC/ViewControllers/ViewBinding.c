@@ -166,7 +166,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	void UpdateView()
 	{
 		if (!IsInitialized()) return;
-		MVC.Log("%1: Updating View...", Binding_Name);
+		MVC.Trace("%1: Updating View...", Binding_Name);
 		
 		// Selected_Item handler
 		if (Selected_Item != string.Empty && m_SelectedPropertyConverter) {
@@ -183,7 +183,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	private void UpdateModel()
 	{
 		if (!IsInitialized()) return;
-		MVC.Log("%1: Updating Model...", Binding_Name);
+		MVC.Trace("%1: Updating Model...", Binding_Name);
 		
 		// Selected_Item handler
 		if (Selected_Item != string.Empty && m_SelectedPropertyConverter) {

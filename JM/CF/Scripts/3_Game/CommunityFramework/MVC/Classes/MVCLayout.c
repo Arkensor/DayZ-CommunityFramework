@@ -25,9 +25,8 @@ class MVCLayout
 {
 	protected Widget m_LayoutRoot;
 	
-	protected ref Controller m_Controller;
+	protected ref Controller m_Controller;	
 	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-	
 	protected ref ScriptInvoker m_UpdateQueue = GetGame().GetUpdateQueue(CALL_CATEGORY_GUI);
 	
 	Widget GetLayoutRoot() {
@@ -58,10 +57,12 @@ class MVCLayout
 			MVC.Error("MVCLayout: Invalid layout file!");
 			return;
 		}
+
+		m_LayoutRoot.Show(true);
 		
-		m_LayoutRoot.Show(false);
-		
+		m_PropertyTypeHashMap.RemoveType(MVCLayout);
 		int property_count = LoadWidgets();
+		
 		MVC.Log("MVCLayout: %1 properties found!", property_count.ToString());
 		if (GetControllerType()) {
 			m_Controller = GetControllerType().Spawn();
@@ -83,6 +84,7 @@ class MVCLayout
 	int LoadWidgets()
 	{
 		int count;
+		
 		foreach (string property_name, typename property_type: m_PropertyTypeHashMap) {
 			
 			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
