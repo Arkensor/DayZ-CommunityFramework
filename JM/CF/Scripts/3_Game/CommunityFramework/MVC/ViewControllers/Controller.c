@@ -1,7 +1,9 @@
+/*
+
+Controller Class Example:
 
 class TestController: Controller
 {
-	
 	// "TextBox1" goes into Binding_Name
 	string TextBox1 = "TextBox1Text";
 	
@@ -30,12 +32,10 @@ class TestController: Controller
 				Print("WindowButton1 " + WindowButton1);
 				break;
 			}
-			
-			
 		}
 	}
-	
 }
+*/
 
 
 // Abstract Class
@@ -45,17 +45,18 @@ class Controller: ScriptedWidgetEventHandler
 	protected Widget m_LayoutRoot;
 		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
-	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
+	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	
 	typename GetPropertyType(string property_name) {
-		return m_PropertyHashMap.Get(property_name);
+		return m_PropertyTypeHashMap.Get(property_name);
 	}
-	
+		
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
 	}
 	
-	void Controller() {
+	void Controller() 
+	{
 		MVC.Trace("Controller");
 		if (Type() == Controller) {
 			MVC.Error("You cannot bind to data without creating your own controller class!");
@@ -63,7 +64,8 @@ class Controller: ScriptedWidgetEventHandler
 		}
 	}
 	
-	void ~Controller() { 
+	void ~Controller() 
+	{ 
 		MVC.Trace("~Controller");
 	}
 	
@@ -72,66 +74,54 @@ class Controller: ScriptedWidgetEventHandler
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
 		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
-	
-		// Removes properties that only exist in the Controller type
-		m_PropertyHashMap.RemoveType(Controller);
 		
-		MVC.Log("%1 properties found!", m_PropertyHashMap.Count().ToString());
+		m_PropertyTypeHashMap.RemoveType(Controller);
+		MVC.Log("%1 properties found!", m_PropertyTypeHashMap.Count().ToString());
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
 		MVC.Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());
-		
+
+#ifdef COMPONENT_SYSTEM
+		//Workbench.Dialog("Read the docs!", "Documentation available here\nhttps:\/\/www.twitch.tv/InclementDab\n");
+#endif
 	
-		// debug
-		//m_ViewBindingHashMap.DebugPrint();
-		
-		
-		/*
-		foreach (string data_name, DataBindingBase data: m_DataBindingHashMap) {
-			PropertyInfo prop = m_PropertyHashMap.GetPropertyInfo(data_name);
-			if (!data.CanConvertFrom(prop.Type)) {
-				ErrorDialog(string.Format("Invalid data type in %1. Found %2, supports %3", data_name, prop.Type, data.GetType()));
-				m_DataBindingHashMap.Remove(data_name);
-			}
-		}*/
 	}
 	
-	// This must be called manually by the user
+	// Call this when you update a Controller property (variable)
+	// Do NOT call this when using arrays / collections.
+	// Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name)
 	{
-		//GetLogger().Log("Controller::NotifyPropertyChanged " + property_name, "JM_CF_MVC");
-		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(property_name);
+		MVC.Trace("Controller::NotifyPropertyChanged " + property_name);
+		ViewBindingSet view_set = m_ViewBindingHashMap.Get(property_name);
 		
 		if (view_set) 
 			foreach (ViewBinding view: view_set)
 				view.UpdateView();
-			
-		
-		
+
 		PropertyChanged(property_name);
 	}
 	
+	
 	// This gets called automatically when a collection is changed
 	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
-	{
-		//GetLogger().Log("Controller::NotifyCollectionChanged " + collection_name, "JM_CF_MVC");
-		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(collection_name);
+	{		
+		MVC.Trace("Controller::NotifyCollectionChanged %1", collection_name);
+		ViewBindingSet view_set = m_ViewBindingHashMap.Get(collection_name);
 		
-		if (view_set) {
-			foreach (ViewBinding view: view_set) {
+		if (view_set) 
+			foreach (ViewBinding view: view_set) 
 				view.OnCollectionChanged(args);
-			}
-		}
-		
+
 		CollectionChanged(collection_name, args);
 	}
 	
-	// Called every time a property is changed. 
+	// Gets called every time a property is changed. 
 	// Override this when you want to have an event AFTER property is changed
 	void PropertyChanged(string property_name);
 	
-	// Called every time an observable collection is changed.
+	// Gets called every time an observable collection is changed.
 	// Override this when you want to have an event AFTER collection is changed
 	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
 	

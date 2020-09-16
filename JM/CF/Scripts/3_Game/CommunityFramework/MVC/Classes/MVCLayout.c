@@ -12,22 +12,21 @@ class CustomDialogWindow: MVCLayout
 	}
 }
 
-
-
 	CustomDialogWindow window = new CustomDialogWindow();
 	window.Show();
 	....
 	....
 	window.Close();
 
-
 */
+
+
 class MVCLayout
 {
 	protected Widget m_LayoutRoot;
 	
 	protected ref Controller m_Controller;
-	protected ref PropertyHashMap m_PropertyHashMap = PropertyHashMap.FromType(Type());
+	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	
 	protected ref ScriptInvoker m_UpdateQueue = GetGame().GetUpdateQueue(CALL_CATEGORY_GUI);
 	
@@ -84,7 +83,7 @@ class MVCLayout
 	int LoadWidgets()
 	{
 		int count;
-		foreach (string property_name, typename property_type: m_PropertyHashMap) {
+		foreach (string property_name, typename property_type: m_PropertyTypeHashMap) {
 			
 			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
 			

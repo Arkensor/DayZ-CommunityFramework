@@ -1,11 +1,11 @@
 
 // 0: Property Name
 // 1: Proprety Type
-class PropertyHashMap: ref map<string, typename>
+class PropertyTypeHashMap: ref map<string, typename>
 {
-	static ref PropertyHashMap FromType(typename type)
+	static ref PropertyTypeHashMap FromType(typename type)
 	{
-		ref PropertyHashMap hash_map = new PropertyHashMap();
+		ref PropertyTypeHashMap hash_map = new PropertyTypeHashMap();
 		for (int i = 0; i < type.GetVariableCount(); i++) {
 			hash_map.Insert(type.GetVariableName(i), type.GetVariableType(i));	
 		}
@@ -15,10 +15,9 @@ class PropertyHashMap: ref map<string, typename>
 	
 	void RemoveType(typename removed_type)
 	{
-		PropertyHashMap hash_map = FromType(removed_type);
+		PropertyTypeHashMap hash_map = FromType(removed_type);
 		foreach (string name, typename type: hash_map)
 			Remove(name);
-		
 	}
 }
 
@@ -55,6 +54,7 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 		}		
 	}
 }
+
 
 
 

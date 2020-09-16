@@ -107,7 +107,9 @@ class MVC
 #ifdef COMPONENT_SYSTEM
 		Workbench.Dialog("MVC Error", msg);
 #endif
-	}	
+	}
 }
+
+
 
 
