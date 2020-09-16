@@ -61,7 +61,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 		if (Relay_Command != string.Empty) {
 			
 			if (!Relay_Command.ToType()) {
-				MVC.Log("ViewBinding: Type not found: %1 - Assuming it is function on Controller", Relay_Command);
+				MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
 			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
 				MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
 			} else {
