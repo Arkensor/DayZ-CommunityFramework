@@ -18,6 +18,7 @@ class Observable
 		m_VariableName = variable_name; m_Controller = parent_controller;
 	}
 	
+	// Abstract
 	typename GetType();
 }
 

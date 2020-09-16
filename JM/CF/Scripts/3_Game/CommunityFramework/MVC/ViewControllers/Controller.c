@@ -34,11 +34,7 @@ class Controller: ScriptedWidgetEventHandler
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
 		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
-		
-		//GetLogger().Log("Controller::Init", "JM_CF_MVC");
-		// User must inherit from controller, not use it in ScriptClass
-
-		
+	
 		// Gets rid of properties that only exist in this class
 		//PropertyHashMap controller_hashbrowns = PropertyHashMap.FromType(Controller);
 		// Commented due to crashes for whatever reason smile :)
@@ -48,16 +44,11 @@ class Controller: ScriptedWidgetEventHandler
 		
 		MVC.Log("%1 Properties found!", m_PropertyHashMap.Count().ToString());
 		
-		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
-		if (binding_count == 0) {
-			PrintFormat("No DataBindings found! Is the controller in a parent Widget?");
-		} else {
-			PrintFormat("%1 DataBindings found!", binding_count);
-		}
+		MVC.Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());
 		
-		
+	
 		// debug
 		//m_ViewBindingHashMap.DebugPrint();
 		

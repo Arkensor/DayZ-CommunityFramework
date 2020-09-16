@@ -39,27 +39,22 @@ class ViewBinding: ScriptedWidgetEventHandler
 	// Weak reference to Parent controller	
 	protected autoptr Controller m_Controller;
 	
-	protected ref RelayCommand 		m_RelayCommand;
-	protected ref TypeConverter 	m_PropertyDataConverter;
-	protected ref WidgetController 	m_WidgetController;
-	protected ref TypeConverter 	m_SelectedDataConverter;
+	protected autoptr ref RelayCommand 		m_RelayCommand;
+	protected autoptr ref TypeConverter 	m_PropertyDataConverter;
+	protected autoptr ref WidgetController 	m_WidgetController;
+	protected autoptr ref TypeConverter 	m_SelectedDataConverter;
 	
-	void ~ViewBinding() {
-		delete m_RelayCommand;
-		delete m_PropertyDataConverter;
-		delete m_WidgetController;
-		delete m_SelectedDataConverter;
-	}
+	private bool m_IsInitialized;
 	
 	void OnWidgetScriptInit(Widget w)
 	{
+		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
 		
-		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
-		
 		if (!m_LayoutRoot) {
 			MVC.Error("ViewBinding: Layout was null!");
+			
 		}
 		
 		if (Binding_Name == string.Empty) {
@@ -72,6 +67,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 				MVC.Log("ViewBinding: Type not found: %1 - Assuming it is function on Controller", Relay_Command);
 			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
 				MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
+				return;
 			} else {
 				m_RelayCommand = Relay_Command.ToType().Spawn();
 			}
@@ -86,6 +82,8 @@ class ViewBinding: ScriptedWidgetEventHandler
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
 			MVC.Error(string.Format("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString()));
 		}
+		
+		m_IsInitialized = true;
 	}
 	
 	void SetController(Controller controller) 
@@ -174,7 +172,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	private void UpdateView()
 	{
 		//GetLogger().Log("ViewBinding::UpdateView", "JM_CF_MVC");
-		if (!m_Controller) return;
+		if (!m_Controller || !m_IsInitialized) return;
 		
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
@@ -196,7 +194,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	private void UpdateModel()
 	{
 		//GetLogger().Log("ViewBinding::UpdateModel", "JM_CF_MVC");
-		if (!m_Controller) return;
+		if (!m_Controller || !m_IsInitialized) return;
 		
 		if (!m_PropertyDataConverter) {	
 			m_PropertyDataConverter = MVC.GetTypeConversion(GetPropertyType(Binding_Name));
@@ -266,6 +264,8 @@ class ViewBinding: ScriptedWidgetEventHandler
 	void InvokeCommand(Param params)
 	{
 		MVC.Trace("ViewBinding::InvokeCommand");
+		
+		if (!m_IsInitialized) return;
 		
 		if (!m_RelayCommand && m_Controller) {
 			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
