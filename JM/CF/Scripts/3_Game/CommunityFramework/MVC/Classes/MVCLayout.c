@@ -48,7 +48,7 @@ class MVCLayout
 		MVC.Log("MVCLayout: Loading %1", GetLayoutFile());
 		WorkspaceWidget workspace = GetGame().GetWorkspace();
 		if (!workspace) {
-			MVC.Log("MVCLayout: Workspace was null, try reloading Workbench");
+			MVC.Error("MVCLayout: Workspace was null, try reloading Workbench");
 			return;
 		}
 		
