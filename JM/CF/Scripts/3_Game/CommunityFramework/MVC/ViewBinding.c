@@ -5,13 +5,7 @@ class ViewBinding: MVCWidgetHandler
 {
 	// Name of Binding. If blank, uses the Widget name (not advised)
 	protected reference string Binding_Name;
-	
-	// Function called when type is Clicked, Selected, or Changed
-	protected reference string Command_Execute;
-	
-	// Function that returns bool defining whether or not the Command_Execute can be called
-	//protected reference string Command_CanExecute;
-	
+		
 	// Only valid if type is ObservableCollection
 	protected reference string Selected_Item;
 	
@@ -19,6 +13,7 @@ class ViewBinding: MVCWidgetHandler
 	protected reference bool Two_Way_Binding;
 	
 	// Name of RelayCommand class that is controlled by ViewBinding
+	// Can be either Class of type RelayCommand, OR a function inside of the controller
 	protected reference string Relay_Command;
 
 	Widget GetRoot() { 
@@ -58,7 +53,7 @@ class ViewBinding: MVCWidgetHandler
 		if (Relay_Command != string.Empty) {
 			
 			if (!Relay_Command.ToType()) {
-				MVC.Error("Type not found: %1", Relay_Command);
+				MVC.Log("Type not found: %1 - Assuming it is function on Controller", Relay_Command);
 			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
 				MVC.Error("%1 must inherit from RelayCommand", Relay_Command);
 			} else {
@@ -255,8 +250,15 @@ class ViewBinding: MVCWidgetHandler
 	void InvokeCommand(Param params)
 	{
 		MVC.Trace("ViewBinding::InvokeCommand");
-		if (!m_RelayCommand || !m_RelayCommand.CanExecute()) return;
-		m_RelayCommand.Execute(new RelayCommandArgs(this, params));
+		
+		if (!m_RelayCommand && m_Controller) {
+			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
+			return;
+		}
+		
+		if (m_RelayCommand.CanExecute()) {
+			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
+		}
 	}
 	
 	void UpdateCommand()
