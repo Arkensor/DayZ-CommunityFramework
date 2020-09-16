@@ -1,15 +1,14 @@
 
 
-
 class ViewBinding: ScriptedWidgetEventHandler
 {
 	// Layout root - CANNOT be null
 	protected Widget m_LayoutRoot;
 	
-	// Variable name to bind to. If blank, uses the Widget name (not advised)
+	// Name of Variable to bind to... If blank, uses the Widget name (not advised)
 	protected reference string Binding_Name;
 		
-	// Variable name to bind the Selected Item to
+	// Name of Variable to bind "selected item" to...
 	// Only valid if type is ObservableCollection
 	protected reference string Selected_Item;
 	

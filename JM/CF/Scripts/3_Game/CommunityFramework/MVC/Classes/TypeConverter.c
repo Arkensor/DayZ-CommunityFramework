@@ -285,7 +285,3 @@ class TypeConversionObservable: TypeConversionTemplate<Observable>
 		return m_Value.Count().ToString();
 	}
 }
-
-typedef TypeConversionObservable TypeConversionObservableCollection;
-typedef TypeConversionObservable TypeConversionObservableSet;
-typedef TypeConversionObservable TypeConversionObservableDictionary;

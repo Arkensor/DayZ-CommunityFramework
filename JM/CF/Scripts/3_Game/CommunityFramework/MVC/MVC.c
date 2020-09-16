@@ -59,9 +59,9 @@ class MVC
 		type_conversions.Insert(string, TypeConversionString);
 		type_conversions.Insert(vector, TypeConversionVector);
 		type_conversions.Insert(Widget, TypeConversionWidget);
-		type_conversions.Insert(ObservableSet, TypeConversionObservableSet);
-		type_conversions.Insert(ObservableCollection, TypeConversionObservableCollection);
-		type_conversions.Insert(ObservableDictionary, TypeConversionObservableDictionary);
+		type_conversions.Insert(ObservableSet, TypeConversionObservable);
+		type_conversions.Insert(ObservableCollection, TypeConversionObservable);
+		type_conversions.Insert(ObservableDictionary, TypeConversionObservable);
 	}
 	
 	// Override THIS to add your own Widget Controllers 

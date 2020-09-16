@@ -1,4 +1,42 @@
 
+class TestController: Controller
+{
+	
+	// "TextBox1" goes into Binding_Name
+	string TextBox1 = "TextBox1Text";
+	
+	// "TextBox2" goes into Binding_Name
+	int TextBox2;
+	
+	// "WindowButton1" goes into Binding_Name
+	bool WindowButton1; 
+	
+	
+	// If WindowButton1 is bound to a button,
+	// call this function and it will
+	// set the state of the button on your UI
+	void SetWindowButton1(bool state)
+	{
+		WindowButton1 = state;
+		NotifyPropertyChanged("WindowButton1");
+	}
+	
+	// Gets called whenever a property was changed in the controller
+	override void PropertyChanged(string property_name)
+	{
+		switch (property_name) {
+			
+			case "WindowButton1": {
+				Print("WindowButton1 " + WindowButton1);
+				break;
+			}
+			
+			
+		}
+	}
+	
+}
+
 
 // Abstract Class
 class Controller: ScriptedWidgetEventHandler
