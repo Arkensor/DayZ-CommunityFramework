@@ -30,6 +30,18 @@ class ViewBinding: ScriptedWidgetEventHandler
 	string GetRelayCommand() {
 		return Relay_Command;
 	}
+	
+	void SetRelayCommand(string relay_command) {
+		Relay_Command = relay_command;
+		
+		if (!Relay_Command.ToType()) {
+			MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
+		} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
+			MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
+		} else {
+			m_RelayCommand = Relay_Command.ToType().Spawn();
+		}
+	}
 
 	// Weak reference to Parent controller	
 	protected autoptr Controller m_Controller;
@@ -58,14 +70,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 		}
 		
 		if (Relay_Command != string.Empty) {
-			
-			if (!Relay_Command.ToType()) {
-				MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
-			} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
-				MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
-			} else {
-				m_RelayCommand = Relay_Command.ToType().Spawn();
-			}
+			SetRelayCommand(Relay_Command);
 		}
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
@@ -205,7 +210,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 		
 	void InvokeCommand(Param params)
 	{
-		
 		MVC.Trace("ViewBinding::InvokeCommand");
 		
 		if (!m_RelayCommand && m_Controller) {
