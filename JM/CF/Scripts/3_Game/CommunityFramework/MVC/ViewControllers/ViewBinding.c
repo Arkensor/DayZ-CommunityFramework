@@ -5,7 +5,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	// Layout root - CANNOT be null
 	protected Widget m_LayoutRoot;
 	
-	// Name of Variable to bind to... If blank, uses the Widget name (not advised)
+	// Name of Variable to bind to
 	protected reference string Binding_Name;
 		
 	// Name of Variable to bind "selected item" to...
@@ -68,10 +68,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 		
 		if (!m_LayoutRoot) {
 			MVC.Error("ViewBinding: Layout was null!");
-		}
-		
-		if (Binding_Name == string.Empty) {
-			Binding_Name = m_LayoutRoot.GetName();
 		}
 		
 		if (Relay_Command != string.Empty) {
@@ -216,6 +212,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		switch (w.Type()) {
+			
 			case ButtonWidget: {
 				InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
 				break;
@@ -223,7 +220,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 		}
 		
 		UpdateModel();
-		return false;
+		return super.OnClick(w, x, y, button);
 	}
 	
 	
@@ -243,7 +240,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 		}
 
 		UpdateModel();		
-		return false;
+		return super.OnChange(w, x, y, finished);
 	}
 		
 	void InvokeCommand(Param params)

@@ -84,7 +84,6 @@ class MVCLayout: ScriptedWidgetEventHandler
 	int LoadWidgets()
 	{
 		int count;
-		
 		foreach (string property_name, typename property_type: m_PropertyTypeHashMap) {
 			
 			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
