@@ -126,6 +126,5 @@ class MVCLayout: ScriptedWidgetEventHandler
 	protected void Update();
 	protected string GetLayoutFile();
 	protected typename GetControllerType();	
-	
 
 }

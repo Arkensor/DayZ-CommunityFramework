@@ -207,18 +207,6 @@ class ViewBinding: ScriptedWidgetEventHandler
 			}
 		}
 	}
-		
-	void InvokeCommand(Param params)
-	{
-		MVC.Trace("ViewBinding::InvokeCommand");
-		
-		if (!m_RelayCommand && m_Controller) {
-			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
-		} 
-		else if (m_RelayCommand && m_RelayCommand.CanExecute()) {
-			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
-		}
-	}
 	
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
@@ -251,6 +239,18 @@ class ViewBinding: ScriptedWidgetEventHandler
 
 		UpdateModel();		
 		return false;
+	}
+		
+	void InvokeCommand(Param params)
+	{
+		MVC.Trace("ViewBinding::InvokeCommand");
+
+		if (!m_RelayCommand && m_Controller) {
+			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
+		} 
+		else if (m_RelayCommand && m_RelayCommand.CanExecute()) {
+			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
+		}
 	}
 }
 
