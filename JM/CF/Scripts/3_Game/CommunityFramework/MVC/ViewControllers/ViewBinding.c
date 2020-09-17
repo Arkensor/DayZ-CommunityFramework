@@ -130,7 +130,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)
 	{
-		if (!IsInitialized()) return;
+		if (!m_WidgetController) return;
 		MVC.Trace("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 
 		// We dont want to work with type Observable for everything
@@ -212,12 +212,12 @@ class ViewBinding: ScriptedWidgetEventHandler
 	{
 		switch (w.Type()) {
 			case ButtonWidget: {
-				UpdateModel();
 				InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
 				break;
 			}
 		}
 		
+		UpdateModel();
 		return false;
 	}
 	

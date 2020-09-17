@@ -108,8 +108,8 @@ class Controller: ScriptedWidgetEventHandler
 	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
 	{		
 		MVC.Trace("Controller::NotifyCollectionChanged %1", collection_name);
-		ViewBindingSet view_set = m_ViewBindingHashMap.Get(collection_name);
-		
+		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(collection_name);
+				
 		if (view_set) 
 			foreach (ViewBinding view: view_set) 
 				view.OnCollectionChanged(args);
@@ -124,6 +124,10 @@ class Controller: ScriptedWidgetEventHandler
 	// Gets called every time an observable collection is changed.
 	// Override this when you want to have an event AFTER collection is changed
 	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
+	
+	int LoadDataBindings(Widget w) {
+		return LoadDataBindings(w, m_ViewBindingHashMap);
+	}
 	
 	private int LoadDataBindings(Widget w, out DataBindingHashMap binding_map)
 	{

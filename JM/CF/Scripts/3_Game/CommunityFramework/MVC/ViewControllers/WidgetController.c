@@ -193,7 +193,6 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 		type_converter.SetInt(m_Widget.GetCurrentItem());
 	}
 	
-	
 	override void InsertData(int index, TypeConverter type_converter) {
 		m_Widget.AddItem(type_converter.GetString());
 	}
@@ -216,6 +215,23 @@ class ImageWidgetController: WidgetControllerTemplate<ImageWidget>
 
 class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 {
+	override void SetSelection(TypeConverter type_converter) {
+		for (int i = 0; i < m_Widget.GetNumItems(); i++) {
+			string row_text;
+			m_Widget.GetItemText(i, 0, row_text);
+			if (row_text == type_converter.GetString()) {
+				m_Widget.SelectRow(i);
+				return;
+			}
+		}
+	}
+	
+	override void GetSelection(out TypeConverter type_converter) {
+		string selection;
+		m_Widget.GetItemText(m_Widget.GetSelectedRow(), 0, selection);
+		type_converter.SetString(selection);
+	}
+	
 	override void InsertData(int index, TypeConverter type_converter) {
 		m_Widget.AddItem(type_converter.GetString(), type_converter.GetParam(), 0, index);
 	}
