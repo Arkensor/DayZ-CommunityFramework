@@ -6,8 +6,10 @@ class RelayCommand
 {
 	private bool m_CanExecute = true;
 	
-	
-	/* Getters and Setters */
+	protected ViewBinding m_ViewBinding;
+	void SetViewBinding(ViewBinding view_binding) {
+		m_ViewBinding = view_binding;
+	}
 	
 	// returns bool defining whether or not the Execute can be called
 	bool CanExecute() {
@@ -18,7 +20,7 @@ class RelayCommand
 	// depreciate if BI ever adds property Getters and Setters
 	void SetCanExecute(bool state) {
 		m_CanExecute = state;
-		CanExecuteChanged(m_CanExecute);
+		GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(CanExecuteChanged, m_CanExecute);
 	}
 	
 	

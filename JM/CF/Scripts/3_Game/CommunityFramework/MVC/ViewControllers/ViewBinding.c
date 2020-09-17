@@ -27,8 +27,12 @@ class ViewBinding: ScriptedWidgetEventHandler
 		return Binding_Name; 
 	}
 	
-	string GetRelayCommand() {
-		return Relay_Command;
+	Controller GetController() {
+		return m_Controller;
+	}
+	
+	RelayCommand GetRelayCommand() {
+		return m_RelayCommand;
 	}
 	
 	void SetRelayCommand(string relay_command) {
@@ -40,6 +44,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 			MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
 		} else {
 			m_RelayCommand = Relay_Command.ToType().Spawn();
+			m_RelayCommand.SetViewBinding(this);
 		}
 	}
 
