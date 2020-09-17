@@ -47,6 +47,11 @@ class ViewBinding: ScriptedWidgetEventHandler
 			m_RelayCommand.SetViewBinding(this);
 		}
 	}
+	
+	void SetRelayCommand(RelayCommand relay_command) {
+		m_RelayCommand = relay_command;
+		m_RelayCommand.SetViewBinding(this);		
+	}
 
 	// Weak reference to Parent controller	
 	protected autoptr Controller m_Controller;
@@ -214,13 +219,14 @@ class ViewBinding: ScriptedWidgetEventHandler
 		switch (w.Type()) {
 			
 			case ButtonWidget: {
+				UpdateModel();
 				InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
 				break;
 			}
 		}
 		
-		UpdateModel();
-		return super.OnClick(w, x, y, button);
+		
+		return false;
 	}
 	
 	
@@ -240,7 +246,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 		}
 
 		UpdateModel();		
-		return super.OnChange(w, x, y, finished);
+		return false;
 	}
 		
 	void InvokeCommand(Param params)
