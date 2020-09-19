@@ -224,8 +224,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 				break;
 			}
 		}
-		
-		
+
 		return false;
 	}
 	

@@ -204,12 +204,10 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 
 class ImageWidgetController: WidgetControllerTemplate<ImageWidget>
 {
-	
 	override void SetData(TypeConverter type_converter) {
 		m_Widget.LoadImageFile(0, type_converter.GetString());
 		m_Widget.SetImage(0);
 	}
-	
 }
 
 

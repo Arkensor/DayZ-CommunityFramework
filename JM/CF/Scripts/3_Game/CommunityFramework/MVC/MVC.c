@@ -83,7 +83,8 @@ class MVC
 		widget_controllers.Insert(MultilineEditBoxWidget, MultilineEditBoxWidgetController);
 		widget_controllers.Insert(XComboBoxWidget, XComboBoxWidgetController);
 		widget_controllers.Insert(ImageWidget, ImageWidgetController);
-		widget_controllers.Insert(TextListboxWidget, TextListboxController);		
+		widget_controllers.Insert(TextListboxWidget, TextListboxController);
+		widget_controllers.Insert(RichTextWidget, TextWidgetController);
 	}
 	
 	static int LogLevel = 1;
