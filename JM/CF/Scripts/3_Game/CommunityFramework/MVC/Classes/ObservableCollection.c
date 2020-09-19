@@ -64,7 +64,7 @@ class Observable
 class ObservableCollection<Class TValue>: Observable
 {
 	private ref array<ref TValue> _data = new array<ref TValue>();
-		
+	
 	int Insert(TValue value)
 	{
 		int index = _data.Insert(value);

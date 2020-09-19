@@ -141,7 +141,8 @@ class ViewBinding: ScriptedWidgetEventHandler
 
 		// We dont want to work with type Observable for everything
 		TypeConverter collection_converter = MVC.GetTypeConversion(args.GetCollection().GetType());
-		
+		if (!collection_converter) return;
+
 		// Anonymous Data Setter
 		collection_converter.SetParam(args.GetChangedValue());
 		switch (args.GetChangedAction()) {

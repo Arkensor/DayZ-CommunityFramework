@@ -20,14 +20,10 @@ class CustomDialogWindow: MVCLayout
 
 */
 
-
 class MVCLayout: ScriptedWidgetEventHandler
 {
 	protected Widget m_LayoutRoot;
-	
-	protected ref Controller m_Controller;	
-	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-	protected ref ScriptInvoker m_UpdateQueue = GetGame().GetUpdateQueue(CALL_CATEGORY_GUI);
+	protected ref Controller m_Controller;
 	
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
@@ -54,14 +50,29 @@ class MVCLayout: ScriptedWidgetEventHandler
 		
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 		if (!m_LayoutRoot) {
-			MVC.Error("MVCLayout: Invalid layout file!");
+			MVC.Error("MVCLayout: Invalid layout file %1", GetLayoutFile());
 			return;
 		}
-
-		m_LayoutRoot.Show(false);
 		
-		m_PropertyTypeHashMap.RemoveType(MVCLayout);
-		int property_count = LoadWidgets();
+		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
+		property_map.RemoveType(MVCLayout);
+		
+		
+		int property_count;
+		foreach (string property_name, typename property_type: property_map) {
+			
+			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
+			
+			// Allows for LayoutRoot to be referenced as well
+			if (!target && m_LayoutRoot.GetName() == property_name) {
+				target = m_LayoutRoot;
+			}
+
+			EnScript.SetClassVar(this, property_name, 0, target);
+			property_count++;
+		}
+		
+		
 		MVC.Log("MVCLayout: %1 properties found!", property_count.ToString());
 		if (GetControllerType()) {
 			m_Controller = GetControllerType().Spawn();
@@ -75,53 +86,15 @@ class MVCLayout: ScriptedWidgetEventHandler
 		}
 	}
 	
-	void ~MVCLayout()
+	void ~MVCLayout() 
 	{
 		MVC.Trace("~MVCLayout");
-		m_UpdateQueue.Remove(Update);
-	}
-		
-	int LoadWidgets()
-	{
-		int count;
-		foreach (string property_name, typename property_type: m_PropertyTypeHashMap) {
-			
-			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
-			
-			// Allows for LayoutRoot to be referenced as well
-			if (!target && m_LayoutRoot.GetName() == property_name) {
-				target = m_LayoutRoot;
-			}
-
-			EnScript.SetClassVar(this, property_name, 0, target);
-			count++;
-		}
-		
-		return count;
-	}
-			
-	void Show()
-	{
-		MVC.Trace("MVCLayout::Show");
-		if (m_LayoutRoot) {
-			m_LayoutRoot.Show(true);
-			m_UpdateQueue.Insert(Update);
-		}
+		m_LayoutRoot.Unlink();
+		delete m_Controller;
 	}
 	
-	void Close()
-	{
-		MVC.Trace("MVCLayout::Close");
-		if (m_LayoutRoot) {
-			m_LayoutRoot.Show(false);
-			m_LayoutRoot.Unlink();
-		}
-		
-		m_UpdateQueue.Remove(Update);
-	}
-		
+			
 	// Abstract Methods
-	protected void Update();
 	protected string GetLayoutFile();
 	protected typename GetControllerType();	
 
