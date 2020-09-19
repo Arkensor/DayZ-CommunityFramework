@@ -59,6 +59,7 @@ class MVC
 		type_conversions.Insert(string, TypeConversionString);
 		type_conversions.Insert(vector, TypeConversionVector);
 		type_conversions.Insert(Widget, TypeConversionWidget);
+		type_conversions.Insert(Object, TypeConversionObject);
 		type_conversions.Insert(ObservableSet, TypeConversionObservable);
 		type_conversions.Insert(ObservableCollection, TypeConversionObservable);
 		type_conversions.Insert(ObservableDictionary, TypeConversionObservable);
@@ -85,6 +86,7 @@ class MVC
 		widget_controllers.Insert(ImageWidget, ImageWidgetController);
 		widget_controllers.Insert(TextListboxWidget, TextListboxController);
 		widget_controllers.Insert(RichTextWidget, TextWidgetController);
+		widget_controllers.Insert(ItemPreviewWidget, ItemPreviewWidgetController);
 	}
 	
 	static int LogLevel = 1;

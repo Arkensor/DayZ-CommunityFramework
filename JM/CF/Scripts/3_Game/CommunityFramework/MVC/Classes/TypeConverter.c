@@ -48,6 +48,7 @@ class TypeConverter
 	string GetString();
 	vector GetVector();
 	Widget GetWidget();
+	Object GetObject();
 	Param GetParam();
 	
 	void SetBool(bool value);
@@ -56,6 +57,7 @@ class TypeConverter
 	void SetString(string value);
 	void SetVector(vector value);
 	void SetWidget(Widget value);
+	void SetObject(Object value);
 	void SetParam(Param value);
 	
 	void SetToController(Class context, string name, int index);
@@ -283,5 +285,21 @@ class TypeConversionObservable: TypeConversionTemplate<Observable>
 	
 	override string GetString() {
 		return m_Value.Count().ToString();
+	}
+}
+
+class TypeConversionObject: TypeConversionTemplate<Object>
+{
+	
+	override void SetString(string value) {
+		m_Value = GetGame().CreateObjectEx(value, vector.Zero, ECE_NONE);
+	}
+	
+	override void SetObject(Object value) {
+		m_Value = value;
+	}
+	
+	override Object GetObject() {
+		return m_Value;
 	}
 }
