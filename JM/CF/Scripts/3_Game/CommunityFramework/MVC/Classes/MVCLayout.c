@@ -57,7 +57,6 @@ class MVCLayout: ScriptedWidgetEventHandler
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		property_map.RemoveType(MVCLayout);
 		
-		
 		int property_count;
 		foreach (string property_name, typename property_type: property_map) {
 			

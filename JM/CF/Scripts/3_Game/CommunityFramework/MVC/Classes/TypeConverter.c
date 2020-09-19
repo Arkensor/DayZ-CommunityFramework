@@ -303,3 +303,10 @@ class TypeConversionObject: TypeConversionTemplate<Object>
 		return m_Value;
 	}
 }
+
+class TypeConversionMVCLayout: TypeConversionTemplate<MVCLayout>
+{
+	override Widget GetWidget() {
+		return m_Value.GetLayoutRoot();
+	}
+}

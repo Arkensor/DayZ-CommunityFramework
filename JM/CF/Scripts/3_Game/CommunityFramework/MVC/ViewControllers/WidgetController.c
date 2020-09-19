@@ -177,8 +177,10 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 			index--;
 		}
 		
-		m_Widget.AddChildAfter(type_converter.GetWidget(), child);
-		m_Widget.RemoveChild(child);
+		if (type_converter.GetWidget()) {
+			m_Widget.AddChildAfter(type_converter.GetWidget(), child);
+			m_Widget.RemoveChild(child);
+		}
 	}
 	
 	
