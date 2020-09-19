@@ -37,7 +37,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		return m_Controller;
 	}
 	
-	void MVCLayout()
+	void MVCLayout(Widget parent = null)
 	{
 		MVC.Trace("MVCLayout");
 		if (!GetLayoutFile()) {
@@ -52,7 +52,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 			return;
 		}
 		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), null);
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 		if (!m_LayoutRoot) {
 			MVC.Error("MVCLayout: Invalid layout file!");
 			return;
@@ -73,6 +73,10 @@ class MVCLayout: ScriptedWidgetEventHandler
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 			m_LayoutRoot.SetHandler(this);
 		}
+		
+		if (m_LayoutRoot) {
+			Init();
+		}
 	}
 	
 	void ~MVCLayout()
@@ -80,6 +84,8 @@ class MVCLayout: ScriptedWidgetEventHandler
 		MVC.Trace("~MVCLayout");
 		m_UpdateQueue.Remove(Update);
 	}
+	
+	void Init();
 	
 	int LoadWidgets()
 	{
@@ -99,8 +105,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		
 		return count;
 	}
-	
-		
+			
 	void Show()
 	{
 		MVC.Trace("MVCLayout::Show");

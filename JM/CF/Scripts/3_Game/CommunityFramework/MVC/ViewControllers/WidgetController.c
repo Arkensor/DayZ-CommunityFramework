@@ -250,6 +250,7 @@ class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
 		EntityAI entity;
 		if (Class.CastTo(entity, type_converter.GetObject())) {
 			Print("Pog");
+			Print(entity);
 			m_Widget.SetItem(entity);
 			m_Widget.SetView(0);
 		} else {
