@@ -246,20 +246,14 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
 {
 	override void SetData(TypeConverter type_converter) {
-		Print(type_converter.GetObject());
 		EntityAI entity;
 		if (Class.CastTo(entity, type_converter.GetObject())) {
-			Print("Pog");
-			Print(entity);
 			m_Widget.SetItem(entity);
 			m_Widget.SetView(0);
-		} else {
-			Print("oof");
 		}
 	}
 	
 	override void GetData(out TypeConverter type_converter) {
-		return;
 		type_converter.SetParam(new Param1<EntityAI>(m_Widget.GetItem()));
 	}
 }

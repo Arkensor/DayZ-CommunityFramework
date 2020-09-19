@@ -76,7 +76,6 @@ class Controller: ScriptedWidgetEventHandler
 		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		
 		m_PropertyTypeHashMap.RemoveType(Controller);
-		MVC.Log("%1 properties found!", m_PropertyTypeHashMap.Count().ToString());
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);

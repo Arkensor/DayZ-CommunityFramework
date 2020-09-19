@@ -93,7 +93,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 	
 	void SetController(Controller controller) 
 	{ 
-		MVC.Log("ViewBinding::SetController");
+		MVC.Trace("ViewBinding::SetController");
 		m_Controller = controller;
 	
 		if (!m_Controller) {

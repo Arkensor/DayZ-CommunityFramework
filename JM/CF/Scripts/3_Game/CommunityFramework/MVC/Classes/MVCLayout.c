@@ -73,10 +73,6 @@ class MVCLayout: ScriptedWidgetEventHandler
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 			m_LayoutRoot.SetHandler(this);
 		}
-		
-		if (m_LayoutRoot) {
-			Init();
-		}
 	}
 	
 	void ~MVCLayout()
@@ -84,9 +80,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		MVC.Trace("~MVCLayout");
 		m_UpdateQueue.Remove(Update);
 	}
-	
-	void Init();
-	
+		
 	int LoadWidgets()
 	{
 		int count;
