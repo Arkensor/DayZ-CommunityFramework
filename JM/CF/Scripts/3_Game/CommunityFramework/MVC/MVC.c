@@ -1,4 +1,14 @@
 
+DayZGame GetWorkbenchGame(bool force = false) 
+{
+	if (!g_Game || force) {
+		g_Game = new DayZGame();
+	}
+	
+	return g_Game;
+}
+
+
 static ref MVC _MVC;
 
 class MVC
@@ -31,6 +41,11 @@ class MVC
 	void MVC()
 	{
 		Trace("MVC");
+		
+		if (!g_Game) {
+			g_Game = new DayZGame();
+		}
+		
 		if (!m_TypeConverterHashMap) {
 			m_TypeConverterHashMap = new TypeConversionHashMap();
 			RegisterConversionTemplates(m_TypeConverterHashMap);

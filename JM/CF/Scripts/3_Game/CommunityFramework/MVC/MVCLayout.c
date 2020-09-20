@@ -42,7 +42,8 @@ class MVCLayout: ScriptedWidgetEventHandler
 		}		
 		
 		MVC.Log("MVCLayout: Loading %1", GetLayoutFile());
-		WorkspaceWidget workspace = GetGame().GetWorkspace();
+		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
+				
 		if (!workspace) {
 			MVC.Error("MVCLayout: Workspace was null, try reloading Workbench");
 			return;

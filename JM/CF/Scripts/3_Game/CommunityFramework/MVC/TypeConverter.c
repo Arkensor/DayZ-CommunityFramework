@@ -290,6 +290,9 @@ class TypeConversionObservable: TypeConversionTemplate<Observable>
 
 class TypeConversionObject: TypeConversionTemplate<Object>
 {
+	override string GetString() {
+		return m_Value.GetType();
+	}
 	
 	override void SetString(string value) {
 		m_Value = GetGame().CreateObjectEx(value, vector.Zero, ECE_NONE);
