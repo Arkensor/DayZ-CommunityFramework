@@ -36,6 +36,12 @@ class MVCLayout: ScriptedWidgetEventHandler
 	void MVCLayout(Widget parent = null)
 	{
 		MVC.Trace("MVCLayout");
+		
+		// Extra saftey measure
+#ifdef COMPONENT_SYSTEM
+		return;
+#endif
+
 		if (!GetLayoutFile()) {
 			MVC.Error("MVCLayout: You must override GetLayoutFile with the .layout file path");
 			return;
@@ -43,7 +49,6 @@ class MVCLayout: ScriptedWidgetEventHandler
 		
 		MVC.Log("MVCLayout: Loading %1", GetLayoutFile());
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
-				
 		if (!workspace) {
 			MVC.Error("MVCLayout: Workspace was null, try reloading Workbench");
 			return;
@@ -92,8 +97,16 @@ class MVCLayout: ScriptedWidgetEventHandler
 		m_LayoutRoot.Unlink();
 		delete m_Controller;
 	}
-	
-			
+
+	void OnWidgetScriptInit(Widget w)
+	{
+		// Extra saftey measure
+#ifdef COMPONENT_SYSTEM
+		MVC.Error("MVCLayout should NOT be called in the Workbench Script Class!");
+		return;
+#endif
+	}
+				
 	// Abstract Methods
 	protected string GetLayoutFile();
 	protected typename GetControllerType();	

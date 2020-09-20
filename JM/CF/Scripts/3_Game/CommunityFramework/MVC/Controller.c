@@ -47,8 +47,6 @@ class Controller: MVCScriptClass
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
 	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	
-	
-	
 	typename GetPropertyType(string property_name) {
 		return m_PropertyTypeHashMap.Get(property_name);
 	}

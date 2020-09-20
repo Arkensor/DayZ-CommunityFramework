@@ -1,10 +1,7 @@
 
 
 class ViewBinding: MVCScriptClass
-{
-	// Layout root - CANNOT be null
-	protected Widget m_LayoutRoot;
-	
+{	
 	// Name of Variable to bind to
 	protected reference string Binding_Name;
 		
@@ -19,42 +16,11 @@ class ViewBinding: MVCScriptClass
 	// Can be either name of Class that inherits from RelayCommand, OR a function within the controller
 	protected reference string Relay_Command;
 
-	Widget GetLayoutRoot() {
-		return m_LayoutRoot;
-	}
+	// Layout root - CANNOT be null
+	protected Widget m_LayoutRoot;
 	
-	string GetBindingName() { 
-		return Binding_Name; 
-	}
-	
-	Controller GetController() {
-		return m_Controller;
-	}
-	
-	RelayCommand GetRelayCommand() {
-		return m_RelayCommand;
-	}
-	
-	void SetRelayCommand(string relay_command) {
-		Relay_Command = relay_command;
-		
-		if (!Relay_Command.ToType()) {
-			MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
-		} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
-			MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
-		} else {
-			m_RelayCommand = Relay_Command.ToType().Spawn();
-			m_RelayCommand.SetViewBinding(this);
-		}
-	}
-	
-	void SetRelayCommand(RelayCommand relay_command) {
-		m_RelayCommand = relay_command;
-		m_RelayCommand.SetViewBinding(this);		
-	}
-
 	// Weak reference to Parent controller	
-	protected autoptr Controller m_Controller;
+	protected autoptr Controller 			m_Controller;
 	
 	protected autoptr ref RelayCommand 		m_RelayCommand;
 	protected autoptr ref TypeConverter 	m_PropertyConverter;
@@ -67,13 +33,15 @@ class ViewBinding: MVCScriptClass
 	
 	void OnWidgetScriptInit(Widget w)
 	{
-		m_LayoutRoot = w;
-		m_LayoutRoot.SetHandler(this);
-		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
+		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", w.GetName());
 		
+		m_LayoutRoot = w;
 		if (!m_LayoutRoot) {
 			MVC.Error("ViewBinding: Layout was null!");
+			return;
 		}
+		
+		m_LayoutRoot.SetHandler(this);
 		
 		if (Relay_Command != string.Empty) {
 			SetRelayCommand(Relay_Command);
@@ -248,6 +216,22 @@ class ViewBinding: MVCScriptClass
 		UpdateModel();		
 		return false;
 	}
+	
+	Widget GetLayoutRoot() {
+		return m_LayoutRoot;
+	}
+	
+	string GetBindingName() { 
+		return Binding_Name; 
+	}
+	
+	Controller GetController() {
+		return m_Controller;
+	}
+	
+	RelayCommand GetRelayCommand() {
+		return m_RelayCommand;
+	}
 		
 	void InvokeCommand(Param params)
 	{
@@ -259,6 +243,24 @@ class ViewBinding: MVCScriptClass
 		else if (m_RelayCommand && m_RelayCommand.CanExecute()) {
 			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
 		}
+	}
+	
+	void SetRelayCommand(string relay_command) {
+		Relay_Command = relay_command;
+		
+		if (!Relay_Command.ToType()) {
+			MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
+		} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
+			MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
+		} else {
+			m_RelayCommand = Relay_Command.ToType().Spawn();
+			m_RelayCommand.SetViewBinding(this);
+		}
+	}
+	
+	void SetRelayCommand(RelayCommand relay_command) {
+		m_RelayCommand = relay_command;
+		m_RelayCommand.SetViewBinding(this);		
 	}
 }
 
