@@ -39,7 +39,7 @@ class TestController: Controller
 
 
 // Abstract Class
-class Controller: ScriptedWidgetEventHandler
+class Controller: MVCScriptClass
 {
 	// Layout root - CAN be null
 	protected Widget m_LayoutRoot;

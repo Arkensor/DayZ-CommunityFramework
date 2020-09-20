@@ -1,6 +1,6 @@
 
 
-class ViewBinding: ScriptedWidgetEventHandler
+class ViewBinding: MVCScriptClass
 {
 	// Layout root - CANNOT be null
 	protected Widget m_LayoutRoot;
