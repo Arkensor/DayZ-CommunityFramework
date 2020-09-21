@@ -160,7 +160,7 @@ class ViewBinding: MVCScriptClass
 		}
 	}
 	
-	private void UpdateModel()
+	void UpdateModel()
 	{
 		if (!IsInitialized()) return;
 		MVC.Trace("%1: Updating Model...", Binding_Name);

@@ -1,6 +1,7 @@
 
+
 // 0: Property Name
-// 1: Proprety Type
+// 1: Property Type
 class PropertyTypeHashMap: ref map<string, typename>
 {
 	static ref PropertyTypeHashMap FromType(typename type)
@@ -55,7 +56,42 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 	}
 }
 
-
+typedef map<typename, typename> TypenameHashMap;
+class TypeConversionHashMap
+{
+	private ref map<typename, typename> value = new map<typename, typename>();
+	
+	
+	typename Get(typename conversion_type) {
+		return value.Get(conversion_type);
+	}
+	
+	void Remove(typename conversion_type) {
+		value.Remove(conversion_type);
+	}
+	
+	void Set(typename conversion_type, typename conversion_class)
+	{
+		//GetLogger().Log("TypeConverterHashMap::Set", "JM_CF_MVC");
+		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
+			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
+			return;
+		}
+		
+		value.Set(conversion_type, conversion_class);
+	} 
+	
+	bool Insert(typename conversion_type, typename conversion_class)
+	{
+		//GetLogger().Log("TypeConverterHashMap::Insert", "JM_CF_MVC");
+		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
+			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
+			return false;
+		}
+		
+		return value.Insert(conversion_type, conversion_class);
+	}
+}
 
 
 enum WidgetEventType { // unused

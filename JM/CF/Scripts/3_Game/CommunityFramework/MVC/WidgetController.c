@@ -5,8 +5,7 @@ class WidgetController
 	bool CanTwoWayBind() {
 		return false;
 	}
-	
-	
+
 	// Base Controller Stuff
 	void SetData(TypeConverter type_converter);	
 	void GetData(out TypeConverter type_converter);
@@ -182,9 +181,6 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 			m_Widget.RemoveChild(child);
 		}
 	}
-	
-	
-
 }
 
 class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>

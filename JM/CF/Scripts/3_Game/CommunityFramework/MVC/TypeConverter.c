@@ -1,47 +1,9 @@
 
 
-typedef map<typename, typename> TypenameHashMap;
-
-class TypeConversionHashMap
-{
-	private ref map<typename, typename> value = new map<typename, typename>();
-	
-	
-	typename Get(typename conversion_type) {
-		return value.Get(conversion_type);
-	}
-	
-	void Remove(typename conversion_type) {
-		value.Remove(conversion_type);
-	}
-	
-	void Set(typename conversion_type, typename conversion_class)
-	{
-		//GetLogger().Log("TypeConverterHashMap::Set", "JM_CF_MVC");
-		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
-			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
-			return;
-		}
-		
-		value.Set(conversion_type, conversion_class);
-	} 
-	
-	bool Insert(typename conversion_type, typename conversion_class)
-	{
-		//GetLogger().Log("TypeConverterHashMap::Insert", "JM_CF_MVC");
-		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
-			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
-			return false;
-		}
-		
-		return value.Insert(conversion_type, conversion_class);
-	}
-}
-
 class TypeConverter
 {
 	typename GetType();
-	
+		
 	bool GetBool();
 	int GetInt();
 	float GetFloat();
@@ -62,6 +24,37 @@ class TypeConverter
 	
 	void SetToController(Class context, string name, int index);
 	void GetFromController(Class context, string name, int index);
+	
+	static func GetterFromType(typename type) 
+	{
+		switch (type) {
+			case bool: return GetBool;
+			case int: return GetInt;
+			case float: return GetFloat;
+			case string: return GetString;
+			case vector: return GetVector;
+			case Widget: return GetWidget;
+			case Object: return GetObject;
+			case Param: return GetParam;
+		}
+		
+		return __NULL_FUNCT;
+	}
+	
+	static func SetterFromType(typename type)
+	{	
+		switch (type) {
+			case bool: return SetBool;
+			case int: return SetInt;
+			case float: return SetFloat;
+			case string: return SetString;
+			case vector: return SetVector;
+			case Widget: return SetWidget;
+			case Object: return SetObject;
+			case Param: return SetParam;
+		}
+		return __NULL_FUNCT;
+	}
 }
 
 // Inherit from THIS for creating Custom TypeConversions
