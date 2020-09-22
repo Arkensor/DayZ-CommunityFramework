@@ -1,6 +1,6 @@
 
 
-class ViewBinding: ScriptedWidgetEventHandler
+class ViewBinding: ScriptedViewBase
 {	
 	// Name of Variable to bind to
 	protected reference string Binding_Name;
@@ -20,7 +20,10 @@ class ViewBinding: ScriptedWidgetEventHandler
 	protected Widget m_LayoutRoot;
 	
 	// Weak reference to Parent controller	
-	protected autoptr Controller 			m_Controller;
+	protected Controller 					m_Controller;
+	override ScriptedViewBase GetParent() {
+		return m_Controller;
+	}
 	
 	protected autoptr ref RelayCommand 		m_RelayCommand;
 	protected autoptr ref TypeConverter 	m_PropertyConverter;
@@ -41,10 +44,9 @@ class ViewBinding: ScriptedWidgetEventHandler
 			return;
 		}
 		
-		m_LayoutRoot.SetHandler(this);
-		
 		if (Relay_Command != string.Empty) {
 			SetRelayCommand(Relay_Command);
+			m_LayoutRoot.SetHandler(this);
 		}
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
@@ -195,10 +197,7 @@ class ViewBinding: ScriptedWidgetEventHandler
 				break;
 			}
 		}
-		
-		if (m_Controller)
-			m_Controller.OnClick(w, x, y, button);
-		
+				
 		return super.OnClick(w, x, y, button);
 	}
 	
@@ -219,6 +218,15 @@ class ViewBinding: ScriptedWidgetEventHandler
 		}
 
 		UpdateModel();		
+		return false;
+	}
+	
+	override bool OnFocus(Widget w, int x, int y)
+	{
+		
+		if (m_Controller)
+			m_Controller.OnFocus(w, x, y);
+		
 		return false;
 	}
 	

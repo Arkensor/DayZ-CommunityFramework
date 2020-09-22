@@ -39,10 +39,16 @@ class TestController: Controller
 
 
 // Abstract Class
-class Controller: ScriptedWidgetEventHandler
+class Controller: ScriptedViewBase
 {
 	// Layout root - CAN be null
 	protected Widget m_LayoutRoot;
+	
+	// Weak reference to Parent script view	
+	protected ScriptView m_ScriptView;
+	override ScriptedViewBase GetParent() {
+		return m_ScriptView;
+	}
 		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
 	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
@@ -58,10 +64,11 @@ class Controller: ScriptedWidgetEventHandler
 	void Controller() 
 	{
 		MVC.Trace("Controller");
+		/*
 		if (Type() == Controller) {
 			MVC.Error("You cannot bind to data without creating your own controller class!");
 			return;
-		}
+		}*/
 	}
 	
 	void ~Controller() 
@@ -85,6 +92,11 @@ class Controller: ScriptedWidgetEventHandler
 		//Workbench.Dialog("Read the docs!", "Documentation available here\nhttps:\/\/www.twitch.tv/InclementDab\n");
 #endif
 	
+	}
+	
+	void SetScriptView(ScriptView script_view)
+	{
+		m_ScriptView = script_view;
 	}
 	
 	// Call this when you update a Controller property (variable)

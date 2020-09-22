@@ -20,7 +20,7 @@ class CustomDialogWindow: ScriptView
 
 */
 
-class ScriptView: ScriptedWidgetEventHandler
+class ScriptView: ScriptedViewBase
 {
 	protected Widget m_Parent;
 	protected Widget m_LayoutRoot;
@@ -38,24 +38,6 @@ class ScriptView: ScriptedWidgetEventHandler
 	{
 		MVC.Trace("ScriptView");
 		m_Parent = parent;
-				
-		if (!GetLayoutFile()) {
-			MVC.Error("ScriptView: You must override GetLayoutFile with the .layout file path");
-			return;
-		}		
-		
-		MVC.Log("ScriptView: Loading %1", GetLayoutFile());
-		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
-		if (!workspace) {
-			MVC.Error("ScriptView: Workspace was null, try reloading Workbench");
-			return;
-		}
-		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_Parent);
-		if (!m_LayoutRoot) {
-			MVC.Error("ScriptView: Invalid layout file %1", GetLayoutFile());
-			return;
-		}
 		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		property_map.RemoveType(ScriptView);
@@ -74,22 +56,43 @@ class ScriptView: ScriptedWidgetEventHandler
 			property_count++;
 		}
 		
-		
 		MVC.Log("ScriptView: %1 properties found!", property_count.ToString());
 		
+				
+		if (!GetLayoutFile()) {
+			MVC.Error("ScriptView: You must override GetLayoutFile with the .layout file path");
+			return;
+		}
+		
+		MVC.Log("ScriptView: Loading %1", GetLayoutFile());
+		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
+		if (!workspace) {
+			MVC.Error("ScriptView: Workspace was null, try reloading Workbench");
+			return;
+		}
+		
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_Parent);
+		if (!m_LayoutRoot) {
+			MVC.Error("ScriptView: Invalid layout file %1", GetLayoutFile());
+			return;
+		}
+		
+		// Has to be called before other views are created
+		m_LayoutRoot.SetHandler(this);
 		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
 		m_LayoutRoot.GetScript(m_Controller);
 		
-		if (!m_Controller && GetControllerType() && GetControllerType().IsInherited(Controller)) {
+		if (!m_Controller && GetControllerType().IsInherited(Controller)) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
 				MVC.Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
 				return;
 			}
 			
-			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-			m_LayoutRoot.SetHandler(this);
-		}		
+			m_Controller.OnWidgetScriptInit(m_LayoutRoot);	
+		}
+		
+		m_Controller.SetScriptView(this);
 	}
 	
 	void ~ScriptView() 
