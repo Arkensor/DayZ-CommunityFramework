@@ -22,6 +22,7 @@ class CustomDialogWindow: MVCLayout
 
 class MVCLayout: ScriptedWidgetEventHandler
 {
+	protected Widget m_Parent;
 	protected Widget m_LayoutRoot;
 	protected ref Controller m_Controller;
 	
@@ -33,15 +34,17 @@ class MVCLayout: ScriptedWidgetEventHandler
 		return m_Controller;
 	}
 	
+	
 	void MVCLayout(Widget parent = null)
 	{
 		MVC.Trace("MVCLayout");
+		m_Parent = parent;
 		
 		// Extra saftey measure
 #ifdef COMPONENT_SYSTEM
 		return;
 #endif
-
+		
 		if (!GetLayoutFile()) {
 			MVC.Error("MVCLayout: You must override GetLayoutFile with the .layout file path");
 			return;
@@ -54,7 +57,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 			return;
 		}
 		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_Parent);
 		if (!m_LayoutRoot) {
 			MVC.Error("MVCLayout: Invalid layout file %1", GetLayoutFile());
 			return;

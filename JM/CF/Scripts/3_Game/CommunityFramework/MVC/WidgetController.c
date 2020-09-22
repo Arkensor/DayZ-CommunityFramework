@@ -29,8 +29,6 @@ class WidgetControllerTemplate<Class T>: WidgetController
 	}
 }
 
-
-
 class ButtonWidgetController: WidgetControllerTemplate<ButtonWidget>
 {
 	override bool CanTwoWayBind() {
