@@ -20,22 +20,10 @@ class CustomDialogWindow: ScriptView
 
 */
 
-class ScriptViewManager 
-{
-	static ref ScriptView CurrentScriptView;
-
-}
-
-// Weak ref to RoutedCommand so its deleted when ViewBinding dies
-typedef map<ref InputGestureCollection, RoutedUICommand> RoutedCommandMap;
-
 class ScriptView: ScriptedViewBase
 {
-	protected Widget m_Parent;
+	protected ScriptView m_ParentView;
 	protected ref Controller m_Controller;
-	
-	
-	ref RoutedCommandMap RoutedCommands = new RoutedCommandMap();
 	
 	override ScriptedViewBase GetParent() {
 		return null;
@@ -45,7 +33,12 @@ class ScriptView: ScriptedViewBase
 		return m_Controller;
 	}
 	
-	void ScriptView(Widget parent = null)
+	protected ref CommandManager m_CommandManager;
+	CommandManager GetCommandManager() {
+		return m_CommandManager;
+	}
+	
+	void ScriptView(ScriptView parent = null)
 	{
 		MVC.Trace("ScriptView");
 		m_Parent = parent;
@@ -103,12 +96,15 @@ class ScriptView: ScriptedViewBase
 		}
 		
 		m_Controller.SetScriptView(this);
+		
+		m_CommandManager = GetCommandManagerType().Spawn();
+		
+		
 		set<ViewBinding> view_bindings = m_Controller.GetViewBindings();
 		foreach (ViewBinding view_binding: view_bindings) {
-			RoutedUICommand routed_command = view_binding.GetRoutedUICommand();
-			RoutedCommands.Insert(routed_command.GetInputGestures(), routed_command);
+			//RoutedUICommand routed_command = view_binding.GetRoutedUICommand();
+			//RoutedCommands.Insert(routed_command.KeyStorageValue(), routed_command);
 		}
-		
 	}
 	
 	void ~ScriptView() 
@@ -133,5 +129,9 @@ class ScriptView: ScriptedViewBase
 	
 	protected typename GetControllerType() {
 		return Controller;
+	}
+	
+	protected typename GetCommandManagerType() {
+		return CommandManager;
 	}
 }

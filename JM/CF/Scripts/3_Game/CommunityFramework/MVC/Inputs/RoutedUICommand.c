@@ -1,21 +1,36 @@
 
 
-
-class InputGestureCollection: ref map<KeyCode, bool>
+class CommandManager
 {
-	
+	RoutedUICommand Get(string command_name) {
+		RoutedUICommand command;
+		EnScript.GetClassVar(this, command_name, 0, command);
+		return command;
+	}
+}
+
+
+
+// 0: KeyCodes OR'd
+// 1: State of key
+class InputGestureCollection: ref map<int[], bool>
+{
+	/*
 	static InputGestureCollection CreateFromKeyCodes(array<KeyCode> keys)
 	{
-		Print(keys);
-		Print("tyleriscool");
 		InputGestureCollection collection = new InputGestureCollection();
 		foreach (KeyCode key: keys) {
 			collection.Insert(key, true);
 		}
-		Print(collection[0]);
+		return collection;
+	}*/
+	
+	static InputGestureCollection Create(int keys)
+	{
+		InputGestureCollection collection = new InputGestureCollection();
+		collection.Insert(keys, true);
 		return collection;
 	}
-	
 	
 	
 	
@@ -43,45 +58,68 @@ class InputGestureCollection: ref map<KeyCode, bool>
 }
 
 
+
+// Weak ref to RoutedCommand so its deleted when ViewBinding dies
+typedef ref map<int, RoutedUICommand> RoutedCommandMap;
+
+static ref RoutedCommandMap RoutedCommands;
+
 class RoutedUICommand
 {
-	private bool m_CanExecute = true;
+	private int KeyStorage;
+	private ref array<KeyCode> m_InputGestures;
 	
+	string Text;
+	string Name;
+	
+	void RoutedUICommand(string text = "", string name = "", ref array<KeyCode> input_gestures = null)
+	{		
+		Text = text;
+		Name = name;
+		m_InputGestures = input_gestures;
+		foreach (KeyCode key: input_gestures) {
+			KeyStorage |= key;
+		}
+				
+		if (!RoutedCommands) {
+			 RoutedCommands = new RoutedCommandMap()
+		}
+
+		RoutedCommands.Insert(KeyStorage, this);
+	}
+		
 	protected ViewBinding m_ViewBinding;
 	void SetViewBinding(ViewBinding view_binding) {
 		m_ViewBinding = view_binding;
 	}
 	
-	// sets whether or not RoutedUICommand can be executed
-	// depreciate if BI ever adds property Getters and Setters
-	void SetCanExecute(bool state) {
-		m_CanExecute = state;
-		GetWorkbenchGame().GetCallQueue(CALL_CATEGORY_GUI).Call(CanExecuteChanged, m_CanExecute);
+
+	
+	// string representation of shortcut keys 
+	// i.e. Ctrl + Shift + T
+	string GetKeyString() {
+		string result;
+		foreach (KeyCode key: m_InputGestures) {
+			
+			string keyname = typename.EnumToString(KeyCode, key);
+			keyname.Replace("KC_", "");
+			result += keyname;
+		}
+		
+		return result;
 	}
-	
-	bool CanExecute() {
-		return m_CanExecute;
-	}
-	
-	InputGestureCollection GetInputGestures() {
-		return InputGestureCollection.CreateFromKeyCodes(GetKeys());
-	}
-	
-	
-	/* Abstract Methods */
-	
-	// should return the key combos required to activate the command
-	ref array<KeyCode> GetKeys();
-	
-	// should return the Name of the Command
-	string GetName();
 	
 	// called when type is Clicked, Selected, or Changed
-	void Execute(RoutedUICommandArgs args);
+	// (RoutedUICommandArgs args)
+	ref ScriptInvoker Execute = new ScriptInvoker();
+	
+	// called on load to check if you it should be executable
+	// (Class context, out CanExecuteEventArgs e)
+	ref ScriptInvoker CanExecute = new ScriptInvoker();
 	
 	// Abstract function called when execution ability is changed
-	void CanExecuteChanged(bool state);
+	// (bool state)
+	ref ScriptInvoker CanExecuteChanged = new ScriptInvoker();
 	
-	//event void CanExecuteChanged();
 }
 

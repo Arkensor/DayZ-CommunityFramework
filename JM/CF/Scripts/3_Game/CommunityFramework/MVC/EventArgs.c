@@ -111,6 +111,11 @@ class RoutedUICommandArgs
 		Context = context;
 		CommandArgs = command_args;
 		CommandArgsType = CommandArgs.Type();
-	}
-	
+	}	
+}
+
+class CanExecuteEventArgs
+{
+	RoutedUICommand Command;
+	bool CanExecute = true;
 }

@@ -49,41 +49,24 @@ modded class MissionGameplay
 		GetModuleManager().OnUpdate( timeslice );
 	}
 	
-	private ref InputGestureCollection m_ActiveKeys = new InputGestureCollection();
+	private int m_ActiveKeys;
+	
+	
 	override void OnKeyPress(int key)
 	{
-		
-		m_ActiveKeys.Insert(key, true);
+		m_ActiveKeys |= key;
 
-
-		RoutedCommandMap RoutedCommands = ScriptViewManager.CurrentScriptView.RoutedCommands;
-		foreach (ref InputGestureCollection collection, RoutedUICommand cmd: RoutedCommands) {
-			if (collection) {
-				foreach (KeyCode key2, bool value: collection) {
-					PrintFormat("Gesture %1: %2", key2, value);
-				}
-			}
-		}
-		
-		foreach (KeyCode key3, bool value2: m_ActiveKeys) {
-			PrintFormat("Current %1: %2", key3, value2);
-		}
-		
-		RoutedUICommand routed_command = ScriptViewManager.CurrentScriptView.RoutedCommands.Get(m_ActiveKeys);
+		RoutedUICommand routed_command = RoutedCommands.Get(m_ActiveKeys);		
 		if (routed_command) {
-			Print("AA");
-			//routed_command.Call();
+			routed_command.Execute(new RoutedUICommandArgs(this, null));
 		}
-		
 		
 		super.OnKeyPress(key);
 	}
 	
 	override void OnKeyRelease(int key)
 	{
+		m_ActiveKeys &= ~key;
 		super.OnKeyRelease(key);
-		m_ActiveKeys.Remove(key);
-		
-		
 	}
 }
