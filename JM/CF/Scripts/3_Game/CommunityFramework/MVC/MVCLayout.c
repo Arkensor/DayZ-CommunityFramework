@@ -39,12 +39,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 	{
 		MVC.Trace("MVCLayout");
 		m_Parent = parent;
-		
-		// Extra saftey measure
-#ifdef COMPONENT_SYSTEM
-		return;
-#endif
-		
+				
 		if (!GetLayoutFile()) {
 			MVC.Error("MVCLayout: You must override GetLayoutFile with the .layout file path");
 			return;
@@ -65,7 +60,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		property_map.RemoveType(MVCLayout);
-		
+
 		int property_count;
 		foreach (string property_name, typename property_type: property_map) {
 			
