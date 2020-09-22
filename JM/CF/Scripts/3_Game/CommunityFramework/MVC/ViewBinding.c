@@ -196,7 +196,7 @@ class ViewBinding: MVCScriptClass
 			}
 		}
 
-		return false;
+		return super.OnClick(w, x, y, button);
 	}
 	
 	

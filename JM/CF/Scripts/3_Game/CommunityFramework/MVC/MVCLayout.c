@@ -88,9 +88,8 @@ class MVCLayout: ScriptedWidgetEventHandler
 			}
 			
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-		}
-		
-		m_LayoutRoot.SetHandler(this);
+			m_LayoutRoot.SetHandler(this);
+		}		
 	}
 	
 	void ~MVCLayout() 
