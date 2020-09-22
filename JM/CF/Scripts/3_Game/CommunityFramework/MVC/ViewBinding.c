@@ -112,7 +112,9 @@ class ViewBinding: MVCScriptClass
 		if (!collection_converter) return;
 
 		// Anonymous Data Setter
-		collection_converter.SetParam(args.GetChangedValue());
+		if (args.GetChangedValue())
+			collection_converter.SetParam(args.GetChangedValue());
+		
 		switch (args.GetChangedAction()) {
 						
 			case NotifyCollectionChangedAction.Add: {
