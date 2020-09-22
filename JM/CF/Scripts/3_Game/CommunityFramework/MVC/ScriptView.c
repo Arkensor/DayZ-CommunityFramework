@@ -80,7 +80,7 @@ class ScriptView: ScriptedWidgetEventHandler
 		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
 		m_LayoutRoot.GetScript(m_Controller);
 		
-		if (!m_Controller && GetControllerType()) {
+		if (!m_Controller && GetControllerType() && GetControllerType().IsInherited(Controller)) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
 				MVC.Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
@@ -110,6 +110,9 @@ class ScriptView: ScriptedWidgetEventHandler
 				
 	// Abstract Methods
 	protected string GetLayoutFile();
-	protected typename GetControllerType();	
+	
+	protected typename GetControllerType() {
+		return Controller;
+	}
 
 }
