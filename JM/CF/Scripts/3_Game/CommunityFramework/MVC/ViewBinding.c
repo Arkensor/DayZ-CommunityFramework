@@ -277,6 +277,7 @@ class ViewBinding: ScriptedViewBase
 	
 	RoutedUICommand SetRoutedUICommand(RoutedUICommand relay_command) 
 	{
+		MVC.Trace("ViewBinding: SetRoutedUICommand %1", relay_command.Type().ToString());
 		m_RoutedUICommand = relay_command;
 		m_RoutedUICommand.SetViewBinding(this);		
 		return m_RoutedUICommand;
