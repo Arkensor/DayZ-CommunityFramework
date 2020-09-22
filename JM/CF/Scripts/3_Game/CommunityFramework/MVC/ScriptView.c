@@ -23,15 +23,10 @@ class CustomDialogWindow: ScriptView
 class ScriptView: ScriptedViewBase
 {
 	protected Widget m_Parent;
-	protected Widget m_LayoutRoot;
 	protected ref Controller m_Controller;
 	
 	override ScriptedViewBase GetParent() {
 		return null;
-	}
-	
-	Widget GetLayoutRoot() {
-		return m_LayoutRoot;
 	}
 	
 	Controller GetController() {

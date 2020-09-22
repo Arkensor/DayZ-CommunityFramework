@@ -3,7 +3,10 @@
 class ViewBinding: ScriptedViewBase
 {	
 	// Name of Variable to bind to
-	protected reference string Binding_Name;
+	protected reference string Binding_Name;	
+	string GetBindingName() { 
+		return Binding_Name; 
+	}
 		
 	// Name of Variable to bind "selected item" to...
 	// Only valid if type is ObservableCollection
@@ -16,16 +19,18 @@ class ViewBinding: ScriptedViewBase
 	// Can be either name of Class that inherits from RoutedUICommand, OR a function within the controller
 	protected reference string Relay_Command;
 
-	// Layout root - CANNOT be null
-	protected Widget m_LayoutRoot;
-	
 	// Weak reference to Parent controller	
-	protected Controller 					m_Controller;
-	override ScriptedViewBase GetParent() {
+	protected Controller m_Controller;
+	Controller GetController() {
 		return m_Controller;
 	}
+
+	// Routed command storage
+	protected ref RoutedUICommand m_RoutedUICommand;
+	RoutedUICommand GetRoutedUICommand() {
+		return m_RoutedUICommand;
+	}
 	
-	protected autoptr ref RoutedUICommand 		m_RoutedUICommand;
 	protected autoptr ref TypeConverter 	m_PropertyConverter;
 	protected autoptr ref TypeConverter 	m_SelectedPropertyConverter;
 	
@@ -187,6 +192,11 @@ class ViewBinding: ScriptedViewBase
 		}
 	}
 	
+		
+	override ScriptedViewBase GetParent() {
+		return GetController();
+	}
+	
 	// RoutedUICommand interfaces
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
@@ -229,31 +239,17 @@ class ViewBinding: ScriptedViewBase
 		return super.OnChange(w, x, y, finished);
 	}
 	
-	Widget GetLayoutRoot() {
-		return m_LayoutRoot;
-	}
-	
-	string GetBindingName() { 
-		return Binding_Name; 
-	}
-	
-	Controller GetController() {
-		return m_Controller;
-	}
-	
-	RoutedUICommand GetRoutedUICommand() {
-		return m_RoutedUICommand;
-	}
 		
 	void InvokeCommand(Param params)
 	{
 		MVC.Trace("ViewBinding::InvokeCommand");
-
-		if (!m_RoutedUICommand && m_Controller) {
-			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
-		} 
-		else if (m_RoutedUICommand && m_RoutedUICommand.CanExecute()) {
+		
+		if (m_RoutedUICommand && m_RoutedUICommand.CanExecute()) {
 			m_RoutedUICommand.Execute(new RoutedUICommandArgs(this, params));
+		}
+		
+		else if (m_Controller) {
+			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
 		}
 	}
 	
@@ -266,6 +262,7 @@ class ViewBinding: ScriptedViewBase
 		} 
 		
 		MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
+		return null;
 	}
 	
 	RoutedUICommand SetRoutedUICommand(typename relay_command) 
@@ -275,6 +272,7 @@ class ViewBinding: ScriptedViewBase
 		} 
 		
 		MVC.Error("ViewBinding: %1 must inherit from RoutedUICommand", Relay_Command);
+		return null;
 	}
 	
 	RoutedUICommand SetRoutedUICommand(RoutedUICommand relay_command) 

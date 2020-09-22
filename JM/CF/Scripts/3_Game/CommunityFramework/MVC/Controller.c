@@ -41,8 +41,6 @@ class TestController: Controller
 // Abstract Class
 class Controller: ScriptedViewBase
 {
-	// Layout root - CAN be null
-	protected Widget m_LayoutRoot;
 	
 	// Weak reference to Parent script view	
 	protected ScriptView m_ScriptView;
@@ -55,10 +53,6 @@ class Controller: ScriptedViewBase
 	
 	typename GetPropertyType(string property_name) {
 		return m_PropertyTypeHashMap.Get(property_name);
-	}
-		
-	Widget GetLayoutRoot() {
-		return m_LayoutRoot;
 	}
 	
 	void Controller() 

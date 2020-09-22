@@ -2,6 +2,13 @@
 
 class ScriptedViewBase: ScriptedWidgetEventHandler
 {
+	// Source Widget
+	protected Widget m_LayoutRoot;
+	Widget GetLayoutRoot() {
+		return m_LayoutRoot;
+	}
+	
+	// Parent (should be overridden)
 	ScriptedViewBase GetParent();
 	
 	override bool OnClick(Widget w, int x, int y, int button)
