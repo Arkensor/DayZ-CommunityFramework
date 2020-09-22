@@ -1,7 +1,46 @@
 
 
+class RoutedCommandManager
+{
+	// Weak ref to RoutedCommand so its destroyed when UI's are
+	static ref array<RoutedCommand> ActiveRoutedCommands = {};
+}
 
-// Abstract Class
+class InputGestureCollection: ref set<KeyCode>
+{
+	bool Matches(set<KeyCode> key_codes)
+	{
+		int count = Count();
+		foreach (KeyCode key: key_codes) {
+			if (Find(key) != -1) {
+				count--;
+			}
+		}
+		
+		return !count;
+	}
+}
+
+class RoutedCommand
+{
+	protected string m_Name;
+	string GetName() {
+		return m_Name;
+	}
+	
+	protected ref InputGestureCollection m_InputGestures;
+	InputGestureCollection GetInputGestures() {
+		return m_InputGestures;
+	}
+	
+	void RoutedCommand(string name, InputGestureCollection input_gestures = null)
+	{
+		m_Name = name; m_InputGestures = input_gestures;
+		RoutedCommandManager.ActiveRoutedCommands.Insert(this);
+	}
+}
+
+
 class RoutedUICommand
 {
 	private bool m_CanExecute = true;

@@ -108,12 +108,11 @@ class ScriptView: ScriptedViewBase
 		return;
 #endif
 	}
-				
+					
 	// Abstract Methods
 	protected string GetLayoutFile();
 	
 	protected typename GetControllerType() {
 		return Controller;
 	}
-
 }

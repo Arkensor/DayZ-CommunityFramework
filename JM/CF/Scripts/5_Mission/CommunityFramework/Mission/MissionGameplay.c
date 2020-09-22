@@ -48,4 +48,10 @@ modded class MissionGameplay
 
 		GetModuleManager().OnUpdate( timeslice );
 	}
+	
+	override void OnKeyPress(int key)
+	{
+		super.OnKeyPress(key);
+		
+	}
 }
