@@ -34,7 +34,6 @@ class MVCLayout: ScriptedWidgetEventHandler
 		return m_Controller;
 	}
 	
-	
 	void MVCLayout(Widget parent = null)
 	{
 		MVC.Trace("MVCLayout");
@@ -77,7 +76,10 @@ class MVCLayout: ScriptedWidgetEventHandler
 		
 		
 		MVC.Log("MVCLayout: %1 properties found!", property_count.ToString());
-		if (GetControllerType()) {
+		
+		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
+		m_LayoutRoot.GetScript(m_Controller);
+		if (!m_Controller && GetControllerType()) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
 				MVC.Error("MVCLayout: Invalid Controller %1", GetControllerType().ToString());
@@ -98,7 +100,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 
 	void OnWidgetScriptInit(Widget w)
 	{
-		// Extra saftey measure
+		// Extra safety measure
 #ifdef COMPONENT_SYSTEM
 		MVC.Error("MVCLayout should NOT be called in the Workbench Script Class!");
 		return;
