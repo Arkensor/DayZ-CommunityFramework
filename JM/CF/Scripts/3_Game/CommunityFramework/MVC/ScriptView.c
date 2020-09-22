@@ -5,7 +5,7 @@
 
 Example:
 
-class CustomDialogWindow: MVCLayout
+class CustomDialogWindow: ScriptView
 {
 	override string GetLayoutFile() {
 		return "MyMod/gui/Layouts/dialogs/Dialog.layout";
@@ -20,7 +20,7 @@ class CustomDialogWindow: MVCLayout
 
 */
 
-class MVCLayout: ScriptedWidgetEventHandler
+class ScriptView: ScriptedWidgetEventHandler
 {
 	protected Widget m_Parent;
 	protected Widget m_LayoutRoot;
@@ -34,31 +34,31 @@ class MVCLayout: ScriptedWidgetEventHandler
 		return m_Controller;
 	}
 	
-	void MVCLayout(Widget parent = null)
+	void ScriptView(Widget parent = null)
 	{
-		MVC.Trace("MVCLayout");
+		MVC.Trace("ScriptView");
 		m_Parent = parent;
 				
 		if (!GetLayoutFile()) {
-			MVC.Error("MVCLayout: You must override GetLayoutFile with the .layout file path");
+			MVC.Error("ScriptView: You must override GetLayoutFile with the .layout file path");
 			return;
 		}		
 		
-		MVC.Log("MVCLayout: Loading %1", GetLayoutFile());
+		MVC.Log("ScriptView: Loading %1", GetLayoutFile());
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
 		if (!workspace) {
-			MVC.Error("MVCLayout: Workspace was null, try reloading Workbench");
+			MVC.Error("ScriptView: Workspace was null, try reloading Workbench");
 			return;
 		}
 		
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_Parent);
 		if (!m_LayoutRoot) {
-			MVC.Error("MVCLayout: Invalid layout file %1", GetLayoutFile());
+			MVC.Error("ScriptView: Invalid layout file %1", GetLayoutFile());
 			return;
 		}
 		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
-		property_map.RemoveType(MVCLayout);
+		property_map.RemoveType(ScriptView);
 
 		int property_count;
 		foreach (string property_name, typename property_type: property_map) {
@@ -75,7 +75,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		}
 		
 		
-		MVC.Log("MVCLayout: %1 properties found!", property_count.ToString());
+		MVC.Log("ScriptView: %1 properties found!", property_count.ToString());
 		
 		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
 		m_LayoutRoot.GetScript(m_Controller);
@@ -83,7 +83,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		if (!m_Controller && GetControllerType()) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
-				MVC.Error("MVCLayout: Invalid Controller %1", GetControllerType().ToString());
+				MVC.Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
 				return;
 			}
 			
@@ -92,9 +92,9 @@ class MVCLayout: ScriptedWidgetEventHandler
 		}		
 	}
 	
-	void ~MVCLayout() 
+	void ~ScriptView() 
 	{
-		MVC.Trace("~MVCLayout");
+		MVC.Trace("~ScriptView");
 		m_LayoutRoot.Unlink();
 		delete m_Controller;
 	}
@@ -103,7 +103,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 	{
 		// Extra safety measure
 #ifdef COMPONENT_SYSTEM
-		MVC.Error("MVCLayout should NOT be called in the Workbench Script Class!");
+		MVC.Error("ScriptView should NOT be called in the Workbench Script Class!");
 		return;
 #endif
 	}

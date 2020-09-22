@@ -1,4 +1,6 @@
 
+
+// Helps workbench not crash, as a result of GetGame()
 DayZGame GetWorkbenchGame(bool force = false) 
 {
 	if (!g_Game || force) {
@@ -13,11 +15,11 @@ static ref MVC _MVC;
 
 class MVC
 {
+	
 	protected static ref TypenameHashMap m_WidgetControllerHashMap;
 	static WidgetController GetWidgetController(Class data) 
 	{
-		if (!_MVC)
-			_MVC = new MVC();
+		if (!_MVC) _MVC = new MVC();
 	
 		WidgetController widget_controller = m_WidgetControllerHashMap.Get(data.Type()).Spawn();
 		g_Script.Call(widget_controller, "SetWidget", data);
@@ -28,8 +30,7 @@ class MVC
 	protected static ref TypeConversionHashMap m_TypeConverterHashMap;
 	static TypeConverter GetTypeConversion(typename type) 
 	{
-		if (!_MVC)
-			_MVC = new MVC();
+		if (!_MVC) _MVC = new MVC();
 		
 		if (type.IsInherited(Observable)) {
 			type = Observable.Cast(type.Spawn()).GetType();
@@ -78,7 +79,7 @@ class MVC
 		type_conversions.Insert(ObservableSet, TypeConversionObservable);
 		type_conversions.Insert(ObservableCollection, TypeConversionObservable);
 		type_conversions.Insert(ObservableDictionary, TypeConversionObservable);
-		type_conversions.Insert(MVCLayout, TypeConversionMVCLayout);
+		type_conversions.Insert(ScriptView, TypeConversionScriptView);
 	}
 	
 	// Override THIS to add your own Widget Controllers 

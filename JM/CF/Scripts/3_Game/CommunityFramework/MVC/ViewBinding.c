@@ -1,6 +1,6 @@
 
 
-class ViewBinding: MVCScriptClass
+class ViewBinding: ScriptedWidgetEventHandler
 {	
 	// Name of Variable to bind to
 	protected reference string Binding_Name;
@@ -195,7 +195,10 @@ class ViewBinding: MVCScriptClass
 				break;
 			}
 		}
-
+		
+		if (m_Controller)
+			m_Controller.OnClick(w, x, y, button);
+		
 		return super.OnClick(w, x, y, button);
 	}
 	
