@@ -79,6 +79,7 @@ class MVCLayout: ScriptedWidgetEventHandler
 		
 		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
 		m_LayoutRoot.GetScript(m_Controller);
+		
 		if (!m_Controller && GetControllerType()) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
@@ -87,8 +88,9 @@ class MVCLayout: ScriptedWidgetEventHandler
 			}
 			
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-			m_LayoutRoot.SetHandler(this);
 		}
+		
+		m_LayoutRoot.SetHandler(this);
 	}
 	
 	void ~MVCLayout() 
