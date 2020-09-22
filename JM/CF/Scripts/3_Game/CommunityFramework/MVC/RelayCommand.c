@@ -2,7 +2,7 @@
 
 
 // Abstract Class
-class RelayCommand
+class RoutedUICommand
 {
 	private bool m_CanExecute = true;
 	
@@ -16,7 +16,7 @@ class RelayCommand
 		return m_CanExecute;
 	}
 	
-	// sets whether or not RelayCommand can be executed
+	// sets whether or not RoutedUICommand can be executed
 	// depreciate if BI ever adds property Getters and Setters
 	void SetCanExecute(bool state) {
 		m_CanExecute = state;
@@ -27,7 +27,7 @@ class RelayCommand
 	/* Abstract Methods */
 	
 	// called when type is Clicked, Selected, or Changed
-	void Execute(RelayCommandArgs args);
+	void Execute(RoutedUICommandArgs args);
 	
 	// Abstract function called when execution ability is changed
 	void CanExecuteChanged(bool state);

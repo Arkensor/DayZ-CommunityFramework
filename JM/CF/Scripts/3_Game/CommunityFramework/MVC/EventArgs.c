@@ -100,13 +100,13 @@ class WrapSpacerCommandArgs: Param2<WrapSpacerWidget, Widget>
 
 // 0: Call Context
 // 1: Command Args (see above)
-class RelayCommandArgs
+class RoutedUICommandArgs
 {
 	Class Context;
 	Param CommandArgs;
 	typename CommandArgsType;
 	
-	void RelayCommandArgs(Class context, Param command_args)
+	void RoutedUICommandArgs(Class context, Param command_args)
 	{
 		Context = context;
 		CommandArgs = command_args;

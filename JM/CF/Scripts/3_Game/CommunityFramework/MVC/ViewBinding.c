@@ -12,8 +12,8 @@ class ViewBinding: ScriptedViewBase
 	// If true, Bindings go both ways. Otherwise the controller is the master
 	protected reference bool Two_Way_Binding;
 	
-	// Name of RelayCommand class that is controlled by ViewBinding
-	// Can be either name of Class that inherits from RelayCommand, OR a function within the controller
+	// Name of RoutedUICommand class that is controlled by ViewBinding
+	// Can be either name of Class that inherits from RoutedUICommand, OR a function within the controller
 	protected reference string Relay_Command;
 
 	// Layout root - CANNOT be null
@@ -25,7 +25,7 @@ class ViewBinding: ScriptedViewBase
 		return m_Controller;
 	}
 	
-	protected autoptr ref RelayCommand 		m_RelayCommand;
+	protected autoptr ref RoutedUICommand 		m_RoutedUICommand;
 	protected autoptr ref TypeConverter 	m_PropertyConverter;
 	protected autoptr ref TypeConverter 	m_SelectedPropertyConverter;
 	
@@ -46,7 +46,7 @@ class ViewBinding: ScriptedViewBase
 		
 		m_LayoutRoot.SetHandler(this);
 		if (Relay_Command != string.Empty) {
-			SetRelayCommand(Relay_Command);
+			SetRoutedUICommand(Relay_Command);
 		}
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
@@ -187,14 +187,14 @@ class ViewBinding: ScriptedViewBase
 		}
 	}
 	
+	// RoutedUICommand interfaces
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		MVC.Trace("ViewBinding::OnClick");
 		UpdateModel();
-		if (Relay_Command != string.Empty || m_RelayCommand) {
+		if (Relay_Command != string.Empty || m_RoutedUICommand) {
 			
 			switch (w.Type()) {
-				
 				case ButtonWidget: {
 					InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
 					return true;
@@ -210,7 +210,7 @@ class ViewBinding: ScriptedViewBase
 	{	
 		MVC.Trace("ViewBinding::OnChange");
 		UpdateModel();
-		if (Relay_Command != string.Empty || m_RelayCommand) {
+		if (Relay_Command != string.Empty || m_RoutedUICommand) {
 			
 			switch (w.Type()) {
 				
@@ -241,38 +241,38 @@ class ViewBinding: ScriptedViewBase
 		return m_Controller;
 	}
 	
-	RelayCommand GetRelayCommand() {
-		return m_RelayCommand;
+	RoutedUICommand GetRoutedUICommand() {
+		return m_RoutedUICommand;
 	}
 		
 	void InvokeCommand(Param params)
 	{
 		MVC.Trace("ViewBinding::InvokeCommand");
 
-		if (!m_RelayCommand && m_Controller) {
+		if (!m_RoutedUICommand && m_Controller) {
 			g_Script.CallFunction(m_Controller, Relay_Command, null, params);
 		} 
-		else if (m_RelayCommand && m_RelayCommand.CanExecute()) {
-			m_RelayCommand.Execute(new RelayCommandArgs(this, params));
+		else if (m_RoutedUICommand && m_RoutedUICommand.CanExecute()) {
+			m_RoutedUICommand.Execute(new RoutedUICommandArgs(this, params));
 		}
 	}
 	
-	void SetRelayCommand(string relay_command) {
+	void SetRoutedUICommand(string relay_command) {
 		Relay_Command = relay_command;
 		
 		if (!Relay_Command.ToType()) {
 			MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
-		} else if (!Relay_Command.ToType().IsInherited(RelayCommand)) {
-			MVC.Error("ViewBinding: %1 must inherit from RelayCommand", Relay_Command);
+		} else if (!Relay_Command.ToType().IsInherited(RoutedUICommand)) {
+			MVC.Error("ViewBinding: %1 must inherit from RoutedUICommand", Relay_Command);
 		} else {
-			m_RelayCommand = Relay_Command.ToType().Spawn();
-			m_RelayCommand.SetViewBinding(this);
+			m_RoutedUICommand = Relay_Command.ToType().Spawn();
+			m_RoutedUICommand.SetViewBinding(this);
 		}
 	}
 	
-	void SetRelayCommand(RelayCommand relay_command) {
-		m_RelayCommand = relay_command;
-		m_RelayCommand.SetViewBinding(this);		
+	void SetRoutedUICommand(RoutedUICommand relay_command) {
+		m_RoutedUICommand = relay_command;
+		m_RoutedUICommand.SetViewBinding(this);		
 	}
 }
 
