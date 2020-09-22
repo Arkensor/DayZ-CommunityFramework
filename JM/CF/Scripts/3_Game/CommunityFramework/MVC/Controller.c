@@ -49,6 +49,12 @@ class Controller: ScriptedViewBase
 	}
 		
 	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
+	
+	protected ref set<ViewBinding> m_ViewBindings = new set<ViewBinding>();
+	set<ViewBinding> GetViewBindings() {
+		return m_ViewBindings;
+	}
+	
 	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	
 	typename GetPropertyType(string property_name) {
@@ -140,6 +146,7 @@ class Controller: ScriptedViewBase
 		w.GetScript(view_binding);
 		
 		if (view_binding && (view_binding.IsInherited(ViewBinding))) {
+			m_ViewBindings.Insert(view_binding);
 			binding_map.InsertView(view_binding);
 			view_binding.SetController(this);
 		}
