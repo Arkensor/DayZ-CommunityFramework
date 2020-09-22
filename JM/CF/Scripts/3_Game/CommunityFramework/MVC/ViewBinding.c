@@ -257,22 +257,31 @@ class ViewBinding: ScriptedViewBase
 		}
 	}
 	
-	void SetRoutedUICommand(string relay_command) {
+	RoutedUICommand SetRoutedUICommand(string relay_command) 
+	{
 		Relay_Command = relay_command;
 		
-		if (!Relay_Command.ToType()) {
-			MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
-		} else if (!Relay_Command.ToType().IsInherited(RoutedUICommand)) {
-			MVC.Error("ViewBinding: %1 must inherit from RoutedUICommand", Relay_Command);
-		} else {
-			m_RoutedUICommand = Relay_Command.ToType().Spawn();
-			m_RoutedUICommand.SetViewBinding(this);
-		}
+		if (Relay_Command.ToType()) {
+			return SetRoutedUICommand(Relay_Command.ToType());
+		} 
+		
+		MVC.Log("ViewBinding: Type not found: %1 - Assuming its a function on Controller", Relay_Command);
 	}
 	
-	void SetRoutedUICommand(RoutedUICommand relay_command) {
+	RoutedUICommand SetRoutedUICommand(typename relay_command) 
+	{
+		if (Relay_Command.ToType().IsInherited(RoutedUICommand)) {
+			return SetRoutedUICommand(Relay_Command.ToType().Spawn());
+		} 
+		
+		MVC.Error("ViewBinding: %1 must inherit from RoutedUICommand", Relay_Command);
+	}
+	
+	RoutedUICommand SetRoutedUICommand(RoutedUICommand relay_command) 
+	{
 		m_RoutedUICommand = relay_command;
 		m_RoutedUICommand.SetViewBinding(this);		
+		return m_RoutedUICommand;
 	}
 }
 
