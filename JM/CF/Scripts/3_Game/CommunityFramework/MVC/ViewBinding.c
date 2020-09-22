@@ -44,9 +44,9 @@ class ViewBinding: ScriptedViewBase
 			return;
 		}
 		
+		m_LayoutRoot.SetHandler(this);
 		if (Relay_Command != string.Empty) {
 			SetRelayCommand(Relay_Command);
-			m_LayoutRoot.SetHandler(this);
 		}
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
@@ -189,45 +189,44 @@ class ViewBinding: ScriptedViewBase
 	
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		switch (w.Type()) {
+		MVC.Trace("ViewBinding::OnClick");
+		UpdateModel();
+		if (Relay_Command != string.Empty || m_RelayCommand) {
 			
-			case ButtonWidget: {
-				UpdateModel();
-				InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
-				break;
+			switch (w.Type()) {
+				
+				case ButtonWidget: {
+					InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
+					return true;
+				}
 			}
 		}
-				
+			
 		return super.OnClick(w, x, y, button);
 	}
 	
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{	
-		switch (w.Type()) {
+		MVC.Trace("ViewBinding::OnChange");
+		UpdateModel();
+		if (Relay_Command != string.Empty || m_RelayCommand) {
 			
-			case CheckBoxWidget: {
-				InvokeCommand(new CheckBoxCommandArgs(CheckBoxWidget.Cast(w), CheckBoxWidget.Cast(w).IsChecked()));
-				break;
-			}
-			
-			case XComboBoxWidget: {
-				InvokeCommand(new XComboBoxCommandArgs(XComboBoxWidget.Cast(w), XComboBoxWidget.Cast(w).GetCurrentItem()));
-				break;
+			switch (w.Type()) {
+				
+				case CheckBoxWidget: {
+					InvokeCommand(new CheckBoxCommandArgs(CheckBoxWidget.Cast(w), CheckBoxWidget.Cast(w).IsChecked()));
+					return true;
+				}
+				
+				case XComboBoxWidget: {
+					InvokeCommand(new XComboBoxCommandArgs(XComboBoxWidget.Cast(w), XComboBoxWidget.Cast(w).GetCurrentItem()));
+					return true;
+				}
 			}
 		}
-
-		UpdateModel();		
-		return false;
-	}
-	
-	override bool OnFocus(Widget w, int x, int y)
-	{
 		
-		if (m_Controller)
-			m_Controller.OnFocus(w, x, y);
-		
-		return false;
+		return super.OnChange(w, x, y, finished);
 	}
 	
 	Widget GetLayoutRoot() {

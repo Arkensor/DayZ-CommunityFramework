@@ -26,6 +26,10 @@ class ScriptView: ScriptedViewBase
 	protected Widget m_LayoutRoot;
 	protected ref Controller m_Controller;
 	
+	override ScriptedViewBase GetParent() {
+		return null;
+	}
+	
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
 	}
@@ -40,24 +44,7 @@ class ScriptView: ScriptedViewBase
 		m_Parent = parent;
 		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
-		property_map.RemoveType(ScriptView);
-
-		int property_count;
-		foreach (string property_name, typename property_type: property_map) {
-			
-			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
-			
-			// Allows for LayoutRoot to be referenced as well
-			if (!target && m_LayoutRoot.GetName() == property_name) {
-				target = m_LayoutRoot;
-			}
-
-			EnScript.SetClassVar(this, property_name, 0, target);
-			property_count++;
-		}
-		
-		MVC.Log("ScriptView: %1 properties found!", property_count.ToString());
-		
+		property_map.RemoveType(ScriptView);		
 				
 		if (!GetLayoutFile()) {
 			MVC.Error("ScriptView: You must override GetLayoutFile with the .layout file path");
@@ -77,8 +64,24 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
+		int property_count;
+		foreach (string property_name, typename property_type: property_map) {
+			
+			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
+			
+			// Allows for LayoutRoot to be referenced as well
+			if (!target && m_LayoutRoot.GetName() == property_name) {
+				target = m_LayoutRoot;
+			}
+
+			EnScript.SetClassVar(this, property_name, 0, target);
+			property_count++;
+		}
+		
+		MVC.Log("ScriptView: %1 properties found!", property_count.ToString());
+		
 		// Has to be called before other views are created
-		m_LayoutRoot.SetHandler(this);
+		//m_LayoutRoot.SetHandler(this);
 		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
 		m_LayoutRoot.GetScript(m_Controller);
 		
