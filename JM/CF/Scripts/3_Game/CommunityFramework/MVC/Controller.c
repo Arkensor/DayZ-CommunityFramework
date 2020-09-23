@@ -41,39 +41,38 @@ class TestController: Controller
 // Abstract Class
 class Controller: ScriptedViewBase
 {
+	// All View Bindings
+	protected ref ViewBindingHashMap m_ViewBindingHashMap;
 	
-	// Weak reference to Parent script view	
-	protected ScriptView m_ScriptView;
-	override ScriptedViewBase GetParent() {
-		return m_ScriptView;
-	}
-		
-	protected ref DataBindingHashMap m_ViewBindingHashMap = new DataBindingHashMap();
-	
-	protected ref set<ViewBinding> m_ViewBindings = new set<ViewBinding>();
-	set<ViewBinding> GetViewBindings() {
-		return m_ViewBindings;
+	// View Bindings indexed by their Binding_Name
+	protected ref DataBindingHashMap m_DataBindingHashMap;
+	DataBindingHashMap GetDataBindings() {
+		return m_DataBindingHashMap;
 	}
 	
-	protected ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-	
+	protected ref PropertyTypeHashMap m_PropertyTypeHashMap;
 	typename GetPropertyType(string property_name) {
 		return m_PropertyTypeHashMap.Get(property_name);
 	}
 	
 	void Controller() 
 	{
-		MVC.Trace("Controller");
-		/*
-		if (Type() == Controller) {
-			MVC.Error("You cannot bind to data without creating your own controller class!");
-			return;
-		}*/
+		MVC.Trace("Controller"); 
+		
+		m_ViewBindingHashMap = new ViewBindingHashMap();
+		m_DataBindingHashMap = new DataBindingHashMap();
+		
+		m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
+		m_PropertyTypeHashMap.RemoveType(Controller);
 	}
 	
 	void ~Controller() 
 	{ 
-		MVC.Trace("~Controller");
+		MVC.Trace("~Controller"); 
+		
+		delete m_ViewBindingHashMap;
+		delete m_DataBindingHashMap;
+		delete m_PropertyTypeHashMap;
 	}
 	
 	void OnWidgetScriptInit(Widget w)
@@ -82,33 +81,22 @@ class Controller: ScriptedViewBase
 		m_LayoutRoot.SetHandler(this);
 		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
 		
-		m_PropertyTypeHashMap.RemoveType(Controller);
-		
 		// Load all child Widgets and obtain their DataBinding class
-		int binding_count = LoadDataBindings(m_LayoutRoot, m_ViewBindingHashMap);
-		MVC.Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());
+		int binding_count = LoadDataBindings(m_LayoutRoot);
+		MVC.Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
+	}
 
-#ifdef COMPONENT_SYSTEM
-		//Workbench.Dialog("Read the docs!", "Documentation available here\nhttps:\/\/www.twitch.tv/InclementDab\n");
-#endif
-	
-	}
-	
-	void SetScriptView(ScriptView script_view)
-	{
-		m_ScriptView = script_view;
-	}
-	
+		
 	// Call this when you update a Controller property (variable)
 	// Do NOT call this when using arrays / collections.
 	// Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name)
 	{
 		MVC.Trace("Controller::NotifyPropertyChanged " + property_name);
-		ViewBindingSet view_set = m_ViewBindingHashMap.Get(property_name);
+		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
 		
-		if (view_set) 
-			foreach (ViewBinding view: view_set)
+		if (views) 
+			foreach (ViewBinding view: views)
 				view.UpdateView();
 
 		PropertyChanged(property_name);
@@ -119,10 +107,10 @@ class Controller: ScriptedViewBase
 	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
 	{		
 		MVC.Trace("Controller::NotifyCollectionChanged %1", collection_name);
-		ref ViewBindingSet view_set = m_ViewBindingHashMap.Get(collection_name);
+		ViewBindingArray views = m_DataBindingHashMap.Get(collection_name);
 				
-		if (view_set) 
-			foreach (ViewBinding view: view_set) 
+		if (views) 
+			foreach (ViewBinding view: views) 
 				view.OnCollectionChanged(args);
 
 		CollectionChanged(collection_name, args);
@@ -136,29 +124,26 @@ class Controller: ScriptedViewBase
 	// Override this when you want to have an event AFTER collection is changed
 	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
 	
-	int LoadDataBindings(Widget w) {
-		return LoadDataBindings(w, m_ViewBindingHashMap);
-	}
 	
-	private int LoadDataBindings(Widget w, out DataBindingHashMap binding_map)
+	int LoadDataBindings(Widget w)
 	{
 		ViewBinding view_binding;
 		w.GetScript(view_binding);
 		
 		if (view_binding && (view_binding.IsInherited(ViewBinding))) {
-			m_ViewBindings.Insert(view_binding);
-			binding_map.InsertView(view_binding);
+			m_ViewBindingHashMap.Insert(w, view_binding);
+			m_DataBindingHashMap.InsertView(view_binding);
 			view_binding.SetController(this);
 		}
 		
 		if (w.GetChildren() != null)
-			LoadDataBindings(w.GetChildren(), binding_map);
+			LoadDataBindings(w.GetChildren());
 		
 		
 		if (w.GetSibling() != null) 
-			LoadDataBindings(w.GetSibling(), binding_map);
+			LoadDataBindings(w.GetSibling());
 		
-		return binding_map.Count();
+		return m_DataBindingHashMap.Count();
 	}
 }
 

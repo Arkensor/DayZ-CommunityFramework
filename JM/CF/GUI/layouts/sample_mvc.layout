@@ -1,8 +1,83 @@
-FrameWidgetClass rootFrame {
- position 10 10
- size 100 100
+FrameWidgetClass root {
+ position 0 0
+ size 0.5 0.5
+ halign center_ref
+ valign center_ref
  hexactpos 1
  vexactpos 1
- hexactsize 1
- vexactsize 1
+ hexactsize 0
+ vexactsize 0
+ scriptclass "SampleController"
+ {
+  WrapSpacerWidgetClass root_spacer {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   Padding 5
+   Margin 5
+   "Size To Content H" 1
+   content_halign center
+   {
+    SliderWidgetClass slider {
+     position 0 0
+     size 1 0.05
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "ViewBinding"
+     {
+      TextWidgetClass slider_text {
+       ignorepointer 1
+       size 0.1 1
+       halign center_ref
+       valign center_ref
+       hexactpos 1
+       vexactpos 1
+       hexactsize 0
+       vexactsize 0
+       scriptclass "ViewBinding"
+       "text halign" center
+       "text valign" center
+       {
+        ScriptParamsClass {
+         Binding_Name "slider_value"
+        }
+       }
+      }
+     }
+     {
+      ScriptParamsClass {
+       Binding_Name "slider_value"
+       Two_Way_Binding 1
+      }
+     }
+    }
+    ProgressBarWidgetClass progress_bar {
+     ignorepointer 1
+     size 1 0.05
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "ViewBinding"
+     {
+      ScriptParamsClass {
+       Binding_Name "progress_value"
+      }
+     }
+    }
+   }
+  }
+ }
 }

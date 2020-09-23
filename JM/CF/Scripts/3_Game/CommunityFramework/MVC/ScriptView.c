@@ -23,28 +23,20 @@ class CustomDialogWindow: ScriptView
 class ScriptView: ScriptedViewBase
 {
 	protected ScriptView m_ParentView;
-	protected ref Controller m_Controller;
 	
-	override ScriptedViewBase GetParent() {
-		return null;
-	}
+	// Weak reference to child controllers
+	protected ref set<Controller> m_Controllers = new set<Controller>();
 	
-	Controller GetController() {
-		return m_Controller;
-	}
-	
-	protected ref CommandManager m_CommandManager;
-	CommandManager GetCommandManager() {
-		return m_CommandManager;
-	}
+	// Hashmap of all relay commands in the ScriptView
+	protected ref RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
+
 	
 	void ScriptView(ScriptView parent = null)
 	{
 		MVC.Trace("ScriptView");
 		m_ParentView = parent;
 		
-		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
-		property_map.RemoveType(ScriptView);		
+
 				
 		if (!GetLayoutFile()) {
 			MVC.Error("ScriptView: You must override GetLayoutFile with the .layout file path");
@@ -64,22 +56,35 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
-		int property_count;
+		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
+		property_map.RemoveType(ScriptView);
 		foreach (string property_name, typename property_type: property_map) {
 			
-			Widget target = m_LayoutRoot.FindAnyWidget(property_name);
-			
-			// Allows for LayoutRoot to be referenced as well
-			if (!target && m_LayoutRoot.GetName() == property_name) {
-				target = m_LayoutRoot;
+			if (property_type.IsInherited(Widget)) {
+				Widget target = m_LayoutRoot.FindAnyWidget(property_name);
+				
+				// Allows for LayoutRoot to be referenced as well
+				if (!target && m_LayoutRoot.GetName() == property_name) {
+					target = m_LayoutRoot;
+				}
+	
+				EnScript.SetClassVar(this, property_name, 0, target);
 			}
-
-			EnScript.SetClassVar(this, property_name, 0, target);
-			property_count++;
+			else if (property_type.IsInherited(RelayCommand)) {
+				
+				RelayCommand command;
+				EnScript.GetClassVar(this, property_name, 0, command);
+				// todo can i check to see if initializing it after the constructor works? like a pointer
+				// cant now
+				m_RelayCommandHashMap.Insert(property_name, command);				
+			}
 		}
 		
-		MVC.Log("ScriptView: %1 properties found!", property_count.ToString());
 		
+		
+		// Find a way to enumerate all controllers in a layout file
+		
+		/*
 		// Has to be called before other views are created
 		//m_LayoutRoot.SetHandler(this);
 		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
@@ -95,23 +100,16 @@ class ScriptView: ScriptedViewBase
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);	
 		}
 		
-		m_Controller.SetScriptView(this);
+		m_Controller.SetScriptView(this);*/
 		
-		m_CommandManager = GetCommandManagerType().Spawn();
-		
-		
-		set<ViewBinding> view_bindings = m_Controller.GetViewBindings();
-		foreach (ViewBinding view_binding: view_bindings) {
-			//RoutedUICommand routed_command = view_binding.GetRoutedUICommand();
-			//RoutedCommands.Insert(routed_command.KeyStorageValue(), routed_command);
-		}
 	}
 	
 	void ~ScriptView() 
 	{
 		MVC.Trace("~ScriptView");
 		m_LayoutRoot.Unlink();
-		delete m_Controller;
+		delete m_Controllers;
+		delete m_RelayCommandHashMap;
 	}
 
 	void OnWidgetScriptInit(Widget w)
@@ -128,9 +126,5 @@ class ScriptView: ScriptedViewBase
 	
 	protected typename GetControllerType() {
 		return Controller;
-	}
-	
-	protected typename GetCommandManagerType() {
-		return CommandManager;
 	}
 }

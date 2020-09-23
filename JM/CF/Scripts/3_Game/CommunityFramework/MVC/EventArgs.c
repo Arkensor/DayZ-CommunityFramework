@@ -100,13 +100,13 @@ class WrapSpacerCommandArgs: Param2<WrapSpacerWidget, Widget>
 
 // 0: Call Context
 // 1: Command Args (see above)
-class RoutedUICommandArgs
+class RelayCommandArgs
 {
-	Class Context;
+	ViewBinding Context;
 	Param CommandArgs;
 	typename CommandArgsType;
 	
-	void RoutedUICommandArgs(Class context, Param command_args)
+	void RelayCommandArgs(ViewBinding context, Param command_args)
 	{
 		Context = context;
 		CommandArgs = command_args;
@@ -117,6 +117,6 @@ class RoutedUICommandArgs
 
 class CanExecuteEventArgs
 {
-	RoutedUICommand Command;
+	RelayCommand Command;
 	bool CanExecute = true;
 }

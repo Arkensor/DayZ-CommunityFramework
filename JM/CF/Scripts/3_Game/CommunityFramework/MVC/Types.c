@@ -23,18 +23,20 @@ class PropertyTypeHashMap: ref map<string, typename>
 }
 
 
-// 0: Property Name
+// 0: Source Widget
 // 1: View Binding
-typedef ref set<ref ViewBinding> ViewBindingSet;
+typedef ref map<Widget, ViewBinding> ViewBindingHashMap;
 
+
+typedef ref set<ViewBinding> ViewBindingArray;
 
 // 0: Property Name
 // 1: View Binding Set
-class DataBindingHashMap: ref map<string, ref ViewBindingSet>
+class DataBindingHashMap: ref map<string, ViewBindingArray>
 {
 	void DebugPrint()
 	{
-		foreach (string name, ViewBindingSet view_set: this) {
+		foreach (string name, ViewBindingArray view_set: this) {
 			MVC.Log("[%1]:", name);
 			foreach (ViewBinding view: view_set) {
 				MVC.Log("    %1", view.GetLayoutRoot().GetName());
@@ -44,16 +46,21 @@ class DataBindingHashMap: ref map<string, ref ViewBindingSet>
 	
 	void InsertView(ViewBinding view)
 	{
-		string key = view.GetBindingName();
-		ViewBindingSet view_set = Get(key);
+		ViewBindingArray view_set = Get(view.Binding_Name);
 		if (!view_set) {
-			view_set = new ViewBindingSet();
+			view_set = new ViewBindingArray();
 			view_set.Insert(view);
-			Insert(key, view_set);
+			Insert(view.Binding_Name, view_set);
 		} else {
 			view_set.Insert(view);
 		}		
 	}
+}
+
+
+class RelayCommandHashMap: ref map<string, RelayCommand>
+{
+	
 }
 
 typedef map<typename, typename> TypenameHashMap;

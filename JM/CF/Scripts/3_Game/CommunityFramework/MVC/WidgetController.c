@@ -94,6 +94,22 @@ class SliderWidgetController: WidgetControllerTemplate<SliderWidget>
 	}
 }
 
+
+class ProgressBarController: WidgetControllerTemplate<ProgressBarWidget>
+{
+	override bool CanTwoWayBind() {
+		return true;
+	}
+	
+	override void SetData(TypeConverter type_converter) {
+		m_Widget.SetCurrent(type_converter.GetFloat());
+	}
+	
+	override void GetData(out TypeConverter type_converter) {
+		type_converter.SetFloat(m_Widget.GetCurrent());
+	}
+}
+
 class TextWidgetController: WidgetControllerTemplate<TextWidget>
 {
 	override void SetData(TypeConverter type_converter) {
