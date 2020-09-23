@@ -1,7 +1,12 @@
 
+// Weak ref to RoutedCommand so its deleted when ViewBinding dies
+typedef ref map<int, RoutedUICommand> RoutedCommandMap;
+
 
 class CommandManager
 {
+	static ref RoutedCommandMap RoutedCommands = new RoutedCommandMap();
+	
 	RoutedUICommand Get(string command_name) {
 		RoutedUICommand command;
 		EnScript.GetClassVar(this, command_name, 0, command);
@@ -59,10 +64,7 @@ class InputGestureCollection: ref map<int[], bool>
 
 
 
-// Weak ref to RoutedCommand so its deleted when ViewBinding dies
-typedef ref map<int, RoutedUICommand> RoutedCommandMap;
 
-static ref RoutedCommandMap RoutedCommands;
 
 class RoutedUICommand
 {
@@ -80,30 +82,41 @@ class RoutedUICommand
 		foreach (KeyCode key: input_gestures) {
 			KeyStorage |= key;
 		}
-				
-		if (!RoutedCommands) {
-			 RoutedCommands = new RoutedCommandMap()
-		}
 
-		RoutedCommands.Insert(KeyStorage, this);
+		CommandManager.RoutedCommands.Insert(KeyStorage, this);
 	}
 		
 	protected ViewBinding m_ViewBinding;
 	void SetViewBinding(ViewBinding view_binding) {
 		m_ViewBinding = view_binding;
 	}
-	
-
-	
+		
 	// string representation of shortcut keys 
 	// i.e. Ctrl + Shift + T
 	string GetKeyString() {
 		string result;
+		int i = 0;
 		foreach (KeyCode key: m_InputGestures) {
 			
 			string keyname = typename.EnumToString(KeyCode, key);
-			keyname.Replace("KC_", "");
-			result += keyname;
+			keyname.Replace("KC_", "");			
+			switch (keyname) {
+				
+				case "LCONTROL": {
+					keyname = "LCtrl";
+					break;
+				}
+				
+				case "LMENU": {
+					keyname = "LAlt";
+					break;
+				}
+			}
+			
+			i++;
+			if (i != m_InputGestures.Count())
+				result += keyname + " + ";
+			else result += keyname;
 		}
 		
 		return result;

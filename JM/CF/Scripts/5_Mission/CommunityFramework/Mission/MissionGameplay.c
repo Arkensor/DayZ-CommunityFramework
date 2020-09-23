@@ -47,26 +47,5 @@ modded class MissionGameplay
 		super.OnUpdate( timeslice );
 
 		GetModuleManager().OnUpdate( timeslice );
-	}
-	
-	private int m_ActiveKeys;
-	
-	
-	override void OnKeyPress(int key)
-	{
-		m_ActiveKeys |= key;
-
-		RoutedUICommand routed_command = RoutedCommands.Get(m_ActiveKeys);		
-		if (routed_command) {
-			routed_command.Execute(new RoutedUICommandArgs(this, null));
-		}
-		
-		super.OnKeyPress(key);
-	}
-	
-	override void OnKeyRelease(int key)
-	{
-		m_ActiveKeys &= ~key;
-		super.OnKeyRelease(key);
-	}
+	}	
 }

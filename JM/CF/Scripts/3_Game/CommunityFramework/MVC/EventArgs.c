@@ -110,7 +110,8 @@ class RoutedUICommandArgs
 	{
 		Context = context;
 		CommandArgs = command_args;
-		CommandArgsType = CommandArgs.Type();
+		if (CommandArgs)
+			CommandArgsType = CommandArgs.Type();
 	}	
 }
 

@@ -41,7 +41,7 @@ class ScriptView: ScriptedViewBase
 	void ScriptView(ScriptView parent = null)
 	{
 		MVC.Trace("ScriptView");
-		m_Parent = parent;
+		m_ParentView = parent;
 		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		property_map.RemoveType(ScriptView);		
@@ -58,7 +58,7 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_Parent);
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_ParentView.GetLayoutRoot());
 		if (!m_LayoutRoot) {
 			MVC.Error("ScriptView: Invalid layout file %1", GetLayoutFile());
 			return;
@@ -112,7 +112,6 @@ class ScriptView: ScriptedViewBase
 		MVC.Trace("~ScriptView");
 		m_LayoutRoot.Unlink();
 		delete m_Controller;
-		delete RoutedCommands;
 	}
 
 	void OnWidgetScriptInit(Widget w)
