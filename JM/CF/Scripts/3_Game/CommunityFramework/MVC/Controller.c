@@ -39,7 +39,7 @@ class TestController: Controller
 
 // Abstract Class
 class Controller: ScriptedViewBase
-{
+{	
 	// All View Bindings
 	protected ref ViewBindingHashMap m_ViewBindingHashMap;
 	
@@ -50,14 +50,9 @@ class Controller: ScriptedViewBase
 	}
 	
 	protected ref PropertyTypeHashMap m_PropertyTypeHashMap;
-	typename GetPropertyType(string property_name) {
-		return m_PropertyTypeHashMap.Get(property_name);
-	}
 	
-	void Controller() 
-	{
-		MVC.Trace("Controller"); 
-		
+	void Controller()
+	{		
 		m_ViewBindingHashMap = new ViewBindingHashMap();
 		m_DataBindingHashMap = new DataBindingHashMap();
 		
@@ -67,7 +62,6 @@ class Controller: ScriptedViewBase
 	
 	void ~Controller() 
 	{ 
-		MVC.Trace("~Controller"); 
 		delete m_ViewBindingHashMap;
 		delete m_DataBindingHashMap;
 		delete m_PropertyTypeHashMap;
@@ -75,17 +69,18 @@ class Controller: ScriptedViewBase
 	
 	override void OnWidgetScriptInit(Widget w)
 	{		
-		// Load all child Widgets and obtain their DataBinding class
 		super.OnWidgetScriptInit(w);
+		
+		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot);
-		MVC.Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
+		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
 	}
 
 	// Call this when you update a Controller property (variable)
 	// Do NOT call this when using arrays / collections. Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name)
 	{
-		MVC.Trace("Controller::NotifyPropertyChanged " + property_name);
+		Trace("NotifyPropertyChanged " + property_name);
 		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
 	
 		if (views) {
@@ -100,7 +95,7 @@ class Controller: ScriptedViewBase
 	// Do NOT call this. ObservableCollection does this for you
 	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
 	{		
-		MVC.Trace("Controller::NotifyCollectionChanged %1", collection_name);
+		Trace("NotifyCollectionChanged %1", collection_name);
 		ViewBindingArray views = m_DataBindingHashMap.Get(collection_name);
 				
 		if (views) {
@@ -128,7 +123,7 @@ class Controller: ScriptedViewBase
 		
 		if (view_binding && view_binding.IsInherited(ViewBinding)) {
 
-			view_binding.SetProperties(GetPropertyType(view_binding.Binding_Name), GetPropertyType(view_binding.Selected_Item));
+			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
 		}
@@ -146,7 +141,7 @@ class Controller: ScriptedViewBase
 	// RoutedUICommand interfaces
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		MVC.Trace("Controller::OnClick");
+		Trace("OnClick");
 		
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
 		view_binding.UpdateModel(this);
@@ -166,7 +161,7 @@ class Controller: ScriptedViewBase
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{	
-		MVC.Trace("Controller::OnChange");
+		Trace("OnChange");
 		
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
 		view_binding.UpdateModel(this);

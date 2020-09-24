@@ -2,6 +2,45 @@
 
 class ScriptedViewBase: ScriptedWidgetEventHandler
 {
+	
+	// Enable verbose logging
+	reference bool Debug_Logging;
+	
+	void ScriptedViewBase()
+	{
+		Trace(Type().ToString());
+	}
+	
+	void ~ScriptedViewBase()
+	{	
+		Trace("~" + Type().ToString());
+	}
+	
+	void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
+	{
+		if (Debug_Logging)
+			PrintFormat("[Trace] %1 - %2 ", Type(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	}
+	
+	void Log(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
+	{
+		if (Debug_Logging)
+			PrintFormat("[Log] %1 - %2", Type(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	}
+	
+	
+	void Error(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
+	{
+		string msg = string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+		//PrintFormat("MVCLog::Error %1", msg);
+		string header = string.Format("[Error] %1", Type());
+		Error2(header, msg);
+		
+#ifdef COMPONENT_SYSTEM
+		Workbench.Dialog(header, msg);
+#endif
+	}
+	
 	// Source Widget
 	protected Widget m_LayoutRoot;
 	Widget GetLayoutRoot() {
@@ -14,9 +53,9 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	
 	void OnWidgetScriptInit(Widget w)
 	{
+		MVC.Trace("OnWidgetScriptInit %1", w.GetName());
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
-		MVC.Trace("%1::OnWidgetScriptInit", Type().ToString());
 	}
 	
 	

@@ -33,26 +33,24 @@ class ScriptView: ScriptedViewBase
 	
 	void ScriptView(ScriptView parent = null)
 	{
-		MVC.Trace("ScriptView");
+		Trace("ScriptView");
 		m_ParentView = parent;
-		
-
-				
+						
 		if (!GetLayoutFile()) {
-			MVC.Error("ScriptView: You must override GetLayoutFile with the .layout file path");
+			Error("You must override GetLayoutFile with the .layout file path");
 			return;
 		}
 		
-		MVC.Log("ScriptView: Loading %1", GetLayoutFile());
+		Log("ScriptView: Loading %1", GetLayoutFile());
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
 		if (!workspace) {
-			MVC.Error("ScriptView: Workspace was null, try reloading Workbench");
+			Error("Workspace was null, try reloading Workbench");
 			return;
 		}
 		
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_ParentView.GetLayoutRoot());
 		if (!m_LayoutRoot) {
-			MVC.Error("ScriptView: Invalid layout file %1", GetLayoutFile());
+			Error("Invalid layout file %1", GetLayoutFile());
 			return;
 		}
 		
@@ -93,7 +91,7 @@ class ScriptView: ScriptedViewBase
 		if (!m_Controller && GetControllerType().IsInherited(Controller)) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
-				MVC.Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
+				Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
 				return;
 			}
 			
@@ -106,7 +104,7 @@ class ScriptView: ScriptedViewBase
 	
 	void ~ScriptView() 
 	{
-		MVC.Trace("~ScriptView");
+		Trace("~ScriptView");
 		m_LayoutRoot.Unlink();
 		delete m_Controllers;
 		delete m_RelayCommandHashMap;
@@ -116,7 +114,7 @@ class ScriptView: ScriptedViewBase
 	{
 		// Extra safety measure
 #ifdef COMPONENT_SYSTEM
-		MVC.Error("ScriptView should NOT be called in the Workbench Script Class!");
+		Error("ScriptView should NOT be called in the Workbench Script Class!");
 		return;
 #endif
 	}

@@ -80,4 +80,9 @@ FrameWidgetClass root {
    }
   }
  }
+ {
+  ScriptParamsClass {
+   Debug_Logging 1
+  }
+ }
 }

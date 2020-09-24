@@ -27,43 +27,36 @@ class ViewBinding: ScriptedViewBase
 		return m_Controller;
 	}
 		
-	protected ref TypeConverter m_PropertyConverter;
-	protected ref TypeConverter m_SelectedConverter;
+	protected autoptr ref TypeConverter m_PropertyConverter;
+	protected autoptr ref TypeConverter m_SelectedConverter;
 	
-	protected ref WidgetController m_WidgetController;
+	protected autoptr ref WidgetController m_WidgetController;
 	
-	void ~ViewBinding()
-	{	
-		delete m_WidgetController;
-		delete m_PropertyConverter;
-		delete m_SelectedConverter;
-	}
-	
+
 	override void OnWidgetScriptInit(Widget w)
 	{
-		MVC.Trace("ViewBinding::OnWidgetScriptInit %1", w.GetName());
 		super.OnWidgetScriptInit(w);
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
 		if (!m_WidgetController) {
-			MVC.Error("ViewBinding: Could not find WidgetController for type %1\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
+			Error("Could not find WidgetController for type %1\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
 			return;
 		}
 		
 		// Check for two way binding support
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
-			MVC.Log("ViewBinding: Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
+			Log("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
 		}
 	}
 	
 	void SetProperties(typename binding_type, typename selected_type)
 	{
-				
+		Trace("SetProperties");
 		// Were not trying to data bind to empty Binding_Name
 		if (binding_type && Binding_Name != string.Empty) {
 			m_PropertyConverter = MVC.GetTypeConversion(binding_type);
 			if (!m_PropertyConverter) {
-				MVC.Error("ViewBinding: Could not find TypeConverter for type %1 in Binding_Name\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", binding_type.ToString());
+				Error("Could not find TypeConverter for type %1 in Binding_Name\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", binding_type.ToString());
 			}
 		}
 		
@@ -71,7 +64,7 @@ class ViewBinding: ScriptedViewBase
 		if (selected_type && Selected_Item != string.Empty) {
 			m_SelectedConverter = MVC.GetTypeConversion(selected_type);
 			if (!m_SelectedConverter) {
-				MVC.Error("ViewBinding: Could not find TypeConverter for type %1 in Selected_Item\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", selected_type.ToString());
+				Error("Could not find TypeConverter for type %1 in Selected_Item\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", selected_type.ToString());
 			}
 		}
 	}
@@ -79,7 +72,8 @@ class ViewBinding: ScriptedViewBase
 	// Controller -> view
 	void UpdateView(Controller controller)
 	{
-		MVC.Trace("ViewBinding: Updating View %1...", Binding_Name);
+		Trace("UpdateView");
+		Log("Updating View %1...", Binding_Name);
 		if (!m_WidgetController) return;
 
 		// Binding_Name handler
@@ -98,7 +92,9 @@ class ViewBinding: ScriptedViewBase
 	// View -> Controller
 	void UpdateModel(Controller controller)
 	{
-		MVC.Trace("ViewBinding: Updating Model %1...", Binding_Name);
+		Trace("UpdateModel");
+		
+		Log("Updating Model %1...", Binding_Name);
 		if (!m_WidgetController) return;
 		
 		// Binding_Name handler
@@ -118,7 +114,7 @@ class ViewBinding: ScriptedViewBase
 		
 	void InvokeCommand(Param params)
 	{
-		MVC.Trace("ViewBinding::InvokeCommand");
+		Trace("InvokeCommand");
 		
 		if (m_RelayCommand) {
 			CanExecuteEventArgs e();
@@ -134,7 +130,9 @@ class ViewBinding: ScriptedViewBase
 	
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)
 	{
-		MVC.Trace("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
+		Trace("OnCollectionChanged");
+		
+		Log("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 		if (!m_WidgetController) return;
 
 		// We dont want to work with type Observable for everything
