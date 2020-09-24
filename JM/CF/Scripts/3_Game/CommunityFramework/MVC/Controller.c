@@ -41,21 +41,26 @@ class TestController: Controller
 class Controller: ScriptedViewBase
 {	
 	// All View Bindings
-	protected autoptr ref ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
+	protected autoptr ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
+	ViewBindingHashMap GetViewBindings() {
+		return m_ViewBindingHashMap; 
+	}
 	
 	// View Bindings indexed by their Binding_Name
-	protected autoptr ref DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
+	protected autoptr DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
 	DataBindingHashMap GetDataBindings() {
 		return m_DataBindingHashMap;
 	}
-	
-	protected autoptr ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
+		
+	// Hashmap of all properties in the Controller
+	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap;
 		
 	
 	override void OnWidgetScriptInit(Widget w)
 	{		
 		super.OnWidgetScriptInit(w);
 		
+		m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 		m_PropertyTypeHashMap.RemoveType(Controller);
 		
 		// Load all child Widgets and obtain their DataBinding class
@@ -109,13 +114,11 @@ class Controller: ScriptedViewBase
 		ViewBinding view_binding;
 		w.GetScript(view_binding);
 		
-		if (view_binding) {
-			if (view_binding.IsInherited(ViewBinding)) {
-				m_ViewBindingHashMap.Insert(w, view_binding);
-				m_DataBindingHashMap.InsertView(view_binding);
-				view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
-				NotifyPropertyChanged(view_binding.Binding_Name);
-			} 
+		if (view_binding && view_binding.IsInherited(ViewBinding)) {
+			m_ViewBindingHashMap.Insert(w, view_binding);
+			m_DataBindingHashMap.InsertView(view_binding);
+			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
+			NotifyPropertyChanged(view_binding.Binding_Name);
 		}
 		
 		
@@ -152,18 +155,6 @@ class Controller: ScriptedViewBase
 		return super.OnClick(w, x, y, button);
 	}
 	
-	override bool OnMouseButtonUp(Widget w, int x, int y, int button)
-	{
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
-		if (view_binding) {
-			view_binding.UpdateModel(this);
-			if (view_binding.InvokeCommand()) {
-				return true;
-			}
-		}
-		
-		return super.OnMouseButtonUp(w, x, y, button);
-	}
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{

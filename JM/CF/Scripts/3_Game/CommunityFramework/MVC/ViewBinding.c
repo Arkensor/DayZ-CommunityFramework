@@ -16,7 +16,7 @@ class ViewBinding: ScriptedViewBase
 	reference string Relay_Command;
 	
 	// Weak reference to Relay Command
-	protected RelayCommand m_RelayCommand;
+	protected ref RelayCommand m_RelayCommand;
 	void SetRelayCommand(RelayCommand relay_command) {
 		m_RelayCommand = relay_command;
 	}
@@ -116,6 +116,7 @@ class ViewBinding: ScriptedViewBase
 		
 		if (!m_RelayCommand) return false;
 					
+		Print(m_RelayCommand);
 		if (m_RelayCommand.CanExecute()) {
 			m_RelayCommand.Execute(new CommandArgs(this, m_LayoutRoot));
 		}

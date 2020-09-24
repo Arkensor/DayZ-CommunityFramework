@@ -3,6 +3,11 @@ class RelayCommand
 {
 	private bool m_CanExecute = true;
 	
+	protected ScriptView m_ScriptView;
+	void SetScriptView(ScriptView script_view) {
+		m_ScriptView = script_view;
+	}
+	
 	// returns bool defining whether or not the Execute can be called
 	bool CanExecute() {
 		return m_CanExecute;
