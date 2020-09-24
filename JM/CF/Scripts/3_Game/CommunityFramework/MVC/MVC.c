@@ -79,7 +79,7 @@ class MVC
 		type_conversions.Insert(ObservableSet, TypeConversionObservable);
 		type_conversions.Insert(ObservableCollection, TypeConversionObservable);
 		type_conversions.Insert(ObservableDictionary, TypeConversionObservable);
-		type_conversions.Insert(ScriptView, TypeConversionScriptView);
+		type_conversions.Insert(ScriptedViewBase, TypeConversionScriptView);
 	}
 	
 	// Override THIS to add your own Widget Controllers 

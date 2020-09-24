@@ -3,7 +3,6 @@
 class SampleScriptViewController: Controller
 {
 	Widget content_host;
-	
 	ref SampleScriptView script_view;
 }
 

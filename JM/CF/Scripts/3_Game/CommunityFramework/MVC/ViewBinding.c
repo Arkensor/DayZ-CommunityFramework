@@ -32,7 +32,7 @@ class ViewBinding: ScriptedViewBase
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
 		if (!m_WidgetController) {
-			Error("Could not find WidgetController for type %1\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
+			Error("Could not find WidgetController for type %1\n\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
 			return;
 		}
 		
@@ -50,7 +50,7 @@ class ViewBinding: ScriptedViewBase
 			Log("Loading TypeConverter for Variable: %1 of Type: %2", Binding_Name, binding_type.ToString());
 			m_PropertyConverter = MVC.GetTypeConversion(binding_type);
 			if (!m_PropertyConverter) {
-				Error("Could not find TypeConverter for type %1 in Binding_Name\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", binding_type.ToString());
+				Error("Could not find TypeConverter for type %1 in %2\n\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", binding_type.ToString(), Binding_Name);
 			}
 		}
 		
@@ -59,7 +59,7 @@ class ViewBinding: ScriptedViewBase
 			Log("Loading TypeConverter for Variable: %1 of Type: %2", Selected_Item, selected_type.ToString());
 			m_SelectedConverter = MVC.GetTypeConversion(selected_type);
 			if (!m_SelectedConverter) {
-				Error("Could not find TypeConverter for type %1 in Selected_Item\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", selected_type.ToString());
+				Error("Could not find TypeConverter for type %1 in %2\n\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", selected_type.ToString(), Selected_Item);
 			}
 		}
 	}

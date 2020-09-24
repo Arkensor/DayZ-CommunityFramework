@@ -70,7 +70,17 @@ class TypeConversionHashMap
 	
 	
 	typename Get(typename conversion_type) {
-		return value.Get(conversion_type);
+		typename result = value.Get(conversion_type);
+		
+		if (!result) {
+			foreach (typename type, typename conversion: value) {
+				if (conversion_type.IsInherited(type)) {
+					return conversion;
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	void Remove(typename conversion_type) {
