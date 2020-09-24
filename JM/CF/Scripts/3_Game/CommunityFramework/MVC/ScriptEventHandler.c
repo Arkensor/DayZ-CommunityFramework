@@ -11,6 +11,15 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	// Parent (should be overridden)
 	ScriptedViewBase GetParent();
 	
+	
+	void OnWidgetScriptInit(Widget w)
+	{
+		m_LayoutRoot = w;
+		m_LayoutRoot.SetHandler(this);
+		MVC.Trace("%1::OnWidgetScriptInit", Type().ToString());
+	}
+	
+	
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		if (GetParent()) {

@@ -53,7 +53,7 @@ class Observable
 	}
 	
 	protected void CollectionChanged(CollectionChangedEventArgs args) {
-		m_Controller.NotifyCollectionChanged(m_VariableName, args);
+		//m_Controller.NotifyCollectionChanged(m_VariableName, args);
 	}
 	
 	// Abstract

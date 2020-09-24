@@ -37,7 +37,6 @@ class TestController: Controller
 }
 */
 
-
 // Abstract Class
 class Controller: ScriptedViewBase
 {
@@ -69,49 +68,46 @@ class Controller: ScriptedViewBase
 	void ~Controller() 
 	{ 
 		MVC.Trace("~Controller"); 
-		
 		delete m_ViewBindingHashMap;
 		delete m_DataBindingHashMap;
 		delete m_PropertyTypeHashMap;
 	}
 	
-	void OnWidgetScriptInit(Widget w)
-	{
-		m_LayoutRoot = w;
-		m_LayoutRoot.SetHandler(this);
-		MVC.Trace("Controller::OnWidgetScriptInit %1", m_LayoutRoot.GetName());
-		
+	override void OnWidgetScriptInit(Widget w)
+	{		
 		// Load all child Widgets and obtain their DataBinding class
+		super.OnWidgetScriptInit(w);
 		int binding_count = LoadDataBindings(m_LayoutRoot);
 		MVC.Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
 	}
 
-		
 	// Call this when you update a Controller property (variable)
-	// Do NOT call this when using arrays / collections.
-	// Use ObservableCollection!
+	// Do NOT call this when using arrays / collections. Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name)
 	{
 		MVC.Trace("Controller::NotifyPropertyChanged " + property_name);
 		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
-		
-		if (views) 
-			foreach (ViewBinding view: views)
-				view.UpdateView();
+	
+		if (views) {
+			foreach (ViewBinding view: views) {				
+				view.UpdateView(this);
+			}
+		}
 
 		PropertyChanged(property_name);
 	}
 	
-	
-	// This gets called automatically when a collection is changed
+	// Do NOT call this. ObservableCollection does this for you
 	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
 	{		
 		MVC.Trace("Controller::NotifyCollectionChanged %1", collection_name);
 		ViewBindingArray views = m_DataBindingHashMap.Get(collection_name);
 				
-		if (views) 
-			foreach (ViewBinding view: views) 
+		if (views) {
+			foreach (ViewBinding view: views) {
 				view.OnCollectionChanged(args);
+			}
+		}
 
 		CollectionChanged(collection_name, args);
 	}
@@ -130,10 +126,11 @@ class Controller: ScriptedViewBase
 		ViewBinding view_binding;
 		w.GetScript(view_binding);
 		
-		if (view_binding && (view_binding.IsInherited(ViewBinding))) {
+		if (view_binding && view_binding.IsInherited(ViewBinding)) {
+
+			view_binding.SetProperties(GetPropertyType(view_binding.Binding_Name), GetPropertyType(view_binding.Selected_Item));
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
-			view_binding.SetController(this);
 		}
 		
 		if (w.GetChildren() != null)
@@ -144,6 +141,52 @@ class Controller: ScriptedViewBase
 			LoadDataBindings(w.GetSibling());
 		
 		return m_DataBindingHashMap.Count();
+	}
+	
+	// RoutedUICommand interfaces
+	override bool OnClick(Widget w, int x, int y, int button)
+	{
+		MVC.Trace("Controller::OnClick");
+		
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
+		view_binding.UpdateModel(this);
+		if (view_binding) {
+			
+			switch (w.Type()) {
+				case ButtonWidget: {
+					view_binding.InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
+					return true;
+				}
+			}
+		}
+			
+		return super.OnClick(w, x, y, button);
+	}
+	
+	
+	override bool OnChange(Widget w, int x, int y, bool finished)
+	{	
+		MVC.Trace("Controller::OnChange");
+		
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
+		view_binding.UpdateModel(this);
+		if (view_binding) {
+			
+			switch (w.Type()) {
+				
+				case CheckBoxWidget: {
+					view_binding.InvokeCommand(new CheckBoxCommandArgs(CheckBoxWidget.Cast(w), CheckBoxWidget.Cast(w).IsChecked()));
+					return true;
+				}
+				
+				case XComboBoxWidget: {
+					view_binding.InvokeCommand(new XComboBoxCommandArgs(XComboBoxWidget.Cast(w), XComboBoxWidget.Cast(w).GetCurrentItem()));
+					return true;
+				}
+			}
+		}
+		
+		return super.OnChange(w, x, y, finished);
 	}
 }
 
