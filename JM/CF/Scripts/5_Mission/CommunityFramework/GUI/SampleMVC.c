@@ -2,7 +2,7 @@
 class SampleRelayCommand: RelayCommand
 {
 	
-	override void Execute(RelayCommandArgs args)
+	override void Execute(CommandArgs args)
 	{
 		
 	}

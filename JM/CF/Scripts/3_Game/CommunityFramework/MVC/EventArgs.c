@@ -39,6 +39,22 @@ class PropertyChangedEventArgs: Param2<string, Class>
 	}
 }
 
+// 0: Original Sender
+// 1: Source Widget
+// 2: Widget Type
+class CommandArgs
+{
+	ViewBinding Sender;
+	Widget Source;
+	typename SourceType;
+	
+	void CommandArgs(ViewBinding sender, Widget source)
+	{	
+		Sender = sender;
+		Source = source;
+		SourceType = Source.Type();
+	}
+}
 
 // 0: Source Widget
 // 1: Mouse Button
@@ -46,7 +62,7 @@ class PropertyChangedEventArgs: Param2<string, Class>
 class ButtonCommandArgs: Param3<ButtonWidget, int, bool>
 {
 	ButtonWidget GetButtonWidget() { 
-		return param1; 
+		return ButtonWidget.Cast(param1); 
 	}
 	
 	int GetMouseButton() {
@@ -98,25 +114,3 @@ class WrapSpacerCommandArgs: Param2<WrapSpacerWidget, Widget>
 	}
 }
 
-// 0: Call Context
-// 1: Command Args (see above)
-class RelayCommandArgs
-{
-	ViewBinding Context;
-	Param CommandArgs;
-	typename CommandArgsType;
-	
-	void RelayCommandArgs(ViewBinding context, Param command_args)
-	{
-		Context = context;
-		CommandArgs = command_args;
-		if (CommandArgs)
-			CommandArgsType = CommandArgs.Type();
-	}	
-}
-
-class CanExecuteEventArgs
-{
-	RelayCommand Command;
-	bool CanExecute = true;
-}

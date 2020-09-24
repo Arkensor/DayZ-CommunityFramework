@@ -75,22 +75,7 @@ class Controller: ScriptedViewBase
 		int binding_count = LoadDataBindings(m_LayoutRoot);
 		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
 	}
-	
-	private void BindingPropertyChanged(ViewBinding view_binding)
-	{
-		Trace("NotifyPropertyChanged %1", view_binding.Binding_Name);
-		ViewBindingArray views = m_DataBindingHashMap.Get(view_binding.Binding_Name);
 		
-		if (!views) return;
-		
-		foreach (ViewBinding view: views) {		
-			if (view == view_binding)	
-				view.UpdateView(this);
-		}
-		
-		PropertyChanged(view_binding.Binding_Name);
-	}
-	
 	// Call this when you update a Controller property (variable)
 	// Do NOT call this when using arrays / collections. Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name)
@@ -100,7 +85,8 @@ class Controller: ScriptedViewBase
 	
 		if (!views) return;
 				
-		foreach (ViewBinding view: views) {			
+		foreach (ViewBinding view: views) {
+			//UpdateView(view);
 			view.UpdateView(this);
 		}
 		
@@ -142,7 +128,8 @@ class Controller: ScriptedViewBase
 				m_ViewBindingHashMap.Insert(w, view_binding);
 				m_DataBindingHashMap.InsertView(view_binding);
 				view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
-				view_binding.UpdateView(this); // loads for the first time
+				//view_binding.UpdateView(this); // loads for the first time
+				NotifyPropertyChanged(view_binding.Binding_Name);
 			} 
 		}
 		
@@ -165,43 +152,56 @@ class Controller: ScriptedViewBase
 		return m_DataBindingHashMap.Count();
 	}
 	
-	// RoutedUICommand interfaces
-	override bool OnClick(Widget w, int x, int y, int button)
+	override bool OnMouseButtonDown(Widget w, int x, int y, int button)
 	{
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
 			view_binding.UpdateModel(this);
-			
-			switch (w.Type()) {
-				case ButtonWidget: {
-					view_binding.InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
-				}
-			}
-		}
-			
-		return false;
-	}
-	
-	
-	override bool OnChange(Widget w, int x, int y, bool finished)
-	{			
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);		
-		if (view_binding) {
-			view_binding.UpdateModel(this);
-			switch (w.Type()) {
-				
-				case CheckBoxWidget: {
-					view_binding.InvokeCommand(new CheckBoxCommandArgs(CheckBoxWidget.Cast(w), CheckBoxWidget.Cast(w).IsChecked()));
-					return true;
-				}
-				
-				case XComboBoxWidget: {
-					view_binding.InvokeCommand(new XComboBoxCommandArgs(XComboBoxWidget.Cast(w), XComboBoxWidget.Cast(w).GetCurrentItem()));
-					return true;
-				}
+			if (view_binding.InvokeCommand()) {
+				return true;
 			}
 		}
 		
+		return super.OnMouseButtonDown(w, x, y, button);
+	}
+	
+	// Command interfaces
+	override bool OnClick(Widget w, int x, int y, int button)
+	{
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
+		if (view_binding) {
+			view_binding.UpdateModel(this);
+			if (view_binding.InvokeCommand()) {
+				return true;
+			}
+		}
+		
+		return super.OnClick(w, x, y, button);
+	}
+	
+	override bool OnMouseButtonUp(Widget w, int x, int y, int button)
+	{
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
+		if (view_binding) {
+			view_binding.UpdateModel(this);
+			if (view_binding.InvokeCommand()) {
+				return true;
+			}
+		}
+		
+		return super.OnMouseButtonUp(w, x, y, button);
+	}
+	
+	override bool OnChange(Widget w, int x, int y, bool finished)
+	{
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
+		if (view_binding) {
+			view_binding.UpdateModel(this);
+			if (view_binding.InvokeCommand()) {
+				return true;
+			}
+		}
+				
 		return super.OnChange(w, x, y, finished);
 	}
 }
