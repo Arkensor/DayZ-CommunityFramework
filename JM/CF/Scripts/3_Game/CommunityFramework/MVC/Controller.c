@@ -166,7 +166,7 @@ class Controller: ScriptedViewBase
 			switch (w.Type()) {
 				case ButtonWidget: { // only thing that isnt called in OnChange for some reason
 					view_binding.UpdateModel(this); 
-					if (view_binding.InvokeCommand(this)) {
+					if (view_binding.InvokeCommand(this, new ButtonCommandArgs(w, button, ButtonWidget.Cast(w).GetState()))) {
 						return true;
 					}
 					break;
@@ -183,9 +183,16 @@ class Controller: ScriptedViewBase
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
 			view_binding.UpdateModel(this);
-			if (view_binding.InvokeCommand(this)) {
-				return true;
-			}
+			switch (w.Type()) {
+				
+				case CheckBoxWidget: {
+					if (view_binding.InvokeCommand(this, new CheckBoxCommandArgs(w, CheckBoxWidget.Cast(w).IsChecked()))) {
+						return true;
+					}
+				}		
+				
+
+			}			
 		}
 				
 		return super.OnChange(w, x, y, finished);

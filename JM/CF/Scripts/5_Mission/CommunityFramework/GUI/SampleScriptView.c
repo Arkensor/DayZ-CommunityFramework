@@ -9,12 +9,13 @@ class SampleScriptViewController: Controller
 
 class SampleRelayCommand: RelayCommand
 {
-	override void Execute(CommandArgs args)
+	override void Execute(Class sender, Param args)
 	{ 
 		Print("SampleRelayCommand Execute!");
 		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);
 				
-		if (ButtonWidget.Cast(args.Source).GetState()) {
+		ButtonCommandArgs command_args = args;
+		if (command_args.GetButtonState()) {
 			controller.script_view.Insert(new SampleScriptView());
 		} else {
 			delete controller.script_view;

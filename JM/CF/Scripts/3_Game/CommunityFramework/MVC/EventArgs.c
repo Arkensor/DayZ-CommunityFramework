@@ -39,23 +39,6 @@ class PropertyChangedEventArgs: Param2<string, Class>
 	}
 }
 
-// 0: Original Sender
-// 1: Source Widget
-// 2: Widget Type
-class CommandArgs
-{
-	Class Sender;
-	Widget Source;
-	typename SourceType;
-	
-	void CommandArgs(Class sender, Widget source)
-	{	
-		Sender = sender;
-		Source = source;
-		SourceType = Source.Type();
-	}
-}
-
 // 0: Source Widget
 // 1: Mouse Button
 // 2: Button State

@@ -110,12 +110,12 @@ class ViewBinding: ScriptedViewBase
 	}	
 
 			
-	bool InvokeCommand(Class context)
+	bool InvokeCommand(Class context, Param args)
 	{
 		Trace("InvokeCommand");
 		
-		if (m_RelayCommand && m_RelayCommand.CanExecute()) {
-			m_RelayCommand.Execute(new CommandArgs(this, m_LayoutRoot));
+		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			
+			m_RelayCommand.Execute(this, args);
 		} 
 		
 		else if (!m_RelayCommand && Relay_Command != string.Empty) {
