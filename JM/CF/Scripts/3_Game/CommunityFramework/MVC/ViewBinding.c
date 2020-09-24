@@ -36,6 +36,7 @@ class ViewBinding: ScriptedViewBase
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
+		Log("Loaded from Widget: %1", m_LayoutRoot.GetName());
 		
 		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
 		if (!m_WidgetController) {
@@ -54,6 +55,7 @@ class ViewBinding: ScriptedViewBase
 		Trace("SetProperties");
 		// Were not trying to data bind to empty Binding_Name
 		if (binding_type && Binding_Name != string.Empty) {
+			Log("Loading TypeConverter for Variable: %1 of Type: %2", Binding_Name, binding_type.ToString());
 			m_PropertyConverter = MVC.GetTypeConversion(binding_type);
 			if (!m_PropertyConverter) {
 				Error("Could not find TypeConverter for type %1 in Binding_Name\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", binding_type.ToString());
@@ -62,6 +64,7 @@ class ViewBinding: ScriptedViewBase
 		
 		// Were not trying to data bind to empty Selected_Item
 		if (selected_type && Selected_Item != string.Empty) {
+			Log("Loading TypeConverter for Variable: %1 of Type: %2", Selected_Item, selected_type.ToString());
 			m_SelectedConverter = MVC.GetTypeConversion(selected_type);
 			if (!m_SelectedConverter) {
 				Error("Could not find TypeConverter for type %1 in Selected_Item\nMod MVC.RegisterConversionTemplates to register custom TypeConverters", selected_type.ToString());
@@ -77,14 +80,14 @@ class ViewBinding: ScriptedViewBase
 
 		// Binding_Name handler
 		if (m_PropertyConverter) {
-			Log("Setting %1 with value of %2", m_LayoutRoot.GetName(), Binding_Name);
+			Log("Updating %1 to the value of %2", m_LayoutRoot.GetName(), Binding_Name);
 			m_PropertyConverter.GetFromController(controller, Binding_Name, 0);
 			m_WidgetController.SetData(m_PropertyConverter);
 		}
 		
 		// Selected_Item handler
 		if (m_SelectedConverter) {
-			Log("Setting Selection of %1 with value of %2", m_LayoutRoot.GetName(), Selected_Item);
+			Log("Updating %1 to the value of %2", m_LayoutRoot.GetName(), Selected_Item);
 			m_SelectedConverter.GetFromController(controller, Selected_Item, 0);
 			m_WidgetController.SetSelection(m_SelectedConverter);
 		}
@@ -99,7 +102,7 @@ class ViewBinding: ScriptedViewBase
 		
 		// Binding_Name handler
 		if (m_PropertyConverter && Two_Way_Binding && m_WidgetController.CanTwoWayBind()) {
-			Log("Setting %1 with value of %2", Binding_Name, m_LayoutRoot.GetName());
+			Log("Setting %1 to the value of %2", Binding_Name, m_LayoutRoot.GetName());
 			m_WidgetController.GetData(m_PropertyConverter);
 			m_PropertyConverter.SetToController(controller, Binding_Name, 0);
 			controller.NotifyPropertyChanged(Binding_Name);
