@@ -58,6 +58,7 @@ FrameWidgetClass root {
       ScriptParamsClass {
        Debug_Logging 1
        Binding_Name "slider_value"
+       Two_Way_Binding 1
       }
      }
     }
@@ -74,6 +75,47 @@ FrameWidgetClass root {
      {
       ScriptParamsClass {
        Binding_Name "progress_value"
+      }
+     }
+    }
+    WrapSpacerWidgetClass sub_controlled_root {
+     ignorepointer 1
+     position 0 0
+     size 1 0.25
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "SampleSubController"
+     {
+      ButtonWidgetClass button {
+       visible 1
+       position 0 0
+       size 120 25
+       halign center_ref
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass ""
+       {
+        TextWidgetClass button_text {
+         ignorepointer 1
+         size 1 1
+         halign center_ref
+         valign center_ref
+         hexactpos 1
+         vexactpos 1
+         hexactsize 0
+         vexactsize 0
+         scriptclass "ViewBinding"
+         {
+          ScriptParamsClass {
+           Binding_Name "button_state"
+          }
+         }
+        }
+       }
       }
      }
     }

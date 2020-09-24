@@ -31,9 +31,20 @@ class SampleController: Controller
 				NotifyPropertyChanged("progress_value"); 
 				break;
 			}
+		}
+	}
+}
+
+class SampleSubController: Controller
+{
+	bool button_state;
+	
+	
+	override void PropertyChanged(string property_name)
+	{
+		switch (property_name) {
 			
-			
-			
+
 			
 		}
 	}

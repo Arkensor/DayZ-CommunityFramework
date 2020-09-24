@@ -75,19 +75,35 @@ class Controller: ScriptedViewBase
 		int binding_count = LoadDataBindings(m_LayoutRoot);
 		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
 	}
-
+	
+	private void BindingPropertyChanged(ViewBinding view_binding)
+	{
+		Trace("NotifyPropertyChanged %1", view_binding.Binding_Name);
+		ViewBindingArray views = m_DataBindingHashMap.Get(view_binding.Binding_Name);
+		
+		if (!views) return;
+		
+		foreach (ViewBinding view: views) {		
+			if (view == view_binding)	
+				view.UpdateView(this);
+		}
+		
+		PropertyChanged(view_binding.Binding_Name);
+	}
+	
 	// Call this when you update a Controller property (variable)
 	// Do NOT call this when using arrays / collections. Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name)
 	{
-		Trace("NotifyPropertyChanged " + property_name);
+		Trace("NotifyPropertyChanged %1", property_name);
 		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
 	
-		if (views) {
-			foreach (ViewBinding view: views) {				
-				view.UpdateView(this);
-			}
+		if (!views) return;
+				
+		foreach (ViewBinding view: views) {			
+			view.UpdateView(this);
 		}
+		
 
 		PropertyChanged(property_name);
 	}
@@ -143,7 +159,6 @@ class Controller: ScriptedViewBase
 			}
 		}
 		
-				
 		if (w.GetSibling() != null) 
 			LoadDataBindings(w.GetSibling());
 		
@@ -160,12 +175,11 @@ class Controller: ScriptedViewBase
 			switch (w.Type()) {
 				case ButtonWidget: {
 					view_binding.InvokeCommand(new ButtonCommandArgs(ButtonWidget.Cast(w), button, ButtonWidget.Cast(w).GetState()));
-					return true;
 				}
 			}
 		}
 			
-		return super.OnClick(w, x, y, button);
+		return false;
 	}
 	
 	

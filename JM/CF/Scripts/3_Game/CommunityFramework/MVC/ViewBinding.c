@@ -104,7 +104,8 @@ class ViewBinding: ScriptedViewBase
 			Log("Setting %1 to the value of %2", Binding_Name, m_LayoutRoot.GetName());
 			m_WidgetController.GetData(m_PropertyConverter);
 			m_PropertyConverter.SetToController(controller, Binding_Name, 0);
-			controller.NotifyPropertyChanged(Binding_Name);
+			g_Script.Call(controller, "BindingPropertyChanged", this);
+			//controller.NotifyPropertyChanged(Binding_Name);
 		}
 		
 		// Selected_Item handler
@@ -112,7 +113,8 @@ class ViewBinding: ScriptedViewBase
 			Log("Setting Selection of %1 with value of %2", Selected_Item, m_LayoutRoot.GetName());
 			m_WidgetController.GetSelection(m_SelectedConverter);
 			m_SelectedConverter.SetToController(controller, Selected_Item, 0);
-			controller.NotifyPropertyChanged(Selected_Item);
+			g_Script.Call(controller, "BindingPropertyChanged", this);
+			//controller.NotifyPropertyChanged(Selected_Item);
 		}
 	}	
 		
