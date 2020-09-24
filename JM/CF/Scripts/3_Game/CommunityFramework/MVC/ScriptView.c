@@ -69,7 +69,6 @@ class ScriptView: ScriptedViewBase
 			
 			if (property_type.IsInherited(Widget)) {
 				Widget target = m_LayoutRoot.FindAnyWidget(property_name);
-				
 				// fixes bug that breaks everything
 				if (target && m_LayoutRoot.GetName() != property_name) {
 					EnScript.SetClassVar(this, property_name, 0, target);

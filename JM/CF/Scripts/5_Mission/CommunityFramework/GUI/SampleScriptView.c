@@ -18,6 +18,7 @@ class SampleRelayCommand: RelayCommand
 			controller.script_view.Insert(new SampleScriptView());
 		} else {
 			delete controller.script_view;
+			controller.script_view = new ObservableCollection<ref SampleScriptView>("script_view", controller);
 		}
 	}
 }
