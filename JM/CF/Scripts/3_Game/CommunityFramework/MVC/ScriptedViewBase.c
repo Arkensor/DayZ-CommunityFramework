@@ -48,10 +48,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
 	}
-	
-	// Parent (should be overridden)
-	ScriptedViewBase GetParent();
-	
+
 	
 	void OnWidgetScriptInit(Widget w)
 	{

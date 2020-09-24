@@ -41,35 +41,22 @@ class TestController: Controller
 class Controller: ScriptedViewBase
 {	
 	// All View Bindings
-	protected ref ViewBindingHashMap m_ViewBindingHashMap;
+	protected autoptr ref ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
 	
 	// View Bindings indexed by their Binding_Name
-	protected ref DataBindingHashMap m_DataBindingHashMap;
+	protected autoptr ref DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
 	DataBindingHashMap GetDataBindings() {
 		return m_DataBindingHashMap;
 	}
 	
-	protected ref PropertyTypeHashMap m_PropertyTypeHashMap;
-	
-	void Controller()
-	{		
-		m_ViewBindingHashMap = new ViewBindingHashMap();
-		m_DataBindingHashMap = new DataBindingHashMap();
+	protected autoptr ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 		
-		m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-		m_PropertyTypeHashMap.RemoveType(Controller);
-	}
-	
-	void ~Controller() 
-	{ 
-		delete m_ViewBindingHashMap;
-		delete m_DataBindingHashMap;
-		delete m_PropertyTypeHashMap;
-	}
 	
 	override void OnWidgetScriptInit(Widget w)
 	{		
 		super.OnWidgetScriptInit(w);
+		
+		m_PropertyTypeHashMap.RemoveType(Controller);
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot);
@@ -86,7 +73,6 @@ class Controller: ScriptedViewBase
 		if (!views) return;
 				
 		foreach (ViewBinding view: views) {
-			//UpdateView(view);
 			view.UpdateView(this);
 		}
 		
@@ -128,7 +114,6 @@ class Controller: ScriptedViewBase
 				m_ViewBindingHashMap.Insert(w, view_binding);
 				m_DataBindingHashMap.InsertView(view_binding);
 				view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
-				//view_binding.UpdateView(this); // loads for the first time
 				NotifyPropertyChanged(view_binding.Binding_Name);
 			} 
 		}

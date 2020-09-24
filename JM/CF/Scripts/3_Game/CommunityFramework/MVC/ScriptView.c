@@ -22,33 +22,32 @@ class CustomDialogWindow: ScriptView
 
 class ScriptView: ScriptedViewBase
 {
-	protected ScriptView m_ParentView;
-	
-	// Weak reference to child controllers
-	protected ref set<Controller> m_Controllers = new set<Controller>();
+	// Weak reference to controller
+	protected ref Controller m_Controller;
 	
 	// Hashmap of all relay commands in the ScriptView
-	protected ref RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
-
+	protected autoptr RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
 	
-	void ScriptView(ScriptView parent = null)
+	
+#ifndef COMPONENT_SYSTEM
+	
+	private void ScriptView(Widget parent)
 	{
 		Trace("ScriptView");
-		m_ParentView = parent;
-						
+			
 		if (!GetLayoutFile()) {
 			Error("You must override GetLayoutFile with the .layout file path");
 			return;
 		}
 		
-		Log("ScriptView: Loading %1", GetLayoutFile());
+		Log("Loading %1", GetLayoutFile());
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
 		if (!workspace) {
 			Error("Workspace was null, try reloading Workbench");
 			return;
 		}
 		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), m_ParentView.GetLayoutRoot());
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 		if (!m_LayoutRoot) {
 			Error("Invalid layout file %1", GetLayoutFile());
 			return;
@@ -72,22 +71,13 @@ class ScriptView: ScriptedViewBase
 				
 				RelayCommand command;
 				EnScript.GetClassVar(this, property_name, 0, command);
-				// todo can i check to see if initializing it after the constructor works? like a pointer
-				// cant now
 				m_RelayCommandHashMap.Insert(property_name, command);				
 			}
 		}
 		
 		
-		
-		// Find a way to enumerate all controllers in a layout file
-		
-		/*
 		// Has to be called before other views are created
-		//m_LayoutRoot.SetHandler(this);
-		// You can keep the controller in scriptclass if you want, to keep reactive UI's up
-		m_LayoutRoot.GetScript(m_Controller);
-		
+		m_LayoutRoot.SetHandler(this);
 		if (!m_Controller && GetControllerType().IsInherited(Controller)) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
@@ -96,33 +86,62 @@ class ScriptView: ScriptedViewBase
 			}
 			
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);	
-		}
+		}	
+	}
+	
+	static ScriptView Create()
+	{
+		ScriptView script_view = new ScriptView(null);
 		
-		m_Controller.SetScriptView(this);*/
+		return script_view;
+	}
+	
+	static ScriptView Create(Widget parent)
+	{
+		ScriptView script_view = new ScriptView(parent);
 		
+		return script_view;
+	}
+	
+	static ScriptView Create(ScriptView parent)
+	{	
+		ScriptView script_view = new ScriptView(parent.GetLayoutRoot());
+		
+		return script_view;
 	}
 	
 	void ~ScriptView() 
 	{
-		Trace("~ScriptView");
+		delete m_Controller;
 		m_LayoutRoot.Unlink();
-		delete m_Controllers;
-		delete m_RelayCommandHashMap;
 	}
 
-	void OnWidgetScriptInit(Widget w)
+#else
+	
+	override void OnWidgetScriptInit(Widget w)
 	{
-		// Extra safety measure
-#ifdef COMPONENT_SYSTEM
-		Error("ScriptView should NOT be called in the Workbench Script Class!");
-		return;
-#endif
+		super.OnWidgetScriptInit(w);
+		
+		if (!GetControllerType()) {
+			Error("Controller not found! Are you overriding GetControllerType?");
+			return;
+		}
+		
+		if (!GetLayoutFile()) {
+			Error("Layout file not found! Are you overriding GetLayoutFile?");
+			return;
+		}
+				
+		
+		m_Controller = GetControllerType().Spawn();
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.OnWidgetScriptInit(w);
 	}
+	
+	
+#endif
 					
 	// Abstract Methods
 	protected string GetLayoutFile();
-	
-	protected typename GetControllerType() {
-		return Controller;
-	}
+	protected typename GetControllerType();
 }

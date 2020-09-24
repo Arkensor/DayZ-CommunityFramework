@@ -78,6 +78,14 @@ FrameWidgetClass root {
       }
      }
     }
+    ButtonWidgetClass relay_command {
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+    }
     WrapSpacerWidgetClass sub_controlled_root {
      ignorepointer 1
      position 0 0
@@ -139,7 +147,6 @@ FrameWidgetClass root {
  }
  {
   ScriptParamsClass {
-   Debug_Logging 1
   }
  }
 }
