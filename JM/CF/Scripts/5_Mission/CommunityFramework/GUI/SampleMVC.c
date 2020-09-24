@@ -8,6 +8,10 @@ class SampleController: Controller
 	float slider_value = 25; // default value will be 25
 	float progress_value = 75; // default value will be 75
 	
+	ButtonWidget text_list_add;
+	ref ObservableCollection<string> observable_list_box = new ObservableCollection<string>("observable_list_box", this);
+
+	
 	void SampleController()
 	{
 		// This is just to get you into this file. Ignore it :)
@@ -32,6 +36,17 @@ class SampleController: Controller
 			}
 		}
 	}
+	
+		
+	// You also dont HAVE to use RelayCommands. normal Scripted Events work fine
+	override bool OnClick(Widget w, int x, int y, int button)
+	{
+		if (w == text_list_add) {
+			observable_list_box.Insert("Hello World! #" + observable_list_box.Count());
+		}
+		
+		return false;
+	}
 }
 
 class SampleSubController: Controller
@@ -44,7 +59,6 @@ class SampleSubController: Controller
 	int observable_combo_selection;
 	ref ObservableCollection<string> observable_combo_box = new ObservableCollection<string>("observable_combo_box", this);
 	
-
 	static const int COLOR_ON = COLOR_GREEN;
 	static const int COLOR_OFF = COLOR_RED;
 	

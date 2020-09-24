@@ -89,6 +89,7 @@ FrameWidgetClass root {
      hexactsize 0
      vexactsize 0
      scriptclass "SampleSubController"
+     "Size To Content V" 1
      content_halign center
      {
       ButtonWidgetClass button {
@@ -150,23 +151,44 @@ FrameWidgetClass root {
      }
      {
       ScriptParamsClass {
+       Debug_Logging 1
       }
      }
     }
-    MultilineTextWidgetClass multiline_text {
-     ignorepointer 1
-     position 10 10
-     size 48 48
+    ButtonWidgetClass text_list_add {
+     position 0 0
+     size 200 50
      hexactpos 1
      vexactpos 1
      hexactsize 1
      vexactsize 1
+     text "Add Item"
+    }
+    TextListboxWidgetClass text_list_box {
+     ignorepointer 1
+     position 0 0
+     size 1 0.6
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "ViewBinding"
+     colums "1"
+     font "gui/fonts/Metron28"
+     {
+      ScriptParamsClass {
+       Debug_Logging 0
+       Binding_Name "observable_list_box"
+       Two_Way_Binding 0
+      }
+     }
     }
    }
   }
  }
  {
   ScriptParamsClass {
+   Debug_Logging 1
   }
  }
 }
