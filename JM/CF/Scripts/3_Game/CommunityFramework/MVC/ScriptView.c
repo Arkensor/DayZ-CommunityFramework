@@ -29,6 +29,7 @@ class ScriptView: ScriptedViewBase
 	
 	void ScriptView(Widget parent = null)
 	{
+		Debug_Logging = true;
 		Trace("ScriptView");
 		if (!GetLayoutFile()) {
 			Error("Layout file not found! Are you overriding GetLayoutFile?");
@@ -61,7 +62,7 @@ class ScriptView: ScriptedViewBase
 				m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 			}
 		}		
-		
+
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		//property_map.RemoveType(ScriptView); crashing ?
 		foreach (string property_name, typename property_type: property_map) {
@@ -69,12 +70,10 @@ class ScriptView: ScriptedViewBase
 			if (property_type.IsInherited(Widget)) {
 				Widget target = m_LayoutRoot.FindAnyWidget(property_name);
 				
-				// Allows for LayoutRoot to be referenced as well
-				if (!target && m_LayoutRoot.GetName() == property_name) {
-					target = m_LayoutRoot;
+				// fixes bug that breaks everything
+				if (target && m_LayoutRoot.GetName() != property_name) {
+					EnScript.SetClassVar(this, property_name, 0, target);
 				}
-	
-				EnScript.SetClassVar(this, property_name, 0, target);
 			}
 		}
 	}
@@ -86,7 +85,6 @@ class ScriptView: ScriptedViewBase
 		delete m_Controller;
 	}
 	
-	// Useful for moving the layout around a bit
 	void SetParent(Widget parent)
 	{
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();

@@ -132,15 +132,22 @@ class ViewBinding: ScriptedViewBase
 		Trace("OnCollectionChanged");
 		
 		Log("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
-		if (!m_WidgetController) return;
+		if (!m_WidgetController) {
+			Error("Widget Converter not found for View %1", m_LayoutRoot.Type().ToString());
+			return;
+		}
 
 		// We dont want to work with type Observable for everything
 		TypeConverter collection_converter = MVC.GetTypeConversion(args.GetCollection().GetType());
-		if (!collection_converter) return;
+		if (!collection_converter) {
+			Error("Type Converter not found for Collection %1", args.GetCollection().GetType().ToString());
+			return;
+		}
 
 		// Anonymous Data Setter
-		if (args.GetChangedValue())
+		if (args.GetChangedValue()) {
 			collection_converter.SetParam(args.GetChangedValue());
+		}
 		
 		switch (args.GetChangedAction()) {
 						

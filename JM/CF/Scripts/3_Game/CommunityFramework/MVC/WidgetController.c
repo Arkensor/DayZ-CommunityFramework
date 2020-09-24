@@ -174,13 +174,15 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 	
 	override void InsertData(int index, TypeConverter type_converter) {
 		if (type_converter.GetWidget()) {
+			Print(type_converter.GetWidget());
 			m_Widget.AddChild(type_converter.GetWidget());
 		}
 	}
 	
 	override void RemoveData(int index, TypeConverter type_converter) {
-		if (type_converter.GetWidget())
+		if (type_converter.GetWidget()) {
 			m_Widget.RemoveChild(type_converter.GetWidget());
+		}
 	}
 	
 	override void ReplaceData(int index, TypeConverter type_converter) {
@@ -269,7 +271,6 @@ class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
 			Print(entity.GetPosition());
 			m_Widget.SetItem(entity);
 			m_Widget.SetModelPosition(vector.Zero);
-			
 		}
 	}
 	

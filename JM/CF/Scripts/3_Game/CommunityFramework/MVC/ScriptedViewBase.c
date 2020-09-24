@@ -47,7 +47,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	}
 	
 	// Source Widget
-	protected Widget m_LayoutRoot;
+	protected ref Widget m_LayoutRoot;
 	Widget GetLayoutRoot() {
 		return m_LayoutRoot;
 	}

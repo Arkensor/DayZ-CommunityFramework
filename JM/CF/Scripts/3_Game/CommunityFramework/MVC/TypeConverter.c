@@ -71,7 +71,8 @@ class TypeConversionTemplate<Class T>: TypeConverter
 	}
 	
 	override void SetParam(Param value) {
-		m_Value = Param1<T>.Cast(value).param1;
+		Param1<T> param = value;
+		m_Value = param.param1;
 	}
 	
 	override Param GetParam() {
