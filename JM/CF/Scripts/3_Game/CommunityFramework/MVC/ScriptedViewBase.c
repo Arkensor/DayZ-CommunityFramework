@@ -16,7 +16,8 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	void ~ScriptedViewBase()
 	{	
 		Log("~" + Type().ToString());
-		if (m_LayoutRoot) {
+
+		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
 			m_LayoutRoot.Unlink();
 		}
 	}

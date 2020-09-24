@@ -2,8 +2,6 @@
 // Check JM/CF/GUI/layouts/sample_mvc2.layout
 class SampleScriptViewController: Controller
 {
-	// Commands
-	protected ref SampleRelayCommand ButtonPressedCommand;
 	Widget content_host;
 	
 	ref SampleScriptView script_view;
@@ -15,13 +13,13 @@ class SampleRelayCommand: RelayCommand
 	override void Execute(CommandArgs args)
 	{
 		Print("SampleRelayCommand Execute!");
-		//SampleScriptViewController controller = SampleScriptViewController.Cast(args.Sender);
-		/*
+		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);
+		
 		if (ButtonWidget.Cast(args.Source).GetState()) {
 			controller.script_view = new SampleScriptView(controller.content_host);
 		} else {
 			delete controller.script_view;
-		}*/
+		}
 	}
 }
 

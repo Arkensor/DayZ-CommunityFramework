@@ -122,9 +122,10 @@ class Controller: ScriptedViewBase
 			
 			
 			if (view_binding.Relay_Command != string.Empty) {
-				typename relay_command = m_PropertyTypeHashMap.Get(view_binding.Relay_Command);
+				typename relay_command = view_binding.Relay_Command.ToType();
 				if (relay_command && relay_command.IsInherited(RelayCommand)) {
 					RelayCommand command = relay_command.Spawn();
+					command.SetController(this);
 					view_binding.SetRelayCommand(command);
 					m_RelayCommandHashMap.Insert(view_binding.Relay_Command, command);
 				} else {

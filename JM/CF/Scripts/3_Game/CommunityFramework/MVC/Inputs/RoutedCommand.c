@@ -2,6 +2,10 @@
 class RelayCommand
 {
 	private bool m_CanExecute = true;
+	protected Controller m_Controller;
+	void SetController(Controller controller) {
+		m_Controller = controller;
+	}
 	
 	// returns bool defining whether or not the Execute can be called
 	bool CanExecute() {

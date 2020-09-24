@@ -12,7 +12,7 @@ class ViewBinding: ScriptedViewBase
 	// If true, Bindings go both ways. Otherwise the controller is the master
 	reference bool Two_Way_Binding;
 	
-	// Name of RelayCommand class that is controlled by ViewBinding
+	// Type of RelayCommand class that is controlled by ViewBinding
 	reference string Relay_Command;
 	
 	// Weak reference to Relay Command
@@ -115,7 +115,6 @@ class ViewBinding: ScriptedViewBase
 		Trace("InvokeCommand");
 		
 		if (!m_RelayCommand) return false;
-		
 		if (m_RelayCommand.CanExecute()) {
 			m_RelayCommand.Execute(new CommandArgs(this, m_LayoutRoot));
 		}
