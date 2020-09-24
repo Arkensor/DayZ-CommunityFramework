@@ -121,17 +121,29 @@ class Controller: ScriptedViewBase
 		ViewBinding view_binding;
 		w.GetScript(view_binding);
 		
-		if (view_binding && view_binding.IsInherited(ViewBinding)) {
-			m_ViewBindingHashMap.Insert(w, view_binding);
-			m_DataBindingHashMap.InsertView(view_binding);
-			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
-			view_binding.UpdateView(this); // loads for the first time
+		if (view_binding) {
+			if (view_binding.IsInherited(ViewBinding)) {
+				m_ViewBindingHashMap.Insert(w, view_binding);
+				m_DataBindingHashMap.InsertView(view_binding);
+				view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
+				view_binding.UpdateView(this); // loads for the first time
+			} 
 		}
 		
-		if (w.GetChildren() != null)
-			LoadDataBindings(w.GetChildren());
 		
+		// really wish i had XOR here
+		bool b1 = (w.GetChildren() != null);
+		bool b2 = (view_binding && view_binding.IsInherited(Controller) && view_binding != this);
 		
+		// scuffed XOR
+		// Makes it stop loading when it finds another controller
+		if (!(b1 && b2)) {
+			if (b1 || b2) {
+				LoadDataBindings(w.GetChildren());
+			}
+		}
+		
+				
 		if (w.GetSibling() != null) 
 			LoadDataBindings(w.GetSibling());
 		
