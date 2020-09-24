@@ -53,6 +53,7 @@ class SampleController: Controller
 // they wont interfere with each other
 class SampleSubController: Controller
 {
+	// Note: Selected_Item on CheckBoxWidgets & ButtonWidgets binds the Text of a widget. 
 	bool button_state = true;
 	bool inverted_button_state = !button_state;
 	

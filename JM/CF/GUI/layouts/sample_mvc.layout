@@ -1,6 +1,6 @@
 FrameWidgetClass root {
  position 0 0
- size 0.5 0.5
+ size 0.6 0.6
  halign center_ref
  valign center_ref
  hexactpos 1
@@ -27,7 +27,7 @@ FrameWidgetClass root {
    {
     SliderWidgetClass slider {
      position 0 0
-     size 1 0.05
+     size 1 0.1
      halign center_ref
      valign center_ref
      hexactpos 1
@@ -66,7 +66,7 @@ FrameWidgetClass root {
     }
     ProgressBarWidgetClass progress_bar {
      ignorepointer 1
-     size 1 0.05
+     size 1 0.1
      halign center_ref
      valign center_ref
      hexactpos 1
@@ -81,6 +81,7 @@ FrameWidgetClass root {
      }
     }
     WrapSpacerWidgetClass sub_controlled_root {
+     clipchildren 1
      ignorepointer 1
      position 0 0
      size 1 0
@@ -89,12 +90,15 @@ FrameWidgetClass root {
      hexactsize 0
      vexactsize 0
      scriptclass "SampleSubController"
+     Padding 20
+     Margin 5
      "Size To Content V" 1
      content_halign center
+     content_valign center
      {
       ButtonWidgetClass button {
        visible 1
-       size 120 40
+       size 150 50
        halign center_ref
        hexactpos 1
        vexactpos 1
@@ -107,6 +111,7 @@ FrameWidgetClass root {
        {
         TextWidgetClass button_text {
          ignorepointer 1
+         position 0 0
          size 1 1
          halign center_ref
          valign center_ref
@@ -132,8 +137,9 @@ FrameWidgetClass root {
        }
       }
       XComboBoxWidgetClass combo_box {
+       clipchildren 1
        position 0 0
-       size 250 40
+       size 250 50
        hexactpos 1
        vexactpos 1
        hexactsize 1
@@ -149,7 +155,9 @@ FrameWidgetClass root {
        }
       }
       CheckBoxWidgetClass check_box {
-       size 25 25
+       clipchildren 0
+       position 0 0
+       size 50 50
        halign center_ref
        valign center_ref
        hexactpos 1
@@ -157,9 +165,13 @@ FrameWidgetClass root {
        hexactsize 1
        vexactsize 1
        scriptclass "ViewBinding"
+       text "Test"
+       font "gui/fonts/Metron28"
+       checked 0
        {
         ScriptParamsClass {
          Binding_Name "inverted_button_state"
+         Selected_Item "inverted_button_state"
          Two_Way_Binding 1
         }
        }

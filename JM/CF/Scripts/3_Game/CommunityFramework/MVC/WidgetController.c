@@ -39,7 +39,6 @@ class ButtonWidgetController: WidgetControllerTemplate<ButtonWidget>
 		m_Widget.SetText(type_converter.GetString());
 	}
 	
-	
 	override void SetData(TypeConverter type_converter) {
 		m_Widget.SetState(type_converter.GetBool());
 	}
@@ -68,6 +67,10 @@ class CheckBoxWidgetController: WidgetControllerTemplate<CheckBoxWidget>
 {
 	override bool CanTwoWayBind() {
 		return true;
+	}
+	
+	override void SetSelection(TypeConverter type_converter) {
+		m_Widget.SetText(type_converter.GetString());
 	}
 	
 	override void SetData(TypeConverter type_converter) {
