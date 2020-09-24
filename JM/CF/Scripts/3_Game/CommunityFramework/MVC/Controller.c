@@ -53,15 +53,16 @@ class Controller: ScriptedViewBase
 	}
 		
 	// Hashmap of all properties in the Controller
-	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap;
-		
+	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
+	
+	// Hashmap of all relay commands in the ScriptView
+	protected autoptr RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
 	
 	override void OnWidgetScriptInit(Widget w)
 	{		
 		super.OnWidgetScriptInit(w);
 		
-		m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-		m_PropertyTypeHashMap.RemoveType(Controller);
+		//m_PropertyTypeHashMap.RemoveType(Controller); crashing?
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot);
@@ -118,6 +119,18 @@ class Controller: ScriptedViewBase
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
 			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
+			
+			
+			if (view_binding.Relay_Command != string.Empty) {
+				typename relay_command = m_PropertyTypeHashMap.Get(view_binding.Relay_Command);
+				if (relay_command && relay_command.IsInherited(RelayCommand)) {
+					RelayCommand command = relay_command.Spawn();
+					view_binding.SetRelayCommand(command);
+					command.SetController(this);
+					m_RelayCommandHashMap.Insert(view_binding.Relay_Command, command);
+				}
+			}
+			
 			NotifyPropertyChanged(view_binding.Binding_Name);
 		}
 		
@@ -143,7 +156,7 @@ class Controller: ScriptedViewBase
 	
 	// Command interfaces
 	override bool OnClick(Widget w, int x, int y, int button)
-	{
+	{		
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
 			view_binding.UpdateModel(this);

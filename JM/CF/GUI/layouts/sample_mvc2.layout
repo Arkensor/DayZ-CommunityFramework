@@ -7,7 +7,7 @@ FrameWidgetClass root {
  vexactpos 1
  hexactsize 0
  vexactsize 0
- scriptclass "SampleScriptView"
+ scriptclass "SampleScriptViewController"
  {
   WrapSpacerWidgetClass root_spacer {
    ignorepointer 1
@@ -48,7 +48,7 @@ FrameWidgetClass root {
        scriptclass "ViewBinding"
        text "Toggle"
        font "gui/fonts/Metron-Bold28"
-       switch once
+       switch toggle
        {
         ScriptParamsClass {
          Debug_Logging 1
@@ -58,8 +58,9 @@ FrameWidgetClass root {
       }
      }
     }
-    EmbededWidgetClass content_host {
+    WrapSpacerWidgetClass content_host {
      ignorepointer 1
+     position 0 0
      size 1 1
      halign center_ref
      hexactpos 1
@@ -67,9 +68,13 @@ FrameWidgetClass root {
      hexactsize 0
      vexactsize 0
      scriptclass ""
-     layout "{715DA57E3C623FC1}JM/CF/GUI/layouts/sample_mvc.layout"
     }
    }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Debug_Logging 0
   }
  }
 }

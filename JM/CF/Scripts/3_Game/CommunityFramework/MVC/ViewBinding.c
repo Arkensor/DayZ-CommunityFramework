@@ -115,8 +115,7 @@ class ViewBinding: ScriptedViewBase
 		Trace("InvokeCommand");
 		
 		if (!m_RelayCommand) return false;
-					
-		Print(m_RelayCommand);
+		
 		if (m_RelayCommand.CanExecute()) {
 			m_RelayCommand.Execute(new CommandArgs(this, m_LayoutRoot));
 		}
