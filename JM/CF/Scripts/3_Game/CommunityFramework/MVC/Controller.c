@@ -142,10 +142,9 @@ class Controller: ScriptedViewBase
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		Trace("OnClick");
-		
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
-		view_binding.UpdateModel(this);
 		if (view_binding) {
+			view_binding.UpdateModel(this);
 			
 			switch (w.Type()) {
 				case ButtonWidget: {
@@ -153,6 +152,8 @@ class Controller: ScriptedViewBase
 					return true;
 				}
 			}
+		} else {
+			Log("View Binding not found!");
 		}
 			
 		return super.OnClick(w, x, y, button);
@@ -163,10 +164,9 @@ class Controller: ScriptedViewBase
 	{	
 		Trace("OnChange");
 		
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
-		view_binding.UpdateModel(this);
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);		
 		if (view_binding) {
-			
+			view_binding.UpdateModel(this);
 			switch (w.Type()) {
 				
 				case CheckBoxWidget: {
@@ -179,6 +179,8 @@ class Controller: ScriptedViewBase
 					return true;
 				}
 			}
+		} else {
+			Log("View Binding not found!");
 		}
 		
 		return super.OnChange(w, x, y, finished);

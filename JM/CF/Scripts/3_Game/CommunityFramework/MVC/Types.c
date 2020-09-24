@@ -32,7 +32,7 @@ typedef ref set<ViewBinding> ViewBindingArray;
 
 // 0: Property Name
 // 1: View Binding Set
-class DataBindingHashMap: ref map<string, ViewBindingArray>
+class DataBindingHashMap: ref map<string, ref ViewBindingArray>
 {
 	void DebugPrint()
 	{

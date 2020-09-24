@@ -56,8 +56,8 @@ FrameWidgetClass root {
      }
      {
       ScriptParamsClass {
+       Debug_Logging 1
        Binding_Name "slider_value"
-       Two_Way_Binding 1
       }
      }
     }

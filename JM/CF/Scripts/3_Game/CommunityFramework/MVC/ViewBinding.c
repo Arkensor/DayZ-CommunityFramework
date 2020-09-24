@@ -73,17 +73,18 @@ class ViewBinding: ScriptedViewBase
 	void UpdateView(Controller controller)
 	{
 		Trace("UpdateView");
-		Log("Updating View %1...", Binding_Name);
 		if (!m_WidgetController) return;
 
 		// Binding_Name handler
 		if (m_PropertyConverter) {
+			Log("Setting %1 with value of %2", m_LayoutRoot.GetName(), Binding_Name);
 			m_PropertyConverter.GetFromController(controller, Binding_Name, 0);
 			m_WidgetController.SetData(m_PropertyConverter);
 		}
 		
 		// Selected_Item handler
 		if (m_SelectedConverter) {
+			Log("Setting Selection of %1 with value of %2", m_LayoutRoot.GetName(), Selected_Item);
 			m_SelectedConverter.GetFromController(controller, Selected_Item, 0);
 			m_WidgetController.SetSelection(m_SelectedConverter);
 		}
@@ -94,22 +95,23 @@ class ViewBinding: ScriptedViewBase
 	{
 		Trace("UpdateModel");
 		
-		Log("Updating Model %1...", Binding_Name);
 		if (!m_WidgetController) return;
 		
 		// Binding_Name handler
 		if (m_PropertyConverter && Two_Way_Binding && m_WidgetController.CanTwoWayBind()) {
+			Log("Setting %1 with value of %2", Binding_Name, m_LayoutRoot.GetName());
 			m_WidgetController.GetData(m_PropertyConverter);
 			m_PropertyConverter.SetToController(controller, Binding_Name, 0);
-			//NotifyPropertyChanged(); maybe?
+			controller.NotifyPropertyChanged(Binding_Name);
 		}
 		
 		// Selected_Item handler
 		if (m_SelectedConverter) {
+			Log("Setting Selection of %1 with value of %2", Selected_Item, m_LayoutRoot.GetName());
 			m_WidgetController.GetSelection(m_SelectedConverter);
 			m_SelectedConverter.SetToController(controller, Selected_Item, 0);
-			//NotifyPropertyChanged(); maybe?
-		}		
+			controller.NotifyPropertyChanged(Selected_Item);
+		}
 	}	
 		
 	void InvokeCommand(Param params)
