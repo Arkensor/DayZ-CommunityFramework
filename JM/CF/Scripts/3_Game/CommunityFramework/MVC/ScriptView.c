@@ -30,34 +30,37 @@ class ScriptView: ScriptedViewBase
 	void ScriptView(Widget parent = null)
 	{
 		Trace("ScriptView");
+		if (!GetLayoutFile()) {
+			Error("Layout file not found! Are you overriding GetLayoutFile?");
+			return;
+		}
+		
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
 		if (!workspace) {
 			Error("Workspace was null, try reloading Workbench");
 			return;
 		} 
 
-		if (!GetLayoutFile()) {
-			Error("Layout file not found! Are you overriding GetLayoutFile?");
-			return;
-		}
-		
 		Log("Loading %1", GetLayoutFile());
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 		if (!m_LayoutRoot) {
 			Error("Invalid layout file %1", GetLayoutFile());
 			return;
 		}
+		
+		m_LayoutRoot.GetScript(m_Controller);
+		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
+			if (GetControllerType()) {
+				m_Controller = GetControllerType().Spawn();
+				if (!m_Controller || !GetControllerType().IsInherited(Controller)) {
+					Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
+					return;
+				}
 				
-		if (GetControllerType()) {
-			m_Controller = GetControllerType().Spawn();
-			if (!m_Controller || !GetControllerType().IsInherited(Controller)) {
-				Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
-				return;
+				m_Controller.Debug_Logging = Debug_Logging;
+				m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 			}
-			
-			m_Controller.Debug_Logging = Debug_Logging;
-			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-		}
+		}		
 		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		//property_map.RemoveType(ScriptView); crashing ?
@@ -82,8 +85,31 @@ class ScriptView: ScriptedViewBase
 		Trace("~ScriptView");
 		delete m_Controller;
 	}
-
-					
+	
+	// Useful for moving the layout around a bit
+	void SetParent(Widget parent)
+	{
+		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
+		if (!workspace) {
+			Error("Workspace was null, try reloading Workbench");
+			return;
+		}
+		
+		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
+			m_LayoutRoot.Unlink();
+		}
+		
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
+	}
+	
+	// Useful if you want to set to an existing controller
+	void SetController(Controller controller)
+	{
+		m_Controller = controller;
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+	}
+		
 	// Abstract Methods
 	protected string GetLayoutFile();
 	protected typename GetControllerType();

@@ -300,7 +300,7 @@ class TypeConversionObject: TypeConversionTemplate<Object>
 	}
 }
 
-class TypeConversionScriptView: TypeConversionTemplate<ScriptView>
+class TypeConversionScriptView: TypeConversionTemplate<ScriptedViewBase>
 {
 	override Widget GetWidget() {
 		return m_Value.GetLayoutRoot();

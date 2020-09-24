@@ -72,12 +72,17 @@ FrameWidgetClass root {
      content_halign center
      {
       ScriptParamsClass {
-       Debug_Logging 0
+       Debug_Logging 1
        Binding_Name "script_view"
       }
      }
     }
    }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Debug_Logging 1
   }
  }
 }

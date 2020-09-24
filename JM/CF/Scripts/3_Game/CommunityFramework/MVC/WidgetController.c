@@ -170,8 +170,9 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 	}*/
 	
 	override void InsertData(int index, TypeConverter type_converter) {
-		if (type_converter.GetWidget())
+		if (type_converter.GetWidget()) {
 			m_Widget.AddChild(type_converter.GetWidget());
+		}
 	}
 	
 	override void RemoveData(int index, TypeConverter type_converter) {

@@ -41,22 +41,23 @@ class TestController: Controller
 class Controller: ScriptedViewBase
 {	
 	// All View Bindings
-	protected autoptr ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
+	protected autoptr ref ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
 	ViewBindingHashMap GetViewBindings() {
 		return m_ViewBindingHashMap; 
 	}
 	
 	// View Bindings indexed by their Binding_Name
-	protected autoptr DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
+	protected autoptr ref DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
 	DataBindingHashMap GetDataBindings() {
 		return m_DataBindingHashMap;
 	}
 		
 	// Hashmap of all properties in the Controller
-	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
+	protected autoptr ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	
 	// Hashmap of all relay commands in the ScriptView
-	protected autoptr RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
+	protected autoptr ref RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
+	
 	
 	override void OnWidgetScriptInit(Widget w)
 	{		
@@ -182,6 +183,11 @@ class Controller: ScriptedViewBase
 		}
 				
 		return super.OnChange(w, x, y, finished);
+	}
+	
+	void DebugPrint()
+	{
+		m_DataBindingHashMap.DebugPrint();
 	}
 }
 
