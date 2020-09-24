@@ -72,7 +72,7 @@ class Controller: ScriptedViewBase
 		
 	// Call this when you update a Controller property (variable)
 	// Do NOT call this when using arrays / collections. Use ObservableCollection!
-	void NotifyPropertyChanged(string property_name)
+	void NotifyPropertyChanged(string property_name, bool notify_controller = true)
 	{
 		Trace("NotifyPropertyChanged %1", property_name);
 		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
@@ -83,8 +83,8 @@ class Controller: ScriptedViewBase
 			view.UpdateView(this);
 		}
 		
-
-		PropertyChanged(property_name);
+		if (notify_controller)
+			PropertyChanged(property_name);
 	}
 	
 	// Do NOT call this. ObservableCollection does this for you

@@ -8,7 +8,6 @@ class SampleScriptViewController: Controller
 
 class SampleRelayCommand: RelayCommand
 {
-	
 	override void Execute(CommandArgs args)
 	{
 		Print("SampleRelayCommand Execute!");

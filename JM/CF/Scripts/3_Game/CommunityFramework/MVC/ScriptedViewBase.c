@@ -195,7 +195,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	
 	override bool OnResize(Widget w, int x, int y)
 	{
-		//Trace("OnResize: %1", w.GetName());		
+		Trace("OnResize: %1", w.GetName());		
 		return false;
 	}
 	

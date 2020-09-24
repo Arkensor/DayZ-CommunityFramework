@@ -49,9 +49,12 @@ class SampleController: Controller
 	}
 }
 
+// You can have sub controllers within windows for organization
+// they wont interfere with each other
 class SampleSubController: Controller
 {
 	bool button_state = true;
+	bool inverted_button_state = !button_state;
 	
 	// Dont use FindAnyWidget - Enfusion will automatically asign it if its the same name as the Widget name
 	ButtonWidget button; 
@@ -82,8 +85,21 @@ class SampleSubController: Controller
 					button.SetColor(COLOR_OFF);
 				}
 				
+				inverted_button_state = !button_state;
+				
+				// Calling false here will NOT call PropertyChanged again
+				// Otherwise we'd have a stack overflow between button_state and inverted_button_state
+				NotifyPropertyChanged("inverted_button_state", false); 
 				break;
 			}
+			
+			case "inverted_button_state": {
+				
+				button_state = !inverted_button_state;
+				NotifyPropertyChanged("button_state");
+				break;
+			}
+			
 			
 			case "observable_combo_selection": {
 				Print("Combo Box Selection = " + observable_combo_box.Get(observable_combo_selection));

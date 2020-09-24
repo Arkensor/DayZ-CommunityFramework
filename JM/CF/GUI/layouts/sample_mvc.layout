@@ -148,6 +148,22 @@ FrameWidgetClass root {
         }
        }
       }
+      CheckBoxWidgetClass check_box {
+       size 25 25
+       halign center_ref
+       valign center_ref
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass "ViewBinding"
+       {
+        ScriptParamsClass {
+         Binding_Name "inverted_button_state"
+         Two_Way_Binding 1
+        }
+       }
+      }
      }
      {
       ScriptParamsClass {
