@@ -122,10 +122,10 @@ class Controller: ScriptedViewBase
 		w.GetScript(view_binding);
 		
 		if (view_binding && view_binding.IsInherited(ViewBinding)) {
-
-			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
+			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
+			view_binding.UpdateView(this); // loads for the first time
 		}
 		
 		if (w.GetChildren() != null)
@@ -141,7 +141,6 @@ class Controller: ScriptedViewBase
 	// RoutedUICommand interfaces
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		Trace("OnClick");
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
 		if (view_binding) {
 			view_binding.UpdateModel(this);
@@ -152,8 +151,6 @@ class Controller: ScriptedViewBase
 					return true;
 				}
 			}
-		} else {
-			Log("View Binding not found!");
 		}
 			
 		return super.OnClick(w, x, y, button);
@@ -161,9 +158,7 @@ class Controller: ScriptedViewBase
 	
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
-	{	
-		Trace("OnChange");
-		
+	{			
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);		
 		if (view_binding) {
 			view_binding.UpdateModel(this);
@@ -179,8 +174,6 @@ class Controller: ScriptedViewBase
 					return true;
 				}
 			}
-		} else {
-			Log("View Binding not found!");
 		}
 		
 		return super.OnChange(w, x, y, finished);

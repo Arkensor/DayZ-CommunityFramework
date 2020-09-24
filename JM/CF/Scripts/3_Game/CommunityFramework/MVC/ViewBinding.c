@@ -29,7 +29,6 @@ class ViewBinding: ScriptedViewBase
 		
 	protected autoptr ref TypeConverter m_PropertyConverter;
 	protected autoptr ref TypeConverter m_SelectedConverter;
-	
 	protected autoptr ref WidgetController m_WidgetController;
 	
 
