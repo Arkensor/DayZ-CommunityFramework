@@ -83,17 +83,17 @@ FrameWidgetClass root {
     WrapSpacerWidgetClass sub_controlled_root {
      ignorepointer 1
      position 0 0
-     size 1 0.25
+     size 1 0
      hexactpos 1
      vexactpos 1
      hexactsize 0
      vexactsize 0
      scriptclass "SampleSubController"
+     content_halign center
      {
       ButtonWidgetClass button {
        visible 1
-       position 0 0
-       size 120 25
+       size 120 40
        halign center_ref
        hexactpos 1
        vexactpos 1
@@ -130,11 +130,37 @@ FrameWidgetClass root {
         }
        }
       }
+      XComboBoxWidgetClass combo_box {
+       position 0 0
+       size 250 40
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass "ViewBinding"
+       {
+        ScriptParamsClass {
+         Debug_Logging 1
+         Binding_Name "observable_combo_box"
+         Selected_Item "observable_combo_selection"
+         Two_Way_Binding 0
+        }
+       }
+      }
      }
      {
       ScriptParamsClass {
       }
      }
+    }
+    MultilineTextWidgetClass multiline_text {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
     }
    }
   }

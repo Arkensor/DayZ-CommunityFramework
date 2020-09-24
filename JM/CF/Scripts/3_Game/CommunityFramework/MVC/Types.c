@@ -51,6 +51,7 @@ class DataBindingHashMap: ref map<string, ref ViewBindingArray>
 			view_set = new ViewBindingArray();
 			view_set.Insert(view);
 			Insert(view.Binding_Name, view_set);
+			Insert(view.Selected_Item, view_set);
 		} else {
 			view_set.Insert(view);
 		}		

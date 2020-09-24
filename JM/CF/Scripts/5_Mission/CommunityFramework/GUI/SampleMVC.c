@@ -38,10 +38,24 @@ class SampleSubController: Controller
 {
 	bool button_state = true;
 	
-	ButtonWidget button;
+	// Dont use FindAnyWidget - Enfusion will automatically asign it if its the same name as the Widget name
+	ButtonWidget button; 
+	
+	int observable_combo_selection;
+	ref ObservableCollection<string> observable_combo_box = new ObservableCollection<string>("observable_combo_box", this);
+	
 
 	static const int COLOR_ON = COLOR_GREEN;
 	static const int COLOR_OFF = COLOR_RED;
+	
+	override void OnWidgetScriptInit(Widget w)
+	{
+		super.OnWidgetScriptInit(w);
+		
+		observable_combo_box.Insert("Item1");
+		observable_combo_box.Insert("Item2");
+		observable_combo_box.Insert("Item3");
+	}
 	
 	override void PropertyChanged(string property_name)
 	{
@@ -57,6 +71,10 @@ class SampleSubController: Controller
 				break;
 			}
 			
+			case "observable_combo_selection": {
+				Print("Combo Box Selection = " + observable_combo_box.Get(observable_combo_selection));
+				break;
+			}
 		}
 	}
 }
