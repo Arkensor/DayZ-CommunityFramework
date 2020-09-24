@@ -23,6 +23,9 @@ class CustomDialogWindow: ScriptView
 class ScriptView: ScriptedViewBase
 {	
 	protected ref Controller m_Controller;
+	Controller GetController() {
+		return m_Controller;
+	}
 	
 	void ScriptView(Widget parent = null)
 	{

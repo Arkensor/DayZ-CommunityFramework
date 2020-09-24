@@ -44,11 +44,11 @@ class PropertyChangedEventArgs: Param2<string, Class>
 // 2: Widget Type
 class CommandArgs
 {
-	ViewBinding Sender;
+	Class Sender;
 	Widget Source;
 	typename SourceType;
 	
-	void CommandArgs(ViewBinding sender, Widget source)
+	void CommandArgs(Class sender, Widget source)
 	{	
 		Sender = sender;
 		Source = source;

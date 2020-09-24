@@ -7,7 +7,7 @@ FrameWidgetClass root {
  vexactpos 1
  hexactsize 0
  vexactsize 0
- scriptclass "SampleScriptViewController"
+ scriptclass ""
  {
   WrapSpacerWidgetClass root_spacer {
    ignorepointer 1
@@ -45,16 +45,11 @@ FrameWidgetClass root {
        vexactpos 1
        hexactsize 0
        vexactsize 0
-       scriptclass "ViewBinding"
+       scriptclass ""
        text "Toggle"
        font "gui/fonts/Metron-Bold28"
        switch toggle
-       {
-        ScriptParamsClass {
-         Debug_Logging 1
-         Relay_Command "ButtonPressedCommand"
-        }
-       }
+ 
       }
      }
     }

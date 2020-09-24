@@ -126,8 +126,9 @@ class Controller: ScriptedViewBase
 				if (relay_command && relay_command.IsInherited(RelayCommand)) {
 					RelayCommand command = relay_command.Spawn();
 					view_binding.SetRelayCommand(command);
-					command.SetController(this);
 					m_RelayCommandHashMap.Insert(view_binding.Relay_Command, command);
+				} else {
+					Error("RelayCommand %1 not found on controller!", view_binding.Relay_Command);
 				}
 			}
 			

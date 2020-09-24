@@ -15,13 +15,13 @@ class SampleRelayCommand: RelayCommand
 	override void Execute(CommandArgs args)
 	{
 		Print("SampleRelayCommand Execute!");
-		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);
-		Print(ButtonWidget.Cast(args.Source).GetState());
+		//SampleScriptViewController controller = SampleScriptViewController.Cast(args.Sender);
+		/*
 		if (ButtonWidget.Cast(args.Source).GetState()) {
 			controller.script_view = new SampleScriptView(controller.content_host);
 		} else {
 			delete controller.script_view;
-		}
+		}*/
 	}
 }
 
