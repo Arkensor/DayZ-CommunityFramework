@@ -76,9 +76,7 @@ class MVC
 		type_conversions.Insert(vector, TypeConversionVector);
 		type_conversions.Insert(Widget, TypeConversionWidget);
 		type_conversions.Insert(Object, TypeConversionObject);
-		type_conversions.Insert(ObservableSet, TypeConversionObservable);
-		type_conversions.Insert(ObservableCollection, TypeConversionObservable);
-		type_conversions.Insert(ObservableDictionary, TypeConversionObservable);
+		type_conversions.Insert(Observable, TypeConversionObservable);
 		type_conversions.Insert(ScriptedViewBase, TypeConversionScriptView);
 	}
 	
