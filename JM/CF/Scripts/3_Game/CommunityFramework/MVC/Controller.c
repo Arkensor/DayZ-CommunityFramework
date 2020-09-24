@@ -127,10 +127,11 @@ class Controller: ScriptedViewBase
 				if (relay_command && relay_command.IsInherited(RelayCommand)) {
 					RelayCommand command = relay_command.Spawn();
 					command.SetController(this);
+					command.SetViewBinding(view_binding);
 					view_binding.SetRelayCommand(command);
 					m_RelayCommandHashMap.Insert(view_binding.Relay_Command, command);
 				} else {
-					Error("RelayCommand %1 not found on controller!", view_binding.Relay_Command);
+					Log("RelayCommand %1 not found on controller - Assuming its a function!", view_binding.Relay_Command);
 				}
 			}
 			
@@ -165,7 +166,7 @@ class Controller: ScriptedViewBase
 			switch (w.Type()) {
 				case ButtonWidget: { // only thing that isnt called in OnChange for some reason
 					view_binding.UpdateModel(this); 
-					if (view_binding.InvokeCommand()) {
+					if (view_binding.InvokeCommand(this)) {
 						return true;
 					}
 					break;
@@ -182,7 +183,7 @@ class Controller: ScriptedViewBase
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
 			view_binding.UpdateModel(this);
-			if (view_binding.InvokeCommand()) {
+			if (view_binding.InvokeCommand(this)) {
 				return true;
 			}
 		}

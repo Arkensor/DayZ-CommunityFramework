@@ -7,6 +7,11 @@ class RelayCommand
 		m_Controller = controller;
 	}
 	
+	protected ViewBinding m_ViewBinding;
+	void SetViewBinding(ViewBinding view_binding) {
+		m_ViewBinding = view_binding;
+	}
+	
 	// returns bool defining whether or not the Execute can be called
 	bool CanExecute() {
 		return m_CanExecute;

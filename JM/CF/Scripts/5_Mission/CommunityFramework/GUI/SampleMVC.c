@@ -73,6 +73,8 @@ class SampleSubController: Controller
 		observable_combo_box.Insert("Item1");
 		observable_combo_box.Insert("Item2");
 		observable_combo_box.Insert("Item3");
+
+		
 	}
 	
 	override void PropertyChanged(string property_name)
