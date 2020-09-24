@@ -97,7 +97,10 @@ FrameWidgetClass root {
        vexactpos 1
        hexactsize 1
        vexactsize 1
-       scriptclass ""
+       scriptclass "ViewBinding"
+       style Colorable
+       "no focus" 1
+       switch toggle
        {
         TextWidgetClass button_text {
          ignorepointer 1
@@ -109,6 +112,8 @@ FrameWidgetClass root {
          hexactsize 0
          vexactsize 0
          scriptclass "ViewBinding"
+         "text halign" center
+         "text valign" center
          {
           ScriptParamsClass {
            Binding_Name "button_state"
@@ -116,6 +121,16 @@ FrameWidgetClass root {
          }
         }
        }
+       {
+        ScriptParamsClass {
+         Binding_Name "button_state"
+         Two_Way_Binding 1
+        }
+       }
+      }
+     }
+     {
+      ScriptParamsClass {
       }
      }
     }

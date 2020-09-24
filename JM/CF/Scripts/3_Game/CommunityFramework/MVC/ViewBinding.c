@@ -108,7 +108,8 @@ class ViewBinding: ScriptedViewBase
 			controller.NotifyPropertyChanged(Selected_Item);
 		}
 	}	
-		
+
+			
 	bool InvokeCommand()
 	{
 		Trace("InvokeCommand");

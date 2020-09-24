@@ -151,19 +151,7 @@ class Controller: ScriptedViewBase
 		
 		return m_DataBindingHashMap.Count();
 	}
-	
-	override bool OnMouseButtonDown(Widget w, int x, int y, int button)
-	{
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
-		if (view_binding) {
-			view_binding.UpdateModel(this);
-			if (view_binding.InvokeCommand()) {
-				return true;
-			}
-		}
-		
-		return super.OnMouseButtonDown(w, x, y, button);
-	}
+
 	
 	// Command interfaces
 	override bool OnClick(Widget w, int x, int y, int button)

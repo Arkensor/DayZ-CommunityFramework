@@ -37,14 +37,25 @@ class SampleController: Controller
 
 class SampleSubController: Controller
 {
-	bool button_state;
+	bool button_state = true;
 	
+	ButtonWidget button;
+
+	static const int COLOR_ON = COLOR_GREEN;
+	static const int COLOR_OFF = COLOR_RED;
 	
 	override void PropertyChanged(string property_name)
 	{
 		switch (property_name) {
 			
-
+			case "button_state": {
+				if (button_state) {
+					button.SetColor(COLOR_ON);
+				} else {
+					button.SetColor(COLOR_OFF);
+				}
+				break;
+			}
 			
 		}
 	}
