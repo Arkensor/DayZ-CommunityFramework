@@ -53,6 +53,8 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
+		m_LayoutRoot.SetHandler(this);
+		
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		property_map.RemoveType(ScriptView);
 		foreach (string property_name, typename property_type: property_map) {
@@ -75,9 +77,6 @@ class ScriptView: ScriptedViewBase
 			}
 		}
 		
-		
-		// Has to be called before other views are created
-		m_LayoutRoot.SetHandler(this);
 		if (!m_Controller && GetControllerType().IsInherited(Controller)) {
 			m_Controller = GetControllerType().Spawn();
 			if (!m_Controller) {
@@ -86,13 +85,14 @@ class ScriptView: ScriptedViewBase
 			}
 			
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);	
-		}	
+		}
+		
+		
 	}
 	
 	static ScriptView Create()
 	{
 		ScriptView script_view = new ScriptView(null);
-		
 		return script_view;
 	}
 	
@@ -115,7 +115,7 @@ class ScriptView: ScriptedViewBase
 		delete m_Controller;
 		m_LayoutRoot.Unlink();
 	}
-
+		
 #else
 	
 	override void OnWidgetScriptInit(Widget w)
