@@ -116,16 +116,16 @@ class ViewBinding: ScriptedViewBase
 		
 		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			
 			m_RelayCommand.Execute(this, args);
+			return true;
 		} 
 		
-		else if (!m_RelayCommand && Relay_Command != string.Empty) {
+		if (!m_RelayCommand && Relay_Command != string.Empty) {
 			Log("Attempting to call function %1 on %2", Relay_Command, context.ToString());
 			g_Script.Call(context, Relay_Command, args);
+			return true;
 		}
 		
-		else return false;
-		
-		return true;
+		return false;
 	}
 	
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)

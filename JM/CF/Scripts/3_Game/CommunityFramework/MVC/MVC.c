@@ -1,5 +1,4 @@
 
-
 // Helps workbench not crash, as a result of GetGame()
 DayZGame GetWorkbenchGame(bool force = false) 
 {
@@ -105,17 +104,16 @@ class MVC
 		widget_controllers.Insert(ItemPreviewWidget, ItemPreviewWidgetController);
 	}
 		
-	static int LogLevel = 0;
 	
 	static void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
-		if (LogLevel <= 0)
+		if (MVCLogLevel <= 0)
 			PrintFormat("MVCLog::Trace %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 	
 	static void Log(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
-		if (LogLevel <= 1)
+		if (MVCLogLevel <= 1)
 			PrintFormat("MVCLog::Log %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
