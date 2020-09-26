@@ -35,6 +35,11 @@ class CfgMods
 		
 		class defs
 		{
+			class engineScriptModule
+			{
+				value ="";
+				files[] = {"JM/CF/Scripts/1_Core"};
+			};
 			class gameScriptModule
 			{
 				value = "";
