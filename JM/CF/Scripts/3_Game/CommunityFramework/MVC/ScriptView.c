@@ -49,6 +49,7 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
+			
 		m_LayoutRoot.GetScript(m_Controller);
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 			if (GetControllerType()) {
@@ -62,6 +63,8 @@ class ScriptView: ScriptedViewBase
 				m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 			}
 		}		
+		
+		m_LayoutRoot.SetHandler(this);	
 
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		//property_map.RemoveType(ScriptView); crashing ?

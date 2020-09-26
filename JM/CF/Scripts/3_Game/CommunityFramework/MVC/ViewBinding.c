@@ -119,7 +119,8 @@ class ViewBinding: ScriptedViewBase
 		} 
 		
 		else if (!m_RelayCommand && Relay_Command != string.Empty) {
-			g_Script.Call(context, Relay_Command, null);
+			Log("Attempting to call function %1 on %2", Relay_Command, context.ToString());
+			g_Script.Call(context, Relay_Command, args);
 		}
 		
 		else return false;

@@ -164,9 +164,10 @@ class Controller: ScriptedViewBase
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
 			switch (w.Type()) {
+				
 				case ButtonWidget: { // only thing that isnt called in OnChange for some reason
 					view_binding.UpdateModel(this); 
-					if (view_binding.InvokeCommand(this, new ButtonCommandArgs(w, button, ButtonWidget.Cast(w).GetState()))) {
+					if (view_binding.InvokeCommand(this, new ButtonCommandArgs(w, button))) {
 						return true;
 					}
 					break;

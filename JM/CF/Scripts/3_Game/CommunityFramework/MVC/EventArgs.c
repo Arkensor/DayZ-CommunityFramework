@@ -41,11 +41,10 @@ class PropertyChangedEventArgs: Param2<string, Class>
 
 // 0: Source Widget
 // 1: Mouse Button
-// 2: Button State
-class ButtonCommandArgs: Param3<ButtonWidget, int, bool>
+class ButtonCommandArgs: Param2<ButtonWidget, int>
 {
 	ButtonWidget GetButtonWidget() { 
-		return ButtonWidget.Cast(param1); 
+		return param1; 
 	}
 	
 	int GetMouseButton() {
@@ -53,7 +52,7 @@ class ButtonCommandArgs: Param3<ButtonWidget, int, bool>
 	}
 	
 	bool GetButtonState() {
-		return param3;
+		return param1.GetState();
 	}
 }
 
