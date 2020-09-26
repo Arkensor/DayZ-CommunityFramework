@@ -46,6 +46,10 @@ class Controller: ScriptedViewBase
 		return m_ViewBindingHashMap; 
 	}
 	
+	ViewBinding GetViewBinding(Widget source) {
+		return m_ViewBindingHashMap.Get(source);
+	}
+	
 	// View Bindings indexed by their Binding_Name
 	protected autoptr ref DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
 	DataBindingHashMap GetDataBindings() {

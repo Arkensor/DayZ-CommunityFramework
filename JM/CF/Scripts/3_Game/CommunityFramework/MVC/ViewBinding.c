@@ -19,6 +19,7 @@ class ViewBinding: ScriptedViewBase
 	protected ref RelayCommand m_RelayCommand;
 	void SetRelayCommand(RelayCommand relay_command) {
 		m_RelayCommand = relay_command;
+		m_RelayCommand.SetViewBinding(this);
 	}
 		
 	autoptr ref TypeConverter m_PropertyConverter;
