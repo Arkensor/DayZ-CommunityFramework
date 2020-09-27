@@ -22,6 +22,7 @@ class CustomDialogWindow: ScriptView
 
 class ScriptView: ScriptedViewBase
 {	
+	
 	protected ref Controller m_Controller;
 	Controller GetController() {
 		return m_Controller;
@@ -40,8 +41,8 @@ class ScriptView: ScriptedViewBase
 		if (!workspace) {
 			Error("Workspace was null, try reloading Workbench");
 			return;
-		} 
-
+		}
+		
 		Log("Loading %1", GetLayoutFile());
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 		if (!m_LayoutRoot) {
@@ -49,7 +50,7 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
-		//m_LayoutRoot.SetHandler(this);
+		//m_ScriptViewBase.SetHandler(this);		
 		m_LayoutRoot.GetScript(m_Controller);
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 			if (GetControllerType()) {
@@ -65,7 +66,7 @@ class ScriptView: ScriptedViewBase
 		}
 		
 		
-
+	
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		//property_map.RemoveType(ScriptView); crashing ?
 		foreach (string property_name, typename property_type: property_map) {
