@@ -62,6 +62,14 @@ class Controller: ScriptedViewBase
 	// Hashmap of all relay commands in the ScriptView
 	protected autoptr ref RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
 	
+	protected Controller m_ParentController;
+	Controller GetParentController() {
+		return m_ParentController;
+	}
+	
+	void SetParentController(Controller parent_controller) {
+		m_ParentController = parent_controller;
+	}
 	
 	override void OnWidgetScriptInit(Widget w)
 	{		
@@ -118,10 +126,11 @@ class Controller: ScriptedViewBase
 	
 	int LoadDataBindings(Widget w)
 	{
-		ViewBinding view_binding;
-		w.GetScript(view_binding);
+		ScriptedViewBase view_base;
+		w.GetScript(view_base);
 		
-		if (view_binding && view_binding.IsInherited(ViewBinding)) {
+		if (view_base && view_base.IsInherited(ViewBinding)) {
+			ViewBinding view_binding = ViewBinding.Cast(view_base);
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
 			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
@@ -146,13 +155,19 @@ class Controller: ScriptedViewBase
 		
 		// really wish i had XOR here
 		bool b1 = (w.GetChildren() != null);
-		bool b2 = (view_binding && view_binding.IsInherited(Controller) && view_binding != this);
+		bool b2 = (view_base && view_base.IsInherited(Controller) && view_base != this);
 		
 		// scuffed XOR
 		// Makes it stop loading when it finds another controller
-		if (!(b1 && b2)) {
-			if (b1 || b2) {
-				LoadDataBindings(w.GetChildren());
+		if (!(b1 && b2) && (b1 || b2)) {
+			LoadDataBindings(w.GetChildren());
+		} 
+		
+		// Sets parent of the child controller
+		else if (b2) {
+			Controller child_controller = Controller.Cast(view_base);
+			if (child_controller) {
+				child_controller.SetParentController(this);
 			}
 		}
 		
