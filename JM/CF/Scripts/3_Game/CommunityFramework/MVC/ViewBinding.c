@@ -114,7 +114,7 @@ class ViewBinding: ScriptedViewBase
 	bool InvokeCommand(ScriptedViewBase context, CommandArgs args)
 	{
 		Trace("InvokeCommand");
-		
+				
 		bool handled;
 		args.Context = this;
 		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			
@@ -128,7 +128,7 @@ class ViewBinding: ScriptedViewBase
 			g_Script.CallFunction(context, Relay_Command, handled, args);
 		}
 
-		if (!handled && context.GetParent()) {
+		if (!handled && context && context.GetParent()) {
 			return InvokeCommand(context.GetParent(), args);
 		}
 		
@@ -139,11 +139,8 @@ class ViewBinding: ScriptedViewBase
 	{
 		Trace("OnCollectionChanged");
 		
+		if (!m_WidgetController) return;
 		Log("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
-		if (!m_WidgetController) {
-			Error("Widget Converter not found for View %1", m_LayoutRoot.Type().ToString());
-			return;
-		}
 
 		// We dont want to work with type Observable for everything
 		TypeConverter collection_converter = MVC.GetTypeConversion(args.GetCollection().GetType());
@@ -187,9 +184,43 @@ class ViewBinding: ScriptedViewBase
 		}
 	}
 	
+	// Two way binding interfaces
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
 		return super.OnDropReceived(w, x, y, reciever);
+	}
+	
+	
+	// Command interfaces
+	override bool OnClick(Widget w, int x, int y, int button)
+	{		
+		switch (w.Type()) {
+			
+			case ButtonWidget: { // only thing that isnt called in OnChange for some reason
+				if (InvokeCommand(this, new ButtonCommandArgs(w, button))) {
+					return true;
+				}
+				
+				break;
+			}
+		}
+		
+		return super.OnClick(w, x, y, button);
+	}
+	
+	
+	override bool OnChange(Widget w, int x, int y, bool finished)
+	{
+		switch (w.Type()) {
+			case CheckBoxWidget: {
+				if (InvokeCommand(this, new CheckBoxCommandArgs(w))) {
+					return true;
+				}
+			}		
+		}
+		
+				
+		return super.OnChange(w, x, y, finished);
 	}
 }
 

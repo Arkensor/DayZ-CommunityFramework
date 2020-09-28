@@ -171,21 +171,12 @@ class Controller: ScriptedViewBase
 	}
 
 	
-	// Command interfaces
+	// 
 	override bool OnClick(Widget w, int x, int y, int button)
 	{		
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
-			switch (w.Type()) {
-				
-				case ButtonWidget: { // only thing that isnt called in OnChange for some reason
-					view_binding.UpdateController(this); 
-					if (view_binding.InvokeCommand(this, new ButtonCommandArgs(w, button))) {
-						return true;
-					}
-					break;
-				}
-			}
+			view_binding.UpdateController(this); 
 		}
 		
 		return super.OnClick(w, x, y, button);
@@ -196,16 +187,7 @@ class Controller: ScriptedViewBase
 	{
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
-			view_binding.UpdateController(this);
-			switch (w.Type()) {
-				case CheckBoxWidget: {
-					if (view_binding.InvokeCommand(this, new CheckBoxCommandArgs(w))) {
-						return true;
-					}
-				}		
-				
-
-			}			
+			view_binding.UpdateController(this);		
 		}
 				
 		return super.OnChange(w, x, y, finished);
