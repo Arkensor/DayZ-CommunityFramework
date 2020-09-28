@@ -87,8 +87,9 @@ class Controller: ScriptedViewBase
 			view.UpdateView(this);
 		}
 		
-		if (notify_controller)
+		if (notify_controller) {
 			PropertyChanged(property_name);
+		}
 	}
 	
 	// Do NOT call this. ObservableCollection does this for you
@@ -155,8 +156,9 @@ class Controller: ScriptedViewBase
 			}
 		}
 		
-		if (w.GetSibling() != null) 
+		if (w.GetSibling() != null) {
 			LoadDataBindings(w.GetSibling());
+		}
 		
 		return m_DataBindingHashMap.Count();
 	}
@@ -170,7 +172,7 @@ class Controller: ScriptedViewBase
 			switch (w.Type()) {
 				
 				case ButtonWidget: { // only thing that isnt called in OnChange for some reason
-					view_binding.UpdateModel(this); 
+					view_binding.UpdateController(this); 
 					if (view_binding.InvokeCommand(this, new ButtonCommandArgs(w, button))) {
 						return true;
 					}
@@ -187,9 +189,8 @@ class Controller: ScriptedViewBase
 	{
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
 		if (view_binding) {
-			view_binding.UpdateModel(this);
+			view_binding.UpdateController(this);
 			switch (w.Type()) {
-				
 				case CheckBoxWidget: {
 					if (view_binding.InvokeCommand(this, new CheckBoxCommandArgs(w, CheckBoxWidget.Cast(w).IsChecked()))) {
 						return true;

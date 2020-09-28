@@ -87,9 +87,9 @@ class ViewBinding: ScriptedViewBase
 	}
 	
 	// View -> Controller
-	void UpdateModel(Controller controller)
+	void UpdateController(Controller controller)
 	{
-		Trace("UpdateModel");
+		Trace("UpdateController");
 		
 		if (!m_WidgetController) return;
 		
