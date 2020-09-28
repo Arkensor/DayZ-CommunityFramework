@@ -58,9 +58,6 @@ class Controller: ScriptedViewBase
 		
 	// Hashmap of all properties in the Controller
 	protected autoptr ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-	
-	// Hashmap of all relay commands in the ScriptView
-	protected autoptr ref RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
 		
 	override void OnWidgetScriptInit(Widget w)
 	{		
@@ -73,16 +70,37 @@ class Controller: ScriptedViewBase
 		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
 	}
 	
-			
-	// Call this when you update a Controller property (variable)
-	// Do NOT call this when using arrays / collections. Use ObservableCollection!
-	void NotifyPropertyChanged(string property_name, bool notify_controller = true)
-	{
-		Trace("NotifyPropertyChanged %1", property_name);
-		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
 	
-		if (!views) return;
-				
+	/*
+	* Example:
+	*	NotifyPropertyChanged("slider_value");
+	*
+	* Call this when you update a Controller property (variable)
+	* Do NOT call this when using arrays / collections. Use ObservableCollection!	
+	*
+	* Calling this with No Parameters will update ALL properties in the Controller. 
+	* This is NOT recommended because it is VERY resource intensive
+	*
+	*/
+	
+	void NotifyPropertyChanged(string property_name = "", bool notify_controller = true)
+	{
+		Trace("NotifyPropertyChanged %1", property_name);	
+
+		if (property_name == string.Empty) {
+			Log("Updating all properties in View, this is NOT recommended as it is performance intensive");
+			foreach (ViewBindingArray view_array: m_DataBindingHashMap) {
+				foreach (ViewBinding view_binding: view_array) {
+					view_binding.UpdateView(this);
+					PropertyChanged(view_binding.Binding_Name);				
+				}
+			}
+			
+			return;
+		}
+		
+		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
+		if (!views)	return;
 		foreach (ViewBinding view: views) {
 			view.UpdateView(this);
 		}
@@ -100,7 +118,7 @@ class Controller: ScriptedViewBase
 				
 		if (views) {
 			foreach (ViewBinding view: views) {
-				view.OnCollectionChanged(args);
+				view.UpdateViewFromCollection(args);
 			}
 		}
 
@@ -135,7 +153,6 @@ class Controller: ScriptedViewBase
 					command.SetController(this);
 					command.SetViewBinding(view_binding);
 					view_binding.SetRelayCommand(command);
-					m_RelayCommandHashMap.Insert(view_binding.Relay_Command, command);
 				} else {
 					Log("RelayCommand %1 not found on controller - Assuming its a function!", view_binding.Relay_Command);
 				}
@@ -170,8 +187,25 @@ class Controller: ScriptedViewBase
 		return m_DataBindingHashMap.Count();
 	}
 
+	// Two way binding interfaces
+	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	{
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
+		
+		if (view_binding && reciever.IsInherited(SpacerBaseWidget)) {
+			if (m_PropertyTypeHashMap.Get(view_binding.Binding_Name).IsInherited(Observable)) {
+				Observable result;
+				EnScript.GetClassVar(this, view_binding.Binding_Name, 0, result);
+				if (result) {
+					
+				}
+			}
+		}
+		
+		return super.OnDropReceived(w, x, y, reciever);
+	}
 	
-	// 
+	// Update Controller on action from ViewBinding
 	override bool OnClick(Widget w, int x, int y, int button)
 	{		
 		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
