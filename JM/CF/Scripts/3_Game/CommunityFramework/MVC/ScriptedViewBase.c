@@ -216,7 +216,8 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	
 	override bool OnUpdate(Widget w)
 	{
-		Trace("OnUpdate: %1", w.GetName());		
+		// Disabled bc it wont stfu
+		//Trace("OnUpdate: %1", w.GetName());		
 		return false;
 	}
 }
