@@ -2,6 +2,18 @@
 
 class TypeConverter
 {
+	// Main Setter and Getter
+	void Set(Class value) {
+		g_Script.Call(this, "SetData", value);
+	}
+	
+	Class Get() {
+		Class result;
+		g_Script.CallFunction(this, "GetData", result, null);
+		return result;
+	}
+	
+	
 	typename GetType();
 		
 	bool GetBool();
@@ -12,7 +24,7 @@ class TypeConverter
 	Widget GetWidget();
 	Object GetObject();
 	Param GetParam();
-	
+		
 	void SetBool(bool value);
 	void SetInt(int value);
 	void SetFloat(float value);
@@ -61,12 +73,11 @@ class TypeConverter
 class TypeConversionTemplate<Class T>: TypeConverter
 {
 	protected T m_Value;
-	
-	void SetData(T value) {
-		m_Value = value;
+	protected void SetData(T value) {
+		m_Value = value;		
 	}
 	
-	T GetData() {
+	protected T GetData() {
 		return m_Value;
 	}
 	
