@@ -13,9 +13,15 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	}
 	
 	// Source Widget Controller
-	autoptr ref WidgetController m_WidgetController;
+	autoptr WidgetController m_WidgetController;
 	WidgetController GetWidgetController() {
 		return m_WidgetController;
+	}
+	
+	// ScriptedViewBase Type Converter
+	autoptr TypeConverter m_TypeConverter; 	
+	TypeConverter GetTypeConversion() {
+		return m_TypeConverter;
 	}
 	
 	void ScriptedViewBase()
@@ -43,6 +49,14 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 			Error("Could not find WidgetController for type %1\n\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
 			return;
 		}
+		
+		m_TypeConverter = MVC.GetTypeConversion(Type());
+		if (!m_TypeConverter) {
+			Error("Could not generate TypeConverter on %1", Type().ToString());
+			return;
+		}
+		
+		m_TypeConverter.Set(this);
 	}
 	
 	protected ScriptedViewBase m_ParentScriptedViewBase;
@@ -68,6 +82,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 			FindScriptedRoot(view_base);
 		}
 	}
+
 	
 	void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
