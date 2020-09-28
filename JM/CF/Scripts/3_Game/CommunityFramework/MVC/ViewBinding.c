@@ -111,32 +111,28 @@ class ViewBinding: ScriptedViewBase
 	}	
 
 			
-	bool InvokeCommand(ScriptedViewBase context, CommandArgsBase args)
+	bool InvokeCommand(ScriptedViewBase context, CommandArgs args)
 	{
 		Trace("InvokeCommand");
 		
+		bool handled;
 		args.Context = this;
 		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			
 			Log("Attempting to execute RelayCommand %1", m_RelayCommand.Type().ToString());
-			m_RelayCommand.Execute(context, args);
-			if (!args.Handled && context.GetParent()) {
-				return InvokeCommand(context.GetParent(), args);
-			}
-			
-			return args.Handled;
+			handled = m_RelayCommand.Execute(context, args);
 		} 
 		
-		if (!m_RelayCommand && Relay_Command != string.Empty) {
-			Log("Attempting to call function %1 on %2", Relay_Command, context.ToString());
-			g_Script.Call(context, Relay_Command, args);
-			if (!args.Handled && context.GetParent()) {
-				return InvokeCommand(context.GetParent(), args);
-			}
+		else if (!m_RelayCommand && Relay_Command != string.Empty) {
 			
-			return args.Handled;
+			Log("Attempting to call function %1 on %2", Relay_Command, context.ToString());
+			g_Script.CallFunction(context, Relay_Command, handled, args);
+		}
+
+		if (!handled && context.GetParent()) {
+			return InvokeCommand(context.GetParent(), args);
 		}
 		
-		return false;
+		return handled;
 	}
 	
 	void OnCollectionChanged(ref CollectionChangedEventArgs args)

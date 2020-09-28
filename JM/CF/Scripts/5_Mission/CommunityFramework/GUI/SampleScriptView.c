@@ -9,7 +9,7 @@ class SampleScriptViewController: Controller
 
 class SampleRelayCommand: RelayCommand
 {
-	override void Execute(Class sender, out CommandArgsBase args)
+	override bool Execute(Class sender, CommandArgs args)
 	{ 
 		Print("SampleRelayCommand Execute!");
 		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);
@@ -21,6 +21,8 @@ class SampleRelayCommand: RelayCommand
 			delete controller.script_view;
 			controller.script_view = new ObservableCollection<ref SampleScriptView>("script_view", controller);
 		}
+		
+		return true; // We dont want to keep calling up the Execution tree
 	}
 }
 

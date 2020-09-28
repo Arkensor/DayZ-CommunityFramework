@@ -39,17 +39,16 @@ class PropertyChangedEventArgs: Param2<string, Class>
 	}
 }
 
-class CommandArgsBase
+class CommandArgs
 {
-	bool Handled;
 	ScriptedViewBase Context;
 }
 
-class CommandArgs<Class T>: CommandArgsBase
+class CommandArgsT<Class T>: CommandArgs
 {
 	T Source;
 	
-	void CommandArgs(T source)
+	void CommandArgsT(T source)
 	{
 		Source = source;
 	}
@@ -57,7 +56,7 @@ class CommandArgs<Class T>: CommandArgsBase
 
 // 0: Source Widget
 // 1: Mouse Button
-class ButtonCommandArgs: CommandArgs<ButtonWidget>
+class ButtonCommandArgs: CommandArgsT<ButtonWidget>
 {
 	private int m_MouseButton;
 	
@@ -78,7 +77,7 @@ class ButtonCommandArgs: CommandArgs<ButtonWidget>
 
 // 0: Source Widget
 // 1: CheckBox State
-class CheckBoxCommandArgs: CommandArgs<CheckBoxWidget>
+class CheckBoxCommandArgs: CommandArgsT<CheckBoxWidget>
 {	
 	bool GetCheckBoxState() {
 		return Source.IsChecked();
