@@ -27,7 +27,7 @@ class RelayCommand
 	/* Abstract Methods */
 	
 	// called when type is Clicked, Selected, or Changed
-	void Execute(Class sender, Param args);
+	void Execute(Class sender, out CommandArgsBase args);
 	
 	// Abstract function called when execution ability is changed
 	void CanExecuteChanged(bool state);

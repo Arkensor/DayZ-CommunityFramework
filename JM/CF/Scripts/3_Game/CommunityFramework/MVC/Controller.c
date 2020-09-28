@@ -61,16 +61,7 @@ class Controller: ScriptedViewBase
 	
 	// Hashmap of all relay commands in the ScriptView
 	protected autoptr ref RelayCommandHashMap m_RelayCommandHashMap = new RelayCommandHashMap();
-	
-	protected Controller m_ParentController;
-	Controller GetParentController() {
-		return m_ParentController;
-	}
-	
-	void SetParentController(Controller parent_controller) {
-		m_ParentController = parent_controller;
-	}
-	
+		
 	override void OnWidgetScriptInit(Widget w)
 	{		
 		super.OnWidgetScriptInit(w);
@@ -81,7 +72,8 @@ class Controller: ScriptedViewBase
 		int binding_count = LoadDataBindings(m_LayoutRoot);
 		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
 	}
-		
+	
+			
 	// Call this when you update a Controller property (variable)
 	// Do NOT call this when using arrays / collections. Use ObservableCollection!
 	void NotifyPropertyChanged(string property_name, bool notify_controller = true)
@@ -134,7 +126,7 @@ class Controller: ScriptedViewBase
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
 			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
-			
+			view_binding.SetParent(this);
 			
 			if (view_binding.Relay_Command != string.Empty) {
 				typename relay_command = view_binding.Relay_Command.ToType();
@@ -167,7 +159,7 @@ class Controller: ScriptedViewBase
 		else if (b2) {
 			Controller child_controller = Controller.Cast(view_base);
 			if (child_controller) {
-				child_controller.SetParentController(this);
+				child_controller.SetParent(this);
 			}
 		}
 		
@@ -207,7 +199,7 @@ class Controller: ScriptedViewBase
 			view_binding.UpdateController(this);
 			switch (w.Type()) {
 				case CheckBoxWidget: {
-					if (view_binding.InvokeCommand(this, new CheckBoxCommandArgs(w, CheckBoxWidget.Cast(w).IsChecked()))) {
+					if (view_binding.InvokeCommand(this, new CheckBoxCommandArgs(w))) {
 						return true;
 					}
 				}		

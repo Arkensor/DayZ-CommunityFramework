@@ -111,19 +111,29 @@ class ViewBinding: ScriptedViewBase
 	}	
 
 			
-	bool InvokeCommand(Class context, Param args)
+	bool InvokeCommand(ScriptedViewBase context, CommandArgsBase args)
 	{
 		Trace("InvokeCommand");
 		
+		args.Context = this;
 		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			
-			m_RelayCommand.Execute(this, args);
-			return true;
+			Log("Attempting to execute RelayCommand %1", m_RelayCommand.Type().ToString());
+			m_RelayCommand.Execute(context, args);
+			if (!args.Handled && context.GetParent()) {
+				return InvokeCommand(context.GetParent(), args);
+			}
+			
+			return args.Handled;
 		} 
 		
 		if (!m_RelayCommand && Relay_Command != string.Empty) {
 			Log("Attempting to call function %1 on %2", Relay_Command, context.ToString());
 			g_Script.Call(context, Relay_Command, args);
-			return true;
+			if (!args.Handled && context.GetParent()) {
+				return InvokeCommand(context.GetParent(), args);
+			}
+			
+			return args.Handled;
 		}
 		
 		return false;
@@ -179,6 +189,11 @@ class ViewBinding: ScriptedViewBase
 				break;
 			}
 		}
+	}
+	
+	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	{
+		return super.OnDropReceived(w, x, y, reciever);
 	}
 }
 

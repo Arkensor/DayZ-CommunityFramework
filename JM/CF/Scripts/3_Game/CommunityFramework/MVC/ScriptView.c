@@ -22,7 +22,6 @@ class CustomDialogWindow: ScriptView
 
 class ScriptView: ScriptedViewBase
 {	
-	
 	protected ref Controller m_Controller;
 	Controller GetController() {
 		return m_Controller;
@@ -50,7 +49,7 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
-		//m_ScriptViewBase.SetHandler(this);		
+			
 		m_LayoutRoot.GetScript(m_Controller);
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 			if (GetControllerType()) {
@@ -62,10 +61,14 @@ class ScriptView: ScriptedViewBase
 				
 				m_Controller.Debug_Logging = Debug_Logging;
 				m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+				m_Controller.SetParent(this);
+				//m_LayoutRoot.SetHandler(this);				
+				
+			} else {
+				// Temporary testing solution
+				//m_LayoutRoot.SetHandler(this);	
 			}
 		}
-		
-		
 	
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		//property_map.RemoveType(ScriptView); crashing ?

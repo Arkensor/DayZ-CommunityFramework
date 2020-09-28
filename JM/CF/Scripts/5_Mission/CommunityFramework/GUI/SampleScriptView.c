@@ -9,7 +9,7 @@ class SampleScriptViewController: Controller
 
 class SampleRelayCommand: RelayCommand
 {
-	override void Execute(Class sender, Param args)
+	override void Execute(Class sender, out CommandArgsBase args)
 	{ 
 		Print("SampleRelayCommand Execute!");
 		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);

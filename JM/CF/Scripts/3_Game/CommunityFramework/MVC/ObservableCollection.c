@@ -63,7 +63,7 @@ class Observable
 
 class ObservableCollection<Class TValue>: Observable
 {
-	private ref array<ref TValue> _data = new array<ref TValue>();
+	private ref array<ref TValue> _data = {};
 	
 	int Insert(TValue value)
 	{

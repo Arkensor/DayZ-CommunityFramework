@@ -39,34 +39,49 @@ class PropertyChangedEventArgs: Param2<string, Class>
 	}
 }
 
+class CommandArgsBase
+{
+	bool Handled;
+	ScriptedViewBase Context;
+}
+
+class CommandArgs<Class T>: CommandArgsBase
+{
+	T Source;
+	
+	void CommandArgs(T source)
+	{
+		Source = source;
+	}
+}
+
 // 0: Source Widget
 // 1: Mouse Button
-class ButtonCommandArgs: Param2<ButtonWidget, int>
+class ButtonCommandArgs: CommandArgs<ButtonWidget>
 {
-	ButtonWidget GetButtonWidget() { 
-		return param1; 
+	private int m_MouseButton;
+	
+	void ButtonCommandArgs(ButtonWidget source, int mouse_button)
+	{
+		m_MouseButton = mouse_button;
 	}
 	
 	int GetMouseButton() {
-		return param2;
+		return m_MouseButton;
 	}
 	
 	bool GetButtonState() {
-		return param1.GetState();
+		return Source.GetState();
 	}
 }
 
 
 // 0: Source Widget
 // 1: CheckBox State
-class CheckBoxCommandArgs: Param2<CheckBoxWidget, bool>
-{
-	CheckBoxWidget GetCheckBoxWidget() {
-		return param1;
-	}
-	
+class CheckBoxCommandArgs: CommandArgs<CheckBoxWidget>
+{	
 	bool GetCheckBoxState() {
-		return param2;
+		return Source.IsChecked();
 	}
 }
 
