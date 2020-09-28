@@ -132,7 +132,7 @@ class ViewBinding: ScriptedViewBase
 		switch (args.ChangedAction) {
 						
 			case NotifyCollectionChangedAction.Insert: {
-				m_WidgetController.Insert(args.ChangedIndex, collection_converter);
+				m_WidgetController.Insert(collection_converter);
 				break;
 			}
 			
@@ -252,16 +252,15 @@ class ViewBinding: ScriptedViewBase
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
 		if (m_WidgetController && m_WidgetController.CanTwoWayBind() && Two_Way_Binding) {
-			ScriptedViewBase target_view;
-			w.GetScript(target_view);
+			ScriptedViewBase scripted_view;
+			w.GetScript(scripted_view);
 			
-			if (target_view) {
-				ScriptedViewBase.FindScriptedRoot(target_view);
-				TypeConverter target_converter = MVC.GetTypeConversion(ScriptedViewBase);
-				target_converter.Set(target_view);
-				
-				if (m_WidgetController && target_converter) {
-					m_WidgetController.Insert(0, target_converter);
+			if (scripted_view) {
+				ScriptedViewBase.FindScriptedRoot(scripted_view);
+				TypeConverter scripted_converter = MVC.GetTypeConversion(ScriptedViewBase);
+				if (m_WidgetController && scripted_converter) {
+					scripted_converter.Set(scripted_view);
+					m_WidgetController.Insert(scripted_converter);
 				}
 			}
 		}
