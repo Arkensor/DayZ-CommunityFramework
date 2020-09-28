@@ -109,9 +109,62 @@ class ViewBinding: ScriptedViewBase
 			controller.NotifyPropertyChanged(Selected_Item);
 		}
 	}	
+	
+	// Collection -> view
+	void UpdateViewFromCollection(ref CollectionChangedEventArgs args)
+	{
+		Trace("UpdateViewFromCollection");
+		
+		if (!m_WidgetController) return;
+		Log("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 
+		// We dont want to work with type Observable for everything
+		TypeConverter collection_converter = MVC.GetTypeConversion(args.Source.GetType());
+		if (!collection_converter) {
+			Error("Type Converter not found for Collection %1", args.Source.GetType().ToString());
+			return;
+		}
+
+		// Anonymous Data Setter
+		if (args.ChangedValue) {
+			collection_converter.SetParam(args.ChangedValue);
+		}
+		
+		switch (args.ChangedAction) {
+						
+			case NotifyCollectionChangedAction.Add: {
+				m_WidgetController.InsertData(args.ChangedIndex, collection_converter);
+				break;
+			}
 			
-	bool InvokeCommand(ScriptedViewBase context, CommandArgs args)
+			case NotifyCollectionChangedAction.Remove: {
+				m_WidgetController.RemoveData(args.ChangedIndex, collection_converter);
+				break;
+			}
+			
+			case NotifyCollectionChangedAction.Set: {
+				m_WidgetController.ReplaceData(args.ChangedIndex, collection_converter);
+				break;
+			}
+			
+			case NotifyCollectionChangedAction.Move: {
+				m_WidgetController.MoveData(args.ChangedIndex, collection_converter);
+				break;	
+			}
+			
+			case NotifyCollectionChangedAction.Clear: {
+				m_WidgetController.ClearData();
+				break;
+			}
+		}
+	}
+	
+	void UpdateCollectionFromView(ref CollectionChangedEventArgs args)
+	{
+		Trace("UpdateCollectionFromView");
+	}	
+	
+	private bool InvokeCommand(ScriptedViewBase context, CommandArgs args)
 	{
 		Trace("InvokeCommand");
 				
@@ -139,62 +192,6 @@ class ViewBinding: ScriptedViewBase
 		
 		return handled;
 	}
-	
-	void OnCollectionChanged(ref CollectionChangedEventArgs args)
-	{
-		Trace("OnCollectionChanged");
-		
-		if (!m_WidgetController) return;
-		Log("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
-
-		// We dont want to work with type Observable for everything
-		TypeConverter collection_converter = MVC.GetTypeConversion(args.GetCollection().GetType());
-		if (!collection_converter) {
-			Error("Type Converter not found for Collection %1", args.GetCollection().GetType().ToString());
-			return;
-		}
-
-		// Anonymous Data Setter
-		if (args.GetChangedValue()) {
-			collection_converter.SetParam(args.GetChangedValue());
-		}
-		
-		switch (args.GetChangedAction()) {
-						
-			case NotifyCollectionChangedAction.Add: {
-				m_WidgetController.InsertData(args.GetChangedIndex(), collection_converter);
-				break;
-			}
-			
-			case NotifyCollectionChangedAction.Remove: {
-				m_WidgetController.RemoveData(args.GetChangedIndex(), collection_converter);
-				break;
-			}
-			
-			case NotifyCollectionChangedAction.Set: {
-				m_WidgetController.ReplaceData(args.GetChangedIndex(), collection_converter);
-				break;
-			}
-			
-			case NotifyCollectionChangedAction.Move: {
-				// this ones a weird case /shrug
-				m_WidgetController.MoveData(args.GetChangedIndex(), Param1<int>.Cast(args.GetChangedValue()).param1);
-				break;	
-			}
-			
-			case NotifyCollectionChangedAction.Clear: {
-				m_WidgetController.ClearData();
-				break;
-			}
-		}
-	}
-	
-	// Two way binding interfaces
-	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
-	{
-		return super.OnDropReceived(w, x, y, reciever);
-	}
-	
 	
 	// Command interfaces
 	override bool OnClick(Widget w, int x, int y, int button)

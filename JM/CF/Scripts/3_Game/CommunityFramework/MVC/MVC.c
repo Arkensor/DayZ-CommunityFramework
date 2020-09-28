@@ -89,11 +89,13 @@ class MVC
 	void RegisterWidgetControllers(out TypenameHashMap widget_controllers)
 	{
 		Trace("MVC::RegisterWidgetControllers");
-		widget_controllers.Insert(Widget, SpacerWidgetController);
-		widget_controllers.Insert(SpacerWidget, SpacerWidgetController);
-		widget_controllers.Insert(GridSpacerWidget, SpacerWidgetController);
-		widget_controllers.Insert(WrapSpacerWidget, SpacerWidgetController);
+		//widget_controllers.Insert(Widget, SpacerWidgetController);
 		
+		widget_controllers.Insert(SpacerBaseWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(WrapSpacerWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(GridSpacerWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(ScrollWidget, SpacerBaseWidgetController);
+
 		widget_controllers.Insert(ButtonWidget, ButtonWidgetController);
 		widget_controllers.Insert(CheckBoxWidget, CheckBoxWidgetController);
 		widget_controllers.Insert(EditBoxWidget, EditBoxWidgetController);

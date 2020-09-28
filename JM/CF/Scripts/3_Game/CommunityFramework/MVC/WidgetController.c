@@ -1,4 +1,14 @@
 
+Widget GetChildAtIndex(Widget widget, int index)
+{
+	Widget result;
+	while (index > 0) {
+		result = widget.GetChildren();
+		index--;
+	}
+	
+	return result;
+}
 
 class WidgetController
 {	
@@ -16,7 +26,7 @@ class WidgetController
 	void InsertData(int index, TypeConverter type_converter);
 	void RemoveData(int index, TypeConverter type_converter);
 	void ReplaceData(int index, TypeConverter type_converter);
-	void MoveData(int start_index, int final_index);
+	void MoveData(int index, TypeConverter type_converter);
 	void ClearData();
 }
 
@@ -155,13 +165,13 @@ class MultilineEditBoxWidgetController: WidgetControllerTemplate<MultilineEditBo
 	}
 }
 
-class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
+class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 {
-	/*
+	
 	override bool CanTwoWayBind() {
 		return true;
 	}
-	
+	/*
 	override void SetData(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetWidget());
 	}
@@ -174,7 +184,8 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 	
 	override void InsertData(int index, TypeConverter type_converter) {
 		if (type_converter.GetWidget()) {
-			m_Widget.AddChild(type_converter.GetWidget());
+			Widget after = GetChildAtIndex(m_Widget, index);
+			m_Widget.AddChildAfter(type_converter.GetWidget(), after);
 		}
 	}
 	
@@ -199,6 +210,12 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 			m_Widget.AddChildAfter(type_converter.GetWidget(), child);
 			m_Widget.RemoveChild(child);
 		}
+	}
+	
+	override void MoveData(int index, TypeConverter type_converter)
+	{
+		RemoveData(0, type_converter);
+		//InsertData(index, type_converter);
 	}
 }
 

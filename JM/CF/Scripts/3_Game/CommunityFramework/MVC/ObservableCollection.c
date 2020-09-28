@@ -1,11 +1,3 @@
-enum NotifyCollectionChangedAction {
-	Add,
-	Remove,
-	Set,
-	Move,
-	Clear
-};
-
 
 /*
 
@@ -102,11 +94,24 @@ class ObservableCollection<Class TValue>: Observable
 		_data.Set(index, value);
 	}
 	
-	int Move(int index, int moveindex)
+	int MoveIndex(int index, int moveindex)
 	{
+		TValue value = _data.Get(index);
 		int new_index = _data.MoveIndex(index, moveindex);
-		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Move, index, new Param1<int>(new_index)));
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Move, new_index, new Param1<TValue>(value)));
 		return new_index;
+	}
+	
+	void SwapItems(int item_1, int item_2)
+	{
+		TValue value_1 = _data.Get(item_1);
+		TValue value_2 = _data.Get(item_2);
+		
+		
+		
+		_data.SwapItems(item_1, item_2);
+		
+		//CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Swap, item_1, new Param1<TValue>(value)));
 	}
 	
 	void Clear()

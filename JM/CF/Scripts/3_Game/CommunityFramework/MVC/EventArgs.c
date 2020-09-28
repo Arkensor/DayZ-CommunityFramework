@@ -1,25 +1,34 @@
 
+enum NotifyCollectionChangedAction {
+	Add,
+	Remove,
+	Set,
+	Move,
+	Swap,
+	Clear
+};
+
+class CollectionChangedAction
+{
+	NotifyCollectionChangedAction ChangedAction;
+	
+}
+
 // Event Args for Collection Changed
 // 0: Collection that was changed
 // 1: Collection Changed Action
 // 2: Collection Changed Index
 // 3: Collection Changed Value
-class CollectionChangedEventArgs: Param4<Class, int, int, ref Param>
+class CollectionChangedEventArgs
 {
-	Observable GetCollection() {
-		return Observable.Cast(param1);
-	}
+	Observable Source;
+	NotifyCollectionChangedAction ChangedAction;
+	int ChangedIndex;
+	ref Param ChangedValue;
 	
-	NotifyCollectionChangedAction GetChangedAction() {
-		return param2;
-	}
-	
-	int GetChangedIndex() {
-		return param3;
-	}
-	
-	Param GetChangedValue() {
-		return param4;
+	void CollectionChangedEventArgs(Observable source, NotifyCollectionChangedAction changed_action, int changed_index, Param changed_value)
+	{
+		Source = source; ChangedAction = changed_action; ChangedIndex = changed_index; ChangedValue = changed_value;
 	}
 }
 
