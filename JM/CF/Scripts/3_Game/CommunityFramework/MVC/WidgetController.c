@@ -10,6 +10,7 @@ Widget GetChildAtIndex(Widget widget, int index)
 	return result;
 }
 
+
 class WidgetController
 {	
 	bool CanTwoWayBind() {
@@ -88,16 +89,16 @@ class ButtonWidgetController: WidgetControllerTemplate<ButtonWidget>
 		return true;
 	}
 	
-	override void SetSelection(TypeConverter type_converter) {
-		m_Widget.SetText(type_converter.GetString());
-	}
-	
 	override void Set(TypeConverter type_converter) {
 		m_Widget.SetState(type_converter.GetBool());
 	}
 	
 	override void Get(out TypeConverter type_converter) {
 		type_converter.SetBool(m_Widget.GetState());
+	}
+	
+	override void SetSelection(TypeConverter type_converter) {
+		m_Widget.SetText(type_converter.GetString());
 	}
 }
 
@@ -122,16 +123,16 @@ class CheckBoxWidgetController: WidgetControllerTemplate<CheckBoxWidget>
 		return true;
 	}
 	
-	override void SetSelection(TypeConverter type_converter) {
-		m_Widget.SetText(type_converter.GetString());
-	}
-	
 	override void Set(TypeConverter type_converter) {
 		m_Widget.SetChecked(type_converter.GetBool());
 	}
 	
 	override void Get(out TypeConverter type_converter) {
 		type_converter.SetBool(m_Widget.IsChecked());
+	}
+		
+	override void SetSelection(TypeConverter type_converter) {
+		m_Widget.SetText(type_converter.GetString());
 	}
 }
 
@@ -170,6 +171,16 @@ class TextWidgetController: WidgetControllerTemplate<TextWidget>
 {
 	override void Set(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetString());
+	}
+}
+
+class ImageWidgetController: WidgetControllerTemplate<ImageWidget>
+{
+	override void Set(TypeConverter type_converter) {
+		if (type_converter.GetString() != string.Empty) {
+			m_Widget.LoadImageFile(0, type_converter.GetString());
+			m_Widget.SetImage(0);	
+		}
 	}
 }
 
@@ -214,7 +225,7 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	override bool CanTwoWayBind() {
 		return true;
 	}
-	
+		
 	override void Insert(TypeConverter type_converter)
 	{
 		if (type_converter.GetWidget()) {
@@ -344,18 +355,15 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 	override void Remove(int index, TypeConverter type_converter) {
 		m_Widget.RemoveItem(index);
 	}
-}
-
-class ImageWidgetController: WidgetControllerTemplate<ImageWidget>
-{
-	override void Set(TypeConverter type_converter) {
-		if (type_converter.GetString() != string.Empty) {
-			m_Widget.LoadImageFile(0, type_converter.GetString());
-			m_Widget.SetImage(0);	
-		}
+	
+	override void Clear() {
+		m_Widget.ClearAll();
+	}
+	
+	override int Count() {
+		return m_Widget.GetNumItems();
 	}
 }
-
 
 class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 {
