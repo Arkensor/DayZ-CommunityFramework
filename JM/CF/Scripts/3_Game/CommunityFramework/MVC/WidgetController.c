@@ -171,6 +171,7 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	override bool CanTwoWayBind() {
 		return true;
 	}
+	
 	/*
 	override void SetData(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetWidget());

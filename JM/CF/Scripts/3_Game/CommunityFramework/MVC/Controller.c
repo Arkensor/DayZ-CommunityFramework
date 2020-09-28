@@ -85,6 +85,9 @@ class Controller: ScriptedViewBase
 	
 	void NotifyPropertyChanged(string property_name = "", bool notify_controller = true)
 	{
+		// Did you know that when the compiler checks for ambiguous types, it uses string.Contains() 
+		// instead of string.Match()? PropertyChanged and NotifyPropertyChanged need to be distinct or
+		// the whole damn thing breaks. Thanks BI
 		Trace("NotifyPropertyChanged %1", property_name);	
 
 		if (property_name == string.Empty) {
