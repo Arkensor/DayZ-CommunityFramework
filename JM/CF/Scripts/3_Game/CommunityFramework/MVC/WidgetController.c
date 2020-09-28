@@ -48,6 +48,14 @@ class WidgetController
 	void Clear() {
 		NotImplementedError("Clear");
 	}
+	int Find(TypeConverter type_converter) {
+		NotImplementedError("Find");
+		return -1;
+	}
+	int Count() {
+		NotImplementedError("Count");
+		return -1;
+	}
 	
 	private void NotImplementedError(string function) {
 		MVC.Error("%1 does not support function %2", Type().ToString(), function);
@@ -216,7 +224,9 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	
 	override void InsertAt(int index, TypeConverter type_converter)
 	{	
-		if (type_converter.GetWidget()) {
+		if (index == Count()) {
+			Insert(type_converter);
+		} else if (type_converter.GetWidget()) {
 			Widget widget_1 = GetChildAtIndex(m_Widget, index);
 			m_Widget.AddChildAfter(type_converter.GetWidget(), widget_1);
 		}
@@ -264,7 +274,42 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 		m_Widget.AddChildAfter(widget_1, widget_2);
 		m_Widget.RemoveChild(widget_2);
 		m_Widget.AddChildAfter(widget_2, widget_3);
-	}		
+	}
+	
+	override void Clear()
+	{
+		//Widget widget_1 = m_Widget.GetChildren();
+		
+	}
+	
+	override int Find(TypeConverter type_converter) 
+	{
+		Widget widget_1 = m_Widget.GetChildren();
+		int result;
+		while (widget_1 != null) {
+			
+			if (widget_1 == type_converter.GetWidget()) {
+				return result;
+			}
+			
+			widget_1 = widget_1.GetSibling();
+			result++;
+		}
+		
+		return -1;
+	}
+	
+	override int Count()
+	{	
+		Widget widget_1 = m_Widget.GetChildren();
+		int result;
+		while (widget_1 != null) {			
+			widget_1 = widget_1.GetSibling();
+			result++;
+		}
+		
+		return result;
+	}
 }
 
 class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
