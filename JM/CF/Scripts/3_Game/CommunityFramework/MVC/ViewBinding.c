@@ -246,6 +246,29 @@ class ViewBinding: ScriptedViewBase
 		return super.OnChange(w, x, y, finished);
 	}
 	
+	
+	// Two way binding interfaces
+	// Specifically for SpacerBaseWidget
+	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	{
+		if (m_WidgetController && m_WidgetController.CanTwoWayBind() && Two_Way_Binding) {
+			ScriptedViewBase target_view;
+			w.GetScript(target_view);
+			
+			if (target_view) {
+				ScriptedViewBase.FindScriptedRoot(target_view);
+				TypeConverter target_converter = MVC.GetTypeConversion(ScriptedViewBase);
+				target_converter.Set(target_view);
+				
+				if (m_WidgetController && target_converter) {
+					m_WidgetController.Insert(0, target_converter);
+				}
+			}
+		}
+		
+		return super.OnDropReceived(w, x, y, reciever);
+	}
+	
 
 }
 

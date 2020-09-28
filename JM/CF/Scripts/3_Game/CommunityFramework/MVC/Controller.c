@@ -222,41 +222,7 @@ class Controller: ScriptedViewBase
 		}
 				
 		return super.OnChange(w, x, y, finished);
-	}
-	
-	// Two way binding interfaces
-	// Specifically for SpacerBaseWidget
-	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
-	{
-		ScriptedViewBase target_view, reciever_view;
-		w.GetScript(target_view);
-		reciever.GetScript(reciever_view);
-
-		if (target_view && reciever_view) {
-			ScriptedViewBase target_view_base = target_view.GetScriptedRoot();
-			TypeConverter target_converter = MVC.GetTypeConversion(ScriptedViewBase);
-			target_converter.SetParam(new Param1<ScriptedViewBase>(target_view_base));
-			
-			WidgetController widget_controller = reciever_view.GetWidgetController();
-			Print(target_converter);
-			Print(widget_controller);
-			
-			
-			ScriptedViewBase reciever_view_base = reciever_view.GetScriptedRoot();			
-			
-			if (widget_controller && target_converter) {
-				Print("Oh shit wtf");
-				widget_controller.Insert(0, target_converter);
-			}
-				
-			
-			
-		}
-			
-		return super.OnDropReceived(w, x, y, reciever);
-	}
-	
-	
+	}	
 		
 	
 	void DebugPrint()
