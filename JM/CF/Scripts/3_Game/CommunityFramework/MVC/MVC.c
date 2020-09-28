@@ -1,10 +1,14 @@
 
 // Helps workbench not crash, as a result of GetGame()
-DayZGame GetWorkbenchGame(bool force = false) 
+// https://feedback.bistudio.com/T153287
+DayZGame GetWorkbenchGame() 
 {
-	if (!g_Game || force) {
+	// dont want to call this while actually in game
+#ifdef COMPONENT_SYSTEM 
+	if (!g_Game) {
 		g_Game = new DayZGame();
 	}
+#endif
 	
 	return g_Game;
 }
