@@ -19,21 +19,28 @@ static ref MVC _MVC;
 class MVC
 {
 	
+	private static void CheckMVC()
+	{	
+		// Idk what to do about this yet
+		if (!_MVC) { 
+			_MVC = new MVC();
+		}
+	}
+	
 	protected static ref TypenameHashMap m_WidgetControllerHashMap;
-	static WidgetController GetWidgetController(Class data) 
+	static WidgetController GetWidgetController(Widget data) 
 	{
-		if (!_MVC) _MVC = new MVC();
+		CheckMVC();
 	
 		WidgetController widget_controller = m_WidgetControllerHashMap.Get(data.Type()).Spawn();
 		g_Script.Call(widget_controller, "SetWidget", data);
 		return widget_controller;
-	}
-	
+	}	
 	
 	protected static ref TypeConversionHashMap m_TypeConverterHashMap;
 	static TypeConverter GetTypeConversion(typename type) 
 	{
-		if (!_MVC) _MVC = new MVC();
+		CheckMVC();
 		
 		if (type.IsInherited(Observable)) {
 			type = Observable.Cast(type.Spawn()).GetType();
@@ -90,6 +97,7 @@ class MVC
 	{
 		Trace("MVC::RegisterWidgetControllers");
 		
+		widget_controllers.Insert(Widget, WidgetBaseController);
 		widget_controllers.Insert(SpacerBaseWidget, SpacerBaseWidgetController);
 		widget_controllers.Insert(WrapSpacerWidget, SpacerBaseWidgetController);
 		widget_controllers.Insert(GridSpacerWidget, SpacerBaseWidgetController);

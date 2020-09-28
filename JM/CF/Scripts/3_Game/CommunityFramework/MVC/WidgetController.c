@@ -41,6 +41,17 @@ class WidgetControllerTemplate<Class T>: WidgetController
 	}
 }
 
+class WidgetBaseController: WidgetControllerTemplate<Widget>
+{
+	override void SetData(TypeConverter type_converter) {
+		m_Widget = type_converter.GetWidget();
+	}
+	
+	override void GetData(out TypeConverter type_converter) {
+		type_converter.SetWidget(m_Widget);
+	}
+}
+
 class ButtonWidgetController: WidgetControllerTemplate<ButtonWidget>
 {
 	override bool CanTwoWayBind() {

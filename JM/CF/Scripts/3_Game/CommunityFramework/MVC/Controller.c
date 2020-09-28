@@ -58,6 +58,9 @@ class Controller: ScriptedViewBase
 		
 	// Hashmap of all properties in the Controller
 	protected autoptr ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
+	typename GetPropertyType(string property_name) {
+		return m_PropertyTypeHashMap.Get(property_name);
+	}
 		
 	override void OnWidgetScriptInit(Widget w)
 	{		
@@ -189,23 +192,14 @@ class Controller: ScriptedViewBase
 		
 		return m_DataBindingHashMap.Count();
 	}
-
-	// Two way binding interfaces
-	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	
+	
+	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
 	{
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
+		reciever.SetColor(COLOR_RED);
+		w.SetColor(COLOR_BLUE);
 		
-		if (view_binding && reciever.IsInherited(SpacerBaseWidget)) {
-			if (m_PropertyTypeHashMap.Get(view_binding.Binding_Name).IsInherited(Observable)) {
-				Observable result;
-				EnScript.GetClassVar(this, view_binding.Binding_Name, 0, result);
-				if (result) {
-					
-				}
-			}
-		}
-		
-		return super.OnDropReceived(w, x, y, reciever);
+		return super.OnDraggingOver(w, x, y, reciever);
 	}
 	
 	// Update Controller on action from ViewBinding
@@ -230,6 +224,40 @@ class Controller: ScriptedViewBase
 		return super.OnChange(w, x, y, finished);
 	}
 	
+	// Two way binding interfaces
+	// Specifically for SpacerBaseWidget
+	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	{
+		ScriptedViewBase target_view, reciever_view;
+		w.GetScript(target_view);
+		reciever.GetScript(reciever_view);
+
+		if (target_view && reciever_view) {
+			ScriptedViewBase target_view_base = target_view.GetScriptedRoot();
+			TypeConverter target_converter = MVC.GetTypeConversion(ScriptedViewBase);
+			target_converter.SetParam(new Param1<ScriptedViewBase>(target_view_base));
+			
+			WidgetController widget_controller = reciever_view.GetWidgetController();
+			Print(target_converter);
+			Print(widget_controller);
+			
+			
+			ScriptedViewBase reciever_view_base = reciever_view.GetScriptedRoot();			
+			
+			if (widget_controller && target_converter) {
+				Print("Oh shit wtf");
+				widget_controller.Insert(0, target_converter);
+			}
+				
+			
+			
+		}
+			
+		return super.OnDropReceived(w, x, y, reciever);
+	}
+	
+	
+		
 	
 	void DebugPrint()
 	{

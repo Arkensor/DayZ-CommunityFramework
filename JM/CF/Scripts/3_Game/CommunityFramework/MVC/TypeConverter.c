@@ -311,4 +311,8 @@ class TypeConversionScriptView: TypeConversionTemplate<ScriptedViewBase>
 	override Widget GetWidget() {
 		return m_Value.GetLayoutRoot();
 	}
+	
+	override void SetWidget(Widget value) {
+		m_Value.OnWidgetScriptInit(value);
+	}
 }

@@ -48,6 +48,10 @@ class Observable
 		m_Controller.NotifyCollectionChanged(m_VariableName, args);
 	}
 	
+	string GetVariableName() {
+		return m_VariableName;
+	}
+	
 	// Abstract
 	typename GetType();
 	int Count();
@@ -61,7 +65,7 @@ class ObservableCollection<Class TValue>: Observable
 	{
 		int index = _data.Insert(value);
 		if (index != -1) {
-			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Add, index, new Param1<TValue>(value)));
+			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Insert, index, new Param1<TValue>(value)));
 		}
 		
 		return index;
@@ -70,7 +74,7 @@ class ObservableCollection<Class TValue>: Observable
 	int InsertAt(TValue value, int index)
 	{
 		int new_index = _data.InsertAt(value, index);
-		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Set, index, new Param1<TValue>(value)));
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.InsertAt, index, new Param1<TValue>(value)));
 		return new_index;
 	}
 	

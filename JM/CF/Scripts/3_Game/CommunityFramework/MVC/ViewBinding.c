@@ -23,20 +23,19 @@ class ViewBinding: ScriptedViewBase
 	}
 		
 	autoptr ref TypeConverter m_PropertyConverter;
+	TypeConverter GetPropertyConverter() {
+		return m_PropertyConverter;
+	}
 	autoptr ref TypeConverter m_SelectedConverter;
-	autoptr ref WidgetController m_WidgetController;
-
+	TypeConverter GetSelectedConverter() {
+		return m_SelectedConverter;
+	}
+	
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
 		Log("Loaded from Widget: %1", m_LayoutRoot.GetName());
-		
-		m_WidgetController = MVC.GetWidgetController(m_LayoutRoot);
-		if (!m_WidgetController) {
-			Error("Could not find WidgetController for type %1\n\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
-			return;
-		}
-		
+				
 		// Check for two way binding support
 		if (Two_Way_Binding && !m_WidgetController.CanTwoWayBind()) {
 			Error("Two Way Binding for %1 is not supported!", m_LayoutRoot.Type().ToString());
@@ -246,6 +245,8 @@ class ViewBinding: ScriptedViewBase
 				
 		return super.OnChange(w, x, y, finished);
 	}
+	
+
 }
 
 
