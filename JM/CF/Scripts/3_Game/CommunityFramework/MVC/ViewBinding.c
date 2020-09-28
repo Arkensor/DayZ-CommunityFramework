@@ -132,8 +132,13 @@ class ViewBinding: ScriptedViewBase
 		
 		switch (args.ChangedAction) {
 						
-			case NotifyCollectionChangedAction.Add: {
+			case NotifyCollectionChangedAction.Insert: {
 				m_WidgetController.Insert(args.ChangedIndex, collection_converter);
+				break;
+			}
+			
+			case NotifyCollectionChangedAction.InsertAt: {
+				m_WidgetController.InsertAt(args.ChangedIndex, collection_converter);
 				break;
 			}
 			
@@ -162,9 +167,14 @@ class ViewBinding: ScriptedViewBase
 				m_WidgetController.Clear();
 				break;
 			}
+			
+			default: {
+				Error("Invalid NotifyCollectionChangedAction Type %1", args.ChangedAction.ToString());
+			}
 		}
 	}
 	
+	// View -> Collection
 	void UpdateCollectionFromView(ref CollectionChangedEventArgs args)
 	{
 		Trace("UpdateCollectionFromView");

@@ -24,6 +24,7 @@ class WidgetController
 	void SetSelection(TypeConverter type_converter);
 	void GetSelection(out TypeConverter type_converter);
 	void Insert(int index, TypeConverter type_converter);
+	void InsertAt(int index, TypeConverter type_converter);
 	void Remove(int index, TypeConverter type_converter);
 	void Set(int index, TypeConverter type_converter);
 	void Move(int index, TypeConverter type_converter);
@@ -188,6 +189,14 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	{
 		if (type_converter.GetWidget()) {
 			m_Widget.AddChild(type_converter.GetWidget());
+		}
+	}
+	
+	override void InsertAt(int index, TypeConverter type_converter)
+	{	
+		if (type_converter.GetWidget()) {
+			Widget widget_1 = GetChildAtIndex(m_Widget, index);
+			m_Widget.AddChildAfter(type_converter.GetWidget(), widget_1);
 		}
 	}
 	

@@ -1,6 +1,7 @@
 
 enum NotifyCollectionChangedAction {
-	Add,
+	Insert,
+	InsertAt,
 	Remove,
 	Set,
 	Move,
