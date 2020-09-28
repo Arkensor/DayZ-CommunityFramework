@@ -252,15 +252,30 @@ class ViewBinding: ScriptedViewBase
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
 		if (m_WidgetController && m_WidgetController.CanTwoWayBind() && Two_Way_Binding) {
+			
 			ScriptedViewBase scripted_view;
 			w.GetScript(scripted_view);
+			
+			ScriptedViewBase reciever_view;
+			reciever.GetScript(reciever_view);
 			
 			if (scripted_view) {
 				ScriptedViewBase.FindScriptedRoot(scripted_view);
 				TypeConverter scripted_converter = MVC.GetTypeConversion(ScriptedViewBase);
 				if (m_WidgetController && scripted_converter) {
 					scripted_converter.Set(scripted_view);
-					m_WidgetController.Insert(scripted_converter);
+					
+					if (reciever != m_LayoutRoot && reciever_view) {
+						ScriptedViewBase.FindScriptedRoot(reciever_view);
+						TypeConverter reciever_converter = MVC.GetTypeConversion(ScriptedViewBase);
+						reciever_converter.Set(reciever_view);
+						int find = m_WidgetController.Find(reciever_converter);
+						if (find != -1) {
+							m_WidgetController.InsertAt(find + 1, scripted_converter);
+						}
+					} else {
+						m_WidgetController.Insert(scripted_converter);
+					}
 				}
 			}
 		}
