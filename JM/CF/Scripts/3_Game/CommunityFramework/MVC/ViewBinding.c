@@ -128,8 +128,12 @@ class ViewBinding: ScriptedViewBase
 			g_Script.CallFunction(context, Relay_Command, handled, args);
 		}
 
-		if (!handled && context && context.GetParent()) {
-			return InvokeCommand(context.GetParent(), args);
+		if (context) {
+			if (!handled && context.GetParent()) {
+				handled = InvokeCommand(context.GetParent(), args);
+			}
+		} else {
+			return true;
 		}
 		
 		return handled;
@@ -198,6 +202,9 @@ class ViewBinding: ScriptedViewBase
 			
 			case ButtonWidget: { // only thing that isnt called in OnChange for some reason
 				if (InvokeCommand(this, new ButtonCommandArgs(w, button))) {
+					// Weird situation but I need to call UpdateController from Controller without calling OnClick
+					// if (w) is just an edge case if the object is deleted inside of the Command
+					if (w) super.OnClick(w, x, y, button);
 					return true;
 				}
 				
@@ -214,6 +221,9 @@ class ViewBinding: ScriptedViewBase
 		switch (w.Type()) {
 			case CheckBoxWidget: {
 				if (InvokeCommand(this, new CheckBoxCommandArgs(w))) {
+					// Weird situation but I need to call UpdateController from Controller without calling OnChange
+					// if (w) is just an edge case if the object is deleted inside of the Command
+					if (w) super.OnChange(w, x, y, finished);
 					return true;
 				}
 			}		
