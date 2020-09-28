@@ -133,33 +133,33 @@ class ViewBinding: ScriptedViewBase
 		switch (args.ChangedAction) {
 						
 			case NotifyCollectionChangedAction.Add: {
-				m_WidgetController.InsertData(args.ChangedIndex, collection_converter);
+				m_WidgetController.Insert(args.ChangedIndex, collection_converter);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Remove: {
-				m_WidgetController.RemoveData(args.ChangedIndex, collection_converter);
+				m_WidgetController.Remove(args.ChangedIndex, collection_converter);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Set: {
-				m_WidgetController.ReplaceData(args.ChangedIndex, collection_converter);
+				m_WidgetController.Set(args.ChangedIndex, collection_converter);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Move: {
-				m_WidgetController.MoveData(args.ChangedIndex, collection_converter);
+				m_WidgetController.Move(args.ChangedIndex, collection_converter);
 				break;	
 			}
 			
 			case NotifyCollectionChangedAction.Swap: {
 				CollectionSwapArgs swap_args = CollectionSwapArgs.Cast(args.ChangedValue);
-				m_WidgetController.SwapData(swap_args.StartIndex, swap_args.FinishIndex);
+				m_WidgetController.Swap(swap_args.StartIndex, swap_args.FinishIndex);
 				break;
 			}
 			
 			case NotifyCollectionChangedAction.Clear: {
-				m_WidgetController.ClearData();
+				m_WidgetController.Clear();
 				break;
 			}
 		}

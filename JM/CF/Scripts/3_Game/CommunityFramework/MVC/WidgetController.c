@@ -23,12 +23,12 @@ class WidgetController
 	// Collection Stuff
 	void SetSelection(TypeConverter type_converter);
 	void GetSelection(out TypeConverter type_converter);
-	void InsertData(int index, TypeConverter type_converter);
-	void RemoveData(int index, TypeConverter type_converter);
-	void ReplaceData(int index, TypeConverter type_converter);
-	void MoveData(int index, TypeConverter type_converter);
-	void SwapData(int index_1, int index_2);
-	void ClearData();
+	void Insert(int index, TypeConverter type_converter);
+	void Remove(int index, TypeConverter type_converter);
+	void Set(int index, TypeConverter type_converter);
+	void Move(int index, TypeConverter type_converter);
+	void Swap(int index_1, int index_2);
+	void Clear();
 }
 
 class WidgetControllerTemplate<Class T>: WidgetController
@@ -148,19 +148,19 @@ class MultilineEditBoxWidgetController: WidgetControllerTemplate<MultilineEditBo
 		type_converter.SetString(out_text);
 	}
 	
-	override void InsertData(int index, TypeConverter type_converter) {
-		m_Widget.SetLine(index, type_converter.GetString());
-	}
-	
-	override void RemoveData(int index, TypeConverter type_converter) {
-		m_Widget.SetLine(index, string.Empty);
-	}
-	
-	override void ReplaceData(int index, TypeConverter type_converter) {
+	override void Insert(int index, TypeConverter type_converter){
 		m_Widget.SetLine(index, type_converter.GetString());
 	}
 		
-	override void ClearData() {
+	override void Remove(int index, TypeConverter type_converter) {
+		m_Widget.SetLine(index, string.Empty);
+	}
+	
+	override void Set(int index, TypeConverter type_converter) {
+		m_Widget.SetLine(index, type_converter.GetString());
+	}
+		
+	override void Clear() {
 		for (int i = 0; i < m_Widget.GetLinesCount(); i++)
 			m_Widget.SetLine(i, string.Empty);		
 	}
@@ -184,21 +184,21 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 		type_converter.SetString(out_text);
 	}*/
 	
-	override void InsertData(int index, TypeConverter type_converter) 
+	override void Insert(int index, TypeConverter type_converter)
 	{
 		if (type_converter.GetWidget()) {
 			m_Widget.AddChild(type_converter.GetWidget());
 		}
 	}
 	
-	override void RemoveData(int index, TypeConverter type_converter) 
+	override void Remove(int index, TypeConverter type_converter) 
 	{	
 		if (type_converter.GetWidget()) {
 			m_Widget.RemoveChild(type_converter.GetWidget());
 		}
 	}
 	
-	override void ReplaceData(int index, TypeConverter type_converter) 
+	override void Set(int index, TypeConverter type_converter) 
 	{
 		Widget widget_1 = GetChildAtIndex(m_Widget, index);
 		if (type_converter.GetWidget()) {
@@ -207,17 +207,16 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 		}
 	}
 	
-	override void MoveData(int index, TypeConverter type_converter) 
+	override void Move(int index, TypeConverter type_converter) 
 	{
 		Widget widget_1 = GetChildAtIndex(m_Widget, index - 1);
 		if (type_converter.GetWidget() && widget_1) {
 			m_Widget.RemoveChild(type_converter.GetWidget());
 			m_Widget.AddChildAfter(type_converter.GetWidget(), widget_1);
 		}
-		
 	}
 	
-	override void SwapData(int index_1, int index_2) 
+	override void Swap(int index_1, int index_2) 
 	{
 		if (index_1 == index_2 || index_1 < 0 || index_2 < 0) return;
 		if (index_1 > index_2) {
@@ -251,11 +250,11 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 		type_converter.SetInt(m_Widget.GetCurrentItem());
 	}
 	
-	override void InsertData(int index, TypeConverter type_converter) {
+	override void Insert(int index, TypeConverter type_converter){
 		m_Widget.AddItem(type_converter.GetString());
 	}
 	
-	override void RemoveData(int index, TypeConverter type_converter) {
+	override void Remove(int index, TypeConverter type_converter) {
 		m_Widget.RemoveItem(index);
 	}
 }
@@ -294,15 +293,15 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 		type_converter.SetString(selection);
 	}
 	
-	override void InsertData(int index, TypeConverter type_converter) {
+	override void Insert(int index, TypeConverter type_converter){
 		m_Widget.AddItem(type_converter.GetString(), type_converter.GetParam(), 0, index);
 	}
 	
-	override void RemoveData(int index, TypeConverter type_converter) {
+	override void Remove(int index, TypeConverter type_converter) {
 		m_Widget.SetItem(index, string.Empty, null, 0);
 	}
 	
-	override void ClearData() {
+	override void Clear() {
 		m_Widget.ClearItems();
 	}
 }
