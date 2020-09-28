@@ -174,7 +174,6 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 	
 	override void InsertData(int index, TypeConverter type_converter) {
 		if (type_converter.GetWidget()) {
-			Print(type_converter.GetWidget());
 			m_Widget.AddChild(type_converter.GetWidget());
 		}
 	}
@@ -205,6 +204,10 @@ class SpacerWidgetController: WidgetControllerTemplate<SpacerWidget>
 
 class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 {
+	override bool CanTwoWayBind() {
+		return true;
+	}
+	
 	override void SetSelection(TypeConverter type_converter) {
 		m_Widget.SetCurrentItem(type_converter.GetInt());
 	}
@@ -225,14 +228,20 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 class ImageWidgetController: WidgetControllerTemplate<ImageWidget>
 {
 	override void SetData(TypeConverter type_converter) {
-		m_Widget.LoadImageFile(0, type_converter.GetString());
-		m_Widget.SetImage(0);
+		if (type_converter.GetString() != string.Empty) {
+			m_Widget.LoadImageFile(0, type_converter.GetString());
+			m_Widget.SetImage(0);	
+		}
 	}
 }
 
 
 class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 {
+	override bool CanTwoWayBind() {
+		return true;
+	}
+	
 	override void SetSelection(TypeConverter type_converter) {
 		for (int i = 0; i < m_Widget.GetNumItems(); i++) {
 			string row_text;
