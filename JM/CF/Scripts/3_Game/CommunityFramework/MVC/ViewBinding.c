@@ -128,12 +128,13 @@ class ViewBinding: ScriptedViewBase
 			g_Script.CallFunction(context, Relay_Command, handled, args);
 		}
 
-		if (context) {
-			if (!handled && context.GetParent()) {
-				handled = InvokeCommand(context.GetParent(), args);
-			}
-		} else {
-			return true;
+
+		if (!handled && context && context.GetParent()) {
+			handled = InvokeCommand(context.GetParent(), args);
+		}
+
+		if (!context) {
+			handled = true;
 		}
 		
 		return handled;
