@@ -126,7 +126,7 @@ class ViewBinding: ScriptedViewBase
 		}
 
 		// Anonymous Data Setter
-		if (args.ChangedValue) {
+		if (args.ChangedValue && args.ChangedIndex != -1) {
 			collection_converter.SetParam(args.ChangedValue);
 		}
 		
@@ -150,6 +150,12 @@ class ViewBinding: ScriptedViewBase
 			case NotifyCollectionChangedAction.Move: {
 				m_WidgetController.MoveData(args.ChangedIndex, collection_converter);
 				break;	
+			}
+			
+			case NotifyCollectionChangedAction.Swap: {
+				CollectionSwapArgs swap_args = CollectionSwapArgs.Cast(args.ChangedValue);
+				m_WidgetController.SwapData(swap_args.StartIndex, swap_args.FinishIndex);
+				break;
 			}
 			
 			case NotifyCollectionChangedAction.Clear: {

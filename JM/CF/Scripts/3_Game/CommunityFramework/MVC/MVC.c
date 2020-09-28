@@ -89,7 +89,6 @@ class MVC
 	void RegisterWidgetControllers(out TypenameHashMap widget_controllers)
 	{
 		Trace("MVC::RegisterWidgetControllers");
-		//widget_controllers.Insert(Widget, SpacerWidgetController);
 		
 		widget_controllers.Insert(SpacerBaseWidget, SpacerBaseWidgetController);
 		widget_controllers.Insert(WrapSpacerWidget, SpacerBaseWidgetController);

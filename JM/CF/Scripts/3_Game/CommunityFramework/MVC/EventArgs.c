@@ -8,10 +8,15 @@ enum NotifyCollectionChangedAction {
 	Clear
 };
 
-class CollectionChangedAction
+
+class CollectionSwapArgs
 {
-	NotifyCollectionChangedAction ChangedAction;
-	
+	int StartIndex;
+	int FinishIndex;
+	void CollectionSwapArgs(int start, int finish) 
+	{
+		StartIndex = start; FinishIndex = finish;
+	}
 }
 
 // Event Args for Collection Changed
@@ -22,11 +27,11 @@ class CollectionChangedAction
 class CollectionChangedEventArgs
 {
 	Observable Source;
-	NotifyCollectionChangedAction ChangedAction;
+	NotifyCollectionChangedAction ChangedAction;	
 	int ChangedIndex;
-	ref Param ChangedValue;
+	Class ChangedValue;
 	
-	void CollectionChangedEventArgs(Observable source, NotifyCollectionChangedAction changed_action, int changed_index, Param changed_value)
+	void CollectionChangedEventArgs(Observable source, NotifyCollectionChangedAction changed_action, int changed_index, Class changed_value)
 	{
 		Source = source; ChangedAction = changed_action; ChangedIndex = changed_index; ChangedValue = changed_value;
 	}

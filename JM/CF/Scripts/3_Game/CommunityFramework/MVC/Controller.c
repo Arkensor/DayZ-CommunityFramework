@@ -157,7 +157,7 @@ class Controller: ScriptedViewBase
 					command.SetViewBinding(view_binding);
 					view_binding.SetRelayCommand(command);
 				} else {
-					Log("RelayCommand %1 not found on controller - Assuming its a function!", view_binding.Relay_Command);
+					Log("RelayCommand type %1 not found - Assuming its a function on the Controller / ScriptView!", view_binding.Relay_Command);
 				}
 			}
 			

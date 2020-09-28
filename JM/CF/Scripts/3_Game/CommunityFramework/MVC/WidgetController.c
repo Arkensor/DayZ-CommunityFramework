@@ -1,9 +1,9 @@
 
 Widget GetChildAtIndex(Widget widget, int index)
 {
-	Widget result;
+	Widget result = widget.GetChildren();
 	while (index > 0) {
-		result = widget.GetChildren();
+		result = result.GetSibling();
 		index--;
 	}
 	
@@ -27,6 +27,7 @@ class WidgetController
 	void RemoveData(int index, TypeConverter type_converter);
 	void ReplaceData(int index, TypeConverter type_converter);
 	void MoveData(int index, TypeConverter type_converter);
+	void SwapData(int index_1, int index_2);
 	void ClearData();
 }
 
@@ -183,41 +184,57 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 		type_converter.SetString(out_text);
 	}*/
 	
-	override void InsertData(int index, TypeConverter type_converter) {
+	override void InsertData(int index, TypeConverter type_converter) 
+	{
 		if (type_converter.GetWidget()) {
-			Widget after = GetChildAtIndex(m_Widget, index);
-			m_Widget.AddChildAfter(type_converter.GetWidget(), after);
+			m_Widget.AddChild(type_converter.GetWidget());
 		}
 	}
 	
-	override void RemoveData(int index, TypeConverter type_converter) {
+	override void RemoveData(int index, TypeConverter type_converter) 
+	{	
 		if (type_converter.GetWidget()) {
 			m_Widget.RemoveChild(type_converter.GetWidget());
 		}
 	}
 	
-	override void ReplaceData(int index, TypeConverter type_converter) {
-
-		Widget child = m_Widget.GetChildren();
-		while (child) {
-			if (index == 0)
-				break;
-			
-			child = child.GetSibling();
-			index--;
-		}
-		
+	override void ReplaceData(int index, TypeConverter type_converter) 
+	{
+		Widget widget_1 = GetChildAtIndex(m_Widget, index);
 		if (type_converter.GetWidget()) {
-			m_Widget.AddChildAfter(type_converter.GetWidget(), child);
-			m_Widget.RemoveChild(child);
+			m_Widget.AddChildAfter(type_converter.GetWidget(), widget_1);
+			m_Widget.RemoveChild(widget_1);
 		}
 	}
 	
-	override void MoveData(int index, TypeConverter type_converter)
+	override void MoveData(int index, TypeConverter type_converter) 
 	{
-		RemoveData(0, type_converter);
-		//InsertData(index, type_converter);
+		Widget widget_1 = GetChildAtIndex(m_Widget, index - 1);
+		if (type_converter.GetWidget() && widget_1) {
+			m_Widget.RemoveChild(type_converter.GetWidget());
+			m_Widget.AddChildAfter(type_converter.GetWidget(), widget_1);
+		}
+		
 	}
+	
+	override void SwapData(int index_1, int index_2) 
+	{
+		if (index_1 == index_2 || index_1 < 0 || index_2 < 0) return;
+		if (index_1 > index_2) {
+			int store = index_1;
+			index_1 = index_2;
+			index_2 = store;
+		}
+		
+		Widget widget_1 = GetChildAtIndex(m_Widget, index_1);
+		Widget widget_2 = GetChildAtIndex(m_Widget, index_2);
+		Widget widget_3 = GetChildAtIndex(m_Widget, index_2 - 1);
+		
+		m_Widget.RemoveChild(widget_1);
+		m_Widget.AddChildAfter(widget_1, widget_2);
+		m_Widget.RemoveChild(widget_2);
+		m_Widget.AddChildAfter(widget_2, widget_3);
+	}		
 }
 
 class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
