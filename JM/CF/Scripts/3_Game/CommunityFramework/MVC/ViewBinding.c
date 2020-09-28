@@ -74,7 +74,7 @@ class ViewBinding: ScriptedViewBase
 		if (m_PropertyConverter) {
 			Log("Updating %1 to the value of %2", m_LayoutRoot.GetName(), Binding_Name);
 			m_PropertyConverter.GetFromController(controller, Binding_Name, 0);
-			m_WidgetController.SetData(m_PropertyConverter);
+			m_WidgetController.Set(m_PropertyConverter);
 		}
 		
 		// Selected_Item handler
@@ -95,7 +95,7 @@ class ViewBinding: ScriptedViewBase
 		// Binding_Name handler
 		if (m_PropertyConverter && Two_Way_Binding && m_WidgetController.CanTwoWayBind()) {
 			Log("Setting %1 to the value of %2", Binding_Name, m_LayoutRoot.GetName());
-			m_WidgetController.GetData(m_PropertyConverter);
+			m_WidgetController.Get(m_PropertyConverter);
 			m_PropertyConverter.SetToController(controller, Binding_Name, 0);
 			controller.NotifyPropertyChanged(Binding_Name);
 		}
@@ -146,8 +146,8 @@ class ViewBinding: ScriptedViewBase
 				break;
 			}
 			
-			case NotifyCollectionChangedAction.Set: {
-				m_WidgetController.Set(args.ChangedIndex, collection_converter);
+			case NotifyCollectionChangedAction.Replace: {
+				m_WidgetController.Replace(args.ChangedIndex, collection_converter);
 				break;
 			}
 			

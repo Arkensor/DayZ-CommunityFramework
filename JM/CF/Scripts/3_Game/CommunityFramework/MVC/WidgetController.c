@@ -17,8 +17,8 @@ class WidgetController
 	}
 
 	// Base Controller Stuff
-	void SetData(TypeConverter type_converter);
-	void GetData(out TypeConverter type_converter);
+	void Set(TypeConverter type_converter);
+	void Get(out TypeConverter type_converter);
 	
 	// Collection Stuff
 	void SetSelection(TypeConverter type_converter) {
@@ -36,8 +36,8 @@ class WidgetController
 	void Remove(int index, TypeConverter type_converter) {
 		NotImplementedError("Remove");
 	}
-	void Set(int index, TypeConverter type_converter) {
-		NotImplementedError("Set");
+	void Replace(int index, TypeConverter type_converter) {
+		NotImplementedError("Replace");
 	}
 	void Move(int index, TypeConverter type_converter) {
 		NotImplementedError("Move");
@@ -65,11 +65,11 @@ class WidgetControllerTemplate<Class T>: WidgetController
 
 class WidgetBaseController: WidgetControllerTemplate<Widget>
 {
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget = type_converter.GetWidget();
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetWidget(m_Widget);
 	}
 }
@@ -84,11 +84,11 @@ class ButtonWidgetController: WidgetControllerTemplate<ButtonWidget>
 		m_Widget.SetText(type_converter.GetString());
 	}
 	
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetState(type_converter.GetBool());
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetBool(m_Widget.GetState());
 	}
 }
@@ -99,11 +99,11 @@ class EditBoxWidgetController: WidgetControllerTemplate<EditBoxWidget>
 		return true;
 	}
 	
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetString());
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetString(m_Widget.GetText());
 	}
 }
@@ -118,11 +118,11 @@ class CheckBoxWidgetController: WidgetControllerTemplate<CheckBoxWidget>
 		m_Widget.SetText(type_converter.GetString());
 	}
 	
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetChecked(type_converter.GetBool());
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetBool(m_Widget.IsChecked());
 	}
 }
@@ -133,11 +133,11 @@ class SliderWidgetController: WidgetControllerTemplate<SliderWidget>
 		return true;
 	}
 	
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetCurrent(type_converter.GetFloat());
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetFloat(m_Widget.GetCurrent());
 	}
 }
@@ -149,18 +149,18 @@ class ProgressBarController: WidgetControllerTemplate<ProgressBarWidget>
 		return true;
 	}
 	
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetCurrent(type_converter.GetFloat());
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetFloat(m_Widget.GetCurrent());
 	}
 }
 
 class TextWidgetController: WidgetControllerTemplate<TextWidget>
 {
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetString());
 	}
 }
@@ -172,11 +172,11 @@ class MultilineEditBoxWidgetController: WidgetControllerTemplate<MultilineEditBo
 		return true;
 	}
 	
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetString());
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		string out_text;
 		m_Widget.GetText(out_text);
 		type_converter.SetString(out_text);
@@ -186,7 +186,7 @@ class MultilineEditBoxWidgetController: WidgetControllerTemplate<MultilineEditBo
 		m_Widget.SetLine(index, type_converter.GetString());
 	}
 	
-	override void Set(int index, TypeConverter type_converter) {
+	override void Replace(int index, TypeConverter type_converter) {
 		InsertAt(index, type_converter);
 	}
 			
@@ -222,7 +222,7 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 		}
 	}
 	
-	override void Set(int index, TypeConverter type_converter) 
+	override void Replace(int index, TypeConverter type_converter) 
 	{
 		if (type_converter.GetWidget()) {
 			Widget widget_1 = GetChildAtIndex(m_Widget, index);
@@ -289,7 +289,7 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 		m_Widget.SetItem(index, type_converter.GetString());
 	}
 	
-	override void Set(int index, TypeConverter type_converter) {
+	override void Replace(int index, TypeConverter type_converter) {
 		InsertAt(index, type_converter);
 	}
 	
@@ -300,7 +300,7 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 
 class ImageWidgetController: WidgetControllerTemplate<ImageWidget>
 {
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		if (type_converter.GetString() != string.Empty) {
 			m_Widget.LoadImageFile(0, type_converter.GetString());
 			m_Widget.SetImage(0);	
@@ -351,7 +351,7 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 
 class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
 {
-	override void SetData(TypeConverter type_converter) {
+	override void Set(TypeConverter type_converter) {
 		EntityAI entity;
 		if (Class.CastTo(entity, type_converter.GetObject())) {
 			Print(entity.GetPosition());
@@ -360,7 +360,7 @@ class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
 		}
 	}
 	
-	override void GetData(out TypeConverter type_converter) {
+	override void Get(out TypeConverter type_converter) {
 		type_converter.SetParam(new Param1<EntityAI>(m_Widget.GetItem()));
 	}
 }

@@ -94,7 +94,7 @@ class ObservableCollection<Class TValue>: Observable
 	
 	void Set(int index, TValue value)
 	{
-		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Set, index, new Param1<TValue>(value)));
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Replace, index, new Param1<TValue>(value)));
 		_data.Set(index, value);
 	}
 	

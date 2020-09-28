@@ -3,7 +3,7 @@ enum NotifyCollectionChangedAction {
 	Insert,
 	InsertAt,
 	Remove,
-	Set,
+	Replace,
 	Move,
 	Swap,
 	Clear
