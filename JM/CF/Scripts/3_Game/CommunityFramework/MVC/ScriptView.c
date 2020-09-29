@@ -80,6 +80,11 @@ class ScriptView: ScriptedViewBase
 				if (target && m_LayoutRoot.GetName() != property_name) {
 					EnScript.SetClassVar(this, property_name, 0, target);
 				}
+				
+				// Allows you to define the layout root aswell within it
+				if (!target && m_LayoutRoot.GetName() == property_name) {
+					EnScript.SetClassVar(this, property_name, 0, m_LayoutRoot);
+				}
 			}
 		}
 	}

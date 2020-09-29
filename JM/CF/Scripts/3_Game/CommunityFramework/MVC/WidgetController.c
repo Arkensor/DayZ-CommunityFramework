@@ -225,7 +225,8 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	override bool CanTwoWayBind() {
 		return true;
 	}
-		
+	
+
 	override void Insert(TypeConverter type_converter)
 	{
 		if (type_converter.GetWidget()) {
@@ -290,7 +291,7 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	override void Clear()
 	{
 		Widget widget_1 = m_Widget.GetChildren();
-		while (widget_1 != null) {			
+		while (widget_1 != null) {
 			m_Widget.RemoveChild(widget_1);
 			widget_1 = widget_1.GetSibling();
 		}

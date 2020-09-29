@@ -79,6 +79,18 @@ class ObservableCollection<Class TValue>: Observable
 	}
 	
 	
+	// 0: TValue value
+	// 1: int index
+	int InsertAtEx(TypeConverter type_converter, int index)
+	{
+		TValue value; // scoofed
+		g_Script.CallFunction(type_converter, "GetData", value, null);
+		Print(value);
+		int new_index = _data.InsertAt(value, index);
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.InsertAt, index, new Param1<TValue>(value)));
+		return new_index;
+	}
+	
 	void Remove(int index)
 	{
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, index, new Param1<TValue>(_data.Get(index))));	

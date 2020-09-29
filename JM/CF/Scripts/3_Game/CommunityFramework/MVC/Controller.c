@@ -41,7 +41,7 @@ class TestController: Controller
 class Controller: ScriptedViewBase
 {	
 	// All View Bindings
-	protected autoptr ref ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
+	protected autoptr ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
 	ViewBindingHashMap GetViewBindings() {
 		return m_ViewBindingHashMap; 
 	}
@@ -51,13 +51,13 @@ class Controller: ScriptedViewBase
 	}
 	
 	// View Bindings indexed by their Binding_Name
-	protected autoptr ref DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
+	protected autoptr DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
 	DataBindingHashMap GetDataBindings() {
 		return m_DataBindingHashMap;
 	}
 		
 	// Hashmap of all properties in the Controller
-	protected autoptr ref PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
+	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	typename GetPropertyType(string property_name) {
 		return m_PropertyTypeHashMap.Get(property_name);
 	}
@@ -192,16 +192,7 @@ class Controller: ScriptedViewBase
 		
 		return m_DataBindingHashMap.Count();
 	}
-	
-	
-	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
-	{
-		reciever.SetColor(COLOR_RED);
-		w.SetColor(COLOR_BLUE);
 		
-		return super.OnDraggingOver(w, x, y, reciever);
-	}
-	
 	// Update Controller on action from ViewBinding
 	override bool OnClick(Widget w, int x, int y, int button)
 	{		
@@ -222,9 +213,29 @@ class Controller: ScriptedViewBase
 		}
 				
 		return super.OnChange(w, x, y, finished);
-	}	
+	}
 		
-	
+	// Two way binding interfaces
+	// Specifically for SpacerBaseWidget	
+	/*
+	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	{
+		ViewBinding reciever_view;
+		reciever.GetScript(reciever_view);
+		//ScriptedViewBase.FindScriptedRoot(reciever_view);
+		if (reciever_view) {
+			
+			ScriptedViewBase scripted_view;
+			w.GetScript(scripted_view);
+			ScriptedViewBase.FindScriptedRoot(scripted_view);
+			if (scripted_view) {
+				reciever_view.HandleDropReceived(scripted_view, this);
+			}
+		}
+		
+		return super.OnDropReceived(w, x, y, reciever);
+	}
+		*/
 	void DebugPrint()
 	{
 		m_DataBindingHashMap.DebugPrint();

@@ -24,9 +24,28 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 		return m_TypeConverter;
 	}
 	
+	// ScriptedViewBase parent
+	protected ScriptedViewBase m_ParentScriptedViewBase;
+	ScriptedViewBase GetParent() {
+		return m_ParentScriptedViewBase;
+	}
+	
+	void SetParent(ScriptedViewBase parent) {
+		m_ParentScriptedViewBase = parent;
+	}
+		
+	
 	void ScriptedViewBase()
 	{
 		Log(Type().ToString());
+		
+		m_TypeConverter = MVC.GetTypeConversion(Type());
+		if (!m_TypeConverter) {
+			Error("Could not generate TypeConverter on %1", Type().ToString());
+			return;
+		}
+		
+		m_TypeConverter.Set(this);
 	}
 	
 	void ~ScriptedViewBase()
@@ -49,25 +68,8 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 			Error("Could not find WidgetController for type %1\n\nOverride MVC.RegisterWidgetControllers to register custom WidgetControllers", m_LayoutRoot.GetTypeName());
 			return;
 		}
-		
-		m_TypeConverter = MVC.GetTypeConversion(Type());
-		if (!m_TypeConverter) {
-			Error("Could not generate TypeConverter on %1", Type().ToString());
-			return;
-		}
-		
-		m_TypeConverter.Set(this);
 	}
 	
-	protected ScriptedViewBase m_ParentScriptedViewBase;
-	ref ScriptedViewBase GetParent() {
-		return m_ParentScriptedViewBase;
-	}
-	
-	void SetParent(ScriptedViewBase parent) {
-		m_ParentScriptedViewBase = parent;
-	}
-		
 	ScriptedViewBase GetScriptedRoot()
 	{
 		ScriptedViewBase view_base = this;

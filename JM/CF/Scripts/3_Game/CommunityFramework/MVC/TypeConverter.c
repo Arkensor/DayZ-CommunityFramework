@@ -13,7 +13,6 @@ class TypeConverter
 		return result;
 	}
 	
-	
 	typename GetType();
 		
 	bool GetBool();

@@ -177,6 +177,10 @@ class ViewBinding: ScriptedViewBase
 	void UpdateCollectionFromView(ref CollectionChangedEventArgs args)
 	{
 		Trace("UpdateCollectionFromView");
+		
+		if (!m_WidgetController) return;
+		Log("Updating Collection from View: %1", m_LayoutRoot.Type().ToString());
+		
 	}	
 	
 	private bool InvokeCommand(ScriptedViewBase context, CommandArgs args)
@@ -247,39 +251,38 @@ class ViewBinding: ScriptedViewBase
 	}
 	
 	
-	// Two way binding interfaces
-	// Specifically for SpacerBaseWidget
-	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
+	/*
+	void HandleDropReceived(ScriptedViewBase drop_target, Controller controller)
 	{
-		if (m_WidgetController && m_WidgetController.CanTwoWayBind() && Two_Way_Binding) {
-			
-			ScriptedViewBase scripted_view;
-			w.GetScript(scripted_view);
-			ScriptedViewBase.FindScriptedRoot(scripted_view);
-			
-			if (scripted_view) {
-				ScriptedViewBase reciever_view;
-				reciever.GetScript(reciever_view);
-				ScriptedViewBase.FindScriptedRoot(reciever_view);
-				
-				if (reciever != m_LayoutRoot && reciever_view) {
-					
-					int find = m_WidgetController.Find(reciever_view.GetTypeConversion());
-					if (find != -1) {
-						m_WidgetController.InsertAt(find + 1, scripted_view.GetTypeConversion());
-					}
-					
-				} else {
-					m_WidgetController.Insert(scripted_view.GetTypeConversion());
-				}
-				
-			}
-		}
+		EditorLog.Trace("ViewBinding::HandleDropReceived");
+		Print(drop_target);
+		Print(m_WidgetController);
+		if (!m_WidgetController || !m_WidgetController.CanTwoWayBind() || !Two_Way_Binding) return;
 		
-		return super.OnDropReceived(w, x, y, reciever);
-	}
-	
 
+			
+		Observable collection;
+		EnScript.GetClassVar(controller, Binding_Name, 0, collection);
+		Print(collection);
+		if (collection) {
+		
+			//g_Script.CallFunction(collection, "Remove", null, drop_target);
+			
+			if (false) {	 // reciever_view && reciever != m_LayoutRoot
+								
+				int find;// = m_WidgetController.Find(reciever_view.GetTypeConversion());
+				
+				g_Script.CallFunction(collection, "Find", find, this);
+				if (find != -1) {
+					Print(drop_target);
+					//m_WidgetController.InsertAt(find + 1, drop_target.GetTypeConversion());
+					g_Script.CallFunctionParams(collection, "InsertAtEx", null, new Param2<TypeConverter, int>(GetTypeConversion(), find + 1));
+				}
+			} else {
+				g_Script.Call(collection, "Insert", drop_target);
+			}
+		}		
+	}*/
 }
 
 
