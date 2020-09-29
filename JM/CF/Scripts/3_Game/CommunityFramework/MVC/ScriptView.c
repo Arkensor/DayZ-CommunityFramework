@@ -109,7 +109,7 @@ class ScriptView: ScriptedViewBase
 		
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 	}
-	
+		
 	// Useful if you want to set to an existing controller
 	void SetController(Controller controller)
 	{
