@@ -126,154 +126,254 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	override bool OnModalResult(Widget w, int x, int y, int code, int result)
 	{
 		Trace("OnModalResult: %1", w.GetName());
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnModalResult(w, x, y, code, result);
+		}
+		
+		return true;
 	}
 	
 	override bool OnDoubleClick(Widget w, int x, int y, int button) 
 	{
 		Trace("OnDoubleClick: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnDoubleClick(w, x, y, button);
+		}
+		
+		return true;
 	}
 	
 	override bool OnSelect(Widget w, int x, int y) 
 	{
 		Trace("OnSelect: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnSelect(w, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnItemSelected(Widget w, int x, int y, int row, int column, int oldRow, int oldColumn)
 	{
 		Trace("OnItemSelected: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnItemSelected(w, x, y, row, column, oldRow, oldColumn);
+		}
+		
+		return true;
 	}
 	
 	override bool OnFocus(Widget w, int x, int y)
 	{
 		Trace("OnFocus: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnFocus(w, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnFocusLost(Widget w, int x, int y)
 	{
 		Trace("OnFocusLost: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnFocusLost(w, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnMouseEnter(Widget w, int x, int y)
 	{
 		Trace("OnMouseEnter: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnMouseEnter(w, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y)
 	{
 		Trace("OnMouseLeave: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnMouseLeave(w, enterW, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
 	{
 		Trace("OnMouseWheel: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnMouseWheel(w, x, y, wheel);
+		}
+		
+		return true;
 	}
 	
 	override bool OnMouseButtonDown(Widget w, int x, int y, int button)
 	{
 		Trace("OnMouseButtonDown: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnMouseButtonDown(w, x, y, button);
+		}
+		
+		return true;
 	}
 	
 	override bool OnMouseButtonUp(Widget w, int x, int y, int button)
 	{
 		Trace("OnMouseButtonUp: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnMouseButtonUp(w, x, y, button);
+		}
+		
+		return true;
 	}
 
 	override bool OnController(Widget w, int control, int value)
 	{
 		Trace("OnController: %1", w.GetName());
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnController(w, control, value);
+		}
+		
+		return true;
 	}
 	
 	override bool OnKeyDown(Widget w, int x, int y, int key)
 	{
 		Trace("OnKeyDown: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnKeyDown(w, x, y, key);
+		}
+		
+		return true;
 	}
 	
 	override bool OnKeyUp(Widget w, int x, int y, int key)
 	{
 		Trace("OnKeyUp: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnKeyUp(w, x, y, key);
+		}
+		
+		return true;
 	}
 	
 	override bool OnKeyPress(Widget w, int x, int y, int key)
 	{
 		Trace("OnKeyPress: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnKeyPress(w, x, y, key);
+		}
+		
+		return true;
 	}
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
 		Trace("OnChange: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnChange(w, x, y, finished);
+		}
+		
+		return true;
 	}
 	
 	override bool OnDrag(Widget w, int x, int y)
 	{
 		Trace("OnDrag: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnDrag(w, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnDragging(Widget w, int x, int y, Widget reciever)
 	{
 		// Disabled bc it wont stfu
 		//Trace("OnDragging: %1", w.GetName());
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnDragging(w, x, y, reciever);
+		}
+		
+		return true;
 	}
 	
 	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
 	{
 		// Disabled bc it wont stfu
 		//Trace("OnDraggingOver: %1", w.GetName());
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnDraggingOver(w, x, y, reciever);
+		}
+		
+		return true;
 	}
 	
 	override bool OnDrop(Widget w, int x, int y, Widget reciever)
 	{
 		Trace("OnDrop: %1 - Reciever: %2", w.GetName(), reciever.ToString());	
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnDrop(w, x, y, reciever);
+		}
+		
+		return true;
 	}
 	
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
 		Trace("OnDropReceived: %1 - Reciever: %2", w.GetName(), reciever.ToString());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnDropReceived(w, x, y, reciever);
+		}
+		
+		return true;
 	}
 	
 	override bool OnResize(Widget w, int x, int y)
 	{
 		// Disabled bc it wont stfu
 		//Trace("OnResize: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnResize(w, x, y);
+		}
+		
+		return true;
 	}
 	
 	override bool OnChildAdd(Widget w, Widget child)
 	{
 		Trace("OnChildAdd: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnChildAdd(w, child);
+		}
+		
+		return true;
 	}
 	
 	override bool OnChildRemove(Widget w, Widget child)
 	{
 		Trace("OnChildRemove: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnChildRemove(w, child);
+		}
+		
+		return true;
 	}
 	
 	override bool OnUpdate(Widget w)
 	{
 		// Disabled bc it wont stfu
 		//Trace("OnUpdate: %1", w.GetName());		
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnUpdate(w);
+		}
+		
+		return true;
 	}
 }
