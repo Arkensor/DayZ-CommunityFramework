@@ -186,7 +186,7 @@ class ViewBinding: ScriptedViewBase
 	private bool InvokeCommand(ScriptedViewBase context, CommandArgs args)
 	{
 		Trace("InvokeCommand");
-				
+		
 		bool handled;
 		args.Context = this;
 		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			

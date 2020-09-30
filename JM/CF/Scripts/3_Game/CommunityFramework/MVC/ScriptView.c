@@ -29,6 +29,7 @@ class ScriptView: ScriptedViewBase
 	
 	void ScriptView(Widget parent = null)
 	{
+		//Debug_Logging = true;
 		Trace("ScriptView");
 		if (!GetLayoutFile()) {
 			Error("Layout file not found! Are you overriding GetLayoutFile?");
@@ -48,25 +49,19 @@ class ScriptView: ScriptedViewBase
 			return;
 		}
 		
-			
 		m_LayoutRoot.GetScript(m_Controller);
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
-			if (GetControllerType()) {
-				m_Controller = GetControllerType().Spawn();
-				if (!m_Controller || !GetControllerType().IsInherited(Controller)) {
-					Error("ScriptView: Invalid Controller %1", GetControllerType().ToString());
-					return;
-				}
-				
-				m_Controller.Debug_Logging = Debug_Logging;
-				m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-				m_Controller.SetParent(this);
-				//m_LayoutRoot.SetHandler(this);				
-				
-			} else {
-				// Temporary testing solution
-				//m_LayoutRoot.SetHandler(this);	
+
+			if (!GetControllerType().IsInherited(Controller)) {
+				Error("ScriptView: %1 is invalid. Must inherit from Controller!", GetControllerType().ToString());
+				return;
 			}
+			
+			m_Controller = GetControllerType().Spawn();
+			m_Controller.Debug_Logging = Debug_Logging;
+			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+			m_Controller.SetParent(this);
+			//m_LayoutRoot.SetHandler(this);
 		}
 	
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
@@ -116,12 +111,15 @@ class ScriptView: ScriptedViewBase
 		m_Controller = controller;
 		m_Controller.Debug_Logging = Debug_Logging;
 		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+		m_Controller.SetParent(this);
 	}
 	
 		
 	// Abstract Methods
 	protected string GetLayoutFile();
-	protected typename GetControllerType();
+	protected typename GetControllerType() {
+		return Controller;
+	}
 }
 
 

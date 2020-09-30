@@ -186,7 +186,8 @@ class Controller: ScriptedViewBase
 			}
 		}
 		
-		if (w.GetSibling() != null) {
+		// w != m_LayoutRoot is so we dont bleed into siblings
+		if (w.GetSibling() != null && w != m_LayoutRoot) {
 			LoadDataBindings(w.GetSibling());
 		}
 		

@@ -25,7 +25,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	}
 	
 	// ScriptedViewBase parent
-	protected ScriptedViewBase m_ParentScriptedViewBase;
+	protected autoptr ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent() {
 		return m_ParentScriptedViewBase;
 	}
@@ -36,7 +36,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	
 	void ScriptedViewBase()
 	{
-		Log(Type().ToString());
+		PrintFormat("[Log] %1", this);
 		
 		m_TypeConverter = MVC.GetTypeConversion(Type());
 		if (!m_TypeConverter) {
@@ -49,7 +49,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	
 	void ~ScriptedViewBase()
 	{	
-		Log("~" + Type().ToString());
+		PrintFormat("[Log] ~%1", this);
 
 		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
 			m_LayoutRoot.Unlink();
@@ -58,7 +58,7 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 		
 	void OnWidgetScriptInit(Widget w)
 	{
-		Trace("OnWidgetScriptInit %1", w.GetName());
+		Trace("OnWidgetScriptInit %1", w.ToString());
 		m_LayoutRoot = w;
 		m_LayoutRoot.SetHandler(this);
 		
@@ -116,7 +116,11 @@ class ScriptedViewBase: ScriptedWidgetEventHandler
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		Trace("OnClick: %1", w.GetName());
-		return false;
+		if (m_ParentScriptedViewBase) {
+			return m_ParentScriptedViewBase.OnClick(w, x, y, button);
+		}
+		
+		return true;
 	}
 
 	override bool OnModalResult(Widget w, int x, int y, int code, int result)
