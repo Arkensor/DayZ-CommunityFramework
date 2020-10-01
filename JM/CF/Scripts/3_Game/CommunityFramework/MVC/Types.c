@@ -1,5 +1,3 @@
-
-
 // 0: Property Name
 // 1: Property Type
 class PropertyTypeHashMap: ref map<string, typename>
@@ -27,7 +25,7 @@ class PropertyTypeHashMap: ref map<string, typename>
 // 1: View Binding
 typedef ref map<Widget, ViewBinding> ViewBindingHashMap;
 
-
+// 0: View Binding
 typedef ref set<ViewBinding> ViewBindingArray;
 
 // 0: Property Name
@@ -58,13 +56,16 @@ class DataBindingHashMap: ref map<string, ref ViewBindingArray>
 	}
 }
 
+// 0: Relay_Command parameter
+// 1: Command Value
+typedef ref map<string, RelayCommand> RelayCommandHashMap
 
-class RelayCommandHashMap: ref map<string, RelayCommand>
-{
-	
-}
-
+// 0: Source Type
+// 1: Conversion Type
 typedef map<typename, typename> TypenameHashMap;
+
+// 0: Source Type
+// 1: Conversion Type
 class TypeConversionHashMap
 {
 	private ref map<typename, typename> value = new map<typename, typename>();
@@ -90,7 +91,6 @@ class TypeConversionHashMap
 	
 	void Set(typename conversion_type, typename conversion_class)
 	{
-		//GetLogger().Log("TypeConverterHashMap::Set", "JM_CF_MVC");
 		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
 			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
 			return;
@@ -101,7 +101,6 @@ class TypeConversionHashMap
 	
 	bool Insert(typename conversion_type, typename conversion_class)
 	{
-		//GetLogger().Log("TypeConverterHashMap::Insert", "JM_CF_MVC");
 		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
 			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
 			return false;

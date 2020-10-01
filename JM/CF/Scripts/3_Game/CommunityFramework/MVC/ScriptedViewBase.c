@@ -1,7 +1,7 @@
 
+// Base type for all primary MVC Types (ScriptView, Controller, ViewBinding)
 class ScriptedViewBase: Managed
 {
-	
 	// Enable verbose logging
 	reference bool Debug_Logging;
 	
