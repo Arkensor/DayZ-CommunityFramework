@@ -405,6 +405,11 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 		string text_1, text_2;
 		Class data_1, data_2;
 		
+		if (index_1 < 0 || index_1 > m_Widget.GetNumItems() || index_2 < 0 || index_2 > m_Widget.GetNumItems()) {
+			return;
+		}
+		
+		
 		m_Widget.GetItemText(index_1, 0, text_1);
 		m_Widget.GetItemData(index_1, 0, data_1);
 		
