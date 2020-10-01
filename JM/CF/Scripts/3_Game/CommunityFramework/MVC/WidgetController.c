@@ -221,11 +221,9 @@ class MultilineEditBoxWidgetController: WidgetControllerTemplate<MultilineEditBo
 
 class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 {
-	
 	override bool CanTwoWayBind() {
 		return true;
 	}
-	
 
 	override void Insert(TypeConverter type_converter)
 	{
@@ -366,6 +364,7 @@ class XComboBoxWidgetController: WidgetControllerTemplate<XComboBoxWidget>
 	}
 }
 
+
 class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 {
 	override bool CanTwoWayBind() {
@@ -390,7 +389,7 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 	}
 	
 	override void Insert(TypeConverter type_converter) {
-		m_Widget.AddItem(type_converter.GetString(), type_converter.Get(), 0);
+		m_Widget.AddItem(type_converter.GetString(), type_converter, 0);
 	}
 		
 	override void InsertAt(int index, TypeConverter type_converter) {
@@ -398,7 +397,7 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 	}
 		
 	override void Remove(int index, TypeConverter type_converter) {
-		m_Widget.SetItem(index, string.Empty, null, 0);
+		m_Widget.SetItem(index, string.Empty, type_converter, 0);
 	}
 	
 	override void Swap(int index_1, int index_2) {
@@ -408,7 +407,6 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 		if (index_1 < 0 || index_1 > m_Widget.GetNumItems() || index_2 < 0 || index_2 > m_Widget.GetNumItems()) {
 			return;
 		}
-		
 		
 		m_Widget.GetItemText(index_1, 0, text_1);
 		m_Widget.GetItemData(index_1, 0, data_1);
@@ -423,6 +421,10 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 	override void Clear() {
 		m_Widget.ClearItems();
 	}
+	
+	override int Count() {
+		return m_Widget.GetNumItems();
+	}
 }
 
 class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
@@ -430,7 +432,6 @@ class ItemPreviewWidgetController: WidgetControllerTemplate<ItemPreviewWidget>
 	override void Set(TypeConverter type_converter) {
 		EntityAI entity;
 		if (Class.CastTo(entity, type_converter.GetObject())) {
-			Print(entity.GetPosition());
 			m_Widget.SetItem(entity);
 			m_Widget.SetModelPosition(vector.Zero);
 		}
