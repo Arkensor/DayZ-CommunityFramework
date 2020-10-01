@@ -158,7 +158,7 @@ class ViewBinding: ScriptedViewBase
 			
 			case NotifyCollectionChangedAction.Swap: {
 				CollectionSwapArgs swap_args = CollectionSwapArgs.Cast(args.ChangedValue);
-				m_WidgetController.Swap(swap_args.StartIndex, swap_args.FinishIndex);
+				m_WidgetController.Swap(swap_args.param1, swap_args.param2);
 				break;
 			}
 			
@@ -214,7 +214,8 @@ class ViewBinding: ScriptedViewBase
 	
 	// Command interfaces
 	override bool OnClick(Widget w, int x, int y, int button)
-	{		
+	{
+		Trace("OnClick");
 		switch (w.Type()) {
 			
 			case ButtonWidget: { // only thing that isnt called in OnChange for some reason
@@ -235,6 +236,7 @@ class ViewBinding: ScriptedViewBase
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
+		Trace("OnChange");
 		switch (w.Type()) {
 			case CheckBoxWidget: {
 				if (InvokeCommand(this, new CheckBoxCommandArgs(w))) {

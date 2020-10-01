@@ -70,7 +70,7 @@ class Controller: ScriptedViewBase
 		
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot);
-		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());	
+		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());
 	}
 	
 	
@@ -106,9 +106,10 @@ class Controller: ScriptedViewBase
 		}
 		
 		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
-		if (!views)	return;
-		foreach (ViewBinding view: views) {
-			view.UpdateView(this);
+		if (views) {
+			foreach (ViewBinding view: views) {
+				view.UpdateView(this);
+			}
 		}
 		
 		if (notify_controller) {
@@ -155,7 +156,7 @@ class Controller: ScriptedViewBase
 			if (view_binding.Relay_Command != string.Empty) {
 				typename relay_command = view_binding.Relay_Command.ToType();
 				if (relay_command && relay_command.IsInherited(RelayCommand)) {
-					RelayCommand command = relay_command.Spawn();
+					RelayCommand command = RelayCommand.Cast(relay_command.Spawn());
 					command.SetController(this);
 					command.SetViewBinding(view_binding);
 					view_binding.SetRelayCommand(command);
