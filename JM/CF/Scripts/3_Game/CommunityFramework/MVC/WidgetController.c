@@ -270,7 +270,7 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 	}
 	
 	override void Swap(int index_1, int index_2) 
-	{
+	{		
 		if (index_1 == index_2 || index_1 < 0 || index_2 < 0) return;
 		if (index_1 > index_2) {
 			int store = index_1;
@@ -399,6 +399,20 @@ class TextListboxController: WidgetControllerTemplate<TextListboxWidget>
 		
 	override void Remove(int index, TypeConverter type_converter) {
 		m_Widget.SetItem(index, string.Empty, null, 0);
+	}
+	
+	override void Swap(int index_1, int index_2) {
+		string text_1, text_2;
+		Class data_1, data_2;
+		
+		m_Widget.GetItemText(index_1, 0, text_1);
+		m_Widget.GetItemData(index_1, 0, data_1);
+		
+		m_Widget.GetItemText(index_2, 0, text_2);
+		m_Widget.GetItemData(index_2, 0, data_2);
+		
+		m_Widget.SetItem(index_2, text_1, data_1, 0);
+		m_Widget.SetItem(index_1, text_2, data_2, 0);		
 	}
 	
 	override void Clear() {

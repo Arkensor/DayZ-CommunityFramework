@@ -1,29 +1,12 @@
-
-// Helps workbench not crash, as a result of GetGame()
-// https://feedback.bistudio.com/T153287
-DayZGame GetWorkbenchGame() 
-{
-	// dont want to call this while actually in game
-#ifdef COMPONENT_SYSTEM 
-	if (!g_Game) {
-		g_Game = new DayZGame();
-	}
-#endif
-	
-	return g_Game;
-}
-
-
-static ref MVC _MVC;
+static ref MVC g_Mvc;
 
 class MVC
 {
-	
 	private static void CheckMVC()
 	{	
 		// Idk what to do about this yet
-		if (!_MVC) { 
-			_MVC = new MVC();
+		if (!g_Mvc) { 
+			g_Mvc = new MVC();
 		}
 	}
 	
@@ -52,10 +35,6 @@ class MVC
 	void MVC()
 	{
 		Trace("MVC");
-		
-		if (!g_Game) {
-			g_Game = new DayZGame();
-		}
 		
 		if (!m_TypeConverterHashMap) {
 			m_TypeConverterHashMap = new TypeConversionHashMap();
@@ -142,6 +121,20 @@ class MVC
 	}
 }
 
+
+// Workbench safe variant of GetGame()
+// https://feedback.bistudio.com/T153287
+DayZGame GetWorkbenchGame() 
+{
+	// dont want to call this while actually in game
+#ifdef COMPONENT_SYSTEM 
+	if (!g_Game) {
+		g_Game = new DayZGame();
+	}
+#endif
+	
+	return g_Game;
+}
 
 
 

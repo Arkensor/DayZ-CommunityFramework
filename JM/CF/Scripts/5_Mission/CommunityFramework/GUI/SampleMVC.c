@@ -37,7 +37,18 @@ class SampleController: Controller
 		}
 	}
 	
+	bool SwapItemsExecute(ButtonCommandArgs args)
+	{
+		if (observable_list_box.Count() < 3) {
+			Error("You need at least 3 items to perform this action");
+			return true;
+		}
 		
+		observable_list_box.SwapItems(0, 3);
+		
+		return true;
+	}
+	
 	// You also dont HAVE to use RelayCommands. normal Scripted Events work fine
 	override bool OnClick(Widget w, int x, int y, int button)
 	{

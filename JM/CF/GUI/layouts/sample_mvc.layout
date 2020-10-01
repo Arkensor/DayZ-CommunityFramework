@@ -192,6 +192,21 @@ FrameWidgetClass root {
      vexactsize 1
      text "Add Item"
     }
+    ButtonWidgetClass text_list_swap {
+     position 0 0
+     size 300 50
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scriptclass "ViewBinding"
+     text "Swap Items 0 and 3"
+     {
+      ScriptParamsClass {
+       Relay_Command "SwapItemsExecute"
+      }
+     }
+    }
     TextListboxWidgetClass text_list_box {
      ignorepointer 1
      position 0 0
