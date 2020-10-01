@@ -11,6 +11,8 @@ class SampleController: Controller
 	ButtonWidget text_list_add;
 	ref ObservableCollection<string> observable_list_box = new ObservableCollection<string>("observable_list_box", this);
 
+	int counter_left_value = 0;
+	int counter_right_value = 3;
 	
 	void SampleController()
 	{
@@ -48,6 +50,35 @@ class SampleController: Controller
 		
 		return true;
 	}
+	
+	bool LeftCounterIncrementExecute(ButtonCommandArgs args)
+	{
+		counter_left_value++;
+		NotifyPropertyChanged("counter_left_value");
+		return true;
+	}
+		
+	bool LeftCounterDecrementExecute(ButtonCommandArgs args)
+	{
+		counter_left_value--;
+		NotifyPropertyChanged("counter_left_value");
+		return true;
+	}	
+	
+	bool RightCounterIncrementExecute(ButtonCommandArgs args)
+	{
+		counter_right_value++;
+		NotifyPropertyChanged("counter_right_value");
+		return true;
+	}
+		
+	bool RightCounterDecrementExecute(ButtonCommandArgs args)
+	{
+		counter_right_value--;
+		NotifyPropertyChanged("counter_right_value");
+		return true;
+	}
+	
 	
 	// You also dont HAVE to use RelayCommands. normal Scripted Events work fine
 	override bool OnClick(Widget w, int x, int y, int button)
