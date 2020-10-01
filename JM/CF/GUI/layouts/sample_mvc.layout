@@ -192,7 +192,7 @@ FrameWidgetClass root {
      vexactsize 0
      {
       ButtonWidgetClass text_list_add {
-       position 0 0
+       position 10 0
        size 200 50
        valign center_ref
        hexactpos 1
@@ -200,280 +200,341 @@ FrameWidgetClass root {
        hexactsize 1
        vexactsize 1
        text "Add Item"
+       {
+        ImageWidgetClass ImageWidget0 {
+         ignorepointer 1
+         position 10 10
+         size 48 48
+         hexactpos 1
+         vexactpos 1
+         hexactsize 1
+         vexactsize 1
+        }
+       }
       }
-      WrapSpacerWidgetClass text_list_swap_frame {
+      PanelWidgetClass text_list_swap_panel {
        ignorepointer 1
-       size 0.25 1
+       size 0.2 1
        halign center_ref
        valign center_ref
        hexactpos 1
        vexactpos 1
        hexactsize 0
        vexactsize 0
-       Padding 5
-       Margin 0
-       content_halign center
-       content_valign center
+       style blank
        {
-        FrameWidgetClass counter_frame_0 {
+        WrapSpacerWidgetClass text_list_swap_spacer {
          ignorepointer 1
-         position 0 0
-         size 0.1 1
+         size 1 1
+         halign center_ref
+         valign center_ref
          hexactpos 1
          vexactpos 1
          hexactsize 0
          vexactsize 0
+         Padding 0
+         Margin 0
+         content_halign center
+         content_valign center
          {
-          GridSpacerWidgetClass counter_0 {
+          PanelWidgetClass counter_frame_0 {
+           visible 1
            ignorepointer 1
-           size 1 1
-           halign center_ref
-           valign center_ref
+           position 0 0
+           size 0.11 1
            hexactpos 1
            vexactpos 1
            hexactsize 0
            vexactsize 0
-           Padding 0
-           Margin 0
-           Columns 1
+           style rover_sim_black_2
            {
-            ButtonWidgetClass counter_increment_0 {
-             visible 1
-             position 0 0
-             size 1 1
-             halign center_ref
-             hexactpos 1
-             vexactpos 1
-             hexactsize 0
-             vexactsize 0
-             scriptclass "ViewBinding"
-             {
-              ImageWidgetClass counter_increment_icon_0 {
-               ignorepointer 1
-               size 1 1
-               halign center_ref
-               valign center_ref
-               hexactpos 1
-               vexactpos 1
-               hexactsize 0
-               vexactsize 0
-               scaled 1
-               image0 "set:dayz_gui image:icon_minus"
-               mode blend
-               "src alpha" 1
-               "no wrap" 0
-               stretch 0
-               "flip u" 0
-               "flip v" 0
-               filter 0
-               nocache 0
-              }
-             }
-             {
-              ScriptParamsClass {
-               Relay_Command "LeftCounterIncrementExecute"
-              }
-             }
-            }
-            TextWidgetClass counter_value_0 {
+            GridSpacerWidgetClass counter_0 {
              ignorepointer 1
-             position 10 10
-             size 48 48
-             hexactpos 1
-             vexactpos 1
-             hexactsize 1
-             vexactsize 1
-             scriptclass "ViewBinding"
-             "text halign" center
-             "text valign" center
-             {
-              ScriptParamsClass {
-               Binding_Name "counter_left_value"
-              }
-             }
-            }
-            ButtonWidgetClass counter_decrement_0 {
-             visible 1
-             position 0 0
              size 1 1
              halign center_ref
+             valign center_ref
              hexactpos 1
              vexactpos 1
              hexactsize 0
              vexactsize 0
-             scriptclass "ViewBinding"
+             Padding 0
+             Margin 0
+             Columns 1
              {
-              ImageWidgetClass counter_increment_icon_1 {
-               ignorepointer 1
+              ButtonWidgetClass counter_increment_0 {
+               visible 1
+               position 0 0
                size 1 1
                halign center_ref
-               valign center_ref
                hexactpos 1
                vexactpos 1
                hexactsize 0
                vexactsize 0
-               scaled 1
-               image0 "set:dayz_gui image:icon_minus"
-               mode blend
-               "src alpha" 1
-               "no wrap" 0
-               stretch 0
-               "flip u" 0
-               "flip v" 1
-               filter 0
-               nocache 0
+               scriptclass "ViewBinding"
+               style Default
+               {
+                ImageWidgetClass counter_increment_icon_0 {
+                 ignorepointer 1
+                 size 1 1
+                 halign center_ref
+                 valign center_ref
+                 hexactpos 1
+                 vexactpos 1
+                 hexactsize 0
+                 vexactsize 0
+                 scaled 1
+                 image0 "set:dayz_gui image:icon_minus"
+                 mode blend
+                 "src alpha" 1
+                 "no wrap" 0
+                 stretch 0
+                 "flip u" 0
+                 "flip v" 0
+                 filter 0
+                 nocache 0
+                }
+               }
+               {
+                ScriptParamsClass {
+                 Relay_Command "LeftCounterIncrementExecute"
+                }
+               }
               }
-             }
-             {
-              ScriptParamsClass {
-               Relay_Command "LeftCounterDecrementExecute"
+              TextWidgetClass counter_value_0 {
+               ignorepointer 1
+               position 10 10
+               size 48 48
+               hexactpos 1
+               vexactpos 1
+               hexactsize 1
+               vexactsize 1
+               scriptclass "ViewBinding"
+               "text halign" center
+               "text valign" center
+               {
+                ScriptParamsClass {
+                 Binding_Name "counter_left_value"
+                }
+               }
+              }
+              ButtonWidgetClass counter_decrement_0 {
+               visible 1
+               position 0 0
+               size 1 1
+               halign center_ref
+               hexactpos 1
+               vexactpos 1
+               hexactsize 0
+               vexactsize 0
+               scriptclass "ViewBinding"
+               style Default
+               {
+                ImageWidgetClass counter_increment_icon_1 {
+                 ignorepointer 1
+                 size 1 1
+                 halign center_ref
+                 valign center_ref
+                 hexactpos 1
+                 vexactpos 1
+                 hexactsize 0
+                 vexactsize 0
+                 scaled 1
+                 image0 "set:dayz_gui image:icon_minus"
+                 mode blend
+                 "src alpha" 1
+                 "no wrap" 0
+                 stretch 0
+                 "flip u" 0
+                 "flip v" 1
+                 filter 0
+                 nocache 0
+                }
+               }
+               {
+                ScriptParamsClass {
+                 Relay_Command "LeftCounterDecrementExecute"
+                }
+               }
               }
              }
             }
            }
           }
-         }
-        }
-        FrameWidgetClass text_list_swap_button_frame {
-         ignorepointer 1
-         position 0 0
-         size 150 1
-         hexactpos 1
-         vexactpos 1
-         hexactsize 1
-         vexactsize 0
-         {
-          ButtonWidgetClass text_list_swap {
+          PanelWidgetClass text_list_swap_button_panel {
+           ignorepointer 1
            position 0 0
-           size 150 25
-           halign center_ref
-           valign center_ref
+           size 150 1
            hexactpos 1
            vexactpos 1
            hexactsize 1
-           vexactsize 1
-           scriptclass "ViewBinding"
-           text "Swap"
+           vexactsize 0
            {
-            ScriptParamsClass {
-             Relay_Command "SwapItemsExecute"
+            PanelWidgetClass text_list_swap_button_frame {
+             ignorepointer 1
+             size 150 0.5
+             halign center_ref
+             valign center_ref
+             hexactpos 1
+             vexactpos 1
+             hexactsize 1
+             vexactsize 0
+             style rover_sim_black_2
+             {
+              ButtonWidgetClass text_list_swap {
+               color 0.1961 0.1961 0.1961 1
+               size 125 25
+               halign center_ref
+               valign center_ref
+               hexactpos 1
+               vexactpos 1
+               hexactsize 1
+               vexactsize 1
+               scriptclass "ViewBinding"
+               style Default
+               text "Swap"
+               {
+                ImageWidgetClass swap_button_icon {
+                 ignorepointer 1
+                 size 25 25
+                 halign right_ref
+                 valign center_ref
+                 hexactpos 1
+                 vexactpos 1
+                 hexactsize 1
+                 vexactsize 1
+                 image0 "set:dayz_gui image:icon_refresh"
+                 mode blend
+                 "src alpha" 1
+                }
+               }
+               {
+                ScriptParamsClass {
+                 Relay_Command "SwapItemsExecute"
+                }
+               }
+              }
+             }
             }
            }
           }
-         }
-        }
-        FrameWidgetClass counter_frame_1 {
-         ignorepointer 1
-         position 0 0
-         size 0.1 1
-         hexactpos 1
-         vexactpos 1
-         hexactsize 0
-         vexactsize 0
-         {
-          GridSpacerWidgetClass counter_1 {
+          PanelWidgetClass counter_frame_1 {
            ignorepointer 1
-           size 1 1
-           halign center_ref
-           valign center_ref
+           position 0 0
+           size 0.11 1
            hexactpos 1
            vexactpos 1
            hexactsize 0
            vexactsize 0
-           Padding 0
-           Margin 0
-           Columns 1
+           style rover_sim_black_2
            {
-            ButtonWidgetClass counter_increment_1 {
-             visible 1
-             position 0 0
-             size 1 1
-             halign center_ref
-             hexactpos 1
-             vexactpos 1
-             hexactsize 0
-             vexactsize 0
-             scriptclass "ViewBinding"
-             {
-              ImageWidgetClass counter_increment_icon_2 {
-               ignorepointer 1
-               size 1 1
-               halign center_ref
-               valign center_ref
-               hexactpos 1
-               vexactpos 1
-               hexactsize 0
-               vexactsize 0
-               scaled 1
-               image0 "set:dayz_gui image:icon_minus"
-               mode blend
-               "src alpha" 1
-               "no wrap" 0
-               stretch 0
-               "flip u" 0
-               "flip v" 0
-               filter 0
-               nocache 0
-              }
-             }
-             {
-              ScriptParamsClass {
-               Relay_Command "RightCounterIncrementExecute"
-              }
-             }
-            }
-            TextWidgetClass counter_value_1 {
+            GridSpacerWidgetClass counter_1 {
              ignorepointer 1
-             position 10 10
-             size 48 48
-             hexactpos 1
-             vexactpos 1
-             hexactsize 1
-             vexactsize 1
-             scriptclass "ViewBinding"
-             "text halign" center
-             "text valign" center
-             {
-              ScriptParamsClass {
-               Binding_Name "counter_right_value"
-              }
-             }
-            }
-            ButtonWidgetClass counter_decrement_1 {
-             visible 1
-             position 0 0
              size 1 1
              halign center_ref
+             valign center_ref
              hexactpos 1
              vexactpos 1
              hexactsize 0
              vexactsize 0
-             scriptclass "ViewBinding"
+             style Empty
+             Padding 0
+             Margin 0
+             Columns 1
              {
-              ImageWidgetClass counter_increment_icon_3 {
-               ignorepointer 1
+              ButtonWidgetClass counter_increment_1 {
+               visible 1
+               position 0 0
                size 1 1
                halign center_ref
-               valign center_ref
                hexactpos 1
                vexactpos 1
                hexactsize 0
                vexactsize 0
-               scaled 1
-               image0 "set:dayz_gui image:icon_minus"
-               mode blend
-               "src alpha" 1
-               "no wrap" 0
-               stretch 0
-               "flip u" 0
-               "flip v" 1
-               filter 0
-               nocache 0
+               scriptclass "ViewBinding"
+               style Default
+               {
+                ImageWidgetClass counter_increment_icon_2 {
+                 ignorepointer 1
+                 size 1 1
+                 halign center_ref
+                 valign center_ref
+                 hexactpos 1
+                 vexactpos 1
+                 hexactsize 0
+                 vexactsize 0
+                 scaled 1
+                 image0 "set:dayz_gui image:icon_minus"
+                 mode blend
+                 "src alpha" 1
+                 "no wrap" 0
+                 stretch 0
+                 "flip u" 0
+                 "flip v" 0
+                 filter 0
+                 nocache 0
+                }
+               }
+               {
+                ScriptParamsClass {
+                 Relay_Command "RightCounterIncrementExecute"
+                }
+               }
               }
-             }
-             {
-              ScriptParamsClass {
-               Relay_Command "RightCounterDecrementExecute"
+              TextWidgetClass counter_value_1 {
+               ignorepointer 1
+               position 10 10
+               size 48 48
+               hexactpos 1
+               vexactpos 1
+               hexactsize 1
+               vexactsize 1
+               scriptclass "ViewBinding"
+               "text halign" center
+               "text valign" center
+               {
+                ScriptParamsClass {
+                 Binding_Name "counter_right_value"
+                }
+               }
+              }
+              ButtonWidgetClass counter_decrement_1 {
+               visible 1
+               position 0 0
+               size 1 1
+               halign center_ref
+               hexactpos 1
+               vexactpos 1
+               hexactsize 0
+               vexactsize 0
+               scriptclass "ViewBinding"
+               style Default
+               {
+                ImageWidgetClass counter_increment_icon_3 {
+                 ignorepointer 1
+                 size 1 1
+                 halign center_ref
+                 valign center_ref
+                 hexactpos 1
+                 vexactpos 1
+                 hexactsize 0
+                 vexactsize 0
+                 scaled 1
+                 image0 "set:dayz_gui image:icon_minus"
+                 mode blend
+                 "src alpha" 1
+                 "no wrap" 0
+                 stretch 0
+                 "flip u" 0
+                 "flip v" 1
+                 filter 0
+                 nocache 0
+                }
+               }
+               {
+                ScriptParamsClass {
+                 Relay_Command "RightCounterDecrementExecute"
+                }
+               }
               }
              }
             }
