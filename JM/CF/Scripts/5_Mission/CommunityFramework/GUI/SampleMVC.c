@@ -36,17 +36,29 @@ class SampleController: Controller
 				NotifyPropertyChanged("progress_value"); 
 				break;
 			}
+			
+			case "counter_right_value": {
+				if (counter_right_value <= 0) { 
+					counter_right_value = 0;
+					NotifyPropertyChanged("counter_right_value", false);
+				}
+				break;
+			}			
+			
+			case "counter_left_value": {
+				if (counter_left_value <= 0) { 
+					counter_left_value = 0;
+					NotifyPropertyChanged("counter_left_value", false);
+				}
+
+				break;
+			}
 		}
 	}
 	
 	bool SwapItemsExecute(ButtonCommandArgs args)
-	{
-		if (observable_list_box.Count() < 3) {
-			Error("You need at least 3 items to perform this action");
-			return true;
-		}
-		
-		observable_list_box.SwapItems(0, 3);
+	{		
+		observable_list_box.SwapItems(counter_left_value, counter_right_value);
 		
 		return true;
 	}
