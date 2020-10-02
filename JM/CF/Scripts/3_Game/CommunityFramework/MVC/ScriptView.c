@@ -22,6 +22,7 @@ class CustomDialogWindow: ScriptView
 
 class ScriptViewBase: ScriptedViewBase
 {
+	protected ref Controller m_ControllerInstance;
 	void ScriptViewBase(Widget parent = null)
 	{
 		Trace("ScriptViewBase");
@@ -42,8 +43,40 @@ class ScriptViewBase: ScriptedViewBase
 			Error("Invalid layout file %1", GetLayoutFile());
 			return;
 		}
-			
+		
 		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
+
+		m_LayoutRoot.GetScript(m_ControllerInstance);
+		
+		// If no Controller is specified in the WB Root
+		if (!m_ControllerInstance || !m_ControllerInstance.IsInherited(Controller)) {
+			
+			Log("Controller not found on %1, creating...", m_LayoutRoot.GetName());
+			if (!GetControllerType().IsInherited(Controller)) {
+				Error("%1 is invalid. Must inherit from Controller!", GetControllerType().ToString());
+				return;
+			}
+			
+			Class.CastTo(m_ControllerInstance, GetControllerType().Spawn());
+			
+			if (!m_ControllerInstance) {
+				Error("Could not create Controller %1", GetControllerType().ToString());
+				return;
+			}
+			
+			// Since its not loaded in the WB, needs to be called here
+			LoadViewProperties(m_ControllerInstance, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
+			m_ControllerInstance.OnWidgetScriptInit(m_LayoutRoot);
+		}
+	
+		m_ControllerInstance.Debug_Logging = Debug_Logging;
+		m_ControllerInstance.SetParent(this);
+		//m_LayoutRoot.SetHandler(this);
+	}
+
+	void ~ScriptViewBase()
+	{
+		delete m_ControllerInstance;
 	}
 	
 	void SetParent(Widget parent)
@@ -60,119 +93,34 @@ class ScriptViewBase: ScriptedViewBase
 		
 		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
 	}
+
+	// Useful if you want to set to an existing controller
+	void SetController(Controller controller)
+	{
+		m_ControllerInstance = controller;
+		m_ControllerInstance.Debug_Logging = Debug_Logging;
+		m_ControllerInstance.OnWidgetScriptInit(m_LayoutRoot);
+		m_ControllerInstance.SetParent(this);
+	}	
 	
 	// Virtual Methods
 	protected string GetLayoutFile();
+	
+	protected typename GetControllerType() {
+		return Controller;
+	}
 }
-
-class ScriptViewTemplate<Class T>: ScriptViewBase
-{
-	protected ref T m_Controller;
-	T GetController() {
-		return m_Controller;
-	}
-	
-	void ScriptViewTemplate(Widget parent = null)
-	{
-		m_LayoutRoot.GetScript(m_Controller);
-		
-		// If no Controller is specified in the WB Root
-		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
-
-			Log("Controller not found on %1, creating...", m_LayoutRoot.GetName());
-			if (!T.IsInherited(Controller)) {
-				Error("%1 is invalid. Must inherit from Controller!", T.ToString());
-				return;
-			}
-			
-			Class.CastTo(m_Controller, T.Spawn());
-			
-			if (!m_Controller) {
-				Error("Could not create Controller %1", T.ToString());
-				return;
-			}
-			
-			// Since its not loaded in the WB, needs to be called here
-			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(T), m_LayoutRoot);
-			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-		}
-	
-		m_Controller.Debug_Logging = Debug_Logging;
-		m_Controller.SetParent(this);
-		//m_LayoutRoot.SetHandler(this);
-	}
-	
-	void ~ScriptViewTemplate()
-	{
-		Trace("~ScriptViewTemplate");
-		delete m_Controller;
-	}
-	
-	// Useful if you want to set to an existing controller
-	void SetController(T controller)
-	{
-		m_Controller = controller;
-		m_Controller.Debug_Logging = Debug_Logging;
-		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-		m_Controller.SetParent(this);
-	}	
-}
-
 
 class ScriptView: ScriptViewBase
-{		
-	protected ref Controller m_Controller;
+{
+	protected Controller m_Controller;
 	Controller GetController() {
 		return m_Controller;
 	}
 	
 	void ScriptView(Widget parent = null)
 	{
-		m_LayoutRoot.GetScript(m_Controller);
-		
-		// If no Controller is specified in the WB Root
-		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
-			
-			Log("Controller not found on %1, creating...", m_LayoutRoot.GetName());
-			if (!GetControllerType().IsInherited(Controller)) {
-				Error("%1 is invalid. Must inherit from Controller!", GetControllerType().ToString());
-				return;
-			}
-			
-			Class.CastTo(m_Controller, GetControllerType().Spawn());
-			
-			if (!m_Controller) {
-				Error("Could not create Controller %1", GetControllerType().ToString());
-				return;
-			}
-			
-			// Since its not loaded in the WB, needs to be called here
-			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
-			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-		}
-	
-		m_Controller.Debug_Logging = Debug_Logging;
-		m_Controller.SetParent(this);
-		//m_LayoutRoot.SetHandler(this);
-	}
-	
-	void ~ScriptView()
-	{
-		Trace("~ScriptView");
-		delete m_Controller;
-	}
-	
-	// Useful if you want to set to an existing controller
-	void SetController(Controller controller)
-	{
-		m_Controller = controller;
-		m_Controller.Debug_Logging = Debug_Logging;
-		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-		m_Controller.SetParent(this);
-	}		
-
-	protected typename GetControllerType() {
-		return Controller;
+		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
 	}
 }
 
