@@ -175,9 +175,10 @@ class Controller: ScriptedViewBase
 		
 		// scuffed XOR
 		// Makes it stop loading when it finds another controller
-		if (!(b1 && b2) && (b1 || b2)) {
+		// needs to be looked at
+		if (b1 && (b1 || b2) && !(b1 && b2)) {
 			LoadDataBindings(w.GetChildren());
-		} 
+		}
 		
 		// Sets parent of the child controller
 		else if (b2) {
@@ -240,6 +241,8 @@ class Controller: ScriptedViewBase
 		*/
 	void DebugPrint()
 	{
+		Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		Log("\n\n\nDEBUG PRINT");
 		m_DataBindingHashMap.DebugPrint();
 	}
 }
