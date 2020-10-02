@@ -98,6 +98,22 @@ FrameWidgetClass root {
      content_halign center
      content_valign center
      {
+      ButtonWidgetClass sample_class_button {
+       position 0 0
+       size 50 50
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass "ViewBinding"
+       text "+"
+       font "gui/fonts/Metron-Bold58"
+       {
+        ScriptParamsClass {
+         Relay_Command "SampleClassButtonExecute"
+        }
+       }
+      }
       TextWidgetClass sample_class_value {
        ignorepointer 1
        position 0 0
@@ -107,8 +123,11 @@ FrameWidgetClass root {
        hexactsize 1
        vexactsize 1
        scriptclass "ViewBinding"
+       "text halign" center
+       "text valign" center
        {
         ScriptParamsClass {
+         Debug_Logging 1
          Binding_Name "m_SampleControllerClass.value"
          Two_Way_Binding 0
         }
@@ -659,6 +678,11 @@ FrameWidgetClass root {
      }
     }
    }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Debug_Logging 1
   }
  }
 }

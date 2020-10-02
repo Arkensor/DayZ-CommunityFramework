@@ -91,12 +91,13 @@ class Controller: ScriptedViewBase
 		// Did you know that when the compiler checks for ambiguous types, it uses string.Contains() 
 		// instead of string.Match()? PropertyChanged and NotifyPropertyChanged need to be distinct or
 		// the whole damn thing breaks. Thanks BI
-		Trace("NotifyPropertyChanged %1", property_name);	
+		Trace("NotifyPropertyChanged %1", property_name);
 
 		if (property_name == string.Empty) {
 			Log("Updating all properties in View, this is NOT recommended as it is performance intensive");
 			foreach (ViewBindingArray view_array: m_DataBindingHashMap) {
 				foreach (ViewBinding view_binding: view_array) {
+					Trace("NotifyPropertyChanged %1", view_binding.Binding_Name);
 					view_binding.UpdateView(this);
 					PropertyChanged(view_binding.Binding_Name);				
 				}
@@ -105,7 +106,7 @@ class Controller: ScriptedViewBase
 			return;
 		}
 		
-		ViewBindingArray views = m_DataBindingHashMap.Get(property_name);
+		ViewBindingArray views = m_DataBindingHashMap[property_name];
 		if (views) {
 			foreach (ViewBinding view: views) {
 				view.UpdateView(this);
@@ -151,7 +152,10 @@ class Controller: ScriptedViewBase
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
 			
+			
 			typename property_type = m_PropertyTypeHashMap[view_binding.Binding_Name];
+			
+			// Searches properties for Sub properties
 			if (!property_type) {
 				Class context = this;
 				PropertyInfo property_info = TypeConverter.GetSubScope(context, view_binding.Binding_Name);

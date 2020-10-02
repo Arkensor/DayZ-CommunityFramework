@@ -160,6 +160,7 @@ class SampleSubController: Controller
 				// Calling false here will NOT call PropertyChanged again
 				// Otherwise we'd have a stack overflow between button_state and inverted_button_state
 				NotifyPropertyChanged("inverted_button_state", false); 
+								
 				break;
 			}
 			
@@ -176,5 +177,12 @@ class SampleSubController: Controller
 				break;
 			}
 		}
+	}
+	
+	bool SampleClassButtonExecute(ButtonCommandArgs args)
+	{
+		m_SampleControllerClass.value++;
+		NotifyPropertyChanged("m_SampleControllerClass.value");
+		return true;
 	}
 }

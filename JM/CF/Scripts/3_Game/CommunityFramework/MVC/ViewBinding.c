@@ -70,7 +70,7 @@ class ViewBinding: ScriptedViewBase
 
 	// Controller -> view
 	void UpdateView(Controller controller)
-	{
+	{		
 		Trace("UpdateView");
 		if (!m_WidgetController) return;
 
