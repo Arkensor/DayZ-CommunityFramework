@@ -50,6 +50,8 @@ class ScriptView: ScriptedViewBase
 		}
 		
 		m_LayoutRoot.GetScript(m_Controller);
+		
+		// If no Controller is specified in the WB Root
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 
 			if (!GetControllerType().IsInherited(Controller)) {
@@ -58,6 +60,13 @@ class ScriptView: ScriptedViewBase
 			}
 			
 			m_Controller = GetControllerType().Spawn();
+			
+			// Since its not loaded in the WB, needs to be called here
+			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
+		}
+		
+		if (m_Controller) {
+			
 			m_Controller.Debug_Logging = Debug_Logging;
 			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 			m_Controller.SetParent(this);
@@ -66,21 +75,7 @@ class ScriptView: ScriptedViewBase
 	
 		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
 		//property_map.RemoveType(ScriptView); crashing ?
-		foreach (string property_name, typename property_type: property_map) {
-			
-			if (property_type.IsInherited(Widget)) {
-				Widget target = m_LayoutRoot.FindAnyWidget(property_name);
-				// fixes bug that breaks everything
-				if (target && m_LayoutRoot.GetName() != property_name) {
-					EnScript.SetClassVar(this, property_name, 0, target);
-				}
-				
-				// Allows you to define the layout root aswell within it
-				if (!target && m_LayoutRoot.GetName() == property_name) {
-					EnScript.SetClassVar(this, property_name, 0, m_LayoutRoot);
-				}
-			}
-		}
+		LoadViewProperties(this, property_map, m_LayoutRoot);
 	}
 	
 

@@ -140,7 +140,6 @@ class Controller: ScriptedViewBase
 	// Override this when you want to have an event AFTER collection is changed
 	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
 	
-	
 	int LoadDataBindings(Widget w)
 	{
 		ScriptedViewBase view_base;
