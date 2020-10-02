@@ -81,6 +81,12 @@ class TypeConversionTemplate<Class T>: TypeConverter
 		return m_Value;
 	}
 	
+	// This throws warnings cause casting in Enforce is stupid
+	// Can't do Param1<T>.Cast(value) or Class.CastTo() because inheritence doesnt
+	// work properly with Template Casting
+	
+	// This is meant to be an anonymous data setter
+	// string, int, etc... dont inherit from Class :)
 	override void SetParam(Param value) {
 		Param1<T> param = value;
 		m_Value = param.param1;
