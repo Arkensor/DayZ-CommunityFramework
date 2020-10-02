@@ -43,7 +43,7 @@ class ScriptedViewBase: Managed
 	
 	void ScriptedViewBase()
 	{
-		Trace("[Log] %1", this);
+		Trace("[Log] %1", this.ToString());
 		
 		m_TypeConverter = MVC.GetTypeConversion(Type());
 		if (!m_TypeConverter) {
@@ -57,7 +57,7 @@ class ScriptedViewBase: Managed
 	
 	void ~ScriptedViewBase()
 	{	
-		Trace("[Log] ~%1", this);
+		Trace("[Log] ~%1", this.ToString());
 
 		if (m_LayoutRoot) {
 			m_LayoutRoot.Unlink();

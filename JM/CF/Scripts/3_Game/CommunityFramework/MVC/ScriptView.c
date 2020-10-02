@@ -27,6 +27,7 @@ class ScriptView: ScriptedViewBase
 		return m_Controller;
 	}
 	
+	// Maybe one day we'll get constructor overloading :)
 	void ScriptView()
 	{
 		m_LayoutRoot = CreateWidget(null);
