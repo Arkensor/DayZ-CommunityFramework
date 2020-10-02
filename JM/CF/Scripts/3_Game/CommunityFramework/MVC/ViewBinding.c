@@ -4,9 +4,8 @@ class ViewBinding: ScriptedViewBase
 {	
 	// Name of Variable to bind to
 	reference string Binding_Name;	
-			
-	// Name of Variable to bind "selected item" to...
-	// Only valid if type is ObservableCollection
+
+	// Name of Variable to bind "selected item" to
 	reference string Selected_Item;
 	
 	// If true, Bindings go both ways. Otherwise the controller is the master
@@ -26,11 +25,12 @@ class ViewBinding: ScriptedViewBase
 		return m_RelayCommand;
 	}
 		
-	autoptr ref TypeConverter m_PropertyConverter;
+	protected ref TypeConverter m_PropertyConverter;
 	TypeConverter GetPropertyConverter() {
 		return m_PropertyConverter;
 	}
-	autoptr ref TypeConverter m_SelectedConverter;
+	
+	protected ref TypeConverter m_SelectedConverter;
 	TypeConverter GetSelectedConverter() {
 		return m_SelectedConverter;
 	}

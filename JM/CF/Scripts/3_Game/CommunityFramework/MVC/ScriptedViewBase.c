@@ -12,24 +12,24 @@ class ScriptedViewBase: Managed
 	}
 	
 	// Source Widget Controller
-	protected ref WidgetController m_WidgetController;
+	protected autoptr WidgetController m_WidgetController;
 	WidgetController GetWidgetController() {
 		return m_WidgetController;
 	}
 	
 	// ScriptedViewBase Type Converter
-	protected ref TypeConverter m_TypeConverter; 	
+	protected autoptr TypeConverter m_TypeConverter; 	
 	TypeConverter GetTypeConversion() {
 		return m_TypeConverter;
 	}
 	
 	// ScriptedViewBase parent
-	protected ScriptedViewBase m_ParentScriptedViewBase;
+	protected autoptr ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent() {
 		return m_ParentScriptedViewBase;
 	}
 	
-	protected ref ScriptedViewBaseHandler m_ScriptedViewBaseHandler;
+	protected autoptr ScriptedViewBaseHandler m_ScriptedViewBaseHandler;
 	ScriptedViewBaseHandler GetHandler() {
 		return m_ScriptedViewBaseHandler;
 	}
@@ -43,7 +43,7 @@ class ScriptedViewBase: Managed
 	
 	void ScriptedViewBase()
 	{
-		Trace("[Log] %1", this.ToString());
+		//PrintFormat("[Log] %1", this);
 		
 		m_TypeConverter = MVC.GetTypeConversion(Type());
 		if (!m_TypeConverter) {
@@ -54,20 +54,7 @@ class ScriptedViewBase: Managed
 		m_ScriptedViewBaseHandler = new ScriptedViewBaseHandler(this);
 		m_TypeConverter.Set(this);
 	}
-	
-	void ~ScriptedViewBase()
-	{	
-		Trace("[Log] ~%1", this.ToString());
-
-		if (m_LayoutRoot) {
-			m_LayoutRoot.Unlink();
-		}
-		
-		delete m_WidgetController;
-		delete m_TypeConverter;
-		delete m_ScriptedViewBaseHandler;
-	}
-		
+			
 	void OnWidgetScriptInit(Widget w)
 	{
 		Trace("OnWidgetScriptInit %1", w.ToString());
@@ -99,7 +86,7 @@ class ScriptedViewBase: Managed
 	void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
 //#ifdef COMPONENT_SYSTEM
-		if (Debug_Logging) // || MVCLogLevel >= LogLevel.TRACE
+		//if (Debug_Logging) // || MVCLogLevel >= LogLevel.TRACE
 			PrintFormat("[Trace] %1 - %2 ", Type(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 //#endif
 	}
@@ -108,7 +95,7 @@ class ScriptedViewBase: Managed
 	void Log(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
 //#ifdef COMPONENT_SYSTEM
-		if (Debug_Logging) // || MVCLogLevel >= LogLevel.INFO
+		//if (Debug_Logging) // || MVCLogLevel >= LogLevel.INFO
 			PrintFormat("[Log] %1 - %2", Type(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 //#endif
 	}

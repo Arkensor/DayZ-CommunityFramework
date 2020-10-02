@@ -63,8 +63,12 @@ class ScriptView: ScriptedViewBase
 	void ~ScriptView()
 	{
 		delete m_Controller;
+				
+		if (m_LayoutRoot) {
+			m_LayoutRoot.Unlink();
+		}
 	}
-	
+		
 	void SetParent(Widget parent)
 	{
 		m_LayoutRoot = CreateWidget(parent);
