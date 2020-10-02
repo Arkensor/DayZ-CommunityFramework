@@ -122,6 +122,12 @@ class ScriptView: ScriptViewBase
 	{
 		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
 	}
+	
+	override void SetController(Controller controller)
+	{
+		super.SetController(controller);
+		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
+	}
 }
 
 
