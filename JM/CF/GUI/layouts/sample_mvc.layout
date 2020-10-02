@@ -193,11 +193,11 @@ FrameWidgetClass root {
      {
       PanelWidgetClass text_list_swap_panel {
        ignorepointer 1
+       position 0.35 0
        size 0.2 1
-       halign center_ref
        valign center_ref
-       hexactpos 1
-       vexactpos 1
+       hexactpos 0
+       vexactpos 0
        hexactsize 0
        vexactsize 0
        style blank
@@ -211,7 +211,7 @@ FrameWidgetClass root {
          vexactpos 1
          hexactsize 0
          vexactsize 0
-         Padding 10
+         Padding 5
          Margin 0
          content_halign center
          content_valign bottom
@@ -342,10 +342,10 @@ FrameWidgetClass root {
           PanelWidgetClass text_list_swap_button_panel {
            ignorepointer 1
            position 0 0
-           size 150 1
+           size 0.65 1
            hexactpos 1
            vexactpos 1
-           hexactsize 1
+           hexactsize 0
            vexactsize 0
            {
             PanelWidgetClass text_list_swap_button_frame {
@@ -551,7 +551,7 @@ FrameWidgetClass root {
       }
       PanelWidgetClass text_list_add_panel {
        ignorepointer 1
-       position 0.23 0
+       position 0.1 0
        size 150 0.5
        valign center_ref
        hexactpos 0
