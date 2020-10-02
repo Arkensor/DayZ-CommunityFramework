@@ -35,39 +35,10 @@ class TestController: Controller
 
 */
 
-class TemplateType<Class T>
-{
-	T value;
-	
-	private typename _GetType()
-	{
-		typename param_type = Type();
-		for (int i = 0; i < param_type.GetVariableCount(); i++) {
-			if (param_type.GetVariableName(i) == "value") {
-				return param_type.GetVariableType(i);
-			}
-		}
-		
-		typename t;
-		return t;
-	}
-	
-	static typename GetType()
-	{
-		return (new TemplateType<T>())._GetType();
-	}
-}
-
-
 class ObservableCollection<Class TValue>: Observable
 {
 	private ref array<ref TValue> _data = {};
-	
-	// Incredibly Scuffed way of acquiring typename from Value, since forward declaration
-	// is totally borked :)
-	// Error that inflicts this pain upon me
-	// Can't get typename from forward declaration 'Class'. Use Type("name") instead....
-	// Go ahead, try and Print(TValue). YOU CANT FIX IT >:(
+
 	void ObservableCollection(string variable_name, Controller controller)
 	{
 		m_Type = TemplateType<TValue>.GetType();
