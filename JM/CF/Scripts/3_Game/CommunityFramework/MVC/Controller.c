@@ -152,16 +152,32 @@ class Controller: ScriptedViewBase
 			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
 			view_binding.SetParent(this);
 			
+			
 			if (view_binding.Relay_Command != string.Empty) {
-				typename relay_command = view_binding.Relay_Command.ToType();
-				if (relay_command && relay_command.IsInherited(RelayCommand)) {
-					RelayCommand command = RelayCommand.Cast(relay_command.Spawn());
-					command.SetController(this);
-					command.SetViewBinding(view_binding);
-					view_binding.SetRelayCommand(command);
-				} else {
-					Log("RelayCommand type %1 not found - Assuming its a function on the Controller / ScriptView!", view_binding.Relay_Command);
+				
+				// Attempt to load instance of Variable from Controller
+				RelayCommand relay_command;
+				
+				// todo find a way to define these on ScriptView aswell
+				EnScript.GetClassVar(this, view_binding.Relay_Command, 0, relay_command);
+				if (!relay_command) {
+					
+					Log("RelayCommand Variable %1 not found on Controller");
+					typename relay_type = view_binding.Relay_Command.ToType();
+					
+					if (relay_type && relay_type.IsInherited(RelayCommand)) {
+						
+						Log("Creating instance of %1 for RelayCommand", view_binding.Relay_Command);
+						relay_command = RelayCommand.Cast(relay_type.Spawn());					
+					}
 				}
+				
+				if (relay_command) {
+					relay_command.SetController(this);
+					view_binding.SetRelayCommand(relay_command);
+				} else {
+					Log("RelayCommand %1 not found - Assuming its a function on the Controller / ScriptView!", view_binding.Relay_Command);
+				}				
 			}
 			
 			NotifyPropertyChanged(view_binding.Binding_Name);

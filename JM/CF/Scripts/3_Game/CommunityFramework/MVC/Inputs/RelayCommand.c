@@ -19,9 +19,12 @@ class RelayCommand
 	
 	// sets whether or not RelayCommand can be executed
 	// depreciate if BI ever adds property Getters and Setters
-	void SetCanExecute(bool state) {
+	void SetCanExecute(bool state) 
+	{
 		m_CanExecute = state;
-		CanExecuteChanged(m_CanExecute);
+		
+		// If you dont use CallQueue then it throws errors. IDK why
+		GetWorkbenchGame().GetCallQueue(CALL_CATEGORY_GUI).Call(CanExecuteChanged, m_CanExecute);
 	}
 	
 	/* Abstract Methods */
