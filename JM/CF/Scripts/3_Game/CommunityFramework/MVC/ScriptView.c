@@ -60,9 +60,7 @@ class ScriptView: ScriptedViewBase
 				return;
 			}
 			
-			Class.CastTo(m_Controller, GetControllerType().Spawn());
-			
-			if (!m_Controller) {
+			if (!Class.CastTo(m_Controller, GetControllerType().Spawn())) {
 				Error("Could not create Controller %1", GetControllerType().ToString());
 				return;
 			}
