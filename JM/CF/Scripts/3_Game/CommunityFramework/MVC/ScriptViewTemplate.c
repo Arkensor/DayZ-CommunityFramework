@@ -1,24 +1,22 @@
 
-// Essentially the same as ScriptView except GetControllerType is now a Template
-class ScriptViewTemplate<Class T>: ScriptViewBase
+// Essentially the same as ScriptView except GetType is now a Template
+class ScriptViewTemplate<Class T>: ScriptView
 {
-	protected T m_Controller;
+	protected T m_TemplateController;
+	
 	T GetController() {
-		return m_Controller;
+		return m_TemplateController;
 	}
 	
 	void ScriptViewTemplate(Widget parent = null)
 	{
-		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
+		if (!Class.CastTo(m_TemplateController, m_Controller)) {
+			Error("Error in casting of Template Controller %1", T.ToString());
+			return;
+		}
 	}
 	
-	override void SetController(Controller controller)
-	{
-		super.SetController(controller);
-		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
-	}
-	
-	protected override typename GetControllerType() {
+	private override typename GetControllerType() {
 		return T;
 	}
 }

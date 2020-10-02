@@ -20,12 +20,15 @@ class CustomDialogWindow: ScriptView
 
 */
 
-class ScriptViewBase: ScriptedViewBase
+class ScriptView: ScriptedViewBase
 {
-	protected ref Controller m_ControllerInstance;
-	void ScriptViewBase(Widget parent = null)
+	protected ref Controller m_Controller;
+	Controller GetController() {
+		return m_Controller;
+	}
+	
+	void ScriptView(Widget parent = null)
 	{
-		Trace("ScriptViewBase");
 		if (!GetLayoutFile()) {
 			Error("Layout file not found! Are you overriding GetLayoutFile?");
 			return;
@@ -46,10 +49,10 @@ class ScriptViewBase: ScriptedViewBase
 		
 		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
 
-		m_LayoutRoot.GetScript(m_ControllerInstance);
+		m_LayoutRoot.GetScript(m_Controller);
 		
 		// If no Controller is specified in the WB Root
-		if (!m_ControllerInstance || !m_ControllerInstance.IsInherited(Controller)) {
+		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 			
 			Log("Controller not found on %1, creating...", m_LayoutRoot.GetName());
 			if (!GetControllerType().IsInherited(Controller)) {
@@ -57,26 +60,26 @@ class ScriptViewBase: ScriptedViewBase
 				return;
 			}
 			
-			Class.CastTo(m_ControllerInstance, GetControllerType().Spawn());
+			Class.CastTo(m_Controller, GetControllerType().Spawn());
 			
-			if (!m_ControllerInstance) {
+			if (!m_Controller) {
 				Error("Could not create Controller %1", GetControllerType().ToString());
 				return;
 			}
 			
 			// Since its not loaded in the WB, needs to be called here
-			LoadViewProperties(m_ControllerInstance, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
-			m_ControllerInstance.OnWidgetScriptInit(m_LayoutRoot);
+			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
+			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		}
 	
-		m_ControllerInstance.Debug_Logging = Debug_Logging;
-		m_ControllerInstance.SetParent(this);
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.SetParent(this);
 		//m_LayoutRoot.SetHandler(this);
 	}
 
-	void ~ScriptViewBase()
+	void ~ScriptView()
 	{
-		delete m_ControllerInstance;
+		delete m_Controller;
 	}
 	
 	void SetParent(Widget parent)
@@ -97,10 +100,10 @@ class ScriptViewBase: ScriptedViewBase
 	// Useful if you want to set to an existing controller
 	void SetController(Controller controller)
 	{
-		m_ControllerInstance = controller;
-		m_ControllerInstance.Debug_Logging = Debug_Logging;
-		m_ControllerInstance.OnWidgetScriptInit(m_LayoutRoot);
-		m_ControllerInstance.SetParent(this);
+		m_Controller = controller;
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+		m_Controller.SetParent(this);
 	}	
 	
 	// Virtual Methods
@@ -111,24 +114,6 @@ class ScriptViewBase: ScriptedViewBase
 	}
 }
 
-class ScriptView: ScriptViewBase
-{
-	protected Controller m_Controller;
-	Controller GetController() {
-		return m_Controller;
-	}
-	
-	void ScriptView(Widget parent = null)
-	{
-		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
-	}
-	
-	override void SetController(Controller controller)
-	{
-		super.SetController(controller);
-		EnScript.GetClassVar(this, "m_ControllerInstance", 0, m_Controller);
-	}
-}
 
 
 
