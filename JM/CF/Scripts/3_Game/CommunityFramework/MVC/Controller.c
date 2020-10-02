@@ -241,8 +241,6 @@ class Controller: ScriptedViewBase
 		*/
 	void DebugPrint()
 	{
-		Print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		Log("\n\n\nDEBUG PRINT");
 		m_DataBindingHashMap.DebugPrint();
 	}
 }
