@@ -1,0 +1,1 @@
+#define CF_MODEL_VIEW_BINDING
