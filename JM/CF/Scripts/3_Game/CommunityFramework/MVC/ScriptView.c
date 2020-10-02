@@ -73,9 +73,7 @@ class ScriptView: ScriptedViewBase
 			//m_LayoutRoot.SetHandler(this);
 		}
 	
-		PropertyTypeHashMap property_map = PropertyTypeHashMap.FromType(Type());
-		//property_map.RemoveType(ScriptView); crashing ?
-		LoadViewProperties(this, property_map, m_LayoutRoot);
+		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
 	}
 	
 
