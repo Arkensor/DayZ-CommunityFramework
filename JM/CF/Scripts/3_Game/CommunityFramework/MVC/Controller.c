@@ -221,7 +221,7 @@ class Controller: ScriptedViewBase
 			// If that property isnt initialized, but exists
 			if (!relay_command) {
 				Log("RelayCommand Property %1 was not initialized! Initializing...", relay_command_name);
-				relay_command = relay_command_type.Spawn();
+				Class.CastTo(relay_command, relay_command_type.Spawn());
 				EnScript.SetClassVar(this, relay_command_name, 0, relay_command);
 				return relay_command;
 			}
@@ -234,8 +234,8 @@ class Controller: ScriptedViewBase
 			
 			if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
 				Log("RelayCommand type found %1", relay_command_name);
-				relay_command = relay_command_type.Spawn();	
-				return relay_command;				
+				Class.CastTo(relay_command, relay_command_type.Spawn());
+				return relay_command;
 			}
 		}
 		

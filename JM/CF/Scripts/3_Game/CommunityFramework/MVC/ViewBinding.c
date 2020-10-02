@@ -190,7 +190,7 @@ class ViewBinding: ScriptedViewBase
 		bool handled;
 		args.Context = this;
 		if (m_RelayCommand && m_RelayCommand.CanExecute()) {			
-			Log("Attempting to execute RelayCommand %1", m_RelayCommand.Type().ToString());
+			Log("Attempting to execute RelayCommand %1", Relay_Command);
 			handled = m_RelayCommand.Execute(context, args);
 		} 
 		
@@ -219,7 +219,7 @@ class ViewBinding: ScriptedViewBase
 		switch (w.Type()) {
 			
 			case ButtonWidget: { // only thing that isnt called in OnChange for some reason
-				if (InvokeCommand(this, new ButtonCommandArgs(w, button))) {
+				if (InvokeCommand(this, new ButtonCommandArgs(ButtonWidget.Cast(w), button))) {
 					// Weird situation but I need to call UpdateController from Controller without calling OnClick
 					// if (w) is just an edge case if the object is deleted inside of the Command
 					if (w) super.OnClick(w, x, y, button);
@@ -239,7 +239,7 @@ class ViewBinding: ScriptedViewBase
 		Trace("OnChange");
 		switch (w.Type()) {
 			case CheckBoxWidget: {
-				if (InvokeCommand(this, new CheckBoxCommandArgs(w))) {
+				if (InvokeCommand(this, new CheckBoxCommandArgs(CheckBoxWidget.Cast(w)))) {
 					// Weird situation but I need to call UpdateController from Controller without calling OnChange
 					// if (w) is just an edge case if the object is deleted inside of the Command
 					if (w) super.OnChange(w, x, y, finished);
