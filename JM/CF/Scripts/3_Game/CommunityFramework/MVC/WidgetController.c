@@ -100,6 +100,10 @@ class ButtonWidgetController: WidgetControllerTemplate<ButtonWidget>
 	override void SetSelection(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetString());
 	}
+	
+	override void GetSelection(out TypeConverter type_converter) {
+		// Since SetSelection is being used. This needs to override to avoid errors
+	}
 }
 
 class EditBoxWidgetController: WidgetControllerTemplate<EditBoxWidget>
@@ -133,6 +137,10 @@ class CheckBoxWidgetController: WidgetControllerTemplate<CheckBoxWidget>
 		
 	override void SetSelection(TypeConverter type_converter) {
 		m_Widget.SetText(type_converter.GetString());
+	}
+	
+	override void GetSelection(out TypeConverter type_converter) {
+		// Since SetSelection is being used. This needs to override to avoid errors
 	}
 }
 
