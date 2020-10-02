@@ -217,8 +217,7 @@ class Controller: ScriptedViewBase
 		
 		// Searches properties for Sub properties
 		Class context = this;
-		PropertyInfo property_info = TypeConverter.GetSubScope(context, property_name);
-		
+		PropertyInfo property_info = GetSubScope(context, property_name);
 		if (property_info) {
 			return property_info.Type;
 		}
