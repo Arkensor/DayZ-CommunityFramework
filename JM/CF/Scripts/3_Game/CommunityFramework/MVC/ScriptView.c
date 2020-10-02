@@ -27,25 +27,9 @@ class ScriptView: ScriptedViewBase
 		return m_Controller;
 	}
 	
-	void ScriptView(Widget parent)
+	void ScriptView()
 	{
-		if (!GetLayoutFile()) {
-			Error("Layout file not found! Are you overriding GetLayoutFile?");
-			return;
-		}
-		
-		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
-		if (!workspace) {
-			Error("Workspace was null, try reloading Workbench");
-			return;
-		}
-		
-		Log("Loading %1", GetLayoutFile());
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
-		if (!m_LayoutRoot) {
-			Error("Invalid layout file %1", GetLayoutFile());
-			return;
-		}
+		m_LayoutRoot = CreateWidget(null);
 		
 		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
 
@@ -82,17 +66,31 @@ class ScriptView: ScriptedViewBase
 	
 	void SetParent(Widget parent)
 	{
+		m_LayoutRoot = CreateWidget(parent);
+	}
+	
+	private Widget CreateWidget(Widget parent)
+	{
+		Widget result;
+		if (!GetLayoutFile()) {
+			Error("Layout file not found! Are you overriding GetLayoutFile?");
+			return result;
+		}
+		
 		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
 		if (!workspace) {
 			Error("Workspace was null, try reloading Workbench");
-			return;
+			return result;
 		}
 		
-		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
-			m_LayoutRoot.Unlink();
+		Log("Loading %1", GetLayoutFile());
+		result = workspace.CreateWidgets(GetLayoutFile(), parent);
+		if (!result) {
+			Error("Invalid layout file %1", GetLayoutFile());
+			return result;
 		}
 		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
+		return result;
 	}
 
 	// Useful if you want to set to an existing controller

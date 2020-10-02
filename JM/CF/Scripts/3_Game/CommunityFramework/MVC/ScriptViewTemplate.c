@@ -8,7 +8,7 @@ class ScriptViewTemplate<Class T>: ScriptView
 		return m_TemplateController;
 	}
 	
-	void ScriptViewTemplate(Widget parent)
+	void ScriptViewTemplate()
 	{
 		if (!Class.CastTo(m_TemplateController, m_Controller)) {
 			Error("Error in casting of Template Controller %1", T.ToString());

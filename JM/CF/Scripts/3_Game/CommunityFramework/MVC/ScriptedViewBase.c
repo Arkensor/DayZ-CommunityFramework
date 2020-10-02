@@ -12,24 +12,24 @@ class ScriptedViewBase: Managed
 	}
 	
 	// Source Widget Controller
-	protected autoptr WidgetController m_WidgetController;
+	protected ref WidgetController m_WidgetController;
 	WidgetController GetWidgetController() {
 		return m_WidgetController;
 	}
 	
 	// ScriptedViewBase Type Converter
-	protected autoptr TypeConverter m_TypeConverter; 	
+	protected ref TypeConverter m_TypeConverter; 	
 	TypeConverter GetTypeConversion() {
 		return m_TypeConverter;
 	}
 	
 	// ScriptedViewBase parent
-	protected autoptr ScriptedViewBase m_ParentScriptedViewBase;
+	protected ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent() {
 		return m_ParentScriptedViewBase;
 	}
 	
-	protected autoptr ScriptedViewBaseHandler m_ScriptedViewBaseHandler;
+	protected ref ScriptedViewBaseHandler m_ScriptedViewBaseHandler;
 	ScriptedViewBaseHandler GetHandler() {
 		return m_ScriptedViewBaseHandler;
 	}
@@ -43,7 +43,7 @@ class ScriptedViewBase: Managed
 	
 	void ScriptedViewBase()
 	{
-		//PrintFormat("[Log] %1", this);
+		PrintFormat("[Log] %1", this);
 		
 		m_TypeConverter = MVC.GetTypeConversion(Type());
 		if (!m_TypeConverter) {
@@ -57,11 +57,15 @@ class ScriptedViewBase: Managed
 	
 	void ~ScriptedViewBase()
 	{	
-		//PrintFormat("[Log] ~%1", this);
+		PrintFormat("[Log] ~%1", this);
 
-		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
+		if (m_LayoutRoot) {
 			m_LayoutRoot.Unlink();
 		}
+		
+		delete m_WidgetController;
+		delete m_TypeConverter;
+		delete m_ScriptedViewBaseHandler;
 	}
 		
 	void OnWidgetScriptInit(Widget w)

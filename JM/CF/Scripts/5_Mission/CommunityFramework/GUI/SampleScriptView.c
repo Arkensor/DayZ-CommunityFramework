@@ -3,7 +3,6 @@
 class SampleScriptViewController: Controller
 {
 	Widget content_host;
-	
 	ref ObservableCollection<ref SampleScriptView> script_view = new ObservableCollection<ref SampleScriptView>("script_view", this);
 }
 
@@ -16,7 +15,7 @@ class SampleRelayCommand: RelayCommand
 				
 		ButtonCommandArgs command_args = args;
 		if (command_args.GetButtonState()) {
-			controller.script_view.Insert(new SampleScriptView(null));
+			controller.script_view.Insert(new SampleScriptView());
 		} else {
 			delete controller.script_view;
 			controller.script_view = new ObservableCollection<ref SampleScriptView>("script_view", controller);
