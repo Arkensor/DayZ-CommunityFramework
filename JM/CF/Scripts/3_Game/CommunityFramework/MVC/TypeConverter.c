@@ -326,7 +326,11 @@ class TypeConversionObject: TypeConversionTemplate<Object>
 class TypeConversionScriptView: TypeConversionTemplate<ScriptedViewBase>
 {
 	override Widget GetWidget() {
-		return m_Value.GetLayoutRoot();
+		// Todo: why can this be null? not sure
+		if (m_Value)
+			return m_Value.GetLayoutRoot();
+		
+		return null;
 	}
 	
 	override void SetWidget(Widget value) {

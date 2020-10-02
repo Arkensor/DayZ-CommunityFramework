@@ -34,7 +34,7 @@ class MVC
 	
 	void MVC()
 	{
-		Trace("MVC");
+		Log("MVC");
 		
 		if (!m_TypeConverterHashMap) {
 			m_TypeConverterHashMap = new TypeConversionHashMap();
@@ -49,7 +49,7 @@ class MVC
 	
 	void ~MVC() 
 	{ 
-		Trace("~MVC"); 
+		Log("~MVC"); 
 	}
 	
 	// Override THIS to add your own Custom Conversion Templates
@@ -57,7 +57,7 @@ class MVC
 	// i.e. you can assign a TextWidget to float, due to the TypeConversion's GetString()
 	void RegisterConversionTemplates(out TypeConversionHashMap type_conversions)
 	{
-		Trace("MVC::RegisterConversionTemplates");
+		Log("MVC::RegisterConversionTemplates");
 		type_conversions.Insert(bool, TypeConversionBool);
 		type_conversions.Insert(int, TypeConversionInt);
 		type_conversions.Insert(float, TypeConversionFloat);
@@ -74,7 +74,7 @@ class MVC
 	// Great for prefabs
 	void RegisterWidgetControllers(out TypenameHashMap widget_controllers)
 	{
-		Trace("MVC::RegisterWidgetControllers");
+		Log("MVC::RegisterWidgetControllers");
 		
 		widget_controllers.Insert(Widget, WidgetBaseController);
 		widget_controllers.Insert(SpacerBaseWidget, SpacerBaseWidgetController);
