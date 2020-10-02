@@ -75,11 +75,18 @@ class WidgetControllerTemplate<Class T>: WidgetController
 class WidgetBaseController: WidgetControllerTemplate<Widget>
 {
 	override void Set(TypeConverter type_converter) {
-		m_Widget = type_converter.GetWidget();
+		Widget widget_1 = GetChildAtIndex(m_Widget, 0);
+		if (widget_1) {
+			m_Widget.RemoveChild(widget_1);
+		}
+		
+		if (type_converter.GetWidget()) {
+			m_Widget.AddChild(type_converter.GetWidget());
+		}
 	}
 	
 	override void Get(out TypeConverter type_converter) {
-		type_converter.SetWidget(m_Widget);
+		type_converter.SetWidget(GetChildAtIndex(m_Widget, 0));
 	}
 }
 
