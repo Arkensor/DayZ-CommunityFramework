@@ -152,19 +152,7 @@ class Controller: ScriptedViewBase
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
 			
-			
-			typename property_type = m_PropertyTypeHashMap[view_binding.Binding_Name];
-			
-			// Searches properties for Sub properties
-			if (!property_type) {
-				Class context = this;
-				PropertyInfo property_info = TypeConverter.GetSubScope(context, view_binding.Binding_Name);
-				if (property_info) {
-					property_type = property_info.Type;
-				}
-			}
-			
-			view_binding.SetProperties(property_type, m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
+			view_binding.SetProperties(GetControllerProperty(view_binding.Binding_Name), GetControllerProperty(view_binding.Selected_Item));
 			view_binding.SetParent(this);
 			
 			// todo find a way to define these on ScriptView aswell
@@ -219,6 +207,24 @@ class Controller: ScriptedViewBase
 		}
 		
 		return m_DataBindingHashMap.Count();
+	}
+	
+	private typename GetControllerProperty(string property_name)
+	{
+		if (m_PropertyTypeHashMap[property_name]) {
+			return m_PropertyTypeHashMap[property_name];
+		}
+		
+		// Searches properties for Sub properties
+		Class context = this;
+		PropertyInfo property_info = TypeConverter.GetSubScope(context, property_name);
+		
+		if (property_info) {
+			return property_info.Type;
+		}
+		
+		typename t;
+		return t;
 	}
 	
 	private RelayCommand LoadRelayCommand(ViewBinding view_binding)
