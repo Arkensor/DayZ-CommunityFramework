@@ -10,10 +10,20 @@ class PropertyInfo
 	
 	static PropertyInfo GetFromClass(Class context, string name)
 	{
+		if (!context) return null;
 		PropertyTypeHashMap hash_map = PropertyTypeHashMap.FromType(context.Type());
-		
 		if (hash_map[name]) {
-			return PropertyInfo(name, hash_map[name]);
+			return new PropertyInfo(name, hash_map[name]);
+		}
+		
+		return null;
+	}
+	
+	static PropertyInfo GetFromType(typename parent_type, string name)
+	{
+		PropertyTypeHashMap hash_map = PropertyTypeHashMap.FromType(parent_type);
+		if (hash_map[name]) {
+			return new PropertyInfo(name, hash_map[name]);
 		}
 		
 		return null;
