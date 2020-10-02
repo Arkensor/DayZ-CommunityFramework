@@ -20,16 +20,11 @@ class CustomDialogWindow: ScriptView
 
 */
 
-class ScriptView: ScriptedViewBase
-{	
-	protected ref Controller m_Controller;
-	Controller GetController() {
-		return m_Controller;
-	}
-		
-	void ScriptView(Widget parent = null)
+class ScriptViewBase: ScriptedViewBase
+{
+	void ScriptViewBase(Widget parent = null)
 	{
-		Trace("ScriptView");
+		Trace("ScriptViewBase");
 		if (!GetLayoutFile()) {
 			Error("Layout file not found! Are you overriding GetLayoutFile?");
 			return;
@@ -47,7 +42,91 @@ class ScriptView: ScriptedViewBase
 			Error("Invalid layout file %1", GetLayoutFile());
 			return;
 		}
+			
+		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
+	}
+	
+	void SetParent(Widget parent)
+	{
+		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
+		if (!workspace) {
+			Error("Workspace was null, try reloading Workbench");
+			return;
+		}
 		
+		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
+			m_LayoutRoot.Unlink();
+		}
+		
+		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
+	}
+	
+	// Virtual Methods
+	protected string GetLayoutFile();
+}
+
+class ScriptViewTemplate<Class T>: ScriptViewBase
+{
+	protected ref T m_Controller;
+	T GetController() {
+		return m_Controller;
+	}
+	
+	void ScriptViewTemplate(Widget parent = null)
+	{
+		m_LayoutRoot.GetScript(m_Controller);
+		
+		// If no Controller is specified in the WB Root
+		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
+
+			if (!T.IsInherited(Controller)) {
+				Error("%1 is invalid. Must inherit from Controller!", T.ToString());
+				return;
+			}
+			
+			Class.CastTo(m_Controller, T.Spawn());
+			
+			if (!m_Controller) {
+				Error("Could not create Controller %1", T.ToString());
+				return;
+			}
+			
+			// Since its not loaded in the WB, needs to be called here
+			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(T), m_LayoutRoot);
+		}
+	
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+		m_Controller.SetParent(this);
+		//m_LayoutRoot.SetHandler(this);
+	}
+	
+	void ~ScriptViewTemplate()
+	{
+		Trace("~ScriptViewTemplate");
+		delete m_Controller;
+	}
+	
+	// Useful if you want to set to an existing controller
+	void SetController(T controller)
+	{
+		m_Controller = controller;
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+		m_Controller.SetParent(this);
+	}	
+}
+
+
+class ScriptView: ScriptViewBase
+{		
+	protected ref Controller m_Controller;
+	Controller GetController() {
+		return m_Controller;
+	}
+	
+	void ScriptView(Widget parent = null)
+	{
 		m_LayoutRoot.GetScript(m_Controller);
 		
 		// If no Controller is specified in the WB Root
@@ -73,32 +152,14 @@ class ScriptView: ScriptedViewBase
 		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		m_Controller.SetParent(this);
 		//m_LayoutRoot.SetHandler(this);
-	
-		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
 	}
 	
-
 	void ~ScriptView()
 	{
 		Trace("~ScriptView");
 		delete m_Controller;
 	}
 	
-	void SetParent(Widget parent)
-	{
-		WorkspaceWidget workspace = GetWorkbenchGame().GetWorkspace();
-		if (!workspace) {
-			Error("Workspace was null, try reloading Workbench");
-			return;
-		}
-		
-		if (m_LayoutRoot && m_LayoutRoot.GetParent()) {
-			m_LayoutRoot.Unlink();
-		}
-		
-		m_LayoutRoot = workspace.CreateWidgets(GetLayoutFile(), parent);
-	}
-		
 	// Useful if you want to set to an existing controller
 	void SetController(Controller controller)
 	{
@@ -106,11 +167,8 @@ class ScriptView: ScriptedViewBase
 		m_Controller.Debug_Logging = Debug_Logging;
 		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		m_Controller.SetParent(this);
-	}
-	
-		
-	// Abstract Methods
-	protected string GetLayoutFile();
+	}		
+
 	protected typename GetControllerType() {
 		return Controller;
 	}

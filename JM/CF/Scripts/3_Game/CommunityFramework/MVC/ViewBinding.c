@@ -118,7 +118,7 @@ class ViewBinding: ScriptedViewBase
 		Log("Updating Collection View: %1", m_LayoutRoot.Type().ToString());
 
 		// We dont want to work with type Observable for everything
-		TypeConverter collection_converter = MVC.GetTypeConversion(args.Source.GetType());
+		TypeConverter collection_converter = args.Source.GetTypeConverter();
 		if (!collection_converter) {
 			Error("Type Converter not found for Collection %1", args.Source.GetType().ToString());
 			return;

@@ -24,11 +24,7 @@ class MVC
 	static TypeConverter GetTypeConversion(typename type) 
 	{
 		CheckMVC();
-		
-		if (type.IsInherited(Observable)) {
-			type = Observable.Cast(type.Spawn()).GetType();
-		}
-		
+				
 		return TypeConverter.Cast(m_TypeConverterHashMap[type].Spawn()); 
 	}
 	

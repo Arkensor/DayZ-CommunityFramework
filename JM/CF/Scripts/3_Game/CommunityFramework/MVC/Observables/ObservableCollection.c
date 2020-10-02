@@ -35,12 +35,55 @@ class TestController: Controller
 
 */
 
-class ObservableCollection<Class TValue>: Observable
+class ObservableTest<Class TValue>
 {
+	private ref Param1<TValue> _type;
+	
+	void ObservableTest()
+	{	
+		Print(_type);
+		_type = _type.Type().Spawn();
+		Print(_type);
+		
+		_type = Param1<TValue>.Cast(new Param());
+		Print(_type);
+		
+		_type = new Param();
+		Print(_type);
+		
+		
+	}
+}
+
+
+class ObservableCollection<Class TValue>: Observable
+{	
 	private ref array<ref TValue> _data = {};
+	
+	// Incredibly Scuffed way of acquiring typename from Value, since forward declaration
+	// is totally borked :)
+	// Error that inflicts this pain upon me
+	// Can't get typename from forward declaration 'Class'. Use Type("name") instead....
+	// Go ahead, try and Print(TValue). YOU CANT FIX IT >:(
+	private typename GetTypeFromValue(TValue value)
+	{
+		typename param_type = (new Param1<TValue>(value)).Type();
+		for (int i = 0; i < param_type.GetVariableCount(); i++) {
+			if (param_type.GetVariableName(i) == "param1") {
+				return param_type.GetVariableType(i);
+			}
+		}
+		
+		typename t;
+		return t;
+	}
 	
 	int Insert(TValue value)
 	{
+		if (!m_Type) {
+			m_Type = GetTypeFromValue(value);
+		}
+		
 		int index = _data.Insert(value);
 		if (index != -1) {
 			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Insert, index, new Param1<TValue>(value)));
@@ -51,6 +94,10 @@ class ObservableCollection<Class TValue>: Observable
 	
 	int InsertAt(TValue value, int index)
 	{
+		if (!m_Type) {
+			m_Type = GetTypeFromValue(value);
+		}
+		
 		int new_index = _data.InsertAt(value, index);
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.InsertAt, index, new Param1<TValue>(value)));
 		return new_index;
@@ -116,11 +163,8 @@ class ObservableCollection<Class TValue>: Observable
 		return _data.Count(); 
 	}
 	
-	int Find(TValue value) { 
+	int Find(TValue value) {
+		Print(value);
 		return _data.Find(value); 
-	}
-	
-	override typename GetType() {
-		return TValue;
 	}
 }
