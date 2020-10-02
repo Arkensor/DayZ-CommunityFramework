@@ -91,7 +91,7 @@ class WidgetBaseController: WidgetControllerTemplate<Widget>
 	}
 	
 	override void Get(out TypeConverter type_converter) {
-		type_converter.SetWidget(GetChildAtIndex(m_Widget, 0));
+		type_converter.SetWidget(m_Widget);
 	}
 }
 
