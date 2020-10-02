@@ -52,26 +52,28 @@ class ScriptView: ScriptedViewBase
 		m_LayoutRoot.GetScript(m_Controller);
 		
 		// If no Controller is specified in the WB Root
-		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
+		if (!m_Controller) {
 
 			if (!GetControllerType().IsInherited(Controller)) {
-				Error("ScriptView: %1 is invalid. Must inherit from Controller!", GetControllerType().ToString());
+				Error("%1 is invalid. Must inherit from Controller!", GetControllerType().ToString());
 				return;
 			}
 			
 			m_Controller = GetControllerType().Spawn();
 			
+			if (!m_Controller) {
+				Error("Could not create Controller %1", GetControllerType().ToString());
+				return;
+			}
+			
 			// Since its not loaded in the WB, needs to be called here
 			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
 		}
-		
-		if (m_Controller) {
-			
-			m_Controller.Debug_Logging = Debug_Logging;
-			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
-			m_Controller.SetParent(this);
-			//m_LayoutRoot.SetHandler(this);
-		}
+	
+		m_Controller.Debug_Logging = Debug_Logging;
+		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
+		m_Controller.SetParent(this);
+		//m_LayoutRoot.SetHandler(this);
 	
 		LoadViewProperties(this, PropertyTypeHashMap.FromType(Type()), m_LayoutRoot);
 	}
