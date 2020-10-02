@@ -150,7 +150,17 @@ class Controller: ScriptedViewBase
 			ViewBinding view_binding = ViewBinding.Cast(view_base);
 			m_ViewBindingHashMap.Insert(w, view_binding);
 			m_DataBindingHashMap.InsertView(view_binding);
-			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
+			
+			typename property_type = m_PropertyTypeHashMap[view_binding.Binding_Name];
+			if (!property_type) {
+				Class context = this;
+				PropertyInfo property_info = TypeConverter.GetSubScope(context, view_binding.Binding_Name);
+				if (property_info) {
+					property_type = property_info.Type;
+				}
+			}
+			
+			view_binding.SetProperties(property_type, m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
 			view_binding.SetParent(this);
 			
 			// todo find a way to define these on ScriptView aswell

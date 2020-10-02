@@ -48,7 +48,7 @@ static void LoadViewProperties(Class context, PropertyTypeHashMap property_map, 
 class TemplateType<Class T>
 {
 	T value;
-		
+	
 	static typename GetType()
 	{
 		return (new TemplateType<T>()).Type().GetVariableType(0);

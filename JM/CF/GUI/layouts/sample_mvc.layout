@@ -98,6 +98,22 @@ FrameWidgetClass root {
      content_halign center
      content_valign center
      {
+      TextWidgetClass sample_class_value {
+       ignorepointer 1
+       position 0 0
+       size 150 50
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass "ViewBinding"
+       {
+        ScriptParamsClass {
+         Binding_Name "m_SampleControllerClass.value"
+         Two_Way_Binding 0
+        }
+       }
+      }
       ButtonWidgetClass button {
        visible 1
        size 150 50

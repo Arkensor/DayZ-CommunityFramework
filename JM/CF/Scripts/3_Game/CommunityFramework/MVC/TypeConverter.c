@@ -67,6 +67,25 @@ class TypeConverter
 		}
 		return __NULL_FUNCT;
 	}
+	
+		
+	// 0: Context of Start Scope, out is context of final scope
+	// 1: Name of variable string Ex: m_Binding.Value.Root
+	// return: Final variable name
+	static PropertyInfo GetSubScope(out Class context, string name)
+	{
+		TStringArray variable_scope = {};
+		name.Split(".", variable_scope);
+		
+		for (int i = 0; i < variable_scope.Count() - 1; i++) {
+			EnScript.GetClassVar(context, variable_scope[i], 0, context);
+		}
+		
+		if (variable_scope.Count() == 0) {
+			return PropertyInfo.GetFromClass(context, name);
+		}
+		return PropertyInfo.GetFromClass(context, variable_scope[variable_scope.Count() - 1]);
+	}
 }
 
 // Inherit from THIS for creating Custom TypeConversions
@@ -99,13 +118,15 @@ class TypeConversionTemplate<Class T>: TypeConverter
 	override typename GetType() {
 		return T;
 	}
-		
-	override void SetToController(Class context, string name, int index) {
-		EnScript.SetClassVar(context, name, index, m_Value);
+
+	override void SetToController(Class context, string name, int index) {	
+		PropertyInfo property_info = GetSubScope(context, name);
+		EnScript.SetClassVar(context, property_info.Name, index, m_Value);
 	}
 	
 	override void GetFromController(Class context, string name, int index) {
-		EnScript.GetClassVar(context, name, index, m_Value);
+		PropertyInfo property_info = GetSubScope(context, name);
+		EnScript.GetClassVar(context, property_info.Name, index, m_Value);
 	}
 }
 

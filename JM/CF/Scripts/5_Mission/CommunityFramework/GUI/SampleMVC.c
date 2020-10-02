@@ -1,6 +1,18 @@
 
 static bool ShowedTutorialMessage;
 
+class SampleSubSubSubControllerClass
+{
+	int valueSmile = 25;
+}
+
+class SampleControllerClass
+{
+	float value = 15;
+	
+	ref SampleSubSubSubControllerClass c = new SampleSubSubSubControllerClass();
+}
+
 // Check JM/CF/GUI/layouts/sample_mvc.layout
 class SampleController: Controller
 {	
@@ -114,6 +126,9 @@ class SampleSubController: Controller
 	// Dont use FindAnyWidget - Enfusion will automatically asign it if its the same name as the Widget name
 	ButtonWidget button; 
 	
+	// You can also bind do sub properties... using m_SampleControllerClass.sub_value
+	ref SampleControllerClass m_SampleControllerClass = new SampleControllerClass();
+	
 	int observable_combo_selection;
 	ref ObservableCollection<string> observable_combo_box = new ObservableCollection<string>("observable_combo_box", this);
 	
@@ -127,8 +142,6 @@ class SampleSubController: Controller
 		observable_combo_box.Insert("Item1");
 		observable_combo_box.Insert("Item2");
 		observable_combo_box.Insert("Item3");
-
-		
 	}
 	
 	override void PropertyChanged(string property_name)

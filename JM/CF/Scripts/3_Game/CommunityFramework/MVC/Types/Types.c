@@ -1,3 +1,26 @@
+
+class PropertyInfo
+{
+	string Name;
+	typename Type;
+	
+	void PropertyInfo(string name, typename type) {
+		Name = name; Type = type;
+	}
+	
+	static PropertyInfo GetFromClass(Class context, string name)
+	{
+		PropertyTypeHashMap hash_map = PropertyTypeHashMap.FromType(context.Type());
+		
+		if (hash_map[name]) {
+			return PropertyInfo(name, hash_map[name]);
+		}
+		
+		return null;
+	}
+}
+
+
 // 0: Property Name
 // 1: Property Type
 class PropertyTypeHashMap: ref map<string, typename>
