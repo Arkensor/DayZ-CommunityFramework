@@ -59,7 +59,7 @@ class WidgetController
 	}
 	
 	private void NotImplementedError(string function) {
-		MVC.Error("%1 does not support function %2", Type().ToString(), function);
+		Error(string.Format("%1 does not support function %2", Type(), function));
 	}
 }
 
@@ -74,14 +74,19 @@ class WidgetControllerTemplate<Class T>: WidgetController
 
 class WidgetBaseController: WidgetControllerTemplate<Widget>
 {
-	override void Set(TypeConverter type_converter) {
-		Widget widget_1 = GetChildAtIndex(m_Widget, 0);
-		if (widget_1) {
-			m_Widget.RemoveChild(widget_1);
-		}
+	override void Set(TypeConverter type_converter) {		
 		
+		if (!m_Widget) return;
+		Widget parent = m_Widget.GetParent();
+		int sort = m_Widget.GetSort();
 		if (type_converter.GetWidget()) {
-			m_Widget.AddChild(type_converter.GetWidget());
+			m_Widget = type_converter.GetWidget();
+			
+			if (parent) {
+				parent.AddChild(m_Widget, false);
+			}
+			
+			m_Widget.SetSort(sort);
 		}
 	}
 	

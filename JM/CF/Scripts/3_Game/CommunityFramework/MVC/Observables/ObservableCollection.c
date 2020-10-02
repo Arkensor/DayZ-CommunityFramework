@@ -35,27 +35,6 @@ class TestController: Controller
 
 */
 
-class ObservableTest<Class TValue>
-{
-	private ref Param1<TValue> _type;
-	
-	void ObservableTest()
-	{	
-		Print(_type);
-		_type = _type.Type().Spawn();
-		Print(_type);
-		
-		_type = Param1<TValue>.Cast(new Param());
-		Print(_type);
-		
-		_type = new Param();
-		Print(_type);
-		
-		
-	}
-}
-
-
 class ObservableCollection<Class TValue>: Observable
 {	
 	private ref array<ref TValue> _data = {};

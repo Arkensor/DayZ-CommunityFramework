@@ -120,7 +120,7 @@ class ViewBinding: ScriptedViewBase
 		// We dont want to work with type Observable for everything
 		TypeConverter collection_converter = args.Source.GetTypeConverter();
 		if (!collection_converter) {
-			Error("Type Converter not found for Collection %1", args.Source.GetType().ToString());
+			Error("Type Converter not found for Collection %1", args.Source.GetVariableName());
 			return;
 		}
 

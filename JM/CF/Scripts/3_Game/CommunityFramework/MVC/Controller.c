@@ -174,7 +174,9 @@ class Controller: ScriptedViewBase
 			
 			
 			// Load property for the first time
-			NotifyPropertyChanged(view_binding.Binding_Name);
+			if (view_binding.Binding_Name != string.Empty) {
+				NotifyPropertyChanged(view_binding.Binding_Name, false);
+			}
 		}
 		
 		
