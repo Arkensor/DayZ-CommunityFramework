@@ -217,6 +217,11 @@ class Controller: ScriptedViewBase
 		
 		// Searches properties for Sub properties
 		Class context = this;
+		return GetControllerProperty(context, property_name);
+	}
+	
+	private typename GetControllerProperty(out Class context, string property_name)
+	{
 		PropertyInfo property_info = GetSubScope(context, property_name);
 		if (property_info) {
 			return property_info.Type;
@@ -231,19 +236,20 @@ class Controller: ScriptedViewBase
 		string relay_command_name = view_binding.Relay_Command;
 		RelayCommand relay_command;
 				
-		// Attempt to load instance of Variable from Controller				
-		typename relay_command_type = m_PropertyTypeHashMap.Get(relay_command_name);
+		// Attempt to load instance of Variable from Controller		
+		Class context = this;		
+		typename relay_command_type = GetControllerProperty(context, relay_command_name);
 		
 		// If we find the variable on the Controller
 		if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
 			Log("RelayCommand Property %1 found on Controller!", relay_command_name);
-			EnScript.GetClassVar(this, relay_command_name, 0, relay_command);
+			EnScript.GetClassVar(context, relay_command_name, 0, relay_command);
 			
 			// If that property isnt initialized, but exists
 			if (!relay_command) {
 				Log("RelayCommand Property %1 was not initialized! Initializing...", relay_command_name);
 				Class.CastTo(relay_command, relay_command_type.Spawn());
-				EnScript.SetClassVar(this, relay_command_name, 0, relay_command);
+				EnScript.SetClassVar(context, relay_command_name, 0, relay_command);
 				return relay_command;
 			}
 		} 
