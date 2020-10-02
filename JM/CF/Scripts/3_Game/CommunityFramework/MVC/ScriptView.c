@@ -29,7 +29,6 @@ class ScriptView: ScriptedViewBase
 		
 	void ScriptView(Widget parent = null)
 	{
-		//Debug_Logging = true;
 		Trace("ScriptView");
 		if (!GetLayoutFile()) {
 			Error("Layout file not found! Are you overriding GetLayoutFile?");
