@@ -3,12 +3,12 @@
 class ScriptViewTemplate<Class T>: ScriptView
 {
 	protected T m_TemplateController;
-	
-	T GetController() {
+		
+	T GetTemplateController() {
 		return m_TemplateController;
 	}
 	
-	void ScriptViewTemplate(Widget parent = null)
+	void ScriptViewTemplate(Widget parent)
 	{
 		if (!Class.CastTo(m_TemplateController, m_Controller)) {
 			Error("Error in casting of Template Controller %1", T.ToString());

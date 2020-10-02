@@ -27,7 +27,7 @@ class ScriptView: ScriptedViewBase
 		return m_Controller;
 	}
 	
-	void ScriptView(Widget parent = null)
+	void ScriptView(Widget parent)
 	{
 		if (!GetLayoutFile()) {
 			Error("Layout file not found! Are you overriding GetLayoutFile?");
