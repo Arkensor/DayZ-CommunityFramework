@@ -211,10 +211,10 @@ FrameWidgetClass root {
          vexactpos 1
          hexactsize 0
          vexactsize 0
-         Padding 0
+         Padding 10
          Margin 0
          content_halign center
-         content_valign center
+         content_valign bottom
          {
           PanelWidgetClass counter_frame_0 {
            visible 1
@@ -360,30 +360,56 @@ FrameWidgetClass root {
              style rover_sim_black_2
              {
               ButtonWidgetClass text_list_swap {
-               color 0.1961 0.1961 0.1961 1
-               size 125 25
+               position 0 0
+               size 1 1
                halign center_ref
                valign center_ref
                hexactpos 1
                vexactpos 1
-               hexactsize 1
-               vexactsize 1
+               hexactsize 0
+               vexactsize 0
                scriptclass "ViewBinding"
                style Default
-               text "Swap"
                {
-                ImageWidgetClass swap_button_icon {
+                WrapSpacerWidgetClass text_list_swap_content {
                  ignorepointer 1
-                 size 25 25
-                 halign right_ref
+                 position 0 0
+                 size 1 1
+                 halign center_ref
                  valign center_ref
                  hexactpos 1
                  vexactpos 1
-                 hexactsize 1
-                 vexactsize 1
-                 image0 "set:dayz_gui image:icon_refresh"
-                 mode blend
-                 "src alpha" 1
+                 hexactsize 0
+                 vexactsize 0
+                 content_halign center
+                 content_valign center
+                 {
+                  ImageWidgetClass text_list_swap_icon {
+                   ignorepointer 1
+                   size 25 25
+                   hexactpos 1
+                   vexactpos 1
+                   hexactsize 1
+                   vexactsize 1
+                   image0 "set:dayz_gui image:icon_refresh"
+                   mode blend
+                   "src alpha" 1
+                  }
+                  TextWidgetClass text_list_swap_text {
+                   ignorepointer 1
+                   position 0 0
+                   size 0 25
+                   hexactpos 1
+                   vexactpos 1
+                   hexactsize 1
+                   vexactsize 1
+                   text "Swap Items"
+                   "exact text" 0
+                   "size to text h" 1
+                   "text halign" center
+                   "text valign" center
+                  }
+                 }
                 }
                }
                {
@@ -525,18 +551,18 @@ FrameWidgetClass root {
       }
       PanelWidgetClass text_list_add_panel {
        ignorepointer 1
-       position 0.15 0
-       size 200 50
+       position 0.23 0
+       size 150 0.5
        valign center_ref
        hexactpos 0
        vexactpos 1
        hexactsize 1
-       vexactsize 1
+       vexactsize 0
        style rover_sim_black_2
        {
         ButtonWidgetClass text_list_add {
          position 0 0
-         size 0.9 0.6
+         size 1 1
          halign center_ref
          valign center_ref
          hexactpos 1
@@ -556,14 +582,13 @@ FrameWidgetClass root {
            vexactsize 0
            Padding 5
            Margin 0
-           "Size To Content V" 1
            content_halign center
            content_valign center
            {
             ImageWidgetClass text_list_add_icon {
              ignorepointer 1
              position 0 0
-             size 30 30
+             size 25 25
              halign center_ref
              valign center_ref
              hexactpos 1
@@ -577,14 +602,16 @@ FrameWidgetClass root {
             TextWidgetClass text_list_add_text {
              visible 1
              ignorepointer 1
-             size 0.6 1
+             size 120 25
              halign center_ref
              valign center_ref
              hexactpos 1
              vexactpos 1
-             hexactsize 0
-             vexactsize 0
+             hexactsize 1
+             vexactsize 1
              text "Add Item"
+             "size to text h" 1
+             "size to text v" 0
              "text halign" center
              "text valign" center
             }
