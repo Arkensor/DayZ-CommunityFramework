@@ -52,7 +52,7 @@ class ScriptView: ScriptedViewBase
 		m_LayoutRoot.GetScript(m_Controller);
 		
 		// If no Controller is specified in the WB Root
-		if (!m_Controller) {
+		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 
 			if (!GetControllerType().IsInherited(Controller)) {
 				Error("%1 is invalid. Must inherit from Controller!", GetControllerType().ToString());

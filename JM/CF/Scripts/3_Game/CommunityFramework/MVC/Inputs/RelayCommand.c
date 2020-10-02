@@ -21,7 +21,7 @@ class RelayCommand
 	// depreciate if BI ever adds property Getters and Setters
 	void SetCanExecute(bool state) {
 		m_CanExecute = state;
-		GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(CanExecuteChanged, m_CanExecute);
+		CanExecuteChanged(m_CanExecute);
 	}
 	
 	/* Abstract Methods */
