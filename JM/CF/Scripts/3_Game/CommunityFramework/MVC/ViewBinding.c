@@ -15,7 +15,7 @@ class ViewBinding: ScriptedViewBase
 	// Type of RelayCommand class that is controlled by ViewBinding
 	reference string Relay_Command;
 	
-	// Weak reference to Relay Command
+	// Strong reference to Relay Command
 	protected ref RelayCommand m_RelayCommand;
 	void SetRelayCommand(RelayCommand relay_command) {
 		m_RelayCommand = relay_command;

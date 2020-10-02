@@ -153,51 +153,25 @@ class Controller: ScriptedViewBase
 			view_binding.SetProperties(m_PropertyTypeHashMap.Get(view_binding.Binding_Name), m_PropertyTypeHashMap.Get(view_binding.Selected_Item));
 			view_binding.SetParent(this);
 			
-			RelayCommand relay_command;
-			string relay_command_name = view_binding.Relay_Command;
-			
 			// todo find a way to define these on ScriptView aswell
-			if (relay_command_name != string.Empty) {
+			// Load RelayCommand
+			if (view_binding.Relay_Command != string.Empty) {
 				
-				// Attempt to load instance of Variable from Controller				
-				typename relay_command_type = m_PropertyTypeHashMap.Get(relay_command_name);
-				
-				// If we find the variable on the Controller
-				if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
-					Log("RelayCommand Property %1 found on Controller!", relay_command_name);
-					EnScript.GetClassVar(this, relay_command_name, 0, relay_command);
-					
-					// If that property isnt initialized, but exists
-					if (!relay_command) {
-						Log("RelayCommand Property %1 was not initialized! Initializing...", relay_command_name);
-						EnScript.SetClassVar(this, relay_command_name, 0, relay_command_type.Spawn());
-					}
-				} 
-				
-				// If we DONT find the variable on the controller, attempt to create an instance of it
-				else {
-					
-					Log("RelayCommand Property %1 not found on Controller");
-					relay_command_type = relay_command_name.ToType();
-					
-					if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
-						Log("RelayCommand type found %1", relay_command_name);
-						relay_command = relay_command_type.Spawn();					
-					}
-				}
+				RelayCommand relay_command = LoadRelayCommand(view_binding);
 				
 				// Success! One of the two options were found
 				if (relay_command) {
-					Log("RelayCommand %1 succesfully acquired. Assigning...", relay_command_name);
+					Log("%2: RelayCommand %1 succesfully acquired. Assigning...", view_binding.Relay_Command, view_binding.GetLayoutRoot().GetName());
 					relay_command.SetController(this);
 					view_binding.SetRelayCommand(relay_command);
 				} 
 				
-				// Couldnt find either, must be a function on the controller
+				// Must be a function on the controller
 				else {
-					Log("RelayCommand %1 not found - Assuming its a function on the Controller / ScriptView!", view_binding.Relay_Command);
-				}				
+					Log("%2: RelayCommand %1 not found - Assuming its a function on the Controller / ScriptView!", view_binding.Relay_Command, view_binding.GetLayoutRoot().GetName());
+				}
 			}
+			
 			
 			// Load property for the first time
 			NotifyPropertyChanged(view_binding.Binding_Name);
@@ -229,6 +203,44 @@ class Controller: ScriptedViewBase
 		}
 		
 		return m_DataBindingHashMap.Count();
+	}
+	
+	private RelayCommand LoadRelayCommand(ViewBinding view_binding)
+	{
+		string relay_command_name = view_binding.Relay_Command;
+		RelayCommand relay_command;
+				
+		// Attempt to load instance of Variable from Controller				
+		typename relay_command_type = m_PropertyTypeHashMap.Get(relay_command_name);
+		
+		// If we find the variable on the Controller
+		if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
+			Log("RelayCommand Property %1 found on Controller!", relay_command_name);
+			EnScript.GetClassVar(this, relay_command_name, 0, relay_command);
+			
+			// If that property isnt initialized, but exists
+			if (!relay_command) {
+				Log("RelayCommand Property %1 was not initialized! Initializing...", relay_command_name);
+				relay_command = relay_command_type.Spawn();
+				EnScript.SetClassVar(this, relay_command_name, 0, relay_command);
+				return relay_command;
+			}
+		} 
+		
+		// If we DONT find the variable on the controller, attempt to create an instance of it
+		else {
+			Log("RelayCommand Property %1 not found on Controller", relay_command_name);
+			relay_command_type = relay_command_name.ToType();
+			
+			if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
+				Log("RelayCommand type found %1", relay_command_name);
+				relay_command = relay_command_type.Spawn();	
+				return relay_command;				
+			}
+		}
+		
+		
+		return relay_command;
 	}
 		
 	// Update Controller on action from ViewBinding

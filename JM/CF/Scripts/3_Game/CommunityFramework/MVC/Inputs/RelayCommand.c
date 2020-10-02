@@ -22,9 +22,7 @@ class RelayCommand
 	void SetCanExecute(bool state) 
 	{
 		m_CanExecute = state;
-		
-		// If you dont use CallQueue then it throws errors. IDK why
-		GetWorkbenchGame().GetCallQueue(CALL_CATEGORY_GUI).Call(CanExecuteChanged, m_CanExecute);
+		thread CanExecuteChanged(m_CanExecute);
 	}
 	
 	/* Abstract Methods */
