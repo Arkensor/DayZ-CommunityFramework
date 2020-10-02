@@ -79,6 +79,7 @@ class ScriptViewTemplate<Class T>: ScriptViewBase
 		// If no Controller is specified in the WB Root
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
 
+			Log("Controller not found on %1, creating...", m_LayoutRoot.GetName());
 			if (!T.IsInherited(Controller)) {
 				Error("%1 is invalid. Must inherit from Controller!", T.ToString());
 				return;
@@ -93,10 +94,10 @@ class ScriptViewTemplate<Class T>: ScriptViewBase
 			
 			// Since its not loaded in the WB, needs to be called here
 			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(T), m_LayoutRoot);
+			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		}
 	
 		m_Controller.Debug_Logging = Debug_Logging;
-		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		m_Controller.SetParent(this);
 		//m_LayoutRoot.SetHandler(this);
 	}
@@ -131,7 +132,8 @@ class ScriptView: ScriptViewBase
 		
 		// If no Controller is specified in the WB Root
 		if (!m_Controller || !m_Controller.IsInherited(Controller)) {
-
+			
+			Log("Controller not found on %1, creating...", m_LayoutRoot.GetName());
 			if (!GetControllerType().IsInherited(Controller)) {
 				Error("%1 is invalid. Must inherit from Controller!", GetControllerType().ToString());
 				return;
@@ -146,10 +148,10 @@ class ScriptView: ScriptViewBase
 			
 			// Since its not loaded in the WB, needs to be called here
 			LoadViewProperties(m_Controller, PropertyTypeHashMap.FromType(GetControllerType()), m_LayoutRoot);
+			m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		}
 	
 		m_Controller.Debug_Logging = Debug_Logging;
-		m_Controller.OnWidgetScriptInit(m_LayoutRoot);
 		m_Controller.SetParent(this);
 		//m_LayoutRoot.SetHandler(this);
 	}

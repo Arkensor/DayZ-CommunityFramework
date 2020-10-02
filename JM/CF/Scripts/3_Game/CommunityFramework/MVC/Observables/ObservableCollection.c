@@ -35,20 +35,15 @@ class TestController: Controller
 
 */
 
-class ObservableCollection<Class TValue>: Observable
-{	
-	private ref array<ref TValue> _data = {};
+class TemplateType<Class T>
+{
+	T value;
 	
-	// Incredibly Scuffed way of acquiring typename from Value, since forward declaration
-	// is totally borked :)
-	// Error that inflicts this pain upon me
-	// Can't get typename from forward declaration 'Class'. Use Type("name") instead....
-	// Go ahead, try and Print(TValue). YOU CANT FIX IT >:(
-	private typename GetTypeFromValue(TValue value)
+	private typename _GetType()
 	{
-		typename param_type = (new Param1<TValue>(value)).Type();
+		typename param_type = Type();
 		for (int i = 0; i < param_type.GetVariableCount(); i++) {
-			if (param_type.GetVariableName(i) == "param1") {
+			if (param_type.GetVariableName(i) == "value") {
 				return param_type.GetVariableType(i);
 			}
 		}
@@ -57,12 +52,29 @@ class ObservableCollection<Class TValue>: Observable
 		return t;
 	}
 	
-	int Insert(TValue value)
+	static typename GetType()
 	{
-		if (!m_Type) {
-			m_Type = GetTypeFromValue(value);
-		}
-		
+		return (new TemplateType<T>())._GetType();
+	}
+}
+
+
+class ObservableCollection<Class TValue>: Observable
+{
+	private ref array<ref TValue> _data = {};
+	
+	// Incredibly Scuffed way of acquiring typename from Value, since forward declaration
+	// is totally borked :)
+	// Error that inflicts this pain upon me
+	// Can't get typename from forward declaration 'Class'. Use Type("name") instead....
+	// Go ahead, try and Print(TValue). YOU CANT FIX IT >:(
+	void ObservableCollection(string variable_name, Controller controller)
+	{
+		m_Type = TemplateType<TValue>.GetType();
+	}
+	
+	int Insert(TValue value)
+	{		
 		int index = _data.Insert(value);
 		if (index != -1) {
 			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Insert, index, new Param1<TValue>(value)));
@@ -72,11 +84,7 @@ class ObservableCollection<Class TValue>: Observable
 	}
 	
 	int InsertAt(TValue value, int index)
-	{
-		if (!m_Type) {
-			m_Type = GetTypeFromValue(value);
-		}
-		
+	{		
 		int new_index = _data.InsertAt(value, index);
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.InsertAt, index, new Param1<TValue>(value)));
 		return new_index;
