@@ -103,14 +103,12 @@ class TypeConversionTemplate<Class T>: TypeConverter
 	override void SetToController(Class context, string name, int index) 
 	{	
 		PropertyInfo property_info = GetSubScope(context, name);
-		PrintFormat("Setting %1 to %2", property_info.Name, context);
 		EnScript.SetClassVar(context, property_info.Name, index, m_Value);
 	}
 	
 	override void GetFromController(Class context, string name, int index) 
 	{
 		PropertyInfo property_info = GetSubScope(context, name);
-		PrintFormat("Getting %1 from %2", property_info.Name, context);
 		EnScript.GetClassVar(context, property_info.Name, index, m_Value);
 	}
 }
