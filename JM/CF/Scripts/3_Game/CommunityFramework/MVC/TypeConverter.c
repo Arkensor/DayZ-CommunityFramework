@@ -97,7 +97,7 @@ class TypeConversionTemplate<Class T>: TypeConverter
 	}
 			
 	override typename GetType() {
-		return T;
+		return TemplateType<T>.GetType();
 	}
 
 	override void SetToController(Class context, string name, int index) 
