@@ -24,7 +24,7 @@ class ScriptedViewBase: Managed
 	}
 	
 	// ScriptedViewBase parent
-	protected autoptr ScriptedViewBase m_ParentScriptedViewBase;
+	protected ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent() {
 		return m_ParentScriptedViewBase;
 	}

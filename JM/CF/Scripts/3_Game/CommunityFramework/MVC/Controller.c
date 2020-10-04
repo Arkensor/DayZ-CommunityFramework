@@ -61,7 +61,7 @@ class Controller: ScriptedViewBase
 	typename GetPropertyType(string property_name) {
 		return m_PropertyTypeHashMap.Get(property_name);
 	}
-		
+			
 	override void OnWidgetScriptInit(Widget w)
 	{		
 		super.OnWidgetScriptInit(w);

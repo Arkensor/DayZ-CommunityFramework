@@ -63,7 +63,7 @@ typedef set<ViewBinding> ViewBindingArray;
 
 // 0: Property Name
 // 1: View Binding Set
-class DataBindingHashMap: map<string, ViewBindingArray>
+class DataBindingHashMap: map<string, autoptr ViewBindingArray>
 {
 	void DebugPrint()
 	{
