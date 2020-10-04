@@ -37,7 +37,7 @@ class PropertyTypeHashMap: ref map<string, typename>
 {
 	static ref PropertyTypeHashMap FromType(typename type)
 	{
-		ref PropertyTypeHashMap hash_map = new PropertyTypeHashMap();
+		PropertyTypeHashMap hash_map = new PropertyTypeHashMap();
 		for (int i = 0; i < type.GetVariableCount(); i++) {
 			hash_map.Insert(type.GetVariableName(i), type.GetVariableType(i));	
 		}
@@ -56,14 +56,14 @@ class PropertyTypeHashMap: ref map<string, typename>
 
 // 0: Source Widget
 // 1: View Binding
-typedef ref map<Widget, ViewBinding> ViewBindingHashMap;
+typedef map<Widget, ViewBinding> ViewBindingHashMap;
 
 // 0: View Binding
-typedef ref set<ViewBinding> ViewBindingArray;
+typedef set<ViewBinding> ViewBindingArray;
 
 // 0: Property Name
 // 1: View Binding Set
-class DataBindingHashMap: ref map<string, ref ViewBindingArray>
+class DataBindingHashMap: map<string, ref ViewBindingArray>
 {
 	void DebugPrint()
 	{
@@ -91,7 +91,7 @@ class DataBindingHashMap: ref map<string, ref ViewBindingArray>
 
 // 0: Relay_Command parameter
 // 1: Command Value
-typedef ref map<string, RelayCommand> RelayCommandHashMap
+typedef map<string, RelayCommand> RelayCommandHashMap
 
 // 0: Source Type
 // 1: Conversion Type
@@ -101,7 +101,7 @@ typedef map<typename, typename> TypenameHashMap;
 // 1: Conversion Type
 class TypeConversionHashMap
 {
-	private ref map<typename, typename> value = new map<typename, typename>();
+	private autoptr map<typename, typename> value = new map<typename, typename>();
 	
 	
 	typename Get(typename conversion_type) {

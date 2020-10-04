@@ -87,7 +87,7 @@ class ScriptView: ScriptedViewBase
 			Error("Workspace was null, try reloading Workbench");
 			return result;
 		}
-		
+				
 		Log("Loading %1", GetLayoutFile());
 		result = workspace.CreateWidgets(GetLayoutFile(), parent);
 		if (!result) {

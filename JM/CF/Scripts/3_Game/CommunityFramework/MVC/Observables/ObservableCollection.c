@@ -37,11 +37,16 @@ class TestController: Controller
 
 class ObservableCollection<Class TValue>: Observable
 {
-	private ref array<ref TValue> _data = {};
+	private ref array<TValue> _data = {};
 
 	void ObservableCollection(string variable_name, Controller controller)
 	{
 		m_Type = TemplateType<TValue>.GetType();
+	}
+	
+	void ~ObservableCollection()
+	{
+		delete _data;
 	}
 	
 	int Insert(TValue value)

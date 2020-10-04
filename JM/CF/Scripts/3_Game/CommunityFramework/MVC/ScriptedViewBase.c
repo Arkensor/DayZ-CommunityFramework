@@ -43,7 +43,8 @@ class ScriptedViewBase: Managed
 	
 	void ScriptedViewBase()
 	{
-		//PrintFormat("[Log] %1", this);
+		if (Debug_Logging)
+			PrintFormat("[Log] %1", this);
 		
 		m_TypeConverter = MVC.GetTypeConversion(Type());
 		if (!m_TypeConverter) {
@@ -53,6 +54,12 @@ class ScriptedViewBase: Managed
 		
 		m_ScriptedViewBaseHandler = new ScriptedViewBaseHandler(this);
 		m_TypeConverter.Set(this);
+	}
+	
+	void ~ScriptedViewBase()
+	{
+		if (Debug_Logging)
+			PrintFormat("[Log] ~%1", this);
 	}
 			
 	void OnWidgetScriptInit(Widget w)

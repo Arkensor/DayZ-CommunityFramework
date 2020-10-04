@@ -10,6 +10,16 @@ Widget GetChildAtIndex(Widget widget, int index)
 	return result;
 }
 
+bool IsWidgetChild(Widget widget, Widget child)
+{
+	Widget result = widget.GetChildren();
+	while (result != null) {
+		if (result == child) return true;
+		result = result.GetSibling();
+	}
+	
+	return false;
+}
 
 class WidgetController
 {	
@@ -242,6 +252,20 @@ class SpacerBaseWidgetController: WidgetControllerTemplate<SpacerBaseWidget>
 {
 	override bool CanTwoWayBind() {
 		return true;
+	}
+	
+	override void SetSelection(TypeConverter type_converter) 
+	{
+		if (type_converter.GetWidget()) {
+			SetFocus(type_converter.GetWidget());
+		}
+	}
+	
+	override void GetSelection(out TypeConverter type_converter) 
+	{
+		if (IsWidgetChild(m_Widget, GetFocus())) {
+			type_converter.SetWidget(GetFocus());
+		}
 	}
 
 	override void Insert(TypeConverter type_converter)

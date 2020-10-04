@@ -15,7 +15,7 @@ class ViewBinding: ScriptedViewBase
 	reference string Relay_Command;
 	
 	// Strong reference to Relay Command
-	protected ref RelayCommand m_RelayCommand;
+	protected autoptr RelayCommand m_RelayCommand;
 	void SetRelayCommand(RelayCommand relay_command) {
 		m_RelayCommand = relay_command;
 		m_RelayCommand.SetViewBinding(this);
@@ -25,12 +25,12 @@ class ViewBinding: ScriptedViewBase
 		return m_RelayCommand;
 	}
 		
-	protected ref TypeConverter m_PropertyConverter;
+	protected autoptr TypeConverter m_PropertyConverter;
 	TypeConverter GetPropertyConverter() {
 		return m_PropertyConverter;
 	}
 	
-	protected ref TypeConverter m_SelectedConverter;
+	protected autoptr TypeConverter m_SelectedConverter;
 	TypeConverter GetSelectedConverter() {
 		return m_SelectedConverter;
 	}
@@ -114,7 +114,7 @@ class ViewBinding: ScriptedViewBase
 	}	
 	
 	// Collection -> view
-	void UpdateViewFromCollection(ref CollectionChangedEventArgs args)
+	void UpdateViewFromCollection(CollectionChangedEventArgs args)
 	{
 		Trace("UpdateViewFromCollection");
 		

@@ -1,6 +1,6 @@
 class ObservableSet<Class TValue>: Observable
 {
-	private ref set<ref TValue> _data = new set<ref TValue>();	
+	private ref set<TValue> _data = new set<TValue>();	
 	
 	int Insert(TValue value)
 	{
