@@ -33,9 +33,9 @@ class PropertyInfo
 
 // 0: Property Name
 // 1: Property Type
-class PropertyTypeHashMap: ref map<string, typename>
+class PropertyTypeHashMap: map<string, typename>
 {
-	static ref PropertyTypeHashMap FromType(typename type)
+	static PropertyTypeHashMap FromType(typename type)
 	{
 		PropertyTypeHashMap hash_map = new PropertyTypeHashMap();
 		for (int i = 0; i < type.GetVariableCount(); i++) {
@@ -63,7 +63,7 @@ typedef set<ViewBinding> ViewBindingArray;
 
 // 0: Property Name
 // 1: View Binding Set
-class DataBindingHashMap: map<string, ref ViewBindingArray>
+class DataBindingHashMap: map<string, ViewBindingArray>
 {
 	void DebugPrint()
 	{
