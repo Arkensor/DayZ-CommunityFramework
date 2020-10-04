@@ -93,7 +93,6 @@ class ViewBinding: ScriptedViewBase
 	void UpdateController(Controller controller)
 	{
 		Trace("UpdateController");
-		
 		if (!m_WidgetController) return;
 		
 		// Binding_Name handler
@@ -242,6 +241,7 @@ class ViewBinding: ScriptedViewBase
 	{
 		Trace("OnChange");
 		switch (w.Type()) {
+			
 			case CheckBoxWidget: {
 				if (InvokeCommand(this, new CheckBoxCommandArgs(CheckBoxWidget.Cast(w)))) {
 					// Weird situation but I need to call UpdateController from Controller without calling OnChange
@@ -249,6 +249,8 @@ class ViewBinding: ScriptedViewBase
 					if (w) super.OnChange(w, x, y, finished);
 					return true;
 				}
+				
+				break;
 			}		
 		}
 		

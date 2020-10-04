@@ -53,8 +53,8 @@ static PropertyInfo GetSubScope(out Class context, string name)
 	for (int i = 0; i < variable_scope.Count() - 1; i++) {
 		EnScript.GetClassVar(context, variable_scope[i], 0, context);
 	}
-	
-	if (variable_scope.Count() == 0) {
+
+	if (variable_scope.Count() == 1) {
 		return PropertyInfo.GetFromClass(context, name);
 	}
 	
