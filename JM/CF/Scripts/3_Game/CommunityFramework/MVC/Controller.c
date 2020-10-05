@@ -118,34 +118,19 @@ class Controller: ScriptedViewBase
 		}
 	}
 	
-	// Do NOT call this. ObservableCollection does this for you
-	void NotifyCollectionChanged(string collection_name, CollectionChangedEventArgs args)
-	{		
-		Trace("NotifyCollectionChanged %1", collection_name);
-		ViewBindingArray views = m_DataBindingHashMap.Get(collection_name);
-				
-		if (views) {
-			foreach (ViewBinding view: views) {
-				view.UpdateViewFromCollection(args);
-			}
-		}
-
-		CollectionChanged(collection_name, args);
-	}
-	
+	// Do NOT call this. ObservableCollection does this for you	
 	void NotifyCollectionChanged(CollectionChangedEventArgs args)
 	{
 		Trace("NotifyCollectionChanged %1", args.Source.ToString());
 		
+
 		string collection_name = GetVariableName(args.Source);
-		Print(collection_name);
-		
 		if (collection_name == string.Empty) {
 			Error("NotifyCollectionChanged could not find variable %1 in %2", args.Source.ToString(), string.ToString(this));
 			return;
 		}
-		
-		ViewBindingArray views = m_DataBindingHashMap.Get(collection_name);
+
+		ViewBindingArray views = m_DataBindingHashMap[collection_name];
 				
 		if (views) {
 			foreach (ViewBinding view: views) {
@@ -262,12 +247,12 @@ class Controller: ScriptedViewBase
 			typename variable_type = type.GetVariableType(i);
 			string variable_name = type.GetVariableName(i);
 			
-			if (variable_type.IsInherited(target_variable.Type())) {
-				Class result;
-				EnScript.GetClassVar(this, variable_name, 0, result);
-				if (result == target_variable) {
-					return variable_name;
-				}
+			if (!variable_type.IsInherited(target_variable.Type())) continue;
+			
+			Class result;
+			EnScript.GetClassVar(this, variable_name, 0, result);
+			if (result == target_variable) {
+				return variable_name;
 			}
 		}
 
