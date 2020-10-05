@@ -3,7 +3,7 @@
 class SampleScriptViewController: Controller
 {
 	Widget content_host;
-	ref ObservableCollection<ref SampleScriptView> script_view = new ObservableCollection<ref SampleScriptView>("script_view", this);
+	ref ObservableCollection<ref SampleScriptView> script_view = new ObservableCollection<ref SampleScriptView>(this);
 }
 
 class SampleRelayCommand: RelayCommand
@@ -18,7 +18,7 @@ class SampleRelayCommand: RelayCommand
 			controller.script_view.Insert(new SampleScriptView());
 		} else {
 			delete controller.script_view;
-			controller.script_view = new ObservableCollection<ref SampleScriptView>("script_view", controller);
+			controller.script_view = new ObservableCollection<ref SampleScriptView>(controller);
 		}
 		
 		return true; // We dont want to keep calling up the Execution tree

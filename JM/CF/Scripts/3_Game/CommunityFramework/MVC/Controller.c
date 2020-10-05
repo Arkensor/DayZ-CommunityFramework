@@ -133,6 +133,30 @@ class Controller: ScriptedViewBase
 		CollectionChanged(collection_name, args);
 	}
 	
+	void NotifyCollectionChanged(CollectionChangedEventArgs args)
+	{
+		Trace("NotifyCollectionChanged %1", args.Source.ToString());
+		
+		string collection_name = GetVariableName(args.Source);
+		Print(collection_name);
+		
+		if (collection_name == string.Empty) {
+			Error("NotifyCollectionChanged could not find variable %1 in %2", args.Source.ToString(), string.ToString(this));
+			return;
+		}
+		
+		ViewBindingArray views = m_DataBindingHashMap.Get(collection_name);
+				
+		if (views) {
+			foreach (ViewBinding view: views) {
+				view.UpdateViewFromCollection(args);
+			}
+		}
+
+		CollectionChanged(collection_name, args);
+		
+	}
+	
 	// Gets called every time a property is changed. 
 	// Override this when you want to have an event AFTER property is changed
 	void PropertyChanged(string property_name);
@@ -229,6 +253,25 @@ class Controller: ScriptedViewBase
 		
 		typename t;
 		return t;
+	}
+	
+	private string GetVariableName(Class target_variable)
+	{
+		typename type = Type();
+		for (int i = 0; i < type.GetVariableCount(); i++) {
+			typename variable_type = type.GetVariableType(i);
+			string variable_name = type.GetVariableName(i);
+			
+			if (variable_type.IsInherited(target_variable.Type())) {
+				Class result;
+				EnScript.GetClassVar(this, variable_name, 0, result);
+				if (result == target_variable) {
+					return variable_name;
+				}
+			}
+		}
+
+		return string.Empty;
 	}
 	
 	private RelayCommand LoadRelayCommand(ViewBinding view_binding)

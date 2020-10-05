@@ -21,7 +21,7 @@ class SampleController: Controller
 	float progress_value = 75; // default value will be 75
 	
 	ButtonWidget text_list_add;
-	ref ObservableCollection<string> observable_list_box = new ObservableCollection<string>("observable_list_box", this);
+	ref ObservableCollection<string> observable_list_box = new ObservableCollection<string>(this);
 
 	int counter_left_value = 0;
 	int counter_right_value = 3;
@@ -130,7 +130,7 @@ class SampleSubController: Controller
 	ref SampleControllerClass m_SampleControllerClass = new SampleControllerClass();
 	
 	int observable_combo_selection;
-	ref ObservableCollection<string> observable_combo_box = new ObservableCollection<string>("observable_combo_box", this);
+	ref ObservableCollection<string> observable_combo_box = new ObservableCollection<string>(this);
 	
 	static const int COLOR_ON = COLOR_GREEN;
 	static const int COLOR_OFF = COLOR_RED;
