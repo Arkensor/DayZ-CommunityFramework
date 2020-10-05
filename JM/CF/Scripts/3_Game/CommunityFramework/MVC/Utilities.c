@@ -47,6 +47,8 @@ static void LoadViewProperties(Class context, PropertyTypeHashMap property_map, 
 // return: Final variable name
 static PropertyInfo GetSubScope(out Class context, string name)
 {
+	if (name == string.Empty) return null;
+	
 	TStringArray variable_scope = {};
 	name.Split(".", variable_scope);
 	

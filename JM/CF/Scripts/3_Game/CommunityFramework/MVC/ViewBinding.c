@@ -16,7 +16,8 @@ class ViewBinding: ScriptedViewBase
 	
 	// Strong reference to Relay Command
 	protected autoptr RelayCommand m_RelayCommand;
-	void SetRelayCommand(RelayCommand relay_command) {
+	void SetRelayCommand(RelayCommand relay_command) 
+	{
 		m_RelayCommand = relay_command;
 		m_RelayCommand.SetViewBinding(this);
 	}
