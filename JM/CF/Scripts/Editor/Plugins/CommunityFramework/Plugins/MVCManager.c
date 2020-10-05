@@ -1,19 +1,19 @@
-[WorkbenchPluginAttribute("MVC Settings", "Edit MVC Settings", "", "", {"ResourceManager", "ScriptEditor"})]
-class MVCManager: WorkbenchPlugin
+[WorkbenchPluginAttribute("LayoutBindingManager Settings", "Edit LayoutBindingManager Settings", "", "", {"ResourceManager", "ScriptEditor"})]
+class LayoutBindingManagerPlugin: WorkbenchPlugin
 {
 	[Attribute("", "combobox", "", "", ParamEnumArray.FromEnum(LogLevel))]
 	int Log_Level;
 	
 	override void Run()
 	{
-		Log_Level = MVCLogLevel;
-		Workbench.ScriptDialog("Edit MVC Settings", "", this);
+		Log_Level = LBMLogLevel;
+		Workbench.ScriptDialog("Edit LayoutBindingManager Settings", "", this);
 	}
 	
 	[ButtonAttribute("OK")]
 	void DialogOk()
 	{
-		MVCLogLevel = Log_Level;
+		LBMLogLevel = Log_Level;
 	}
 		
 	[ButtonAttribute("Cancel")]
@@ -21,5 +21,4 @@ class MVCManager: WorkbenchPlugin
 	{
 		
 	}
-}
- 
+};

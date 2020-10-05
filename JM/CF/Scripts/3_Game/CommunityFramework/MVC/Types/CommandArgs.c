@@ -3,16 +3,17 @@
 class CommandArgs
 {
 	ScriptedViewBase Context;
-}
+};
 
 class CommandArgsT<Class T>: CommandArgs
 {
 	T Source;
 	
-	void CommandArgsT(T source) {
+	void CommandArgsT(T source)
+	{
 		Source = source;
 	}
-}
+};
 
 // 0: Source Widget
 // 1: Mouse Button
@@ -20,51 +21,59 @@ class ButtonCommandArgs: CommandArgsT<ButtonWidget>
 {
 	private int m_MouseButton;
 	
-	void ButtonCommandArgs(ButtonWidget source, int mouse_button) {
-		m_MouseButton = mouse_button;
+	void ButtonCommandArgs(ButtonWidget source, int mouseButton)
+	{
+		m_MouseButton = mouseButton;
 	}
 	
-	int GetMouseButton() {
+	int GetMouseButton()
+	{
 		return m_MouseButton;
 	}
 	
-	bool GetButtonState() {
+	bool GetButtonState()
+	{
 		return Source.GetState();
 	}
-}
+};
 
 
 // 0: Source Widget
 // 1: CheckBox State
 class CheckBoxCommandArgs: CommandArgsT<CheckBoxWidget>
 {	
-	bool GetCheckBoxState() {
+	bool GetCheckBoxState()
+	{
 		return Source.IsChecked();
 	}
-}
+};
 
 // 0: Source Widget
 // 1: Selected Item
 class XComboBoxCommandArgs: Param2<XComboBoxWidget, int>
 {
-	XComboBoxWidget GetComboBoxWidget() {
+	XComboBoxWidget GetComboBoxWidget()
+	{
 		return param1;
 	}
 	
-	int GetSelectedIndex() {
+	int GetSelectedIndex()
+	{
 		return param2;
 	}
-}
+};
 
 // 0: Source Widget
 // 1: Selected Widget
 class WrapSpacerCommandArgs: Param2<WrapSpacerWidget, Widget>
 {
-	WrapSpacerWidget GetWrapSpacerWidget() {
+	WrapSpacerWidget GetWrapSpacerWidget()
+	{
 		return param1;
 	}
 	
-	Widget GetSelectedWidget() {
+	Widget GetSelectedWidget()
+	{
 		return param2;
 	}
-}
+};

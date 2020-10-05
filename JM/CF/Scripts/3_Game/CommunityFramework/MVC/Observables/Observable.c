@@ -3,27 +3,30 @@
 class Observable
 {
 	// Assigned on Constructor of super
-	private typename m_Type;
-	
+	private	typename m_Type;
+
 	protected Controller m_Controller;
-	
-	void Observable(Controller controller) 
+
+	void Observable(Controller controller)
 	{
 		m_Controller = controller;
 	}
-	
-	protected void CollectionChanged(CollectionChangedEventArgs args) {
+
+	protected void CollectionChanged(CollectionChangedEventArgs args)
+	{
 		m_Controller.NotifyCollectionChanged(args);
 	}
-	
-	typename GetType() {
+
+	typename GetType()
+	{
 		return m_Type;
 	}
-	
-	TypeConverter GetTypeConverter() {
-		return MVC.GetTypeConversion(m_Type);
+
+	TypeConverter GetTypeConverter()
+	{
+		return LayoutBindingManager.GetTypeConversion(m_Type);
 	}
-	
-	// Abstract	
+
+	// Abstract
 	int Count();
-}
+};

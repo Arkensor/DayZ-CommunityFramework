@@ -1,5 +1,6 @@
 
-enum NotifyCollectionChangedAction {
+enum NotifyCollectionChangedAction
+{
 	Insert,
 	InsertAt,
 	Remove,
@@ -8,8 +9,6 @@ enum NotifyCollectionChangedAction {
 	Swap,
 	Clear
 };
-
-
 
 // 0: Start Index
 // 1: Finish Index
@@ -27,7 +26,11 @@ class CollectionChangedEventArgs
 	int ChangedIndex;
 	Param ChangedValue;
 	
-	void CollectionChangedEventArgs(Observable source, NotifyCollectionChangedAction changed_action, int changed_index, Param changed_value) {
-		Source = source; ChangedAction = changed_action; ChangedIndex = changed_index; ChangedValue = changed_value;
+	void CollectionChangedEventArgs(Observable source, NotifyCollectionChangedAction changedAction, int changedIndex, Param changedValue)
+	{
+		Source = source;
+		ChangedAction = changedAction;
+		ChangedIndex = changedIndex;
+		ChangedValue = changedValue;
 	}
 }

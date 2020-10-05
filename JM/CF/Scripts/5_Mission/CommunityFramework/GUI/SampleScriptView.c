@@ -1,5 +1,5 @@
 
-// Check JM/CF/GUI/layouts/sample_mvc2.layout
+// Check JM/CF/GUI/layouts/sample_LayoutBindingManager2.layout
 class SampleScriptViewController: Controller
 {
 	Widget content_host;
@@ -13,8 +13,8 @@ class SampleRelayCommand: RelayCommand
 		Print("SampleRelayCommand Execute!");
 		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);
 				
-		ButtonCommandArgs command_args = args;
-		if (command_args.GetButtonState()) {
+		ButtonCommandArgs commandArgs = args;
+		if (commandArgs.GetButtonState()) {
 			controller.script_view.Insert(new SampleScriptView());
 		} else {
 			delete controller.script_view;
@@ -26,11 +26,11 @@ class SampleRelayCommand: RelayCommand
 }
 
 
-// This is just a wrapper for JM/CF/GUI/layouts/sample_mvc.layout
+// This is just a wrapper for JM/CF/GUI/layouts/sample_LayoutBindingManager.layout
 class SampleScriptView: ScriptView
 {
 	override string GetLayoutFile() {
-		return "JM/CF/GUI/layouts/sample_mvc.layout";
+		return "JM/CF/GUI/layouts/sample_LayoutBindingManager.layout";
 	}
 	
 	override typename GetControllerType() {

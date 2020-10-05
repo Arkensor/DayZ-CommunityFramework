@@ -13,7 +13,7 @@ class SampleControllerClass
 	ref SampleSubSubSubControllerClass c = new SampleSubSubSubControllerClass();
 }
 
-// Check JM/CF/GUI/layouts/sample_mvc.layout
+// Check JM/CF/GUI/layouts/sample_LayoutBindingManager.layout
 class SampleController: Controller
 {	
 	// Properties
@@ -30,14 +30,14 @@ class SampleController: Controller
 	{
 		// This is just to get you into this file. Ignore it :)
 		if (!ShowedTutorialMessage)
-			Workbench.Dialog("Welcome to MVC!", "Check \"SampleController\" class for an example on how to use this utility!");
+			Workbench.Dialog("Welcome to LayoutBindingManager!", "Check \"SampleController\" class for an example on how to use this utility!");
 		
 		ShowedTutorialMessage = true;
 	}
 	
-	override void PropertyChanged(string property_name)
+	override void PropertyChanged(string propertyName)
 	{
-		switch (property_name) {
+		switch (propertyName) {
 			
 			case "slider_value": {
 				
@@ -144,10 +144,10 @@ class SampleSubController: Controller
 		observable_combo_box.Insert("Item3");
 	}
 	
-	override void PropertyChanged(string property_name)
+	override void PropertyChanged(string propertyName)
 	{
-		switch (property_name) {
-			
+		switch (propertyName)
+		{
 			case "button_state": {
 				if (button_state) {
 					button.SetColor(COLOR_ON);

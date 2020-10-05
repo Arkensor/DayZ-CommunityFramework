@@ -4,15 +4,20 @@ class PropertyInfo
 	string Name;
 	typename Type;
 	
-	void PropertyInfo(string name, typename type) {
-		Name = name; Type = type;
+	void PropertyInfo(string name, typename type)
+	{
+		Name = name;
+		Type = type;
 	}
 	
 	static PropertyInfo GetFromClass(Class context, string name)
 	{
-		if (!context) return null;
+		if (!context)
+			return null;
+
 		PropertyTypeHashMap hash_map = PropertyTypeHashMap.FromType(context.Type());
-		if (hash_map[name]) {
+		if (hash_map[name])
+		{
 			return new PropertyInfo(name, hash_map[name]);
 		}
 		
@@ -22,7 +27,8 @@ class PropertyInfo
 	static PropertyInfo GetFromType(typename parent_type, string name)
 	{
 		PropertyTypeHashMap hash_map = PropertyTypeHashMap.FromType(parent_type);
-		if (hash_map[name]) {
+		if (hash_map[name])
+		{
 			return new PropertyInfo(name, hash_map[name]);
 		}
 		
@@ -38,7 +44,8 @@ class PropertyTypeHashMap: map<string, typename>
 	static PropertyTypeHashMap FromType(typename type)
 	{
 		PropertyTypeHashMap hash_map = new PropertyTypeHashMap();
-		for (int i = 0; i < type.GetVariableCount(); i++) {
+		for (int i = 0; i < type.GetVariableCount(); i++)
+		{
 			hash_map.Insert(type.GetVariableName(i), type.GetVariableType(i));	
 		}
 		
@@ -67,24 +74,28 @@ class DataBindingHashMap: map<string, autoptr ViewBindingArray>
 {
 	void DebugPrint()
 	{
-		foreach (string name, ViewBindingArray view_set: this) {
-			MVC.Log("[%1]:", name);
-			foreach (ViewBinding view: view_set) {
-				MVC.Log("    %1", view.GetLayoutRoot().GetName());
+		foreach (string name, ViewBindingArray viewSet: this)
+		{
+			LayoutBindingManager.Log("[%1]:", name);
+			foreach (ViewBinding view: viewSet)
+			{
+				LayoutBindingManager.Log("    %1", view.GetLayoutRoot().GetName());
 			}
 		}
 	}
 	
 	void InsertView(ViewBinding view)
 	{
-		ViewBindingArray view_set = Get(view.Binding_Name);
-		if (!view_set) {
-			view_set = new ViewBindingArray();
-			view_set.Insert(view);
-			Insert(view.Binding_Name, view_set);
-			Insert(view.Selected_Item, view_set);
-		} else {
-			view_set.Insert(view);
+		ViewBindingArray viewSet = Get(view.Binding_Name);
+		if (!viewSet)
+		{
+			viewSet = new ViewBindingArray();
+			viewSet.Insert(view);
+			Insert(view.Binding_Name, viewSet);
+			Insert(view.Selected_Item, viewSet);
+		} else
+		{
+			viewSet.Insert(view);
 		}		
 	}
 }
@@ -104,12 +115,16 @@ class TypeConversionHashMap
 	private autoptr map<typename, typename> value = new map<typename, typename>();
 	
 	
-	typename Get(typename conversion_type) {
-		typename result = value.Get(conversion_type);
+	typename Get(typename conversionType)
+	{
+		typename result = value.Get(conversionType);
 		
-		if (!result) {
-			foreach (typename type, typename conversion: value) {
-				if (conversion_type.IsInherited(type)) {
+		if (!result)
+		{
+			foreach (typename type, typename conversion: value)
+			{
+				if (conversionType.IsInherited(type))
+				{
 					return conversion;
 				}
 			}
@@ -118,60 +133,29 @@ class TypeConversionHashMap
 		return result;
 	}
 	
-	void Remove(typename conversion_type) {
-		value.Remove(conversion_type);
+	void Remove(typename conversionType) {
+		value.Remove(conversionType);
 	}
 	
-	void Set(typename conversion_type, typename conversion_class)
+	void Set(typename conversionType, typename conversionClass)
 	{
-		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
-			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
+		if (!conversionClass.IsInherited(TypeConversionTemplate))
+		{
+			LayoutBindingManager.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversionClass.ToString()));
 			return;
 		}
 		
-		value.Set(conversion_type, conversion_class);
+		value.Set(conversionType, conversionClass);
 	} 
 	
-	bool Insert(typename conversion_type, typename conversion_class)
+	bool Insert(typename conversionType, typename conversionClass)
 	{
-		if (!conversion_class.IsInherited(TypeConversionTemplate)) {
-			MVC.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversion_class.ToString()));
+		if (!conversionClass.IsInherited(TypeConversionTemplate))
+		{
+			LayoutBindingManager.Error(string.Format("TypeConverterHashMap: %1 must inherit from type TypeConversionTemplate", conversionClass.ToString()));
 			return false;
 		}
 		
-		return value.Insert(conversion_type, conversion_class);
+		return value.Insert(conversionType, conversionClass);
 	}
-}
-
-
-enum WidgetEventType { // unused
-	WidgetEventChange,
-	WidgetEventChildAdd,
-	WidgetEventChildRemove,
-	WidgetEventClick,
-	WidgetEventController,
-	WidgetEventDrag,
-	WidgetEventDragging,
-	WidgetEventDraggingOver,
-	WidgetEventDrop,
-	WidgetEventDropReceived,
-	WidgetEventFocus,
-	WidgetEventFocusLost,
-	WidgetEventItemSelected,
-	WidgetEventItemSelectedTypeID,
-	WidgetEventKeyDown,
-	WidgetEventKeyPress,
-	WidgetEventModalResult,
-	WidgetEventMouseButtonDown,
-	WidgetEventMouseButtonUp,
-	WidgetEventMouseDoubleClick,
-	WidgetEventMouseEnter,
-	WidgetEventMouseLeave,
-	WidgetEventMouseMove,
-	WidgetEventMouseWheel,
-	WidgetEventResize,
-	WidgetEventSliderChange,
-	WidgetEventUpdate	
 };
-
-

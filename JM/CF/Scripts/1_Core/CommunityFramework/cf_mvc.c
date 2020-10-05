@@ -1,1 +1,1 @@
-static LogLevel MVCLogLevel;
+static LogLevel LBMLogLevel;

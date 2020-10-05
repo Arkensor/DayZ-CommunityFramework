@@ -22,9 +22,10 @@ class TestController: Controller
 		LeftList.Insert("Line1");
 	}
 
-	override void PropertyChanged(string property_name)
+	override void PropertyChanged(string propertyName)
 	{
-		switch (property_name) {
+		switch (propertyName)
+		{
 			case "LeftListSelection": {
 				Print("LeftList selection changed: " + LeftListSelection);
 				break;
@@ -35,99 +36,102 @@ class TestController: Controller
 
 */
 
-class ObservableCollection<Class TValue>: Observable
+class ObservableCollection<Class TValue> : Observable
 {
-	private ref array<autoptr TValue> _data = {};
+	private	ref array<autoptr TValue> _data = {};
 
 	void ObservableCollection(Controller controller)
 	{
 		m_Type = TemplateType<TValue>.GetType();
 	}
-	
+
 	void ~ObservableCollection()
 	{
 		delete _data;
 	}
-	
+
 	int Insert(TValue value)
-	{		
+	{
 		int index = _data.Insert(value);
-		if (index != -1) {
+		if (index != -1)
+		{
 			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Insert, index, new Param1<TValue>(value)));
 		}
-		
+
 		return index;
 	}
-	
+
 	int InsertAt(TValue value, int index)
-	{		
+	{
 		int new_index = _data.InsertAt(value, index);
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.InsertAt, index, new Param1<TValue>(value)));
 		return new_index;
 	}
-	
-	
+
 	// 0: TValue value
 	// 1: int index
-	int InsertAtEx(TypeConverter type_converter, int index)
+	int InsertAtEx(TypeConverter typeConverter, int index)
 	{
 		TValue value; // scoofed
-		g_Script.CallFunction(type_converter, "GetData", value, null);
+		g_Script.CallFunction(typeConverter, "GetData", value, null);
 		Print(value);
 		int new_index = _data.InsertAt(value, index);
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.InsertAt, index, new Param1<TValue>(value)));
 		return new_index;
 	}
-	
+
 	void Remove(int index)
 	{
-		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, index, new Param1<TValue>(_data.Get(index))));	
-		_data.Remove(index);	
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, index, new Param1<TValue>(_data.Get(index))));
+		_data.Remove(index);
 	}
-	
+
 	void Remove(TValue value)
 	{
 		int index = _data.Find(value);
 		if (index != -1)
 			Remove(index);
 	}
-	
+
 	void Set(int index, TValue value)
 	{
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Replace, index, new Param1<TValue>(value)));
 		_data.Set(index, value);
 	}
-	
-	int MoveIndex(int index, int move_index)
+
+	int MoveIndex(int index, int moveIndex)
 	{
 		TValue value = _data.Get(index);
-		int new_index = _data.MoveIndex(index, move_index);
+		int new_index = _data.MoveIndex(index, moveIndex);
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Move, new_index, new Param1<TValue>(value)));
 		return new_index;
 	}
-	
-	void SwapItems(int item_1, int item_2)
+
+	void SwapItems(int itemA, int itemB)
 	{
-		_data.SwapItems(item_1, item_2);
-		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Swap, -1, new CollectionSwapArgs(item_1, item_2)));
+		_data.SwapItems(itemA, itemB);
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Swap, -1, new CollectionSwapArgs(itemA, itemB)));
 	}
-	
+
 	void Clear()
 	{
 		_data.Clear();
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Clear, -1, null));
 	}
-	
-	TValue Get(int index) {		
+
+	TValue Get(int index)
+	{
 		return _data.Get(index);
 	}
-	
-	override int Count() { 
-		return _data.Count(); 
+
+	override int Count()
+	{
+		return _data.Count();
 	}
-	
-	int Find(TValue value) {
+
+	int Find(TValue value)
+	{
 		Print(value);
-		return _data.Find(value); 
+		return _data.Find(value);
 	}
-}
+};

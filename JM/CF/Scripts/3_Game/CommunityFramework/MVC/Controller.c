@@ -24,10 +24,10 @@ class TestController: Controller
 	}
 	
 	// Gets called whenever a property was changed in the controller
-	override void PropertyChanged(string property_name)
+	override void PropertyChanged(string propertyName)
 	{
-		switch (property_name) {
-			
+		switch (propertyName)
+		{
 			case "WindowButton1": {
 				Print("WindowButton1 " + WindowButton1);
 				break;
@@ -38,42 +38,45 @@ class TestController: Controller
 */
 
 // Abstract Class
-class Controller: ScriptedViewBase
-{	
+class Controller : ScriptedViewBase
+{
 	// All View Bindings
 	protected autoptr ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
-	ViewBindingHashMap GetViewBindings() {
-		return m_ViewBindingHashMap; 
+	ViewBindingHashMap GetViewBindings()
+	{
+		return m_ViewBindingHashMap;
 	}
-	
-	ViewBinding GetViewBinding(Widget source) {
+
+	ViewBinding GetViewBinding(Widget source)
+	{
 		return m_ViewBindingHashMap.Get(source);
 	}
-	
+
 	// View Bindings indexed by their Binding_Name
 	protected autoptr DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
-	DataBindingHashMap GetDataBindings() {
+	DataBindingHashMap GetDataBindings()
+	{
 		return m_DataBindingHashMap;
 	}
-		
+
 	// Hashmap of all properties in the Controller
 	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-	typename GetPropertyType(string property_name) {
-		return m_PropertyTypeHashMap.Get(property_name);
+	typename GetPropertyType(string propertyName)
+	{
+		return m_PropertyTypeHashMap.Get(propertyName);
 	}
-			
+
 	override void OnWidgetScriptInit(Widget w)
-	{		
+	{
 		super.OnWidgetScriptInit(w);
-		
+
 		//m_PropertyTypeHashMap.RemoveType(Controller); crashing?
-		
+
 		// Load all child Widgets and obtain their DataBinding class
 		int binding_count = LoadDataBindings(m_LayoutRoot);
 		Log("%1: %2 DataBindings found!", m_LayoutRoot.GetName(), binding_count.ToString());
 	}
-	
-	
+
 	/*
 	* Example:
 	*	NotifyPropertyChanged("slider_value");
@@ -85,247 +88,261 @@ class Controller: ScriptedViewBase
 	* This is NOT recommended because it is VERY resource intensive
 	*
 	*/
-	
-	void NotifyPropertyChanged(string property_name = "", bool notify_controller = true)
+
+	void NotifyPropertyChanged(string propertyName = "", bool notifyController = true)
 	{
-		// Did you know that when the compiler checks for ambiguous types, it uses string.Contains() 
+		// Did you know that when the compiler checks for ambiguous types, it uses string.Contains()
 		// instead of string.Match()? PropertyChanged and NotifyPropertyChanged need to be distinct or
 		// the whole damn thing breaks. Thanks BI
-		Trace("NotifyPropertyChanged %1", property_name);
+		Trace("NotifyPropertyChanged %1", propertyName);
 
-		if (property_name == string.Empty) {
+		if (propertyName == string.Empty)
+		{
 			Log("Updating all properties in View, this is NOT recommended as it is performance intensive");
-			foreach (ViewBindingArray view_array: m_DataBindingHashMap) {
-				foreach (ViewBinding view_binding: view_array) {
-					Trace("NotifyPropertyChanged %1", view_binding.Binding_Name);
-					view_binding.UpdateView(this);
-					PropertyChanged(view_binding.Binding_Name);				
+			foreach (ViewBindingArray viewArray : m_DataBindingHashMap)
+			{
+				foreach (ViewBinding viewBinding : viewArray)
+				{
+					Trace("NotifyPropertyChanged %1", viewBinding.Binding_Name);
+					viewBinding.UpdateView(this);
+					PropertyChanged(viewBinding.Binding_Name);
 				}
 			}
-			
+
 			return;
 		}
-		
-		ViewBindingArray views = m_DataBindingHashMap[property_name];
-		if (views) {
-			foreach (ViewBinding view: views) {
+
+		ViewBindingArray views = m_DataBindingHashMap[propertyName];
+		if (views)
+		{
+			foreach (ViewBinding view : views)
+			{
 				view.UpdateView(this);
 			}
 		}
-		
-		if (notify_controller) {
-			PropertyChanged(property_name);
+
+		if (notifyController)
+		{
+			PropertyChanged(propertyName);
 		}
 	}
-	
-	// Do NOT call this. ObservableCollection does this for you	
+
+	// Do NOT call this. ObservableCollection does this for you
 	void NotifyCollectionChanged(CollectionChangedEventArgs args)
 	{
 		Trace("NotifyCollectionChanged %1", args.Source.ToString());
-		
 
-		string collection_name = GetVariableName(args.Source);
-		if (collection_name == string.Empty) {
+		string collectionName = GetVariableName(args.Source);
+		if (collectionName == string.Empty)
+		{
 			Error("NotifyCollectionChanged could not find variable %1 in %2", args.Source.ToString(), string.ToString(this));
 			return;
 		}
 
-		ViewBindingArray views = m_DataBindingHashMap[collection_name];
-				
-		if (views) {
-			foreach (ViewBinding view: views) {
+		ViewBindingArray views = m_DataBindingHashMap[collectionName];
+
+		if (views)
+		{
+			foreach (ViewBinding view : views)
+			{
 				view.UpdateViewFromCollection(args);
 			}
 		}
 
-		CollectionChanged(collection_name, args);
-		
+		CollectionChanged(collectionName, args);
 	}
-	
-	// Gets called every time a property is changed. 
+
+	// Gets called every time a property is changed.
 	// Override this when you want to have an event AFTER property is changed
-	void PropertyChanged(string property_name);
-	
+	void PropertyChanged(string propertyName);
+
 	// Gets called every time an observable collection is changed.
 	// Override this when you want to have an event AFTER collection is changed
-	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
-	
+	void CollectionChanged(string collectionName, CollectionChangedEventArgs args);
+
 	private int LoadDataBindings(Widget w)
 	{
-		ScriptedViewBase view_base;
-		w.GetScript(view_base);
-		
+		ScriptedViewBase viewBase;
+		w.GetScript(viewBase);
+
 		// If we find a ViewBinding
-		if (view_base && view_base.IsInherited(ViewBinding)) {
-			ViewBinding view_binding = ViewBinding.Cast(view_base);
-			view_binding.SetParent(this);
-			m_ViewBindingHashMap.Insert(w, view_binding);
-			m_DataBindingHashMap.InsertView(view_binding);
-			
-			view_binding.SetProperties(GetControllerProperty(view_binding.Binding_Name), GetControllerProperty(view_binding.Selected_Item));
-			
-			
+		if (viewBase && viewBase.IsInherited(ViewBinding))
+		{
+			ViewBinding viewBinding = ViewBinding.Cast(viewBase);
+			viewBinding.SetParent(this);
+			m_ViewBindingHashMap.Insert(w, viewBinding);
+			m_DataBindingHashMap.InsertView(viewBinding);
+
+			viewBinding.SetProperties(GetControllerProperty(viewBinding.Binding_Name), GetControllerProperty(viewBinding.Selected_Item));
+
 			// todo find a way to define these on ScriptView aswell
 			// Load RelayCommand
-			if (view_binding.Relay_Command != string.Empty) {
-				
-				RelayCommand relay_command = LoadRelayCommand(view_binding);
+			if (viewBinding.Relay_Command != string.Empty)
+			{
+
+				RelayCommand relayCommand = LoadRelayCommand(viewBinding);
 				// Success! One of the two options were found
-				if (relay_command) {
-					Log("%2: RelayCommand %1 succesfully acquired. Assigning...", view_binding.Relay_Command, view_binding.GetLayoutRoot().GetName());
-					relay_command.SetController(this);
-					view_binding.SetRelayCommand(relay_command);
-				} 
-				
-				// Must be a function on the controller
-				else {
-					Log("%2: RelayCommand %1 not found - Assuming its a function on the Controller / ScriptView!", view_binding.Relay_Command, view_binding.GetLayoutRoot().GetName());
+				if (relayCommand)
+				{
+					Log("%2: RelayCommand %1 succesfully acquired. Assigning...", viewBinding.Relay_Command, viewBinding.GetLayoutRoot().GetName());
+					relayCommand.SetController(this);
+					viewBinding.SetRelayCommand(relayCommand);
+				} else // Must be a function on the controller
+				{
+					Log("%2: RelayCommand %1 not found - Assuming its a function on the Controller / ScriptView!", viewBinding.Relay_Command, viewBinding.GetLayoutRoot().GetName());
 				}
 			}
-			
-			
+
 			// Load property for the first time
-			if (view_binding.Binding_Name != string.Empty) {
-				NotifyPropertyChanged(view_binding.Binding_Name, false);
+			if (viewBinding.Binding_Name != string.Empty)
+			{
+				NotifyPropertyChanged(viewBinding.Binding_Name, false);
 			}
 		}
-		
-		
+
 		// really wish i had XOR here
 		bool b1 = (w.GetChildren() != null);
-		bool b2 = (view_base && view_base.IsInherited(Controller) && view_base != this);
-		
+		bool b2 = (viewBase && viewBase.IsInherited(Controller) && viewBase != this);
+
 		// scuffed XOR
 		// Makes it stop loading when it finds another controller
 		// needs to be looked at
-		if (b1 && (b1 || b2) && !(b1 && b2)) {
+		if (b1 && (b1 || b2) && !(b1 && b2))
+		{
 			LoadDataBindings(w.GetChildren());
-		}
-		
-		// Sets parent of the child controller
-		else if (b2) {
-			Controller child_controller = Controller.Cast(view_base);
-			if (child_controller) {
-				child_controller.SetParent(this);
+		} else if (b2) // Sets parent of the child controller
+		{
+			Controller childController = Controller.Cast(viewBase);
+			if (childController)
+			{
+				childController.SetParent(this);
 			}
 		}
-		
+
 		// w != m_LayoutRoot is so we dont bleed into siblings
-		if (w.GetSibling() != null && w != m_LayoutRoot) {
+		if (w.GetSibling() != null && w != m_LayoutRoot)
+		{
 			LoadDataBindings(w.GetSibling());
 		}
-		
+
 		return m_DataBindingHashMap.Count();
 	}
-	
-	private typename GetControllerProperty(string property_name)
+
+	private	typename GetControllerProperty(string propertyName)
 	{
-		if (m_PropertyTypeHashMap[property_name]) {
-			return m_PropertyTypeHashMap[property_name];
+		if (m_PropertyTypeHashMap[propertyName])
+		{
+			return m_PropertyTypeHashMap[propertyName];
 		}
-		
+
 		// Searches properties for Sub properties
 		Class context = this;
-		return GetControllerProperty(context, property_name);
+		return GetControllerProperty(context, propertyName);
 	}
-	
-	private typename GetControllerProperty(out Class context, string property_name)
+
+	private	typename GetControllerProperty(out Class context, string propertyName)
 	{
-		PropertyInfo property_info = GetSubScope(context, property_name);
-		if (property_info) {
-			return property_info.Type;
+		PropertyInfo propertyInfo = GetSubScope(context, propertyName);
+		if (propertyInfo)
+		{
+			return propertyInfo.Type;
 		}
-		
+
 		typename t;
 		return t;
 	}
-	
-	private string GetVariableName(Class target_variable)
+
+	private	string GetVariableName(Class targetVariable)
 	{
 		typename type = Type();
-		for (int i = 0; i < type.GetVariableCount(); i++) {
-			typename variable_type = type.GetVariableType(i);
-			string variable_name = type.GetVariableName(i);
-			
-			if (!variable_type.IsInherited(target_variable.Type())) continue;
-			
+		for (int i = 0; i < type.GetVariableCount(); i++)
+		{
+			typename variableType = type.GetVariableType(i);
+			string variableName = type.GetVariableName(i);
+
+			if (!variableType.IsInherited(targetVariable.Type()))
+				continue;
+
 			Class result;
-			EnScript.GetClassVar(this, variable_name, 0, result);
-			if (result == target_variable) {
-				return variable_name;
+			EnScript.GetClassVar(this, variableName, 0, result);
+			if (result == targetVariable)
+			{
+				return variableName;
 			}
 		}
 
 		return string.Empty;
 	}
-	
-	private RelayCommand LoadRelayCommand(ViewBinding view_binding)
+
+	private	RelayCommand LoadRelayCommand(ViewBinding viewBinding)
 	{
-		string relay_command_name = view_binding.Relay_Command;
-		RelayCommand relay_command;
-				
-		// Attempt to load instance of Variable from Controller		
+		string relayCommandName = viewBinding.Relay_Command;
+		RelayCommand relayCommand;
+
+		// Attempt to load instance of Variable from Controller
 		Class context = this;
-		PropertyInfo relay_command_property = GetSubScope(context, relay_command_name);
-		if (relay_command_property) {
-			typename relay_command_type = relay_command_property.Type;
-			relay_command_name = relay_command_property.Name;
-			
+		PropertyInfo relayCommandProperty = GetSubScope(context, relayCommandName);
+		if (relayCommandProperty)
+		{
+			typename relayCommandType = relayCommandProperty.Type;
+			relayCommandName = relayCommandProperty.Name;
+
 			// If we find the variable on the Controller
-			if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
-				Log("RelayCommand Property %1 found on Controller!", relay_command_name);
-				EnScript.GetClassVar(context, relay_command_name, 0, relay_command);
-				
+			if (relayCommandType && relayCommandType.IsInherited(RelayCommand))
+			{
+				Log("RelayCommand Property %1 found on Controller!", relayCommandName);
+				EnScript.GetClassVar(context, relayCommandName, 0, relayCommand);
+
 				// If that property isnt initialized, but exists
-				if (!relay_command) {
-					Log("RelayCommand Property %1 was not initialized! Initializing...", relay_command_name);
-					Class.CastTo(relay_command, relay_command_type.Spawn());
-					EnScript.SetClassVar(context, relay_command_name, 0, relay_command);
-					return relay_command;
+				if (!relayCommand)
+				{
+					Log("RelayCommand Property %1 was not initialized! Initializing...", relayCommandName);
+					Class.CastTo(relayCommand, relayCommandType.Spawn());
+					EnScript.SetClassVar(context, relayCommandName, 0, relayCommand);
+					return relayCommand;
 				}
-			} 
-		}
-		
-		// If we DONT find the variable on the controller, attempt to create an instance of it
-		else {
-			Log("RelayCommand Property %1 not found on Controller", relay_command_name);
-			relay_command_type = relay_command_name.ToType();
-			
-			if (relay_command_type && relay_command_type.IsInherited(RelayCommand)) {
-				Log("RelayCommand type found %1", relay_command_name);
-				Class.CastTo(relay_command, relay_command_type.Spawn());
-				return relay_command;
+			}
+		} else // If we DONT find the variable on the controller, attempt to create an instance of it
+		{
+			Log("RelayCommand Property %1 not found on Controller", relayCommandName);
+			relayCommandType = relayCommandName.ToType();
+
+			if (relayCommandType && relayCommandType.IsInherited(RelayCommand))
+			{
+				Log("RelayCommand type found %1", relayCommandName);
+				Class.CastTo(relayCommand, relayCommandType.Spawn());
+				return relayCommand;
 			}
 		}
-		
-		
-		return relay_command;
+
+		return relayCommand;
 	}
-		
+
 	// Update Controller on action from ViewBinding
 	override bool OnClick(Widget w, int x, int y, int button)
-	{		
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
-		if (view_binding) {
-			view_binding.UpdateController(this); 
+	{
+		ViewBinding viewBinding = m_ViewBindingHashMap.Get(w);
+		if (viewBinding)
+		{
+			viewBinding.UpdateController(this);
 		}
-		
+
 		return super.OnClick(w, x, y, button);
 	}
-	
-	
+
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
-		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);	
-		if (view_binding) {
-			view_binding.UpdateController(this);		
+		ViewBinding viewBinding = m_ViewBindingHashMap.Get(w);
+		if (viewBinding)
+		{
+			viewBinding.UpdateController(this);
 		}
-				
+
 		return super.OnChange(w, x, y, finished);
 	}
-		
+
 	// Two way binding interfaces
-	// Specifically for SpacerBaseWidget	
+	// Specifically for SpacerBaseWidget
 	/*
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
@@ -344,20 +361,10 @@ class Controller: ScriptedViewBase
 		
 		return super.OnDropReceived(w, x, y, reciever);
 	}
-		*/
+	*/
+
 	void DebugPrint()
 	{
 		m_DataBindingHashMap.DebugPrint();
 	}
-}
-
-
-
-
-
-
-
-
-
-
-
+};
