@@ -2,6 +2,8 @@ static ref LayoutBindingManager g_LayoutBindingManager;
 
 class LayoutBindingManager
 {
+	static int LBMLogLevel;
+	
 	private static void CheckLayoutBindingManager()
 	{
 		if (!g_LayoutBindingManager)
@@ -41,7 +43,7 @@ class LayoutBindingManager
 		if (!m_WidgetControllerHashMap)
 		{
 			m_WidgetControllerHashMap = new TypenameHashMap();
-			RegisterWidgetControllers(m_WidgetControllerHashMap);
+			RegisterWidgetwidget_controllers(m_WidgetControllerHashMap);
 		}
 	}
 	
@@ -53,45 +55,45 @@ class LayoutBindingManager
 	// Override THIS to add your own Custom Conversion Templates
 	// this determines how data is represented in the UI itself
 	// i.e. you can assign a TextWidget to float, due to the TypeConversion's GetString()
-	void RegisterConversionTemplates(out TypeConversionHashMap conversions)
+	void RegisterConversionTemplates(out TypeConversionHashMap type_conversions)
 	{
 		Log("LayoutBindingManager::RegisterConversionTemplates");
-		conversions.Insert(bool, TypeConversionBool);
-		conversions.Insert(int, TypeConversionInt);
-		conversions.Insert(float, TypeConversionFloat);
-		conversions.Insert(string, TypeConversionString);
-		conversions.Insert(vector, TypeConversionVector);
-		conversions.Insert(Widget, TypeConversionWidget);
-		conversions.Insert(Object, TypeConversionObject);
-		conversions.Insert(Observable, TypeConversionObservable);
-		conversions.Insert(ScriptedViewBase, TypeConversionScriptView);
+		type_conversions.Insert(bool, TypeConversionBool);
+		type_conversions.Insert(int, TypeConversionInt);
+		type_conversions.Insert(float, TypeConversionFloat);
+		type_conversions.Insert(string, TypeConversionString);
+		type_conversions.Insert(vector, TypeConversionVector);
+		type_conversions.Insert(Widget, TypeConversionWidget);
+		type_conversions.Insert(Object, TypeConversionObject);
+		type_conversions.Insert(Observable, TypeConversionObservable);
+		type_conversions.Insert(ScriptedViewBase, TypeConversionScriptView);
 	}
 	
-	// Override THIS to add your own Widget Controllers 
+	// Override THIS to add your own Widget widget_controllers 
 	// this determins how the Widget controls the data sent to it
 	// Great for prefabs
-	void RegisterWidgetControllers(out TypenameHashMap controllers)
+	void RegisterWidgetwidget_controllers(out TypenameHashMap widget_controllers)
 	{
-		Log("LayoutBindingManager::RegisterWidgetControllers");
+		Log("LayoutBindingManager::RegisterWidgetwidget_controllers");
 		
-		controllers.Insert(Widget, WidgetBaseController);
-		controllers.Insert(SpacerBaseWidget, SpacerBaseWidgetController);
-		controllers.Insert(WrapSpacerWidget, SpacerBaseWidgetController);
-		controllers.Insert(GridSpacerWidget, SpacerBaseWidgetController);
-		controllers.Insert(ScrollWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(Widget, WidgetBaseController);
+		widget_controllers.Insert(SpacerBaseWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(WrapSpacerWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(GridSpacerWidget, SpacerBaseWidgetController);
+		widget_controllers.Insert(ScrollWidget, SpacerBaseWidgetController);
 
-		controllers.Insert(ButtonWidget, ButtonWidgetController);
-		controllers.Insert(CheckBoxWidget, CheckBoxWidgetController);
-		controllers.Insert(EditBoxWidget, EditBoxWidgetController);
-		controllers.Insert(SliderWidget, SliderWidgetController);
-		controllers.Insert(ProgressBarWidget, ProgressBarController);
-		controllers.Insert(TextWidget, TextWidgetController);
-		controllers.Insert(MultilineEditBoxWidget, MultilineEditBoxWidgetController);
-		controllers.Insert(XComboBoxWidget, XComboBoxWidgetController);
-		controllers.Insert(ImageWidget, ImageWidgetController);
-		controllers.Insert(TextListboxWidget, TextListboxController);
-		controllers.Insert(RichTextWidget, TextWidgetController);
-		controllers.Insert(ItemPreviewWidget, ItemPreviewWidgetController);
+		widget_controllers.Insert(ButtonWidget, ButtonWidgetController);
+		widget_controllers.Insert(CheckBoxWidget, CheckBoxWidgetController);
+		widget_controllers.Insert(EditBoxWidget, EditBoxWidgetController);
+		widget_controllers.Insert(SliderWidget, SliderWidgetController);
+		widget_controllers.Insert(ProgressBarWidget, ProgressBarController);
+		widget_controllers.Insert(TextWidget, TextWidgetController);
+		widget_controllers.Insert(MultilineEditBoxWidget, MultilineEditBoxWidgetController);
+		widget_controllers.Insert(XComboBoxWidget, XComboBoxWidgetController);
+		widget_controllers.Insert(ImageWidget, ImageWidgetController);
+		widget_controllers.Insert(TextListboxWidget, TextListboxController);
+		widget_controllers.Insert(RichTextWidget, TextWidgetController);
+		widget_controllers.Insert(ItemPreviewWidget, ItemPreviewWidgetController);
 	}	
 	
 	static void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")

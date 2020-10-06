@@ -35,9 +35,9 @@ class SampleController: Controller
 		ShowedTutorialMessage = true;
 	}
 	
-	override void PropertyChanged(string propertyName)
+	override void PropertyChanged(string property_name)
 	{
-		switch (propertyName) {
+		switch (property_name) {
 			
 			case "slider_value": {
 				
@@ -144,9 +144,9 @@ class SampleSubController: Controller
 		observable_combo_box.Insert("Item3");
 	}
 	
-	override void PropertyChanged(string propertyName)
+	override void PropertyChanged(string property_name)
 	{
-		switch (propertyName)
+		switch (property_name)
 		{
 			case "button_state": {
 				if (button_state) {

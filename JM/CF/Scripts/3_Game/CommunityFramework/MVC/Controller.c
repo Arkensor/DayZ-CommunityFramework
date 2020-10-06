@@ -89,14 +89,14 @@ class Controller : ScriptedViewBase
 	*
 	*/
 
-	void NotifyPropertyChanged(string propertyName = "", bool notifyController = true)
+	void NotifyPropertyChanged(string property_name = "", bool notify_controller = true)
 	{
 		// Did you know that when the compiler checks for ambiguous types, it uses string.Contains()
 		// instead of string.Match()? PropertyChanged and NotifyPropertyChanged need to be distinct or
 		// the whole damn thing breaks. Thanks BI
-		Trace("NotifyPropertyChanged %1", propertyName);
+		Trace("NotifyPropertyChanged %1", property_name);
 
-		if (propertyName == string.Empty)
+		if (property_name == string.Empty)
 		{
 			Log("Updating all properties in View, this is NOT recommended as it is performance intensive");
 			foreach (ViewBindingArray viewArray : m_DataBindingHashMap)
@@ -112,7 +112,7 @@ class Controller : ScriptedViewBase
 			return;
 		}
 
-		ViewBindingArray views = m_DataBindingHashMap[propertyName];
+		ViewBindingArray views = m_DataBindingHashMap[property_name];
 		if (views)
 		{
 			foreach (ViewBinding view : views)
@@ -121,9 +121,9 @@ class Controller : ScriptedViewBase
 			}
 		}
 
-		if (notifyController)
+		if (notify_controller)
 		{
-			PropertyChanged(propertyName);
+			PropertyChanged(property_name);
 		}
 	}
 
@@ -132,14 +132,14 @@ class Controller : ScriptedViewBase
 	{
 		Trace("NotifyCollectionChanged %1", args.Source.ToString());
 
-		string collectionName = GetVariableName(args.Source);
-		if (collectionName == string.Empty)
+		string collection_name = GetVariableName(args.Source);
+		if (collection_name == string.Empty)
 		{
 			Error("NotifyCollectionChanged could not find variable %1 in %2", args.Source.ToString(), string.ToString(this));
 			return;
 		}
 
-		ViewBindingArray views = m_DataBindingHashMap[collectionName];
+		ViewBindingArray views = m_DataBindingHashMap[collection_name];
 
 		if (views)
 		{
@@ -149,16 +149,16 @@ class Controller : ScriptedViewBase
 			}
 		}
 
-		CollectionChanged(collectionName, args);
+		CollectionChanged(collection_name, args);
 	}
 
 	// Gets called every time a property is changed.
 	// Override this when you want to have an event AFTER property is changed
-	void PropertyChanged(string propertyName);
+	void PropertyChanged(string property_name);
 
 	// Gets called every time an observable collection is changed.
 	// Override this when you want to have an event AFTER collection is changed
-	void CollectionChanged(string collectionName, CollectionChangedEventArgs args);
+	void CollectionChanged(string collection_name, CollectionChangedEventArgs args);
 
 	private int LoadDataBindings(Widget w)
 	{
