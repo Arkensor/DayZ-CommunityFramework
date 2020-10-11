@@ -1,3 +1,145 @@
+const autoptr TStringArray _cf_characters = {
+//		"",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+//        "",
+        " ",
+        "!",
+        "\"",
+        "#",
+        "$",
+        "%",
+        "&",
+        "\'",
+        "(",
+        ")",
+        "*",
+        "+",
+        ",",
+        "-",
+        ".",
+        "/",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        ":",
+        ";",
+        "<",
+        "=",
+        ">",
+        "?",
+        "@",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "[",
+        "\\",
+        "]",
+        "^",
+        "_",
+        "`",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "{",
+        "|",
+        "}",
+        "~",
+        ""
+    };
+
+//TODO: remove this when the CF refactor is completed
+static string CF_XML_Indent( int level )
+{
+	string str = "";
+
+	for ( int i = 0; i < level; ++i )
+		str += "\t";
+
+	return str;
+}
+
 static bool IsMissionHost()
 {
 	if ( !GetGame() )
@@ -20,6 +162,16 @@ static bool IsMissionOffline()
 		return false;
 
 	return GetGame().IsServer() && !GetGame().IsMultiplayer();
+}
+
+static string CF_Indent( int level )
+{
+	string str = "";
+
+	for ( int i = 0; i < level; ++i )
+		str += "  ";
+
+	return str;
 }
 
 static void CF_DumpWidgets( Widget root, int tabs = 0 )

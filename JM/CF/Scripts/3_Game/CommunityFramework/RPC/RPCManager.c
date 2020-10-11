@@ -200,7 +200,7 @@ class RPCManager
 		Param2< string, string > metaData;
 		if ( !ctx.Read( metaData ) )
 		{
-			//GetLogger().Err( "Failed reading the RPC metadata!", m_UpdateChecker, false );
+			//Error( "Failed reading the RPC metadata!");
 			return;
 		}
 
@@ -254,11 +254,11 @@ class RPCManager
 				}
 			} else
 			{
-				GetLogger().Err( recievedFrom + " tried sending " + modName + "::<" + funcName + "> which does not seem to exist!", m_UpdateChecker, false );
+				Error( recievedFrom + " tried sending " + modName + "::<" + funcName + "> which does not seem to exist!");
 			}
 		} else
 		{
-			GetLogger().Err( recievedFrom + " tried sending <" + modName + ">::" + funcName + " which does not seem to exist!", m_UpdateChecker, false );
+			Error( recievedFrom + " tried sending <" + modName + ">::" + funcName + " which does not seem to exist!");
 		}
 	}
 
@@ -345,7 +345,7 @@ class RPCManager
 					
 					if ( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
 					{
-						GetLogger().Err( modName + "::" + funcName + " does not support \"SingleplayerExecutionType.Both\" when using RPCManager::SendRPCs, use RPCManager::SendRPC instead!", m_UpdateChecker, false );
+						Error( modName + "::" + funcName + " does not support \"SingleplayerExecutionType.Both\" when using RPCManager::SendRPCs, use RPCManager::SendRPC instead!");
 					}
 				}
 			}

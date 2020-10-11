@@ -38,17 +38,29 @@ class CfgMods
 			class gameScriptModule
 			{
 				value = "";
-				files[] = {"JM/CF/Scripts/3_Game"};
+				files[] =
+				{
+					"JM/CF/Scripts/Common",
+					"JM/CF/Scripts/3_Game"
+				};
 			};
 			class worldScriptModule
 			{
 				value = "";
-				files[] = {"JM/CF/Scripts/4_World"};
+				files[] =
+				{
+					"JM/CF/Scripts/Common",
+					"JM/CF/Scripts/4_World"
+				};
 			};
 			class missionScriptModule
 			{
 				value = "";
-				files[] = {"JM/CF/Scripts/5_Mission"};
+				files[] =
+				{
+					"JM/CF/Scripts/Common",
+					"JM/CF/Scripts/5_Mission"
+				};
 			};
 		};
 	};
