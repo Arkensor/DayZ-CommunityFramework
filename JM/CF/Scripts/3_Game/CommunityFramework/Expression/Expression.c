@@ -5,29 +5,14 @@ class Expression
 	private int _position = -1;
 	
 	private ref array< ref ExpressionInstruction > _compiled;
-	
-	private ref map< string, ref ExpressionFunction > _functions;
-	private ref array< ExpressionFunction > _quickLookUp;
+
+	private static ExpressionVM _vm = ExpressionVM.Get();
 
 	void Expression( string val = "" )
 	{
 		value = val;
 		
 		_compiled = new array< ref ExpressionInstruction >();
-		
-		_functions = new map< string, ref ExpressionFunction >();
-		_quickLookUp = new array< ExpressionFunction >();
-		
-		AddFunction( "^", new ExpressionFunctionPow() );
-		AddFunction( "*", new ExpressionFunctionMul() );
-		AddFunction( "/", new ExpressionFunctionDiv() );
-		AddFunction( "+", new ExpressionFunctionAdd() );
-		AddFunction( "-", new ExpressionFunctionSub() );
-		AddFunction( "factor", new ExpressionFunctionFactor() );
-		AddFunction( "cos", new ExpressionFunctionCos() );
-		AddFunction( "sin", new ExpressionFunctionSin() );
-		AddFunction( "min", new ExpressionFunctionMin() );
-		AddFunction( "max", new ExpressionFunctionMax() );
 	}
 	
 	void ~Expression()
@@ -39,21 +24,6 @@ class Expression
 		}
 		
 		delete _compiled;
-				
-		while ( _functions.Count() > 0 )
-		{
-			string key = _functions.GetKey( 0 );
-			delete _functions[key];
-			_functions.Remove( key );
-		}
-		
-		delete _functions;
-	}
-	
-	void AddFunction( string name, ref ExpressionFunction function )
-	{
-		_functions[name] = function;
-		function.index = _quickLookUp.Insert( function );
 	}
 
 	private string BackChar()
@@ -284,7 +254,7 @@ class Expression
 			ref ExpressionInstruction instruction = _compiled[i];
 			if ( instruction.type == 2 )
 			{
-				_quickLookUp[instruction.token_i].Call( instruction, stack, stackPointer );		
+				_vm[ instruction.token_i ].Call( instruction, stack, stackPointer );		
 			} else if ( instruction.type == 1 )
 			{
 				stack[++stackPointer] = variables[instruction.token_i];
@@ -316,18 +286,18 @@ class Expression
 			ExpressionFunction op1;
 			ExpressionFunction op2;
 			
-			if ( _functions.Find( token, op1 ) )
+			if ( _vm.Find( token, op1 ) )
 			{
 				while ( stack.Count() > 0 )
 				{
 					string tok = stack.Peek().token;
-					if ( !_functions.Find( tok, op2 ) )
+					if ( !_vm.Find( tok, op2 ) )
 						break;
 						
 					int c = op1.precedence - op2.precedence;
 										
 					if ( c < 0 || ( !op1.associative && c <= 0 ) )
-						_compiled.Insert( stack.Pop().ToOperation( 2, _functions[tok].index ) );
+						_compiled.Insert( stack.Pop().ToOperation( 2, _vm.GetIndex( tok ) ) );
 					else
 						break;
 				}
@@ -386,7 +356,7 @@ class Expression
 					if ( top.token == "(" )
 						break;
 					
-                    _compiled.Insert( top.ToOperation( 2, _functions[topToken].index ) );
+                    _compiled.Insert( top.ToOperation( 2, _vm.GetIndex( topToken ) ) );
                 }
 				
 				if ( topToken != "(" )
@@ -406,10 +376,10 @@ class Expression
 		while ( stack.Count() > 0 )
 		{
 			ref ExpressionCompileToken o = stack.Pop();
-            if ( !_functions.Contains( o.token ) )
+            if ( !_vm.Contains( o.token ) )
 				Error( "No matching right parenthesis" );
 			
-            _compiled.Insert( o.ToOperation( 2, _functions[o.token].index ) );
+            _compiled.Insert( o.ToOperation( 2, _vm.GetIndex( o.token ) ) );
         }
 		
 		while ( dataStackStore.Count() > 0 )
@@ -459,7 +429,7 @@ class Expression
 			
 			if ( _compiled[i].type == 2 )
 			{
-	           	ExpressionFunction function = _quickLookUp.Get( _compiled[i].token_i );
+	           	ExpressionFunction function = _vm[ _compiled[i].token_i ];
 				
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )
