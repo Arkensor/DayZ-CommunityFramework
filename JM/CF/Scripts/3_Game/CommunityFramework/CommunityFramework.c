@@ -212,3 +212,73 @@ static void CF_DumpWidgets( Widget root, int tabs = 0 )
 			
 	CF_DumpWidgets( root.GetSibling(), tabs );
 }
+
+
+
+static void Assert_Log( string str )
+{
+	Print( "==============================================WARNING=======================================================" );
+	string time = JMDate.Now( false ).ToString( "YYYY-MM-DD hh:mm:ss" );
+	Print( "[WARNING " + time + "] " + str );
+	Print( "Do you see this message? Unless the time is within a second of the crash than this was not the cause." );
+
+	DumpStack();
+
+	Print( "============================================================================================================" );
+}
+
+static bool Assert_Empty( string str, string message = "" )
+{
+	if ( str == "" )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION STRING EMPTY" + message );
+		return true;
+	}
+	
+	return false;
+}
+
+static bool Assert_Null( Class cls, string message = "" )
+{
+	if ( cls == NULL )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION NULL" + message );
+		return true;
+	}
+	
+	return false;
+}
+
+static bool Assert_False( bool cls, string message = "" )
+{
+	if ( cls == false )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION FALSE" + message );
+		return true;
+	}
+	
+	return false;
+}
+
+static bool Assert_True( bool cls, string message = "" )
+{
+	if ( cls == true )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION TRUE" + message );
+		return true;
+	}
+	
+	return false;
+}
