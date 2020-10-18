@@ -41,6 +41,7 @@ class TestController: Controller
 class Controller : ScriptedViewBase
 {
 	// All View Bindings
+	[NonSerialized()]
 	protected autoptr ViewBindingHashMap m_ViewBindingHashMap = new ViewBindingHashMap();
 	ViewBindingHashMap GetViewBindings()
 	{
@@ -53,6 +54,7 @@ class Controller : ScriptedViewBase
 	}
 
 	// View Bindings indexed by their Binding_Name
+	[NonSerialized()]
 	protected autoptr DataBindingHashMap m_DataBindingHashMap = new DataBindingHashMap();
 	DataBindingHashMap GetDataBindings()
 	{
@@ -60,6 +62,7 @@ class Controller : ScriptedViewBase
 	}
 
 	// Hashmap of all properties in the Controller
+	[NonSerialized()]
 	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
 	typename GetPropertyType(string propertyName)
 	{

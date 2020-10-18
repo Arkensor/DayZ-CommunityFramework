@@ -3,9 +3,11 @@
 class ScriptedViewBase : Managed
 {
 	// Enable verbose logging
+	[NonSerialized()]
 	reference bool Debug_Logging;
 
 	// Source Widget
+	[NonSerialized()]
 	protected Widget m_LayoutRoot;
 	Widget GetLayoutRoot()
 	{
@@ -13,6 +15,7 @@ class ScriptedViewBase : Managed
 	}
 
 	// Source Widget Controller
+	[NonSerialized()]
 	protected autoptr WidgetController m_WidgetController;
 	WidgetController GetWidgetController()
 	{
@@ -20,6 +23,7 @@ class ScriptedViewBase : Managed
 	}
 
 	// ScriptedViewBase Type Converter
+	[NonSerialized()]
 	protected autoptr TypeConverter m_TypeConverter;
 	TypeConverter GetTypeConversion()
 	{
@@ -27,12 +31,14 @@ class ScriptedViewBase : Managed
 	}
 
 	// ScriptedViewBase parent
+	[NonSerialized()]
 	protected ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent()
 	{
 		return m_ParentScriptedViewBase;
 	}
 
+	[NonSerialized()]
 	protected autoptr ScriptedViewBaseHandler m_ScriptedViewBaseHandler;
 	ScriptedViewBaseHandler GetHandler()
 	{
