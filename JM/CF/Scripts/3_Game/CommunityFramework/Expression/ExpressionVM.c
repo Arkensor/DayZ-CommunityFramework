@@ -18,7 +18,7 @@ class ExpressionVM
 	private void ExpressionVM()
 	{
 		_functions = new map< string, ref ExpressionFunction >();
-		_quickLookUp = new set< ExpressionFunction >();
+		_fastLookup = new set< ExpressionFunction >();
 
 		SetFunctions();
 	}
@@ -40,7 +40,7 @@ class ExpressionVM
 	void AddFunction( string name, ref ExpressionFunction function )
 	{
 		_functions[name] = function;
-		function.index = _quickLookUp.Insert( function );
+		function.index = _fastLookup.Insert( function );
 	}
 
 	/*
@@ -67,7 +67,7 @@ class ExpressionVM
 
 	ref ExpressionFunction Get( int index )
 	{
-		return _quickLookUp[ index ];
+		return _fastLookup[ index ];
 	}
 
 	bool Find( string name, ExpressionFunction function )
