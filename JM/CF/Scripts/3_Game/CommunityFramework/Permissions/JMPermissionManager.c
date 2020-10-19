@@ -120,7 +120,7 @@ class JMPermissionManager
 
 	private void CreateFakePlayer( int i )
 	{
-		JMPlayerInstance instance = new JMPlayerInstance( NULL );
+		JMPlayerInstance instance = JMPlayerInstance.Create( NULL );
 		instance.MakeFake( "GFake" + i, "SFake" + i, "NFake" + i );
 		Players.Insert( instance.GetGUID(), instance );
 	}
@@ -259,7 +259,7 @@ class JMPermissionManager
 			return false;
 		}
 
-		inst = new JMPlayerInstance( ident );
+		inst = JMPlayerInstance.Create( ident );
 
 		inst.CopyPermissions( RootPermission );
 		inst.Load();
@@ -324,7 +324,7 @@ class JMPermissionManager
 				return NULL;
 			}
 
-			instance = new JMPlayerInstance( NULL );
+			instance = JMPlayerInstance.Create( NULL );
 			Players.Insert( guid, instance );
 		}
 

@@ -2,6 +2,13 @@ modded class PlayerBase
 {
 	private JMPlayerInstance m_AuthenticatedPlayer;
 
+	override void Init()
+	{
+		super.Init();
+		
+		GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( GetAuthenticatedPlayer, 2000, false );
+	}
+	
 	JMPlayerInstance GetAuthenticatedPlayer()
 	{
 		if ( m_AuthenticatedPlayer )

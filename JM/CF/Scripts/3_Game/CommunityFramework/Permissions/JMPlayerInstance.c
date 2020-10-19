@@ -17,7 +17,18 @@ class JMPlayerInstance : Managed
 
 	private ref JMPlayerSerialize m_PlayerFile;
 
-	void JMPlayerInstance( PlayerIdentity identity )
+	static ref JMPlayerInstance Create( PlayerIdentity identity )
+	{
+		ref JMPlayerInstance inst = JMPlayerInstance.Cast( "JMPlayerInstanceWorld".ToType().Spawn() );
+		inst.Init( identity );
+		return inst;
+	}
+
+	private void JMPlayerInstance()
+	{
+	}
+
+	void Init( PlayerIdentity identity )
 	{
 		PlayerObject = NULL;
 
@@ -203,11 +214,13 @@ class JMPlayerInstance : Managed
 		return false;
 	}
 
-	void OnSend( ref ParamsWriteContext ctx /* param here for helper class so only necessary data is filled based on permissions */ )
+	void OnSend( ref ParamsWriteContext ctx /* TODO: param here for helper class so only necessary data is filled based on permissions */ )
 	{
 		ctx.Write( m_GUID );
 		ctx.Write( m_Steam64ID );
 		ctx.Write( m_Name );
+		
+		OnSendPermissions( ctx );
 	}
 
 	void OnRecieve( ref ParamsReadContext ctx )
@@ -215,6 +228,8 @@ class JMPlayerInstance : Managed
 		ctx.Read( m_GUID );
 		ctx.Read( m_Steam64ID );
 		ctx.Read( m_Name );
+		
+		OnRecievePermissions( ctx );
 	}
 
 	void OnSendPermissions( ref ParamsWriteContext ctx )
