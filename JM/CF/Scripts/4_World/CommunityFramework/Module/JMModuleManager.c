@@ -75,6 +75,16 @@ class JMModuleManager: JMModuleManagerBase
 		}
 	}
 
+	override void OnClientPermissionsUpdated()
+	{
+		super.OnClientPermissionsUpdated();
+		
+		for ( int i = 0; i < m_ModuleList.Count(); i++ )
+		{
+			m_ModuleList[i].OnClientPermissionsUpdated();
+		}
+	}
+
 	override void OnInit()
 	{
 		super.OnInit();

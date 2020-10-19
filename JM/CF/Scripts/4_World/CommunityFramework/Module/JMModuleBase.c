@@ -106,6 +106,10 @@ class JMModuleBase
 	{
 	}
 
+	void OnClientPermissionsUpdated()
+	{
+	}
+
 	void OnInit()
 	{
 	}

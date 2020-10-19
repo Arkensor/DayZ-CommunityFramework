@@ -36,6 +36,10 @@ class JMModuleManagerBase
 	{
 		//GetLogger().Log( "JMModuleManagerBase::OnSettingsUpdated()", "JM_COT_ModuleFramework" );
 	}
+	
+	void OnClientPermissionsUpdated()
+	{
+	}
 
 	void OnInit()
 	{
