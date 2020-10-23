@@ -45,9 +45,9 @@ class JMDate : Managed
         iTimestamp = TimestampCalculYear( timestamp, date.m_Year );
         iTimestamp = TimestampCalculMonth( iTimestamp, timestamp, date.m_Year, date.m_Month );
         iTimestamp = TimestampCalculDays( iTimestamp, timestamp, date.m_Day );
-        iTimestamp = TimestampCalculHours( iTimestamp, timestamp, date.m_Hours );
-        iTimestamp = TimestampCalculMinutes( iTimestamp, timestamp, date.m_Minutes );
-        iTimestamp = TimestampCalculSeconds( iTimestamp, timestamp, date.m_Seconds );
+        iTimestamp = TimestampCalculHours( iTimestamp, timestamp, date.m_Hour );
+        iTimestamp = TimestampCalculMinutes( iTimestamp, timestamp, date.m_Minute );
+        iTimestamp = TimestampCalculSeconds( iTimestamp, timestamp, date.m_Second );
 
         return date;
 	}
