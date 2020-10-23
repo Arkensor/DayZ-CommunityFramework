@@ -36,7 +36,7 @@ class JMDate : Managed
         return date;
     }
 
-	static JMDate Epoch( int time )
+	static JMDate Epoch( int timestamp )
 	{
         ref JMDate date = new JMDate();
         date.m_UseUTC = false;
