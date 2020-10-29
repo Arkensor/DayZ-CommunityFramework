@@ -7,7 +7,7 @@ class CfgPatches
 		requiredVersion=0.1;
 		requiredAddons[]=
 		{
-			"JM_CF_CFDefines"
+			"DZ_Data"
 		};
 	};
 };
@@ -31,29 +31,16 @@ class CfgMods
 		extra = 0;
 		type = "mod";
 		
-		dependencies[] =
-		{
-			"Core",
-			"Game",
-			"World",
-			"Mission"
-		};
+		dependencies[] = { "Game", "World", "Mission" };
 		
 		class defs
 		{
-			class engineScriptModule
-			{
-				value = "";
-				files[] =
-				{
-					"JM/CF/Scripts/1_Core"
-				};
-			};
 			class gameScriptModule
 			{
 				value = "";
 				files[] =
 				{
+					"JM/CF/Scripts/Common",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
@@ -62,6 +49,7 @@ class CfgMods
 				value = "";
 				files[] =
 				{
+					"JM/CF/Scripts/Common",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -70,6 +58,7 @@ class CfgMods
 				value = "";
 				files[] =
 				{
+					"JM/CF/Scripts/Common",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};
