@@ -16,7 +16,7 @@ modded class ItemBase
 
 			OnModStoreSave( store, mods[ i ].GetName() );
 
-			store.Save( ctx );
+			store.Save( this, ctx );
 		}
 	}
 
@@ -40,13 +40,13 @@ modded class ItemBase
 
 			ModStorage store = new ModStorage( ModLoader.Get( modName ) );
 
-			if ( !store.Load( ctx, version ) )
+			if ( !store.Load( this, ctx, version ) )
 			{
 				Error( "Failed reading " + GetType() + " for mod '" + modName + "'!" );
 				return false;
 			}
 
-			if ( store.GetMod() && !OnModStoreLoad( ctx, modName ) )
+			if ( store.GetMod() && store.GetVersion() > 0 && !OnModStoreLoad( store, modName ) )
 			{
 				Error( "Failed loading " + GetType() + " for mod '" + modName + "'!" );
 				return false;
@@ -72,7 +72,13 @@ modded class ItemBase
 			}
 
 			storage.WriteVector( GetOrientation() );
-			storage.WriteString( "StringVariable" );
+			storage.WriteInt( 6 );
+
+			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
+			if ( storage.GetVersion() > 1 ) //! this check is redudant
+			{
+				storage.WriteString( "ThisVariableIsAddedWithVersion2" );
+			}
 		}
 	}
 	 */
@@ -88,20 +94,28 @@ modded class ItemBase
 	 * @code
 	modded class KitBase // extends from ItemBase
 	{
-		override void OnModStoreSave( ModStorage storage, string modName )
+		override bool OnModStoreLoad( ModStorage storage, string modName )
 		{
 			if ( modName != "JM_CommunityFramework" )
 			{
-				return super.OnModStoreSave( storage, modName );
+				return super.OnModStoreLoad( storage, modName );
 			}
 
 			vector orientation;
 			if ( !storage.ReadVector( orientation ) )
 				return false;
 
-			string strVar;
-			if ( !storage.ReadString( strVar ) )
+			string intVar;
+			if ( !storage.ReadInt( intVar ) )
 				return false;
+
+			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
+			if ( storage.GetVersion() > 1 )
+			{
+				string strVar;
+				if ( !storage.ReadString( strVar ) )
+					return false;
+			}
 
 			return true;
 		}

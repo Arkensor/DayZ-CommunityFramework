@@ -21,18 +21,21 @@ modded class ModStructure
 	 * @param modName	The name of the loaded mod, retrieved from the CfgMods params array
 	 * 
 	 * @code
-	override void OnLoad( string modName )
+	override bool OnLoad( string modName )
 	{
 		if ( modName != "JM_CommunityFramework" )
-		{
-			super.OnLoad( modName );
-			return;
-		}
+			return super.OnLoad( modName );
 
-		m_StorageVersion = 1;
+		//! Set the storage version for this mod
+		SetStorageVersion( 1 );
+
+		return true;
 	}
 	 */
-	void OnLoad( string modName );
+	bool OnLoad( string modName )
+	{
+		return false;
+	}
 	
 	override void LoadData()
 	{
@@ -40,13 +43,16 @@ modded class ModStructure
 
 		m_ModInputs = new ref array< ref ModInput >;
 
-		m_StorageVersion = 1;
+		m_StorageVersion = 0;
 
 		if ( GetGame().ConfigIsExisting( m_ModPath ) )
 		{
 			GetGame().ConfigGetChildName( "CfgMods", m_ModIndex, m_Name );
 
-			OnLoad( m_ModName );
+			if ( !OnLoad( m_ModName ) )
+			{
+				Print( "(Community-Framework) Notice: The mod '" + m_ModName + "' either does not override ModStructure::OnLoad or failed to load." );
+			}
 
 			//GetLogger().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
 			
@@ -242,5 +248,10 @@ modded class ModStructure
 	int GetStorageVersion()
 	{
 		return m_StorageVersion;
+	}
+
+	protected void SetStorageVersion( int version )
+	{
+		m_StorageVersion = version;
 	}
 };

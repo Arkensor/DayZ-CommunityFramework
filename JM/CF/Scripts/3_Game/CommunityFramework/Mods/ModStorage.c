@@ -18,6 +18,7 @@ class ModStorage
 
 		if ( m_Mod )
 			m_Version = m_Mod.GetStorageVersion();
+		m_Version = -1;
 	}
 
 	void ~ModStorage()
@@ -38,7 +39,7 @@ class ModStorage
 		return m_Mod;
 	}
 
-	void Save( ParamsWriteContext ctx )
+	void Save( EntityAI entity, ParamsWriteContext ctx )
 	{
 		ctx.Write( m_Mod.GetName() );
 
@@ -58,9 +59,18 @@ class ModStorage
 	/**
 	 * @note Mod name is read in the entity OnStoreLoad method
 	 */
-	bool Load( ParamsReadContext ctx, int version )
+	bool Load( EntityAI entity, ParamsReadContext ctx, int version )
 	{
+		int currVersion = m_Version;
 		ctx.Read( m_Version );
+
+		if ( currVersion != -1 )
+		{
+			if ( currVersion != m_Version )
+			{
+				Print( "Updating " + entity.GetType() + " for mod '" + m_Mod.GetName() + "' from " + m_Version + " to " + currVersion );
+			}
+		}
 
 		int count;
 		ctx.Read( count );
