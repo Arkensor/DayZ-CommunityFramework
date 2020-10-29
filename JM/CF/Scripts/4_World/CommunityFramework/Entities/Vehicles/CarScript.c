@@ -1,4 +1,4 @@
-modded class ItemBase
+modded class CarScript
 {
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{
