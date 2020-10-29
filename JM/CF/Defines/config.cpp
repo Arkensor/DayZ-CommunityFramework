@@ -1,27 +1,27 @@
 class CfgPatches
 {
-	class JM_CF_Scripts
+	class JM_CF_Defines
 	{
 		units[]={};
 		weapons[]={};
 		requiredVersion=0.1;
 		requiredAddons[]=
 		{
-			"JM_CF_CFDefines"
+			"DZ_Data"
 		};
 	};
 };
 
 class CfgMods
 {
-	class JM_CommunityFramework
+	class JM_CommunityFramework_ScriptDefines
 	{
-		dir = "JM/CF";
+		dir = "SCRIPT_DEFINES";
 		picture = "";
 		action = "";
 		hideName = 0;
 		hidePicture = 1;
-		name = "Community Framework";
+		name = "Script Defines";
 		credits = "Jacob_Mango, Arkensor";
 		creditsJson = "JM/CF/Scripts/Data/Credits.json";
 		version = "0.0.0";
@@ -31,13 +31,7 @@ class CfgMods
 		extra = 0;
 		type = "mod";
 		
-		dependencies[] =
-		{
-			"Core",
-			"Game",
-			"World",
-			"Mission"
-		};
+		dependencies[] = { "Core", "Game", "World", "Mission" };
 		
 		class defs
 		{
@@ -46,7 +40,7 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/1_Core"
+					"JM\CF\Defines"
 				};
 			};
 			class gameScriptModule
@@ -54,7 +48,7 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/3_Game"
+					"JM\CF\Defines"
 				};
 			};
 			class worldScriptModule
@@ -62,7 +56,7 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/4_World"
+					"JM\CF\Defines"
 				};
 			};
 			class missionScriptModule
@@ -70,7 +64,7 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/5_Mission"
+					"JM\CF\Defines"
 				};
 			};
 		};

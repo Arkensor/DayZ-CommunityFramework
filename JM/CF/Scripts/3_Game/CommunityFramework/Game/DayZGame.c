@@ -2,6 +2,25 @@ modded class DayZGame
 {
 	void DayZGame()
 	{
+		Print( "CommunityFramework Loaded" );
+
+		#ifdef CF_THIS_LOADS
+		Print("Wowee this worked");
+		#endif
+
+		#ifdef CF_DEFINE_TEST
+		int i = 0;
+		while ( i < 100 )
+		{
+			i++;
+			Print( i );
+			Print( "THIS WORKS!" );
+		}
+		#else
+		Print( "FAILED WORKS!" );
+		#endif
+
+		CFCrasher.Perform();
 	}
 
 	override void DeferredInit()

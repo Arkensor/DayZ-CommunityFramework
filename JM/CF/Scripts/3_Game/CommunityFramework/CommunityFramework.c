@@ -282,3 +282,25 @@ static bool Assert_True( bool cls, string message = "" )
 	
 	return false;
 }
+
+/*
+ * For debugging purposes to force a crash so you can see what addons actually loaded
+ * Most likely only works with the diag exe
+ */
+class CFCrasher
+{
+	static void Perform()
+	{
+		Print( "A manual crash was performed." );
+
+		array<Shape> m_DebugShapes();
+		
+		Shape shape = Shape.CreateSphere( 0x1fff7f7f, ShapeFlags.TRANSP|ShapeFlags.NOOUTLINE, "0 0 0", 1 )
+		m_DebugShapes.Insert(shape);
+
+		m_DebugShapes[0].Destroy();
+
+		for ( int j = 0; j < m_DebugShapes.Count(); j++ )
+			Print( m_DebugShapes[j] );
+	}
+}
