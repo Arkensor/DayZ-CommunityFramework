@@ -66,11 +66,11 @@ modded class ItemBase
 	{
 		override void OnModStoreSave( ModStorage storage, string modName )
 		{
+			//! Always call super at the start.
+			super.OnModStoreSave( storage, modName );
+
 			if ( modName != "JM_CommunityFramework" )
-			{
-				super.OnModStoreSave( storage, modName );
-				return;
-			}
+				return; //! Early exit
 
 			storage.WriteVector( GetOrientation() );
 			storage.WriteInt( 6 );
@@ -97,10 +97,11 @@ modded class ItemBase
 	{
 		override bool OnModStoreLoad( ModStorage storage, string modName )
 		{
+			if ( !super.OnModStoreLoad( storage, modName ) )
+				return false;
+
 			if ( modName != "JM_CommunityFramework" )
-			{
-				return super.OnModStoreLoad( storage, modName );
-			}
+				return true; //! Early exit
 
 			vector orientation;
 			if ( !storage.ReadVector( orientation ) )

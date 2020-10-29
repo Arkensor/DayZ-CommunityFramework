@@ -67,15 +67,15 @@ modded class DayZPlayerImplement
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
 	 * @code
-	modded class KitBase // extends from ItemBase
+	modded class PlayerBase
 	{
 		override void OnModStoreSave( ModStorage storage, string modName )
 		{
+			//! Always call super at the start.
+			super.OnModStoreSave( storage, modName );
+
 			if ( modName != "JM_CommunityFramework" )
-			{
-				super.OnModStoreSave( storage, modName );
-				return;
-			}
+				return; //! Early exit
 
 			storage.WriteVector( GetOrientation() );
 			storage.WriteInt( 6 );
@@ -98,14 +98,15 @@ modded class DayZPlayerImplement
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
 	 * @code
-	modded class KitBase // extends from ItemBase
+	modded class PlayerBase
 	{
 		override bool OnModStoreLoad( ModStorage storage, string modName )
 		{
+			if ( !super.OnModStoreLoad( storage, modName ) )
+				return false;
+
 			if ( modName != "JM_CommunityFramework" )
-			{
-				return super.OnModStoreLoad( storage, modName );
-			}
+				return true; //! Early exit
 
 			vector orientation;
 			if ( !storage.ReadVector( orientation ) )
