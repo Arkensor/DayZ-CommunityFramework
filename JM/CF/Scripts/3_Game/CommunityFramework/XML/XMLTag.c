@@ -55,6 +55,11 @@ class XMLTag : Managed
         return _element.CreateTag( name );
     }
 
+    array< XMLTag > GetTag( string type )
+    {
+        return _element.Get( type );
+	}
+
     ref XMLAttribute CreateAttribute( string name )
     {
         XMLAttribute attrb = new XMLAttribute( this, name );
