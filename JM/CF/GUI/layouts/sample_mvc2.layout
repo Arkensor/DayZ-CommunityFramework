@@ -1,0 +1,88 @@
+FrameWidgetClass root {
+ position 0 0
+ size 0.5 0.5
+ halign center_ref
+ valign center_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 0
+ vexactsize 0
+ scriptclass "SampleScriptViewController"
+ {
+  WrapSpacerWidgetClass root_spacer {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   Padding 0
+   Margin 0
+   content_halign center
+   {
+    PanelWidgetClass button_back {
+     ignorepointer 1
+     color 0.502 0 0.3765 1
+     position 0 0
+     size 0.26 0.09
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     style rover_sim_colorable
+     {
+      ButtonWidgetClass button {
+       position 0 0
+       size 1 1
+       halign center_ref
+       valign center_ref
+       hexactpos 1
+       vexactpos 1
+       hexactsize 0
+       vexactsize 0
+       scriptclass "ViewBinding"
+       "no focus" 1
+       text "Toggle"
+       font "gui/fonts/Metron-Bold28"
+       switch toggle
+       {
+        ScriptParamsClass {
+         Debug_Logging 0
+         Relay_Command "SampleRelayCommand"
+        }
+       }
+      }
+     }
+    }
+    WrapSpacerWidgetClass content_host {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     halign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "ViewBinding"
+     content_halign center
+     {
+      ScriptParamsClass {
+       Debug_Logging 1
+       Binding_Name "script_view"
+      }
+     }
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Debug_Logging 1
+  }
+ }
+}

@@ -47,5 +47,5 @@ modded class MissionGameplay
 		super.OnUpdate( timeslice );
 
 		GetModuleManager().OnUpdate( timeslice );
-	}
+	}	
 }
