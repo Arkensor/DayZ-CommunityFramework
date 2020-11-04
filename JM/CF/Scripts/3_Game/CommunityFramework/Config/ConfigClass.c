@@ -118,10 +118,9 @@ class ConfigClass : ConfigEntry
 
 				reader.BackChar();
 				return true;
-			} else
-			{
-				reader.BackChar();
 			}
+
+			reader.BackChar();
 
 			ConfigEntry entry = NULL;
 			string name = "";
@@ -297,9 +296,6 @@ class ConfigClass : ConfigEntry
 						}
 					}
 				}
-			} else
-			{
-
 			}
 
 			if ( entry != NULL )

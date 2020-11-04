@@ -29,48 +29,47 @@ class ConfigArray : ConfigEntry
 		{
 			c = reader.SkipWhitespace();
 
+			reader.BackChar();
+
 			ConfigArrayParam entry = NULL;
 
 			if ( c == "{" )
 			{
-				reader.BackChar();
-
 				entry = new ConfigArrayParamArray();
 				entry._parent = this;
 				if ( !entry.Parse( reader, file ) )
 					return false;
 			} else
 			{
-				reader.BackChar();
-
 				bool quoted;
 				string value = reader.GetQuotedWord( quoted );
 
-				if ( quoted )
+				if ( value.Length() > 0 )
 				{
-					entry = new ConfigArrayParamText();
-					entry._parent = this;
-					entry.SetText( value );
-				} else
-				{
-					if ( value.Contains( "." ) )
+					if ( quoted )
 					{
-						entry = new ConfigArrayParamFloat();
-						entry.SetFloat( value.ToFloat() );
+						entry = new ConfigArrayParamText();
 						entry._parent = this;
+						entry.SetText( value );
 					} else
 					{
-						entry = new ConfigArrayParamInt();
-						entry.SetInt( value.ToInt() );
-						entry._parent = this;
+						if ( value.Contains( "." ) )
+						{
+							entry = new ConfigArrayParamFloat();
+							entry.SetFloat( value.ToFloat() );
+							entry._parent = this;
+						} else
+						{
+							entry = new ConfigArrayParamInt();
+							entry.SetInt( value.ToInt() );
+							entry._parent = this;
+						}
 					}
 				}
 			}
 
 			if ( entry )
-			{
 				_entries.Insert( entry );
-			}
 			
 			c = reader.SkipWhitespace();
 
