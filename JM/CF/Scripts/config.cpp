@@ -31,14 +31,18 @@ class CfgMods
 		extra = 0;
 		type = "mod";
 		
-		dependencies[] = { "Game", "World", "Mission" };
+		dependencies[] = { "Core", "Game", "World", "Mission" };
 		
 		class defs
 		{
 			class engineScriptModule
 			{
-				value ="";
-				files[] = {"JM/CF/Scripts/1_Core"};
+				value = "";
+				files[] =
+				{
+					"JM/CF/Scripts/Common",
+					"JM/CF/Scripts/1_Core"
+				};
 			};
 			class gameScriptModule
 			{
