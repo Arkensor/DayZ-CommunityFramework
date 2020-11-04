@@ -1,10 +1,5 @@
-modded class DayZPlayerImplement
+modded class CarScript
 {
-	string FormatSteamWebhook()
-	{
-		return GetDisplayName();
-	}
-
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{
 		super.OnStoreSave( ctx );
@@ -67,7 +62,7 @@ modded class DayZPlayerImplement
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
 	 * @code
-	modded class PlayerBase
+	modded class Sedan_02 // extends from CarScript
 	{
 		override void OnModStoreSave( ModStorage storage, string modName )
 		{
@@ -98,7 +93,7 @@ modded class DayZPlayerImplement
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
 	 * @code
-	modded class PlayerBase
+	modded class Sedan_02 // extends from CarScript
 	{
 		override bool OnModStoreLoad( ModStorage storage, string modName )
 		{
