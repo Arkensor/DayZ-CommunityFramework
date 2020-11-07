@@ -1,3 +1,22 @@
+typedef CommunityFramework CF;
+
+class CommunityFramework
+{
+    static CF_ObjectManager ObjectManager;
+
+    /**
+     * @brief [Internal] CommunityFramework cleanup
+     *
+     * @return void
+     */
+    static void _Cleanup()
+    {
+        ObjectManager._Cleanup();
+    }
+}
+
+//--------------------------------------------------------
+
 const autoptr TStringArray _cf_characters = {
 //		"",
 //        "",
