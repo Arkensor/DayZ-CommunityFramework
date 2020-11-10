@@ -1,8 +1,43 @@
+CGame CF_CreateGame()
+{
+	Print("CF_CreateGame()");
+	g_Game = new DayZGame;
+	CF._GameInit();
+	return g_Game;
+}
+
+void CF_CreateWorld()
+{
+	Print("CF_CreateWorld()");
+	CF._WorldInit();
+}
+
 typedef CommunityFramework CF;
 
 class CommunityFramework
 {
     static CF_ObjectManager ObjectManager;
+
+	static ref CF_Permission_ManagerBase Permission;
+
+    /**
+     * @brief [Internal] CommunityFramework initilization for 3_Game
+     *
+     * @return void
+     */
+	static void _GameInit()
+	{
+	}
+
+    /**
+     * @brief [Internal] CommunityFramework initilization for 4_World
+     *
+     * @return void
+     */
+	static void _WorldInit()
+	{
+		CF_Permission_ManagerBase._Init( Permission );
+	}
 
     /**
      * @brief [Internal] CommunityFramework cleanup
@@ -12,8 +47,10 @@ class CommunityFramework
     static void _Cleanup()
     {
         ObjectManager._Cleanup();
+
+		Permission._Cleanup();
     }
-}
+};
 
 //--------------------------------------------------------
 

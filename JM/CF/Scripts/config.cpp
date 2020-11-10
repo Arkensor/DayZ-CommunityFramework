@@ -7,7 +7,10 @@ class CfgPatches
 		requiredVersion=0.1;
 		requiredAddons[]=
 		{
-			"DZ_Data"
+			"DZ_Data",
+
+			//! Community Framework
+			"JM_CF_Permissions"
 		};
 	};
 };
@@ -40,25 +43,28 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/Permissions/1_Core",
 					"JM/CF/Scripts/1_Core"
 				};
 			};
 			class gameScriptModule
 			{
-				value = "";
+				value = "CF_CreateGame";
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/Permissions/3_Game",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
 			class worldScriptModule
 			{
-				value = "";
+				value = ""; //! Doesn't work
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/Permissions/4_World",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -67,7 +73,8 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/Permissions/5_Mission",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};

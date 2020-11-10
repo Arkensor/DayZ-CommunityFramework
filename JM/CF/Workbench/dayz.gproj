@@ -36,8 +36,9 @@ GameProjectClass {
      Name "core"
      Paths {
       "scripts/1_Core"
-      "JM/CF/scripts/Common"
-      "JM/CF/scripts/1_Core"
+      "JM/CF/Defines"
+      "JM/CF/Permissions/1_Core"
+      "JM/CF/Scripts/1_Core"
      }
      EntryPoint ""
     }
@@ -52,26 +53,29 @@ GameProjectClass {
      Name "game"
      Paths {
       "scripts/3_Game"
-      "JM/CF/scripts/Common"
-      "JM/CF/scripts/3_Game"
+      "JM/CF/Defines"
+      "JM/CF/Permissions/3_Game"
+      "JM/CF/Scripts/3_Game"
      }
-     EntryPoint "CreateGame"
+     EntryPoint "CF_CreateGame"
     }
     ScriptModulePathClass {
      Name "world"
      Paths {
       "scripts/4_World"
-      "JM/CF/scripts/Common"
-      "JM/CF/scripts/4_World"
+      "JM/CF/Defines"
+      "JM/CF/Permissions/4_World"
+      "JM/CF/Scripts/4_World"
      }
-     EntryPoint ""
+     EntryPoint "CF_CreateWorld"
     }
     ScriptModulePathClass {
      Name "mission"
      Paths {
       "scripts/5_Mission"
-      "JM/CF/scripts/Common"
-      "JM/CF/scripts/5_Mission"
+      "JM/CF/Defines"
+      "JM/CF/Permissions/5_Mission"
+      "JM/CF/Scripts/5_Mission"
      }
      EntryPoint "CreateMission"
     }

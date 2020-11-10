@@ -514,6 +514,9 @@ static ref JMModuleManager GetModuleManager()
 
 static void CreateModuleManager( JMModuleConstructorBase construct )
 {
+	//! Temporary
+	CF_CreateWorld();
+
 	ref JMModuleManager manager = new JMModuleManager;
 
 	manager.ConstructModules( construct );
