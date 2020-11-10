@@ -283,4 +283,6 @@ class CF_Permission_Manager : CF_Permission_ManagerBase
 		if (role.Load())
 			Roles.Insert(name, role);
 	}
+
+	//TODO: URGENT: READ COTModule.c LINE 270 TODO! 
 };

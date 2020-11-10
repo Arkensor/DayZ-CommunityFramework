@@ -1,6 +1,6 @@
 modded class PlayerBase
 {
-	private JMPlayerInstance m_AuthenticatedPlayer;
+	private CF_Permission_PlayerBase m_AuthenticatedPlayer;
 
 	override void Init()
 	{
@@ -9,7 +9,7 @@ modded class PlayerBase
 		GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( GetAuthenticatedPlayer, 2000, false );
 	}
 	
-	JMPlayerInstance GetAuthenticatedPlayer()
+	CF_Permission_PlayerBase GetAuthenticatedPlayer()
 	{
 		if ( m_AuthenticatedPlayer )
 			return m_AuthenticatedPlayer;
@@ -21,10 +21,10 @@ modded class PlayerBase
 		{
 			if ( IsMissionOffline() )
 			{
-				m_AuthenticatedPlayer = GetPermissionsManager().GetClientPlayer();
+				m_AuthenticatedPlayer = CF.Permission.GetClientPlayer();
 			} else
 			{
-				m_AuthenticatedPlayer = GetPermissionsManager().GetPlayer( GetIdentity().GetId() );
+				m_AuthenticatedPlayer = CF.Permission.GetPlayer( GetIdentity().GetId() );
 			}
 		}
 

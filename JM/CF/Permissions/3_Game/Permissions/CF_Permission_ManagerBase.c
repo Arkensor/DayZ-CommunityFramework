@@ -160,16 +160,46 @@ class CF_Permission_ManagerBase
 		return RootPermission;
 	}
 
+	/**
+     * @brief On the client (/singleplayer), check for permission
+     * @code
+     * CF.Permission.HasPermission("HypeTrain.Control");
+     * @endcode
+     *
+     * @param permission							Permission to be checked for
+     * @return bool									Has permission
+     */
 	bool HasPermission(string permission)
 	{
 		return false;
 	}
 
+	/**
+     * @brief Check if the identity has permission
+     * @code
+     * CF.Permission.HasPermission("HypeTrain.Control");
+     * @endcode
+     *
+     * @param permission							Permission to be checked for
+     * @param identity								Identity of the player
+     * @return bool									Has permission
+     */
 	bool HasPermission(string permission, PlayerIdentity ihp)
 	{
 		return false;
 	}
 
+	/**
+     * @brief Check if the identity has permission, out CF_Permission_PlayerBase
+     * @code
+     * CF.Permission.HasPermission("HypeTrain.Control");
+     * @endcode
+     *
+     * @param permission							Permission to be checked for
+     * @param identity								Identity of the player
+     * @param[out] player							Player to be returned
+     * @return bool									Has permission
+     */
 	bool HasPermission(string permission, PlayerIdentity identity, out CF_Permission_PlayerBase player)
 	{
 		return false;

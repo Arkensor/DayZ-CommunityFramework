@@ -1,10 +1,5 @@
 modded class DayZPlayerImplement
 {
-	string FormatSteamWebhook()
-	{
-		return GetDisplayName();
-	}
-
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{
 		super.OnStoreSave( ctx );
