@@ -141,20 +141,18 @@ modded class ModStructure
 				string inputPath;
 				GetGame().ConfigGetText( m_ModPath + " inputs", inputPath );
 
-				XMLDocument document = new XMLDocument();
-				XMLReader reader = XMLReader.Open( inputPath );
-
-				if ( document && reader && document.Read( reader ) )
+				CF_XML_Document document;
+				if ( CF.XML.ReadDocument( inputPath, document ) )
 				{
-					XMLTag parent_tag = document.Get( "modded_inputs" )[0];
+					auto parent_tag = document.Get( "modded_inputs" )[0];
 					if ( parent_tag )
 						parent_tag = parent_tag.GetTag( "inputs" )[0];
 					if ( parent_tag )
 						parent_tag = parent_tag.GetTag( "actions" )[0];
 
-					array< XMLTag > inputs = null;
+					array< CF_XML_Tag > inputs = null;
 					if ( !parent_tag )
-						inputs = new array< XMLTag >();
+						inputs = new array< CF_XML_Tag >();
 					else
 						inputs = parent_tag.GetTag( "input" );
 
@@ -162,7 +160,7 @@ modded class ModStructure
 					{
 						ref ModInput modInput = new ref ModInput;
 
-						XMLAttribute attrib = null;
+						CF_XML_Attribute attrib = null;
 
 						attrib = inputs[i].GetAttribute( "name" );
 						if ( attrib )
