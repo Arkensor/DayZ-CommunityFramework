@@ -260,4 +260,9 @@ class CF_ObjectManager
 	{
 		return m_HiddenObjects.GetKeyArray();
 	}
+	
+	static array<Object> UnhideAllMapObjects()
+	{
+		return UnhideMapObjects(GetHiddenMapObjects());
+	}
 }
