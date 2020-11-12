@@ -10,7 +10,8 @@ class CfgPatches
 			"DZ_Data",
 
 			//! Community Framework
-			"JM_CF_Permissions"
+			"JM_CF_Permissions",
+			"JM_CF_XML"
 		};
 	};
 };
