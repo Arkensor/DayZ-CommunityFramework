@@ -255,4 +255,9 @@ class CF_ObjectManager
         m_HiddenObjects.Clear();
         delete m_HiddenObjects;
     }
+	
+	array<Object> GetHiddenMapObjects()
+	{
+		return m_HiddenObjects.GetKeyArray();
+	}
 }
