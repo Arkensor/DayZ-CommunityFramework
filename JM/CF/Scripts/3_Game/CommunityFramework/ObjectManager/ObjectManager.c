@@ -228,6 +228,46 @@ class CF_ObjectManager
     }
 
     /**
+     * @brief Unhides all hidden map objects
+     * @code
+     * array<Object> unhidden = CF.ObjectManager.UnhideAllMapObjects();
+     * @endcode
+     *
+     * @param updatePathGraph   Performs a path graph update after the objects were unhidden. Enabled by default.
+     * @return array<Object>    Array of objects that were unhidden.
+     */
+	static array<Object> UnhideAllMapObjects(bool updatePathGraph = true)
+	{
+        array<Object> unhidden();
+
+		for (int nObject = 0; nObject < m_HiddenObjects.Count(); nObject++)
+		{
+            auto object = m_HiddenObjects.GetKey(nObject);
+            
+            //Todo potential improvement -> s. HideMapObjects
+            if (UnhideMapObject(object, updatePathGraph))
+            {
+                unhidden.Insert(object);
+            }
+		}
+
+        return unhidden;
+	}
+
+    /**
+     * @brief Returns all map objects that are currently hidden
+     * @code
+     * array<Object> objects = CF.ObjectManager.GetHiddenMapObjects();
+     * @endcode
+     *
+     * @return array<Object> Array of hidden objects.
+     */
+	static array<Object> GetHiddenMapObjects()
+	{
+        return m_HiddenObjects.GetKeyArray();
+	}
+
+    /**
      * @brief Checks if a map object is currently hidden.
      * @code
      * bool isHiddenObject = CF.ObjectManager.IsMapObjectHidden(object);
@@ -270,14 +310,4 @@ class CF_ObjectManager
         m_HiddenObjects.Clear();
         delete m_HiddenObjects;
     }
-	
-	static array<Object> GetHiddenMapObjects()
-	{
-		return m_HiddenObjects.GetKeyArray();
-	}
-	
-	static array<Object> UnhideAllMapObjects()
-	{
-		return UnhideMapObjects(GetHiddenMapObjects());
-	}
 }
