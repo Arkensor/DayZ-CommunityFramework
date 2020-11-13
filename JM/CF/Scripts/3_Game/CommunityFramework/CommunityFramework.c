@@ -17,6 +17,7 @@ typedef CommunityFramework CF;
 class CommunityFramework
 {
     static CF_ObjectManager ObjectManager;
+	static CF_XML XML;
 
 	static ref CF_Permission_ManagerBase Permission;
 
@@ -57,6 +58,7 @@ class CommunityFramework
     static void _Cleanup()
     {
         ObjectManager._Cleanup();
+		XML._Cleanup();
 
 		Permission._Cleanup();
     }
