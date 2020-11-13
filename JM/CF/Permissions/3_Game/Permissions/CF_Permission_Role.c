@@ -12,7 +12,7 @@ class CF_Permission_Role : Managed
 	{
 		Name = name;
 
-		RootPermission = new CF_Permission_Node(__Constants.PERM_ROOT);
+		RootPermission = new CF_Permission_Node(CF.Permission.PERM_ROOT);
 
 		SerializedData = new array<string>;
 	}
@@ -39,7 +39,7 @@ class CF_Permission_Role : Managed
 	{
 		delete RootPermission;
 
-		RootPermission = new CF_Permission_Node(__Constants.PERM_ROOT);
+		RootPermission = new CF_Permission_Node(CF.Permission.PERM_ROOT);
 	}
 
 	void AddPermission(string permission, CF_Permission_Type type = CF_Permission_Type.INHERIT)
@@ -83,7 +83,7 @@ class CF_Permission_Role : Managed
 	{
 		string filename = FileReadyStripName(Name);
 
-		FileHandle file = OpenFile(__Constants.DIR_ROLES + filename + __Constants.EXT_ROLE, FileMode.WRITE);
+		FileHandle file = OpenFile(CF.Permission.DIR_ROLES + filename + CF.Permission.EXT_ROLE, FileMode.WRITE);
 
 		Serialize();
 
@@ -109,7 +109,7 @@ class CF_Permission_Role : Managed
 	bool Load()
 	{
 		string filename = FileReadyStripName(Name);
-		FileHandle file = OpenFile(__Constants.DIR_ROLES + filename + __Constants.EXT_ROLE, FileMode.READ);
+		FileHandle file = OpenFile(CF.Permission.DIR_ROLES + filename + CF.Permission.EXT_ROLE, FileMode.READ);
 
 		ref array<string> data = new array<string>;
 

@@ -31,12 +31,12 @@ class CF_Permission_PlayerBase : Managed
 		}
 		else if (IsMissionOffline())
 		{
-			m_GUID = __Constants.OFFLINE_GUID;
-			m_Steam64ID = __Constants.OFFLINE_STEAM;
-			m_Name = __Constants.OFFLINE_NAME;
+			m_GUID = CF.Permission.OFFLINE_GUID;
+			m_Steam64ID = CF.Permission.OFFLINE_STEAM;
+			m_Name = CF.Permission.OFFLINE_NAME;
 		}
 
-		m_RootPermission = new CF_Permission_Node(__Constants.PERM_ROOT);
+		m_RootPermission = new CF_Permission_Node(CF.Permission.PERM_ROOT);
 		m_Roles = new array<string>();
 		m_PlayerFile = new CF_Permission_PlayerFile();
 	}
@@ -252,7 +252,7 @@ class CF_Permission_PlayerBase : Managed
 		m_PlayerFile.Roles.Copy(m_Roles);
 		m_PlayerFile.Save();
 
-		FileHandle file = OpenFile(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + __Constants.EXT_PERMISSION, FileMode.WRITE);
+		FileHandle file = OpenFile(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + CF.Permission.EXT_PERMISSION, FileMode.WRITE);
 		if (file != 0)
 		{
 			string line;
@@ -322,19 +322,19 @@ class CF_Permission_PlayerBase : Managed
 			AddRole(m_PlayerFile.Roles[j]);
 		}
 
-		if (!ReadPermissions(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + __Constants.EXT_PERMISSION))
+		if (!ReadPermissions(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + CF.Permission.EXT_PERMISSION))
 		{
-			if (ReadPermissions(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + __Constants.EXT_PERMISSION + __Constants.EXT_WINDOWS_DEFAULT))
+			if (ReadPermissions(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + CF.Permission.EXT_PERMISSION + CF.Permission.EXT_WINDOWS_DEFAULT))
 			{
-				DeleteFile(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + __Constants.EXT_PERMISSION + __Constants.EXT_WINDOWS_DEFAULT);
+				DeleteFile(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_GUID) + CF.Permission.EXT_PERMISSION + CF.Permission.EXT_WINDOWS_DEFAULT);
 			}
-			else if (ReadPermissions(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + __Constants.EXT_PERMISSION))
+			else if (ReadPermissions(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + CF.Permission.EXT_PERMISSION))
 			{
-				DeleteFile(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + __Constants.EXT_PERMISSION);
+				DeleteFile(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + CF.Permission.EXT_PERMISSION);
 			}
-			else if (ReadPermissions(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + __Constants.EXT_PERMISSION + __Constants.EXT_WINDOWS_DEFAULT))
+			else if (ReadPermissions(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + CF.Permission.EXT_PERMISSION + CF.Permission.EXT_WINDOWS_DEFAULT))
 			{
-				DeleteFile(__Constants.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + __Constants.EXT_PERMISSION + __Constants.EXT_WINDOWS_DEFAULT);
+				DeleteFile(CF.Permission.DIR_PERMISSIONS + FileReadyStripName(m_Steam64ID) + CF.Permission.EXT_PERMISSION + CF.Permission.EXT_WINDOWS_DEFAULT);
 			}
 		}
 

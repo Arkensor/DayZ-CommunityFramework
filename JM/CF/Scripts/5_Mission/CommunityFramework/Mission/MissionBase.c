@@ -5,6 +5,7 @@ modded class MissionBase
 		CreateDiscordManager();
 		CreateSteamManager();
 
+		//! Create module manager before _MissionInit as a fallback for old permissions code
 		if ( !ModuleManagerExists() )
 		{
 			Print( "Creating ModuleManager" );
@@ -14,5 +15,7 @@ modded class MissionBase
 		{
 			Print( "Ignoring creation of ModuleManager" );
 		}
+
+		CF._MissionInit();
 	}
 };

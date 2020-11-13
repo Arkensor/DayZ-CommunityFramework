@@ -27,7 +27,7 @@ class CF_Permission_PlayerFile : Managed
 
 	static bool Load(CF_Permission_PlayerBase inst, inout CF_Permission_PlayerFile playerFile)
 	{
-		playerFile.m_FileName = __Constants.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + __Constants.EXT_PLAYER;
+		playerFile.m_FileName = CF.Permission.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + CF.Permission.EXT_PLAYER;
 		if (FileExist(playerFile.m_FileName))
 		{
 			JsonFileLoader<CF_Permission_PlayerFile>.JsonLoadFile(playerFile.m_FileName, playerFile);
@@ -36,43 +36,43 @@ class CF_Permission_PlayerFile : Managed
 			return true;
 		}
 
-		playerFile.m_FileName = __Constants.DIR_PLAYERS + inst.GetSteam64ID() + __Constants.EXT_PLAYER;
-		if (FileExist(playerFile.m_FileName))
-		{
-			JsonFileLoader<CF_Permission_PlayerFile>.JsonLoadFile(playerFile.m_FileName, playerFile);
-
-			DeleteFile(playerFile.m_FileName);
-			playerFile.m_FileName = __Constants.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + __Constants.EXT_PLAYER;
-
-			playerFile.Save();
-			return true;
-		}
-
-		playerFile.m_FileName = __Constants.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + __Constants.EXT_PLAYER + __Constants.EXT_WINDOWS_DEFAULT;
+		playerFile.m_FileName = CF.Permission.DIR_PLAYERS + inst.GetSteam64ID() + CF.Permission.EXT_PLAYER;
 		if (FileExist(playerFile.m_FileName))
 		{
 			JsonFileLoader<CF_Permission_PlayerFile>.JsonLoadFile(playerFile.m_FileName, playerFile);
 
 			DeleteFile(playerFile.m_FileName);
-			playerFile.m_FileName = __Constants.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + __Constants.EXT_PLAYER;
+			playerFile.m_FileName = CF.Permission.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + CF.Permission.EXT_PLAYER;
 
 			playerFile.Save();
 			return true;
 		}
 
-		playerFile.m_FileName = __Constants.DIR_PLAYERS + inst.GetSteam64ID() + __Constants.EXT_PLAYER + __Constants.EXT_WINDOWS_DEFAULT;
+		playerFile.m_FileName = CF.Permission.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + CF.Permission.EXT_PLAYER + CF.Permission.EXT_WINDOWS_DEFAULT;
 		if (FileExist(playerFile.m_FileName))
 		{
 			JsonFileLoader<CF_Permission_PlayerFile>.JsonLoadFile(playerFile.m_FileName, playerFile);
 
 			DeleteFile(playerFile.m_FileName);
-			playerFile.m_FileName = __Constants.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + __Constants.EXT_PLAYER;
+			playerFile.m_FileName = CF.Permission.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + CF.Permission.EXT_PLAYER;
 
 			playerFile.Save();
 			return true;
 		}
 
-		playerFile.m_FileName = __Constants.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + __Constants.EXT_PLAYER;
+		playerFile.m_FileName = CF.Permission.DIR_PLAYERS + inst.GetSteam64ID() + CF.Permission.EXT_PLAYER + CF.Permission.EXT_WINDOWS_DEFAULT;
+		if (FileExist(playerFile.m_FileName))
+		{
+			JsonFileLoader<CF_Permission_PlayerFile>.JsonLoadFile(playerFile.m_FileName, playerFile);
+
+			DeleteFile(playerFile.m_FileName);
+			playerFile.m_FileName = CF.Permission.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + CF.Permission.EXT_PLAYER;
+
+			playerFile.Save();
+			return true;
+		}
+
+		playerFile.m_FileName = CF.Permission.DIR_PLAYERS + FileReadyStripName(inst.GetGUID()) + CF.Permission.EXT_PLAYER;
 		playerFile.Roles.Insert("everyone");
 		return false;
 	}

@@ -10,6 +10,33 @@ class CF_Permission_ManagerBase
 	protected ref CF_Permission_Node RootPermission;
 
 	protected string m_ClientGUID;
+	
+	static const string OFFLINE_GUID = "OFFLINE";
+	static const string OFFLINE_STEAM = "OFFLINE";
+	static const string OFFLINE_NAME = "OFFLINE";
+	
+	static const string PERM_ROOT = "ROOT";
+
+	static const string DIR_COT = "$profile:CommunityOnlineTools\\";
+	static const string DIR_PF = "$profile:PermissionsFramework\\";
+
+	static const string DIR_LOGS = DIR_COT + "Logs\\";
+
+	static const string DIR_PERMISSIONS = DIR_PF + "Permissions\\";
+	static const string DIR_ROLES = DIR_PF + "Roles\\";
+	static const string DIR_PLAYERS = DIR_PF + "Players\\";
+
+	static const string FT_ROLE = "txt";
+	static const string FT_PERMISSION = "txt";
+	static const string FT_PLAYER = "json";
+	static const string FT_WINDOWS_DEFAULT = "txt";
+	static const string FT_LOG = "log";
+
+	static const string EXT_ROLE = "." + FT_ROLE;
+	static const string EXT_PERMISSION = "." + FT_PERMISSION;
+	static const string EXT_PLAYER = "." + FT_PLAYER;
+	static const string EXT_WINDOWS_DEFAULT = "." + FT_WINDOWS_DEFAULT;
+	static const string EXT_LOG = "." + FT_LOG;
 
 	static void _Init(out CF_Permission_ManagerBase pClass)
 	{
@@ -26,21 +53,31 @@ class CF_Permission_ManagerBase
 
 		SteamToGUID = new map<string, string>;
 
-		RootPermission = new CF_Permission_Node(__Constants.PERM_ROOT);
+		RootPermission = new CF_Permission_Node(PERM_ROOT);
 
 		if (IsMissionHost())
 		{
-			MakeDirectory(__Constants.DIR_PF);
+			MakeDirectory(DIR_PF);
 
-			MakeDirectory(__Constants.DIR_PERMISSIONS);
-			MakeDirectory(__Constants.DIR_PLAYERS);
-			MakeDirectory(__Constants.DIR_ROLES);
+			MakeDirectory(DIR_PERMISSIONS);
+			MakeDirectory(DIR_PLAYERS);
+			MakeDirectory(DIR_ROLES);
 		}
 
 		Assert_Null(Players);
 		Assert_Null(Roles);
 		Assert_Null(SteamToGUID);
 		Assert_Null(RootPermission);
+
+		//GetRPCManager().AddRPC( "CF_Permission", "UpdateRole", this );
+	}
+
+	static void _FinalizeInit()
+	{
+		array<string> permissions();
+		CF_Permission_Constructor._Generate(permissions);
+		foreach (string permission : permissions)
+			Register(permission);
 	}
 
 	void _Cleanup()
@@ -278,6 +315,36 @@ class CF_Permission_ManagerBase
 
 		return true;
 	}
+
+	void UpdateRole(JMRole role, PlayerIdentity identity);
+	void UpdateRole_Client(JMRole role, PlayerIdentity identity);
+	void UpdateRole_Server(JMRole role, PlayerIdentity identity);
+	void UpdateRole_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
+
+	void UpdateClient(string guid, PlayerIdentity identity);
+	void UpdateClient_Client(string guid, PlayerIdentity identity);
+	void UpdateClient_Server(string guid, PlayerIdentity identity);
+	void UpdateClient_Implementation(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
+
+	void RemoveClient(string guid);
+	void RemoveClient_Client(string guid);
+	void RemoveClient_Server(string guid);
+	void RemoveClient_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
+
+	void RefreshClients();
+	void RefreshClients_Client();
+	void RefreshClients_Server();
+	void RefreshClients_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
+
+	void SetClient(JMPlayerInstance player);
+	void SetClient_Client(JMPlayerInstance player);
+	void SetClient_Server(JMPlayerInstance player);
+	void SetClient_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
+
+	void SetClient(JMPlayerInstance player, PlayerIdentity identity);
+	void SetClient_Client(JMPlayerInstance player, PlayerIdentity identity);
+	void SetClient_Server(JMPlayerInstance player, PlayerIdentity identity);
+	void SetClient_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
 };
 
 /**

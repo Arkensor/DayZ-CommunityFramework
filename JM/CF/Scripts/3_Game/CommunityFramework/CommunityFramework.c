@@ -40,6 +40,16 @@ class CommunityFramework
 	}
 
     /**
+     * @brief [Internal] CommunityFramework initilization for 5_Mission
+     *
+     * @return void
+     */
+	static void _MissionInit()
+	{
+		Permission._FinalizeInit();
+	}
+
+    /**
      * @brief [Internal] CommunityFramework cleanup
      *
      * @return void

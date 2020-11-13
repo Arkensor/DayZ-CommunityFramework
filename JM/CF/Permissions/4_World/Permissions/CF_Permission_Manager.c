@@ -263,7 +263,7 @@ class CF_Permission_Manager : CF_Permission_ManagerBase
 
 		string sName = "";
 		FileAttr oFileAttr = FileAttr.INVALID;
-		FindFileHandle oFileHandle = FindFile(__Constants.DIR_ROLES + "*" + __Constants.EXT_ROLE, sName, oFileAttr, FindFileFlags.ALL);
+		FindFileHandle oFileHandle = FindFile(CF.Permission.DIR_ROLES + "*" + CF.Permission.EXT_ROLE, sName, oFileAttr, FindFileFlags.ALL);
 
 		if (sName != "")
 		{
@@ -283,6 +283,18 @@ class CF_Permission_Manager : CF_Permission_ManagerBase
 		if (role.Load())
 			Roles.Insert(name, role);
 	}
+
+	override void UpdateRole( JMRole role, PlayerIdentity identity );
+
+	override void UpdateClient( string guid, PlayerIdentity identity );
+
+	override void RemoveClient( string guid );
+
+	override void RefreshClients();
+
+	override void SetClient( JMPlayerInstance player );
+
+	override void SetClient( JMPlayerInstance player, PlayerIdentity identity );
 
 	//TODO: URGENT: READ COTModule.c LINE 270 TODO! 
 };
