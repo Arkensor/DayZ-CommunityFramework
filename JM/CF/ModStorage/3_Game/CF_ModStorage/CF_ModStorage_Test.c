@@ -100,19 +100,16 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		float value = 41.01;
-		
-		string expected = "" + value;
-		string actual = "";
-		
-		mod.Write(value);
+		float in_value = 541.01;
+		string expected = "" + in_value;
+		mod.Write(in_value);
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
-		mod.Read(value);
-		
-		actual = "" + value;
+		float out_value;
+		mod.Read(out_value);
+		string actual = "" + out_value;
 		
 		_assert(expected, actual);
 	}
@@ -123,19 +120,16 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		bool value = true;
-		
-		string expected = "" + value;
-		string actual = "";
-		
-		mod.Write(value);
+		bool in_value = true;
+		string expected = "" + in_value;
+		mod.Write(in_value);
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
-		mod.Read(value);
-		
-		actual = "" + value;
+		bool out_value;
+		mod.Read(out_value);
+		string actual = "" + out_value;
 		
 		_assert(expected, actual);
 	}
@@ -146,19 +140,16 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		int value = 5;
-		
-		string expected = "" + value;
-		string actual = "";
-		
-		mod.Write(value);
+		int in_value = 12;
+		string expected = "" + in_value;
+		mod.Write(in_value);
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
-		mod.Read(value);
-		
-		actual = "" + value;
+		int out_value;
+		mod.Read(out_value);
+		string actual = "" + out_value;
 		
 		_assert(expected, actual);
 	}
@@ -169,19 +160,16 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		vector value = "0 2.051 51.583";
-		
-		string expected = "" + value;
-		string actual = "";
-		
-		mod.Write(value);
+		vector in_value = "3 2.051 51.583";
+		string expected = "" + in_value;
+		mod.Write(in_value);
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
-		mod.Read(value);
-		
-		actual = "" + value;
+		vector out_value;
+		mod.Read(out_value);
+		string actual = "" + out_value;
 		
 		_assert(expected, actual);
 	}
@@ -192,19 +180,16 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		string value = "CF Test Arkensor";
-		
-		string expected = "" + value;
-		string actual = "";
-		
-		mod.Write(value);
+		string in_value = "CF-Test Arkensor";
+		string expected = "" + in_value;
+		mod.Write(in_value);
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
-		mod.Read(value);
-		
-		actual = "" + value;
+		string out_value;
+		mod.Read(out_value);
+		string actual = "" + out_value;
 		
 		_assert(expected, actual);
 	}
