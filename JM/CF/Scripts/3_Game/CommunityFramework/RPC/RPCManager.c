@@ -1,15 +1,15 @@
 enum SingeplayerExecutionType
 {
 	Server = 0,
-	Client,
-	Both
+	Both,
+	Client
 }
 
 enum SingleplayerExecutionType
 {
 	Server = 0,
-	Client,
-	Both
+	Both,
+	Client
 }
 
 enum CallType
@@ -192,74 +192,73 @@ class RPCManager
 
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
-		if ( rpc_type != FRAMEWORK_RPC_ID )
-		{
+		//! verify this is the RPC ID we want
+		if ( rpc_type != FRAMEWORK_RPC_ID && rpc_type != FRAMEWORK_RPC_ID + 1 )
 			return;
-		}
 		
-		Param2< string, string > metaData;
-		if ( !ctx.Read( metaData ) )
-		{
-			//Error( "Failed reading the RPC metadata!");
+		//! read the mod and function name
+		//! todo: optimize network transfer by joining modName and funcName, this will remove 4 bytes for string length count. with network traffic, every byte counts
+		string modName;
+		string funcName;
+		if ( !ctx.Read( modName ) || !ctx.Read( funcName ) )
 			return;
-		}
 
 		m_AmountRecieved++;
 		m_AmountRecievedInUpdate++;
 		m_AmountRecievedInSecond++;
-		
-		string modName = metaData.param1;
-		string funcName = metaData.param2;
 
-		string recievedFrom = "server";
-
-		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
-		{
-			if ( sender == NULL )
-			{
-				recievedFrom = "someone";
-			} else 
-			{
-				recievedFrom = sender.GetPlainId();
-			}
-		}
-
-		//GetLogger().Log( "Recieved RPC " + modName + "::" + funcName + " from " + recievedFrom + ", target " + target, m_UpdateChecker );
-		
 		map< string, ref RPCMetaWrapper > functions;
-		if ( m_RPCActions.Find( modName, functions ) )
+		RPCMetaWrapper wrapper;
+		if ( !m_RPCActions.Find( modName, functions ) || !functions.Find( funcName, wrapper ) || !wrapper.GetInstance() )
 		{
-			RPCMetaWrapper wrapper;
-			if ( functions.Find( funcName, wrapper ) )
+			string recievedFrom = "server";
+
+			if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
 			{
-				if ( wrapper.GetInstance() )
+				if ( sender == NULL )
 				{
-					m_AmountSuccessRecieved++;
-					m_AmountSuccessRecievedInUpdate++;
-					m_AmountSuccessRecievedInSecond++;
-
-					auto functionCallData = new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Server, ctx, sender, target );
-				
-					if ( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Server || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
-					{
-						GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
-					}
-
-					if ( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Client || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
-					{
-						//Update call type
-						functionCallData.param1 = CallType.Client;
-						GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
-					}
+					recievedFrom = "someone";
+				} else 
+				{
+					recievedFrom = sender.GetPlainId();
 				}
-			} else
-			{
-				Error( recievedFrom + " tried sending " + modName + "::<" + funcName + "> which does not seem to exist!");
 			}
-		} else
-		{
+
 			Error( recievedFrom + " tried sending <" + modName + ">::" + funcName + " which does not seem to exist!");
+			return;
 		}
+
+		m_AmountSuccessRecieved++;
+		m_AmountSuccessRecievedInUpdate++;
+		m_AmountSuccessRecievedInSecond++;
+
+		bool callServer = ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() <= SingleplayerExecutionType.Both ) );
+		bool callClient = ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() >= SingleplayerExecutionType.Both ) );
+		
+		//! If the ID is +1, then we are sending an iterative array from ::SendRPCs
+		if ( rpc_type == FRAMEWORK_RPC_ID + 1 )
+		{
+			int count;
+			if (!ctx.Read(count))
+				return;
+
+			for ( int index = 0; index < count; index++ )
+			{
+				if (callServer)
+					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Server, ctx, sender, target ) );
+
+				if (callClient)
+					GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Client, ctx, sender, target ) );
+			}
+
+			return;
+		}
+
+		if (callServer)
+			GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Server, ctx, sender, target ) );
+
+		if (callClient)
+			GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, new Param4< CallType, ref ParamsReadContext, ref PlayerIdentity, ref Object >( CallType.Client, ctx, sender, target ) );
 	}
 
 	void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
@@ -283,9 +282,10 @@ class RPCManager
 
 		//GetLogger().Log( "Sending RPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
-		auto sendData = new ref array< ref Param >;
-		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
-		sendData.Insert( params );
+		ScriptRPC ctx = new ScriptRPC();
+		ctx.Write(modName);
+		ctx.Write(funcName);
+		ctx.Write(params);
 		
 		//In case we are in the singleplayer and the data is consumed twice for both client and server, we need to add it twice. Better than making a deep copy with more complicated rules on receiving
 		if ( !GetGame().IsMultiplayer() )
@@ -298,58 +298,51 @@ class RPCManager
 					
 					if ( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
 					{
-						sendData.Insert( params );
+						ctx.Write(params);
 					}
 				}
 			}
 		}
-
-		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
+		
+		ctx.Send(sendToTarget, FRAMEWORK_RPC_ID, guaranteed, sendToIdentity);
 	}	
 
-	/**
-	 * Warning: Does not support "SingleplayerExecutionType.Both"
-	 */
 	void SendRPCs( string modName, string funcName, ref array< ref Param > params, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
 		m_AmountSent++;
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
 
-		string sendTo = "server";
+		ScriptRPC ctx = new ScriptRPC();
+		ctx.Write(modName);
+		ctx.Write(funcName);
+		ctx.Write(params.Count());
 
-		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
-		{
-			if ( sendToIdentity == NULL )
-			{
-				sendTo = "everyone";
-			} else 
-			{
-				sendTo = sendToIdentity.GetPlainId();
-			}
-		}
+		bool duplicate = false;
 
-		//GetLogger().Log( "Sending MRPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
-
-		params.InsertAt( new ref Param2< string, string >( modName, funcName ), 0 );
-
-		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, params, guaranteed, sendToIdentity );
-
+		//In case we are in the singleplayer and the data is consumed twice for both client and server, we need to add it twice. Better than making a deep copy with more complicated rules on receiving
 		if ( !GetGame().IsMultiplayer() )
 		{
-			if ( m_RPCActions.Contains( modName ) )
-			{
-				if ( m_RPCActions[ modName ].Contains( funcName ) )
-				{
-					ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
-					
-					if ( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
-					{
-						Error( modName + "::" + funcName + " does not support \"SingleplayerExecutionType.Both\" when using RPCManager::SendRPCs, use RPCManager::SendRPC instead!");
-					}
-				}
+			if ( m_RPCActions.Contains( modName ) && m_RPCActions[ modName ].Contains( funcName ) )
+			{					
+				duplicate = m_RPCActions[ modName ][ funcName ].GetSPExecutionType() == SingleplayerExecutionType.Both;
 			}
 		}
+
+		for (int i = 0; i < params.Count(); i++)
+		{
+			if (duplicate)
+				ctx.Write(params[i]);
+
+			ctx.Write(params[i]);
+		}
+
+		ctx.Send(sendToTarget, FRAMEWORK_RPC_ID + 1, guaranteed, sendToIdentity);
+	}
+
+	static ref CF_RPC_Context Prepare(string modName, string funcName, Object target = null, bool guaranteed = false)
+	{
+		return CF_RPC_Context.Prepare(modName, funcName, target, guaranteed);
 	}
 
 	bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingleplayerExecutionType.Server )

@@ -72,7 +72,7 @@ class CF_Permission_ManagerBase
 		//GetRPCManager().AddRPC( "CF_Permission", "UpdateRole", this );
 	}
 
-	static void _FinalizeInit()
+	void _FinalizeInit()
 	{
 		array<string> permissions();
 		CF_Permission_Constructor._Generate(permissions);
@@ -344,7 +344,6 @@ class CF_Permission_ManagerBase
 	void SetClient(JMPlayerInstance player, PlayerIdentity identity);
 	void SetClient_Client(JMPlayerInstance player, PlayerIdentity identity);
 	void SetClient_Server(JMPlayerInstance player, PlayerIdentity identity);
-	void SetClient_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
 };
 
 /**
