@@ -3,6 +3,8 @@
  */
 class ModStorage
 {
+	static const int VERSION = 1;
+
 	private int m_Version;
 
 	private ModStructure m_Mod;
@@ -41,7 +43,10 @@ class ModStorage
 
 	void Save( EntityAI entity, ParamsWriteContext ctx )
 	{
-		ctx.Write( m_Mod.GetName() );
+		if (m_Mod)
+			ctx.Write(m_Mod.GetName());
+		else
+			ctx.Write("");
 
 		ctx.Write( m_Version );
 
@@ -61,10 +66,16 @@ class ModStorage
 	 */
 	bool Load( EntityAI entity, ParamsReadContext ctx, int version )
 	{
+		if (entity == null)
+		{
+			string tempModName;
+			ctx.Read(tempModName);
+		}
+		
 		int currVersion = m_Version;
 		ctx.Read( m_Version );
 
-		if ( currVersion != -1 )
+		if ( currVersion != -1 && entity && m_Mod )
 		{
 			if ( currVersion != m_Version )
 			{
@@ -96,7 +107,7 @@ class ModStorage
 		return Read() != null;
 	}
 
-	bool ReadBool( out bool value )
+	bool Read( out bool value )
 	{
 		ref ModStorageData data = Read();
 		if ( !data )
@@ -107,7 +118,7 @@ class ModStorage
 		return true;
 	}
 
-	bool ReadInt( out int value )
+	bool Read( out int value )
 	{
 		ref ModStorageData data = Read();
 		if ( !data )
@@ -118,7 +129,7 @@ class ModStorage
 		return true;
 	}
 
-	bool ReadFloat( out float value )
+	bool Read( out float value )
 	{
 		ref ModStorageData data = Read();
 		if ( !data )
@@ -129,7 +140,7 @@ class ModStorage
 		return true;
 	}
 
-	bool ReadVector( out vector value )
+	bool Read( out vector value )
 	{
 		ref ModStorageData data = Read();
 		if ( !data )
@@ -140,7 +151,7 @@ class ModStorage
 		return true;
 	}
 
-	bool ReadString( out string value )
+	bool Read( out string value )
 	{
 		ref ModStorageData data = Read();
 		if ( !data )
@@ -151,28 +162,37 @@ class ModStorage
 		return true;
 	}
 
-	void WriteBool( bool value )
+	bool Read( out Class value )
+	{
+		return false;
+	}
+
+	void Write( bool value )
 	{
 		m_Data.Insert( new ModStorageDataBool( value ) );
 	}
 
-	void WriteInt( int value )
+	void Write( int value )
 	{
 		m_Data.Insert( new ModStorageDataInt( value ) );
 	}
 
-	void WriteFloat( float value )
+	void Write( float value )
 	{
 		m_Data.Insert( new ModStorageDataFloat( value ) );
 	}
 
-	void WriteVector( vector value )
+	void Write( vector value )
 	{
 		m_Data.Insert( new ModStorageDataVector( value ) );
 	}
 
-	void WriteString( string value )
+	void Write( string value )
 	{
 		m_Data.Insert( new ModStorageDataString( value ) );
+	}
+
+	void Write( Class value )
+	{
 	}
 };

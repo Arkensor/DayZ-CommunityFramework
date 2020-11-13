@@ -1,8 +1,10 @@
-modded class ItemBase
+modded class CarScript
 {
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{
 		super.OnStoreSave( ctx );
+
+		ctx.Write( ModStorage.VERSION );
 	
 		array< ref ModStructure > mods = ModLoader.GetMods();
 
@@ -29,6 +31,10 @@ modded class ItemBase
 		if ( version < 116 )
 			return true;
 
+		int cf_version;
+		if ( !ctx.Read( cf_version ) )
+			return false;
+
 		int count;
 		if ( !ctx.Read( count ) )
 			return false;
@@ -41,7 +47,7 @@ modded class ItemBase
 
 			ModStorage store = new ModStorage( ModLoader.Get( modName ) );
 
-			if ( !store.Load( this, ctx, version ) )
+			if ( !store.Load( this, ctx, cf_version ) )
 			{
 				Error( "Failed reading " + GetType() + " for mod '" + modName + "'!" );
 				return false;
@@ -62,7 +68,7 @@ modded class ItemBase
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
 	 * @code
-	modded class KitBase // extends from ItemBase
+	modded class Sedan_02 // extends from CarScript
 	{
 		override void OnModStoreSave( ModStorage storage, string modName )
 		{
@@ -93,7 +99,7 @@ modded class ItemBase
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
 	 * @code
-	modded class KitBase // extends from ItemBase
+	modded class Sedan_02 // extends from CarScript
 	{
 		override bool OnModStoreLoad( ModStorage storage, string modName )
 		{
