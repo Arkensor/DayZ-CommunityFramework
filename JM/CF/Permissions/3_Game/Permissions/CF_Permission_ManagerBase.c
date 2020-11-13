@@ -317,33 +317,15 @@ class CF_Permission_ManagerBase
 	}
 
 	void UpdateRole(JMRole role, PlayerIdentity identity);
-	void UpdateRole_Client(JMRole role, PlayerIdentity identity);
-	void UpdateRole_Server(JMRole role, PlayerIdentity identity);
-	void UpdateRole_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
-
+	
 	void UpdateClient(string guid, PlayerIdentity identity);
-	void UpdateClient_Client(string guid, PlayerIdentity identity);
-	void UpdateClient_Server(string guid, PlayerIdentity identity);
-	void UpdateClient_Implementation(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
 
 	void RemoveClient(string guid);
-	void RemoveClient_Client(string guid);
-	void RemoveClient_Server(string guid);
-	void RemoveClient_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
 
 	void RefreshClients();
-	void RefreshClients_Client();
-	void RefreshClients_Server();
-	void RefreshClients_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
 
 	void SetClient(JMPlayerInstance player);
-	void SetClient_Client(JMPlayerInstance player);
-	void SetClient_Server(JMPlayerInstance player);
-	void SetClient_RPC(ref ParamsReadContext ctx, PlayerIdentity senderRPC, Object target);
-
 	void SetClient(JMPlayerInstance player, PlayerIdentity identity);
-	void SetClient_Client(JMPlayerInstance player, PlayerIdentity identity);
-	void SetClient_Server(JMPlayerInstance player, PlayerIdentity identity);
 };
 
 /**

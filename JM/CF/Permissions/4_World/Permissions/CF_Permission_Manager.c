@@ -284,17 +284,60 @@ class CF_Permission_Manager : CF_Permission_ManagerBase
 			Roles.Insert(name, role);
 	}
 
-	override void UpdateRole( JMRole role, PlayerIdentity identity );
+	override void UpdateRole( JMRole role, PlayerIdentity identity )
+	{
 
-	override void UpdateClient( string guid, PlayerIdentity identity );
+	}
 
-	override void RemoveClient( string guid );
+	void UpdateRole_RPC(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
 
-	override void RefreshClients();
+	}
 
-	override void SetClient( JMPlayerInstance player );
+	override void UpdateClient( string guid, PlayerIdentity identity )
+	{
 
-	override void SetClient( JMPlayerInstance player, PlayerIdentity identity );
+	}
+
+	void UpdateClient_RPC(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
+
+	}
+
+	override void RemoveClient( string guid )
+	{
+
+	}
+
+	void RemoveClient_RPC(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
+
+	}
+
+	override void RefreshClients()
+	{
+
+	}
+
+	void RefreshClients_RPC(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
+		
+	}
+
+	override void SetClient( JMPlayerInstance player )
+	{
+
+	}
+
+	override void SetClient( JMPlayerInstance player, PlayerIdentity identity )
+	{
+
+	}
+	
+	private void SetClient_RPC(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target)
+	{
+
+	}
 
 	//TODO: URGENT: READ COTModule.c LINE 270 TODO! 
 };
