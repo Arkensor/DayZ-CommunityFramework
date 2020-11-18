@@ -1,3 +1,4 @@
+/*
 modded class DayZPlayerImplement
 {
 	override void OnStoreSave( ParamsWriteContext ctx )
@@ -83,7 +84,7 @@ modded class DayZPlayerImplement
 		}
 	}
 	 */
-	void OnModStoreSave( ModStorage storage, string modName )
+	/*void OnModStoreSave( ModStorage storage, string modName )
 	{
 
 	}
@@ -123,8 +124,9 @@ modded class DayZPlayerImplement
 		}
 	}
 	 */
-	bool OnModStoreLoad( ModStorage storage, string modName )
+	/*bool OnModStoreLoad( ModStorage storage, string modName )
 	{
 		return true;
 	}
 };
+*/
