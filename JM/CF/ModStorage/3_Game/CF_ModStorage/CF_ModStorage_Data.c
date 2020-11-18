@@ -6,7 +6,9 @@ enum ModStorageDataType
 	FLOAT,
 	VECTOR,
 	STRING,
-	CLASS
+	CLASS,
+	ARRAY,
+	MAP
 };
 
 class ModStorageData
@@ -61,6 +63,11 @@ class ModStorageData
 		return ModStorageDataType.UNKNOWN;
 	}
 	
+	bool IsNull()
+	{
+		return false;
+	}
+	
 	void SetVariableName(string name)
 	{
 		m_VariableName = name;
@@ -76,7 +83,7 @@ class ModStorageData
 	float GetFloat();
 	vector GetVector();
 	string GetString();
-	bool GetClass(ref Class value);
+	bool GetClass(inout Class value);
 };
 
 class ModStorageDataBool: ModStorageData
@@ -251,13 +258,19 @@ class ModStorageDataClassGenerator<Class T>
 
 class ModStorageDataClass: ModStorageData
 {
+	private string m_Type;
+	private bool m_IsNull;
 	private ref array< ref ModStorageData > m_Data = new ref array< ref ModStorageData >();
 
 	void ModStorageDataClass( Class value = null )
 	{
 		if (value)
-		{
+		{			
 			typename type = value.Type();
+			
+			m_Type = type.ToString();
+			m_IsNull = false;
+			
 			for (int i = 0; i < type.GetVariableCount(); i++)
 			{
 				typename variableType = type.GetVariableType(i);
@@ -265,8 +278,14 @@ class ModStorageDataClass: ModStorageData
 				
 				ModStorageData data;
 
-				if (variableType.IsInherited(Class))
-				{
+				if (variableType.IsInherited(array))
+				{					
+					//data = new ModStorageDataClass(ModStorageDataClassGenerator<Class>.Create(value, variableName));
+				} else if (variableType.IsInherited(map))
+				{					
+					//data = new ModStorageDataClass(ModStorageDataClassGenerator<Class>.Create(value, variableName));
+				} else if (variableType.IsInherited(Class))
+				{					
 					data = new ModStorageDataClass(ModStorageDataClassGenerator<Class>.Create(value, variableName));
 				} else
 				{
@@ -296,12 +315,16 @@ class ModStorageDataClass: ModStorageData
 					m_Data.Insert(data);
 				}
 			}
+		} else
+		{
+			m_IsNull = true;
 		}
 	}
 
 	override void Write( ParamsWriteContext ctx )
 	{
 		ctx.Write( m_VariableName );
+		ctx.Write( m_IsNull );
 		
 		int count = m_Data.Count();
 		ctx.Write( count );
@@ -317,6 +340,7 @@ class ModStorageDataClass: ModStorageData
 	override void Read( ParamsReadContext ctx )
 	{
 		ctx.Read( m_VariableName );
+		ctx.Read( m_IsNull );
 		
 		int count;
 		ctx.Read( count );
@@ -331,11 +355,25 @@ class ModStorageDataClass: ModStorageData
 	{
 		return ModStorageDataType.CLASS;
 	}
-
-	override bool GetClass(ref Class value)
+	
+	override bool IsNull()
 	{
+		return m_IsNull;
+	}
+
+	override bool GetClass(inout Class value)
+	{
+		if (m_IsNull)
+			return true;
+		
 		if (!value)
-			return false;
+		{
+			if (m_Type == "")
+				return false;
+			value = m_Type.ToType().Spawn();
+			if (value == null)
+				return false;
+		}
 		
 		for (int i = 0; i < m_Data.Count(); i++)
 		{
@@ -357,9 +395,13 @@ class ModStorageDataClass: ModStorageData
 				EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, m_Data[i].GetString());
 				break;
 			case ModStorageDataType.CLASS:
-				Class cls;
-				EnScript.GetClassVar(value, m_Data[i].m_VariableName, 0, cls);
-				m_Data[i].GetClass(cls);
+				if (!m_Data[i].IsNull())
+				{
+					Class cls;
+					EnScript.GetClassVar(value, m_Data[i].m_VariableName, 0, cls);
+					m_Data[i].GetClass(cls);
+					EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, cls);
+				}
 				break;
 			}
 		}

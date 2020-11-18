@@ -162,11 +162,19 @@ class ModStorage
 		return true;
 	}
 
+	/**
+	 * @param value		Class variable for read data to be assigned to
+	 *
+	 * @note value can't be null and can't be marked out/inout
+	 */
 	bool Read( ref Class value )
 	{
 		ref ModStorageData data = Read();
 		if ( !data )
 			return false;
+		
+		if ( !value )
+			return data.IsNull();
 
 		return data.GetClass( value );
 	}
@@ -198,6 +206,33 @@ class ModStorage
 
 	void Write( Class value )
 	{
+		typename variableType = value.Type();
+		
+		//! vanilla doesn't support this due to funky persistence id accessing, maybe we shouldn't either
+		if (variableType.IsInherited(Object))
+		{
+			//m_Data.Insert( new ModStorageDataObject( 0 ) );
+			return;
+		}
+		
+		if (variableType.IsInherited(array))
+		{
+			//m_Data.Insert( new ModStorageDataArray( value ) );
+			return;
+		}
+		
+		if (variableType.IsInherited(map))
+		{
+			//m_Data.Insert( new ModStorageDataMap( value ) );
+			return;
+		}
+		
+		//! these types of classes shouldn't be serialized at all, someone is going to try it and have a bad day :)
+		if (variableType.IsInherited(IEntity) || variableType.IsInherited(Widget))
+		{
+			return;
+		}
+		
 		m_Data.Insert( new ModStorageDataClass( value ) );
 	}
 };
