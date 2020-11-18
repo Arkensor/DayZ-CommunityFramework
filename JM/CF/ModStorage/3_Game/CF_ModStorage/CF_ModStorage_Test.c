@@ -29,6 +29,8 @@ class CF_ModStorage_Test
 		tests.Insert("TestVector");
 		tests.Insert("TestString");
 		tests.Insert("TestClass");
+		tests.Insert("TestArrayString");
+		tests.Insert("TestArrayClass");
 	}
 
 	private void _Perform()
@@ -201,21 +203,98 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		StatsEventMeasuresData in_value = new StatsEventMeasuresData();
-		
-		in_value.m_CharacterId = "3rd December, meet you on Namalsk";
-		in_value.m_DistanceVehicle = 100;
+		CF_ModStorage_Test_Class_B in_value = new CF_ModStorage_Test_Class_B("jacob", new CF_ModStorage_Test_Class_A(178));
 
-		string expected = "m_CharacterId: " + in_value.m_CharacterId + " m_DistanceVehicle: " + in_value.m_DistanceVehicle;
+		string expected = in_value.DebugString();
+		mod.Write(in_value);
+		
+		mod.Save(null, rw.GetWriteContext());
+		mod.Load(null, rw.GetReadContext(), -1);
+		
+		int lineNumber;
+		Print(ThreadFunction(this, "_Perform", 100, lineNumber));
+
+		CF_ModStorage_Test_Class_B out_value = new CF_ModStorage_Test_Class_B("a", null);
+		mod.Read(out_value);
+		string actual = out_value.DebugString();
+		
+		_assert(expected, actual);
+	}
+	
+	void TestArrayString()
+	{
+		ModStorage mod = new ModStorage(null);
+
+		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		
+		array<string> in_value = new array<string>();
+		
+		in_value.Insert("3rd December");
+		in_value.Insert("meet you");
+		in_value.Insert("on Namalsk");
+
+		string expected = "count: " + in_value.Count() + " 0: " + in_value[0] + " 1: " + in_value[1] + " 2: " + in_value[2];
 		mod.Write(in_value);
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
-		StatsEventMeasuresData out_value = new StatsEventMeasuresData();
+		array<string> out_value = new array<string>();
 		mod.Read(out_value);
-		string actual = "m_CharacterId: " + out_value.m_CharacterId + " m_DistanceVehicle: " + out_value.m_DistanceVehicle;
+		string actual = "count: " + out_value.Count() + " 0: " + out_value[0] + " 1: " + out_value[1] + " 2: " + out_value[2];
 		
 		_assert(expected, actual);
+	}
+	
+	void TestArrayClass()
+	{
+		ModStorage mod = new ModStorage(null);
+
+		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		
+		array<ref CF_ModStorage_Test_Class_B> in_value = new array<ref CF_ModStorage_Test_Class_B>();
+		
+		in_value.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(178)));
+		in_value.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(178)));
+		in_value.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(178)));
+
+		string expected = "count: " + in_value.Count() + " 0: " + in_value[0].DebugString() + " 1: " + in_value[1].DebugString() + " 2: " + in_value[2].DebugString();
+		mod.Write(in_value);
+		
+		mod.Save(null, rw.GetWriteContext());
+		mod.Load(null, rw.GetReadContext(), -1);
+
+		array<ref CF_ModStorage_Test_Class_B> out_value = new array<ref CF_ModStorage_Test_Class_B>();
+		mod.Read(out_value);
+		string actual = "count: " + out_value.Count() + " 0: " + out_value[0].DebugString() + " 1: " + out_value[1].DebugString() + " 2: " + out_value[2].DebugString();
+		
+		_assert(expected, actual);
+	}
+};
+
+class CF_ModStorage_Test_Class_A
+{
+	int val;
+	
+	void CF_ModStorage_Test_Class_A(int i)
+	{
+		val = i;
+	}
+};
+
+class CF_ModStorage_Test_Class_B
+{
+	string name;
+	ref CF_ModStorage_Test_Class_A value;
+	
+	void CF_ModStorage_Test_Class_B(string na, CF_ModStorage_Test_Class_A val)
+	{
+		name = na;
+		value = val;
+	}
+	
+	string DebugString()
+	{
+		return "(name: " + name + ", value.val: " + value.val + ")";
 	}
 };

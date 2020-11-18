@@ -217,7 +217,7 @@ class ModStorage
 		
 		if (variableType.IsInherited(array))
 		{
-			//m_Data.Insert( new ModStorageDataArray( value ) );
+			m_Data.Insert( new ModStorageDataArray( value ) );
 			return;
 		}
 		
