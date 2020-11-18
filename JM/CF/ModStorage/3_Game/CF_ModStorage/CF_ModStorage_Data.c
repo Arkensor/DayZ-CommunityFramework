@@ -5,11 +5,14 @@ enum ModStorageDataType
 	INT,
 	FLOAT,
 	VECTOR,
-	STRING
+	STRING,
+	CLASS
 };
 
 class ModStorageData
 {
+	protected string m_VariableName;
+
 	static ref ModStorageData ReadCreate( ParamsReadContext ctx )
 	{
 		ref ModStorageData data = null;
@@ -34,6 +37,9 @@ class ModStorageData
 		case ModStorageDataType.STRING:
 			data = new ModStorageDataString();
 			break;
+		case ModStorageDataType.CLASS:
+			data = new ModStorageDataClass();
+			break;
 		}
 
 		if ( data )
@@ -54,12 +60,23 @@ class ModStorageData
 	{
 		return ModStorageDataType.UNKNOWN;
 	}
+	
+	void SetVariableName(string name)
+	{
+		m_VariableName = name;
+	}
+	
+	string GetVariableName()
+	{
+		return m_VariableName;
+	}
 
 	bool GetBool();
 	int GetInt();
 	float GetFloat();
 	vector GetVector();
 	string GetString();
+	bool GetClass(ref Class value);
 };
 
 class ModStorageDataBool: ModStorageData
@@ -73,11 +90,13 @@ class ModStorageDataBool: ModStorageData
 
 	override void Write( ParamsWriteContext ctx )
 	{
+		ctx.Write( m_VariableName );
 		ctx.Write( m_Value );
 	}
 
 	override void Read( ParamsReadContext ctx )
 	{
+		ctx.Read( m_VariableName );
 		ctx.Read( m_Value );
 	}
 
@@ -103,11 +122,13 @@ class ModStorageDataInt: ModStorageData
 
 	override void Write( ParamsWriteContext ctx )
 	{
+		ctx.Write( m_VariableName );
 		ctx.Write( m_Value );
 	}
 
 	override void Read( ParamsReadContext ctx )
 	{
+		ctx.Read( m_VariableName );
 		ctx.Read( m_Value );
 	}
 
@@ -133,11 +154,13 @@ class ModStorageDataFloat: ModStorageData
 
 	override void Write( ParamsWriteContext ctx )
 	{
+		ctx.Write( m_VariableName );
 		ctx.Write( m_Value );
 	}
 
 	override void Read( ParamsReadContext ctx )
 	{
+		ctx.Read( m_VariableName );
 		ctx.Read( m_Value );
 	}
 
@@ -163,11 +186,13 @@ class ModStorageDataVector: ModStorageData
 
 	override void Write( ParamsWriteContext ctx )
 	{
+		ctx.Write( m_VariableName );
 		ctx.Write( m_Value );
 	}
 
 	override void Read( ParamsReadContext ctx )
 	{
+		ctx.Read( m_VariableName );
 		ctx.Read( m_Value );
 	}
 
@@ -193,11 +218,13 @@ class ModStorageDataString: ModStorageData
 
 	override void Write( ParamsWriteContext ctx )
 	{
+		ctx.Write( m_VariableName );
 		ctx.Write( m_Value );
 	}
 
 	override void Read( ParamsReadContext ctx )
 	{
+		ctx.Read( m_VariableName );
 		ctx.Read( m_Value );
 	}
 
@@ -209,5 +236,134 @@ class ModStorageDataString: ModStorageData
 	override string GetString()
 	{
 		return m_Value;
+	}
+};
+
+class ModStorageDataClassGenerator<Class T>
+{
+	static T Create(Class cls, string name)
+	{
+		T result;
+		EnScript.GetClassVar(cls, name, 0, result);
+		return result;
+	}
+};
+
+class ModStorageDataClass: ModStorageData
+{
+	private ref array< ref ModStorageData > m_Data = new ref array< ref ModStorageData >();
+
+	void ModStorageDataClass( Class value = null )
+	{
+		if (value)
+		{
+			typename type = value.Type();
+			for (int i = 0; i < type.GetVariableCount(); i++)
+			{
+				typename variableType = type.GetVariableType(i);
+				string variableName = type.GetVariableName(i);
+				
+				ModStorageData data;
+
+				if (variableType.IsInherited(Class))
+				{
+					data = new ModStorageDataClass(ModStorageDataClassGenerator<Class>.Create(value, variableName));
+				} else
+				{
+					switch (variableType)
+					{
+						case bool:
+							data = new ModStorageDataBool(ModStorageDataClassGenerator<bool>.Create(value, variableName));
+							break;
+						case int:
+							data = new ModStorageDataInt(ModStorageDataClassGenerator<int>.Create(value, variableName));
+							break;
+						case float:
+							data = new ModStorageDataFloat(ModStorageDataClassGenerator<float>.Create(value, variableName));
+							break;
+						case string:
+							data = new ModStorageDataString(ModStorageDataClassGenerator<string>.Create(value, variableName));
+							break;
+						case vector:
+							data = new ModStorageDataVector(ModStorageDataClassGenerator<vector>.Create(value, variableName));
+							break;
+					}
+				}
+				
+				if (data)
+				{
+					data.m_VariableName = variableName;
+					m_Data.Insert(data);
+				}
+			}
+		}
+	}
+
+	override void Write( ParamsWriteContext ctx )
+	{
+		ctx.Write( m_VariableName );
+		
+		int count = m_Data.Count();
+		ctx.Write( count );
+
+		for ( int i = 0; i < count; i++ )
+		{
+			int type = m_Data[i].GetType();
+			ctx.Write( type );
+			m_Data[i].Write( ctx );
+		}
+	}
+
+	override void Read( ParamsReadContext ctx )
+	{
+		ctx.Read( m_VariableName );
+		
+		int count;
+		ctx.Read( count );
+
+		for ( int i = 0; i < count; i++ )
+		{
+			m_Data.Insert( ModStorageData.ReadCreate( ctx ) );
+		}
+	}
+
+	override ModStorageDataType GetType()
+	{
+		return ModStorageDataType.CLASS;
+	}
+
+	override bool GetClass(ref Class value)
+	{
+		if (!value)
+			return false;
+		
+		for (int i = 0; i < m_Data.Count(); i++)
+		{
+			switch (m_Data[i].GetType())
+			{
+			case ModStorageDataType.BOOL:
+				EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, m_Data[i].GetBool());
+				break;
+			case ModStorageDataType.INT:
+				EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, m_Data[i].GetInt());
+				break;
+			case ModStorageDataType.FLOAT:
+				EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, m_Data[i].GetFloat());
+				break;
+			case ModStorageDataType.VECTOR:
+				EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, m_Data[i].GetVector());
+				break;
+			case ModStorageDataType.STRING:
+				EnScript.SetClassVar(value, m_Data[i].m_VariableName, 0, m_Data[i].GetString());
+				break;
+			case ModStorageDataType.CLASS:
+				Class cls;
+				EnScript.GetClassVar(value, m_Data[i].m_VariableName, 0, cls);
+				m_Data[i].GetClass(cls);
+				break;
+			}
+		}
+		
+		return true;
 	}
 };

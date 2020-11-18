@@ -28,6 +28,7 @@ class CF_ModStorage_Test
 		tests.Insert("TestInt");
 		tests.Insert("TestVector");
 		tests.Insert("TestString");
+		tests.Insert("TestClass");
 	}
 
 	private void _Perform()
@@ -190,6 +191,30 @@ class CF_ModStorage_Test
 		string out_value;
 		mod.Read(out_value);
 		string actual = "" + out_value;
+		
+		_assert(expected, actual);
+	}
+	
+	void TestClass()
+	{
+		ModStorage mod = new ModStorage(null);
+
+		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		
+		StatsEventMeasuresData in_value = new StatsEventMeasuresData();
+		
+		in_value.m_CharacterId = "3rd December, meet you on Namalsk";
+		in_value.m_DistanceVehicle = 100;
+
+		string expected = "m_CharacterId: " + in_value.m_CharacterId + " m_DistanceVehicle: " + in_value.m_DistanceVehicle;
+		mod.Write(in_value);
+		
+		mod.Save(null, rw.GetWriteContext());
+		mod.Load(null, rw.GetReadContext(), -1);
+
+		StatsEventMeasuresData out_value = new StatsEventMeasuresData();
+		mod.Read(out_value);
+		string actual = "m_CharacterId: " + out_value.m_CharacterId + " m_DistanceVehicle: " + out_value.m_DistanceVehicle;
 		
 		_assert(expected, actual);
 	}

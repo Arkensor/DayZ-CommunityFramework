@@ -162,9 +162,13 @@ class ModStorage
 		return true;
 	}
 
-	bool Read( out Class value )
+	bool Read( ref Class value )
 	{
-		return false;
+		ref ModStorageData data = Read();
+		if ( !data )
+			return false;
+
+		return data.GetClass( value );
 	}
 
 	void Write( bool value )
@@ -194,5 +198,6 @@ class ModStorage
 
 	void Write( Class value )
 	{
+		m_Data.Insert( new ModStorageDataClass( value ) );
 	}
 };
