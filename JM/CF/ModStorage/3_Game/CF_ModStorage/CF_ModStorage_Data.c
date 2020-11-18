@@ -390,7 +390,9 @@ class ModStorageArrayRetrieverClass : ModStorageArrayRetriever<TClassArray>
 {
 	override static int ReadArray(Class cls, ref array< ref ModStorageData > dataArr)
 	{
+		Print(cls);
 		TClassArray srcArr = TClassArray.Cast(cls);
+		Print(srcArr); //! is null
 		for (int i = 0; i < srcArr.Count(); i++)
 		{
 			if (srcArr[i].Type().IsInherited(array))
@@ -425,6 +427,7 @@ class ModStorageDataClass: ModStorageData
 
 	void ModStorageDataClass( Class value = null )
 	{
+		Print("ModStorageDataClass");
 		if (value)
 		{			
 			typename type = value.Type();
@@ -572,6 +575,8 @@ class ModStorageDataClass: ModStorageData
 	}
 };
 
+typedef array<ref Class> TRefClassArray;
+
 class ModStorageDataArray: ModStorageData
 {
 	private int m_Type;
@@ -596,9 +601,20 @@ class ModStorageDataArray: ModStorageData
 			} else if (value.IsInherited(TBoolArray))
 			{
 				m_Type = ModStorageArrayRetrieverBool.ReadArray(value, m_Data);
-			} else if (value.IsInherited(TClassArray))
+			} else
 			{
+				m_Type = ModStorageDataType.CLASS;
+				
+				//string type = m_Type.Type().ToString();
+				
+				//type.Replace("array<", "");
+				//type.Replace(">", "");
+				//type.Replace("@", "");
+				
 				m_Type = ModStorageArrayRetrieverClass.ReadArray(value, m_Data);
+				
+				//for (int i = 0; i < type.GetVariableCount(); i++)
+				//	Print(type.GetVariableType(i));
 			}
 		} else
 		{
