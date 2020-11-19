@@ -3,7 +3,9 @@ modded class BuildingBase
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -26,7 +28,9 @@ modded class AnimalBase
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -49,7 +53,9 @@ modded class ZombieBase
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -72,7 +78,9 @@ modded class ItemBase
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -95,7 +103,9 @@ modded class DayZPlayerImplement
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -118,7 +128,9 @@ modded class CarScript
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -141,7 +153,9 @@ modded class HelicopterScript
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
@@ -164,7 +178,9 @@ modded class AdvancedCommunication
     override void OnStoreSave(ParamsWriteContext ctx)
     {
         super.OnStoreSave(ctx);
-        ctx.Write(1);
+
+		if (GetGame().SaveVersion() >= 116)
+        	ctx.Write(1);
     }
 
     override bool OnStoreLoad(ParamsReadContext ctx, int version)
