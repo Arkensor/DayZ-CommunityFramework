@@ -51,7 +51,7 @@ modded class ModStructure
 
 			if ( !OnLoad( m_ModName ) )
 			{
-				Print( "(Community-Framework) Notice: The mod '" + m_ModName + "' either does not override ModStructure::OnLoad or failed to load." );
+				//Print( "(Community-Framework) Notice: The mod '" + m_ModName + "' either does not override ModStructure::OnLoad or failed to load." );
 			}
 
 			//GetLogger().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
