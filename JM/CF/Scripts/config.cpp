@@ -1,3 +1,5 @@
+#include "\JM\CF\Defines\CFDefines.c"
+
 class CfgPatches
 {
 	class JM_CF_Scripts
@@ -10,7 +12,9 @@ class CfgPatches
 			"DZ_Data",
 
 			//! Community Framework
+			#ifdef CF_MODULE_PERMISSIONS
 			"JM_CF_Permissions",
+			#endif
 			"JM_CF_XML"
 		};
 	};
