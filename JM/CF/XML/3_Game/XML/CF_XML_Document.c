@@ -36,7 +36,7 @@ class CF_XML_Document : CF_XML_Element
 	{
 		if (!_currentTag)
 		{
-			Error("Attempting to read attribute when not in tag!");
+			_reader.Err("Attempting to read attribute when not in tag!");
 			return false;
 		}
 
@@ -47,7 +47,7 @@ class CF_XML_Document : CF_XML_Element
 
 		if (eq != "=")
 		{
-			Error("Expected '=' for attribute, got: " + eq);
+			_reader.Err("Expected '=' for attribute, got: " + eq);
 			return false;
 		}
 
@@ -84,13 +84,13 @@ class CF_XML_Document : CF_XML_Element
 
 				if (_currentTag == NULL)
 				{
-					Error("Unexpected closing tag: " + tagName);
+					_reader.Err("Unexpected closing tag: " + tagName);
 				}
 
 				c = _reader.GetCharacter();
 				if (c != ">")
 				{
-					Error("Expected '>' for closing tag, got: " + c);
+					_reader.Err("Expected '>' for closing tag, got: " + c);
 				}
 
 				PopTag();
@@ -122,7 +122,7 @@ class CF_XML_Document : CF_XML_Element
 				c = _reader.GetCharacter();
 				if (c != ">")
 				{
-					Error("Expected '" + expected + "' for inline closing tag, got: " + c);
+					_reader.Err("Expected '" + expected + "' for inline closing tag, got: " + c);
 				}
 
 				PopTag();
@@ -132,7 +132,7 @@ class CF_XML_Document : CF_XML_Element
 			}
 			else
 			{
-				Error("Expected '>' for opening element within tag, got: " + c);
+				_reader.Err("Expected '>' for opening element within tag, got: " + c);
 			}
 
 			return true;
