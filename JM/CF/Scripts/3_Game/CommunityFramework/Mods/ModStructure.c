@@ -46,7 +46,7 @@ modded class ModStructure
 		m_StorageVersion = 0;
 
 		if ( GetGame().ConfigIsExisting( m_ModPath ) )
-		{
+		{			
 			GetGame().ConfigGetChildName( "CfgMods", m_ModIndex, m_Name );
 
 			if ( !OnLoad( m_ModName ) )
@@ -55,16 +55,18 @@ modded class ModStructure
 			}
 
 			//GetLogger().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
-			
-			if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
+			/*if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
 			{
 				//GetLogger().Log( "	Found JSON Credits", "JM_CF_Mods" );
 				
 				string creditsPath;
 				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
+				
+				Print(creditsPath);
 
 				JsonFileLoader<ref JsonDataCredits>.JsonLoadFile( creditsPath, m_Credits );
-			} else if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
+			} else */
+			if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
 			{
 				//GetLogger().Log( "	Using Raw Credits", "JM_CF_Mods" );
 				
@@ -140,9 +142,9 @@ modded class ModStructure
 			{
 				string inputPath;
 				GetGame().ConfigGetText( m_ModPath + " inputs", inputPath );
-
+				
 				CF_XML_Document document;
-				if ( CF.XML.ReadDocument( inputPath, document ) )
+				if ( inputPath != "" && CF.XML.ReadDocument( inputPath, document ) )
 				{
 					auto parent_tag = document.Get( "modded_inputs" )[0];
 					if ( parent_tag )
