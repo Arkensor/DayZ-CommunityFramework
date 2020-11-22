@@ -1,3 +1,67 @@
+CGame CF_CreateGame()
+{
+	Print("CF_CreateGame()");
+	g_Game = new DayZGame;
+	CF._GameInit();
+	return g_Game;
+}
+
+void CF_CreateWorld()
+{
+	Print("CF_CreateWorld()");
+	CF._WorldInit();
+}
+
+typedef CommunityFramework CF;
+
+class CommunityFramework
+{
+    static CF_ObjectManager ObjectManager;
+	static CF_XML XML;
+
+	#ifdef CF_MODULE_PERMISSIONS
+	static ref CF_Permission_ManagerBase Permission;
+	#endif
+
+    /**
+     * @brief [Internal] CommunityFramework initilization for 3_Game
+     *
+     * @return void
+     */
+	static void _GameInit()
+	{
+	}
+
+    /**
+     * @brief [Internal] CommunityFramework initilization for 4_World
+     *
+     * @return void
+     */
+	static void _WorldInit()
+	{
+		#ifdef CF_MODULE_PERMISSIONS
+		CF_Permission_ManagerBase._Init( Permission );
+		#endif
+	}
+
+    /**
+     * @brief [Internal] CommunityFramework cleanup
+     *
+     * @return void
+     */
+    static void _Cleanup()
+    {
+        ObjectManager._Cleanup();
+		XML._Cleanup();
+
+		#ifdef CF_MODULE_PERMISSIONS
+		Permission._Cleanup();
+		#endif
+    }
+};
+
+//--------------------------------------------------------
+
 const autoptr TStringArray _cf_characters = {
 //		"",
 //        "",
@@ -211,4 +275,74 @@ static void CF_DumpWidgets( Widget root, int tabs = 0 )
 	}
 			
 	CF_DumpWidgets( root.GetSibling(), tabs );
+}
+
+
+
+static void Assert_Log( string str )
+{
+	Print( "==============================================WARNING=======================================================" );
+	string time = JMDate.Now( false ).ToString( "YYYY-MM-DD hh:mm:ss" );
+	Print( "[WARNING " + time + "] " + str );
+	Print( "Do you see this message? Unless the time is within a second of the crash than this was not the cause." );
+
+	DumpStack();
+
+	Print( "============================================================================================================" );
+}
+
+static bool Assert_Empty( string str, string message = "" )
+{
+	if ( str == "" )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION STRING EMPTY" + message );
+		return true;
+	}
+	
+	return false;
+}
+
+static bool Assert_Null( Class cls, string message = "" )
+{
+	if ( cls == NULL )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION NULL" + message );
+		return true;
+	}
+	
+	return false;
+}
+
+static bool Assert_False( bool cls, string message = "" )
+{
+	if ( cls == false )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION FALSE" + message );
+		return true;
+	}
+	
+	return false;
+}
+
+static bool Assert_True( bool cls, string message = "" )
+{
+	if ( cls == true )
+	{
+		if ( message != "" )
+			message = ": " + message;
+
+		Assert_Log( "ASSERTION TRUE" + message );
+		return true;
+	}
+	
+	return false;
 }

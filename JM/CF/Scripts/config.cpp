@@ -1,3 +1,5 @@
+#include "\JM\CF\Defines\CFDefines.c"
+
 class CfgPatches
 {
 	class JM_CF_Scripts
@@ -7,7 +9,13 @@ class CfgPatches
 		requiredVersion=0.1;
 		requiredAddons[]=
 		{
-			"DZ_Data"
+			"DZ_Data",
+
+			//! Community Framework
+			#ifdef CF_MODULE_PERMISSIONS
+			"JM_CF_Permissions",
+			#endif
+			"JM_CF_XML"
 		};
 	};
 };
@@ -31,25 +39,37 @@ class CfgMods
 		extra = 0;
 		type = "mod";
 		
-		dependencies[] = { "Game", "World", "Mission" };
+		dependencies[] = { "Core", "Game", "World", "Mission" };
 		
 		class defs
 		{
-			class gameScriptModule
+			class engineScriptModule
 			{
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/XML/1_Core",
+					"JM/CF/Scripts/1_Core"
+				};
+			};
+			class gameScriptModule
+			{
+				value = "CF_CreateGame";
+				files[] =
+				{
+					"JM/CF/Defines",
+					"JM/CF/XML/3_Game",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
 			class worldScriptModule
 			{
-				value = "";
+				value = ""; //! Doesn't work
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/XML/4_World",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -58,7 +78,8 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Scripts/Common",
+					"JM/CF/Defines",
+					"JM/CF/XML/5_Mission",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};

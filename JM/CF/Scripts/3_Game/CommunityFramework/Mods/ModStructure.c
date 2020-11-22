@@ -5,6 +5,37 @@ modded class ModStructure
 	protected ref JsonDataCredits m_Credits;
 	
 	protected string m_Version;
+
+	protected int m_StorageVersion;
+
+	protected string m_Name;
+
+	void ~ModStructure()
+	{
+		delete m_ModInputs;
+	}
+
+	/**
+	 * Set the mod specific data in here
+	 * 
+	 * @param modName	The name of the loaded mod, retrieved from the CfgMods params array
+	 * 
+	 * @code
+	override bool OnLoad( string modName )
+	{
+		if ( modName != "JM_CommunityFramework" )
+			return super.OnLoad( modName );
+
+		//! Set the storage version for this mod
+		SetStorageVersion( 1 );
+
+		return true;
+	}
+	 */
+	bool OnLoad( string modName )
+	{
+		return false;
+	}
 	
 	override void LoadData()
 	{
@@ -12,19 +43,30 @@ modded class ModStructure
 
 		m_ModInputs = new ref array< ref ModInput >;
 
+		m_StorageVersion = 0;
+
 		if ( GetGame().ConfigIsExisting( m_ModPath ) )
-		{
+		{			
+			GetGame().ConfigGetChildName( "CfgMods", m_ModIndex, m_Name );
+
+			if ( !OnLoad( m_ModName ) )
+			{
+				//Print( "(Community-Framework) Notice: The mod '" + m_ModName + "' either does not override ModStructure::OnLoad or failed to load." );
+			}
+
 			//GetLogger().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
-			
-			if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
+			/*if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
 			{
 				//GetLogger().Log( "	Found JSON Credits", "JM_CF_Mods" );
 				
 				string creditsPath;
 				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
+				
+				Print(creditsPath);
 
 				JsonFileLoader<ref JsonDataCredits>.JsonLoadFile( creditsPath, m_Credits );
-			} else if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
+			} else */
+			if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
 			{
 				//GetLogger().Log( "	Using Raw Credits", "JM_CF_Mods" );
 				
@@ -101,133 +143,43 @@ modded class ModStructure
 				string inputPath;
 				GetGame().ConfigGetText( m_ModPath + " inputs", inputPath );
 				
-				string C_START = "<input";
-				string C_END = "/>";
-
-				string ACTION_OPEN = "<actions>";
-				string ACTION_CLOSE = "</actions>";
-
-				array<string> m_XMLData = new array<string>;
-
-				FileHandle currentFile = OpenFile( inputPath, FileMode.READ);
-				string line_content = "";
-				if ( currentFile != 0 )
+				CF_XML_Document document;
+				if ( inputPath != "" && CF.XML.ReadDocument( inputPath, document ) )
 				{
-					while ( FGets( currentFile, line_content ) >= 0 )
+					auto parent_tag = document.Get( "modded_inputs" )[0];
+					if ( parent_tag )
+						parent_tag = parent_tag.GetTag( "inputs" )[0];
+					if ( parent_tag )
+						parent_tag = parent_tag.GetTag( "actions" )[0];
+
+					array< CF_XML_Tag > inputs = null;
+					if ( !parent_tag )
+						inputs = new array< CF_XML_Tag >();
+					else
+						inputs = parent_tag.GetTag( "input" );
+
+					for ( int i = 0; i < inputs.Count(); i++ )
 					{
-						m_XMLData.Insert( line_content );
-					}
-					CloseFile( currentFile );
-				}
+						ref ModInput modInput = new ref ModInput;
 
-				bool isInRightPlace = false;
+						CF_XML_Attribute attrib = null;
 
-				//GetLogger().Log( "Formatting XML file!", "JM_CF_Mods" );
-				ref array<string> rawInputs = new array<string>;
-				for ( int i = 0; i < m_XMLData.Count(); ++i )
-				{
-					string xmlLine = m_XMLData[i];
+						attrib = inputs[i].GetAttribute( "name" );
+						if ( attrib )
+							modInput.Name = attrib.ValueAsString();
 
-					if ( xmlLine.Contains( ACTION_CLOSE ) && isInRightPlace )
-					{
-						break;
-					}
+						attrib = inputs[i].GetAttribute( "loc" );
+						if ( attrib )
+							modInput.Localization = attrib.ValueAsString();
 
-					if ( xmlLine.Contains( ACTION_OPEN ) )
-					{
-						isInRightPlace = true;
-						continue;
-					}
-
-					if ( isInRightPlace )
-					{
-						//xmlLine.TrimInPlace();
-						rawInputs.Insert( xmlLine );
-						//GetLogger().Log( "	" + xmlLine, "JM_CF_Mods" );
-					}
-				}
-				//GetLogger().Log( "Finished XML file!", "JM_CF_Mods" );
-
-				for (int x = 0; x < rawInputs.Count(); ++x)
-				{
-					ref ModInput modInput = new ref ModInput;
-
-					string rawInput = rawInputs[x];
-					
-					int nameIndex = rawInput.IndexOfFrom( 0, "name=" );
-					int localisationIndex = rawInput.IndexOfFrom( 0, "loc=" );
-					int visibleIndex = rawInput.IndexOfFrom( 0, "visible=" );
-
-					//GetLogger().Log( "nameIndex: " + nameIndex, "JM_CF_Mods" );
-					//GetLogger().Log( "localisationIndex: " + localisationIndex, "JM_CF_Mods" );
-					//GetLogger().Log( "visibleIndex: " + visibleIndex, "JM_CF_Mods" );
-
-					int startQuotation = -1;
-					int endQuotation = -1;
-
-					if ( nameIndex >= 0 )
-					{
-						startQuotation = rawInput.IndexOfFrom( nameIndex, "\"" );
-						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
-
-						//GetLogger().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
-						//GetLogger().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
-
-						modInput.Name = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
-
-						//GetLogger().Log( "modInput.Name: " + modInput.Name, "JM_CF_Mods" );
-
-						startQuotation = -1;
-						endQuotation = -1;
-					}
-
-					if ( localisationIndex >= 0 )
-					{
-						startQuotation = rawInput.IndexOfFrom( localisationIndex, "\"" );
-						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
-
-						//GetLogger().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
-						//GetLogger().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
-
-						modInput.Localization = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
-
-						//GetLogger().Log( "modInput.Localization: " + modInput.Localization, "JM_CF_Mods" );
-
-						startQuotation = -1;
-						endQuotation = -1;
-					} else
-					{
-						modInput.Localization = modInput.Name;
-					}
-
-					if ( visibleIndex >= 0 )
-					{
-						startQuotation = rawInput.IndexOfFrom( visibleIndex, "\"" );
-						endQuotation = rawInput.IndexOfFrom( startQuotation + 1, "\"" ) - startQuotation;
-
-						//GetLogger().Log( "startQuotation: " + startQuotation, "JM_CF_Mods" );
-						//GetLogger().Log( "endQuotation: " + endQuotation, "JM_CF_Mods" );
-
-						string visBool = rawInput.Substring( startQuotation + 1, endQuotation - 1 );
-						visBool.ToLower();
-
-						//GetLogger().Log( "visBool: " + visBool, "JM_CF_Mods" );
-
-						if ( visBool.Contains( "true" ) )
+						attrib = inputs[i].GetAttribute( "visible" );
+						if ( attrib )
+							modInput.Visible = attrib.ValueAsBool();
+						else 
 							modInput.Visible = true;
-						else if ( visBool.Contains( "false" ) )
-							modInput.Visible = false;
 
-						//GetLogger().Log( "modInput.Visible: " + modInput.Visible, "JM_CF_Mods" );
-
-						startQuotation = -1;
-						endQuotation = -1;
-					} else 
-					{
-						modInput.Visible = true;
+						m_ModInputs.Insert( modInput );
 					}
-
-					m_ModInputs.Insert( modInput );
 				}
 			}
 		}
@@ -241,6 +193,11 @@ modded class ModStructure
 	ref JsonDataCredits GetCredits()
 	{
 		return m_Credits;
+	}
+
+	string GetName()
+	{
+		return m_Name;
 	}
 
 	string GetModPath()
@@ -287,4 +244,14 @@ modded class ModStructure
 	{
 		return m_Version;
 	}
-}
+
+	int GetStorageVersion()
+	{
+		return m_StorageVersion;
+	}
+
+	protected void SetStorageVersion( int version )
+	{
+		m_StorageVersion = version;
+	}
+};
