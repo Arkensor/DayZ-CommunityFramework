@@ -1,3 +1,5 @@
+#include "\JM\CF\Defines\CFDefines.c"
+
 class CfgPatches
 {
 	class JM_CF_Scripts
@@ -10,7 +12,9 @@ class CfgPatches
 			"DZ_Data",
 
 			//! Community Framework
+			#ifdef CF_MODULE_PERMISSIONS
 			"JM_CF_Permissions",
+			#endif
 			"JM_CF_XML"
 		};
 	};
@@ -46,7 +50,6 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/1_Core",
-					"JM/CF/Permissions/1_Core",
 					"JM/CF/Scripts/1_Core"
 				};
 			};
@@ -57,7 +60,6 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/3_Game",
-					"JM/CF/Permissions/3_Game",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
@@ -68,7 +70,6 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/4_World",
-					"JM/CF/Permissions/4_World",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -79,7 +80,6 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/5_Mission",
-					"JM/CF/Permissions/5_Mission",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};
