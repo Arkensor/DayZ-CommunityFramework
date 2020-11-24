@@ -103,7 +103,7 @@ class CF_ModStorage_Test
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
-		float in_value = 541.01;
+		float in_value = 2541.01;
 		string expected = "" + in_value;
 		mod.Write(in_value);
 		

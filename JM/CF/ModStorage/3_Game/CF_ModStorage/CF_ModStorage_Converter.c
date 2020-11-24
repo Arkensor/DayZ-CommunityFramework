@@ -10,11 +10,12 @@ class CF_ModStorage_Converter
 		
 		m_Constructed = true;
 		
+		//TODO: test why this still worked with all 'types' set to bool
 		AddType(bool, CF_ModStorage_Data_Bool);
-		AddType(bool, CF_ModStorage_Data_Int);
-		AddType(bool, CF_ModStorage_Data_Float);
-		AddType(bool, CF_ModStorage_Data_Vector);
-		AddType(bool, CF_ModStorage_Data_String);
+		AddType(int, CF_ModStorage_Data_Int);
+		AddType(float, CF_ModStorage_Data_Float);
+		AddType(vector, CF_ModStorage_Data_Vector);
+		AddType(string, CF_ModStorage_Data_String);
 	}
 
 	private static void AddType(typename type, typename modStorage)
