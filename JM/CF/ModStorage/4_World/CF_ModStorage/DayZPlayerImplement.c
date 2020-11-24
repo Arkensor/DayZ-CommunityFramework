@@ -4,7 +4,7 @@ modded class DayZPlayerImplement
 	{
 		super.OnStoreSave( ctx );
 	
-		ctx.Write( ModStorage.VERSION );
+		ctx.Write( CF_ModStorage.VERSION );
 
 		array< ref ModStructure > mods = ModLoader.GetMods();
 
@@ -14,9 +14,9 @@ modded class DayZPlayerImplement
 
 		for ( int i = 0; i < count; i++ )
 		{
-			ModStorage store = new ModStorage( mods[ i ] );
+			CF_ModStorage store = new CF_ModStorage( mods[ i ] );
 
-			OnModStoreSave( store, mods[ i ].GetName() );
+			CF_OnStoreSave( store, mods[ i ].GetName() );
 
 			store.Save( this, ctx );
 		}
@@ -45,7 +45,7 @@ modded class DayZPlayerImplement
 			if ( !ctx.Read( modName ) )
 				return false;
 
-			ModStorage store = new ModStorage( ModLoader.Get( modName ) );
+			CF_ModStorage store = new CF_ModStorage( ModLoader.Get( modName ) );
 
 			if ( !store.Load( this, ctx, cf_version ) )
 			{
@@ -53,7 +53,7 @@ modded class DayZPlayerImplement
 				return false;
 			}
 
-			if ( store.GetMod() && store.GetVersion() > 0 && !OnModStoreLoad( store, modName ) )
+			if ( store.GetMod() && store.GetVersion() > 0 && !CF_OnStoreLoad( store, modName ) )
 			{
 				Error( "Failed loading " + GetType() + " for mod '" + modName + "'!" );
 				return false;
@@ -70,10 +70,10 @@ modded class DayZPlayerImplement
 	 * @code
 	modded class PlayerBase
 	{
-		override void OnModStoreSave( ModStorage storage, string modName )
+		override void CF_OnStoreSave( CF_ModStorage storage, string modName )
 		{
 			//! Always call super at the start.
-			super.OnModStoreSave( storage, modName );
+			super.CF_OnStoreSave( storage, modName );
 
 			if ( modName != "JM_CommunityFramework" )
 				return; //! Early exit
@@ -89,7 +89,7 @@ modded class DayZPlayerImplement
 		}
 	}
 	 */
-	void OnModStoreSave( ModStorage storage, string modName )
+	void CF_OnStoreSave( CF_ModStorage storage, string modName )
 	{
 
 	}
@@ -101,9 +101,9 @@ modded class DayZPlayerImplement
 	 * @code
 	modded class PlayerBase
 	{
-		override bool OnModStoreLoad( ModStorage storage, string modName )
+		override bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
 		{
-			if ( !super.OnModStoreLoad( storage, modName ) )
+			if ( !super.CF_OnStoreLoad( storage, modName ) )
 				return false;
 
 			if ( modName != "JM_CommunityFramework" )
@@ -129,7 +129,7 @@ modded class DayZPlayerImplement
 		}
 	}
 	 */
-	bool OnModStoreLoad( ModStorage storage, string modName )
+	bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
 	{
 		return true;
 	}

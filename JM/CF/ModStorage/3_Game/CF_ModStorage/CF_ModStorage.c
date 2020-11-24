@@ -1,7 +1,7 @@
 /**
  * Do not mod this class.
  */
-class ModStorage
+class CF_ModStorage
 {
 	static const int VERSION = 1;
 
@@ -9,21 +9,22 @@ class ModStorage
 
 	private ModStructure m_Mod;
 
-	private ref array< ref ModStorageData > m_Data = new ref array< ref ModStorageData >();
+	private ref array< ref CF_ModStorage_Data > m_Data = new ref array< ref CF_ModStorage_Data >();
 	private int m_Index;
 
-	void ModStorage( ref ModStructure mod )
+	void CF_ModStorage( ref ModStructure mod )
 	{
 		m_Mod = mod;
 
-		m_Data = new array< ref ModStorageData >();
+		m_Data = new array< ref CF_ModStorage_Data >();
+
+		m_Version = -1;
 
 		if ( m_Mod )
 			m_Version = m_Mod.GetStorageVersion();
-		m_Version = -1;
 	}
 
-	void ~ModStorage()
+	void ~CF_ModStorage()
 	{
 		for ( int i = 0; i < m_Data.Count(); i++ )
 			delete m_Data[i];
@@ -55,8 +56,7 @@ class ModStorage
 
 		for ( int i = 0; i < count; i++ )
 		{
-			int type = m_Data[i].GetType();
-			ctx.Write( type );
+			ctx.Write( m_Data[i].GetType() );
 			m_Data[i].Write( ctx );
 		}
 	}
@@ -88,13 +88,13 @@ class ModStorage
 
 		for ( int i = 0; i < count; i++ )
 		{
-			m_Data.Insert( ModStorageData.ReadCreate( ctx ) );
+			m_Data.Insert( CF_ModStorage_Converter.Read( ctx ) );
 		}
 
 		return true;
 	}
 
-	private ref ModStorageData Read()
+	private ref CF_ModStorage_Data Read()
 	{
 		if ( m_Index >= m_Data.Count() )
 			return null;
@@ -109,55 +109,55 @@ class ModStorage
 
 	bool Read( out bool value )
 	{
-		ref ModStorageData data = Read();
+		ref CF_ModStorage_Data data = Read();
 		if ( !data )
 			return false;
 
-		value = data.GetBool();
+		value = Param1<bool>.Cast(data.Get()).param1;
 
 		return true;
 	}
 
 	bool Read( out int value )
 	{
-		ref ModStorageData data = Read();
+		ref CF_ModStorage_Data data = Read();
 		if ( !data )
 			return false;
 
-		value = data.GetInt();
+		value = Param1<int>.Cast(data.Get()).param1;
 
 		return true;
 	}
 
 	bool Read( out float value )
 	{
-		ref ModStorageData data = Read();
+		ref CF_ModStorage_Data data = Read();
 		if ( !data )
 			return false;
 
-		value = data.GetFloat();
+		value = Param1<float>.Cast(data.Get()).param1;
 
 		return true;
 	}
 
 	bool Read( out vector value )
 	{
-		ref ModStorageData data = Read();
+		ref CF_ModStorage_Data data = Read();
 		if ( !data )
 			return false;
 
-		value = data.GetVector();
+		value = Param1<vector>.Cast(data.Get()).param1;
 
 		return true;
 	}
 
 	bool Read( out string value )
 	{
-		ref ModStorageData data = Read();
+		ref CF_ModStorage_Data data = Read();
 		if ( !data )
 			return false;
 
-		value = data.GetString();
+		value = Param1<string>.Cast(data.Get()).param1;
 
 		return true;
 	}
@@ -169,39 +169,39 @@ class ModStorage
 	 */
 	bool Read( ref Class value )
 	{
-		ref ModStorageData data = Read();
+		ref CF_ModStorage_Data data = Read();
 		if ( !data )
 			return false;
 		
 		if ( !value )
 			return data.IsNull();
 
-		return data.GetClass( value );
+		return data.Get( value );
 	}
 
 	void Write( bool value )
 	{
-		m_Data.Insert( new ModStorageDataBool( value ) );
+		m_Data.Insert( new CF_ModStorage_Data_Primitive<bool>( value ) );
 	}
 
 	void Write( int value )
 	{
-		m_Data.Insert( new ModStorageDataInt( value ) );
+		m_Data.Insert( new CF_ModStorage_Data_Primitive<int>( value ) );
 	}
 
 	void Write( float value )
 	{
-		m_Data.Insert( new ModStorageDataFloat( value ) );
+		m_Data.Insert( new CF_ModStorage_Data_Primitive<float>( value ) );
 	}
 
 	void Write( vector value )
 	{
-		m_Data.Insert( new ModStorageDataVector( value ) );
+		m_Data.Insert( new CF_ModStorage_Data_Primitive<vector>( value ) );
 	}
 
 	void Write( string value )
 	{
-		m_Data.Insert( new ModStorageDataString( value ) );
+		m_Data.Insert( new CF_ModStorage_Data_Primitive<string>( value ) );
 	}
 
 	void Write( Class value )
@@ -217,7 +217,7 @@ class ModStorage
 		
 		if (variableType.IsInherited(array))
 		{
-			m_Data.Insert( new ModStorageDataArray( value ) );
+			//m_Data.Insert( new ModStorageDataArray( value ) );
 			return;
 		}
 		
@@ -233,6 +233,6 @@ class ModStorage
 			return;
 		}
 		
-		m_Data.Insert( new ModStorageDataClass( value ) );
+		//m_Data.Insert( new ModStorageDataClass( value ) );
 	}
 };

@@ -99,7 +99,7 @@ class CF_ModStorage_Test
 	
 	void TestFloat()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -119,7 +119,7 @@ class CF_ModStorage_Test
 	
 	void TestBool()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -139,7 +139,7 @@ class CF_ModStorage_Test
 	
 	void TestInt()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -159,7 +159,7 @@ class CF_ModStorage_Test
 	
 	void TestVector()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -179,7 +179,7 @@ class CF_ModStorage_Test
 	
 	void TestString()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -199,7 +199,7 @@ class CF_ModStorage_Test
 	
 	void TestClass()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -223,7 +223,7 @@ class CF_ModStorage_Test
 	
 	void TestArrayString()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
@@ -248,7 +248,7 @@ class CF_ModStorage_Test
 	
 	void TestArrayClass()
 	{
-		ModStorage mod = new ModStorage(null);
+		CF_ModStorage mod = new CF_ModStorage(null);
 
 		ScriptReadWriteContext rw = new ScriptReadWriteContext();
 		
