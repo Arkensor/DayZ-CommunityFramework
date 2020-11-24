@@ -17,6 +17,11 @@ class CF_XML_Reader : Managed
 		delete _lines;
 	}
 
+	void Err(string message)
+	{
+		Error("[" + (_arrIdx + 1 )+ ":" + _bufIdx + "] " + message);
+	}
+
 	void AddLine(string line)
 	{
 		if (line.Length() != 0)
@@ -38,7 +43,7 @@ class CF_XML_Reader : Managed
 			_bufIdx = _lines[_arrIdx].Length() - 1;
 		}
 
-		return _lines[_arrIdx].Substring(_bufIdx, 1);
+		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
 	}
 
 	private string ReadChar()
@@ -57,7 +62,7 @@ class CF_XML_Reader : Managed
 			}
 		}
 
-		return _lines[_arrIdx].Substring(_bufIdx, 1);
+		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
 	}
 
 	bool EOF()
@@ -173,6 +178,9 @@ class CF_XML_Reader : Managed
 	bool IsLetterOrDigit(string c, bool isQuoted)
 	{
 		int i = c.Hash();
+		if (i >= 255 || i < 0) //! To my dear @DaOne, please don't use UTF-8 characters :)
+			return true;
+
 		if (i < 32)
 			return false;
 

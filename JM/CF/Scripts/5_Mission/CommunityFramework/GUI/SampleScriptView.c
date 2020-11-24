@@ -13,7 +13,7 @@ class SampleRelayCommand: RelayCommand
 		Print("SampleRelayCommand Execute!");
 		SampleScriptViewController controller = SampleScriptViewController.Cast(m_Controller);
 				
-		ButtonCommandArgs commandArgs = args;
+		ButtonCommandArgs commandArgs = ButtonCommandArgs.Cast(args);
 		if (commandArgs.GetButtonState()) {
 			controller.script_view.Insert(new SampleScriptView());
 		} else {
