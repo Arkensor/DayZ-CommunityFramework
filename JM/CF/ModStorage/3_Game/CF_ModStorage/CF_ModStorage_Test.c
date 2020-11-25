@@ -259,13 +259,14 @@ class CF_ModStorage_Test
 		in_value.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(178)));
 
 		string expected = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value);
-		mod.WriteArray(in_value);
+		mod.WriteRaw(new CF_ModStorage_Data_Array_Class<ref CF_ModStorage_Test_Class_B>(in_value));
 		
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
 		array<ref CF_ModStorage_Test_Class_B> out_value = new array<ref CF_ModStorage_Test_Class_B>();
-		mod.ReadArray(out_value);
+		Class cls = Class.Cast(out_value);
+		mod.ReadRaw().Get(cls);
 		string actual = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value);
 		
 		_assert(expected, actual);

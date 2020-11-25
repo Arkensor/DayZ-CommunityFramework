@@ -52,8 +52,7 @@ class CF_ModStorage_Converter
 			return CF_ModStorage_Data_ArrayProperty.Cast(m_ArrayTypeMap.Get(type).param2.Spawn());
 		}
 
-		typeStr = "Class";
-		return new CF_ModStorage_Data_ArrayProperty_Class();
+		return null;
 	}
 	
 	static CF_ModStorage_Data_ArrayProperty GetArrayType(string typeStr)
@@ -63,7 +62,7 @@ class CF_ModStorage_Converter
 			return CF_ModStorage_Data_ArrayProperty.Cast(m_ArrayStringTypeMap.Get(typeStr).Spawn());
 		}
 
-		return new CF_ModStorage_Data_ArrayProperty_Class();
+		return null;
 	}
 	
 	private static typename FindType(typename type)
@@ -113,10 +112,12 @@ class CF_ModStorage_Converter
 		m_Types.Insert(type);
 	}
 
-	static ref CF_ModStorage_Data Create(typename type)
+	static ref CF_ModStorage_Data Create(string type, bool spawnType = true)
 	{		
-		typename modStorageType = m_TypeMap.Get(FindType(type));
+		typename modStorageType = m_TypeMap.Get(FindType(type.ToType()));
 		ref CF_ModStorage_Data data = CF_ModStorage_Data.Cast(modStorageType.Spawn());
+		if (!data && spawnType)
+			data = CF_ModStorage_Data.Cast(type.ToType().Spawn());
 		return data;
 	}
 
@@ -127,7 +128,7 @@ class CF_ModStorage_Converter
 		string type;
 		ctx.Read(type);
 
-		ref CF_ModStorage_Data data = Create(type.ToType());
+		ref CF_ModStorage_Data data = Create(type);
 		
 		if (data)
 			data.Read(ctx);

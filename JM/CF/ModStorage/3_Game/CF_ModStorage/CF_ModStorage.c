@@ -258,18 +258,6 @@ class CF_ModStorage
 		
 		return ret;
 	}
-	
-	bool ReadArray( ref Class value )
-	{
-		ref CF_ModStorage_Data data = ReadRaw();
-		if ( !data )
-			return false;
-		
-		if ( !value )
-			return data.IsNull();
-
-		return data.Get( value );
-	}
 
 	void Write( bool value )
 	{
@@ -324,10 +312,5 @@ class CF_ModStorage
 	void WriteArray( TStringArray value )
 	{
 		WriteRaw( new CF_ModStorage_Data_Array<string>( value ) );
-	}
-
-	void WriteArray( Class value )
-	{
-		WriteRaw( new CF_ModStorage_Data_Array<Class>( value ) );
 	}
 };
