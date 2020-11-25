@@ -95,11 +95,11 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 	{
 		if (IsNull())
 			return;
-		
+
 		EnScript.GetClassVar(cls, name, idx, m_Value);
 		if (!Get(m_Value))
 			return;
-		
+
 		EnScript.SetClassVar(cls, name, idx, m_Value);
 	}
 
@@ -107,14 +107,14 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 	{
 		if (m_IsNull)
 			return true;
-		
+
 		if (!cls)
 		{
 			if (m_Type == "")
 				return false;
-			
+
 			cls = m_Type.ToType().Spawn();
-			
+
 			if (cls == null)
 				return false;
 		}
@@ -123,7 +123,7 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 		{
 			m_Data[i].SetTo(cls, m_Data[i].m_VariableName, 0);
 		}
-		
+
 		return true;
 	}
 };

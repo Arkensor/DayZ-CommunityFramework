@@ -11,9 +11,9 @@ class CF_ModStorage_Converter
 	{
 		if (m_Constructed)
 			return;
-		
+
 		m_Constructed = true;
-		
+
 		//TODO: test why this still worked with all 'types' set to bool
 		AddType(bool, CF_ModStorage_Data_Bool);
 		AddType(int, CF_ModStorage_Data_Int);
@@ -21,7 +21,7 @@ class CF_ModStorage_Converter
 		AddType(vector, CF_ModStorage_Data_Vector);
 		AddType(string, CF_ModStorage_Data_String);
 		AddType(Class, CF_ModStorage_Data_Class);
-		
+
 		AddType(TBoolArray, CF_ModStorage_Data_Array_Bool);
 		AddType(TIntArray, CF_ModStorage_Data_Array_Int);
 		AddType(TFloatArray, CF_ModStorage_Data_Array_Float);
@@ -37,7 +37,7 @@ class CF_ModStorage_Converter
 		AddArrayType(TVectorArray, vector, CF_ModStorage_Data_ArrayProperty_Vector);
 		AddArrayType(TStringArray, string, CF_ModStorage_Data_ArrayProperty_String);
 	}
-	
+
 	private static void AddArrayType(typename arrType, typename type, typename modStorage)
 	{
 		m_ArrayTypeMap.Insert(arrType, new Param2<string, typename>(type.ToString(), modStorage));
@@ -54,7 +54,7 @@ class CF_ModStorage_Converter
 
 		return null;
 	}
-	
+
 	static CF_ModStorage_Data_ArrayProperty GetArrayType(string typeStr)
 	{
 		if (m_ArrayStringTypeMap.Contains(typeStr))
@@ -64,7 +64,7 @@ class CF_ModStorage_Converter
 
 		return null;
 	}
-	
+
 	private static typename FindType(typename type)
 	{
 		for (int i = m_Types.Count() - 1; i >= 0; i--)
@@ -74,14 +74,14 @@ class CF_ModStorage_Converter
 				return m_Types[i];
 			}
 		}
-		
+
 		return Math3D;
 	}
-	
+
 	private static void SortTypes()
 	{
 		array<typename> copy = new array<typename>();
-		
+
 		for (int i = 0; i < m_Types.Count(); i++)
 		{
 			int insertIdx = 0;
@@ -92,20 +92,21 @@ class CF_ModStorage_Converter
 					insertIdx = j + 1;
 				}
 			}
-			
+
 			if (insertIdx < copy.Count())
 			{
 				copy.InsertAt(m_Types[i], insertIdx);
-			} else
+			}
+			else
 			{
 				copy.Insert(m_Types[i]);
 			}
 		}
-		
+
 		m_Types.Clear();
 		m_Types.Copy(copy);
 	}
-	
+
 	private static void AddType(typename type, typename modStorage)
 	{
 		m_TypeMap.Insert(type, modStorage);
@@ -113,7 +114,7 @@ class CF_ModStorage_Converter
 	}
 
 	static ref CF_ModStorage_Data Create(string type, bool spawnType = true)
-	{		
+	{
 		typename modStorageType = m_TypeMap.Get(FindType(type.ToType()));
 		ref CF_ModStorage_Data data = CF_ModStorage_Data.Cast(modStorageType.Spawn());
 		if (!data && spawnType)
@@ -124,12 +125,12 @@ class CF_ModStorage_Converter
 	static ref CF_ModStorage_Data Read(ParamsReadContext ctx)
 	{
 		Construct();
-		
+
 		string type;
 		ctx.Read(type);
 
 		ref CF_ModStorage_Data data = Create(type);
-		
+
 		if (data)
 			data.Read(ctx);
 

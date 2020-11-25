@@ -19,13 +19,13 @@ class CF_ModStorage_Data_Array<Class T> : CF_ModStorage_Data
 	override void OnSet()
 	{
 		if (!m_Value)
-        {
-            m_Type = "";
-            return;
-        }
-		
+		{
+			m_Type = "";
+			return;
+		}
+
 		CF_ModStorage_Converter.GetArrayType(m_Value.Type(), m_Type).ReadArray(m_Value, m_Data);
-    }
+	}
 
 	override void Write(ParamsWriteContext ctx)
 	{
@@ -55,7 +55,7 @@ class CF_ModStorage_Data_Array<Class T> : CF_ModStorage_Data
 			m_Data.Insert(CF_ModStorage_Converter.Read(ctx));
 		}
 	}
-	
+
 	override typename GetType()
 	{
 		if (T == bool)
@@ -77,7 +77,7 @@ class CF_ModStorage_Data_Array<Class T> : CF_ModStorage_Data
 			return true;
 
 		CF_ModStorage_Converter.GetArrayType(m_Value.Type(), m_Type).WriteArray(cls, m_Data);
-		
+
 		return true;
 	}
 };
@@ -97,14 +97,14 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 	override void OnSet()
 	{
 		if (!m_Value)
-        {
-            m_Type = "";
-            return;
-        }
-		
+		{
+			m_Type = "";
+			return;
+		}
+
 		CF_ModStorage_Data_ArrayProperty prop = new CF_ModStorage_Data_ArrayProperty_Class<T>();
 		prop.ReadArray(m_Value, m_Data);
-    }
+	}
 
 	override void Write(ParamsWriteContext ctx)
 	{
@@ -134,12 +134,12 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 			m_Data.Insert(CF_ModStorage_Converter.Read(ctx));
 		}
 	}
-	
+
 	override typename GetType()
 	{
 		return Type();
 	}
-	
+
 	override bool Get(inout Class cls)
 	{
 		if (!cls)
@@ -147,25 +147,25 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 
 		CF_ModStorage_Data_ArrayProperty prop = new CF_ModStorage_Data_ArrayProperty_Class<T>();
 		prop.WriteArray(cls, m_Data);
-		
+
 		return true;
 	}
 };
 
 class CF_ModStorage_Data_ArrayProperty
 {
-	void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 	}
-	
-	void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 	}
 };
 
 class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 {
-	override void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	override void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TStringArray srcArr = TStringArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -173,8 +173,8 @@ class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 			_dstArr.Insert(new CF_ModStorage_Data_String(srcArr[i]));
 		}
 	}
-	
-	override void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TStringArray dstArr = TStringArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -186,7 +186,7 @@ class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 {
-	override void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	override void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TFloatArray srcArr = TFloatArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -194,8 +194,8 @@ class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 			_dstArr.Insert(new CF_ModStorage_Data_Float(srcArr[i]));
 		}
 	}
-	
-	override void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TFloatArray dstArr = TFloatArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -207,7 +207,7 @@ class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 {
-	override void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	override void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TVectorArray srcArr = TVectorArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -215,8 +215,8 @@ class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 			_dstArr.Insert(new CF_ModStorage_Data_Vector(srcArr[i]));
 		}
 	}
-	
-	override void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TVectorArray dstArr = TVectorArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -228,7 +228,7 @@ class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 {
-	override void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	override void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TIntArray srcArr = TIntArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -236,8 +236,8 @@ class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 			_dstArr.Insert(new CF_ModStorage_Data_Int(srcArr[i]));
 		}
 	}
-	
-	override void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TIntArray dstArr = TIntArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -249,7 +249,7 @@ class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 {
-	override void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	override void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TBoolArray srcArr = TBoolArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -257,8 +257,8 @@ class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 			_dstArr.Insert(new CF_ModStorage_Data_Bool(srcArr[i]));
 		}
 	}
-	
-	override void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TBoolArray dstArr = TBoolArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -270,11 +270,11 @@ class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_ArrayProperty
 {
-	override void ReadArray(inout Class cls, ref array< ref CF_ModStorage_Data > _dstArr)
+	override void ReadArray(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		ref CF_ModStorage_Data data;
 		int i;
-		
+
 		array<T> srcArr;
 		if (Class.CastTo(srcArr, cls))
 		{
@@ -284,10 +284,10 @@ class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_Array
 				data.OnSet();
 				_dstArr.Insert(data);
 			}
-			
+
 			return;
 		}
-		
+
 		array<ref T> srcArrR;
 		if (Class.CastTo(srcArrR, cls))
 		{
@@ -297,37 +297,37 @@ class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_Array
 				data.OnSet();
 				_dstArr.Insert(data);
 			}
-			
+
 			return;
 		}
 	}
-	
-	override void WriteArray(inout Class cls, ref array< ref CF_ModStorage_Data > _srcArr)
+
+	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
-	    Class value;
+		Class value;
 		int i;
-		
+
 		array<T> dstArr;
 		if (Class.CastTo(dstArr, cls))
 		{
 			for (i = 0; i < _srcArr.Count(); i++)
 			{
-	            if (_srcArr[i].Get(value))
-	            {
-	                dstArr.Insert(value);
-	            }
+				if (_srcArr[i].Get(value))
+				{
+					dstArr.Insert(value);
+				}
 			}
 		}
-		
+
 		array<ref T> dstArrR;
 		if (Class.CastTo(dstArrR, cls))
 		{
 			for (i = 0; i < _srcArr.Count(); i++)
 			{
-	            if (_srcArr[i].Get(value))
-	            {
-	                dstArrR.Insert(value);
-	            }
+				if (_srcArr[i].Get(value))
+				{
+					dstArrR.Insert(value);
+				}
 			}
 		}
 	}
