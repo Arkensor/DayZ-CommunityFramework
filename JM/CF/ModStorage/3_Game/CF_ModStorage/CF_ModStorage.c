@@ -41,6 +41,11 @@ class CF_ModStorage
 	{
 		return m_Mod;
 	}
+	
+	void Clear()
+	{
+		m_Data.Clear();
+	}
 
 	void Save( EntityAI entity, ParamsWriteContext ctx )
 	{
@@ -67,6 +72,8 @@ class CF_ModStorage
 	 */
 	bool Load( EntityAI entity, ParamsReadContext ctx, int version )
 	{
+		Clear();
+		
 		if (entity == null)
 		{
 			string tempModName;
