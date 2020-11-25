@@ -20,11 +20,13 @@ class CF_ModStorage_Data_Primitive<Class T> : CF_ModStorage_Data
 
 	override void Write(ParamsWriteContext ctx)
 	{
+		ctx.Write(m_VariableName);
 		ctx.Write(m_Value);
 	}
 
 	override void Read(ParamsReadContext ctx)
 	{
+		ctx.Read(m_VariableName);
 		ctx.Read(m_Value);
 	}
 

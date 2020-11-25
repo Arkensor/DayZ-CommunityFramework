@@ -15,33 +15,32 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 	override void OnSet()
 	{
 		m_IsNull = m_Value == null;
+		if (m_IsNull)
+			return;
 
-		if (m_Value)
+		typename type = m_Value.Type();
+
+		m_Type = type.ToString();
+
+		for (int i = 0; i < type.GetVariableCount(); i++)
 		{
-			typename type = m_Value.Type();
+			typename variableType = type.GetVariableType(i);
+			string variableName = type.GetVariableName(i);
 
-			m_Type = type.ToString();
-
-			for (int i = 0; i < type.GetVariableCount(); i++)
+			ref CF_ModStorage_Data data = CF_ModStorage_Converter.Create(variableType);
+			if (data)
 			{
-				typename variableType = type.GetVariableType(i);
-				string variableName = type.GetVariableName(i);
+				data.m_VariableName = variableName;
 
-				ref CF_ModStorage_Data data = CF_ModStorage_Converter.Create(variableType);
-				if (data)
-				{
-					data.m_VariableName = variableName;
+				data.SetFrom(m_Value, data.m_VariableName);
 
-					data.SetFrom(m_Value, data.m_VariableName);
+				data.OnSet();
 
-					data.OnSet();
-
-					m_Data.Insert(data);
-				}
-				else
-				{
-					Error("Invalid data passsed into ModStorage class '" + variableName + "' '" + variableType.ToString() + "'");
-				}
+				m_Data.Insert(data);
+			}
+			else
+			{
+				Error("Invalid data passsed into ModStorage class '" + variableName + "' '" + variableType.ToString() + "'");
 			}
 		}
 	}
@@ -60,6 +59,7 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 	{
 		ctx.Write(m_VariableName);
 		ctx.Write(m_IsNull);
+		ctx.Write(m_Type);
 
 		int count = m_Data.Count();
 		ctx.Write(count);
@@ -75,6 +75,7 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 	{
 		ctx.Read(m_VariableName);
 		ctx.Read(m_IsNull);
+		ctx.Read(m_Type);
 
 		int count;
 		ctx.Read(count);

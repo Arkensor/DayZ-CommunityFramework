@@ -186,6 +186,83 @@ class CF_ModStorage
 		return data.Get( value );
 	}
 
+	bool ReadArray( ref TBoolArray value )
+	{
+		ref CF_ModStorage_Data data = ReadRaw();
+		if ( !data )
+			return false;
+
+		Class cls = Class.Cast(value);
+		bool ret = data.Get( cls );
+		value = cls;
+		
+		return ret;
+	}
+
+	bool ReadArray( ref TIntArray value )
+	{
+		ref CF_ModStorage_Data data = ReadRaw();
+		if ( !data )
+			return false;
+
+		Class cls = Class.Cast(value);
+		bool ret = data.Get( cls );
+		value = cls;
+		
+		return ret;
+	}
+
+	bool ReadArray( ref TFloatArray value )
+	{
+		ref CF_ModStorage_Data data = ReadRaw();
+		if ( !data )
+			return false;
+
+		Class cls = Class.Cast(value);
+		bool ret = data.Get( cls );
+		value = cls;
+		
+		return ret;
+	}
+
+	bool ReadArray( ref TVectorArray value )
+	{
+		ref CF_ModStorage_Data data = ReadRaw();
+		if ( !data )
+			return false;
+
+		Class cls = Class.Cast(value);
+		bool ret = data.Get( cls );
+		value = cls;
+		
+		return ret;
+	}
+
+	bool ReadArray( ref TStringArray value )
+	{
+		ref CF_ModStorage_Data data = ReadRaw();
+		if ( !data )
+			return false;
+		
+		Class cls = Class.Cast(value);
+		bool ret = data.Get( cls );
+		value = cls;
+		
+		return ret;
+	}
+	
+	bool ReadArray( ref Class value )
+	{
+		ref CF_ModStorage_Data data = ReadRaw();
+		if ( !data )
+			return false;
+		
+		if ( !value )
+			return data.IsNull();
+
+		return data.Get( value );
+	}
+
 	void Write( bool value )
 	{
 		WriteRaw( new CF_ModStorage_Data_Primitive<bool>( value ) );
@@ -214,5 +291,35 @@ class CF_ModStorage
 	void Write( Class value )
 	{
 		WriteRaw( new CF_ModStorage_Data_Class( value ) );
+	}
+
+	void WriteArray( TBoolArray value )
+	{
+		WriteRaw( new CF_ModStorage_Data_Array<bool>( value ) );
+	}
+
+	void WriteArray( TIntArray value )
+	{
+		WriteRaw( new CF_ModStorage_Data_Array<int>( value ) );
+	}
+
+	void WriteArray( TFloatArray value )
+	{
+		WriteRaw( new CF_ModStorage_Data_Array<float>( value ) );
+	}
+
+	void WriteArray( TVectorArray value )
+	{
+		WriteRaw( new CF_ModStorage_Data_Array<vector>( value ) );
+	}
+
+	void WriteArray( TStringArray value )
+	{
+		WriteRaw( new CF_ModStorage_Data_Array<string>( value ) );
+	}
+
+	void WriteArray( Class value )
+	{
+		WriteRaw( new CF_ModStorage_Data_Array<Class>( value ) );
 	}
 };

@@ -4,6 +4,8 @@ class CF_ModStorage_Converter
 	private static autoptr array<typename> m_Types = new array<typename>();
 	private static autoptr map<typename, typename> m_TypeMap = new map<typename, typename>();
 
+	private static autoptr map<typename, ref Param2<typename, typename>> m_ArrayTypeMap = new map<typename, ref Param2<typename, typename>>();
+
 	static void Construct()
 	{
 		if (m_Constructed)
@@ -19,7 +21,37 @@ class CF_ModStorage_Converter
 		AddType(string, CF_ModStorage_Data_String);
 		AddType(Class, CF_ModStorage_Data_Class);
 		
+		AddType(TBoolArray, CF_ModStorage_Data_Array_Bool);
+		AddType(TIntArray, CF_ModStorage_Data_Array_Int);
+		AddType(TFloatArray, CF_ModStorage_Data_Array_Float);
+		AddType(TVectorArray, CF_ModStorage_Data_Array_Vector);
+		AddType(TStringArray, CF_ModStorage_Data_Array_String);
+		AddType(TClassArray, CF_ModStorage_Data_Array_Class);
+
 		SortTypes();
+
+		AddArrayType(TBoolArray, bool, CF_ModStorage_Data_ArrayProperty_Bool);
+		AddArrayType(TIntArray, int, CF_ModStorage_Data_ArrayProperty_Int);
+		AddArrayType(TFloatArray, float, CF_ModStorage_Data_ArrayProperty_Float);
+		AddArrayType(TVectorArray, vector, CF_ModStorage_Data_ArrayProperty_Vector);
+		AddArrayType(TStringArray, string, CF_ModStorage_Data_ArrayProperty_String);
+	}
+	
+	private static void AddArrayType(typename arrType, typename type, typename modStorage)
+	{
+		m_ArrayTypeMap.Insert(arrType, new Param2<typename, typename>(type, modStorage));
+	}
+
+	static CF_ModStorage_Data_ArrayProperty GetArrayType(typename type, out string typeStr)
+	{
+		if (m_ArrayTypeMap.Contains(type))
+		{
+			typeStr = m_ArrayTypeMap.Get(type).param1.ToString();
+			return CF_ModStorage_Data_ArrayProperty.Cast(m_ArrayTypeMap.Get(type).param2.Spawn());
+		}
+
+		typeStr = "Class";
+		return new CF_ModStorage_Data_ArrayProperty_Class();
 	}
 	
 	private static typename FindType(typename type)
