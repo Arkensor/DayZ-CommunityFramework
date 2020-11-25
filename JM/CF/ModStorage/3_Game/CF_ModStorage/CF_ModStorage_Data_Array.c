@@ -93,6 +93,44 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 	{
 		m_Value = value;
 	}
+	
+	static void Write(CF_ModStorage ms, array<T> data)
+	{
+		Class val = data;
+		ms.WriteRaw(new CF_ModStorage_Data_Array_Class<T>(val));
+	}
+	
+	static void Write(CF_ModStorage ms, array<ref T> data)
+	{
+		Class val = data;
+		ms.WriteRaw(new CF_ModStorage_Data_Array_Class<T>(val));
+	}
+	
+	static bool Read(CF_ModStorage ms, inout array<T> data)
+	{
+		CF_ModStorage_Data_Array_Class<T> c = CF_ModStorage_Data_Array_Class<T>.Cast(ms.ReadRaw());
+		
+		Class val = data;
+		if (!c.Get(val))
+			return false;
+		
+		data = array<T>.Cast(val);
+		
+		return true;
+	}
+	
+	static bool Read(CF_ModStorage ms, inout array<ref T> data)
+	{
+		CF_ModStorage_Data_Array_Class<T> c = CF_ModStorage_Data_Array_Class<T>.Cast(ms.ReadRaw());
+		
+		Class val = data;
+		if (!c.Get(val))
+			return false;
+		
+		data = array<ref T>.Cast(val);
+		
+		return true;
+	}
 
 	override void OnSet()
 	{
@@ -275,19 +313,6 @@ class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_Array
 		ref CF_ModStorage_Data data;
 		int i;
 
-		array<T> srcArr;
-		if (Class.CastTo(srcArr, cls))
-		{
-			for (i = 0; i < srcArr.Count(); i++)
-			{
-				data = new CF_ModStorage_Data_Class(srcArr[i]);
-				data.OnSet();
-				_dstArr.Insert(data);
-			}
-
-			return;
-		}
-
 		array<ref T> srcArrR;
 		if (Class.CastTo(srcArrR, cls))
 		{
@@ -297,38 +322,54 @@ class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_Array
 				data.OnSet();
 				_dstArr.Insert(data);
 			}
+			return;
+		}
 
+		array<T> srcArr;
+		if (Class.CastTo(srcArr, cls))
+		{
+			for (i = 0; i < srcArr.Count(); i++)
+			{
+				data = new CF_ModStorage_Data_Class(srcArr[i]);
+				data.OnSet();
+				_dstArr.Insert(data);
+			}
 			return;
 		}
 	}
 
 	override void WriteArray(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
+		T cVal;
 		Class value;
 		int i;
-
-		array<T> dstArr;
-		if (Class.CastTo(dstArr, cls))
-		{
-			for (i = 0; i < _srcArr.Count(); i++)
-			{
-				if (_srcArr[i].Get(value))
-				{
-					dstArr.Insert(value);
-				}
-			}
-		}
 
 		array<ref T> dstArrR;
 		if (Class.CastTo(dstArrR, cls))
 		{
 			for (i = 0; i < _srcArr.Count(); i++)
 			{
-				if (_srcArr[i].Get(value))
+				value = null;
+				if (_srcArr[i].Get(value) && Class.CastTo(cVal, value))
 				{
-					dstArrR.Insert(value);
+					dstArrR.Insert(cVal);
 				}
 			}
+			return;
+		}
+
+		array<T> dstArr;
+		if (Class.CastTo(dstArr, cls))
+		{
+			for (i = 0; i < _srcArr.Count(); i++)
+			{
+				value = null;
+				if (_srcArr[i].Get(value) && Class.CastTo(cVal, value))
+				{
+					dstArr.Insert(cVal);
+				}
+			}
+			return;
 		}
 	}
 };

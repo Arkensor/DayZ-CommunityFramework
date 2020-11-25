@@ -256,19 +256,18 @@ class CF_ModStorage_Test
 
 		array<ref CF_ModStorage_Test_Class_B> in_value = new array<ref CF_ModStorage_Test_Class_B>();
 
-		in_value.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(178)));
-		in_value.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(178)));
-		in_value.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(178)));
+		in_value.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(1768)));
+		in_value.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(1278)));
+		in_value.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(278)));
 
 		string expected = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value);
-		mod.WriteRaw(new CF_ModStorage_Data_Array_Class<ref CF_ModStorage_Test_Class_B>(in_value));
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(mod, in_value);
 
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
 		array<ref CF_ModStorage_Test_Class_B> out_value = new array<ref CF_ModStorage_Test_Class_B>();
-		Class cls = Class.Cast(out_value);
-		mod.ReadRaw().Get(cls);
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(mod, out_value);		
 		string actual = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value);
 
 		_assert(expected, actual);

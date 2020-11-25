@@ -27,7 +27,7 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 			typename variableType = type.GetVariableType(i);
 			string variableName = type.GetVariableName(i);
 
-			ref CF_ModStorage_Data data = CF_ModStorage_Converter.Create(variableType.ToString(), false);
+			ref CF_ModStorage_Data data = CF_ModStorage_Converter.Create(variableType.ToString());
 			if (data)
 			{
 				data.m_VariableName = variableName;
@@ -76,7 +76,7 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 		ctx.Read(m_VariableName);
 		ctx.Read(m_IsNull);
 		ctx.Read(m_Type);
-
+		
 		int count;
 		ctx.Read(count);
 

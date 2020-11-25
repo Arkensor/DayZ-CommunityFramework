@@ -5,9 +5,9 @@ class CF_ModStorage
 {
 	static const int VERSION = 1;
 
-	private int m_Version;
+	protected int m_Version;
 
-	private ModStructure m_Mod;
+	protected ModStructure m_Mod;
 
 	private ref array<ref CF_ModStorage_Data> m_Data = new ref array<ref CF_ModStorage_Data>();
 	private int m_Index;
@@ -117,8 +117,9 @@ class CF_ModStorage
 		m_Data.Insert(data);
 	}
 
-	bool Skip()
+	bool Skip(int skip = 1)
 	{
+		m_Index += --skip; //! decrement here because ReadRaw increments automatically by 1
 		return ReadRaw() != null;
 	}
 
@@ -200,9 +201,9 @@ class CF_ModStorage
 		if (!data)
 			return false;
 
-		Class cls = Class.Cast(value);
+		Class cls = value;
 		bool ret = data.Get(cls);
-		value = cls;
+		value = TBoolArray.Cast(cls);
 
 		return ret;
 	}
@@ -213,9 +214,9 @@ class CF_ModStorage
 		if (!data)
 			return false;
 
-		Class cls = Class.Cast(value);
+		Class cls = value;
 		bool ret = data.Get(cls);
-		value = cls;
+		value = TIntArray.Cast(cls);
 
 		return ret;
 	}
@@ -226,9 +227,9 @@ class CF_ModStorage
 		if (!data)
 			return false;
 
-		Class cls = Class.Cast(value);
+		Class cls = value;
 		bool ret = data.Get(cls);
-		value = cls;
+		value = TFloatArray.Cast(cls);
 
 		return ret;
 	}
@@ -239,9 +240,9 @@ class CF_ModStorage
 		if (!data)
 			return false;
 
-		Class cls = Class.Cast(value);
+		Class cls = value;
 		bool ret = data.Get(cls);
-		value = cls;
+		value = TVectorArray.Cast(cls);
 
 		return ret;
 	}
@@ -252,9 +253,9 @@ class CF_ModStorage
 		if (!data)
 			return false;
 
-		Class cls = Class.Cast(value);
+		Class cls = value;
 		bool ret = data.Get(cls);
-		value = cls;
+		value = TStringArray.Cast(cls);
 
 		return ret;
 	}
