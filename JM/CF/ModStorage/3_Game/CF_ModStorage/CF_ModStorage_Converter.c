@@ -4,7 +4,8 @@ class CF_ModStorage_Converter
 	private static autoptr array<typename> m_Types = new array<typename>();
 	private static autoptr map<typename, typename> m_TypeMap = new map<typename, typename>();
 
-	private static autoptr map<typename, ref Param2<typename, typename>> m_ArrayTypeMap = new map<typename, ref Param2<typename, typename>>();
+	private static autoptr map<typename, ref Param2<string, typename>> m_ArrayTypeMap = new map<typename, ref Param2<string, typename>>();
+	private static autoptr map<string, typename> m_ArrayStringTypeMap = new map<string, typename>();
 
 	static void Construct()
 	{
@@ -39,14 +40,15 @@ class CF_ModStorage_Converter
 	
 	private static void AddArrayType(typename arrType, typename type, typename modStorage)
 	{
-		m_ArrayTypeMap.Insert(arrType, new Param2<typename, typename>(type, modStorage));
+		m_ArrayTypeMap.Insert(arrType, new Param2<string, typename>(type.ToString(), modStorage));
+		m_ArrayStringTypeMap.Insert(type.ToString(), modStorage);
 	}
 
 	static CF_ModStorage_Data_ArrayProperty GetArrayType(typename type, out string typeStr)
 	{
 		if (m_ArrayTypeMap.Contains(type))
 		{
-			typeStr = m_ArrayTypeMap.Get(type).param1.ToString();
+			typeStr = m_ArrayTypeMap.Get(type).param1;
 			return CF_ModStorage_Data_ArrayProperty.Cast(m_ArrayTypeMap.Get(type).param2.Spawn());
 		}
 
@@ -54,8 +56,18 @@ class CF_ModStorage_Converter
 		return new CF_ModStorage_Data_ArrayProperty_Class();
 	}
 	
+	static CF_ModStorage_Data_ArrayProperty GetArrayType(string typeStr)
+	{
+		if (m_ArrayStringTypeMap.Contains(typeStr))
+		{
+			return CF_ModStorage_Data_ArrayProperty.Cast(m_ArrayStringTypeMap.Get(typeStr).Spawn());
+		}
+
+		return new CF_ModStorage_Data_ArrayProperty_Class();
+	}
+	
 	private static typename FindType(typename type)
-	{		
+	{
 		for (int i = m_Types.Count() - 1; i >= 0; i--)
 		{
 			if (type.IsInherited(m_Types[i]) || m_Types[i] == type)
@@ -102,7 +114,7 @@ class CF_ModStorage_Converter
 	}
 
 	static ref CF_ModStorage_Data Create(typename type)
-	{
+	{		
 		typename modStorageType = m_TypeMap.Get(FindType(type));
 		ref CF_ModStorage_Data data = CF_ModStorage_Data.Cast(modStorageType.Spawn());
 		return data;

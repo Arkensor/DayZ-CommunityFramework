@@ -44,6 +44,7 @@ class CF_ModStorage
 	
 	void Clear()
 	{
+		m_Index = 0;
 		m_Data.Clear();
 	}
 

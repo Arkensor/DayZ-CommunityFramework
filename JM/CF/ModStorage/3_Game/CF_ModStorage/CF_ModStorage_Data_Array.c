@@ -56,13 +56,28 @@ class CF_ModStorage_Data_Array<Class T> : CF_ModStorage_Data
 			m_Data.Insert(CF_ModStorage_Converter.Read(ctx));
 		}
 	}
+	
+	override typename GetType()
+	{
+		if (T == bool)
+			return TBoolArray;
+		if (T == int)
+			return TIntArray;
+		if (T == float)
+			return TFloatArray;
+		if (T == vector)
+			return TVectorArray;
+		if (T == string)
+			return TStringArray;
+		return TClassArray;
+	}
 
 	override bool Get(inout Class cls)
 	{
 		if (!cls)
 			return true;
 
-       	CF_ModStorage_Converter.GetArrayType(cls.Type(), m_Type).WriteArray(cls, m_Data);
+       	CF_ModStorage_Converter.GetArrayType(m_Type).WriteArray(cls, m_Data);
 		
 		return true;
 	}

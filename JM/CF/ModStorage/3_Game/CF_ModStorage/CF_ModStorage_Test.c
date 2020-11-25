@@ -274,10 +274,10 @@ class CF_ModStorage_Test
 
 class CF_ModStorage_DebugP<Class T>
 {
-	static string DebugString(array<T> data)
+	static string DebugString(array<T> data, int max = 3)
 	{
-		int num = 3;
-		if (data.Count() < 3)
+		int num = max;
+		if (data.Count() < max || max == -1)
 			num = data.Count();
 		
 		string str = "count: " + data.Count();
@@ -300,10 +300,10 @@ class CF_ModStorage_Debug<Class T>
 		return "";
 	}
 	
-	static string DebugString(array<ref T> data)
+	static string DebugString(array<ref T> data, int max = 3)
 	{
-		int num = 3;
-		if (data.Count() < 3)
+		int num = max;
+		if (data.Count() < max || max == -1)
 			num = data.Count();
 		
 		string str = "count: " + data.Count();
