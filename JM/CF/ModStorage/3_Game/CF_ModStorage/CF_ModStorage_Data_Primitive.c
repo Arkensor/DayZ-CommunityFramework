@@ -28,6 +28,16 @@ class CF_ModStorage_Data_Primitive<Class T> : CF_ModStorage_Data
 		ctx.Read(m_Value);
 	}
 
+	override void SetFrom(Class cls, string name, int idx = 0)
+	{
+		EnScript.GetClassVar(cls, name, idx, m_Value);
+	}
+
+	override void SetTo(Class cls, string name, int idx = 0)
+	{
+		EnScript.SetClassVar(cls, name, idx, m_Value);
+	}
+
 	override Param Get()
 	{
 		return new Param1<T>(m_Value);

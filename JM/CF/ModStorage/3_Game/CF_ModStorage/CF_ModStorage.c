@@ -56,7 +56,8 @@ class CF_ModStorage
 
 		for ( int i = 0; i < count; i++ )
 		{
-			ctx.Write( m_Data[i].GetType() );
+			string type = m_Data[i].GetType().ToString();
+			ctx.Write(type);
 			m_Data[i].Write( ctx );
 		}
 	}
@@ -94,7 +95,7 @@ class CF_ModStorage
 		return true;
 	}
 
-	private ref CF_ModStorage_Data Read()
+	ref CF_ModStorage_Data ReadRaw()
 	{
 		if ( m_Index >= m_Data.Count() )
 			return null;
@@ -102,14 +103,20 @@ class CF_ModStorage
 		return m_Data[m_Index++];
 	}
 
+	void WriteRaw( ref CF_ModStorage_Data data )
+	{
+		data.OnSet();
+		m_Data.Insert( data );
+	}
+
 	bool Skip()
 	{
-		return Read() != null;
+		return ReadRaw() != null;
 	}
 
 	bool Read( out bool value )
 	{
-		ref CF_ModStorage_Data data = Read();
+		ref CF_ModStorage_Data data = ReadRaw();
 		if ( !data )
 			return false;
 
@@ -120,7 +127,7 @@ class CF_ModStorage
 
 	bool Read( out int value )
 	{
-		ref CF_ModStorage_Data data = Read();
+		ref CF_ModStorage_Data data = ReadRaw();
 		if ( !data )
 			return false;
 
@@ -131,7 +138,7 @@ class CF_ModStorage
 
 	bool Read( out float value )
 	{
-		ref CF_ModStorage_Data data = Read();
+		ref CF_ModStorage_Data data = ReadRaw();
 		if ( !data )
 			return false;
 
@@ -142,7 +149,7 @@ class CF_ModStorage
 
 	bool Read( out vector value )
 	{
-		ref CF_ModStorage_Data data = Read();
+		ref CF_ModStorage_Data data = ReadRaw();
 		if ( !data )
 			return false;
 
@@ -153,7 +160,7 @@ class CF_ModStorage
 
 	bool Read( out string value )
 	{
-		ref CF_ModStorage_Data data = Read();
+		ref CF_ModStorage_Data data = ReadRaw();
 		if ( !data )
 			return false;
 
@@ -169,7 +176,7 @@ class CF_ModStorage
 	 */
 	bool Read( ref Class value )
 	{
-		ref CF_ModStorage_Data data = Read();
+		ref CF_ModStorage_Data data = ReadRaw();
 		if ( !data )
 			return false;
 		
@@ -181,58 +188,31 @@ class CF_ModStorage
 
 	void Write( bool value )
 	{
-		m_Data.Insert( new CF_ModStorage_Data_Primitive<bool>( value ) );
+		WriteRaw( new CF_ModStorage_Data_Primitive<bool>( value ) );
 	}
 
 	void Write( int value )
 	{
-		m_Data.Insert( new CF_ModStorage_Data_Primitive<int>( value ) );
+		WriteRaw( new CF_ModStorage_Data_Primitive<int>( value ) );
 	}
 
 	void Write( float value )
 	{
-		m_Data.Insert( new CF_ModStorage_Data_Primitive<float>( value ) );
+		WriteRaw( new CF_ModStorage_Data_Primitive<float>( value ) );
 	}
 
 	void Write( vector value )
 	{
-		m_Data.Insert( new CF_ModStorage_Data_Primitive<vector>( value ) );
+		WriteRaw( new CF_ModStorage_Data_Primitive<vector>( value ) );
 	}
 
 	void Write( string value )
 	{
-		m_Data.Insert( new CF_ModStorage_Data_Primitive<string>( value ) );
+		WriteRaw( new CF_ModStorage_Data_Primitive<string>( value ) );
 	}
 
 	void Write( Class value )
 	{
-		typename variableType = value.Type();
-		
-		//! vanilla doesn't support this due to funky persistence id accessing, maybe we shouldn't either
-		if (variableType.IsInherited(Object))
-		{
-			//m_Data.Insert( new ModStorageDataObject( 0 ) );
-			return;
-		}
-		
-		if (variableType.IsInherited(array))
-		{
-			//m_Data.Insert( new ModStorageDataArray( value ) );
-			return;
-		}
-		
-		if (variableType.IsInherited(map))
-		{
-			//m_Data.Insert( new ModStorageDataMap( value ) );
-			return;
-		}
-		
-		//! these types of classes shouldn't be serialized at all, someone is going to try it and have a bad day :)
-		if (variableType.IsInherited(IEntity) || variableType.IsInherited(Widget))
-		{
-			return;
-		}
-		
-		//m_Data.Insert( new ModStorageDataClass( value ) );
+		WriteRaw( new CF_ModStorage_Data_Class( value ) );
 	}
 };

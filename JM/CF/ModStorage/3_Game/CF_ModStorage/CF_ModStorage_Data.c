@@ -9,6 +9,10 @@ class CF_ModStorage_Data
 	void Read( ParamsReadContext ctx )
 	{
 	}
+
+	void OnSet()
+	{
+	}
 	
 	bool IsNull()
 	{
@@ -26,13 +30,16 @@ class CF_ModStorage_Data
 	}
 	
 	typename GetType();
+	
+	void SetFrom(Class cls, string name, int idx = 0);
+	void SetTo(Class cls, string name, int idx = 0);
 
 	Param Get()
 	{
 		return NULL;
 	}
 
-	bool Get(out Class cls)
+	bool Get(inout Class cls)
 	{
 		return false;
 	}
