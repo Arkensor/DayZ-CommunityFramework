@@ -71,6 +71,16 @@ class CF_ModStorage_Data_Array<Class T> : CF_ModStorage_Data
 		return TClassArray;
 	}
 
+	override void SetFrom(Class cls, string name, int idx = 0)
+	{
+		EnScript.GetClassVar(cls, name, idx, m_Value);
+	}
+
+	override void SetTo(Class cls, string name, int idx = 0)
+	{
+		EnScript.SetClassVar(cls, name, idx, m_Value);
+	}
+
 	override bool Get(inout Class cls)
 	{
 		if (!cls)
@@ -176,6 +186,16 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 	override typename GetType()
 	{
 		return Type();
+	}
+
+	override void SetFrom(Class cls, string name, int idx = 0)
+	{
+		EnScript.GetClassVar(cls, name, idx, m_Value);
+	}
+
+	override void SetTo(Class cls, string name, int idx = 0)
+	{
+		EnScript.SetClassVar(cls, name, idx, m_Value);
 	}
 
 	override bool Get(inout Class cls)
