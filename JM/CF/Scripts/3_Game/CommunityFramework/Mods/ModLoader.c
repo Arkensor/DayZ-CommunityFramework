@@ -7,6 +7,11 @@ modded class ModLoader
 		return m_ModMap[name];
 	}
 
+	static bool Find(string name, out ModStructure mod)
+	{
+		return m_ModMap.Find(name, mod);
+	}
+
 	override static array<ref ModStructure> GetMods()
 	{
 		if (!m_Loaded)

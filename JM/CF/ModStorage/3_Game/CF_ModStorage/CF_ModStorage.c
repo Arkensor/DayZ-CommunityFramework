@@ -3,33 +3,20 @@
  */
 class CF_ModStorage
 {
-	static const int VERSION = 1;
+	static const int VERSION = 2;
 
 	protected int m_Version;
 
 	protected ModStructure m_Mod;
 
-	private ref array<ref CF_ModStorage_Data> m_Data = new ref array<ref CF_ModStorage_Data>();
+	private autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
 	private int m_Index;
 
 	void CF_ModStorage(ref ModStructure mod)
 	{
-		m_Mod = mod;
-
-		m_Data = new array<ref CF_ModStorage_Data>();
-
 		m_Version = -1;
-
-		if (m_Mod)
-			m_Version = m_Mod.GetStorageVersion();
-	}
-
-	void ~CF_ModStorage()
-	{
-		for (int i = 0; i < m_Data.Count(); i++)
-			delete m_Data[i];
-
-		delete m_Data;
+		m_Mod = mod;
+		if (m_Mod) m_Version = m_Mod.GetStorageVersion();
 	}
 
 	int GetVersion()

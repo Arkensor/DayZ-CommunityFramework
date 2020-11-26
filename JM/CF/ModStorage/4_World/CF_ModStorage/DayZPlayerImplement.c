@@ -1,66 +1,19 @@
 modded class DayZPlayerImplement
 {
-	override void OnStoreSave( ParamsWriteContext ctx )
+	autoptr CF_ModStorage_Object<DayZPlayerImplement> m_CF_ModStorage = new CF_ModStorage_Object<DayZPlayerImplement>(this);
+
+	override void OnStoreSave(ParamsWriteContext ctx)
 	{
-		super.OnStoreSave( ctx );
-	
-		ctx.Write( CF_ModStorage.VERSION );
+		super.OnStoreSave(ctx);
 
-		array< ref ModStructure > mods = ModLoader.GetMods();
-
-		int count = mods.Count();
-
-		ctx.Write( count );
-
-		for ( int i = 0; i < count; i++ )
-		{
-			CF_ModStorage store = new CF_ModStorage( mods[ i ] );
-
-			CF_OnStoreSave( store, mods[ i ].GetName() );
-
-			store.Save( this, ctx );
-		}
+		m_CF_ModStorage.OnStoreSave(ctx);
 	}
 
-	override bool OnStoreLoad( ParamsReadContext ctx, int version )
+	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-		if ( !super.OnStoreLoad( ctx, version ) )
-			return false;
+		if ( !super.OnStoreLoad(ctx, version)) return false;
 
-		// If the persistence file is before 1.10, cf data doesn't exist
-		if ( version < 116 )
-			return true;
-
-		int cf_version;
-		if ( !ctx.Read( cf_version ) )
-			return false;
-
-		int count;
-		if ( !ctx.Read( count ) )
-			return false;
-
-		for ( int i = 0; i < count; i++ )
-		{
-			string modName;
-			if ( !ctx.Read( modName ) )
-				return false;
-
-			CF_ModStorage store = new CF_ModStorage( ModLoader.Get( modName ) );
-
-			if ( !store.Load( this, ctx, cf_version ) )
-			{
-				Error( "Failed reading " + GetType() + " for mod '" + modName + "'!" );
-				return false;
-			}
-
-			if ( store.GetMod() && store.GetVersion() > 0 && !CF_OnStoreLoad( store, modName ) )
-			{
-				Error( "Failed loading " + GetType() + " for mod '" + modName + "'!" );
-				return false;
-			}
-		}
-
-		return true;
+		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
 
 	/**
