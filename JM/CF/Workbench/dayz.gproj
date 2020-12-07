@@ -84,7 +84,7 @@ GameProjectClass {
      Paths {
       "scripts/editor/Workbench"
       "scripts/editor/plugins"
-      "JM/CF/Scripts/Workbench/Plugins"
+      "JM/CF/Scripts/Editor/plugins"
      }
      EntryPoint ""
     }

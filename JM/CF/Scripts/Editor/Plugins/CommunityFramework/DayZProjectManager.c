@@ -1,5 +1,15 @@
-modded class DayZTool
+
+[WorkbenchPluginAttribute("Edit Project", "Edit Project", "", "", {"ResourceManager", "ScriptEditor"})]
+class DayZProjectManager: DayZTool
 {
+	[Attribute("", "editbox")]
+	string ModName = "JM\\CF";
+		
+	override void Run()
+	{
+		Workbench.ScriptDialog("Edit Project Settings", "", this);
+	}
+	
 	override void RunDayZBat(string filepath, bool wait = false)
 	{
 		if (filepath.Length() < 2) return;
@@ -27,6 +37,15 @@ modded class DayZTool
 		string path = filepath.Substring(0, last_index);
 		string bat = filepath.Substring(last_index + 1, filepath.Length() - last_index - 1);
 		
+		Print("cmd /c \"chdir /D " + path + " & call " + bat + "\"");
 		Workbench.RunCmd("cmd /c \"chdir /D " + path + " & call " + bat + "\"", wait);
+	}
+	
+	
+	void RunDayZBatList(array<string> filepaths)
+	{
+		foreach (string file: filepaths) {
+			RunDayZBat(file, true);
+		}
 	}
 }
