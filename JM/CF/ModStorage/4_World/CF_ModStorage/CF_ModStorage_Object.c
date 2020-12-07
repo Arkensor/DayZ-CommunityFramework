@@ -58,7 +58,7 @@ class CF_ModStorage_Object<Class T>
 			ModStructure mod;
 			bool modExists = ModLoader.Find(modName, mod);
 
-			CF_ModStorage store = new CF_ModStorage(mod);
+			CF_ModStorage store = new CF_ModStorage(mod, modName);
 
 			if (!store.Load(m_Entity, ctx, cf_version))
 			{
@@ -66,7 +66,7 @@ class CF_ModStorage_Object<Class T>
 				return false;
 			}
 
-			if (store.GetMod() && store.GetVersion() > 0 && !m_Entity.CF_OnStoreLoad(store, modName))
+			if (modExists && store.GetVersion() > 0 && !m_Entity.CF_OnStoreLoad(store, modName))
 			{
 				Error("Failed loading " + Object.GetDebugName(m_Entity) + " for mod '" + modName + "'!");
 				return false;

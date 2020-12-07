@@ -1,5 +1,6 @@
 /**
- * Do not mod this class.
+ * Do not mod this class. Modding this class defeats the purpose of this being in Community Framework.
+ * You will break persistence if you mod it. Make a pull request here https://github.com/Jacob-Mango/DayZ-Community-Framework/pulls
  */
 class CF_ModStorage
 {
@@ -8,15 +9,24 @@ class CF_ModStorage
 	protected int m_Version;
 
 	protected ModStructure m_Mod;
+	protected string m_ModName;
 
 	private autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
 	private int m_Index;
 
-	void CF_ModStorage(ref ModStructure mod)
+	void CF_ModStorage(ref ModStructure mod, string modNameOverride = "")
 	{
 		m_Version = -1;
 		m_Mod = mod;
-		if (m_Mod) m_Version = m_Mod.GetStorageVersion();
+		if (m_Mod)
+		{
+			m_Version = m_Mod.GetStorageVersion();
+			m_ModName = m_Mod.GetName();
+		}
+		else
+		{
+			m_ModName = modNameOverride;
+		}
 	}
 
 	int GetVersion()
@@ -37,10 +47,7 @@ class CF_ModStorage
 
 	void Save(EntityAI entity, ParamsWriteContext ctx)
 	{
-		if (m_Mod)
-			ctx.Write(m_Mod.GetName());
-		else
-			ctx.Write("");
+		ctx.Write(m_ModName);
 
 		ctx.Write(m_Version);
 
@@ -61,12 +68,6 @@ class CF_ModStorage
 	bool Load(EntityAI entity, ParamsReadContext ctx, int version)
 	{
 		Clear();
-
-		if (entity == null)
-		{
-			string tempModName;
-			ctx.Read(tempModName);
-		}
 
 		int currVersion = m_Version;
 		ctx.Read(m_Version);

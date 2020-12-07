@@ -14,7 +14,6 @@ class CF_ModStorage_Converter
 
 		m_Constructed = true;
 
-		//TODO: test why this still worked with all 'types' set to bool
 		AddType(bool, CF_ModStorage_Data_Bool);
 		AddType(int, CF_ModStorage_Data_Int);
 		AddType(float, CF_ModStorage_Data_Float);
@@ -81,6 +80,7 @@ class CF_ModStorage_Converter
 			}
 		}
 
+		//! There is no "null" typename type, only a drunken man will store Math3D for an unknown reason
 		return Math3D;
 	}
 
