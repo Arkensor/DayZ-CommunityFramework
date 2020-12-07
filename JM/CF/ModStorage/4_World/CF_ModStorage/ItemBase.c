@@ -29,16 +29,23 @@ modded class ItemBase
 			super.CF_OnStoreSave( storage, modName );
 
 			if ( modName != "JM_CommunityFramework" )
-				return; //! Early exit
+				return; //! Early exit, we aren't writing our mod
 
-			storage.WriteVector( GetOrientation() );
-			storage.WriteInt( 6 );
+			storage.Write( GetOrientation() );
+			storage.Write( 6 );
 
 			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
-			if ( storage.GetVersion() > 1 ) //! this check is redudant
+			if ( storage.GetVersion() > 1 ) //! this check is redudant for writing since it is assumed you are always writing the latest version
 			{
-				storage.WriteString( "ThisVariableIsAddedWithVersion2" );
+				storage.Write( "ThisVariableIsAddedWithVersion2" );
 			}
+
+			array<ref CF_ModStorage_Test_Class_B> arrayOfClassesExample = new array<ref CF_ModStorage_Test_Class_B>();
+			arrayOfClassesExample.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(1768)));
+			arrayOfClassesExample.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(1278)));
+			arrayOfClassesExample.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(278)));
+
+			CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(storage, arrayOfClassesExample);
 		}
 	}
 	 */
@@ -60,23 +67,26 @@ modded class ItemBase
 				return false;
 
 			if ( modName != "JM_CommunityFramework" )
-				return true; //! Early exit
+				return true; //! Early exit, we aren't loading our mod
 
 			vector orientation;
-			if ( !storage.ReadVector( orientation ) )
+			if ( !storage.Read( orientation ) )
 				return false;
 
 			string intVar;
-			if ( !storage.ReadInt( intVar ) )
+			if ( !storage.Read( intVar ) )
 				return false;
 
 			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
 			if ( storage.GetVersion() > 1 )
 			{
 				string strVar;
-				if ( !storage.ReadString( strVar ) )
+				if ( !storage.Read( strVar ) )
 					return false;
 			}
+
+			array<ref CF_ModStorage_Test_Class_B> arrayOfClassesExample = new array<ref CF_ModStorage_Test_Class_B>();
+			CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(storage, arrayOfClassesExample);
 
 			return true;
 		}

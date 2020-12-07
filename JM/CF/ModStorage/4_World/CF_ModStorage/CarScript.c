@@ -17,30 +17,10 @@ modded class CarScript
 	}
 
 	/**
-	 * @param storage	Where the data is written to, only use public methods 'void Write...(value)`
+	 * @param storage	Where the data is written to
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
-	 * @code
-	modded class Sedan_02 // extends from CarScript
-	{
-		override void CF_OnStoreSave( CF_ModStorage storage, string modName )
-		{
-			//! Always call super at the start.
-			super.CF_OnStoreSave( storage, modName );
-
-			if ( modName != "JM_CommunityFramework" )
-				return; //! Early exit
-
-			storage.WriteVector( GetOrientation() );
-			storage.WriteInt( 6 );
-
-			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
-			if ( storage.GetVersion() > 1 ) //! this check is redudant
-			{
-				storage.WriteString( "ThisVariableIsAddedWithVersion2" );
-			}
-		}
-	}
+	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreSave
 	 */
 	void CF_OnStoreSave( CF_ModStorage storage, string modName )
 	{
@@ -48,39 +28,10 @@ modded class CarScript
 	}
 
 	/**
-	 * @param storage	Where the data is read from, only use public methods 'bool Read...(out value)`
+	 * @param storage	Where the data is read from
 	 * @param modName	The name of the mod from CfgMods class to check against
 	 * 
-	 * @code
-	modded class Sedan_02 // extends from CarScript
-	{
-		override bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
-		{
-			if ( !super.CF_OnStoreLoad( storage, modName ) )
-				return false;
-
-			if ( modName != "JM_CommunityFramework" )
-				return true; //! Early exit
-
-			vector orientation;
-			if ( !storage.ReadVector( orientation ) )
-				return false;
-
-			string intVar;
-			if ( !storage.ReadInt( intVar ) )
-				return false;
-
-			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
-			if ( storage.GetVersion() > 1 )
-			{
-				string strVar;
-				if ( !storage.ReadString( strVar ) )
-					return false;
-			}
-
-			return true;
-		}
-	}
+	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreLoad
 	 */
 	bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
 	{
