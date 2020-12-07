@@ -236,13 +236,13 @@ class CF_ModStorage_Test
 		in_value.Insert("on Namalsk");
 
 		string expected = CF_ModStorage_DebugP<string>.DebugString(in_value);
-		mod.WriteArray(in_value);
+		mod.Write(in_value);
 
 		mod.Save(null, rw.GetWriteContext());
 		mod.Load(null, rw.GetReadContext(), -1);
 
 		array<string> out_value = new array<string>();
-		mod.ReadArray(out_value);
+		mod.Read(out_value);
 		string actual = CF_ModStorage_DebugP<string>.DebugString(out_value);
 
 		_assert(expected, actual);
