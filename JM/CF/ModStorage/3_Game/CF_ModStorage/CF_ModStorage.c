@@ -93,8 +93,7 @@ class CF_ModStorage
 
 	ref CF_ModStorage_Data ReadRaw()
 	{
-		if (m_Index >= m_Data.Count())
-			return null;
+		if (m_Index >= m_Data.Count()) return null;
 
 		return m_Data[m_Index++];
 	}
@@ -114,8 +113,7 @@ class CF_ModStorage
 	bool Read(out bool value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		value = Param1<bool>.Cast(data.Get()).param1;
 
@@ -125,8 +123,7 @@ class CF_ModStorage
 	bool Read(out int value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		value = Param1<int>.Cast(data.Get()).param1;
 
@@ -136,8 +133,7 @@ class CF_ModStorage
 	bool Read(out float value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		value = Param1<float>.Cast(data.Get()).param1;
 
@@ -147,8 +143,7 @@ class CF_ModStorage
 	bool Read(out vector value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		value = Param1<vector>.Cast(data.Get()).param1;
 
@@ -158,8 +153,7 @@ class CF_ModStorage
 	bool Read(out string value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		value = Param1<string>.Cast(data.Get()).param1;
 
@@ -174,11 +168,9 @@ class CF_ModStorage
 	bool Read(ref Class value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
-		if (!value)
-			return data.IsNull();
+		if (!value) return data.IsNull();
 
 		return data.Get(value);
 	}
@@ -186,66 +178,61 @@ class CF_ModStorage
 	bool Read(ref TBoolArray value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		Class cls = value;
-		bool success = data.Get(cls);
+		if (!data.Get(cls)) return false;
+		
 		value = TBoolArray.Cast(cls);
-
-		return success;
+		return true;
 	}
 
 	bool Read(ref TIntArray value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		Class cls = value;
-		bool success = data.Get(cls);
-		value = TIntArray.Cast(cls);
+		if (!data.Get(cls)) return false;
 
-		return success;
+		value = TIntArray.Cast(cls);
+		return true;
 	}
 
 	bool Read(ref TFloatArray value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		Class cls = value;
-		bool success = data.Get(cls);
-		value = TFloatArray.Cast(cls);
+		if (!data.Get(cls)) return false;
 
-		return success;
+		value = TFloatArray.Cast(cls);
+		return true;
 	}
 
 	bool Read(ref TVectorArray value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		Class cls = value;
-		bool success = data.Get(cls);
-		value = TVectorArray.Cast(cls);
+		if (!data.Get(cls)) return false;
 
-		return success;
+		value = TVectorArray.Cast(cls);
+		return true;
 	}
 
 	bool Read(ref TStringArray value)
 	{
 		ref CF_ModStorage_Data data = ReadRaw();
-		if (!data)
-			return false;
+		if (!data) return false;
 
 		Class cls = value;
-		bool success = data.Get(cls);
-		value = TStringArray.Cast(cls);
+		if (!data.Get(cls)) return false;
 
-		return success;
+		value = TStringArray.Cast(cls);
+		return true;
 	}
 
 	void Write(bool value)
