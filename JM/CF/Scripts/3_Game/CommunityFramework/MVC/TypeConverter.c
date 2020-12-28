@@ -112,8 +112,10 @@ class TypeConversionTemplate<Class T> : TypeConverter
 	// string, int, etc... dont inherit from Class :)
 	override void SetParam(Param value)
 	{
-		Param1<T> param = value;
-		m_Value = param.param1;
+		Param1<T> param = Param1<T>.Cast(value);
+		if (param) {
+			m_Value = param.param1;
+		}
 	}
 
 	override Param GetParam()
