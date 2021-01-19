@@ -356,12 +356,21 @@ class RPCManager
 	{
 		if ( !m_RPCActions.Contains( modName ) )
 		{
-			//GetLogger().Log( "Creating RPC mod " + modName, m_UpdateChecker );
+			Print("Creating RPC mod " + modName);
 			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );
 		}
 		
-		//GetLogger().Log( "Creating RPC function " + modName + "::" + funcName, m_UpdateChecker );
-		auto wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
+		Print("Adding RPC function " + modName + "::" + funcName);
+
+		RPCMetaWrapper wrapper = null;
+
+		if (m_RPCActions[modName].Find(funcName, wrapper))
+		{
+			string currFunc = m_RPCActions[modName].GetKeyByValue(wrapper);
+			Error("Duplicate RPC function added. Hash=" + funcName.Hash() + " with possible conflict (" + currFunc + "||" + funcName + ")");
+		}
+
+		wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
 		
 		m_RPCActions[ modName ].Set( funcName, wrapper );
 
