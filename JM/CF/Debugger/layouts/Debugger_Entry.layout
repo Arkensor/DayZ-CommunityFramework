@@ -1,0 +1,58 @@
+FrameWidgetClass DebuggerEntry {
+ position 0 0
+ size 1 25
+ hexactpos 1
+ vexactpos 1
+ hexactsize 0
+ vexactsize 1
+ {
+  WrapSpacerWidgetClass EntrySpacer {
+   ignorepointer 1
+   size 1 1
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   Padding 0
+   Margin 0
+   {
+    TextWidgetClass EntryKey {
+     ignorepointer 1
+     size 0.5 1
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "ViewBinding"
+     {
+      ScriptParamsClass {
+       Binding_Name "EntryKey"
+      }
+     }
+    }
+    TextWidgetClass EntryValue {
+     ignorepointer 1
+     size 0.5 1
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 0
+     scriptclass "ViewBinding"
+     text "eee"
+     font "gui/fonts/system"
+     {
+      ScriptParamsClass {
+       Binding_Name "EntryValue"
+      }
+     }
+    }
+   }
+  }
+ }
+}
