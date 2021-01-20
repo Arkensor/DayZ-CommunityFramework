@@ -4,6 +4,8 @@
 
 #define CF_GHOSTICONS
 
+#define CF_DEBUGGER
+
 #ifdef CF_MODULE_LAYOUT_BINDING
 #define CF_MODEL_VIEW_BINDING
 #endif
