@@ -15,10 +15,14 @@ void EOnSimulate(...)
 class CF_Debugger
 {
 	private autoptr array<ref CF_Debugger_Block> m_Blocks;
+	private bool m_IsEnabled;
 
 	void CF_Debugger()
 	{
 		m_Blocks = new array<ref CF_Debugger_Block>();
+
+		m_IsEnabled = FileExist("$profile:CF_Debugger.txt");
+		if (GetGame().IsServer() && GetGame().IsMultiplayer()) m_IsEnabled = false;
 	}
 
 	/*
@@ -27,6 +31,12 @@ class CF_Debugger
 	*/
 	CF_Debugger_Block Get(string name, Object target = null)
 	{
+		if (!m_IsEnabled)
+		{
+			if (!(GetGame().IsServer() && GetGame().IsMultiplayer())) Error("CF_Debugger::Get was called while disabled. Please use defines and disable references of CF_Debugger in production code.");
+			return null;
+		}
+
 		for (int i = 0; i < m_Blocks.Count(); i++)
 		{
 			if (target && !m_Blocks[i].IsTarget(target))
@@ -51,6 +61,12 @@ class CF_Debugger
 	array<CF_Debugger_Block> GetAll(string name = "")
 	{
 		array<CF_Debugger_Block> blocks = new array<CF_Debugger_Block>();
+		
+		if (!m_IsEnabled)
+		{
+			if (!(GetGame().IsServer() && GetGame().IsMultiplayer())) Error("CF_Debugger::GetAll was called while disabled. Please use defines and disable references of CF_Debugger in production code.");
+			return blocks;
+		}
 
 		for (int i = 0; i < m_Blocks.Count(); i++)
 		{
@@ -68,6 +84,12 @@ class CF_Debugger
 	*/
 	void Destroy(string name, Object target = null)
 	{
+		if (!m_IsEnabled)
+		{
+			if (!(GetGame().IsServer() && GetGame().IsMultiplayer())) Error("CF_Debugger::Destroy was called while disabled. Please use defines and disable references of CF_Debugger in production code.");
+			return;
+		}
+
 		for (int i = 0; i < m_Blocks.Count(); i++)
 		{
 			if (target && !m_Blocks[i].IsTarget(target))
@@ -111,5 +133,35 @@ class CF_Debugger
 	void Display(string name, Object target, string key, string text)
 	{
 		Get(name, target).Set(key, text);
+	}
+
+	void Display(string name, string key, int text)
+	{
+		Get(name, null).Set(key, text);
+	}
+
+	void Display(string name, string key, bool text)
+	{
+		Get(name, null).Set(key, text);
+	}
+
+	void Display(string name, string key, float text)
+	{
+		Get(name, null).Set(key, text);
+	}
+
+	void Display(string name, string key, vector text)
+	{
+		Get(name, null).Set(key, text);
+	}
+
+	void Display(string name, string key, Class text)
+	{
+		Get(name, null).Set(key, text);
+	}
+
+	void Display(string name, string key, string text)
+	{
+		Get(name, null).Set(key, text);
 	}
 };
