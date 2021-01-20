@@ -55,6 +55,7 @@ GameProjectClass {
       "scripts/3_Game"
       "JM/CF/Defines"
       "JM/CF/XML/3_Game"
+      "JM/CF/Debugger/3_Game"
       "JM/CF/Scripts/3_Game"
      }
      EntryPoint "CF_CreateGame"
@@ -65,6 +66,7 @@ GameProjectClass {
       "scripts/4_World"
       "JM/CF/Defines"
       "JM/CF/XML/4_World"
+      "JM/CF/Debugger/4_World"
       "JM/CF/Scripts/4_World"
      }
      EntryPoint "CF_CreateWorld"
@@ -75,6 +77,7 @@ GameProjectClass {
       "scripts/5_Mission"
       "JM/CF/Defines"
       "JM/CF/XML/5_Mission"
+      "JM/CF/Debugger/5_Mission"
       "JM/CF/Scripts/5_Mission"
      }
      EntryPoint "CreateMission"

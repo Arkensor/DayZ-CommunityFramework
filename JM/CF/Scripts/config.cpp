@@ -15,7 +15,8 @@ class CfgPatches
 			#ifdef CF_MODULE_PERMISSIONS
 			"JM_CF_Permissions",
 			#endif
-			"JM_CF_XML"
+			"JM_CF_XML",
+			"JM_CF_Debugger"
 		};
 	};
 };
@@ -60,6 +61,7 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/3_Game",
+					"JM/CF/Debugger/3_Game",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
@@ -70,6 +72,7 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/4_World",
+					"JM/CF/Debugger/4_World",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -80,6 +83,7 @@ class CfgMods
 				{
 					"JM/CF/Defines",
 					"JM/CF/XML/5_Mission",
+					"JM/CF/Debugger/5_Mission",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};
