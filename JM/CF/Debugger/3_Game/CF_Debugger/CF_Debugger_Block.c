@@ -1,4 +1,4 @@
-class CF_Debugger_Block
+class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 {
 	private string m_Name;
 
@@ -6,7 +6,7 @@ class CF_Debugger_Block
 	//! Boolean to determine if the block has a target, so we can auto destroy if the target becomes null without affecting non-targets
 	private bool m_HasTarget;
 
-	private autoptr map<string, string> m_Text;
+	private autoptr map<string, ref CF_Debugger_Entry> m_Text;
 
 	void CF_Debugger_Block(string name, Object target = null)
 	{
@@ -15,37 +15,39 @@ class CF_Debugger_Block
 		m_Target = target;
 		m_HasTarget = m_Target != null;
 
-		m_Text = new map<string, string>();
+		m_Text = new map<string, ref CF_Debugger_Entry>();
 	}
 
 	void Add(string key, int text)
 	{
-		m_Text[key] = "" + text;
+		SetValue(key, "" + text);
 	}
 
 	void Add(string key, bool text)
 	{
-		m_Text[key] = "" + text;
+		SetValue(key, "" + text);
 	}
 
 	void Add(string key, float text)
 	{
-		m_Text[key] = "" + text;
+		SetValue(key, "" + text);
 	}
 
 	void Add(string key, vector text)
 	{
-		m_Text[key] = "" + text;
+		SetValue(key, "" + text);
 	}
 
 	void Add(string key, string text)
 	{
-		m_Text[key] = text;
+		SetValue(key, text);
 	}
 
 	void Clear()
 	{
 		m_Text.Clear();
+
+		GetTemplateController().DebuggerBlockData.Clear();
 	}
 
 	string GetName()
@@ -70,5 +72,22 @@ class CF_Debugger_Block
 		if (!m_HasTarget) return false;
 
 		return target == m_Target;
+	}
+	
+	private void SetValue(string key, string value)
+	{
+		if (!m_Text[key])
+		{
+			m_Text[key] = new CF_Debugger_Entry(key);
+
+			GetTemplateController().DebuggerBlockData.Insert(m_Text[key]);
+		}
+		
+		m_Text[key].SetValue(value);
+	}
+
+	override string GetLayoutFile()
+	{
+		return "JM/CF/Debugger/layouts/Debugger_Block.layout";
 	}
 };

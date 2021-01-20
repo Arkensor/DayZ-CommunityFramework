@@ -2,7 +2,6 @@ class CF_Debugger_Entry: ScriptViewTemplate<CF_Debugger_Entry_Controller>
 {	
 	void CF_Debugger_Entry(string key)
 	{
-		Print(key);
 		GetTemplateController().EntryKey = key;
 		GetTemplateController().NotifyPropertyChanged("EntryKey");
 	}
@@ -27,4 +26,4 @@ class CF_Debugger_Entry: ScriptViewTemplate<CF_Debugger_Entry_Controller>
 	{
 		return "JM/CF/Debugger/layouts/Debugger_Entry.layout";
 	}
-}
+};
