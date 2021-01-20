@@ -85,26 +85,26 @@ class CF_Debugger
 
 	void Display(string name, Object target, string key, int text)
 	{
-		Get(name, target).Add(key, text);
+		Get(name, target).Set(key, text);
 	}
 
 	void Display(string name, Object target, string key, bool text)
 	{
-		Get(name, target).Add(key, text);
+		Get(name, target).Set(key, text);
 	}
 
 	void Display(string name, Object target, string key, float text)
 	{
-		Get(name, target).Add(key, text);
+		Get(name, target).Set(key, text);
 	}
 
 	void Display(string name, Object target, string key, vector text)
 	{
-		Get(name, target).Add(key, text);
+		Get(name, target).Set(key, text);
 	}
 
 	void Display(string name, Object target, string key, string text)
 	{
-		Get(name, target).Add(key, text);
+		Get(name, target).Set(key, text);
 	}
 };

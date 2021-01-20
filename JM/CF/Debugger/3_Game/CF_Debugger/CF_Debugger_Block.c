@@ -18,29 +18,36 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 		m_Text = new map<string, ref CF_Debugger_Entry>();
 	}
 
-	void Add(string key, int text)
+	void Set(string key, int text)
 	{
 		SetValue(key, "" + text);
 	}
 
-	void Add(string key, bool text)
+	void Set(string key, bool text)
 	{
 		SetValue(key, "" + text);
 	}
 
-	void Add(string key, float text)
+	void Set(string key, float text)
 	{
 		SetValue(key, "" + text);
 	}
 
-	void Add(string key, vector text)
+	void Set(string key, vector text)
 	{
 		SetValue(key, "" + text);
 	}
 
-	void Add(string key, string text)
+	void Set(string key, string text)
 	{
 		SetValue(key, text);
+	}
+	
+	void Remove(string key)
+	{
+		GetTemplateController().DebuggerBlockData.Remove(m_Text[key]);
+
+		m_Text.Remove(key);
 	}
 
 	void Clear()
