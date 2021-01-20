@@ -6,7 +6,7 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 	//! Boolean to determine if the block has a target, so we can auto destroy if the target becomes null without affecting non-targets
 	private bool m_HasTarget;
 
-	private autoptr map<string, ref CF_Debugger_Entry> m_Text;
+	private int m_Count;
 
 	void CF_Debugger_Block(string name, Object target = null)
 	{
@@ -14,8 +14,6 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 
 		m_Target = target;
 		m_HasTarget = m_Target != null;
-
-		m_Text = new map<string, ref CF_Debugger_Entry>();
 	}
 
 	void Set(string key, int text)
@@ -50,16 +48,17 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 	
 	void Remove(string key)
 	{
-		GetTemplateController().DebuggerBlockData.Remove(m_Text[key]);
-
-		m_Text.Remove(key);
+		GetTemplateController().DebuggerBlockData.Remove(key);
 	}
 
 	void Clear()
 	{
-		m_Text.Clear();
-
 		GetTemplateController().DebuggerBlockData.Clear();
+	}
+
+	void Cleanup()
+	{
+		m_Count = 0;
 	}
 
 	string GetName()
@@ -88,14 +87,22 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 	
 	private void SetValue(string key, string value)
 	{
-		if (!m_Text[key])
+		CF_Debugger_Entry entry = GetTemplateController().DebuggerBlockData.Get(key);
+		if (!entry)
 		{
-			m_Text[key] = new CF_Debugger_Entry(key);
-
-			GetTemplateController().DebuggerBlockData.Insert(m_Text[key]);
+			entry = new CF_Debugger_Entry(key);
+			GetTemplateController().DebuggerBlockData.Insert(key, entry);
 		}
 		
-		m_Text[key].SetValue(value);
+		entry.SetValue(value);
+
+		//if (entry.Index < m_Count)
+		//{
+		//	GetTemplateController().DebuggerBlockData.RemoveRange(m_Text[key].Index + 1, m_Count);
+		//}
+
+		entry.Index = m_Count;
+		m_Count++;
 	}
 
 	override string GetLayoutFile()

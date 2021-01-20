@@ -1,5 +1,7 @@
 class CF_Debugger_Entry: ScriptViewTemplate<CF_Debugger_Entry_Controller>
-{	
+{
+	int Index;
+
 	void CF_Debugger_Entry(string key)
 	{
 		GetTemplateController().EntryKey = key;

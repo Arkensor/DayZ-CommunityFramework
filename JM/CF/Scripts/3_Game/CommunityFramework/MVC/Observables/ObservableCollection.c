@@ -86,6 +86,15 @@ class ObservableCollection<Class TValue> : Observable
 		_data.Remove(index);
 	}
 
+	void RemoveRange(int start, int end)
+	{
+		for (int i = start; i < end; i++)
+		{
+			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, start, new Param1<TValue>(_data.Get(start))));
+			_data.RemoveOrdered(start);
+		}
+	}
+
 	void Remove(TValue value)
 	{
 		int index = _data.Find(value);
