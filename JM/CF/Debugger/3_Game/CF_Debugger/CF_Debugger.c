@@ -103,6 +103,11 @@ class CF_Debugger
 		Get(name, target).Set(key, text);
 	}
 
+	void Display(string name, Object target, string key, Class text)
+	{
+		Get(name, target).Set(key, text);
+	}
+
 	void Display(string name, Object target, string key, string text)
 	{
 		Get(name, target).Set(key, text);

@@ -38,6 +38,11 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 		SetValue(key, "" + text);
 	}
 
+	void Set(string key, Class text)
+	{
+		SetValue(key, "" + text);
+	}
+
 	void Set(string key, string text)
 	{
 		SetValue(key, text);
