@@ -572,6 +572,7 @@ class ItemPreviewWidgetController : WidgetControllerTemplate<ItemPreviewWidget>
 		EntityAI entity;
 		if (Class.CastTo(entity, typeConverter.GetObject()))
 		{
+			m_Widget.SetView(0);
 			m_Widget.SetItem(entity);
 			m_Widget.SetModelPosition(vector.Zero);
 		}
