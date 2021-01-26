@@ -70,7 +70,7 @@ class ScriptView : ScriptedViewBase
 
 		if (m_LayoutRoot)
 		{
-			Print("~" + m_LayoutRoot.GetName());
+			Log("~" + m_LayoutRoot.GetName());
 			m_LayoutRoot.Unlink();
 		}
 	}
