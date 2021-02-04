@@ -37,7 +37,8 @@ class ScriptedViewBase : Managed
 	{
 		if (!m_ParentScriptedViewBase && m_LayoutRoot) 
 		{
-			m_ParentScriptedViewBase = GetParentScriptView(m_LayoutRoot);
+			// Experimental update for trying to recursively find a root... causes Stackoverflow
+			//m_ParentScriptedViewBase = GetParentScriptView(m_LayoutRoot);
 		}
 		
 		return m_ParentScriptedViewBase;
