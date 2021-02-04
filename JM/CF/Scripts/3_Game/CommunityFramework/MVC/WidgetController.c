@@ -600,6 +600,20 @@ class PlayerPreviewWidgetController : WidgetControllerTemplate<PlayerPreviewWidg
     {
         typeConverter.Set(m_Widget.GetDummyPlayer());
     }
+	
+	override void SetSelection(TypeConverter typeConverter)
+	{
+		m_Widget.UpdateItemInHands(EntityAI.Cast(typeConverter.GetObject()));
+	}
+
+	override void GetSelection(out TypeConverter typeConverter)
+	{
+		DayZPlayer player;
+		if (Class.CastTo(player, m_Widget.GetDummyPlayer()))
+		{
+			typeConverter.SetObject(player.GetHumanInventory().GetEntityInHands());
+		} 
+	}
 };
 
 class HtmlWidgetController : WidgetControllerTemplate<HtmlWidget>
