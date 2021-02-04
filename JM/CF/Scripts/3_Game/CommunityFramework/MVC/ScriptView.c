@@ -60,7 +60,7 @@ class ScriptView : ScriptedViewBase
 		}
 
 		m_Controller.Debug_Logging = Debug_Logging;
-		//m_Controller.SetParent(this);
+		m_Controller.SetParent(this);
 		//m_LayoutRoot.SetHandler(this);
 	}
 
