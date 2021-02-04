@@ -112,7 +112,7 @@ class ScriptedViewBase : Managed
 	
 	// recursive function searches up the tree for the first available script view
 	private static ScriptedViewBase GetParentScriptView(Widget widget)
-	{
+	{		
 		if (!widget)
 		{
 			return null;
@@ -120,6 +120,7 @@ class ScriptedViewBase : Managed
 		
 		ScriptedViewBase scripted_view;
 		widget.GetScript(scripted_view);
+		
 		if (scripted_view) 
 		{
 			return scripted_view;

@@ -15,7 +15,8 @@ class SampleRelayCommand: RelayCommand
 				
 		ButtonCommandArgs commandArgs = ButtonCommandArgs.Cast(args);
 		if (commandArgs.GetButtonState()) {
-			controller.script_view.Insert(new SampleScriptView());
+			ScriptView test = new SampleScriptView();
+			controller.script_view.Insert(test);
 		} else {
 			delete controller.script_view;
 			controller.script_view = new ObservableCollection<ref SampleScriptView>(controller);
@@ -26,11 +27,11 @@ class SampleRelayCommand: RelayCommand
 }
 
 
-// This is just a wrapper for JM/CF/GUI/layouts/sample_LayoutBindingManager.layout
+// This is just a wrapper for JM/CF/GUI/layouts/sample_mvc2.layout
 class SampleScriptView: ScriptView
 {
 	override string GetLayoutFile() {
-		return "JM/CF/GUI/layouts/sample_LayoutBindingManager.layout";
+		return "JM/CF/GUI/layouts/sample_mvc.layout";
 	}
 	
 	override typename GetControllerType() {
