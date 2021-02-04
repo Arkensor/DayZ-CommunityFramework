@@ -43,7 +43,7 @@ class LayoutBindingManager
 		if (!m_WidgetControllerHashMap)
 		{
 			m_WidgetControllerHashMap = new TypenameHashMap();
-			RegisterWidgetwidget_controllers(m_WidgetControllerHashMap);
+			RegisterWidgetControllers(m_WidgetControllerHashMap);
 		}
 	}
 	
@@ -72,7 +72,7 @@ class LayoutBindingManager
 	// Override THIS to add your own Widget widget_controllers 
 	// this determins how the Widget controls the data sent to it
 	// Great for prefabs
-	void RegisterWidgetwidget_controllers(out TypenameHashMap widget_controllers)
+	void RegisterWidgetControllers(out TypenameHashMap widget_controllers)
 	{
 		Log("LayoutBindingManager::RegisterWidgetwidget_controllers");
 		
