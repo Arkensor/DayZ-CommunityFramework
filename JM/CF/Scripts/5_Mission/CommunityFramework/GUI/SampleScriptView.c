@@ -15,8 +15,7 @@ class SampleRelayCommand: RelayCommand
 				
 		ButtonCommandArgs commandArgs = ButtonCommandArgs.Cast(args);
 		if (commandArgs.GetButtonState()) {
-			ScriptView test = new SampleScriptView();
-			controller.script_view.Insert(test);
+			controller.script_view.Insert(new SampleScriptView());
 		} else {
 			delete controller.script_view;
 			controller.script_view = new ObservableCollection<ref SampleScriptView>(controller);
