@@ -583,3 +583,29 @@ class ItemPreviewWidgetController : WidgetControllerTemplate<ItemPreviewWidget>
 		typeConverter.Set(m_Widget.GetItem());
 	}
 };
+
+class PlayerPreviewWidgetController : WidgetControllerTemplate<PlayerPreviewWidget>
+{
+    override void Set(TypeConverter typeConverter)
+    {
+        DayZPlayer player;
+        if (Class.CastTo(player, typeConverter.GetObject()))
+        {
+            m_Widget.SetPlayer(player);
+            m_Widget.SetModelPosition(vector.Zero);
+        }
+    }
+
+    override void Get(out TypeConverter typeConverter)
+    {
+        typeConverter.Set(m_Widget.GetDummyPlayer());
+    }
+};
+
+class HtmlWidgetController : WidgetControllerTemplate<HtmlWidget>
+{
+    override void Set(TypeConverter typeConverter)
+    {
+        m_Widget.SetText(typeConverter.GetString());
+    }
+};
