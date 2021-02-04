@@ -35,7 +35,7 @@ class ScriptedViewBase : Managed
 	protected ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent()
 	{
-		if (!m_ParentScriptedViewBase) 
+		if (!m_ParentScriptedViewBase && m_LayoutRoot) 
 		{
 			m_ParentScriptedViewBase = GetParentScriptView(m_LayoutRoot);
 		}
@@ -124,8 +124,9 @@ class ScriptedViewBase : Managed
 		{
 			return scripted_view;
 		}
-	
-		return GetParentScriptView(widget.GetParent());
+		
+		widget = widget.GetParent();
+		return GetParentScriptView(widget);
 	}
 
 	void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
