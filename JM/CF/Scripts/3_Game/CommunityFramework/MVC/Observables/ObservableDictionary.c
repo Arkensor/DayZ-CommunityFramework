@@ -14,15 +14,22 @@ class ObservableDictionary<Class TKey, Class TValue> : Observable
 		delete _dataArray;
 	}
 
-	bool Insert(TKey key, TValue value)
+	int Insert(TKey key, TValue value)
 	{
 		if (_data.Insert(key, value))
 		{
-			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Insert, _dataArray.Insert(value), new Param1<TValue>(value)));
-			return true;
+			int index = _dataArray.Insert(value);
+			if (index == -1)
+			{
+				Error("Inserted into map but failed to insert into array so FML.");
+				return -1;
+			}
+			
+			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Insert, index, new Param1<TValue>(value)));
+			return index;
 		}
 
-		return false;
+		return -1;
 	}
 
 	void Remove(TKey key)
@@ -30,12 +37,38 @@ class ObservableDictionary<Class TKey, Class TValue> : Observable
 		if (_data.Contains(key))
 		{
 			TValue value = _data.Get(key);
-			_data.Remove(key);
 
 			int remove_index = _dataArray.Find(value);
 			if (remove_index >= 0) _dataArray.RemoveOrdered(remove_index);
 
 			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, remove_index, new Param1<TValue>(value)));
+			
+			_data.Remove(key);
+		}
+	}
+
+	void Remove(int index)
+	{
+		TValue value = _dataArray.Get(index);
+		_dataArray.Remove(index);
+
+		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, index, new Param1<TValue>(value)));
+
+		_data.Remove(_data.GetKeyByValue(value));
+	}
+
+	void RemoveRange(int start, int end)
+	{
+		for (int i = start; i < end; i++)
+		{
+			int index = start;
+			
+			TValue value = _dataArray.Get(index);
+			_dataArray.Remove(index);
+
+			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Remove, index, new Param1<TValue>(value)));
+
+			_data.Remove(_data.GetKeyByValue(value));
 		}
 	}
 
@@ -57,6 +90,19 @@ class ObservableDictionary<Class TKey, Class TValue> : Observable
 
 		_data.Set(key, value);
 		CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Replace, remove_index, new Param1<TValue>(value)));
+	}
+
+	int MoveIndex(int index, int moveIndex)
+	{
+		if (moveIndex == index)
+			return index;
+		
+		TValue value = _dataArray.Get(index);
+		int new_index = _dataArray.MoveIndex(index, moveIndex);
+		if (new_index != index)
+			CollectionChanged(new CollectionChangedEventArgs(this, NotifyCollectionChangedAction.Move, new_index, new Param1<TValue>(value)));
+		
+		return new_index;
 	}
 
 	TValue Get(TKey key)

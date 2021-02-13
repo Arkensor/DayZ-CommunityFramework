@@ -12,6 +12,11 @@ void EOnSimulate(...)
 
 */
 
+static void CF_Debugger_Display(Class a)
+{
+
+}
+
 class CF_Debugger
 {
 	private autoptr array<ref CF_Debugger_Block> m_Blocks;
@@ -29,13 +34,9 @@ class CF_Debugger
 		Retrieves the Debugger block if it exists based on the name and if specified, the target. 
 		Creates a new block if no existing block was found.
 	*/
-	CF_Debugger_Block Get(string name, Object target = null)
+	Class Get(string name, Object target = null)
 	{
-		if (!m_IsEnabled)
-		{
-			if (!(GetGame().IsServer() && GetGame().IsMultiplayer())) Error("CF_Debugger::Get was called while disabled. Please use defines and disable references of CF_Debugger in production code.");
-			return null;
-		}
+		if (!m_IsEnabled) return null;
 
 		for (int i = 0; i < m_Blocks.Count(); i++)
 		{
@@ -58,15 +59,11 @@ class CF_Debugger
 	/*
 		Get all blocks by name, if no name specified, get all blocks
 	*/
-	array<CF_Debugger_Block> GetAll(string name = "")
+	array<Class> GetAll(string name = "")
 	{
-		array<CF_Debugger_Block> blocks = new array<CF_Debugger_Block>();
+		array<Class> blocks = new array<Class>();
 		
-		if (!m_IsEnabled)
-		{
-			if (!(GetGame().IsServer() && GetGame().IsMultiplayer())) Error("CF_Debugger::GetAll was called while disabled. Please use defines and disable references of CF_Debugger in production code.");
-			return blocks;
-		}
+		if (!m_IsEnabled) return blocks;
 
 		for (int i = 0; i < m_Blocks.Count(); i++)
 		{
@@ -84,11 +81,7 @@ class CF_Debugger
 	*/
 	void Destroy(string name, Object target = null)
 	{
-		if (!m_IsEnabled)
-		{
-			if (!(GetGame().IsServer() && GetGame().IsMultiplayer())) Error("CF_Debugger::Destroy was called while disabled. Please use defines and disable references of CF_Debugger in production code.");
-			return;
-		}
+		if (!m_IsEnabled) return;
 
 		for (int i = 0; i < m_Blocks.Count(); i++)
 		{

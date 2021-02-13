@@ -31,7 +31,6 @@ class CommunityFramework
      */
 	static void _GameInit()
 	{
-        Debugger = new CF_Debugger();
 	}
 
     /**
@@ -44,6 +43,8 @@ class CommunityFramework
 		#ifdef CF_MODULE_PERMISSIONS
 		CF_Permission_ManagerBase._Init( Permission );
 		#endif
+        
+        Debugger = new CF_Debugger();
 	}
 
     /**

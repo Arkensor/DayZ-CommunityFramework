@@ -58,7 +58,7 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 
 	void Cleanup()
 	{
-		m_Count = 0;
+		//m_Count = 0;
 	}
 
 	string GetName()
@@ -91,18 +91,13 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 		if (!entry)
 		{
 			entry = new CF_Debugger_Entry(key);
-			GetTemplateController().DebuggerBlockData.Insert(key, entry);
+			entry.Index = GetTemplateController().DebuggerBlockData.Insert(key, entry);
 		}
 		
 		entry.SetValue(value);
-
-		//if (entry.Index < m_Count)
-		//{
-		//	GetTemplateController().DebuggerBlockData.RemoveRange(m_Text[key].Index + 1, m_Count);
-		//}
-
-		entry.Index = m_Count;
-		m_Count++;
+		
+		entry.Index = GetTemplateController().DebuggerBlockData.MoveIndex(entry.Index, m_Count - entry.Index);
+		m_Count = entry.Index + 1;
 	}
 
 	override string GetLayoutFile()
