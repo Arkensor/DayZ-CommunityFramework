@@ -12,9 +12,57 @@ void EOnSimulate(...)
 
 */
 
-static void CF_Debugger_Display(Class a)
+static Class CF_Debugger_Get(string name, Object target = null)
 {
+	return CF.Debugger.Get(name, target);
+}
 
+static void CF_Debugger_Display(Class block, string key, int text)
+{
+	CF_Debugger_Block blc;
+	if (!Class.CastTo(blc, block)) return;
+	
+	blc.Set(key, text);
+}
+
+static void CF_Debugger_Display(Class block, string key, bool text)
+{
+	CF_Debugger_Block blc;
+	if (!Class.CastTo(blc, block)) return;
+	
+	blc.Set(key, text);
+}
+
+static void CF_Debugger_Display(Class block, string key, float text)
+{
+	CF_Debugger_Block blc;
+	if (!Class.CastTo(blc, block)) return;
+	
+	blc.Set(key, text);
+}
+
+static void CF_Debugger_Display(Class block, string key, vector text)
+{
+	CF_Debugger_Block blc;
+	if (!Class.CastTo(blc, block)) return;
+	
+	blc.Set(key, text);
+}
+
+static void CF_Debugger_Display(Class block, string key, Class text)
+{
+	CF_Debugger_Block blc;
+	if (!Class.CastTo(blc, block)) return;
+	
+	blc.Set(key, text);
+}
+
+static void CF_Debugger_Display(Class block, string key, string text)
+{
+	CF_Debugger_Block blc;
+	if (!Class.CastTo(blc, block)) return;
+	
+	blc.Set(key, text);
 }
 
 class CF_Debugger
@@ -100,61 +148,61 @@ class CF_Debugger
 
 	void Display(string name, Object target, string key, int text)
 	{
-		Get(name, target).Set(key, text);
+		CF_Debugger_Display(Get(name, target), key, text);
 	}
 
 	void Display(string name, Object target, string key, bool text)
 	{
-		Get(name, target).Set(key, text);
+		CF_Debugger_Display(Get(name, target), key, text);
 	}
 
 	void Display(string name, Object target, string key, float text)
 	{
-		Get(name, target).Set(key, text);
+		CF_Debugger_Display(Get(name, target), key, text);
 	}
 
 	void Display(string name, Object target, string key, vector text)
 	{
-		Get(name, target).Set(key, text);
+		CF_Debugger_Display(Get(name, target), key, text);
 	}
 
 	void Display(string name, Object target, string key, Class text)
 	{
-		Get(name, target).Set(key, text);
+		CF_Debugger_Display(Get(name, target), key, text);
 	}
 
 	void Display(string name, Object target, string key, string text)
 	{
-		Get(name, target).Set(key, text);
+		CF_Debugger_Display(Get(name, target), key, text);
 	}
 
 	void Display(string name, string key, int text)
 	{
-		Get(name, null).Set(key, text);
+		CF_Debugger_Display(Get(name, null), key, text);
 	}
 
 	void Display(string name, string key, bool text)
 	{
-		Get(name, null).Set(key, text);
+		CF_Debugger_Display(Get(name, null), key, text);
 	}
 
 	void Display(string name, string key, float text)
 	{
-		Get(name, null).Set(key, text);
+		CF_Debugger_Display(Get(name, null), key, text);
 	}
 
 	void Display(string name, string key, vector text)
 	{
-		Get(name, null).Set(key, text);
+		CF_Debugger_Display(Get(name, null), key, text);
 	}
 
 	void Display(string name, string key, Class text)
 	{
-		Get(name, null).Set(key, text);
+		CF_Debugger_Display(Get(name, null), key, text);
 	}
 
 	void Display(string name, string key, string text)
 	{
-		Get(name, null).Set(key, text);
+		CF_Debugger_Display(Get(name, null), key, text);
 	}
 };
