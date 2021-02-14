@@ -96,8 +96,8 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 		
 		entry.SetValue(value);
 		
-		entry.Index = GetTemplateController().DebuggerBlockData.MoveIndex(entry.Index, m_Count - entry.Index);
-		m_Count = entry.Index + 1;
+		//entry.Index = GetTemplateController().DebuggerBlockData.MoveIndex(entry.Index, m_Count - entry.Index);
+		//m_Count = entry.Index + 1;
 	}
 
 	override string GetLayoutFile()
