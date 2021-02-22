@@ -43,7 +43,7 @@ class LayoutBindingManager
 		if (!m_WidgetControllerHashMap)
 		{
 			m_WidgetControllerHashMap = new TypenameHashMap();
-			RegisterWidgetwidget_controllers(m_WidgetControllerHashMap);
+			RegisterWidgetControllers(m_WidgetControllerHashMap);
 		}
 	}
 	
@@ -72,7 +72,7 @@ class LayoutBindingManager
 	// Override THIS to add your own Widget widget_controllers 
 	// this determins how the Widget controls the data sent to it
 	// Great for prefabs
-	void RegisterWidgetwidget_controllers(out TypenameHashMap widget_controllers)
+	void RegisterWidgetControllers(out TypenameHashMap widget_controllers)
 	{
 		Log("LayoutBindingManager::RegisterWidgetwidget_controllers");
 		
@@ -94,6 +94,8 @@ class LayoutBindingManager
 		widget_controllers.Insert(TextListboxWidget, TextListboxController);
 		widget_controllers.Insert(RichTextWidget, TextWidgetController);
 		widget_controllers.Insert(ItemPreviewWidget, ItemPreviewWidgetController);
+		widget_controllers.Insert(PlayerPreviewWidget, PlayerPreviewWidgetController);
+		widget_controllers.Insert(HtmlWidget, HtmlWidgetController);
 	}	
 	
 	static void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")

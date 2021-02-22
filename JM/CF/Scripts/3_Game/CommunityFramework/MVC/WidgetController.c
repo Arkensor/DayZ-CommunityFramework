@@ -285,6 +285,11 @@ class MultilineEditBoxWidgetController : WidgetControllerTemplate<MultilineEditB
 		typeConverter.SetString(out_text);
 	}
 
+	override void Insert(TypeConverter typeConverter)
+	{
+		m_Widget.SetLine(m_Widget.GetLinesCount(), typeConverter.GetString());
+	}
+	
 	override void InsertAt(int index, TypeConverter typeConverter)
 	{
 		m_Widget.SetLine(index, typeConverter.GetString());
@@ -582,4 +587,44 @@ class ItemPreviewWidgetController : WidgetControllerTemplate<ItemPreviewWidget>
 	{
 		typeConverter.Set(m_Widget.GetItem());
 	}
+};
+
+class PlayerPreviewWidgetController : WidgetControllerTemplate<PlayerPreviewWidget>
+{
+    override void Set(TypeConverter typeConverter)
+    {
+        DayZPlayer player;
+        if (Class.CastTo(player, typeConverter.GetObject()))
+        {
+            m_Widget.SetPlayer(player);
+            m_Widget.SetModelPosition(vector.Zero);
+        }
+    }
+
+    override void Get(out TypeConverter typeConverter)
+    {
+        typeConverter.Set(m_Widget.GetDummyPlayer());
+    }
+	
+	override void SetSelection(TypeConverter typeConverter)
+	{
+		m_Widget.UpdateItemInHands(EntityAI.Cast(typeConverter.GetObject()));
+	}
+
+	override void GetSelection(out TypeConverter typeConverter)
+	{
+		DayZPlayer player;
+		if (Class.CastTo(player, m_Widget.GetDummyPlayer()))
+		{
+			typeConverter.SetObject(player.GetHumanInventory().GetEntityInHands());
+		} 
+	}
+};
+
+class HtmlWidgetController : WidgetControllerTemplate<HtmlWidget>
+{
+    override void Set(TypeConverter typeConverter)
+    {
+        m_Widget.SetText(typeConverter.GetString());
+    }
 };
