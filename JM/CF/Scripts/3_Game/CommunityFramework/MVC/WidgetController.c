@@ -285,6 +285,11 @@ class MultilineEditBoxWidgetController : WidgetControllerTemplate<MultilineEditB
 		typeConverter.SetString(out_text);
 	}
 
+	override void Insert(TypeConverter typeConverter)
+	{
+		m_Widget.SetLine(m_Widget.GetLinesCount(), typeConverter.GetString());
+	}
+	
 	override void InsertAt(int index, TypeConverter typeConverter)
 	{
 		m_Widget.SetLine(index, typeConverter.GetString());
