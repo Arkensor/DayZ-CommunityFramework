@@ -12,59 +12,6 @@ void EOnSimulate(...)
 
 */
 
-static Class CF_Debugger_Get(string name, Object target = null)
-{
-	return CF.Debugger.Get(name, target);
-}
-
-static void CF_Debugger_Display(Class block, string key, int text)
-{
-	CF_Debugger_Block blc;
-	if (!Class.CastTo(blc, block)) return;
-	
-	blc.Set(key, text);
-}
-
-static void CF_Debugger_Display(Class block, string key, bool text)
-{
-	CF_Debugger_Block blc;
-	if (!Class.CastTo(blc, block)) return;
-	
-	blc.Set(key, text);
-}
-
-static void CF_Debugger_Display(Class block, string key, float text)
-{
-	CF_Debugger_Block blc;
-	if (!Class.CastTo(blc, block)) return;
-	
-	blc.Set(key, text);
-}
-
-static void CF_Debugger_Display(Class block, string key, vector text)
-{
-	CF_Debugger_Block blc;
-	if (!Class.CastTo(blc, block)) return;
-	
-	blc.Set(key, text);
-}
-
-static void CF_Debugger_Display(Class block, string key, Class text)
-{
-	CF_Debugger_Block blc;
-	if (!Class.CastTo(blc, block)) return;
-	
-	blc.Set(key, text);
-}
-
-static void CF_Debugger_Display(Class block, string key, string text)
-{
-	CF_Debugger_Block blc;
-	if (!Class.CastTo(blc, block)) return;
-	
-	blc.Set(key, text);
-}
-
 class CF_Debugger
 {
 	private autoptr array<ref CF_Debugger_Block> m_Blocks;
@@ -146,63 +93,107 @@ class CF_Debugger
 		}
 	}
 
-	void Display(string name, Object target, string key, int text)
+	void SwapBuffer(string name, Object target)
 	{
-		CF_Debugger_Display(Get(name, target), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.SwapBuffer();
 	}
 
-	void Display(string name, Object target, string key, bool text)
+	void Set(string name, Object target, string key, int text)
 	{
-		CF_Debugger_Display(Get(name, target), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, Object target, string key, float text)
+	void Set(string name, Object target, string key, bool text)
 	{
-		CF_Debugger_Display(Get(name, target), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, Object target, string key, vector text)
+	void Set(string name, Object target, string key, float text)
 	{
-		CF_Debugger_Display(Get(name, target), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, Object target, string key, Class text)
+	void Set(string name, Object target, string key, vector text)
 	{
-		CF_Debugger_Display(Get(name, target), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, Object target, string key, string text)
+	void Set(string name, Object target, string key, Class text)
 	{
-		CF_Debugger_Display(Get(name, target), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, string key, int text)
+	void Set(string name, Object target, string key, string text)
 	{
-		CF_Debugger_Display(Get(name, null), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, target))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, string key, bool text)
+	void Set(string name, string key, int text)
 	{
-		CF_Debugger_Display(Get(name, null), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, null))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, string key, float text)
+	void Set(string name, string key, bool text)
 	{
-		CF_Debugger_Display(Get(name, null), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, null))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, string key, vector text)
+	void Set(string name, string key, float text)
 	{
-		CF_Debugger_Display(Get(name, null), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, null))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, string key, Class text)
+	void Set(string name, string key, vector text)
 	{
-		CF_Debugger_Display(Get(name, null), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, null))) return;
+		
+		blc.Set(key, text);
 	}
 
-	void Display(string name, string key, string text)
+	void Set(string name, string key, Class text)
 	{
-		CF_Debugger_Display(Get(name, null), key, text);
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, null))) return;
+		
+		blc.Set(key, text);
+	}
+
+	void Set(string name, string key, string text)
+	{
+		CF_Debugger_Block blc;
+		if (!Class.CastTo(blc, Get(name, null))) return;
+		
+		blc.Set(key, text);
 	}
 };

@@ -1,64 +1,110 @@
+class CF_Debugger_Entry
+{
+	string Key;
+	string Value;
+};
+
 class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 {
 	private string m_Name;
 
 	private Object m_Target;
-	//! Boolean to determine if the block has a target, so we can auto destroy if the target becomes null without affecting non-targets
 	private bool m_HasTarget;
 
+	private bool m_Buffered;
+	private bool m_SwapClears;
+
 	private int m_Count;
+
+	private autoptr map<string, int> m_EntryMap;
+	private autoptr array<ref CF_Debugger_Entry> m_Entries;
 
 	void CF_Debugger_Block(string name, Object target = null)
 	{
 		m_Name = name;
 
+		m_Buffered = false;
+		m_SwapClears = false;
+
 		m_Target = target;
 		m_HasTarget = m_Target != null;
+
+		m_Entries = new array<ref CF_Debugger_Entry>();
+		m_EntryMap = new map<string, int>();
 	}
 
 	void Set(string key, int text)
 	{
-		SetValue(key, "" + text);
+		Set(key, "" + text);
 	}
 
 	void Set(string key, bool text)
 	{
-		SetValue(key, "" + text);
+		Set(key, "" + text);
 	}
 
 	void Set(string key, float text)
 	{
-		SetValue(key, "" + text);
+		Set(key, "" + text);
 	}
 
 	void Set(string key, vector text)
 	{
-		SetValue(key, "" + text);
+		Set(key, "" + text);
 	}
 
 	void Set(string key, Class text)
 	{
-		SetValue(key, "" + text);
+		Set(key, "" + text);
 	}
 
 	void Set(string key, string text)
 	{
-		SetValue(key, text);
+		int index = -1;
+		if (!m_EntryMap.Find(key, index))
+		{
+			index = m_Entries.Insert(new CF_Debugger_Entry());
+			m_EntryMap.Insert(key, index);
+		}
+
+		m_Entries[index].Key = key;
+		m_Entries[index].Value = text;
+
+		if (!m_Buffered) SwapBuffer();
 	}
-	
+
 	void Remove(string key)
 	{
-		GetTemplateController().DebuggerBlockData.Remove(key);
+		int index = m_EntryMap[key];
+		m_EntryMap.Remove(key);
+		m_Entries.RemoveOrdered(index);
+
+		if (!m_Buffered) SwapBuffer();
 	}
 
 	void Clear()
 	{
-		GetTemplateController().DebuggerBlockData.Clear();
+		m_EntryMap.Clear();
+		m_Entries.Clear();
 	}
 
-	void Cleanup()
+	void SwapBuffer()
 	{
-		//m_Count = 0;
+		GetTemplateController().EntryKeys = "";
+		GetTemplateController().EntryValues = "";
+
+		for (int i = 0; i < m_Entries.Count(); i++)
+		{
+			if (m_Entries[i].Key == "") m_Entries[i].Key = " ";
+			if (m_Entries[i].Value == "") m_Entries[i].Value = " ";
+			GetTemplateController().EntryKeys = GetTemplateController().EntryKeys + m_Entries[i].Key + "\n";
+			GetTemplateController().EntryValues = GetTemplateController().EntryValues + m_Entries[i].Value + "\n";
+		}
+
+		GetTemplateController().NotifyPropertyChanged("EntryKeys");
+		GetTemplateController().NotifyPropertyChanged("EntryValues");
+
+		if (m_SwapClears) Clear();		
 	}
 
 	string GetName()
@@ -84,20 +130,11 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 
 		return target == m_Target;
 	}
-	
-	private void SetValue(string key, string value)
+
+	void SetBuffered(bool buffered, bool swapClears = false)
 	{
-		CF_Debugger_Entry entry = GetTemplateController().DebuggerBlockData.Get(key);
-		if (!entry)
-		{
-			entry = new CF_Debugger_Entry(key);
-			entry.Index = GetTemplateController().DebuggerBlockData.Insert(key, entry);
-		}
-		
-		entry.SetValue(value);
-		
-		//entry.Index = GetTemplateController().DebuggerBlockData.MoveIndex(entry.Index, m_Count - entry.Index);
-		//m_Count = entry.Index + 1;
+		m_Buffered = buffered;
+		m_SwapClears = swapClears;
 	}
 
 	override string GetLayoutFile()
