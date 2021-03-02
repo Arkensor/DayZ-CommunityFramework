@@ -3,9 +3,14 @@ class ImageLoader
 {
 	static const int MAX_IMAGE_SIZE = 4096 * 32;
 	
-	static ImageData LoadImage(string path)
+static ImageData LoadImage(string path)
 	{
 		ImageData image_data();
+		
+		if (!FileExist(path)) {
+			Error("Image not found! " + path);
+			return image_data;
+		}
 		
 		FileSerializer image_serializer();
 		if (!image_serializer.Open(path)) {
@@ -36,6 +41,13 @@ class ImageLoader
 	static bool SaveImage(ImageData image_data, string path)
 	{
 		FileSerializer image_serializer();
+		if (FileExist(path)) {
+			if (!DeleteFile(path)) {
+				Error("Failed to delete file " + path);
+				return false;
+			}
+		}
+		
 		if (!image_serializer.Open(path, FileMode.WRITE)) {
 			Error("Failed to open Image Serializer");
 			return false;
