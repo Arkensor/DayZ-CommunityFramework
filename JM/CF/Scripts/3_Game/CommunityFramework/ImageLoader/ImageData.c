@@ -1,0 +1,1 @@
+typedef array<int> ImageData;
