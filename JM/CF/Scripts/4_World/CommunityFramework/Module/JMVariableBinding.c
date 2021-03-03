@@ -1,5 +1,7 @@
 class JMVariableBindingBase
 {
+	static const int JM_VARIABLE_UPDATE = 435022;
+	
 	protected string m_VariableName;
 	
 	void JMVariableBindingBase(string variable_name)
@@ -16,14 +18,14 @@ class JMVariableBindingBase
 }
 
 class JMVariableBinding<Class T>
-{
-	static const int JM_VARIABLE_UPDATE = 435022;
-	
+{	
 	override void UpdateClient(PlayerIdentity client, JMModuleBase instance, bool gauranteed = true)
 	{
 		T variable;
 		EnScript.GetClassVar(instance, m_VariableName, 0, variable);
-		
-		GetGame().RPCSingleParam(null, JM_VARIABLE_UPDATE, new Param1<T>(variable), gauranteed, client);
+		ScriptRPC rpc = new ScriptRPC();
+		rpc.Write(m_VariableName);
+		rpc.Write(variable);
+		rpc.Send(null, JM_VARIABLE_UPDATE, gauranteed, client);
 	}
 }

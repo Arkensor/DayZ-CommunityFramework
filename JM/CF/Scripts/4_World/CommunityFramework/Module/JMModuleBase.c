@@ -86,11 +86,6 @@ class JMModuleBase
 		}
 	}
 	
-	private void OnGlobalRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
-	{
-		
-	}
-	
 	/**
 	 * Deprecated, use RegisterBinding instead.
 	 */
@@ -147,6 +142,20 @@ class JMModuleBase
 
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
+		switch (rpc_type) {
+			case JMVariableBindingBase.JM_VARIABLE_UPDATE: {
+				string variable_name;
+				if (!ctx.Read(variable_name)) {
+					break;
+				}
+				
+				Print(variable_name);
+				
+				
+				
+				break;
+			}
+		}
 	}
 
 	int GetRPCMin()
