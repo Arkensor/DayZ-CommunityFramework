@@ -4,6 +4,8 @@ static bool DISABLE_ALL_INPUT = false;
 
 class JMModuleManager: JMModuleManagerBase
 {
+	static const int JM_VARIABLE_UPDATE = 435022;
+
 	protected autoptr map< typename, ref JMModuleBase > m_Modules;
 
 	protected autoptr array< JMModuleBase > m_ModuleList;
@@ -26,6 +28,11 @@ class JMModuleManager: JMModuleManagerBase
 	ref JMModuleBase GetModule( typename type )
 	{
 		return m_Modules.Get( type );
+	}
+
+	ref JMModuleBase GetModule( string type )
+	{
+		return m_Modules.Get( type.ToType() );
 	}
 
 	override void Print_DumpModules()
@@ -147,9 +154,35 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
+		JMModuleBase module;
+
+		if (rpc_type == JM_VARIABLE_UPDATE)
+		{
+			if (GetGame().IsServer())
+			{
+				return;
+			}
+
+			string moduleName;
+			if (!ctx.Read(moduleName))
+			{
+				return;
+			}
+
+			module = GetModule(moduleName);
+			if (!module)
+			{
+				return;
+			}
+
+			module.HandleNetSync(ctx);
+
+			return;
+		}
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
-			JMModuleBase module = m_ModuleList[i];
+			module = m_ModuleList[i];
 
 			int min = module.GetRPCMin();
 			int max = module.GetRPCMax();

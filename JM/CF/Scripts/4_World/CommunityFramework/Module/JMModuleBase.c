@@ -1,16 +1,29 @@
+enum CF_Module_VariableType
+{
+	INT, FLOAT, BOOL
+};
+
+class CF_Module_Variable
+{
+	string Name;
+	autoptr array<int> AccessorIndices();
+	autoptr array<typename> AccessorTypes();
+	CF_Module_VariableType Type;
+};
+
 class JMModuleBase
 {
 	protected bool m_Enabled;
 	protected bool m_PreventInput;
 	protected ref set< ref JMModuleBinding > m_Bindings;
-	protected ref map<string, ref JMVariableBindingBase> m_VariableBindings;
+	protected ref array<CF_Module_Variable> m_NetSynchVariables;
 	
 	void JMModuleBase()
 	{
 		m_Enabled = true;
 		m_PreventInput = false;
 		m_Bindings = new set< ref JMModuleBinding >;
-		m_VariableBindings = new map<string, ref JMVariableBindingBase>;
+		m_NetSynchVariables = new array<CF_Module_Variable>();
 	}
 	
 	void ~JMModuleBase()
@@ -74,16 +87,154 @@ class JMModuleBase
 	{
 	}
 	
-	void RegisterNetSyncVariable(JMVariableBindingBase binding)
+	bool RegisterNetSyncVariable(string name)
 	{
-		m_VariableBindings.Insert(binding.GetVariableName(), binding);
-	}
-	
-	void UpdateNetSyncVariable(string variable_name)
-	{
-		if (m_VariableBindings[variable_name]) {
-			m_VariableBindings[variable_name].UpdateClient(null, this);
+		// hard limit, max 1kb for synching.
+		if (m_NetSynchVariables.Count() > 256) return false;
+
+		CF_Module_Variable variable = new CF_Module_Variable();
+
+		typename cls = this.Type();
+		array<string> tokens();
+		name.Split(".", tokens);
+
+		// don't know how split works, this might not be needed
+		if (tokens.Count() == 0) tokens.Insert(name);
+
+		// iterate over all tokens to get the sub class for the variable
+		for (int i = 0; i < tokens.Count() - 1; i++)
+		{
+			bool success = false;
+			for (int j = 0; j < cls.GetVariableCount(); j++)
+			{
+				if (cls.GetVariableName(j) == tokens[i])
+				{
+					variable.AccessorIndices.Insert(j);
+					variable.AccessorTypes.Insert(cls);
+
+					cls = cls.GetVariableType(j);
+
+					success = true;
+
+					break; // break bad
+				}
+			}
+
+			// couldn't find sub variable
+			if (!success) return false;
 		}
+
+		variable.Name = tokens[tokens.Count() - 1];
+
+		for (int k = 0; k < cls.GetVariableCount(); k++)
+		{
+			if (cls.GetVariableName(k) == variable.Name)
+			{
+				variable.AccessorIndices.Insert(k);
+				variable.AccessorTypes.Insert(cls);
+
+				cls = cls.GetVariableType(k);
+
+				if (type == int)
+				{
+					variable.Type = CF_Module_VariableType.INT;
+					m_NetSynchVariables.Insert(variable);
+					return true;
+				}
+
+				if (type == float)
+				{
+					variable.Type = CF_Module_VariableType.FLOAT;
+					m_NetSynchVariables.Insert(variable);
+					return true;
+				}
+
+				if (type == bool)
+				{
+					variable.Type = CF_Module_VariableType.BOOL;
+					m_NetSynchVariables.Insert(variable);
+					return true;
+				}
+
+				break;
+			}
+		}
+
+		return false;
+	}
+
+	void SetSynchDirty()
+	{
+		ScriptRPC rpc = new ScriptRPC();
+
+		for (int i = 0; i < m_NetSynchVariables.Count(); i++)
+		{
+			CF_Module_Variable variable = m_NetSynchVariables[i];
+			Class cls = this;
+			
+			for (int j = 0; j < variable.AccessorIndices.Count() - 1; j++)
+			{
+				variable.AccessorTypes[j].GetVariableValue(cls, variable.AccessorIndices[j], cls);
+			}
+
+			int idx = variable.AccessorIndices.Count() - 1;
+
+			switch (variable.Type)
+			{
+				case CF_Module_VariableType.BOOL:
+					bool val_Bool;
+					variable.AccessorTypes[idx].GetVariableValue(cls, variable.AccessorIndices[idx], val_Bool);
+					rpc.Write(val_Bool);
+					break;
+				case CF_Module_VariableType.INT:
+					int val_Int;
+					variable.AccessorTypes[idx].GetVariableValue(cls, variable.AccessorIndices[idx], val_Int);
+					rpc.Write(val_Int);
+					break;
+				case CF_Module_VariableType.FLOAT:
+					float val_Float;
+					variable.AccessorTypes[idx].GetVariableValue(cls, variable.AccessorIndices[idx], val_Float);
+					rpc.Write(val_Float);
+					break;
+			}
+		}
+
+		rpc.Send(null, JMModuleManager.JM_VARIABLE_UPDATE, true, null);
+	}
+
+	void HandleNetSync(ref ParamsReadContext ctx)
+	{
+		for (int i = 0; i < m_NetSynchVariables.Count(); i++)
+		{
+			CF_Module_Variable variable = m_NetSynchVariables[i];
+			Class cls = this;
+			
+			for (int j = 0; j < variable.AccessorIndices.Count() - 1; j++)
+			{
+				variable.AccessorTypes[j].GetVariableValue(cls, variable.AccessorIndices[j], cls);
+			}
+
+			switch (variable.Type)
+			{
+				case CF_Module_VariableType.BOOL:
+					bool val_Bool;
+					rpc.Read(val_Bool)
+					EnScript.SetClassVar(cls, variable.Name, 0, val_Bool);
+					break;
+				case CF_Module_VariableType.INT:
+					int val_Int;
+					rpc.Read(val_Int)
+					EnScript.SetClassVar(cls, variable.Name, 0, val_Int);
+					break;
+				case CF_Module_VariableType.FLOAT:
+					float val_Float;
+					rpc.Read(val_Float)
+					EnScript.SetClassVar(cls, variable.Name, 0, val_Float);
+					break;
+			}
+		}
+
+		OnVariablesSynchronized();
 	}
 	
 	/**
@@ -140,25 +291,12 @@ class JMModuleBase
 	{
 	}
 
+	void OnVariablesSynchronized()
+	{
+	}
+
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
-		switch (rpc_type) {
-			case JMVariableBindingBase.JM_VARIABLE_UPDATE: {
-				string variable_name;
-				if (!ctx.Read(variable_name)) {
-					break;
-				}
-				
-				Print(variable_name);
-				if (m_VariableBindings[variable_name]) {
-					if (!m_VariableBindings[variable_name].UpdateModule(this, ctx)) {
-						Error("Failed to update local net sync variable");
-					}
-				}			
-				
-				break;
-			}
-		}
 	}
 
 	int GetRPCMin()
