@@ -3,12 +3,14 @@ class JMModuleBase
 	protected bool m_Enabled;
 	protected bool m_PreventInput;
 	protected ref set< ref JMModuleBinding > m_Bindings;
+	protected ref map<string, ref JMVariableBindingBase> m_VariableBindings;
 	
 	void JMModuleBase()
 	{
 		m_Enabled = true;
 		m_PreventInput = false;
 		m_Bindings = new set< ref JMModuleBinding >;
+		m_VariableBindings = new map<string, ref JMVariableBindingBase>;
 	}
 	
 	void ~JMModuleBase()
@@ -70,6 +72,23 @@ class JMModuleBase
 
 	void RegisterKeyMouseBindings() 
 	{
+	}
+	
+	void RegisterNetSyncVariable(JMVariableBindingBase binding)
+	{
+		m_VariableBindings.Insert(binding.GetVariableName(), binding);
+	}
+	
+	void UpdateNetSyncVariable(string variable_name)
+	{
+		if (m_VariableBindings[variable_name]) {
+			m_VariableBindings[variable_name].UpdateClient(null, this);
+		}
+	}
+	
+	private void OnGlobalRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
+	{
+		
 	}
 	
 	/**
