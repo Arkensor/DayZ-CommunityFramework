@@ -11,6 +11,16 @@ class JMVariableBindingBase
 	
 	void UpdateClient(PlayerIdentity client, JMModuleBase instance, bool gauranteed = true);
 	
+	// psedo code
+	/*
+	Create a function here that you pass the instance of JMModuleBase into and EnScript.SetClassVar on, also
+	pass the ReadContext into it and call CTX.Read(), since this is where we actually have ac
+	
+	i made it here
+	*/
+	
+	bool UpdateModule(JMModuleBase instance, ParamsReadContext ctx);
+	
 	string GetVariableName()
 	{
 		return m_VariableName;
@@ -27,5 +37,17 @@ class JMVariableBinding<Class T>
 		rpc.Write(m_VariableName);
 		rpc.Write(variable);
 		rpc.Send(null, JM_VARIABLE_UPDATE, gauranteed, client);
+	}
+	
+	override bool UpdateModule(JMModuleBase instance, ParamsReadContext ctx)
+	{
+		T variable;
+		if (!ctx.Read(variable)) {
+			return false;
+		}
+		
+		EnScript.SetClassVar(instance, m_VariableName, 0, variable);
+		
+		return true;
 	}
 }
