@@ -150,7 +150,12 @@ class JMModuleBase
 				}
 				
 				Print(variable_name);
+				if (m_VariableBindings[variable_name]) {
+					
+				}
 				
+				
+				EnScript.SetClassVar(this, variable_name, 0, PROBABLY_NEED_TO_SEND_THE_WHOLE_PAYLOAD_NOT_SURE);
 				
 				
 				break;
