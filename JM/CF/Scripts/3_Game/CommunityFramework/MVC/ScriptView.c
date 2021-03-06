@@ -61,6 +61,7 @@ class ScriptView : ScriptedViewBase
 
 		m_Controller.Debug_Logging = Debug_Logging;
 		m_Controller.SetParent(this);
+		m_LayoutRoot.SetUserData(this);
 		//m_LayoutRoot.SetHandler(this);
 	}
 
@@ -70,7 +71,7 @@ class ScriptView : ScriptedViewBase
 
 		if (m_LayoutRoot)
 		{
-			Print("~" + m_LayoutRoot.GetName());
+			Log("~" + m_LayoutRoot.GetName());
 			m_LayoutRoot.Unlink();
 		}
 	}

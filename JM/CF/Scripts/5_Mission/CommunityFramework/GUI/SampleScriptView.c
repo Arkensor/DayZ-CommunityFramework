@@ -26,11 +26,11 @@ class SampleRelayCommand: RelayCommand
 }
 
 
-// This is just a wrapper for JM/CF/GUI/layouts/sample_LayoutBindingManager.layout
+// This is just a wrapper for JM/CF/GUI/layouts/sample_mvc2.layout
 class SampleScriptView: ScriptView
 {
 	override string GetLayoutFile() {
-		return "JM/CF/GUI/layouts/sample_LayoutBindingManager.layout";
+		return "JM/CF/GUI/layouts/sample_mvc.layout";
 	}
 	
 	override typename GetControllerType() {

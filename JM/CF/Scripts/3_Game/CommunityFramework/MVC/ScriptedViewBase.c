@@ -35,6 +35,12 @@ class ScriptedViewBase : Managed
 	protected ScriptedViewBase m_ParentScriptedViewBase;
 	ScriptedViewBase GetParent()
 	{
+		if (!m_ParentScriptedViewBase && m_LayoutRoot) 
+		{
+			// Experimental update for trying to recursively find a root... causes Stackoverflow
+			//m_ParentScriptedViewBase = GetParentScriptView(m_LayoutRoot);
+		}
+		
 		return m_ParentScriptedViewBase;
 	}
 
@@ -103,6 +109,26 @@ class ScriptedViewBase : Managed
 			viewBase = viewBase.GetParent();
 			FindScriptedRoot(viewBase);
 		}
+	}
+	
+	// recursive function searches up the tree for the first available script view
+	private static ScriptedViewBase GetParentScriptView(Widget widget)
+	{		
+		if (!widget)
+		{
+			return null;
+		}
+		
+		ScriptedViewBase scripted_view;
+		widget.GetScript(scripted_view);
+		
+		if (scripted_view) 
+		{
+			return scripted_view;
+		}
+		
+		widget = widget.GetParent();
+		return GetParentScriptView(widget);
 	}
 
 	void Trace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
