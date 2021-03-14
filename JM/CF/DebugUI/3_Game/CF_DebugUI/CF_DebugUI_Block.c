@@ -84,18 +84,26 @@ class CF_DebugUI_Block: ScriptViewTemplate<CF_DebugUI_Block_Controller>
 
 	void SwapBuffer()
 	{
+		// reset string
 		GetTemplateController().TextField = "";
 
 		for (int i = 0; i < m_Entries.Count(); i++)
 		{
+			// add key to string
 			if (m_Entries[i].Key == "") m_Entries[i].Key = " ";
 			GetTemplateController().TextField = GetTemplateController().TextField + m_Entries[i].Key;
 
+			// add value to string
 			if (m_Entries[i].Value != "") GetTemplateController().TextField = GetTemplateController().TextField + ": " + m_Entries[i].Value + "\n";
+
+			// add new line to string
+			GetTemplateController().TextField = GetTemplateController().TextField + "\n";
 		}
 
+		// update view
 		GetTemplateController().NotifyPropertyChanged("TextField");
 
+		// clear for new buffer
 		if (m_SwapClears) Clear();		
 	}
 

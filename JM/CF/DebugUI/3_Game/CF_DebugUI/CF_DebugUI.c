@@ -21,13 +21,15 @@ class CF_DebugUI
 	{
 		m_Blocks = new array<ref CF_DebugUI_Block>();
 
-		m_IsEnabled = FileExist("$profile:CF_DebugUI.txt");
+		m_IsEnabled = IsCLIParam("CFDebugUI");
 		if (GetGame().IsServer() && GetGame().IsMultiplayer()) m_IsEnabled = false;
 	}
 
 	/*
 		Retrieves the DebugUI block if it exists based on the name and if specified, the target. 
 		Creates a new block if no existing block was found.
+
+		@note returning 'Class' as CF may pre-process CF_DebugUI_* out if not running Diag exe in the future
 	*/
 	Class Get(string name, Object target = null)
 	{
@@ -52,7 +54,9 @@ class CF_DebugUI
 	}
 
 	/*
-		Get all blocks by name, if no name specified, get all blocks
+		Get all blocks by name, if no name specified, gets all blocks. Doesn't create a block if none was found for the name.
+
+		@note returning 'Class' as CF may pre-process CF_DebugUI_* out if not running Diag exe in the future
 	*/
 	array<Class> GetAll(string name = "")
 	{
