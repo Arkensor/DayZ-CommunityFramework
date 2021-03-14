@@ -1,10 +1,4 @@
-class CF_Debugger_Entry
-{
-	string Key;
-	string Value;
-};
-
-class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
+class CF_DebugUI_Block: ScriptViewTemplate<CF_DebugUI_Block_Controller>
 {
 	private string m_Name;
 
@@ -17,9 +11,9 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 	private int m_Count;
 
 	private autoptr map<string, int> m_EntryMap;
-	private autoptr array<ref CF_Debugger_Entry> m_Entries;
+	private autoptr array<ref CF_DebugUI_Entry> m_Entries;
 
-	void CF_Debugger_Block(string name, Object target = null)
+	void CF_DebugUI_Block(string name, Object target = null)
 	{
 		m_Name = name;
 
@@ -29,7 +23,7 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 		m_Target = target;
 		m_HasTarget = m_Target != null;
 
-		m_Entries = new array<ref CF_Debugger_Entry>();
+		m_Entries = new array<ref CF_DebugUI_Entry>();
 		m_EntryMap = new map<string, int>();
 	}
 
@@ -63,7 +57,7 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 		int index = -1;
 		if (!m_EntryMap.Find(key, index))
 		{
-			index = m_Entries.Insert(new CF_Debugger_Entry());
+			index = m_Entries.Insert(new CF_DebugUI_Entry());
 			m_EntryMap.Insert(key, index);
 		}
 
@@ -90,19 +84,17 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 
 	void SwapBuffer()
 	{
-		GetTemplateController().EntryKeys = "";
-		GetTemplateController().EntryValues = "";
+		GetTemplateController().TextField = "";
 
 		for (int i = 0; i < m_Entries.Count(); i++)
 		{
 			if (m_Entries[i].Key == "") m_Entries[i].Key = " ";
-			if (m_Entries[i].Value == "") m_Entries[i].Value = " ";
-			GetTemplateController().EntryKeys = GetTemplateController().EntryKeys + m_Entries[i].Key + "\n";
-			GetTemplateController().EntryValues = GetTemplateController().EntryValues + m_Entries[i].Value + "\n";
+			GetTemplateController().TextField = GetTemplateController().TextField + m_Entries[i].Key;
+
+			if (m_Entries[i].Value != "") GetTemplateController().TextField = GetTemplateController().TextField + ": " + m_Entries[i].Value + "\n";
 		}
 
-		GetTemplateController().NotifyPropertyChanged("EntryKeys");
-		GetTemplateController().NotifyPropertyChanged("EntryValues");
+		GetTemplateController().NotifyPropertyChanged("TextField");
 
 		if (m_SwapClears) Clear();		
 	}
@@ -139,6 +131,6 @@ class CF_Debugger_Block: ScriptViewTemplate<CF_Debugger_Block_Controller>
 
 	override string GetLayoutFile()
 	{
-		return "JM/CF/Debugger/layouts/Debugger_Block.layout";
+		return "JM/CF/DebugUI/layouts/DebugUI_Block.layout";
 	}
 };

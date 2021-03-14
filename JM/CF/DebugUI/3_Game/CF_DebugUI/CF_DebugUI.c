@@ -2,31 +2,31 @@
 
 void EOnSimulate(...)
 {
-	auto dbg_Helicopters = CF.Debugger.Get("Helicopters", this);
+	auto dbg_Helicopters = CF.DebugUI.Get("Helicopters", this);
 
 	dbg_Helicopters.Add("Position", GetPosition());
 	dbg_Helicopters.Add("Orientation", GetOrientation());
 
-	CF.Debugger.Display("Helicopters", this, "Velocity", GetVelocity(this));
+	CF.DebugUI.Display("Helicopters", this, "Velocity", GetVelocity(this));
 }
 
 */
 
-class CF_Debugger
+class CF_DebugUI
 {
-	private autoptr array<ref CF_Debugger_Block> m_Blocks;
+	private autoptr array<ref CF_DebugUI_Block> m_Blocks;
 	private bool m_IsEnabled;
 
-	void CF_Debugger()
+	void CF_DebugUI()
 	{
-		m_Blocks = new array<ref CF_Debugger_Block>();
+		m_Blocks = new array<ref CF_DebugUI_Block>();
 
-		m_IsEnabled = FileExist("$profile:CF_Debugger.txt");
+		m_IsEnabled = FileExist("$profile:CF_DebugUI.txt");
 		if (GetGame().IsServer() && GetGame().IsMultiplayer()) m_IsEnabled = false;
 	}
 
 	/*
-		Retrieves the Debugger block if it exists based on the name and if specified, the target. 
+		Retrieves the DebugUI block if it exists based on the name and if specified, the target. 
 		Creates a new block if no existing block was found.
 	*/
 	Class Get(string name, Object target = null)
@@ -46,7 +46,7 @@ class CF_Debugger
 			}
 		}
 
-		auto block = new CF_Debugger_Block(name, target);
+		auto block = new CF_DebugUI_Block(name, target);
 		m_Blocks.Insert(block);
 		return block;
 	}
@@ -95,7 +95,7 @@ class CF_Debugger
 
 	void SwapBuffer(string name, Object target)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.SwapBuffer();
@@ -103,7 +103,7 @@ class CF_Debugger
 
 	void Set(string name, Object target, string key, int text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.Set(key, text);
@@ -111,7 +111,7 @@ class CF_Debugger
 
 	void Set(string name, Object target, string key, bool text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.Set(key, text);
@@ -119,7 +119,7 @@ class CF_Debugger
 
 	void Set(string name, Object target, string key, float text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.Set(key, text);
@@ -127,7 +127,7 @@ class CF_Debugger
 
 	void Set(string name, Object target, string key, vector text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.Set(key, text);
@@ -135,7 +135,7 @@ class CF_Debugger
 
 	void Set(string name, Object target, string key, Class text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.Set(key, text);
@@ -143,7 +143,7 @@ class CF_Debugger
 
 	void Set(string name, Object target, string key, string text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, target))) return;
 		
 		blc.Set(key, text);
@@ -151,7 +151,7 @@ class CF_Debugger
 
 	void Set(string name, string key, int text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, null))) return;
 		
 		blc.Set(key, text);
@@ -159,7 +159,7 @@ class CF_Debugger
 
 	void Set(string name, string key, bool text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, null))) return;
 		
 		blc.Set(key, text);
@@ -167,7 +167,7 @@ class CF_Debugger
 
 	void Set(string name, string key, float text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, null))) return;
 		
 		blc.Set(key, text);
@@ -175,7 +175,7 @@ class CF_Debugger
 
 	void Set(string name, string key, vector text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, null))) return;
 		
 		blc.Set(key, text);
@@ -183,7 +183,7 @@ class CF_Debugger
 
 	void Set(string name, string key, Class text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, null))) return;
 		
 		blc.Set(key, text);
@@ -191,7 +191,7 @@ class CF_Debugger
 
 	void Set(string name, string key, string text)
 	{
-		CF_Debugger_Block blc;
+		CF_DebugUI_Block blc;
 		if (!Class.CastTo(blc, Get(name, null))) return;
 		
 		blc.Set(key, text);

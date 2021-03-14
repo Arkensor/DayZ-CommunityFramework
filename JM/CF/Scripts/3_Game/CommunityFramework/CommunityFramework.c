@@ -18,7 +18,7 @@ class CommunityFramework
 {
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
-    static ref CF_Debugger Debugger;
+    static ref CF_DebugUI DebugUI;
 
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
@@ -44,7 +44,7 @@ class CommunityFramework
 		CF_Permission_ManagerBase._Init( Permission );
 		#endif
         
-        Debugger = new CF_Debugger();
+        DebugUI = new CF_DebugUI();
 	}
 
     /**
@@ -54,7 +54,7 @@ class CommunityFramework
      */
     static void _Cleanup()
     {
-        delete Debugger;
+        delete DebugUI;
         
         ObjectManager._Cleanup();
 		XML._Cleanup();

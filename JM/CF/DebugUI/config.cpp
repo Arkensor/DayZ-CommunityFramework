@@ -1,6 +1,6 @@
 class CfgPatches
 {
-	class JM_CF_Debugger
+	class JM_CF_DebugUI
 	{
 		units[]={};
 		weapons[]={};
