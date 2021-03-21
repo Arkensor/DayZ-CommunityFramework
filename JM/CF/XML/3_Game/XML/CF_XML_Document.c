@@ -136,13 +136,17 @@ class CF_XML_Document : CF_XML_Element
 					return true;
 				}
 
-				string content = "";
+				string content = c;
 
 				while (true)
 				{
-					c = _reader.GetCharacter();
+					bool wasNewLine = _reader.WasNewLine();
+					if (wasNewLine) c = _reader.SkipWhitespace();
+					else c = _reader.GetCharacter();
+
 					if (c != "<")
 					{
+						if (wasNewLine) content += "\n";
 						content += c;
 						continue;
 					}
@@ -150,6 +154,7 @@ class CF_XML_Document : CF_XML_Element
 					c = _reader.GetCharacter();
 					if (c != "/")
 					{
+						if (wasNewLine) content += "\n";
 						content += "<";
 						content += c;
 						continue;
@@ -162,6 +167,8 @@ class CF_XML_Document : CF_XML_Element
 					
 					if (tagName != _currentTag.GetName())
 					{
+						if (wasNewLine) content += "\n";
+						content += "<";
 						content += c;
 						_reader.SetPosition(posA, posB);
 						continue;
