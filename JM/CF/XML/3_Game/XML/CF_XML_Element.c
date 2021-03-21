@@ -107,6 +107,10 @@ class CF_XML_Element : Managed
 
 	void OnWrite(FileHandle handle, int depth)
 	{
+		string indent = CF_XML_Indent(depth);
+
+		FPrint(handle, _data);
+
 		for (int i = 0; i < _tags.Count(); ++i)
 		{
 			_tags[i].OnWrite(handle, depth);
