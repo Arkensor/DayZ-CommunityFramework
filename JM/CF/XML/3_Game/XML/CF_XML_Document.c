@@ -129,6 +129,58 @@ class CF_XML_Document : CF_XML_Element
 			}
 			else if (c == ">")
 			{
+				c = _reader.SkipWhitespace();
+				if (c == "<")
+				{
+					c = _reader.BackChar();
+					return true;
+				}
+
+				string content = "";
+
+				while (true)
+				{
+					c = _reader.GetCharacter();
+					if (c != "<")
+					{
+						content += c;
+						continue;
+					}
+					
+					c = _reader.GetCharacter();
+					if (c != "/")
+					{
+						content += "<";
+						content += c;
+						continue;
+					}
+					
+					int posA, posB;
+					_reader.GetPosition(posA, posB);
+
+					tagName = _reader.GetWord();
+					
+					if (tagName != _currentTag.GetName())
+					{
+						content += c;
+						_reader.SetPosition(posA, posB);
+						continue;
+					}
+				
+					break;
+				}
+
+				_currentTag.GetContent().SetContent(content);
+
+				c = _reader.GetCharacter();
+				if (c != ">")
+				{
+					_reader.Err("Expected '>' for closing tag, got: " + c);
+				}
+
+				PopTag();
+
+				return true;
 			}
 			else
 			{

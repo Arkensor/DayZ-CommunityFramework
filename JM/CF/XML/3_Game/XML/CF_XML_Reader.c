@@ -16,6 +16,18 @@ class CF_XML_Reader : Managed
 	{
 		delete _lines;
 	}
+	
+	void GetPosition(out int arrIdx, out int bufIdx)
+	{
+		arrIdx = _arrIdx;
+		bufIdx = _bufIdx;
+	}
+	
+	void SetPosition(out int arrIdx, out int bufIdx)
+	{
+		_arrIdx = arrIdx;
+		_bufIdx = bufIdx;
+	}
 
 	void Err(string message)
 	{
