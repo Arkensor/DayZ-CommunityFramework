@@ -6,6 +6,17 @@ class CF_XML_Document : CF_XML_Element
 
 	private ref CF_XML_Reader _reader;
 
+	private autoptr map<string, string> _entities = new map<string, string>();
+
+	void CF_XML_Document(ref CF_XML_Tag parent = NULL)
+	{
+		_entities.Insert("&quot;", "\"");
+		_entities.Insert("&amp;", "&");
+		_entities.Insert("&apos;", "\'");
+		_entities.Insert("&lt;", "<");
+		_entities.Insert("&gt;", ">");
+	}
+
 	override ref CF_XML_Tag CreateTag(string name)
 	{
 		if (_currentTag)
@@ -118,11 +129,10 @@ class CF_XML_Document : CF_XML_Element
 
 			if (c == "/" || c == "?")
 			{
-				string expected = c;
 				c = _reader.GetCharacter();
 				if (c != ">")
 				{
-					_reader.Err("Expected '" + expected + "' for inline closing tag, got: " + c);
+					_reader.Err("Expected '>' for inline closing tag, got: " + c);
 				}
 
 				PopTag();
@@ -154,28 +164,21 @@ class CF_XML_Document : CF_XML_Element
 					c = _reader.GetCharacter();
 					if (c != "/")
 					{
-						if (wasNewLine) content += "\n";
-						content += "<";
-						content += c;
-						continue;
+						_reader.Err("Expected '/' for inline closing tag, got: " + c);
 					}
-					
-					int posA, posB;
-					_reader.GetPosition(posA, posB);
 
 					tagName = _reader.GetWord();
 					
 					if (tagName != _currentTag.GetName())
 					{
-						if (wasNewLine) content += "\n";
-						content += "<";
-						content += c;
-						_reader.SetPosition(posA, posB);
-						continue;
+						_reader.Err("Unexpected closing tag: " + tagName);
 					}
 				
 					break;
 				}
+
+				foreach (string ent_key, string ent_val : _entities)
+					content.Replace(ent_key, ent_val);
 
 				_currentTag.GetContent().SetContent(content);
 
