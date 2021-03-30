@@ -5,6 +5,8 @@ class CF_XML_Reader : Managed
 	private int _arrIdx = 0;
 	private int _bufIdx = -1;
 
+	private bool _wasNewLine;
+
 	private ref array<string> _lines;
 
 	void CF_XML_Reader()
@@ -15,6 +17,18 @@ class CF_XML_Reader : Managed
 	void ~CF_XML_Reader()
 	{
 		delete _lines;
+	}
+	
+	void GetPosition(out int arrIdx, out int bufIdx)
+	{
+		arrIdx = _arrIdx;
+		bufIdx = _bufIdx;
+	}
+	
+	void SetPosition(out int arrIdx, out int bufIdx)
+	{
+		_arrIdx = arrIdx;
+		_bufIdx = bufIdx;
 	}
 
 	void Err(string message)
@@ -28,8 +42,15 @@ class CF_XML_Reader : Managed
 			_lines.Insert(line);
 	}
 
+	bool WasNewLine()
+	{
+		return _wasNewLine;
+	}
+
 	string BackChar()
 	{
+		_wasNewLine = false;
+
 		_bufIdx--;
 		if (_bufIdx < 0)
 		{
@@ -43,11 +64,15 @@ class CF_XML_Reader : Managed
 			_bufIdx = _lines[_arrIdx].Length() - 1;
 		}
 
+		if (_bufIdx == 0) _wasNewLine = true;
+
 		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
 	}
 
 	private string ReadChar()
 	{
+		_wasNewLine = false;
+
 		_bufIdx++;
 
 		if (_bufIdx >= _lines[_arrIdx].Length())
@@ -55,6 +80,8 @@ class CF_XML_Reader : Managed
 			_bufIdx = 0;
 
 			_arrIdx++;
+
+			_wasNewLine = true;
 
 			if (_arrIdx >= _lines.Count())
 			{
