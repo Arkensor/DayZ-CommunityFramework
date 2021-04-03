@@ -98,6 +98,17 @@ class CF_ModStorage_Test
 		Print("" + info);
 		Print("");
 	}
+	
+	void ModLoadSave(CF_ModStorage mod, ScriptReadWriteContext rw)
+	{
+		mod.Save(null, rw.GetWriteContext());
+		
+		ParamsReadContext ctx = rw.GetReadContext();
+		string mod_name;
+		ctx.Read(mod_name);
+		
+		mod.Load(null, ctx, -1);
+	}
 
 	void TestFloat()
 	{
@@ -109,8 +120,7 @@ class CF_ModStorage_Test
 		string expected = "" + in_value;
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		float out_value;
 		mod.Read(out_value);
@@ -129,8 +139,7 @@ class CF_ModStorage_Test
 		string expected = "" + in_value;
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		bool out_value;
 		mod.Read(out_value);
@@ -149,8 +158,7 @@ class CF_ModStorage_Test
 		string expected = "" + in_value;
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		int out_value;
 		mod.Read(out_value);
@@ -169,8 +177,7 @@ class CF_ModStorage_Test
 		string expected = "" + in_value;
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		vector out_value;
 		mod.Read(out_value);
@@ -189,8 +196,7 @@ class CF_ModStorage_Test
 		string expected = "" + in_value;
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		string out_value;
 		mod.Read(out_value);
@@ -210,8 +216,7 @@ class CF_ModStorage_Test
 		string expected = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value);
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		int lineNumber;
 		Print(ThreadFunction(this, "_Perform", 100, lineNumber));
@@ -238,8 +243,7 @@ class CF_ModStorage_Test
 		string expected = CF_ModStorage_DebugP<string>.DebugString(in_value);
 		mod.Write(in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		array<string> out_value = new array<string>();
 		mod.Read(out_value);
@@ -263,8 +267,7 @@ class CF_ModStorage_Test
 		string expected = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value);
 		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(mod, in_value);
 
-		mod.Save(null, rw.GetWriteContext());
-		mod.Load(null, rw.GetReadContext(), -1);
+		ModLoadSave(mod, rw);
 
 		array<ref CF_ModStorage_Test_Class_B> out_value = new array<ref CF_ModStorage_Test_Class_B>();
 		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(mod, out_value);		
