@@ -27,7 +27,7 @@ modded class AdvancedCommunication
 	 * 
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreSave
 	 */
-	void CF_OnStoreSave( CF_ModStorage storage, string modName )
+	void CF_OnStoreSave(CF_ModStorage storage, string modName)
 	{
 
 	}
@@ -38,7 +38,7 @@ modded class AdvancedCommunication
 	 * 
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreLoad
 	 */
-	bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
+	bool CF_OnStoreLoad(CF_ModStorage storage, string modName)
 	{
 		return true;
 	}

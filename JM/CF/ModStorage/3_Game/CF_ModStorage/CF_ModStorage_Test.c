@@ -20,6 +20,12 @@ class CF_ModStorage_Test
 		CF_ModStorage_Test tests = new CF_ModStorage_Test();
 		tests.PerformTest(test);
 	}
+	
+	static void PerformOptimized()
+	{
+		CF_ModStorage_Test tests = new CF_ModStorage_Test();
+		tests.TestOptimized();
+	}
 
 	protected void Setup(inout array<string> tests)
 	{
@@ -358,6 +364,76 @@ class CF_ModStorage_Test
 		actual += CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value_cls_arr);
 
 		_assert(expected, actual);
+	}
+	
+	
+	void TestOptimized()
+	{
+		// same as TestMultiple
+		
+		CF_ModStorage mod_in = new CF_ModStorage(null);
+
+		float in_value_float = 2541.01;
+		mod_in.Write(in_value_float);
+
+		bool in_value_bool = true;
+		mod_in.Write(in_value_bool);
+
+		int in_value_int = 12;
+		mod_in.Write(in_value_int);
+
+		vector in_value_vector = "3 2.051 51.583";
+		mod_in.Write(in_value_vector);
+
+		string in_value_string = "CF-Test Arkensor";
+		mod_in.Write(in_value_string);
+
+		CF_ModStorage_Test_Class_B in_value_cls = new CF_ModStorage_Test_Class_B("jacob", new CF_ModStorage_Test_Class_A(178));
+
+		mod_in.Write(in_value_cls);
+
+		array<string> in_value_str_arr = new array<string>();
+
+		in_value_str_arr.Insert("3rd December");
+		in_value_str_arr.Insert("meet you");
+		in_value_str_arr.Insert("on Namalsk");
+
+		mod_in.Write(in_value_str_arr);
+
+		array<ref CF_ModStorage_Test_Class_B> in_value_cls_arr = new array<ref CF_ModStorage_Test_Class_B>();
+
+		in_value_cls_arr.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(1768)));
+		in_value_cls_arr.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(1278)));
+		in_value_cls_arr.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(278)));
+
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(mod_in, in_value_cls_arr);
+
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
+
+		float out_value_float;
+		mod_out.Read(out_value_float);
+
+		bool out_value_bool;
+		mod_out.Read(out_value_bool);
+	
+		int out_value_int;
+		mod_out.Read(out_value_int);
+
+		vector out_value_vector;
+		mod_out.Read(out_value_vector);
+
+		string out_value_str;
+		mod_out.Read(out_value_str);
+
+		CF_ModStorage_Test_Class_B out_value_cls = new CF_ModStorage_Test_Class_B("a", null);
+		mod_out.Read(out_value_cls);
+
+		array<string> out_value_str_arr = new array<string>();
+		mod_out.Read(out_value_str_arr);
+
+		array<ref CF_ModStorage_Test_Class_B> out_value_cls_arr = new array<ref CF_ModStorage_Test_Class_B>();
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(mod_out, out_value_cls_arr);	
 	}
 };
 

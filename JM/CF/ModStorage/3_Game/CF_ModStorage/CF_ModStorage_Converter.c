@@ -119,29 +119,26 @@ class CF_ModStorage_Converter
 		m_Types.Insert(type);
 	}
 
-	static ref CF_ModStorage_Data Create(string type)
+	static CF_ModStorage_Data Create(string type)
 	{
 		Construct();
 		
 		typename modStorageType = type.ToType();
 		if (!modStorageType.IsInherited(CF_ModStorage_Data))
 			modStorageType = m_TypeMap.Get(FindType(modStorageType));
-		ref CF_ModStorage_Data data = CF_ModStorage_Data.Cast(modStorageType.Spawn());
-		return data;
+		return CF_ModStorage_Data.Cast(type.ToType().Spawn());
 	}
 
-	static ref CF_ModStorage_Data Read(ParamsReadContext ctx)
+	static CF_ModStorage_Data Read(ParamsReadContext ctx)
 	{
 		Construct();
 
 		string type;
 		ctx.Read(type);
 
-		ref CF_ModStorage_Data data = Create(type);
-
-		if (data)
-			data.Read(ctx);
-
+		CF_ModStorage_Data data = Create(type);
+		if (data) data.Read(ctx);
+		
 		return data;
 	}
 };

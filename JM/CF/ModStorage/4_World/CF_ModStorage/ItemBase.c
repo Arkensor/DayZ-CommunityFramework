@@ -28,7 +28,7 @@ modded class ItemBase
 	 * @code
 	modded class KitBase // extends from ItemBase
 	{
-		override void CF_OnStoreSave( CF_ModStorage storage, string modName )
+		override void CF_OnStoreSave(CF_ModStorage storage, string modName)
 		{
 			//! Always call super at the start.
 			super.CF_OnStoreSave( storage, modName );
@@ -54,7 +54,7 @@ modded class ItemBase
 		}
 	}
 	 */
-	void CF_OnStoreSave( CF_ModStorage storage, string modName )
+	void CF_OnStoreSave(CF_ModStorage storage, string modName)
 	{
 
 	}
@@ -66,7 +66,7 @@ modded class ItemBase
 	 * @code
 	modded class KitBase // extends from ItemBase
 	{
-		override bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
+		override bool CF_OnStoreLoad(CF_ModStorage storage, string modName)
 		{
 			if ( !super.CF_OnStoreLoad( storage, modName ) )
 				return false;
@@ -97,7 +97,7 @@ modded class ItemBase
 		}
 	}
 	 */
-	bool CF_OnStoreLoad( CF_ModStorage storage, string modName )
+	bool CF_OnStoreLoad(CF_ModStorage storage, string modName)
 	{
 		return true;
 	}
