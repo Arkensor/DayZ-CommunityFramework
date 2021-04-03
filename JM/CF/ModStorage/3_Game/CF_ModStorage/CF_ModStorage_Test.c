@@ -31,6 +31,7 @@ class CF_ModStorage_Test
 		tests.Insert("TestClass");
 		tests.Insert("TestArrayString");
 		tests.Insert("TestArrayClass");
+		tests.Insert("TestMultiple");
 	}
 
 	private void _Perform()
@@ -99,31 +100,33 @@ class CF_ModStorage_Test
 		Print("");
 	}
 	
-	void ModLoadSave(CF_ModStorage mod, ScriptReadWriteContext rw)
+	void ModLoadSave(CF_ModStorage mod_in, out CF_ModStorage mod_out)
 	{
-		mod.Save(rw.GetWriteContext());
+		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+
+		mod_in.Save(rw.GetWriteContext());
 		
 		ParamsReadContext ctx = rw.GetReadContext();
 		string mod_name;
 		ctx.Read(mod_name);
 		
-		mod.Load(ctx, -1);
+		mod_out = new CF_ModStorage(null);
+		mod_out.Load(ctx, -1);
 	}
 
 	void TestFloat()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		float in_value = 2541.01;
 		string expected = "" + in_value;
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		float out_value;
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = "" + out_value;
 
 		_assert(expected, actual);
@@ -131,18 +134,17 @@ class CF_ModStorage_Test
 
 	void TestBool()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		bool in_value = true;
 		string expected = "" + in_value;
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		bool out_value;
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = "" + out_value;
 
 		_assert(expected, actual);
@@ -150,18 +152,17 @@ class CF_ModStorage_Test
 
 	void TestInt()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		int in_value = 12;
 		string expected = "" + in_value;
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		int out_value;
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = "" + out_value;
 
 		_assert(expected, actual);
@@ -169,18 +170,17 @@ class CF_ModStorage_Test
 
 	void TestVector()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		vector in_value = "3 2.051 51.583";
 		string expected = "" + in_value;
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		vector out_value;
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = "" + out_value;
 
 		_assert(expected, actual);
@@ -188,18 +188,17 @@ class CF_ModStorage_Test
 
 	void TestString()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		string in_value = "CF-Test Arkensor";
 		string expected = "" + in_value;
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		string out_value;
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = "" + out_value;
 
 		_assert(expected, actual);
@@ -207,22 +206,21 @@ class CF_ModStorage_Test
 
 	void TestClass()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		CF_ModStorage_Test_Class_B in_value = new CF_ModStorage_Test_Class_B("jacob", new CF_ModStorage_Test_Class_A(178));
 
 		string expected = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value);
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		int lineNumber;
 		Print(ThreadFunction(this, "_Perform", 100, lineNumber));
 
 		CF_ModStorage_Test_Class_B out_value = new CF_ModStorage_Test_Class_B("a", null);
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value);
 
 		_assert(expected, actual);
@@ -230,9 +228,7 @@ class CF_ModStorage_Test
 
 	void TestArrayString()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		array<string> in_value = new array<string>();
 
@@ -241,12 +237,13 @@ class CF_ModStorage_Test
 		in_value.Insert("on Namalsk");
 
 		string expected = CF_ModStorage_DebugP<string>.DebugString(in_value);
-		mod.Write(in_value);
+		mod_in.Write(in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		array<string> out_value = new array<string>();
-		mod.Read(out_value);
+		mod_out.Read(out_value);
 		string actual = CF_ModStorage_DebugP<string>.DebugString(out_value);
 
 		_assert(expected, actual);
@@ -254,9 +251,7 @@ class CF_ModStorage_Test
 
 	void TestArrayClass()
 	{
-		CF_ModStorage mod = new CF_ModStorage(null);
-
-		ScriptReadWriteContext rw = new ScriptReadWriteContext();
+		CF_ModStorage mod_in = new CF_ModStorage(null);
 
 		array<ref CF_ModStorage_Test_Class_B> in_value = new array<ref CF_ModStorage_Test_Class_B>();
 
@@ -265,13 +260,102 @@ class CF_ModStorage_Test
 		in_value.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(278)));
 
 		string expected = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value);
-		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(mod, in_value);
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(mod_in, in_value);
 
-		ModLoadSave(mod, rw);
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
 
 		array<ref CF_ModStorage_Test_Class_B> out_value = new array<ref CF_ModStorage_Test_Class_B>();
-		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(mod, out_value);		
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(mod_out, out_value);		
 		string actual = CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value);
+
+		_assert(expected, actual);
+	}	
+
+	void TestMultiple()
+	{
+		CF_ModStorage mod_in = new CF_ModStorage(null);
+
+		string expected = "";
+		string actual = "";
+
+		float in_value_float = 2541.01;
+		expected += "" + in_value_float;
+		mod_in.Write(in_value_float);
+
+		bool in_value_bool = true;
+		expected += "" + in_value_bool;
+		mod_in.Write(in_value_bool);
+
+		int in_value_int = 12;
+		expected += "" + in_value_int;
+		mod_in.Write(in_value_int);
+
+		vector in_value_vector = "3 2.051 51.583";
+		expected += "" + in_value_vector;
+		mod_in.Write(in_value_vector);
+
+		string in_value_string = "CF-Test Arkensor";
+		expected += "" + in_value_string;
+		mod_in.Write(in_value_string);
+
+		CF_ModStorage_Test_Class_B in_value_cls = new CF_ModStorage_Test_Class_B("jacob", new CF_ModStorage_Test_Class_A(178));
+
+		expected += CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value_cls);
+		mod_in.Write(in_value_cls);
+
+		array<string> in_value_str_arr = new array<string>();
+
+		in_value_str_arr.Insert("3rd December");
+		in_value_str_arr.Insert("meet you");
+		in_value_str_arr.Insert("on Namalsk");
+
+		expected += CF_ModStorage_DebugP<string>.DebugString(in_value_str_arr);
+		mod_in.Write(in_value_str_arr);
+
+		array<ref CF_ModStorage_Test_Class_B> in_value_cls_arr = new array<ref CF_ModStorage_Test_Class_B>();
+
+		in_value_cls_arr.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(1768)));
+		in_value_cls_arr.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(1278)));
+		in_value_cls_arr.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(278)));
+
+		expected += CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(in_value_cls_arr);
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(mod_in, in_value_cls_arr);
+
+		CF_ModStorage mod_out;
+		ModLoadSave(mod_in, mod_out);
+
+		float out_value_float;
+		mod_out.Read(out_value_float);
+		actual += "" + out_value_float;
+
+		bool out_value_bool;
+		mod_out.Read(out_value_bool);
+		actual += "" + out_value_bool;
+
+		int out_value_int;
+		mod_out.Read(out_value_int);
+		actual += "" + out_value_int;
+
+		vector out_value_vector;
+		mod_out.Read(out_value_vector);
+		actual += "" + out_value_vector;
+
+		string out_value_str;
+		mod_out.Read(out_value_str);
+		actual += "" + out_value_str;
+
+		CF_ModStorage_Test_Class_B out_value_cls = new CF_ModStorage_Test_Class_B("a", null);
+		mod_out.Read(out_value_cls);
+		actual += CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value_cls);
+
+		array<string> out_value_str_arr = new array<string>();
+		mod_out.Read(out_value_str_arr);
+		actual += CF_ModStorage_DebugP<string>.DebugString(out_value_str_arr);
+
+		array<ref CF_ModStorage_Test_Class_B> out_value_cls_arr = new array<ref CF_ModStorage_Test_Class_B>();
+		CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(mod_out, out_value_cls_arr);		
+		actual += CF_ModStorage_Debug<ref CF_ModStorage_Test_Class_B>.DebugString(out_value_cls_arr);
 
 		_assert(expected, actual);
 	}
