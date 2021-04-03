@@ -1,7 +1,12 @@
 modded class HelicopterScript
 {
-	autoptr CF_ModStorage_Object<HelicopterScript> m_CF_ModStorage = new CF_ModStorage_Object<HelicopterScript>(this);
+	autoptr CF_ModStorage_Object<HelicopterScript> m_CF_ModStorage;
 
+	void HelicopterScript()
+	{
+		m_CF_ModStorage = new CF_ModStorage_Object<HelicopterScript>(this);
+	}
+	
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);

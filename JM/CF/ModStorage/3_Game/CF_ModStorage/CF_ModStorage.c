@@ -45,7 +45,13 @@ class CF_ModStorage
 		m_Data.Clear();
 	}
 
-	void Save(EntityAI entity, ParamsWriteContext ctx)
+	/**
+	 * @note Mod name is written here to the context
+	 * @note Make sure to write CF_ModStorage.VERSION before calling ::Save(...)
+	 * 
+	 * @param ctx The context which is being written to
+	 */
+	void Save(ParamsWriteContext ctx)
 	{
 		ctx.Write(m_ModName);
 
@@ -63,22 +69,18 @@ class CF_ModStorage
 	}
 
 	/**
-	 * @note Mod name is read in the entity OnStoreLoad method
+	 * @note Mod name is read in the entity OnStoreLoad method.
+	 * @note Make sure to read the version variable before calling ::Load(..., modStorageVersion)
+	 * 
+	 * @param ctx The context which is being read
+	 * @param modStorageVersion Version of ModStorage being loaded
 	 */
-	bool Load(EntityAI entity, ParamsReadContext ctx, int version)
+	bool Load(ParamsReadContext ctx, int modStorageVersion)
 	{
 		Clear();
 
 		int currVersion = m_Version;
 		ctx.Read(m_Version);
-
-		if (currVersion != -1 && entity && m_Mod)
-		{
-			if (currVersion != m_Version)
-			{
-				Print("Updating " + entity.GetType() + " for mod '" + m_Mod.GetName() + "' from " + m_Version + " to " + currVersion);
-			}
-		}
 
 		int count;
 		ctx.Read(count);

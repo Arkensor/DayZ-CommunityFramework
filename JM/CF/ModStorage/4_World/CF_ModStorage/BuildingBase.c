@@ -1,7 +1,12 @@
 modded class BuildingBase
 {
-	autoptr CF_ModStorage_Object<BuildingBase> m_CF_ModStorage = new CF_ModStorage_Object<BuildingBase>(this);
+	autoptr CF_ModStorage_Object<BuildingBase> m_CF_ModStorage;
 
+	void BuildingBase()
+	{
+		m_CF_ModStorage = new CF_ModStorage_Object<BuildingBase>(this);
+	}
+	
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);

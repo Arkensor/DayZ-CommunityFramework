@@ -101,13 +101,13 @@ class CF_ModStorage_Test
 	
 	void ModLoadSave(CF_ModStorage mod, ScriptReadWriteContext rw)
 	{
-		mod.Save(null, rw.GetWriteContext());
+		mod.Save(rw.GetWriteContext());
 		
 		ParamsReadContext ctx = rw.GetReadContext();
 		string mod_name;
 		ctx.Read(mod_name);
 		
-		mod.Load(null, ctx, -1);
+		mod.Load(ctx, -1);
 	}
 
 	void TestFloat()

@@ -1,7 +1,12 @@
 modded class CarScript
 {
-	autoptr CF_ModStorage_Object<CarScript> m_CF_ModStorage = new CF_ModStorage_Object<CarScript>(this);
+	autoptr CF_ModStorage_Object<CarScript> m_CF_ModStorage;
 
+	void CarScript()
+	{
+		m_CF_ModStorage = new CF_ModStorage_Object<CarScript>(this);
+	}
+	
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);

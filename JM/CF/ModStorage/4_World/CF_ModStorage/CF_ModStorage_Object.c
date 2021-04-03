@@ -25,19 +25,25 @@ class CF_ModStorage_Object<Class T>
 		{
 			CF_ModStorage store = new CF_ModStorage(mods[i]);
 
+			// call the respective save function so the data is added to CF_ModStorage
 			m_Entity.CF_OnStoreSave(store, mods[i].GetName());
 
-			store.Save(m_Entity, ctx);
+			// save the data to the write context
+			store.Save(ctx);
 		}
 		
+		// save the data for the unloaded mods
 		for (i = 0; i < m_UnloadedMods.Count(); i++)
 		{
-			m_UnloadedMods[i].Save(m_Entity, ctx);
+			m_UnloadedMods[i].Save(ctx);
 		}
 	}
 
 	bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
+		//! Clearing the unloaded mods data
+		m_UnloadedMods.Clear();
+
 		//! Persistence version is prior to 1.10
 		if (version < 116) return true;
 
@@ -60,21 +66,36 @@ class CF_ModStorage_Object<Class T>
 
 			CF_ModStorage store = new CF_ModStorage(mod, modName);
 
-			if (!store.Load(m_Entity, ctx, cf_version))
+			if (!store.Load(ctx, cf_version))
 			{
-				Error( "Failed reading " + Object.GetDebugName(m_Entity) + " for mod '" + modName + "'!");
+				Error( "Failed reading " + GetDebugName(m_Entity) + " for mod '" + modName + "'!");
 				return false;
 			}
 
+			// check if the mod exists and the version we are loading is greater than zero. 
+			// If both pass, go back to the entity and run the store load with the mod.
 			if (modExists && store.GetVersion() > 0 && !m_Entity.CF_OnStoreLoad(store, modName))
 			{
-				Error("Failed loading " + Object.GetDebugName(m_Entity) + " for mod '" + modName + "'!");
+				Error("Failed loading " + GetDebugName(m_Entity) + " for mod '" + modName + "'!");
 				return false;
 			}
 
+			// Add to the unloaded mods array so the data is resaved when the entity is saved.
+			// This is for when a server owner may want to add back in a mod they removed which
+			// may have wanted to keep some data.
 			if (!modExists) m_UnloadedMods.Insert(store);
 		}
 
 		return true;
+	}
+
+	static string GetDebugName(Class cls)
+	{
+		if (!cls) return "[Object] null";
+
+		Object obj;
+		if (Class.CastTo(obj, cls)) return "[Object] " + obj.GetType() + ":" + obj.GetNetworkIDString();
+
+		return "[Class] " + cls;
 	}
 };

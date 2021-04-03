@@ -1,6 +1,11 @@
 modded class AnimalBase
 {
-	autoptr CF_ModStorage_Object<AnimalBase> m_CF_ModStorage = new CF_ModStorage_Object<AnimalBase>(this);
+	autoptr CF_ModStorage_Object<AnimalBase> m_CF_ModStorage;
+
+	void AnimalBase()
+	{
+		m_CF_ModStorage = new CF_ModStorage_Object<AnimalBase>(this);
+	}
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{

@@ -1,7 +1,12 @@
 modded class ItemBase
 {
-	autoptr CF_ModStorage_Object<ItemBase> m_CF_ModStorage = new CF_ModStorage_Object<ItemBase>(this);
+	autoptr CF_ModStorage_Object<ItemBase> m_CF_ModStorage;
 
+	void ItemBase()
+	{
+		m_CF_ModStorage = new CF_ModStorage_Object<ItemBase>(this);
+	}
+	
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);
