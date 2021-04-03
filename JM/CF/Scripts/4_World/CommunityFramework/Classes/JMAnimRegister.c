@@ -147,6 +147,7 @@ class JMAnimRegister
 		
 		behaviour = new DayzPlayerItemBehaviorCfg;
 		behaviour.SetHeavyItems();
+		animReg.OnRegisterHeavy( pType, behaviour );
 		animReg.RegisterHeavy( pType, behaviour );
 
 		behaviour = new DayzPlayerItemBehaviorCfg;
