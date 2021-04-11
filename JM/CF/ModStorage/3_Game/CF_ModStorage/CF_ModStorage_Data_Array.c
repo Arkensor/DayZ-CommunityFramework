@@ -9,7 +9,7 @@ class CF_ModStorage_Data_Array<Class T> : CF_ModStorage_Data
 	protected Class m_Value;
 
 	protected string m_Type = "";
-	protected autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
+	protected autoptr array<ref CF_ModStorage_Data> m_Data = new ref array<ref CF_ModStorage_Data>();
 
 	void CF_ModStorage_Data_Array(Class value)
 	{
@@ -97,7 +97,7 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 	protected Class m_Value;
 
 	protected string m_Type = "";
-	protected autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
+	protected autoptr array<ref CF_ModStorage_Data> m_Data = new ref array<ref CF_ModStorage_Data>();
 
 	void CF_ModStorage_Data_Array_Class(Class value)
 	{
@@ -212,18 +212,18 @@ class CF_ModStorage_Data_Array_Class<Class T> : CF_ModStorage_Data
 
 class CF_ModStorage_Data_ArrayProperty
 {
-	void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 	}
 
-	void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 	}
 };
 
 class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 {
-	override void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	override void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TStringArray srcArr = TStringArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -232,7 +232,7 @@ class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TStringArray dstArr = TStringArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -244,7 +244,7 @@ class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 {
-	override void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	override void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TFloatArray srcArr = TFloatArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -253,7 +253,7 @@ class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TFloatArray dstArr = TFloatArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -265,7 +265,7 @@ class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 {
-	override void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	override void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TVectorArray srcArr = TVectorArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -274,7 +274,7 @@ class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TVectorArray dstArr = TVectorArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -286,7 +286,7 @@ class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 {
-	override void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	override void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TIntArray srcArr = TIntArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -295,7 +295,7 @@ class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TIntArray dstArr = TIntArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -307,7 +307,7 @@ class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 {
-	override void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	override void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
 		TBoolArray srcArr = TBoolArray.Cast(cls);
 		for (int i = 0; i < srcArr.Count(); i++)
@@ -316,7 +316,7 @@ class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TBoolArray dstArr = TBoolArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -328,9 +328,9 @@ class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 
 class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_ArrayProperty
 {
-	override void Read(inout Class cls, array<ref CF_ModStorage_Data> _dstArr)
+	override void Read(inout Class cls, ref array<ref CF_ModStorage_Data> _dstArr)
 	{
-		CF_ModStorage_Data data;
+		ref CF_ModStorage_Data data;
 		int i;
 
 		array<ref T> srcArrR;
@@ -358,7 +358,7 @@ class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_Array
 		}
 	}
 
-	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, ref array<ref CF_ModStorage_Data> _srcArr)
 	{
 		T cVal;
 		Class value;

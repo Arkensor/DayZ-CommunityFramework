@@ -4,7 +4,7 @@ class CF_ModStorage_Data_Class : CF_ModStorage_Data
 
 	protected string m_Type = "";
 	protected bool m_IsNull = false;
-	protected autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
+	protected autoptr array<ref CF_ModStorage_Data> m_Data = new ref array<ref CF_ModStorage_Data>();
 
 	void CF_ModStorage_Data_Class(Class value)
 	{
