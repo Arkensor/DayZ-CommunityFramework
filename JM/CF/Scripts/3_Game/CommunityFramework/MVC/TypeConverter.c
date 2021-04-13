@@ -112,6 +112,8 @@ class TypeConversionTemplate<Class T> : TypeConverter
 
 	// This is meant to be an anonymous data setter
 	// string, int, etc... dont inherit from Class :)
+	
+	// UPDATE 2: I could have just used the inverse and done GetClassVar the other way around
 	override void SetParam(Param value)
 	{
 		EnScript.GetClassVar(value, "param1", 0, m_Value);
