@@ -15,7 +15,7 @@ class CF_ModStorage_Object<Class T>
 
 		ctx.Write(CF_ModStorage.VERSION);
 		
-		array<ref ModStructure> mods = ModLoader.GetMods();
+		array<ref ModStructure> mods = ModLoader.Get_ModStorage_Mods();
 
 		int i;
 		int count = mods.Count() + m_UnloadedMods.Count();
@@ -62,7 +62,7 @@ class CF_ModStorage_Object<Class T>
 			if (!ctx.Read(modName)) return false;
 
 			ModStructure mod;
-			bool modExists = ModLoader.Find(modName, mod);
+			bool modExists = ModLoader.Find_ModStorage_Mod(modName, mod);
 
 			CF_ModStorage store = new CF_ModStorage(mod, modName);
 
@@ -83,7 +83,7 @@ class CF_ModStorage_Object<Class T>
 			// Add to the unloaded mods array so the data is resaved when the entity is saved.
 			// This is for when a server owner may want to add back in a mod they removed which
 			// may have wanted to keep some data.
-			if (!modExists) m_UnloadedMods.Insert(store);
+			if (!modExists && !ModLoader.Contains(modName)) m_UnloadedMods.Insert(store);
 		}
 
 		return true;
