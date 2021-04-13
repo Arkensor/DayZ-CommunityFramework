@@ -108,7 +108,10 @@ class Controller : ScriptedViewBase
 				{
 					Trace("NotifyPropertyChanged %1", viewBinding.Binding_Name);
 					viewBinding.UpdateView(this);
-					PropertyChanged(viewBinding.Binding_Name);
+					if (notify_controller)
+					{
+						PropertyChanged(viewBinding.Binding_Name);
+					}
 				}
 			}
 
