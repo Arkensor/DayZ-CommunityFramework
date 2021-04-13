@@ -112,13 +112,9 @@ class TypeConversionTemplate<Class T> : TypeConverter
 
 	// This is meant to be an anonymous data setter
 	// string, int, etc... dont inherit from Class :)
-	private autoptr Param1<T> _tempValue;
 	override void SetParam(Param value)
 	{
-		EnScript.SetClassVar(this, "_tempValue", 0, value);
-		if (_tempValue) {
-			m_Value = _tempValue.param1;
-		}
+		EnScript.GetClassVar(value, "param1", 0, m_Value);
 	}
 
 	override Param GetParam()
