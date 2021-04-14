@@ -50,7 +50,7 @@ class Controller : ScriptedViewBase
 
 	ViewBinding GetViewBinding(Widget source)
 	{
-		return m_ViewBindingHashMap.Get(source);
+		return m_ViewBindingHashMap[source];
 	}
 
 	// View Bindings indexed by their Binding_Name
@@ -64,9 +64,9 @@ class Controller : ScriptedViewBase
 	// Hashmap of all properties in the Controller
 	[NonSerialized()]
 	protected autoptr PropertyTypeHashMap m_PropertyTypeHashMap = PropertyTypeHashMap.FromType(Type());
-	typename GetPropertyType(string propertyName)
+	typename GetPropertyType(string property_name)
 	{
-		return m_PropertyTypeHashMap.Get(propertyName);
+		return m_PropertyTypeHashMap[property_name];
 	}
 
 	override void OnWidgetScriptInit(Widget w)
@@ -108,7 +108,10 @@ class Controller : ScriptedViewBase
 				{
 					Trace("NotifyPropertyChanged %1", viewBinding.Binding_Name);
 					viewBinding.UpdateView(this);
-					PropertyChanged(viewBinding.Binding_Name);
+					if (notify_controller)
+					{
+						PropertyChanged(viewBinding.Binding_Name);
+					}
 				}
 			}
 
@@ -231,21 +234,21 @@ class Controller : ScriptedViewBase
 		return m_DataBindingHashMap.Count();
 	}
 
-	private	typename GetControllerProperty(string propertyName)
+	private	typename GetControllerProperty(string property_name)
 	{
-		if (m_PropertyTypeHashMap[propertyName])
+		if (m_PropertyTypeHashMap[property_name])
 		{
-			return m_PropertyTypeHashMap[propertyName];
+			return m_PropertyTypeHashMap[property_name];
 		}
 
 		// Searches properties for Sub properties
 		Class context = this;
-		return GetControllerProperty(context, propertyName);
+		return GetControllerProperty(context, property_name);
 	}
 
-	private	typename GetControllerProperty(out Class context, string propertyName)
+	private	typename GetControllerProperty(out Class context, string property_name)
 	{
-		PropertyInfo propertyInfo = GetSubScope(context, propertyName);
+		PropertyInfo propertyInfo = GetSubScope(context, property_name);
 		if (propertyInfo)
 		{
 			return propertyInfo.Type;
@@ -277,9 +280,9 @@ class Controller : ScriptedViewBase
 		return string.Empty;
 	}
 
-	private	RelayCommand LoadRelayCommand(ViewBinding viewBinding)
+	private	RelayCommand LoadRelayCommand(ViewBinding view_binding)
 	{
-		string relayCommandName = viewBinding.Relay_Command;
+		string relayCommandName = view_binding.Relay_Command;
 		RelayCommand relayCommand;
 
 		// Attempt to load instance of Variable from Controller
@@ -324,10 +327,10 @@ class Controller : ScriptedViewBase
 	// Update Controller on action from ViewBinding
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		ViewBinding viewBinding = m_ViewBindingHashMap.Get(w);
-		if (viewBinding)
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
+		if (view_binding)
 		{
-			viewBinding.UpdateController(this);
+			view_binding.UpdateController(this);
 		}
 
 		return super.OnClick(w, x, y, button);
@@ -335,10 +338,10 @@ class Controller : ScriptedViewBase
 
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
-		ViewBinding viewBinding = m_ViewBindingHashMap.Get(w);
-		if (viewBinding)
+		ViewBinding view_binding = m_ViewBindingHashMap.Get(w);
+		if (view_binding)
 		{
-			viewBinding.UpdateController(this);
+			view_binding.UpdateController(this);
 		}
 
 		return super.OnChange(w, x, y, finished);
