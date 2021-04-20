@@ -107,13 +107,16 @@ class TypeConversionTemplate<Class T> : TypeConverter
 	// This throws warnings cause casting in Enforce is stupid
 	// Can't do Param1<T>.Cast(value) or Class.CastTo() because inheritence doesnt
 	// work properly with Template Casting
+	
+	// UPDATE: Using SetClassVar is a safe way of doing this without warnings
 
 	// This is meant to be an anonymous data setter
 	// string, int, etc... dont inherit from Class :)
+	
+	// UPDATE 2: I could have just used the inverse and done GetClassVar the other way around
 	override void SetParam(Param value)
 	{
-		Param1<T> param = value;
-		m_Value = param.param1;
+		EnScript.GetClassVar(value, "param1", 0, m_Value);
 	}
 
 	override Param GetParam()
