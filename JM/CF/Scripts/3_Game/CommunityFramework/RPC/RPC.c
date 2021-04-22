@@ -40,7 +40,7 @@ class CF_RPC
     /**
      * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
      * @code
-     * auto rpc = CF.RPC.Prepare("MyHandler", "MyFunction", true);
+     * auto rpc = CF.RPC.Prepare(MyHandler, "MyFunction", true);
      * rpc.Write("My data");
      * rpc.SendTo(receiverIdentity1);
      * rpc.SendTo(receiverIdentity2);
@@ -49,12 +49,11 @@ class CF_RPC
      * @param handlerType       Typename of handler class on the receiving machine.
      * @param functionName      The name of the function that shall be invoked in the handler instance on the receiving machine.
      * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
-     * @param target            Optional target object. Must be globally known in order to work (Map objects, objects spawned by the server globally). NULL by default.
      * @return CF_RPC_Context   RPC write and send context.
      */
-    static ref CF_RPC_Context Prepare(typename handlerType, string functionName, bool guaranteed, Object target = null)
+    static ref CF_RPC_Context Prepare(typename handlerType, string functionName, bool guaranteed)
     {
-        return CF_RPC_Context._Prepare(handlerType.ToString(), functionName, guaranteed, target);
+        return CF_RPC_Context._Prepare(handlerType.ToString(), functionName, guaranteed);
     }
 
     /**
@@ -69,12 +68,31 @@ class CF_RPC
      * @param handlerType       Type(string) of handler class on the receiving machine.
      * @param functionName      The name of the function that shall be invoked in the handler instance on the receiving machine.
      * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
-     * @param target            Optional target object. Must be globally known in order to work (Map objects, objects spawned by the server globally). NULL by default.
      * @return CF_RPC_Context   RPC write and send context.
      */
-    static ref CF_RPC_Context Prepare(string handlerType, string functionName, bool guaranteed, Object target = null)
+    static ref CF_RPC_Context Prepare(string handlerType, string functionName, bool guaranteed)
     {
-        return CF_RPC_Context._Prepare(handlerType, functionName, guaranteed, target);
+        return CF_RPC_Context._Prepare(handlerType, functionName, guaranteed);
+    }
+
+    /**
+     * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
+     * @code
+     * Object myGlobalObject = GetGlobalObjectFunction();
+     * auto rpc = CF.RPC.Prepare(myGlobalObject, "MyFunction", true);
+     * rpc.Write("My data");
+     * rpc.SendTo(receiverIdentity1);
+     * rpc.SendTo(receiverIdentity2);
+     * @endcode
+     *
+     * @param handlerObject     Global object (e.g. baked map objects, or entities spawned by the server globally) that the RPC shall be executed on.
+     * @param functionName      The name of the function from the object instance that shall be invoked on the receiving machine.
+     * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
+     * @return CF_RPC_Context   RPC write and send context.
+     */
+    static ref CF_RPC_Context Prepare(Object handlerObject, string functionName, bool guaranteed)
+    {
+        return CF_RPC_Context._Prepare(handlerObject.GetType(), functionName, guaranteed, handlerObject);
     }
 
     /**
@@ -92,11 +110,15 @@ class CF_RPC
         {
             Class invoke = null;
 
-            if(m_RegisteredInstances.Contains(handlerType))
+            if(target) //Direct execution on a known object instance
+            {
+                invoke = target;
+            }
+            else if(m_RegisteredInstances.Contains(handlerType)) //Lookup instance in registry
             {
                 invoke = m_RegisteredInstances[handlerType];
             }
-            else
+            else //Lookup inherited types in registry
             {
                 /*
                     Inherited handlers will have the function the rpc is looking for, but might not match the class name.
@@ -121,7 +143,7 @@ class CF_RPC
 
             if(invoke)
             {
-                g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, new Param3<ref ParamsReadContext, ref PlayerIdentity, Object>(ctx, sender, target));
+                g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, new Param2<ref PlayerIdentity, ref ParamsReadContext>(sender, ctx));
             }
             else
             {

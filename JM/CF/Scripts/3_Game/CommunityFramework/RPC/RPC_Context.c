@@ -47,7 +47,7 @@ class CF_RPC_Context extends ScriptRPC
      *
      * @return CF_RPC_Context RPC write and send context.
      */
-    static ref CF_RPC_Context _Prepare(string handlerType, string functionName, bool guaranteed, Object target)
+    static ref CF_RPC_Context _Prepare(string handlerType, string functionName, bool guaranteed, Object target = NULL)
     {
         CF_RPC_Context ctx();
         ctx.m_HandlerType = handlerType;
