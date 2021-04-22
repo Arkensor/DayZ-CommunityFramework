@@ -14,7 +14,7 @@ class CF_RPC_Context extends ScriptRPC
      * @endcode
      *
      *
-     * @param recipient PlayerIdentity of the receiving machine. When used on the client it can only target the server (NULL). NULL when sent from the server targets ALL players.
+     * @param recipient (Optional) PlayerIdentity of the receiving machine. When used on the client it can only target the server (NULL). NULL when sent from the server targets ALL players.
      * @return bool     Returns true if successfully registered, false otherwise (see script log for details).
      */
     void SendTo(PlayerIdentity recipient = NULL)

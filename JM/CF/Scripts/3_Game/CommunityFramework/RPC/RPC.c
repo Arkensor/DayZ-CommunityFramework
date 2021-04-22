@@ -11,7 +11,7 @@ class CF_RPC
     static const PlayerIdentity SERVER = NULL;
 
     /**
-     * @brief Registers a handler instance for the RPC receiving machine. A handler is a class instance which RPC functions will be invoked on. Alternatively you can inherit your handler class from CF_RPC_HandlerBase which registers automatically.
+     * @brief Registers a handler instance for the RPC receiving machine. A handler is a class instance which RPC functions will be invoked on. Alternatively you can inherit your handler class from CF_RPC_HandlerBase which registers it automatically.
      * @code
      * constructor()
      * {
@@ -19,19 +19,50 @@ class CF_RPC
      * }
      * @endcode
      *
-     * @param instance  The handler instance to be registered
+     * @param instance  The handler instance to be registered.
      * @return bool     Returns true if successfully registered, false otherwise (see script log for details).
      */
 	static bool RegisterHandler(Class instance)
 	{
-        if(!m_RegisteredInstances.Contains(instance.ClassName()))
+	    auto className = instance.ClassName();
+
+        if(!m_RegisteredInstances.Contains(className))
         {
-            m_RegisteredInstances.Set(instance.ClassName(), instance);
+            m_RegisteredInstances.Set(className, instance);
 
             return true;
         }
 
-        PrintFormat("[WARNING][CommunityFramework][RPC] Failed to register the handler instance %1. An instance for the handler type %2 was already registered. See trace below:", instance, instance.ClassName());
+        PrintFormat("[WARNING][CommunityFramework][RPC] Failed to register the handler instance %1. An instance for the handler type %2 was already registered. See trace below:", instance, className);
+        DumpStack();
+
+        return false;
+	}
+
+    /**
+     * @brief Unregisters a handler instance. Alternatively you can inherit your handler class from CF_RPC_HandlerBase which unregisters it automatically.
+     * @code
+     * destructor()
+     * {
+     *     CF.RPC.UnregisterHandler(this);
+     * }
+     * @endcode
+     *
+     * @param instance  The handler instance to be unregistered.
+     * @return bool     Returns true if successfully unregistered, false otherwise (see script log for details).
+     */
+	static bool UnregisterHandler(Class instance)
+	{
+	    auto className = instance.ClassName();
+
+	    if(m_RegisteredInstances.Contains(className))
+	    {
+            m_RegisteredInstances.Remove(className);
+
+            return true;
+	    }
+
+        PrintFormat("[WARNING][CommunityFramework][RPC] Failed to unregister the handler instance %1. The handler was not previously registered. See trace below:", instance, className);
         DumpStack();
 
         return false;
@@ -98,7 +129,7 @@ class CF_RPC
     /**
      * @brief [Internal] Handle incoming RPCs
      *
-     * @return bool Returns if the RPC has been consumed by CF
+     * @return bool Returns if the RPC has been consumed by CF.
      */
     static bool _OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
     {
