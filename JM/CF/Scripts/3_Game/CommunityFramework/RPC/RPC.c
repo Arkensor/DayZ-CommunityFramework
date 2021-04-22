@@ -46,7 +46,27 @@ class CF_RPC
      * rpc.SendTo(receiverIdentity2);
      * @endcode
      *
-     * @param handlerType       Classtype of handler on the receiving machine as string.
+     * @param handlerType       Typename of handler class on the receiving machine.
+     * @param functionName      The name of the function that shall be invoked in the handler instance on the receiving machine.
+     * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
+     * @param target            Optional target object. Must be globally known in order to work (Map objects, objects spawned by the server globally). NULL by default.
+     * @return CF_RPC_Context   RPC write and send context.
+     */
+    static ref CF_RPC_Context Prepare(typename handlerType, string functionName, bool guaranteed, Object target = null)
+    {
+        return CF_RPC_Context._Prepare(handlerType.ToString(), functionName, guaranteed, target);
+    }
+
+    /**
+     * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
+     * @code
+     * auto rpc = CF.RPC.Prepare("MyHandler", "MyFunction", true);
+     * rpc.Write("My data");
+     * rpc.SendTo(receiverIdentity1);
+     * rpc.SendTo(receiverIdentity2);
+     * @endcode
+     *
+     * @param handlerType       Type(string) of handler class on the receiving machine.
      * @param functionName      The name of the function that shall be invoked in the handler instance on the receiving machine.
      * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
      * @param target            Optional target object. Must be globally known in order to work (Map objects, objects spawned by the server globally). NULL by default.
