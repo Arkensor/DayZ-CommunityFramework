@@ -94,7 +94,7 @@ class CF_DebugUI_Block: ScriptViewTemplate<CF_DebugUI_Block_Controller>
 			GetTemplateController().TextField = GetTemplateController().TextField + m_Entries[i].Key;
 
 			// add value to string
-			if (m_Entries[i].Value != "") GetTemplateController().TextField = GetTemplateController().TextField + ": " + m_Entries[i].Value + "\n";
+			if (m_Entries[i].Value != "") GetTemplateController().TextField = GetTemplateController().TextField + ": " + m_Entries[i].Value;
 
 			// add new line to string
 			GetTemplateController().TextField = GetTemplateController().TextField + "\n";
