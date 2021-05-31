@@ -5,13 +5,16 @@ class CF_RPC
     protected void ~CF_RPC();
 
     protected static ref map<string, Class> m_RegisteredInstances = new map<string, Class>();
+    protected static ref map<string, ref CF_RPC_Whitelist> m_FunctionWhitelists = new map<string, ref CF_RPC_Whitelist>();
 
     static const int CF_RPC_SCRIPT_ID = 10043;
 
     static const PlayerIdentity SERVER = NULL;
 
     /**
-     * @brief Registers a handler instance for the RPC receiving machine. A handler is a class instance which RPC functions will be invoked on. Alternatively you can inherit your handler class from CF_RPC_HandlerBase which registers it automatically.
+     * @brief Registers a handler instance for the RPC receiving machine. A handler is a class instance which RPC functions will be invoked on.
+     *        Alternatively you can inherit your handler class from CF_RPC_HandlerBase which registers it automatically.
+     *
      * @code
      * constructor()
      * {
@@ -24,23 +27,27 @@ class CF_RPC
      */
 	static bool RegisterHandler(Class instance)
 	{
-	    auto className = instance.ClassName();
-
-        if(!m_RegisteredInstances.Contains(className))
+	    if(!instance)
+	    {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to register the handler instance %1. NULL-reference given as instance. See trace below:");
+            DumpStack();
+            return false;
+	    }
+        else if(m_RegisteredInstances.Contains(instance.ClassName()))
         {
-            m_RegisteredInstances.Set(className, instance);
-
-            return true;
+            PrintFormat("[WARNING][CommunityFramework][RPC] Failed to register the handler instance %1. An instance for the handler type %2 was already registered. See trace below:", instance, instance.ClassName());
+            DumpStack();
+            return false;
         }
 
-        PrintFormat("[WARNING][CommunityFramework][RPC] Failed to register the handler instance %1. An instance for the handler type %2 was already registered. See trace below:", instance, className);
-        DumpStack();
+        m_RegisteredInstances.Set(instance.ClassName(), instance);
 
-        return false;
+        return true;
 	}
 
     /**
      * @brief Unregisters a handler instance. Alternatively you can inherit your handler class from CF_RPC_HandlerBase which unregisters it automatically.
+     *
      * @code
      * destructor()
      * {
@@ -53,42 +60,27 @@ class CF_RPC
      */
 	static bool UnregisterHandler(Class instance)
 	{
-	    auto className = instance.ClassName();
-
-	    if(m_RegisteredInstances.Contains(className))
+	    if(!instance)
 	    {
-            m_RegisteredInstances.Remove(className);
-
-            return true;
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to unregister the handler instance %1. NULL-reference given as instance. See trace below:");
+            DumpStack();
+            return false;
+	    }
+	    if(m_RegisteredInstances.Contains(instance.ClassName()))
+	    {
+            PrintFormat("[WARNING][CommunityFramework][RPC] Failed to unregister the handler instance %1. The handler was not previously registered. See trace below:", instance, instance.ClassName());
+            DumpStack();
+            return false;
 	    }
 
-        PrintFormat("[WARNING][CommunityFramework][RPC] Failed to unregister the handler instance %1. The handler was not previously registered. See trace below:", instance, className);
-        DumpStack();
+        m_RegisteredInstances.Remove(instance.ClassName());
 
-        return false;
+        return true;
 	}
 
     /**
      * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
-     * @code
-     * auto rpc = CF.RPC.Prepare(MyHandler, "MyFunction", true);
-     * rpc.Write("My data");
-     * rpc.SendTo(receiverIdentity1);
-     * rpc.SendTo(receiverIdentity2);
-     * @endcode
      *
-     * @param handlerType       Typename of handler class on the receiving machine.
-     * @param functionName      The name of the function that shall be invoked in the handler instance on the receiving machine.
-     * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
-     * @return CF_RPC_Context   RPC write and send context.
-     */
-    static ref CF_RPC_Context Prepare(typename handlerType, string functionName, bool guaranteed)
-    {
-        return CF_RPC_Context._Prepare(handlerType.ToString(), functionName, guaranteed);
-    }
-
-    /**
-     * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
      * @code
      * auto rpc = CF.RPC.Prepare("MyHandler", "MyFunction", true);
      * rpc.Write("My data");
@@ -103,11 +95,53 @@ class CF_RPC
      */
     static ref CF_RPC_Context Prepare(string handlerType, string functionName, bool guaranteed)
     {
+        if(handlerType == "")
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to prepare RPC context. handlerType was not set. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
+        if(functionName == "")
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to prepare RPC context. functionName was not set. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
         return CF_RPC_Context._Prepare(handlerType, functionName, guaranteed);
     }
 
     /**
      * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
+     *
+     * @code
+     * auto rpc = CF.RPC.Prepare(MyHandler, "MyFunction", true);
+     * rpc.Write("My data");
+     * rpc.SendTo(receiverIdentity1);
+     * rpc.SendTo(receiverIdentity2);
+     * @endcode
+     *
+     * @param handlerType       Typename of handler class on the receiving machine.
+     * @param functionName      The name of the function that shall be invoked in the handler instance on the receiving machine.
+     * @param guaranteed        Guaranteed RPC delivery. True = Will arrive eventually. False = Might be dropped after first attempt.
+     * @return CF_RPC_Context   RPC write and send context. Will be NULL if the parameters were invalid.
+     */
+    static ref CF_RPC_Context Prepare(typename handlerType, string functionName, bool guaranteed)
+    {
+	    if(!handlerType) //Prevent invoke on NULL below
+	    {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to prepare RPC context. handlerType was NULL. See trace below:");
+            DumpStack();
+            return NULL;
+	    }
+
+        return CF_RPC_Context._Prepare(handlerType.ToString(), functionName, guaranteed);
+    }
+
+    /**
+     * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
+     *
      * @code
      * Object myGlobalObject = GetGlobalObjectFunction();
      * auto rpc = CF.RPC.Prepare(myGlobalObject, "MyFunction", true);
@@ -123,7 +157,96 @@ class CF_RPC
      */
     static ref CF_RPC_Context Prepare(Object handlerObject, string functionName, bool guaranteed)
     {
-        return CF_RPC_Context._Prepare(handlerObject.GetType(), functionName, guaranteed, handlerObject);
+        if(!handlerObject) //Prevent invoke on NULL below
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to prepare RPC context. handlerObject was NULL. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
+        return CF_RPC_Context._Prepare(handlerObject.ClassName(), functionName, guaranteed, handlerObject);
+    }
+
+    /**
+     * @brief Get the whitelist for a specific type of handler.
+     *
+     * @code
+     * MyHandlerType handler = GetHandlerInstanceFunction();
+     * auto whitelist = CF.RPC.GetWhitelist(handler);
+     * @endcode
+     *
+     * @param handlerType       Instance from which the handler type is derived.
+     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
+     */
+    static CF_RPC_Whitelist GetWhitelist(Class handlerType)
+    {
+        if(!handlerType) //Prevent invoke on NULL below
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to access whitelist. handlerType was NULL. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
+        return _GetWhitelist(handlerType.ClassName());
+    }
+
+    /**
+     * @brief Get the whitelist for a specific type of handler.
+     *
+     * @code
+     * auto whitelist = CF.RPC.GetWhitelist(MyHandlerType);
+     * @endcode
+     *
+     * @param handlerType       Typename of the handler.
+     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
+     */
+    static CF_RPC_Whitelist GetWhitelist(typename handlerType)
+    {
+        if(!handlerType) //Prevent invoke on NULL below
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to access whitelist. handlerType was NULL. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
+        return _GetWhitelist(handlerType.ToString());
+    }
+
+    /**
+     * @brief [Internal] Get the whitelist instance.
+     * @param handlerType       Type(string) of the handler.
+     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
+     */
+    static CF_RPC_Whitelist _GetWhitelist(string handlerType)
+    {
+        if(!m_FunctionWhitelists.Contains(handlerType))
+        {
+            /*
+                Inherited lookup required to match compile-time types with runtime.
+                e.g. "PlayerBase" is the key but the runtime instance is SurvivorM_Jose. Without the check it would not match.
+
+                The first matching instance is the result and will be cached for future RPCs of the handlerType.
+            */
+            auto handlerTypename = handlerType.ToType();
+
+            if(!handlerTypename) return NULL;
+
+            foreach(auto key, auto value : m_FunctionWhitelists)
+            {
+                if(handlerTypename.IsInherited(key.ToType()))
+                {
+                    //Store the alias for future requests
+                    m_FunctionWhitelists.Set(handlerType, value);
+
+                    //Return early with the same whitelist but under alias name
+                    return value;
+                }
+            }
+
+            m_FunctionWhitelists.Set(handlerType, new CF_RPC_Whitelist());
+        }
+
+        return m_FunctionWhitelists.Get(handlerType);
     }
 
     /**
@@ -139,7 +262,19 @@ class CF_RPC
 
         if(ctx.Read(handlerType) && ctx.Read(functionName))
         {
-            Class invoke = null;
+            if(handlerType == "")
+            {
+                PrintFormat("[ERROR][CommunityFramework][RPC] Invalid value for parameter handlerType: '%1'. RPC ignored!", handlerType);
+                return true;
+            }
+
+            if(functionName == "")
+            {
+                PrintFormat("[ERROR][CommunityFramework][RPC] Invalid value for parameter functionName: '%1'. RPC ignored!", functionName);
+                return true;
+            }
+
+            Class invoke = NULL;
 
             if(target) //Direct execution on a known object instance
             {
@@ -153,32 +288,46 @@ class CF_RPC
             {
                 /*
                     Inherited handlers will have the function the rpc is looking for, but might not match the class name.
-                    The first matching instance is the result and will be cached for future rpcs of the handlerType.
+                    The first matching instance is the result and will be cached for future RPCs of the handlerType.
                 */
                 auto handlerTypename = handlerType.ToType();
 
-                foreach(auto key, auto value : m_RegisteredInstances)
+                if(handlerTypename)
                 {
-                    if(key.ToType().IsInherited(handlerTypename))
+                    foreach(auto key, auto value : m_RegisteredInstances)
                     {
-                        invoke = value;
-                        break;
+                        if(key.ToType().IsInherited(handlerTypename))
+                        {
+                            invoke = value;
+                            m_RegisteredInstances.Set(handlerType, invoke);
+                            break;
+                        }
                     }
-                }
-
-                if(invoke)
-                {
-                    m_RegisteredInstances.Set(handlerType, invoke);
                 }
             }
 
             if(invoke)
             {
-                g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, new Param2<ref PlayerIdentity, ref ParamsReadContext>(sender, ctx));
+                //Validate if the invoke is allowed
+                auto whitelist = _GetWhitelist(handlerType);
+
+                /*
+                    If no whitelist is set, the default behavior for handler classes is to allow everything.
+                    For a direct object or mission handler invoke - the default behavior is to not allow anything because objects always contain various function that should not be invokable.
+                */
+                if(whitelist && ((whitelist.IsEmpty() && !invoke.IsInherited(Object) && !invoke.IsInherited(Mission)) || whitelist.IsWhitelisted(functionName)))
+                {
+                    g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, new Param2<ref PlayerIdentity, ref ParamsReadContext>(sender, ctx));
+                }
+                else
+                {
+                    //Note from Arkensor: Yes this must be one line, or else the format breaks in the scripts log.
+                    PrintFormat("[ERROR][CommunityFramework][RPC] Function invoke '%1::%2' is not allowed. RPC ignored!\n               As the developer you can fix this by calling CF.RPC.GetWhitelist(%1).Add(\"%2\").", handlerType, functionName);
+                }
             }
             else
             {
-                PrintFormat("[ERROR][CommunityFramework][RPC] No instance found for handler type %1. RPC ignored...", handlerType);
+                PrintFormat("[ERROR][CommunityFramework][RPC] No instance found for handler type '%1' to execute function '%2'. RPC ignored!", handlerType, functionName);
             }
         }
 
@@ -194,5 +343,8 @@ class CF_RPC
     {
         m_RegisteredInstances.Clear();
         delete m_RegisteredInstances;
+
+        m_FunctionWhitelists.Clear();
+        delete m_FunctionWhitelists;
     }
 }
