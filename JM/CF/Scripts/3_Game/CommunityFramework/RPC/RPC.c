@@ -79,6 +79,88 @@ class CF_RPC
 	}
 
     /**
+     * @brief Get the whitelist for a specific type of handler.
+     *
+     * @code
+     * MyHandlerType handler = GetHandlerInstanceFunction();
+     * auto whitelist = CF.RPC.GetWhitelist(handler);
+     * @endcode
+     *
+     * @param handlerType       Instance from which the handler type is derived.
+     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
+     */
+    static CF_RPC_Whitelist GetWhitelist(Class handlerType)
+    {
+        if(!handlerType) //Prevent invoke on NULL below
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to access whitelist. handlerType was NULL. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
+        return _GetWhitelist(handlerType.ClassName());
+    }
+
+    /**
+     * @brief Get the whitelist for a specific type of handler.
+     *
+     * @code
+     * auto whitelist = CF.RPC.GetWhitelist(MyHandlerType);
+     * @endcode
+     *
+     * @param handlerType       Typename of the handler.
+     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
+     */
+    static CF_RPC_Whitelist GetWhitelist(typename handlerType)
+    {
+        if(!handlerType) //Prevent invoke on NULL below
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to access whitelist. handlerType was NULL. See trace below:");
+            DumpStack();
+            return NULL;
+        }
+
+        return _GetWhitelist(handlerType.ToString());
+    }
+
+    /**
+     * @brief [Internal] Get the whitelist instance.
+     * @param handlerType       Type(string) of the handler.
+     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
+     */
+    static CF_RPC_Whitelist _GetWhitelist(string handlerType)
+    {
+        if(!m_FunctionWhitelists.Contains(handlerType))
+        {
+            /*
+                Inherited lookup required to match compile-time types with runtime.
+                e.g. "PlayerBase" is the key but the runtime instance is SurvivorM_Jose. Without the check it would not match.
+
+                The first matching instance is the result and will be cached for future RPCs of the handlerType.
+            */
+            auto handlerTypename = handlerType.ToType();
+
+            if(!handlerTypename) return NULL;
+
+            foreach(auto key, auto value : m_FunctionWhitelists)
+            {
+                if(handlerTypename.IsInherited(key.ToType()))
+                {
+                    //Store the alias for future requests
+                    m_FunctionWhitelists.Set(handlerType, value);
+
+                    //Return early with the same whitelist but under alias name
+                    return value;
+                }
+            }
+
+            m_FunctionWhitelists.Set(handlerType, new CF_RPC_Whitelist());
+        }
+
+        return m_FunctionWhitelists.Get(handlerType);
+    }
+
+    /**
      * @brief Prepares a new RPC send context, which data can be written to using Write() and that is transmitted using SendTo()
      *
      * @code
@@ -165,88 +247,6 @@ class CF_RPC
         }
 
         return CF_RPC_Context._Prepare(handlerObject.ClassName(), functionName, guaranteed, handlerObject);
-    }
-
-    /**
-     * @brief Get the whitelist for a specific type of handler.
-     *
-     * @code
-     * MyHandlerType handler = GetHandlerInstanceFunction();
-     * auto whitelist = CF.RPC.GetWhitelist(handler);
-     * @endcode
-     *
-     * @param handlerType       Instance from which the handler type is derived.
-     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
-     */
-    static CF_RPC_Whitelist GetWhitelist(Class handlerType)
-    {
-        if(!handlerType) //Prevent invoke on NULL below
-        {
-            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to access whitelist. handlerType was NULL. See trace below:");
-            DumpStack();
-            return NULL;
-        }
-
-        return _GetWhitelist(handlerType.ClassName());
-    }
-
-    /**
-     * @brief Get the whitelist for a specific type of handler.
-     *
-     * @code
-     * auto whitelist = CF.RPC.GetWhitelist(MyHandlerType);
-     * @endcode
-     *
-     * @param handlerType       Typename of the handler.
-     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
-     */
-    static CF_RPC_Whitelist GetWhitelist(typename handlerType)
-    {
-        if(!handlerType) //Prevent invoke on NULL below
-        {
-            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to access whitelist. handlerType was NULL. See trace below:");
-            DumpStack();
-            return NULL;
-        }
-
-        return _GetWhitelist(handlerType.ToString());
-    }
-
-    /**
-     * @brief [Internal] Get the whitelist instance.
-     * @param handlerType       Type(string) of the handler.
-     * @return CF_RPC_Whitelist Whitelist instance. NULL if handlerType was invalid.
-     */
-    static CF_RPC_Whitelist _GetWhitelist(string handlerType)
-    {
-        if(!m_FunctionWhitelists.Contains(handlerType))
-        {
-            /*
-                Inherited lookup required to match compile-time types with runtime.
-                e.g. "PlayerBase" is the key but the runtime instance is SurvivorM_Jose. Without the check it would not match.
-
-                The first matching instance is the result and will be cached for future RPCs of the handlerType.
-            */
-            auto handlerTypename = handlerType.ToType();
-
-            if(!handlerTypename) return NULL;
-
-            foreach(auto key, auto value : m_FunctionWhitelists)
-            {
-                if(handlerTypename.IsInherited(key.ToType()))
-                {
-                    //Store the alias for future requests
-                    m_FunctionWhitelists.Set(handlerType, value);
-
-                    //Return early with the same whitelist but under alias name
-                    return value;
-                }
-            }
-
-            m_FunctionWhitelists.Set(handlerType, new CF_RPC_Whitelist());
-        }
-
-        return m_FunctionWhitelists.Get(handlerType);
     }
 
     /**
