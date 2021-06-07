@@ -58,32 +58,41 @@ class CF_ModStorage_Object<Class T>
 
 		for (int i = 0; i < count; i++)
 		{
-			string modName;
-			if (!ctx.Read(modName)) return false;
+			int hash;
+			if (cf_version >= 3)
+			{
+				if (!ctx.Read(hash)) return false;
+			}
+			else
+			{
+				string modName;
+				if (!ctx.Read(modName)) return false;
+				hash = ModLoader.GetHash(modName);
+			}
 
 			ModStructure mod;
-			bool modExists = ModLoader.Find_ModStorage_Mod(modName, mod);
+			bool modExists = ModLoader.Find_ModStorage_Mod(hash, mod);
 
-			CF_ModStorage store = new CF_ModStorage(mod, modName);
+			CF_ModStorage store = new CF_ModStorage(mod, hash);
 
 			if (!store.Load(ctx, cf_version))
 			{
-				Error( "Failed reading " + GetDebugName(m_Entity) + " for mod '" + modName + "'!");
+				Error( "Failed reading " + GetDebugName(m_Entity) + " for mod '" + ModLoader.GetName(hash) + "' (hash " + hash + ")!");
 				return false;
 			}
 
 			// check if the mod exists and the version we are loading is greater than zero. 
 			// If both pass, go back to the entity and run the store load with the mod.
-			if (modExists && store.GetVersion() > 0 && !m_Entity.CF_OnStoreLoad(store, modName))
+			if (modExists && store.GetVersion() > 0 && !m_Entity.CF_OnStoreLoad(store, mod.GetName()))
 			{
-				Error("Failed loading " + GetDebugName(m_Entity) + " for mod '" + modName + "'!");
+				Error("Failed loading " + GetDebugName(m_Entity) + " for mod '" + mod.GetName() + "' (hash " + hash + ")!");
 				return false;
 			}
 
 			// Add to the unloaded mods array so the data is resaved when the entity is saved.
 			// This is for when a server owner may want to add back in a mod they removed which
 			// may have wanted to keep some data.
-			if (!modExists && !ModLoader.Contains(modName)) m_UnloadedMods.Insert(store);
+			if (!modExists && !ModLoader.Contains(hash)) m_UnloadedMods.Insert(store);
 		}
 
 		return true;

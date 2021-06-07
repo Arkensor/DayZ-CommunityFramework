@@ -4,28 +4,28 @@
  */
 class CF_ModStorage
 {
-	static const int VERSION = 2;
+	static const int VERSION = 3;
 
 	protected int m_Version;
 
 	protected ModStructure m_Mod;
-	protected string m_ModName;
+	protected int m_Hash;
 
 	private autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
 	private int m_Index;
 
-	void CF_ModStorage(ref ModStructure mod, string modNameOverride = "")
+	void CF_ModStorage(ref ModStructure mod, int hashOverride = 0)
 	{
 		m_Version = -1;
 		m_Mod = mod;
 		if (m_Mod)
 		{
 			m_Version = m_Mod.GetStorageVersion();
-			m_ModName = m_Mod.GetName();
+			m_Hash = m_Mod.GetHash();
 		}
 		else
 		{
-			m_ModName = modNameOverride;
+			m_Hash = hashOverride;
 		}
 	}
 
@@ -53,7 +53,7 @@ class CF_ModStorage
 	 */
 	void Save(ParamsWriteContext ctx)
 	{
-		ctx.Write(m_ModName);
+		ctx.Write(m_Hash);
 
 		ctx.Write(m_Version);
 
