@@ -6,6 +6,7 @@ class CF_RPC
 
     protected static ref map<string, Class> m_RegisteredInstances = new map<string, Class>();
     protected static ref map<string, ref CF_RPC_Whitelist> m_FunctionWhitelists = new map<string, ref CF_RPC_Whitelist>();
+    protected static ref map<string, typename> m_FunctionParameterTypes = new map<string, typename>();
 
     static const int CF_RPC_SCRIPT_ID = 10043;
 
@@ -77,6 +78,22 @@ class CF_RPC
 
         return true;
 	}
+
+    static bool RegisterFunctionParameters(Class handlerInstance, string functionName, CF_RPC_Param parameters)
+    {
+        auto hashKey = handlerInstance.ClassName() + "::" + functionName;
+
+        if(m_FunctionParameterTypes.Contains(hashKey))
+        {
+            PrintFormat("[WARNING][CommunityFramework][RPC] Failed to register function parameters for %1. Already registered.\n               Existing parameters: %2. See trace below:", hashKey, m_FunctionParameterTypes.Get(hashKey));
+            DumpStack();
+            return false;
+        }
+
+        m_FunctionParameterTypes.Set(hashKey, parameters.Type());
+
+        return true;
+    }
 
     /**
      * @brief Get the whitelist for a specific type of handler.
@@ -317,7 +334,27 @@ class CF_RPC
                 */
                 if(whitelist && ((whitelist.IsEmpty() && !invoke.IsInherited(Object) && !invoke.IsInherited(Mission)) || whitelist.IsWhitelisted(functionName)))
                 {
-                    g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, new Param2<ref PlayerIdentity, ref ParamsReadContext>(sender, ctx));
+                    auto paramsHashKey = handlerType + "::" + functionName;
+
+                    if(m_FunctionParameterTypes.Contains(paramsHashKey))
+                    {
+                        auto paramInstance = CF_RPC_Param.Cast(m_FunctionParameterTypes.Get(paramsHashKey).Spawn());
+
+                        if(paramInstance && paramInstance.Deserializer(ctx))
+                        {
+                            paramInstance._SetSenderIdentity(sender);
+
+                            g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, paramInstance);
+                        }
+                        else
+                        {
+                            PrintFormat("[ERROR][CommunityFramework][RPC] Could not unpack RPC data for %1 into %2", paramsHashKey, m_FunctionParameterTypes.Get(paramsHashKey));
+                        }
+                    }
+                    else
+                    {
+                        g_Game.GameScript.CallFunctionParams(invoke, functionName, NULL, new Param2<ref PlayerIdentity, ref ParamsReadContext>(sender, ctx));
+                    }
                 }
                 else
                 {
@@ -346,5 +383,8 @@ class CF_RPC
 
         m_FunctionWhitelists.Clear();
         delete m_FunctionWhitelists;
+
+        m_FunctionParameterTypes.Clear();
+        delete m_FunctionParameterTypes;
     }
 }
