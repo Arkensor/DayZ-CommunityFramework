@@ -79,6 +79,28 @@ class CF_RPC
         return true;
 	}
 
+    /**
+     * @brief Registers the handler-function parameters to allow for automatic unpacking of the received RPC data.
+     *        The PlayerIdentity of the RPC sender is automatically included as the FIRST parameter. Only specific ADDITIONAL parameters.
+     *
+     *        NOTE: Once parameters are registered, the default overload with Fnc(PlayerIdentity sender, ParamsReadContext ctx) will NOT work anymore.
+     *              The function MUST match the parameters that are registered for it, or else you will see an error like: Cannot convert '<type>' to '<type>'...
+     *
+     * @code
+     * constructor()
+     * {
+     *     CF.RPC.RegisterFunctionParameters(this, "MyAutomaticUnpackingFunction", new CF_RPC_Param3<int, array<string>, vector>);
+     * }
+     *
+     * void MyAutomaticUnpackingFunction(PlayerIdentity sender, int integerValue, array<string> stringValues, vector vectorValue){}
+     *
+     * @endcode
+     *
+     * @param handlerInstance   Instance of the handler that contains the target function.
+     * @param functionName      Name of the function that the parameters are being registered for.
+     * @param parameters        Parameter declaration as CF_RPC_Param1...CF_RPC_Param7 instance. Note: You should use the default constructor of CF_RPC_Param - so no parameters.
+     * @return bool             Returns true if successfully unregistered, false otherwise (see script log for details).
+     */
     static bool RegisterFunctionParameters(Class handlerInstance, string functionName, CF_RPC_Param parameters)
     {
         auto hashKey = handlerInstance.ClassName() + "::" + functionName;
