@@ -25,6 +25,11 @@ modded class ModLoader
 		if (!hash)
 		{
 			hash = name.Hash();
+			if (m_ModMap.Contains(hash))
+			{
+				//! Uh-oh, a collision. Bail by returning zero.
+				return 0;
+			}
 			m_CF_ModNameHashMap.Insert(name, hash);
 			m_CF_ModHashNameMap.Insert(hash, name);
 		}
@@ -99,6 +104,12 @@ modded class ModLoader
 			m_Mods.Insert(mod);
 
 			int hash = mod.GetHash();
+
+			if (m_ModMap.Contains(hash))
+			{
+				Print("WARNING: Ignoring " + mod_name + " (hash " + hash + ") since its hash collides with " + m_ModMap.Get(hash));
+				continue;
+			}
 
 			m_ModMap.Insert(hash, mod);
 
