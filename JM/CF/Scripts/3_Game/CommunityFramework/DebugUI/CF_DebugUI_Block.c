@@ -139,6 +139,6 @@ class CF_DebugUI_Block: ScriptViewTemplate<CF_DebugUI_Block_Controller>
 
 	override string GetLayoutFile()
 	{
-		return "JM/CF/DebugUI/layouts/DebugUI_Block.layout";
+		return "JM/CF/GUI/layouts/DebugUI_Block.layout";
 	}
 };
