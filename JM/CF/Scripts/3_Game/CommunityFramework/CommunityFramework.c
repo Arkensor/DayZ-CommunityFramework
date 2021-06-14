@@ -19,6 +19,8 @@ class CommunityFramework
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
 
+    static CF_Animation Animation;
+
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
 	#endif
@@ -30,6 +32,7 @@ class CommunityFramework
      */
 	static void _GameInit()
 	{
+        Animation.Init();
 	}
 
     /**

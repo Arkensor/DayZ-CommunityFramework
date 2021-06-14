@@ -86,3 +86,19 @@ class CfgMods
 		};
 	};
 };
+
+class CfgVehicles
+{
+	class Man;
+	class SurvivorBase: Man
+	{
+		class enfAnimSys
+		{
+			meshObject = "dz\characters\bodies\player_testing.xob";
+			graphName = "$profile:player.agr";
+			defaultInstance = "$profile:player.asi";
+			skeletonName = "player_testing.xob";
+			startNode = "MasterControl";
+		};
+	};
+};
