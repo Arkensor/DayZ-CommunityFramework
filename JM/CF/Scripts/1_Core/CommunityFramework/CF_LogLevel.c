@@ -1,5 +1,6 @@
 // Enum for LogLevel. Utility for plugins and loggers
-enum LogLevel {
+enum CF_LogLevel
+{
 	TRACE, 		// Logs at beginning of each method
 	DEBUG,		// Debug info within conditionals etc...
 	INFO,		// Helpful info within conditionals etc... (likely more user friendly)

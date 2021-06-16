@@ -7,7 +7,7 @@ FrameWidgetClass root {
  vexactpos 1
  hexactsize 0
  vexactsize 0
- scriptclass "SampleScriptViewController"
+ scriptclass "CF_FrameWidget"
  {
   WrapSpacerWidgetClass root_spacer {
    ignorepointer 1
@@ -38,42 +38,24 @@ FrameWidgetClass root {
      {
       ButtonWidgetClass button {
        position 0 0
-       size 1 1
+       size 0.99 1
        halign center_ref
        valign center_ref
        hexactpos 1
        vexactpos 1
        hexactsize 0
        vexactsize 0
-       scriptclass "ViewBinding"
+       scriptclass "CF_ButtonWidget"
        "no focus" 1
        text "Toggle"
        font "gui/fonts/Metron-Bold28"
        switch toggle
        {
         ScriptParamsClass {
-         Debug_Logging 0
-         Relay_Command "SampleRelayCommand"
+         Event_Click "OnClick"
+         Text "ButtonText"
         }
        }
-      }
-     }
-    }
-    WrapSpacerWidgetClass content_host {
-     ignorepointer 1
-     position 0 0
-     size 1 1
-     halign center_ref
-     hexactpos 1
-     vexactpos 1
-     hexactsize 0
-     vexactsize 0
-     scriptclass "ViewBinding"
-     content_halign center
-     {
-      ScriptParamsClass {
-       Debug_Logging 1
-       Binding_Name "script_view"
       }
      }
     }
@@ -82,7 +64,8 @@ FrameWidgetClass root {
  }
  {
   ScriptParamsClass {
-   Debug_Logging 1
+   Debug_Enable 1
+   Debug_Model "CF_Model_Test"
   }
  }
 }
