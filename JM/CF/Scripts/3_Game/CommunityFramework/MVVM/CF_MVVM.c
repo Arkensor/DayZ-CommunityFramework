@@ -3,11 +3,11 @@ class CF_MVVM
 	private ref array<ref CF_ViewModel> m_ViewModels = new array<ref CF_ViewModel>();
 	private ref map<Class, CF_ViewModel> m_ViewModelMap = new map<Class, CF_ViewModel>();
 
-	CF_ViewModel Create(Class model, string layout)
+	CF_ViewModel Create(Class model, string layout, Widget parent = null)
 	{
-		CF_Trace trace(this, "Create", "" + model, "" + layout);
+		CF_Trace trace(this, "Create", "" + model, "" + layout, "" + parent);
 
-		return Create(model, GetGame().GetWorkspace().CreateWidgets(layout));
+		return Create(model, GetGame().GetWorkspace().CreateWidgets(layout, parent));
 	}
 
 	CF_ViewModel Create(Class model, Widget widget)
@@ -41,9 +41,12 @@ class CF_MVVM
 		return viewModel;
 	}
 
-	void Destroy(CF_ViewModel viewModel)
+	void Destroy(Class model)
 	{
-		CF_Trace trace(this, "Destroy", "" + viewModel);
+		CF_Trace trace(this, "Destroy", "" + model);
+
+		CF_ViewModel viewModel;
+		if (!m_ViewModelMap.Find(model, viewModel)) return;
 
 		if (!viewModel._DestroyView())
 		{

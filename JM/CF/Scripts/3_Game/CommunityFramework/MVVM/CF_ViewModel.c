@@ -8,25 +8,21 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "Create", "" + view, "" + model);
 
+		SetView(view, false);
 		SetModel(model);
-		SetView(view);
 	}
 
 	void NotifyPropertyChanged(string name)
 	{
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name);
 		
-		auto arr = m_Properties.GetKeyArray();
-		Print(arr.Count());
-		for (int i = 0; i < arr.Count(); i++) Print("[" + i + "] " + arr[i]);
-
 		CF_MVVM_Property property;
 		if (!m_Properties.Find(name, property)) return;
 
 		property.OnModel(m_Model);
 	}
 
-	void SetView(CF_MVVM_View view)
+	void SetView(CF_MVVM_View view, bool loadProperties = true)
 	{
 		CF_Trace trace(this, "SetView", "" + view);
 
@@ -40,20 +36,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		if (m_View)
 		{
 			m_View.SetViewModel(this);
-			
-			GetProperties(m_View);
-		}
-	}
 
-	private void GetProperties(CF_MVVM_View view)
-	{
-		CF_Trace trace(this, "GetProperties", "" + view);
-		
-		view.GetProperties(m_Model, m_Properties);
-		
-		for (int i = 0; i < view.Count(); i++)
-		{
-			GetProperties(view[i]);
+			if (m_Model && loadProperties)
+			{
+				LoadProperties(m_View);
+			}
 		}
 	}
 
@@ -81,11 +68,28 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Trace trace(this, "SetModel", "" + model);
 
 		m_Model = model;
+
+		if (m_Model && m_View)
+		{
+			LoadProperties(m_View);
+		}
 	}
 
 	Class GetModel()
 	{
 		return m_Model;
+	}
+
+	private void LoadProperties(CF_MVVM_View view)
+	{
+		CF_Trace trace(this, "LoadProperties", "" + view);
+		
+		view.GetProperties(m_Model, m_Properties);
+		
+		for (int i = 0; i < view.Count(); i++)
+		{
+			LoadProperties(view[i]);
+		}
 	}
 
 	override bool OnClick(Widget w, int x, int y, int button)
