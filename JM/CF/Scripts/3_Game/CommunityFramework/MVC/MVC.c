@@ -88,6 +88,7 @@ class LayoutBindingManager
 		widget_controllers.Insert(SliderWidget, SliderWidgetController);
 		widget_controllers.Insert(ProgressBarWidget, ProgressBarController);
 		widget_controllers.Insert(TextWidget, TextWidgetController);
+		widget_controllers.Insert(MultilineTextWidget, TextWidgetController);
 		widget_controllers.Insert(MultilineEditBoxWidget, MultilineEditBoxWidgetController);
 		widget_controllers.Insert(XComboBoxWidget, XComboBoxWidgetController);
 		widget_controllers.Insert(ImageWidget, ImageWidgetController);
