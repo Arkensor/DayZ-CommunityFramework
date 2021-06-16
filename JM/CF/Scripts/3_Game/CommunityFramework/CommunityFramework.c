@@ -19,9 +19,25 @@ class CommunityFramework
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
 
+    static CF_LogLevel LogLevel;
+
+    static ref CF_MVVM MVVM;
+
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
 	#endif
+
+    static DayZGame Game()
+    {
+        #ifdef COMPONENT_SYSTEM 
+        if (!g_Game)
+        {
+            CF_CreateGame();
+        }
+        #endif
+
+        return g_Game;
+    }
 
     /**
      * @brief [Internal] CommunityFramework initilization for 3_Game
@@ -30,6 +46,8 @@ class CommunityFramework
      */
 	static void _GameInit()
 	{
+        LogLevel = CF_LogLevel.TRACE;
+        MVVM = new CF_MVVM();
 	}
 
     /**
@@ -53,6 +71,8 @@ class CommunityFramework
     {
         ObjectManager._Cleanup();
 		XML._Cleanup();
+
+        delete MVVM;
 
 		#ifdef CF_MODULE_PERMISSIONS
 		Permission._Cleanup();
