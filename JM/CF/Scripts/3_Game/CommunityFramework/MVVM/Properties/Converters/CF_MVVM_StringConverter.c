@@ -1,6 +1,6 @@
 class CF_MVVM_StringConverter
 {
-	static void Get(CF_Model_Base model, string variable, out string str)
+	static bool Get(CF_Model_Base model, string variable, out string value)
 	{
 		CF_Trace trace(null, "CF_MVVM_StringConverter::Get", "" + model, variable);
 
@@ -10,62 +10,66 @@ class CF_MVVM_StringConverter
 			case CF_MVVM_PropertyType.BOOL:
 				bool _bool;
 				EnScript.GetClassVar(model, variable, 0, _bool);
-				str = _bool.ToString();
-				break;
+				value = _bool.ToString();
+				return true;
 			case CF_MVVM_PropertyType.INT:
 				int _int;
 				EnScript.GetClassVar(model, variable, 0, _int);
-				str = _int.ToString();
-				break;
+				value = _int.ToString();
+				return true;
 			case CF_MVVM_PropertyType.FLOAT:
 				float _float;
 				EnScript.GetClassVar(model, variable, 0, _float);
-				str = _float.ToString();
-				break;
+				value = _float.ToString();
+				return true;
 			case CF_MVVM_PropertyType.VECTOR:
 				vector _vector;
 				EnScript.GetClassVar(model, variable, 0, _vector);
-				str = _vector.ToString();
-				break;
+				value = _vector.ToString();
+				return true;
 			case CF_MVVM_PropertyType.STRING:
-				EnScript.GetClassVar(model, variable, 0, str);
-				break;
+				EnScript.GetClassVar(model, variable, 0, value);
+				return true;
 			case CF_MVVM_PropertyType.CLASS:
 				Class _class;
 				EnScript.GetClassVar(model, variable, 0, _class);
-				str = "" + _class;
-				break;
+				value = "" + _class;
+				return true;
 		}
+
+		return false;
 	}
 
-	static void Set(CF_Model_Base model, string variable, string str)
+	static bool Set(CF_Model_Base model, string variable, string value)
 	{
-		CF_Trace trace(null, "CF_MVVM_StringConverter::Set", "" + model, variable, str);
+		CF_Trace trace(null, "CF_MVVM_StringConverter::Set", "" + model, variable, "" + value);
 
 		CF_MVVM_PropertyType type = CF.MVVM.GetPropertyType(model, variable);
 		switch (type)
 		{
 			case CF_MVVM_PropertyType.BOOL:
-				bool _bool = CF.StringToBool(str);
+				bool _bool = CF.StringToBool(value);
 				EnScript.SetClassVar(model, variable, 0, _bool);
-				break;
+				return true;
 			case CF_MVVM_PropertyType.INT:
-				int _int = str.ToInt();
+				int _int = value.ToInt();
 				EnScript.SetClassVar(model, variable, 0, _int);
-				break;
+				return true;
 			case CF_MVVM_PropertyType.FLOAT:
-				float _float = str.ToFloat();
+				float _float = value.ToFloat();
 				EnScript.SetClassVar(model, variable, 0, _float);
-				break;
+				return true;
 			case CF_MVVM_PropertyType.VECTOR:
-				vector _vector = str.ToVector();
+				vector _vector = value.ToVector();
 				EnScript.SetClassVar(model, variable, 0, _vector);
-				break;
+				return true;
 			case CF_MVVM_PropertyType.STRING:
-				EnScript.SetClassVar(model, variable, 0, str);
-				break;
+				EnScript.SetClassVar(model, variable, 0, value);
+				return true;
 			case CF_MVVM_PropertyType.CLASS:
-				break;
+				return false;
 		}
+
+		return false;
 	}
 };
