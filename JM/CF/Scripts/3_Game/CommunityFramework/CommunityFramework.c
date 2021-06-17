@@ -82,6 +82,15 @@ class CommunityFramework
 
         Log._Cleanup();
     }
+
+    static bool StringToBool(string str)
+    {
+        str.ToLower();
+        str.Trim();
+        if (str == "true") return true;
+        if (str == "false") return false;
+        return str.ToInt();
+    }
 };
 
 //--------------------------------------------------------

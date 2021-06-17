@@ -70,11 +70,18 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "SetModel", "" + model);
 
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
+
 		m_Model = model;
 
 		if (m_Model && m_View)
 		{
 			LoadProperties(m_View);
+
+			CF.MVVM._LoadPropertyTypes(m_Model, m_Properties);
 		}
 	}
 

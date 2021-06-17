@@ -5,7 +5,7 @@ class CF_Model_Test : CF_Model
 {
 	int Index;
 
-	string ButtonText = "Press Me!";
+	string ButtonText = "Press??";
 
 	void OnClick(CF_MouseEvent evt)
 	{

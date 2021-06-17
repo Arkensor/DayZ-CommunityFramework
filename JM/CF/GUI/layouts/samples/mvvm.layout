@@ -70,8 +70,7 @@ PanelWidgetClass root {
  }
  {
   ScriptParamsClass {
-   Debug_Enable 1
-   Debug_Model "CF_Model_Test"
+   Model "CF_Model_Test"
   }
  }
 }

@@ -1,7 +1,6 @@
 class CF_MVVM_View
 {
-	reference bool Debug_Enable;
-	reference string Debug_Model;
+	reference string Model;
 
 	private Widget m_LayoutRoot;
 
@@ -9,6 +8,7 @@ class CF_MVVM_View
 	private ref CF_ViewModel m_ViewModel;
 	private ref Managed m_Model;
 	#else
+	//! In-game, the ref count shouldn't be incremented. When the ref count == 0, then this view should be destroyed.
 	private CF_ViewModel m_ViewModel;
 	#endif
 
@@ -25,28 +25,39 @@ class CF_MVVM_View
 
 		m_LayoutRoot = w;
 
-		Widget parent = w.GetParent();
-		while (parent != null)
+		if (Model != string.Empty)
 		{
-			CF_MVVM_View view = null;
-			parent.GetScript(view);
-			if (view)
+			typename modelType = Model.ToType();
+			if (modelType)
 			{
-				SetParent(view);
-				break;
+				//! Workbench editing
+    			#ifdef COMPONENT_SYSTEM
+				Class.CastTo(m_Model, modelType.Spawn());
+				m_ViewModel = new CF_ViewModel(this, m_Model);
+				#endif
 			}
-
-			parent = parent.GetParent();
+			else
+			{
+				Model = "";
+			}
 		}
 
-		//! Workbench editing
-    	#ifdef COMPONENT_SYSTEM
-		if (Debug_Enable)
+		if (Model == string.Empty)
 		{
-			Class.CastTo(m_Model, Debug_Model.ToType().Spawn());
-			m_ViewModel = new CF_ViewModel(this, m_Model);
+			Widget parent = w.GetParent();
+			while (parent != null)
+			{
+				CF_MVVM_View view = null;
+				parent.GetScript(view);
+				if (view)
+				{
+					SetParent(view);
+					break;
+				}
+
+				parent = parent.GetParent();
+			}
 		}
-		#endif
 	}
 
 	void ~CF_MVVM_View()
