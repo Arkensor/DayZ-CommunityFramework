@@ -14,14 +14,14 @@ class CF_MVVM_Property
 		m_FunctionOnModel = onModel;
 	}
 	
-	void OnView(Class model)
+	void OnView(CF_Model_Base model)
 	{
 		CF_Trace trace(this, "OnView", "" + model);
 
 		g_Script.CallFunction(m_Handler, m_FunctionOnView, null, model);
 	}
 
-	void OnModel(Class model)
+	void OnModel(CF_Model_Base model)
 	{
 		CF_Trace trace(this, "OnModel", "" + model);
 

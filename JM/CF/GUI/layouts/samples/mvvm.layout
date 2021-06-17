@@ -1,4 +1,5 @@
-FrameWidgetClass root {
+PanelWidgetClass root {
+ color 0.8745 0.6549 0.8196 1
  position 0 0
  size 0.5 0.5
  halign center_ref
@@ -7,7 +8,7 @@ FrameWidgetClass root {
  vexactpos 1
  hexactsize 0
  vexactsize 0
- scriptclass "CF_FrameWidget"
+ scriptclass "CF_PanelWidget"
  {
   WrapSpacerWidgetClass root_spacer {
    ignorepointer 1
@@ -19,6 +20,7 @@ FrameWidgetClass root {
    vexactpos 1
    hexactsize 0
    vexactsize 0
+   scriptclass "CF_WrapSpacerWidget"
    Padding 0
    Margin 0
    content_halign center
@@ -58,6 +60,10 @@ FrameWidgetClass root {
        }
       }
      }
+    }
+   }
+   {
+    ScriptParamsClass {
     }
    }
   }

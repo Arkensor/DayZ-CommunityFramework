@@ -1,10 +1,10 @@
 class CF_ViewModel : ScriptedWidgetEventHandler
 {
 	private CF_MVVM_View m_View = null;
-	private Class m_Model = null;
+	private CF_Model_Base m_Model = null;
 	private ref map<string, ref CF_MVVM_Property> m_Properties = new map<string, ref CF_MVVM_Property>();
 
-	void CF_ViewModel(CF_MVVM_View view, Class model)
+	void CF_ViewModel(CF_MVVM_View view, CF_Model_Base model)
 	{
 		CF_Trace trace(this, "Create", "" + view, "" + model);
 
@@ -56,14 +56,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		Widget root = m_View.GetLayoutRoot();
 		if (root)
 		{
+   			#ifndef COMPONENT_SYSTEM
 			root.Unlink();
+			#endif
+
 			return true;
 		}
 
 		return false;
 	}
 
-	void SetModel(Class model)
+	void SetModel(CF_Model_Base model)
 	{
 		CF_Trace trace(this, "SetModel", "" + model);
 
@@ -75,7 +78,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 	}
 
-	Class GetModel()
+	CF_Model_Base GetModel()
 	{
 		return m_Model;
 	}
@@ -96,6 +99,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "OnClick", "" + w);
 
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
+		
 		CF_Widget binding;
 		w.GetScript(binding);
 		if (!binding) return false;
@@ -109,12 +117,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Click, null, param);
-		return !evt.Continue;
+		return binding.OnClick(evt);
 	}
 
 	override bool OnModalResult(Widget w, int x, int y, int code, int result)
 	{
 		CF_Trace trace(this, "OnModalResult", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -130,12 +143,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ModalEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_ModalResult, null, param);
-		return !evt.Continue;
+		return binding.OnModalResult(evt);
 	}
 
 	override bool OnDoubleClick(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnDoubleClick", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -150,12 +168,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_DoubleClick, null, param);
-		return !evt.Continue;
+		return binding.OnDoubleClick(evt);
 	}
 	
 	override bool OnSelect(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnSelect", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -169,12 +192,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_SelectEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Select, null, param);
-		return !evt.Continue;
+		return binding.OnSelect(evt);
 	}
 	
 	override bool OnItemSelected(Widget w, int x, int y, int row, int column, int oldRow, int oldColumn)
 	{
 		CF_Trace trace(this, "OnItemSelected", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -192,12 +220,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ItemSelectEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_ItemSelected, null, param);
-		return !evt.Continue;
+		return binding.OnItemSelected(evt);
 	}
 	
 	override bool OnFocus(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnFocus", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -211,12 +244,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_PositionEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Focus, null, param);
-		return !evt.Continue;
+		return binding.OnFocus(evt);
 	}
 	
 	override bool OnFocusLost(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnFocusLost", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -229,13 +267,18 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		evt.Y = y;
 
 		Param param = new Param1<CF_PositionEvent>(evt);
-		g_Script.CallFunctionParams(m_Model, binding.Event_Click, null, param);
-		return !evt.Continue;
+		g_Script.CallFunctionParams(m_Model, binding.Event_FocusLost, null, param);
+		return binding.OnFocusLost(evt);
 	}
 	
 	override bool OnMouseEnter(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnMouseEnter", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -250,12 +293,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseEnter, null, param);
-		return !evt.Continue;
+		return binding.OnMouseEnter(evt);
 	}
 	
 	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y)
 	{
 		CF_Trace trace(this, "OnMouseLeave", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -271,12 +319,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseLeave, null, param);
-		return !evt.Continue;
+		return binding.OnMouseLeave(evt);
 	}
 	
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
 	{
 		CF_Trace trace(this, "OnMouseWheel", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -292,12 +345,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseWheel, null, param);
-		return !evt.Continue;
+		return binding.OnMouseWheel(evt);
 	}
 	
 	override bool OnMouseButtonDown(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnMouseButtonDown", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -312,12 +370,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseButtonDown, null, param);
-		return !evt.Continue;
+		return binding.OnMouseButtonDown(evt);
 	}
 	
 	override bool OnMouseButtonUp(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnMouseButtonUp", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -332,12 +395,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseButtonUp, null, param);
-		return !evt.Continue;
+		return binding.OnMouseButtonUp(evt);
 	}
 
 	override bool OnController(Widget w, int control, int value)
 	{
 		CF_Trace trace(this, "OnController", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -351,12 +419,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ControllerEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Controller, null, param);
-		return !evt.Continue;
+		return binding.OnController(evt);
 	}
 	
 	override bool OnKeyDown(Widget w, int x, int y, int key)
 	{
 		CF_Trace trace(this, "OnKeyDown", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -370,12 +443,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_KeyEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_KeyDown, null, param);
-		return !evt.Continue;
+		return binding.OnKeyDown(evt);
 	}
 	
 	override bool OnKeyUp(Widget w, int x, int y, int key)
 	{
 		CF_Trace trace(this, "OnKeyUp", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -389,12 +467,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_KeyEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_KeyUp, null, param);
-		return !evt.Continue;
+		return binding.OnKeyUp(evt);
 	}
 	
 	override bool OnKeyPress(Widget w, int x, int y, int key)
 	{
 		CF_Trace trace(this, "OnKeyPress", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -408,12 +491,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_KeyEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_KeyPress, null, param);
-		return !evt.Continue;
+		return binding.OnKeyPress(evt);
 	}
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
 		CF_Trace trace(this, "OnChange", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -426,12 +514,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ChangeEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Change, null, param);
-		return !evt.Continue;
+		return binding.OnChange(evt);
 	}
 	
 	override bool OnDrag(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnDrag", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -444,12 +537,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_DragEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Drag, null, param);
-		return !evt.Continue;
+		return binding.OnDrag(evt);
 	}
 	
 	override bool OnDragging(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDragging", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -462,12 +560,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_DragEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Dragging, null, param);
-		return !evt.Continue;
+		return binding.OnDragging(evt);
 	}
 	
 	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDraggingOver", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -480,12 +583,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_DragEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_DraggingOver, null, param);
-		return !evt.Continue;
+		return binding.OnDraggingOver(evt);
 	}
 	
 	override bool OnDrop(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDrop", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -498,12 +606,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_DragEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Drop, null, param);
-		return !evt.Continue;
+		return binding.OnDrop(evt);
 	}
 	
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDropReceived", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -516,12 +629,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_DragEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_DropReceived, null, param);
-		return !evt.Continue;
+		return binding.OnDropReceived(evt);
 	}
 	
 	override bool OnResize(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnResize", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -533,12 +651,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ResizeEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Resize, null, param);
-		return !evt.Continue;
+		return binding.OnResize(evt);
 	}
 	
 	override bool OnChildAdd(Widget w, Widget child)
 	{
 		CF_Trace trace(this, "OnChildAdd", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -552,12 +675,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ChildEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_ChildAdd, null, param);
-		return !evt.Continue;
+		return binding.OnChildAdd(evt);
 	}
 	
 	override bool OnChildRemove(Widget w, Widget child)
 	{
 		CF_Trace trace(this, "OnChildRemove", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -571,12 +699,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_ChildEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_ChildRemove, null, param);
-		return !evt.Continue;
+		return binding.OnChildRemove(evt);
 	}
 	
 	override bool OnUpdate(Widget w)
 	{
 		CF_Trace trace(this, "OnUpdate", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
 		
 		CF_Widget binding;
 		w.GetScript(binding);
@@ -588,6 +721,6 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		Param param = new Param1<CF_Event>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Update, null, param);
-		return !evt.Continue;
+		return binding.OnUpdate(evt);
 	}
 };
