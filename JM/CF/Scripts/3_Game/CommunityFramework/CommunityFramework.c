@@ -2,7 +2,7 @@ CGame CF_CreateGame()
 {
 	Print("CF_CreateGame()");
 	g_Game = new DayZGame;
-	CF._GameInit();
+	CF._GameInit(true);
 	return g_Game;
 }
 
@@ -19,9 +19,9 @@ class CommunityFramework
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
 
-    static CF_LogLevel LogLevel;
+    static CF_Log Log;
 
-    static ref CF_MVVM MVVM;
+    static CF_MVVM MVVM;
 
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
@@ -44,10 +44,12 @@ class CommunityFramework
      *
      * @return void
      */
-	static void _GameInit()
+	static void _GameInit(bool realInit = false)
 	{
-        LogLevel = CF_LogLevel.TRACE;
-        MVVM = new CF_MVVM();
+        if (!realInit) Game();
+
+        MVVM._Init();
+        Log._Init();
 	}
 
     /**
@@ -72,11 +74,13 @@ class CommunityFramework
         ObjectManager._Cleanup();
 		XML._Cleanup();
 
-        delete MVVM;
+        MVVM._Cleanup();
 
 		#ifdef CF_MODULE_PERMISSIONS
 		Permission._Cleanup();
 		#endif
+
+        Log._Cleanup();
     }
 };
 

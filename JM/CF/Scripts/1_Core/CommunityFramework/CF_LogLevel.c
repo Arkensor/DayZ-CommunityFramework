@@ -1,10 +1,11 @@
-// Enum for LogLevel. Utility for plugins and loggers
 enum CF_LogLevel
 {
-	TRACE, 		// Logs at beginning of each method
-	DEBUG,		// Debug info within conditionals etc...
-	INFO,		// Helpful info within conditionals etc... (likely more user friendly)
-	WARNING,	// Warnings back to the user. unlikely to be mission critical
-	ERROR,		// Fatal errors. Mission critical
-	NONE
+	ERROR	= 0x000001,
+	WARNING	= 0x000010,
+	INFO 	= 0x000100,
+	DEBUG	= 0x001000,
+	TRACE	= 0x010000,
+
+	NONE	= 0,
+	ALL		= 0x011111,
 };

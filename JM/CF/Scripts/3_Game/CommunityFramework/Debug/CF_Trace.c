@@ -45,8 +45,7 @@ class CF_Trace
 
 		trace = string.Format(trace, param1, param2, param3, param4, param5, param6);
 
-		string message = string.Format("%1+%2%3 (%4)", Depth(), m_ClassName, m_StackName, trace);
-		if (CF.LogLevel == CF_LogLevel.TRACE) Print("" + message);
+		CF.Log.Trace("%1+%2%3 (%4)", Depth(), m_ClassName, m_StackName, trace);
 
 		s_TraceDepth++;
 	}
@@ -57,7 +56,6 @@ class CF_Trace
 
 		m_TickCount = TickCount(m_TickCount);
 
-		string message = string.Format("%1-%2%3 CPU Ticks: %4", Depth(), m_ClassName, m_StackName, m_TickCount.ToString());
-		if (CF.LogLevel == CF_LogLevel.TRACE) Print("" + message);
+		CF.Log.Trace("%1-%2%3 CPU Ticks: %4", Depth(), m_ClassName, m_StackName, m_TickCount.ToString());
 	}
 };
