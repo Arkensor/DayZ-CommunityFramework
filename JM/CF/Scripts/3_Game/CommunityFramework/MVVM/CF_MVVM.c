@@ -91,8 +91,12 @@ class CF_MVVM
 		}
 		else
 		{
+			//! Workbench editing
+    		#ifdef COMPONENT_SYSTEM
 			propertyTypeMap.Clear();
-			//return;
+			#else
+			return;
+			#endif
 		}
 
 		int count = type.GetVariableCount();

@@ -12,6 +12,7 @@ class CF_UIWidget : CF_Widget
 	reference string TextBold;
 	
 	private UIWidget _UIWidget;
+	
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
