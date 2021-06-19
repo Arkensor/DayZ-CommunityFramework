@@ -21,7 +21,7 @@ class CommunityFramework
 
     static CF_Log Log;
 
-    static CF_MVVM MVVM;
+    static ref CF_MVVM MVVM;
 
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
@@ -48,6 +48,7 @@ class CommunityFramework
 	{
         if (!realInit) Game();
 
+        MVVM = new CF_MVVM(); //!variable set for debugging.
         MVVM._Init();
         Log._Init();
 	}

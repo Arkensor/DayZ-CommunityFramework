@@ -1,8 +1,9 @@
 class CF_MVVM_View
 {
 	reference string Model;
+	reference string Children;
 
-	private Widget m_LayoutRoot;
+	private Widget m_Widget;
 
     #ifdef COMPONENT_SYSTEM 
 	private ref CF_ViewModel m_ViewModel;
@@ -23,7 +24,7 @@ class CF_MVVM_View
 	{
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
 
-		m_LayoutRoot = w;
+		m_Widget = w;
 
 		if (Model != string.Empty)
 		{
@@ -32,8 +33,11 @@ class CF_MVVM_View
 			{
 				//! Workbench editing
     			#ifdef COMPONENT_SYSTEM
-				Class.CastTo(m_Model, modelType.Spawn());
-				m_ViewModel = new CF_ViewModel(this, m_Model);
+				if (!CF.MVVM.WB_NEXT_IN_SCRIPT)
+				{
+					Class.CastTo(m_Model, modelType.Spawn());
+					m_ViewModel = new CF_ViewModel(this, m_Model);
+				}
 				#endif
 			}
 			else
@@ -90,6 +94,8 @@ class CF_MVVM_View
 	void GetProperties()
 	{
 		CF_Trace trace(this, "GetProperties");
+
+		AddProperty(Children, "Children");
 	}
 	
 	protected void AddProperty(string actual, string name)
@@ -107,12 +113,33 @@ class CF_MVVM_View
 		CF_Trace trace(this, "SetViewModel", "" + viewModel);
 
 		m_ViewModel = viewModel;
-		m_LayoutRoot.SetHandler(m_ViewModel);
+		m_Widget.SetHandler(m_ViewModel);
 	}
 
-	Widget GetLayoutRoot()
+	void OnView_Children(CF_Model_Base model)
 	{
-		return m_LayoutRoot;
+		//@note not within the scope of MVVM.
+		// maybe support this at a later stage if possible
+	}
+
+	void OnModel_Children(CF_Model_Base model)
+	{
+		CF_Trace trace(this, "OnModel_Children", "" + model);
+
+		CF_Collection _collection;
+		EnScript.GetClassVar(model, Children, 0, _collection);
+
+		int count = _collection.Count();
+
+		for (int i = 0; i < count; i++)
+		{
+			CF.MVVM.Create(_collection.GetModel(i), _collection.GetLayout(), m_Widget);
+		}
+	}
+
+	Widget GetWidget()
+	{
+		return m_Widget;
 	}
 
 	set<CF_MVVM_View> GetChildren()

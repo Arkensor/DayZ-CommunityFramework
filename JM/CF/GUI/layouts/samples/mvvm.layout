@@ -61,6 +61,24 @@ PanelWidgetClass root {
       }
      }
     }
+    GridSpacerWidgetClass GridSpacerWidget0 {
+     ignorepointer 1
+     position 10 10
+     size 48 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scriptclass "CF_GridSpacerWidget"
+     "Size To Content V" 1
+     Columns 1
+     Rows 100
+     {
+      ScriptParamsClass {
+       Children "Test"
+      }
+     }
+    }
    }
    {
     ScriptParamsClass {

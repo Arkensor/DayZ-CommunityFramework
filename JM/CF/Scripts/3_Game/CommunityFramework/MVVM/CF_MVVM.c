@@ -5,6 +5,10 @@ class CF_MVVM
 
 	private static ref map<typename, ref map<string, CF_MVVM_PropertyType>> m_PropertyMap;
 
+    #ifdef COMPONENT_SYSTEM
+	static bool WB_NEXT_IN_SCRIPT = false;
+	#endif
+
 	static void _Init()
 	{
 		m_ViewModels = new array<ref CF_ViewModel>();
@@ -32,12 +36,48 @@ class CF_MVVM
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout, "" + parent);
 
-		return Create(model, GetGame().GetWorkspace().CreateWidgets(layout, parent));
+    	#ifdef COMPONENT_SYSTEM
+		if (m_ViewModels == null && m_ViewModelMap == null)
+		{
+			CF._GameInit();
+		}
+		#endif
+
+		CF_ViewModel viewModel;
+		if (m_ViewModelMap.Find(model, viewModel))
+		{
+			return viewModel;
+		}
+
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM.WB_NEXT_IN_SCRIPT = true;
+		#endif
+
+		viewModel = Create(model, GetGame().GetWorkspace().CreateWidgets(layout, parent));
+
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM.WB_NEXT_IN_SCRIPT = false;
+		#endif
+
+		return viewModel;
 	}
 
 	static CF_ViewModel Create(CF_Model_Base model, Widget widget)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + widget);
+
+    	#ifdef COMPONENT_SYSTEM
+		if (m_ViewModels == null && m_ViewModelMap == null)
+		{
+			CF._GameInit();
+		}
+		#endif
+
+		CF_ViewModel viewModel;
+		if (m_ViewModelMap.Find(model, viewModel))
+		{
+			return viewModel;
+		}
 
 		if (!widget) return null;
 
@@ -51,7 +91,12 @@ class CF_MVVM
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + view);
 
-		if (!view) return null;
+    	#ifdef COMPONENT_SYSTEM
+		if (m_ViewModels == null && m_ViewModelMap == null)
+		{
+			CF._GameInit();
+		}
+		#endif
 
 		CF_ViewModel viewModel;
 		if (m_ViewModelMap.Find(model, viewModel))
@@ -59,6 +104,8 @@ class CF_MVVM
 			viewModel.SetView(view);
 			return viewModel;
 		}
+
+		if (!view) return null;
 
 		viewModel = new CF_ViewModel(view, model);
 		m_ViewModels.Insert(viewModel);

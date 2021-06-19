@@ -53,14 +53,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "_DestroyView");
 
-		Widget root = m_View.GetLayoutRoot();
-		if (root)
+		if (m_View)
 		{
-   			#ifndef COMPONENT_SYSTEM
-			root.Unlink();
-			#endif
+			Widget root = m_View.GetWidget();
+			if (root)
+			{
+				#ifndef COMPONENT_SYSTEM
+				root.Unlink();
+				#endif
 
-			return true;
+				return true;
+			}
 		}
 
 		return false;
