@@ -74,6 +74,11 @@ class CF_MVVM_View
 		#endif
 	}
 
+	void NotifyPropertyChanged(string property)
+	{
+		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
+	}
+
 	void GetProperties(CF_Model_Base model, inout map<string, ref CF_MVVM_Property> properties)
 	{
 		CF_Trace trace(this, "GetProperties", "" + model, "" + properties);

@@ -46,11 +46,11 @@ class CF_Widget : CF_MVVM_View
 	reference string Yaw;
 	reference string Alpha;
 
-	private Widget _Widget;
-	private bool _Enabled;
-	private float _Roll;
-	private float _Pitch;
-	private float _Yaw;
+	protected Widget _Widget;
+	protected bool _Enabled;
+	protected float _Roll;
+	protected float _Pitch;
+	protected float _Yaw;
 
 	override void GetProperties()
 	{

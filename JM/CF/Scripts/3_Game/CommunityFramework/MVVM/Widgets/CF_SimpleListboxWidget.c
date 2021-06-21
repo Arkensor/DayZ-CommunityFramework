@@ -1,6 +1,6 @@
-class CF_SimpleListboxWidget : CF_UIWidget
+class CF_SimpleListboxWidget : CF_BaseListboxWidget
 {
-	private SimpleListboxWidget _SimpleListboxWidget;
+	protected SimpleListboxWidget _SimpleListboxWidget;
 
 	override void OnWidgetScriptInit(Widget w)
 	{

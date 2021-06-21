@@ -8,12 +8,12 @@ class CF_ButtonWidget : CF_UIWidget
 	reference string TextVerticalAlignment;
 	reference string TextProportion;
 
-	private ButtonWidget _ButtonWidget;
-	private string _Text;
-	private float _TextOffsetX;
-	private float _TextOffsetY;
-	private float _TextHorizontalAlignment;
-	private float _TextVerticalAlignment;
+	protected ButtonWidget _ButtonWidget;
+	protected string _Text;
+	protected float _TextOffsetX;
+	protected float _TextOffsetY;
+	protected float _TextHorizontalAlignment;
+	protected float _TextVerticalAlignment;
 
 	override void OnWidgetScriptInit(Widget w)
 	{

@@ -1,6 +1,6 @@
 class CF_RTTextureWidget : CF_UIWidget
 {
-	private RTTextureWidget _RTTextureWidget;
+	protected RTTextureWidget _RTTextureWidget;
 
 	override void OnWidgetScriptInit(Widget w)
 	{

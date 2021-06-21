@@ -1,6 +1,6 @@
-class CF_ProgressBarWidget : CF_UIWidget
+class CF_ProgressBarWidget : CF_SimpleProgressBarWidget
 {
-	private ProgressBarWidget _ProgressBarWidget;
+	protected ProgressBarWidget _ProgressBarWidget;
 
 	override void OnWidgetScriptInit(Widget w)
 	{

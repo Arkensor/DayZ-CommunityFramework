@@ -1,6 +1,6 @@
 class CF_RenderTargetWidget : CF_UIWidget
 {
-	private RenderTargetWidget _RenderTargetWidget;
+	protected RenderTargetWidget _RenderTargetWidget;
 
 	override void OnWidgetScriptInit(Widget w)
 	{

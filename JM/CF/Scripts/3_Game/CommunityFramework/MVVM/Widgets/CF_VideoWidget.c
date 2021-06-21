@@ -1,10 +1,57 @@
-class CF_VideoWidget : CF_UIWidget
+class CF_VideoPath
 {
-	private VideoWidget _VideoWidget;
+	string Path;
+	int SoundScene;
+};
+
+class CF_VideoWidget : CF_Widget
+{
+	reference string Path;
+	reference string Command;
+	reference string Subtitles;
+
+	protected VideoWidget _VideoWidget;
+	protected ref CF_VideoPath _Path;
+	protected VideoCommand _Command;
+	protected bool _Subtitles;
 
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_VideoWidget, w);
 	}
+
+	void OnView_Path(CF_Model_Base model)
+	{
+		EnScript.SetClassVar(model, Path, 0, _Path);
+	}
+
+	void OnModel_Path(CF_Model_Base model)
+	{
+		EnScript.GetClassVar(model, Path, 0, _Path);
+		_VideoWidget.LoadVideo(_Path.Path, _Path.SoundScene);
+	}
+
+	void OnView_Command(CF_Model_Base model)
+	{
+		EnScript.SetClassVar(model, Command, 0, _Command);
+	}
+
+	void OnModel_Command(CF_Model_Base model)
+	{
+		EnScript.GetClassVar(model, Command, 0, _Command);
+		_VideoWidget.Play(_Command);
+	}
+
+	void OnView_Subtitles(CF_Model_Base model)
+	{
+		EnScript.SetClassVar(model, Subtitles, 0, _Subtitles);
+	}
+
+	void OnModel_Subtitles(CF_Model_Base model)
+	{
+		EnScript.GetClassVar(model, Subtitles, 0, _Subtitles);
+		_VideoWidget.DisableSubtitles(_Subtitles);
+	}
+
 };

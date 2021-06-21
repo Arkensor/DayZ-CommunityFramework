@@ -3,7 +3,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	reference string ContentAlignmentHorizontal;
 	reference string ContentAlignmentVertical;
 
-	private SpacerWidget _SpacerWidget;
+	protected SpacerWidget _SpacerWidget;
 
 	override void OnWidgetScriptInit(Widget w)
 	{

@@ -1,6 +1,6 @@
-class CF_MultilineTextWidget : CF_UIWidget
+class CF_MultilineTextWidget : CF_TextWidget
 {
-	private MultilineTextWidget _MultilineTextWidget;
+	protected MultilineTextWidget _MultilineTextWidget;
 
 	override void OnWidgetScriptInit(Widget w)
 	{
