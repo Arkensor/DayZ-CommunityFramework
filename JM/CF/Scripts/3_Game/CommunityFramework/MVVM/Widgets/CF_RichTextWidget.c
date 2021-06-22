@@ -8,6 +8,16 @@ class CF_RichTextWidget : CF_TextWidget
 	protected RichTextWidget _RichTextWidget;
 	protected bool _ContentSnapToLine;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(ContentHeight, "ContentHeight");
+		AddProperty(ContentOffset, "ContentOffset");
+		AddProperty(ContentSnapToLine, "ContentSnapToLine");
+		AddProperty(LineWidths, "LineWidths");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

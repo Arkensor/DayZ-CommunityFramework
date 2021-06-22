@@ -5,6 +5,14 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	protected BaseListboxWidget _BaseListboxWidget;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(NumberItems, "NumberItems");
+		AddProperty(Selected, "Selected");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

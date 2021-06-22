@@ -12,6 +12,17 @@ class CF_ImageWidget : CF_Widget
 	protected string _File;
 	protected string _MaskFile;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Index, "Index");
+		AddProperty(File, "File");
+		AddProperty(MaskFile, "MaskFile");
+		AddProperty(MaskProgress, "MaskProgress");
+		AddProperty(MaskTransitionWidth, "MaskTransitionWidth");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

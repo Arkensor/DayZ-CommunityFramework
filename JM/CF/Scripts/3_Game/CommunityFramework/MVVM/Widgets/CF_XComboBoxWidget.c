@@ -6,6 +6,14 @@ class CF_XComboBoxWidget : CF_UIWidget
 	protected XComboBoxWidget _XComboBoxWidget;
 	protected ref array<string> _Items = new array<string>();
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Selected, "Selected");
+		AddProperty(Items, "Items");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

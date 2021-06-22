@@ -15,6 +15,19 @@ class CF_ButtonWidget : CF_UIWidget
 	protected float _TextHorizontalAlignment;
 	protected float _TextVerticalAlignment;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(State, "State");
+		AddProperty(Text, "Text");
+		AddProperty(TextOffsetX, "TextOffsetX");
+		AddProperty(TextOffsetY, "TextOffsetY");
+		AddProperty(TextHorizontalAlignment, "TextHorizontalAlignment");
+		AddProperty(TextVerticalAlignment, "TextVerticalAlignment");
+		AddProperty(TextProportion, "TextProportion");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

@@ -12,6 +12,19 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	protected float _HorizontalScrollStep;
 	protected float _VerticalScrollStep;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(ScrollbarWidth, "ScrollbarWidth");
+		AddProperty(ContentWidth, "ContentWidth");
+		AddProperty(ContentHeight, "ContentHeight");
+		AddProperty(HorizontalScrollPosition, "HorizontalScrollPosition");
+		AddProperty(VerticalScrollPosition, "VerticalScrollPosition");
+		AddProperty(HorizontalScrollStep, "HorizontalScrollStep");
+		AddProperty(VerticalScrollStep, "VerticalScrollStep");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

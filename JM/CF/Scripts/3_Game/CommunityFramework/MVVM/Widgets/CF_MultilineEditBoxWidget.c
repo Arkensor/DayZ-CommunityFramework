@@ -5,6 +5,14 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	protected MultilineEditBoxWidget _MultilineEditBoxWidget;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(CarriageLine, "CarriageLine");
+		AddProperty(CarriagePosition, "CarriagePosition");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

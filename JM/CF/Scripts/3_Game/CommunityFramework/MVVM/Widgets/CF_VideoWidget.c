@@ -15,6 +15,15 @@ class CF_VideoWidget : CF_Widget
 	protected VideoCommand _Command;
 	protected bool _Subtitles;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Path, "Path");
+		AddProperty(Command, "Command");
+		AddProperty(Subtitles, "Subtitles");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

@@ -27,6 +27,30 @@ class CF_TextWidget : CF_Widget
 	protected float _TextOffsetX;
 	protected float _TextOffsetY;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Text, "Text");
+		AddProperty(TextSpacingHorizontal, "TextSpacingHorizontal");
+		AddProperty(TextSpacingVertical, "TextSpacingVertical");
+		AddProperty(TextExactSize, "TextExactSize");
+		AddProperty(TextOffsetX, "TextOffsetX");
+		AddProperty(TextOffsetY, "TextOffsetY");
+		AddProperty(TextOutlineSize, "TextOutlineSize");
+		AddProperty(TextOutlineColor, "TextOutlineColor");
+		AddProperty(TextShadowSize, "TextShadowSize");
+		AddProperty(TextShadowColor, "TextShadowColor");
+		AddProperty(TextShadowOpacity, "TextShadowOpacity");
+		AddProperty(TextShadowOffsetX, "TextShadowOffsetX");
+		AddProperty(TextShadowOffsetY, "TextShadowOffsetY");
+		AddProperty(TextItalic, "TextItalic");
+		AddProperty(TextBold, "TextBold");
+		AddProperty(TextSizeX, "TextSizeX");
+		AddProperty(TextSizeY, "TextSizeY");
+		AddProperty(TextProportion, "TextProportion");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

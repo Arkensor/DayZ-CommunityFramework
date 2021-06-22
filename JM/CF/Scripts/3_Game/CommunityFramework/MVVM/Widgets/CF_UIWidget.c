@@ -13,6 +13,22 @@ class CF_UIWidget : CF_Widget
 	
 	protected UIWidget _UIWidget;
 	protected int _TextColor;
+
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(TextColor, "TextColor");
+		AddProperty(TextOutlineSize, "TextOutlineSize");
+		AddProperty(TextOutlineColor, "TextOutlineColor");
+		AddProperty(TextShadowSize, "TextShadowSize");
+		AddProperty(TextShadowColor, "TextShadowColor");
+		AddProperty(TextShadowOpacity, "TextShadowOpacity");
+		AddProperty(TextShadowOffsetX, "TextShadowOffsetX");
+		AddProperty(TextShadowOffsetY, "TextShadowOffsetY");
+		AddProperty(TextItalic, "TextItalic");
+		AddProperty(TextBold, "TextBold");
+	}
 	
 	override void OnWidgetScriptInit(Widget w)
 	{

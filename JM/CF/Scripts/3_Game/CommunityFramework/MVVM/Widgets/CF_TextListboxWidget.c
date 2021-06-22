@@ -12,6 +12,13 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 	protected TextListboxWidget _TextListboxWidget;
 	protected ref array<ref CF_TextListboxItem> _Items = new array<ref CF_TextListboxItem>();
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Items, "Items");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

@@ -15,6 +15,13 @@ class CF_CanvasWidget : CF_Widget
 	protected CanvasWidget _CanvasWidget;
 	protected ref CF_Array<ref CF_CanvasLine> _Lines = new CF_Array<ref CF_CanvasLine>();
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Lines, "Lines");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

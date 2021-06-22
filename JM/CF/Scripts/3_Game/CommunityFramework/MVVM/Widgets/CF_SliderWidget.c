@@ -6,6 +6,15 @@ class CF_SliderWidget : CF_UIWidget
 	
 	protected SliderWidget _SliderWidget;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Min, "Min");
+		AddProperty(Max, "Max");
+		AddProperty(Current, "Current");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

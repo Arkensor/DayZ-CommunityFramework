@@ -5,6 +5,14 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 
 	protected SpacerWidget _SpacerWidget;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(ContentAlignmentHorizontal, "ContentAlignmentHorizontal");
+		AddProperty(ContentAlignmentVertical, "ContentAlignmentVertical");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

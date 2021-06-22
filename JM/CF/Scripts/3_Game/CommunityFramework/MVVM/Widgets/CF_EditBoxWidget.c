@@ -4,6 +4,13 @@ class CF_EditBoxWidget : CF_UIWidget
 
 	protected EditBoxWidget _EditBoxWidget;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Text, "Text");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);

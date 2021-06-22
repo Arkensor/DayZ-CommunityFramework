@@ -6,6 +6,14 @@ class CF_CheckBoxWidget : CF_UIWidget
 	protected CheckBoxWidget _CheckBoxWidget;
 	protected string _Text;
 
+	override void GetProperties()
+	{
+		super.GetProperties();
+		
+		AddProperty(Text, "Text");
+		AddProperty(Checked, "Checked");
+	}
+
 	override void OnWidgetScriptInit(Widget w)
 	{
 		super.OnWidgetScriptInit(w);
