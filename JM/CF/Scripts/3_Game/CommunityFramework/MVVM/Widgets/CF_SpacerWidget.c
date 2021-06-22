@@ -4,11 +4,11 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	reference string ContentAlignmentVertical;
 
 	protected SpacerWidget _SpacerWidget;
-
+	
 	override void GetProperties()
 	{
 		super.GetProperties();
-		
+
 		AddProperty(ContentAlignmentHorizontal, "ContentAlignmentHorizontal");
 		AddProperty(ContentAlignmentVertical, "ContentAlignmentVertical");
 	}
@@ -17,14 +17,6 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	{
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_SpacerWidget, w);
-	}
-	
-	override void GetProperties()
-	{
-		super.GetProperties();
-
-		AddProperty(ContentAlignmentHorizontal, "ContentAlignmentHorizontal");
-		AddProperty(ContentAlignmentVertical, "ContentAlignmentVertical");
 	}
 
 	void OnView_ContentAlignmentHorizontal(CF_Model_Base model)

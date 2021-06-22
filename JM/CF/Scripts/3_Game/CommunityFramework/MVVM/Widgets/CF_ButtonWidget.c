@@ -33,14 +33,6 @@ class CF_ButtonWidget : CF_UIWidget
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_ButtonWidget, w);
 	}
-	
-	override void GetProperties()
-	{
-		super.GetProperties();
-		
-		AddProperty(State, "State");
-		AddProperty(Text, "Text");
-	}
 
 	void OnView_State(CF_Model_Base model)
 	{
