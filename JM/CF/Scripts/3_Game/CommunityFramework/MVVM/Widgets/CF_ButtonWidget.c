@@ -34,81 +34,81 @@ class CF_ButtonWidget : CF_UIWidget
 		Class.CastTo(_ButtonWidget, w);
 	}
 
-	void OnView_State(CF_Model_Base model)
+	void OnView_State(CF_Model_Base model, CF_Event evt)
 	{
 		bool _state = _ButtonWidget.GetState();
 		EnScript.SetClassVar(model, State, 0, _state);
 	}
 
-	void OnModel_State(CF_Model_Base model)
+	void OnModel_State(CF_Model_Base model, CF_Event evt)
 	{
 		bool _state;
 		EnScript.GetClassVar(model, State, 0, _state);
 		_ButtonWidget.SetState(_state);
 	}
 
-	void OnView_Text(CF_Model_Base model)
+	void OnView_Text(CF_Model_Base model, CF_Event evt)
 	{
 		CF_MVVM_StringConverter.Set(model, Text, _Text);
 	}
 
-	void OnModel_Text(CF_Model_Base model)
+	void OnModel_Text(CF_Model_Base model, CF_Event evt)
 	{
 		CF_MVVM_StringConverter.Get(model, Text, _Text);
 		_ButtonWidget.SetText(_Text);
 	}
 
-	void OnView_TextOffsetX(CF_Model_Base model)
+	void OnView_TextOffsetX(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, TextOffsetX, 0, _TextOffsetX);
 	}
 
-	void OnModel_TextOffsetX(CF_Model_Base model)
+	void OnModel_TextOffsetX(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, TextOffsetX, 0, _TextOffsetX);
 		_ButtonWidget.SetTextOffset(_TextOffsetX, _TextOffsetY);
 	}
 
-	void OnView_TextOffsetY(CF_Model_Base model)
+	void OnView_TextOffsetY(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, TextOffsetY, 0, _TextOffsetY);
 	}
 
-	void OnModel_TextOffsetY(CF_Model_Base model)
+	void OnModel_TextOffsetY(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, TextOffsetY, 0, _TextOffsetY);
 		_ButtonWidget.SetTextOffset(_TextOffsetX, _TextOffsetY);
 	}
 
-	void OnView_TextHorizontalAlignment(CF_Model_Base model)
+	void OnView_TextHorizontalAlignment(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, TextHorizontalAlignment, 0, _TextHorizontalAlignment);
 	}
 
-	void OnModel_TextHorizontalAlignment(CF_Model_Base model)
+	void OnModel_TextHorizontalAlignment(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, TextHorizontalAlignment, 0, _TextHorizontalAlignment);
 		_ButtonWidget.SetTextHorizontalAlignment(_TextHorizontalAlignment);
 	}
 
-	void OnView_TextVerticalAlignment(CF_Model_Base model)
+	void OnView_TextVerticalAlignment(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, TextVerticalAlignment, 0, _TextVerticalAlignment);
 	}
 
-	void OnModel_TextVerticalAlignment(CF_Model_Base model)
+	void OnModel_TextVerticalAlignment(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, TextVerticalAlignment, 0, _TextVerticalAlignment);
 		_ButtonWidget.SetTextVerticalAlignment(_TextVerticalAlignment);
 	}
 
-	void OnView_TextProportion(CF_Model_Base model)
+	void OnView_TextProportion(CF_Model_Base model, CF_Event evt)
 	{
 		float _TextProportion = _ButtonWidget.GetTextProportion();
 		EnScript.SetClassVar(model, TextProportion, 0, _TextProportion);
 	}
 
-	void OnModel_TextProportion(CF_Model_Base model)
+	void OnModel_TextProportion(CF_Model_Base model, CF_Event evt)
 	{
 		float _TextProportion;
 		EnScript.GetClassVar(model, TextProportion, 0, _TextProportion);

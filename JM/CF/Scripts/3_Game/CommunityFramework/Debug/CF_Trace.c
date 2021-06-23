@@ -1,21 +1,14 @@
 class CF_Trace
 {
-	private static int s_TraceDepth = 0;
+	private static string s_TraceDepth;
 
 	private string m_ClassName;
 	private string m_StackName;
 	private int m_TickCount;
 
-	private static string Depth()
+	static string Depth()
 	{
-		int depth = s_TraceDepth;
-		string str = "";
-		while (depth > 0)
-		{
-			str += " ";
-			depth--;
-		}
-		return str;
+		return s_TraceDepth;
 	}
 
 	void CF_Trace(Class cls, string stackName, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
@@ -47,12 +40,12 @@ class CF_Trace
 
 		CF.Log.Trace("%1+%2%3 (%4)", Depth(), m_ClassName, m_StackName, trace);
 
-		s_TraceDepth++;
+		s_TraceDepth += " ";
 	}
 
 	void ~CF_Trace()
 	{
-		s_TraceDepth--;
+		s_TraceDepth = s_TraceDepth.Substring(0, s_TraceDepth.Length() - 1);
 
 		m_TickCount = TickCount(m_TickCount);
 

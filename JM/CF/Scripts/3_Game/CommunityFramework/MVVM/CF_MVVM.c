@@ -125,9 +125,9 @@ class CF_MVVM
 		return propertyTypeMap.Get(property);
 	}
 
-	static void _LoadPropertyTypes(CF_Model_Base model, map<string, ref CF_MVVM_Property> propertyMap)
+	static void _LoadPropertyTypes(CF_Model_Base model, CF_MVVM_View view, map<string, ref CF_MVVM_Property> propertyMap, array<ref CF_MVVM_Property> properties)
 	{
-		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + propertyMap);
+		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + view, "" + propertyMap);
 
 		map<string, CF_MVVM_PropertyType> propertyTypeMap;
 		typename type = model.Type();
@@ -138,12 +138,17 @@ class CF_MVVM
 		}
 		else
 		{
-			//! Workbench editing
-    		#ifdef COMPONENT_SYSTEM
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
 			propertyTypeMap.Clear();
-			#else
+		#else
+			for (int j = 0; j < properties.Count(); j++)
+			{
+				properties[j].Assign(model, view);
+			}
+
 			return;
-			#endif
+		#endif
 		}
 
 		int count = type.GetVariableCount();
@@ -151,47 +156,50 @@ class CF_MVVM
 		{
 			string variableName = type.GetVariableName(i);
 			typename variableType = type.GetVariableType(i);
-			
-			CF.Log.Info("%1 %2", variableType.ToString(), variableName);
 
-			if (!propertyMap.Contains(variableName)) continue;
+			CF_MVVM_Property property;
+			if (!propertyMap.Find(variableName, property)) continue;
+
+			property.SetVariableName(variableName);
+			property.SetType(variableType);
+			property.Assign(model, view);
 
 			if (variableType == bool)
 			{
-				CF.Log.Info("%1 as bool", variableName);
+				CF.Log.Info(CF.Trace.Depth() + " %1 as bool", variableName);
 				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.BOOL);
 				continue;
 			}
 
 			if (variableType == int)
 			{
-				CF.Log.Info("%1 as int", variableName);
+				CF.Log.Info(CF.Trace.Depth() + " %1 as int", variableName);
 				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.INT);
 				continue;
 			}
 			
 			if (variableType == float)
 			{
-				CF.Log.Info("%1 as float", variableName);
+				CF.Log.Info(CF.Trace.Depth() + " %1 as float", variableName);
 				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.FLOAT);
 				continue;
 			}
 			
 			if (variableType == string)
 			{
-				CF.Log.Info("%1 as string", variableName);
+				CF.Log.Info(CF.Trace.Depth() + " %1 as string", variableName);
 				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.STRING);
 				continue;
 			}
 			
 			if (variableType == vector)
 			{
-				CF.Log.Info("%1 as vector", variableName);
+				CF.Log.Info(CF.Trace.Depth() + " %1 as vector", variableName);
 				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.VECTOR);
 				continue;
 			}
 			
-			CF.Log.Info("%1 as Class", variableName);
+			CF.Log.Info(CF.Trace.Depth() + " %1 as Class", variableName);
 			propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.CLASS);
 		}
 	}
@@ -244,13 +252,13 @@ class CF_MVVM
 	}
 	#endif
 
-	static void NotifyPropertyChanged(CF_Model_Base model, string property)
+	static void NotifyPropertyChanged(CF_Model_Base model, string property, CF_Event evt = null)
 	{
 		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + property);
 
 		CF_ViewModel viewModel;
 		if (!m_ViewModelMap.Find(model, viewModel)) return;
 
-		viewModel.NotifyPropertyChanged(property);
+		viewModel.NotifyPropertyChanged(property, evt);
 	}
 };

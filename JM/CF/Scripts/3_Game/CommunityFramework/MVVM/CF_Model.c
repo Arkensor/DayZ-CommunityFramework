@@ -21,10 +21,10 @@ class CF_Model : Managed
 		}
 	}
 
-	void NotifyPropertyChanged(string property)
+	void NotifyPropertyChanged(string property, CF_Event evt = null)
 	{
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
 		
-		CF.MVVM.NotifyPropertyChanged(this, property);
+		CF.MVVM.NotifyPropertyChanged(this, property, evt);
 	}
 };

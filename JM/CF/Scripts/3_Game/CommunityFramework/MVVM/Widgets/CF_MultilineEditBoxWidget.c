@@ -19,29 +19,29 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		Class.CastTo(_MultilineEditBoxWidget, w);
 	}
 
-	override void OnView_Text(CF_Model_Base model)
+	override void OnView_Text(CF_Model_Base model, CF_Event evt)
 	{
 		_MultilineEditBoxWidget.GetText(_Text);
 		EnScript.SetClassVar(model, Text, 0, _Text);
 	}
 
-	void OnView_CarriageLine(CF_Model_Base model)
+	void OnView_CarriageLine(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, CarriageLine, 0, _MultilineEditBoxWidget.GetCarriageLine());
 	}
 
-	void OnModel_CarriageLine(CF_Model_Base model)
+	void OnModel_CarriageLine(CF_Model_Base model, CF_Event evt)
 	{
-		OnView_CarriageLine(model);
+		OnView_CarriageLine(model, evt);
 	}
 
-	void OnView_CarriagePosition(CF_Model_Base model)
+	void OnView_CarriagePosition(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, CarriagePosition, 0, _MultilineEditBoxWidget.GetCarriagePos());
 	}
 
-	void OnModel_CarriagePosition(CF_Model_Base model)
+	void OnModel_CarriagePosition(CF_Model_Base model, CF_Event evt)
 	{
-		OnView_CarriagePosition(model);
+		OnView_CarriagePosition(model, evt);
 	}
 };

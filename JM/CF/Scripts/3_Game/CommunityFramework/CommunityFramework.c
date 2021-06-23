@@ -20,6 +20,7 @@ class CommunityFramework
 	static CF_XML XML;
 
     static CF_Log Log;
+    static CF_Trace Trace;
 
     static ref CF_MVVM MVVM;
 

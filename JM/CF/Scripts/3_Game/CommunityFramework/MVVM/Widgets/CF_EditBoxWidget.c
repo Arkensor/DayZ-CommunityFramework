@@ -17,13 +17,13 @@ class CF_EditBoxWidget : CF_UIWidget
 		Class.CastTo(_EditBoxWidget, w);
 	}
 
-	void OnView_Text(CF_Model_Base model)
+	void OnView_Text(CF_Model_Base model, CF_Event evt)
 	{
 		string _text = _EditBoxWidget.GetText();
 		CF_MVVM_StringConverter.Set(model, Text, _text);
 	}
 
-	void OnModel_Text(CF_Model_Base model)
+	void OnModel_Text(CF_Model_Base model, CF_Event evt)
 	{
 		string _text;
 		CF_MVVM_StringConverter.Get(model, Text, _text);

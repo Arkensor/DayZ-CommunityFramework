@@ -2,7 +2,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 {
 	private CF_MVVM_View m_View = null;
 	private CF_Model_Base m_Model = null;
-	private ref map<string, ref CF_MVVM_Property> m_Properties = new map<string, ref CF_MVVM_Property>();
+
+	private ref array<ref CF_MVVM_Property> m_Properties = new array<ref CF_MVVM_Property>();
+	private ref map<string, ref CF_MVVM_Property> m_PropertiesMap = new map<string, ref CF_MVVM_Property>();
 
 	void CF_ViewModel(CF_MVVM_View view, CF_Model_Base model)
 	{
@@ -12,14 +14,30 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		SetModel(model);
 	}
 
-	void NotifyPropertyChanged(string name)
+	void NotifyPropertyChanged(string name, CF_Event evt = null)
 	{
-		CF_Trace trace(this, "NotifyPropertyChanged", "" + name);
+		CF_Event temp = evt;
+		if (temp == null) temp = new CF_Event();
+
+		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, "" + temp.String());
 		
 		CF_MVVM_Property property;
-		if (!m_Properties.Find(name, property)) return;
+		if (!m_PropertiesMap.Find(name, property)) return;
 
-		property.OnModel(m_Model);
+		property.OnModel(m_Model, temp);
+	}
+
+	void NotifyPropertyChanged(CF_Event evt = null)
+	{
+		CF_Event temp = evt;
+		if (temp == null) temp = new CF_Event();
+
+		CF_Trace trace(this, "NotifyPropertyChanged", "" + temp.String());
+
+		for (int i = 0; i < m_Properties.Count(); i++)
+		{
+			m_Properties[i].OnModel(m_Model, temp);
+		}
 	}
 
 	void SetView(CF_MVVM_View view, bool loadProperties = true)
@@ -84,7 +102,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		{
 			LoadProperties(m_View);
 
-			CF.MVVM._LoadPropertyTypes(m_Model, m_Properties);
+			CF.MVVM._LoadPropertyTypes(m_Model, m_View, m_PropertiesMap, m_Properties);
+
+			NotifyPropertyChanged();
 		}
 	}
 
@@ -97,7 +117,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "LoadProperties", "" + view);
 		
-		view.GetProperties(m_Model, m_Properties);
+		view.GetProperties(m_Model, m_PropertiesMap, m_Properties);
 		
 		for (int i = 0; i < view.Count(); i++)
 		{
@@ -300,6 +320,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		evt.X = x;
 		evt.Y = y;
 		evt.Button = -1;
+		evt.Type = 1;
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseEnter, null, param);
@@ -326,6 +347,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		evt.Y = y;
 		evt.Button = -1;
 		evt.Enter = enterW;
+		evt.Type = 2;
 
 		Param param = new Param1<CF_MouseEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_MouseLeave, null, param);
@@ -726,10 +748,10 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		if (!binding) return false;
 		if (binding.Event_Update == string.Empty) return false;
 
-		CF_Event evt = new CF_Event();
+		CF_ViewEvent evt = new CF_ViewEvent();
 		evt.Target = w;
 
-		Param param = new Param1<CF_Event>(evt);
+		Param param = new Param1<CF_ViewEvent>(evt);
 		g_Script.CallFunctionParams(m_Model, binding.Event_Update, null, param);
 		return binding.OnUpdate(evt);
 	}

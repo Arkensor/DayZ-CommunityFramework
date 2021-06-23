@@ -78,70 +78,70 @@ class CF_Widget : CF_MVVM_View
 		Class.CastTo(_Widget, w);
 	}
 
-	void OnView_Name(CF_Model_Base model)
+	void OnView_Name(CF_Model_Base model, CF_Event evt)
 	{
 		string _name = _Widget.GetName();
 		EnScript.SetClassVar(model, Name, 0, _name);
 	}
 
-	void OnModel_Name(CF_Model_Base model)
+	void OnModel_Name(CF_Model_Base model, CF_Event evt)
 	{
 		string _name;
 		EnScript.GetClassVar(model, Name, 0, _name);
 		_Widget.SetName(_name);
 	}
 
-	void OnView_Visible(CF_Model_Base model)
+	void OnView_Visible(CF_Model_Base model, CF_Event evt)
 	{
 		bool _visible = _Widget.IsVisible();
 		EnScript.SetClassVar(model, Visible, 0, _visible);
 	}
 
-	void OnModel_Visible(CF_Model_Base model)
+	void OnModel_Visible(CF_Model_Base model, CF_Event evt)
 	{
 		bool _visible;
 		EnScript.GetClassVar(model, Visible, 0, _visible);
 		_Widget.Show(_visible);
 	}
 
-	void OnView_Enabled(CF_Model_Base model)
+	void OnView_Enabled(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Enabled, 0, _Enabled);
 	}
 
-	void OnModel_Enabled(CF_Model_Base model)
+	void OnModel_Enabled(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Enabled, 0, _Enabled);
 		_Widget.Enable(_Enabled);
 	}
 
-	void OnView_Flags(CF_Model_Base model)
+	void OnView_Flags(CF_Model_Base model, CF_Event evt)
 	{
 		int _flags = _Widget.GetFlags();
 		EnScript.SetClassVar(model, Flags, 0, _flags);
 	}
 
-	void OnModel_Flags(CF_Model_Base model)
+	void OnModel_Flags(CF_Model_Base model, CF_Event evt)
 	{
 		int _flags;
 		EnScript.GetClassVar(model, Flags, 0, _flags);
 		_Widget.SetFlags(_flags);
 	}
 
-	void OnView_Sort(CF_Model_Base model)
+	void OnView_Sort(CF_Model_Base model, CF_Event evt)
 	{
 		int _sort = _Widget.GetSort();
 		EnScript.SetClassVar(model, Sort, 0, _sort);
 	}
 
-	void OnModel_Sort(CF_Model_Base model)
+	void OnModel_Sort(CF_Model_Base model, CF_Event evt)
 	{
 		int _sort;
 		EnScript.GetClassVar(model, Sort, 0, _sort);
 		_Widget.SetSort(_sort);
 	}
 
-	void OnView_PositionX(CF_Model_Base model)
+	void OnView_PositionX(CF_Model_Base model, CF_Event evt)
 	{
 		float _positionX;
 		float _positionY;
@@ -149,7 +149,7 @@ class CF_Widget : CF_MVVM_View
 		EnScript.SetClassVar(model, PositionX, 0, _positionX);
 	}
 
-	void OnModel_PositionX(CF_Model_Base model)
+	void OnModel_PositionX(CF_Model_Base model, CF_Event evt)
 	{
 		float _positionX;
 		float _positionY;
@@ -158,7 +158,7 @@ class CF_Widget : CF_MVVM_View
 		_Widget.SetPos(_positionX, _positionY);
 	}
 
-	void OnView_PositionY(CF_Model_Base model)
+	void OnView_PositionY(CF_Model_Base model, CF_Event evt)
 	{
 		float _positionX;
 		float _positionY;
@@ -166,7 +166,7 @@ class CF_Widget : CF_MVVM_View
 		EnScript.SetClassVar(model, PositionY, 0, _positionY);
 	}
 
-	void OnModel_PositionY(CF_Model_Base model)
+	void OnModel_PositionY(CF_Model_Base model, CF_Event evt)
 	{
 		float _positionX;
 		float _positionY;
@@ -175,7 +175,7 @@ class CF_Widget : CF_MVVM_View
 		_Widget.SetPos(_positionX, _positionY);
 	}
 
-	void OnView_Width(CF_Model_Base model)
+	void OnView_Width(CF_Model_Base model, CF_Event evt)
 	{
 		float _width;
 		float _height;
@@ -183,7 +183,7 @@ class CF_Widget : CF_MVVM_View
 		EnScript.SetClassVar(model, Width, 0, _width);
 	}
 
-	void OnModel_Width(CF_Model_Base model)
+	void OnModel_Width(CF_Model_Base model, CF_Event evt)
 	{
 		float _width;
 		float _height;
@@ -192,7 +192,7 @@ class CF_Widget : CF_MVVM_View
 		_Widget.SetPos(_width, _height);
 	}
 
-	void OnView_Height(CF_Model_Base model)
+	void OnView_Height(CF_Model_Base model, CF_Event evt)
 	{
 		float _width;
 		float _height;
@@ -200,7 +200,7 @@ class CF_Widget : CF_MVVM_View
 		EnScript.SetClassVar(model, Height, 0, _height);
 	}
 
-	void OnModel_Height(CF_Model_Base model)
+	void OnModel_Height(CF_Model_Base model, CF_Event evt)
 	{
 		float _width;
 		float _height;
@@ -209,59 +209,59 @@ class CF_Widget : CF_MVVM_View
 		_Widget.SetPos(_width, _height);
 	}
 
-	void OnView_Color(CF_Model_Base model)
+	void OnView_Color(CF_Model_Base model, CF_Event evt)
 	{
 		int _color = _Widget.GetColor();
 		EnScript.SetClassVar(model, Color, 0, _color);
 	}
 
-	void OnModel_Color(CF_Model_Base model)
+	void OnModel_Color(CF_Model_Base model, CF_Event evt)
 	{
 		int _color;
 		EnScript.GetClassVar(model, Color, 0, _color);
 		_Widget.SetColor(_color);
 	}
 
-	void OnView_Roll(CF_Model_Base model)
+	void OnView_Roll(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Roll, 0, _Roll);
 	}
 
-	void OnModel_Roll(CF_Model_Base model)
+	void OnModel_Roll(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Roll, 0, _Roll);
 		_Widget.SetRotation(_Roll, _Pitch, _Yaw);
 	}
 
-	void OnView_Pitch(CF_Model_Base model)
+	void OnView_Pitch(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Pitch, 0, _Pitch);
 	}
 
-	void OnModel_Pitch(CF_Model_Base model)
+	void OnModel_Pitch(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Pitch, 0, _Pitch);
 		_Widget.SetRotation(_Roll, _Pitch, _Yaw);
 	}
 
-	void OnView_Yaw(CF_Model_Base model)
+	void OnView_Yaw(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Yaw, 0, _Yaw);
 	}
 
-	void OnModel_Yaw(CF_Model_Base model)
+	void OnModel_Yaw(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Yaw, 0, _Yaw);
 		_Widget.SetRotation(_Roll, _Pitch, _Yaw);
 	}
 	
-	void OnView_Alpha(CF_Model_Base model)
+	void OnView_Alpha(CF_Model_Base model, CF_Event evt)
 	{
 		int _alpha = _Widget.GetAlpha();
 		EnScript.SetClassVar(model, Alpha, 0, _alpha);
 	}
 
-	void OnModel_Alpha(CF_Model_Base model)
+	void OnModel_Alpha(CF_Model_Base model, CF_Event evt)
 	{
 		int _alpha;
 		EnScript.GetClassVar(model, Alpha, 0, _alpha);

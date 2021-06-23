@@ -1,33 +1,8 @@
-class CF_Collection
+class CF_ObservableArray<Class T> : CF_ObservableCollection
 {
-	private string m_Layout;
+	private ref array<autoptr T> m_Data = new array<autoptr T>();
 
-	void CF_Collection(string layout = "")
-	{
-		m_Layout = layout;
-	}
-
-	int Count()
-	{
-		return 0;
-	}
-
-	CF_Model_Base GetModel(int index)
-	{
-		return null;
-	}
-
-	string GetLayout()
-	{
-		return m_Layout;
-	}
-};
-
-class CF_Array<Class T> : CF_Collection
-{
-	private ref array<ref T> m_Data = new array<ref T>();
-
-	override CF_Model_Base GetModel(int index)
+	override CF_Model_Base GetRaw(int index)
 	{
 		return m_Data[index];
 	}
@@ -84,7 +59,9 @@ class CF_Array<Class T> : CF_Collection
 	*/
 	void Insert(T value)
 	{
-		m_Data.Insert(value);
+		int index = m_Data.Insert(value);
+
+		NotifyCollectionChanged(new CF_CollectionInsertEvent(index));
 	}
 
 	/*!
@@ -137,7 +114,7 @@ class CF_Array<Class T> : CF_Collection
 		m_Data.InsertAll(from);
 	}
 
-	void InsertAll(notnull CF_Array<T> from)
+	void InsertAll(notnull CF_ObservableArray<T> from)
 	{
 		//m_Data.InsertAll(from.m_Data);
 	}
@@ -187,7 +164,7 @@ class CF_Array<Class T> : CF_Collection
 	Swaps the contents of this and `other` arrays.
 	Does not involve copying of the elements.
 	*/
-	void Swap(notnull CF_Array<T> other)
+	void Swap(notnull CF_ObservableArray<T> other)
 	{
 		//m_Data.Swap(other.m_Data);
 	}
@@ -209,7 +186,7 @@ class CF_Array<Class T> : CF_Collection
 		return 0;//m_Data.Copy(from);
 	}
 
-	int Copy(notnull CF_Array<T> from)
+	int Copy(notnull CF_ObservableArray<T> from)
 	{
 		return 0;//m_Data.Copy(from.m_Data);
 	}
@@ -288,7 +265,7 @@ class CF_Array<Class T> : CF_Collection
 		m_Data.InsertArray(other);
 	}
 	
-	void InsertArray(CF_Array<T> other)
+	void InsertArray(CF_ObservableArray<T> other)
 	{
 		//m_Data.InsertArray(other.m_Data);
 	}

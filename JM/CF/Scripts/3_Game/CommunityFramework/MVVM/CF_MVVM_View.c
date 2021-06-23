@@ -79,18 +79,14 @@ class CF_MVVM_View
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
 	}
 
-	void GetProperties(CF_Model_Base model, inout map<string, ref CF_MVVM_Property> properties)
+	void GetProperties(CF_Model_Base model, inout map<string, ref CF_MVVM_Property> propertiesMap, inout array<ref CF_MVVM_Property> properties)
 	{
-		CF_Trace trace(this, "GetProperties", "" + model, "" + properties);
+		CF_Trace trace(this, "GetProperties", "" + model, "" + propertiesMap, "" + properties);
 		
-		m_Properties = new array<ref CF_MVVM_Property>();
-		m_PropertiesMap = properties;
-		GetProperties();
+		m_Properties = properties;
+		m_PropertiesMap = propertiesMap;
 
-		for (int i = 0; i < m_Properties.Count(); i++)
-		{
-			m_Properties[i].OnModel(model);
-		}
+		GetProperties();
 
 		m_Properties = null;
 		m_PropertiesMap = null;
@@ -108,7 +104,7 @@ class CF_MVVM_View
 		CF_Trace trace(this, "AddProperty", "Actual=" + actual + " Name=" + name);
 		
 		if (actual == string.Empty) return;
-		CF_MVVM_Property property = new CF_MVVM_Property(this, "OnView_" + name, "OnModel_" + name);
+		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
 		m_Properties.Insert(property);
 		m_PropertiesMap.Insert(actual, property);
 	}
@@ -120,26 +116,32 @@ class CF_MVVM_View
 		m_ViewModel = viewModel;
 		m_Widget.SetHandler(m_ViewModel);
 	}
-
-	void OnView_Children(CF_Model_Base model)
+	
+	void OnView_Children(CF_Model_Base model, CF_Event evt)
 	{
 		//@note not within the scope of MVVM.
 		// maybe support this at a later stage if possible
 	}
 
-	void OnModel_Children(CF_Model_Base model)
+	void OnModel_Children(CF_Model_Base model, CF_Event evt)
 	{
-		CF_Trace trace(this, "OnModel_Children", "" + model);
+		Print("onmodel");
+		Print(model);
+		Print(evt);
+		CF_Trace trace(this, "OnModel_Children", "" + model, evt.String());
 
-		CF_Collection _collection;
+		CF_CollectionEvent cevt;
+		if (!Class.CastTo(cevt, evt)) return;
+
+		CF_ObservableCollection _collection;
 		EnScript.GetClassVar(model, Children, 0, _collection);
+		if (!_collection) return;
 
-		int count = _collection.Count();
+		cevt.m_View = this;
+		cevt.m_Widget = m_Widget;
+		cevt.m_Collection = _collection;
 
-		for (int i = 0; i < count; i++)
-		{
-			CF.MVVM.Create(_collection.GetModel(i), _collection.GetLayout(), m_Widget);
-		}
+		cevt.Process();
 	}
 
 	Widget GetWidget()
@@ -234,5 +236,5 @@ class CF_MVVM_View
 	bool OnResize(CF_ResizeEvent evt) { return true; }
 	bool OnChildAdd(CF_ChildEvent evt) { return true; }
 	bool OnChildRemove(CF_ChildEvent evt) { return true; }
-	bool OnUpdate(CF_Event evt) { return true; }
+	bool OnUpdate(CF_ViewEvent evt) { return true; }
 };

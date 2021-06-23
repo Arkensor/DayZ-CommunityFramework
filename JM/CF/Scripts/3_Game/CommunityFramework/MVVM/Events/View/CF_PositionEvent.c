@@ -1,4 +1,4 @@
-class CF_PositionEvent : CF_Event
+class CF_PositionEvent : CF_ViewEvent
 {
 	int X;
 	int Y;

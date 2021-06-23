@@ -25,12 +25,12 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 		Class.CastTo(_TextListboxWidget, w);
 	}
 
-	void OnView_Items(CF_Model_Base model)
+	void OnView_Items(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Items, 0, _Items);
 	}
 
-	void OnModel_Items(CF_Model_Base model)
+	void OnModel_Items(CF_Model_Base model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Items, 0, _Items);
 

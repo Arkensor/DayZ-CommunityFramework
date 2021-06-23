@@ -1,4 +1,4 @@
-class CF_ControllerEvent : CF_Event
+class CF_ControllerEvent : CF_ViewEvent
 {
 	int Control;
 	int Value;

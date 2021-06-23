@@ -7,7 +7,7 @@ class CF_Model_Test : CF_Model
 
 	string ButtonText = "Press??";
 
-	ref CF_Array<CF_Model_Test2> Test = new CF_Array<CF_Model_Test2>("JM/CF/GUI/layouts/samples/mvvm2.layout");
+	ref CF_ObservableArray<CF_Model_Test2> Test = new CF_ObservableArray<CF_Model_Test2>();
 
 	void OnClick(CF_MouseEvent evt)
 	{
@@ -21,10 +21,7 @@ class CF_Model_Test : CF_Model
 
 		CF_Model_Test2 item = new CF_Model_Test2();
 		item.ButtonText = "Remove: " + Index;
-		item.NotifyPropertyChanged("ButtonText");
 		Test.Insert(item);
-
-		NotifyPropertyChanged("Test");
 	}
 };
 
