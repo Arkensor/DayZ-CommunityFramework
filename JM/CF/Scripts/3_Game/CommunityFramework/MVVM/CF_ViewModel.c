@@ -8,10 +8,15 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void CF_ViewModel(CF_MVVM_View view, CF_Model_Base model)
 	{
-		CF_Trace trace(this, "Create", "" + view, "" + model);
+		CF_Trace trace(this, "CF_ViewModel", "" + view, "" + model);
 
 		SetView(view, false);
 		SetModel(model);
+	}
+
+	void ~CF_ViewModel()
+	{
+		CF_Trace trace(this, "~CF_ViewModel");
 	}
 
 	void NotifyPropertyChanged(string name, CF_Event evt = null)

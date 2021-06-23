@@ -1,5 +1,5 @@
 /**
- * @brief
+ * @brief Inheriting from 'CF_Model' is not a requirement, must re-implement the 'GetLayout' method.
  */
 class CF_Model_Test : CF_Model
 {
@@ -15,12 +15,11 @@ class CF_Model_Test : CF_Model
 
 		Index++;
 
-		ButtonText = "Pressed: " + Index;
+		ButtonText = "Pressed " + Index + " times!";
 		NotifyPropertyChanged("ButtonText");
 
 
-		CF_Model_Test2 item = new CF_Model_Test2();
-		item.ButtonText = "Remove: " + Index;
+		CF_Model_Test2 item = new CF_Model_Test2(this, Index);
 		Test.Insert(item);
 	}
 
@@ -32,11 +31,23 @@ class CF_Model_Test : CF_Model
 
 class CF_Model_Test2 : CF_Model
 {
-	string ButtonText = "Press??";
+	string ButtonText = "NOT SET!";
+
+	private CF_Model_Test m_Parent;
+
+	void CF_Model_Test2(CF_Model_Test parent, int index)
+	{
+		m_Parent = parent;
+
+		ButtonText = "Press To Remove (" + index + ")";
+	}
 
 	void Remove(CF_MouseEvent evt)
 	{
-		delete this;
+		CF_Trace trace(this, "Remove", evt.String());
+
+		int index = m_Parent.Test.Find(this);
+		m_Parent.Test.Remove(index);
 	}
 
 	override string GetLayout()
