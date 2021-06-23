@@ -125,9 +125,6 @@ class CF_MVVM_View
 
 	void OnModel_Children(CF_Model_Base model, CF_Event evt)
 	{
-		Print("onmodel");
-		Print(model);
-		Print(evt);
 		CF_Trace trace(this, "OnModel_Children", "" + model, evt.String());
 
 		CF_CollectionEvent cevt;

@@ -23,6 +23,11 @@ class CF_Model_Test : CF_Model
 		item.ButtonText = "Remove: " + Index;
 		Test.Insert(item);
 	}
+
+	override string GetLayout()
+	{
+		return "JM/CF/GUI/layouts/samples/mvvm.layout";
+	}
 };
 
 class CF_Model_Test2 : CF_Model
@@ -32,5 +37,10 @@ class CF_Model_Test2 : CF_Model
 	void Remove(CF_MouseEvent evt)
 	{
 		delete this;
+	}
+
+	override string GetLayout()
+	{
+		return "JM/CF/GUI/layouts/samples/mvvm2.layout";
 	}
 };

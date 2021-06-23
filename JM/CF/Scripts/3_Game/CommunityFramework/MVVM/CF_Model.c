@@ -27,4 +27,9 @@ class CF_Model : Managed
 		
 		CF.MVVM.NotifyPropertyChanged(this, property, evt);
 	}
+
+	string GetLayout()
+	{
+		return "LAYOUT NOT SET";
+	}
 };

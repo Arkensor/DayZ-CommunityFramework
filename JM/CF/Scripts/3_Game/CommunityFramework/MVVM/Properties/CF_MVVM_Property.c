@@ -93,6 +93,6 @@ class CF_MVVM_Property
 	{
 		CF_Trace trace(this, "OnModel", "" + model, evt.String());
 
-		g_Script.CallFunction(m_Handler, m_FunctionOnModel, null, new Param2<CF_Model_Base, CF_Event>(model, evt));
+		g_Script.CallFunctionParams(m_Handler, m_FunctionOnModel, null, new Param2<CF_Model_Base, CF_Event>(model, evt));
 	}
 };
