@@ -1,21 +1,29 @@
 class CF_MVVM
 {
 	private static ref array<ref CF_ViewModel> m_ViewModels;
-	private static ref map<CF_Model_Base, CF_ViewModel> m_ViewModelMap;
+	private static ref map<CF_ModelBase, CF_ViewModel> m_ViewModelMap;
 
-	private static ref map<typename, ref map<string, CF_MVVM_PropertyType>> m_PropertyMap;
+	private static ref map<typename, ref map<string, ref CF_TypeConverter>> m_PropertyMap;
 
     #ifdef COMPONENT_SYSTEM
 	static bool WB_NEXT_IN_SCRIPT = false;
 	#endif
 
-	static void _Init()
+	private void CF_MVVM()
+	{
+
+	}
+
+	static CF_MVVM _Init()
 	{
 		m_ViewModels = new array<ref CF_ViewModel>();
-		m_ViewModelMap = new map<CF_Model_Base, CF_ViewModel>();
-		m_PropertyMap = new map<typename, ref map<string, CF_MVVM_PropertyType>>();
+		m_ViewModelMap = new map<CF_ModelBase, CF_ViewModel>();
+		
+		m_PropertyMap = new map<typename, ref map<string, ref CF_TypeConverter>>();
 
 		CF.Log.Set(CF_LogLevel.ALL);
+
+		return new CF_MVVM();
 	}
 
 	static void _Cleanup()
@@ -29,10 +37,11 @@ class CF_MVVM
 
 		m_ViewModels = null;
 		m_ViewModelMap = null;
+		
 		m_PropertyMap = null;
 	}
 
-	static CF_ViewModel Create(CF_Model_Base model, string layout, Widget parent = null)
+	static CF_ViewModel Create(CF_ModelBase model, string layout, Widget parent = null)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout, "" + parent);
 
@@ -62,7 +71,7 @@ class CF_MVVM
 		return viewModel;
 	}
 
-	static CF_ViewModel Create(CF_Model_Base model, Widget widget)
+	static CF_ViewModel Create(CF_ModelBase model, Widget widget)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + widget);
 
@@ -87,7 +96,7 @@ class CF_MVVM
 		return Create(model, view);
 	}
 
-	static CF_ViewModel Create(CF_Model_Base model, CF_MVVM_View view)
+	static CF_ViewModel Create(CF_ModelBase model, CF_MVVM_View view)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + view);
 
@@ -113,27 +122,31 @@ class CF_MVVM
 		return viewModel;
 	}
 
-	static CF_MVVM_PropertyType GetPropertyType(CF_Model_Base model, string property)
+	static ref CF_TypeConverter GetPropertyType(CF_ModelBase model, string property)
 	{
 		CF_Trace trace(CF.MVVM, "GetPropertyType", "" + model, "" + property);
 
 		typename type = model.Type();
 
-		map<string, CF_MVVM_PropertyType> propertyTypeMap;
-		if (!m_PropertyMap.Find(type, propertyTypeMap)) return CF_MVVM_PropertyType.CLASS;
+		map<string, ref CF_TypeConverter> propertyTypeMap;
+		if (!m_PropertyMap.Find(type, propertyTypeMap)) 
+		{
+			CF.Log.Error("Property wasn't added to property map...");
+			return null;
+		}
 		
 		return propertyTypeMap.Get(property);
 	}
 
-	static void _LoadPropertyTypes(CF_Model_Base model, CF_MVVM_View view, map<string, ref CF_MVVM_Property> propertyMap, array<ref CF_MVVM_Property> properties)
+	static void _LoadPropertyTypes(CF_ModelBase model, CF_MVVM_View view, map<string, ref CF_MVVM_Property> propertyMap, array<ref CF_MVVM_Property> properties)
 	{
 		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + view, "" + propertyMap);
 
-		map<string, CF_MVVM_PropertyType> propertyTypeMap;
+		map<string, ref CF_TypeConverter> propertyTypeMap;
 		typename type = model.Type();
 		if (!m_PropertyMap.Find(type, propertyTypeMap))
 		{
-			propertyTypeMap = new map<string, CF_MVVM_PropertyType>();
+			propertyTypeMap = new map<string, ref CF_TypeConverter>();
 			m_PropertyMap.Insert(type, propertyTypeMap);
 		}
 		else
@@ -162,49 +175,14 @@ class CF_MVVM
 
 			property.SetVariableName(variableName);
 			property.SetType(variableType);
+			
 			property.Assign(model, view);
 
-			if (variableType == bool)
-			{
-				CF.Log.Info(CF.Trace.Depth() + " %1 as bool", variableName);
-				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.BOOL);
-				continue;
-			}
-
-			if (variableType == int)
-			{
-				CF.Log.Info(CF.Trace.Depth() + " %1 as int", variableName);
-				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.INT);
-				continue;
-			}
-			
-			if (variableType == float)
-			{
-				CF.Log.Info(CF.Trace.Depth() + " %1 as float", variableName);
-				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.FLOAT);
-				continue;
-			}
-			
-			if (variableType == string)
-			{
-				CF.Log.Info(CF.Trace.Depth() + " %1 as string", variableName);
-				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.STRING);
-				continue;
-			}
-			
-			if (variableType == vector)
-			{
-				CF.Log.Info(CF.Trace.Depth() + " %1 as vector", variableName);
-				propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.VECTOR);
-				continue;
-			}
-			
-			CF.Log.Info(CF.Trace.Depth() + " %1 as Class", variableName);
-			propertyTypeMap.Insert(variableName, CF_MVVM_PropertyType.CLASS);
+			propertyTypeMap.Insert(variableName, CF.TypeConverters.Create(variableType));
 		}
 	}
 
-	static void Destroy(CF_Model_Base model)
+	static void Destroy(CF_ModelBase model)
 	{
 		CF_Trace trace(CF.MVVM, "Destroy", "" + model);
 
@@ -250,9 +228,19 @@ class CF_MVVM
 			m_ViewModelMap.Insert(viewModel.GetModel(), viewModel);
 		}
 	}
+
+	static void _CheckInit()
+	{
+		Print("CHECKING INIT");
+		if (m_ViewModels == null && m_ViewModelMap == null)
+		{
+			Print("NEED INIT");
+			CF._GameInit();
+		}
+	}
 	#endif
 
-	static void NotifyPropertyChanged(CF_Model_Base model, string property, CF_Event evt = null)
+	static void NotifyPropertyChanged(CF_ModelBase model, string property, CF_Event evt = null)
 	{
 		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + property);
 

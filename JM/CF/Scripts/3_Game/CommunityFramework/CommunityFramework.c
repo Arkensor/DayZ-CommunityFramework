@@ -23,6 +23,7 @@ class CommunityFramework
     static CF_Trace Trace;
 
     static ref CF_MVVM MVVM;
+    static ref CF_TypeConverters TypeConverters;
 
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
@@ -49,8 +50,9 @@ class CommunityFramework
 	{
         if (!realInit) Game();
 
-        MVVM = new CF_MVVM(); //!variable set for debugging.
-        MVVM._Init();
+        TypeConverters = TypeConverters._Init();
+        MVVM = MVVM._Init();
+
         Log._Init();
 	}
 

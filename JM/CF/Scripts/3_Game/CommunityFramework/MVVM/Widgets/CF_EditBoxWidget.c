@@ -17,16 +17,17 @@ class CF_EditBoxWidget : CF_UIWidget
 		Class.CastTo(_EditBoxWidget, w);
 	}
 
-	void OnView_Text(CF_Model_Base model, CF_Event evt)
+	void OnView_Text(CF_ModelBase model, CF_Event evt)
 	{
-		string _text = _EditBoxWidget.GetText();
-		CF_MVVM_StringConverter.Set(model, Text, _text);
+		auto pType = CF.MVVM.GetPropertyType(model, Text);
+		pType.SetString(_EditBoxWidget.GetText());
+		pType.ToVariable(model, Text);
 	}
 
-	void OnModel_Text(CF_Model_Base model, CF_Event evt)
+	void OnModel_Text(CF_ModelBase model, CF_Event evt)
 	{
-		string _text;
-		CF_MVVM_StringConverter.Get(model, Text, _text);
-		_EditBoxWidget.SetText(_text);
+		auto pType = CF.MVVM.GetPropertyType(model, Text);
+		pType.FromVariable(model, Text);
+		_EditBoxWidget.SetText(pType.GetString());
 	}
 };

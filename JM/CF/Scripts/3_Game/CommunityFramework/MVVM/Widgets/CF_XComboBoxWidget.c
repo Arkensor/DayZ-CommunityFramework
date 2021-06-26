@@ -20,25 +20,25 @@ class CF_XComboBoxWidget : CF_UIWidget
 		Class.CastTo(_XComboBoxWidget, w);
 	}
 
-	void OnView_Selected(CF_Model_Base model, CF_Event evt)
+	void OnView_Selected(CF_ModelBase model, CF_Event evt)
 	{
 		int _value = _XComboBoxWidget.GetCurrentItem();
 		EnScript.SetClassVar(model, Selected, 0, _value);
 	}
 
-	void OnModel_Selected(CF_Model_Base model, CF_Event evt)
+	void OnModel_Selected(CF_ModelBase model, CF_Event evt)
 	{
 		int _value;
 		EnScript.GetClassVar(model, Selected, 0, _value);
 		_XComboBoxWidget.SetCurrentItem(_value);
 	}
 
-	void OnView_Items(CF_Model_Base model, CF_Event evt)
+	void OnView_Items(CF_ModelBase model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Items, 0, _Items);
 	}
 
-	void OnModel_Items(CF_Model_Base model, CF_Event evt)
+	void OnModel_Items(CF_ModelBase model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Items, 0, _Items);
 

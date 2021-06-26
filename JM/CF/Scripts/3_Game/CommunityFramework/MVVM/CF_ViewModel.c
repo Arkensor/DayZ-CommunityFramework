@@ -1,12 +1,12 @@
 class CF_ViewModel : ScriptedWidgetEventHandler
 {
 	private CF_MVVM_View m_View = null;
-	private CF_Model_Base m_Model = null;
+	private CF_ModelBase m_Model = null;
 
 	private ref array<ref CF_MVVM_Property> m_Properties = new array<ref CF_MVVM_Property>();
 	private ref map<string, ref CF_MVVM_Property> m_PropertiesMap = new map<string, ref CF_MVVM_Property>();
 
-	void CF_ViewModel(CF_MVVM_View view, CF_Model_Base model)
+	void CF_ViewModel(CF_MVVM_View view, CF_ModelBase model)
 	{
 		CF_Trace trace(this, "CF_ViewModel", "" + view, "" + model);
 
@@ -92,7 +92,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		return false;
 	}
 
-	void SetModel(CF_Model_Base model)
+	void SetModel(CF_ModelBase model)
 	{
 		CF_Trace trace(this, "SetModel", "" + model);
 
@@ -113,7 +113,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 	}
 
-	CF_Model_Base GetModel()
+	CF_ModelBase GetModel()
 	{
 		return m_Model;
 	}

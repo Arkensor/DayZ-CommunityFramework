@@ -79,7 +79,7 @@ class CF_MVVM_View
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
 	}
 
-	void GetProperties(CF_Model_Base model, inout map<string, ref CF_MVVM_Property> propertiesMap, inout array<ref CF_MVVM_Property> properties)
+	void GetProperties(CF_ModelBase model, inout map<string, ref CF_MVVM_Property> propertiesMap, inout array<ref CF_MVVM_Property> properties)
 	{
 		CF_Trace trace(this, "GetProperties", "" + model, "" + propertiesMap, "" + properties);
 		
@@ -117,13 +117,13 @@ class CF_MVVM_View
 		m_Widget.SetHandler(m_ViewModel);
 	}
 	
-	void OnView_Children(CF_Model_Base model, CF_Event evt)
+	void OnView_Children(CF_ModelBase model, CF_Event evt)
 	{
 		//@note not within the scope of MVVM.
 		// maybe support this at a later stage if possible
 	}
 
-	void OnModel_Children(CF_Model_Base model, CF_Event evt)
+	void OnModel_Children(CF_ModelBase model, CF_Event evt)
 	{
 		CF_Trace trace(this, "OnModel_Children", "" + model, evt.String());
 

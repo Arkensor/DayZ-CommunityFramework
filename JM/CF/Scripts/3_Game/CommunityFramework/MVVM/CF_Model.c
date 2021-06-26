@@ -2,7 +2,7 @@
  * @brief	Simple typedef to keep track of what the base class is for models. 
  * 			Would like to use 'Class' in the future instead of 'Managed'
  */
-typedef Managed CF_Model_Base;
+typedef Managed CF_ModelBase;
 
 /**
  * @brief

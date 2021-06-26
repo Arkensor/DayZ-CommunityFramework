@@ -270,7 +270,7 @@ class Expression
 	private int _Compile( ref array< string > variables )
 	{
 		array< ref ExpressionCompileToken > dataStackStore();
-		__Stack< ExpressionCompileToken > stack();
+		CF_Stack< ExpressionCompileToken > stack();
 		
 		_compiled.Clear();
 		

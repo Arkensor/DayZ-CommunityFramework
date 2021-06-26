@@ -2,9 +2,26 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 {
 	private ref array<autoptr T> m_Data = new array<autoptr T>();
 
-	override CF_Model_Base GetRaw(int index)
+	void CF_ObservableArray()
 	{
-		return m_Data[index];
+		#ifdef COMPONENT_SYSTEM
+		CF_MVVM._CheckInit();
+		#endif
+
+		typename t = T;
+		CF_Trace trace(this, string.Format("CF_ObservableArray<%1>", "" + t));
+
+		m_Converter = CF.TypeConverters.Create(t);
+
+		CF.Log.Info("m_Converter=%1", "" + m_Converter);
+	}
+
+	override CF_TypeConverter GetConverter(int index)
+	{
+		CF_Trace trace(this, "GetConverter", "" + index);
+
+		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
+		return m_Converter;
 	}
 
 	/*!

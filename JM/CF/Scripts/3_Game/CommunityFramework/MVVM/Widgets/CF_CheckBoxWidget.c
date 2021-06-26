@@ -20,24 +20,27 @@ class CF_CheckBoxWidget : CF_UIWidget
 		Class.CastTo(_CheckBoxWidget, w);
 	}
 
-	void OnView_Text(CF_Model_Base model, CF_Event evt)
+	void OnView_Text(CF_ModelBase model, CF_Event evt)
 	{
-		CF_MVVM_StringConverter.Set(model, Text, _Text);
+		auto pType = CF.MVVM.GetPropertyType(model, Text);
+		pType.SetString(_Text);
+		pType.ToVariable(model, Text);
 	}
 
-	void OnModel_Text(CF_Model_Base model, CF_Event evt)
+	void OnModel_Text(CF_ModelBase model, CF_Event evt)
 	{
-		CF_MVVM_StringConverter.Get(model, Text, _Text);
-		_CheckBoxWidget.SetText(_Text);
+		auto pType = CF.MVVM.GetPropertyType(model, Text);
+		pType.FromVariable(model, Text);
+		_CheckBoxWidget.SetText(pType.GetString());
 	}
 
-	void OnView_Checked(CF_Model_Base model, CF_Event evt)
+	void OnView_Checked(CF_ModelBase model, CF_Event evt)
 	{
 		bool _value = _CheckBoxWidget.IsChecked();
 		EnScript.SetClassVar(model, Checked, 0, _value);
 	}
 
-	void OnModel_Checked(CF_Model_Base model, CF_Event evt)
+	void OnModel_Checked(CF_ModelBase model, CF_Event evt)
 	{
 		bool _value;
 		EnScript.GetClassVar(model, Checked, 0, _value);

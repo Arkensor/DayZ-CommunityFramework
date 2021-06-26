@@ -19,26 +19,26 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 		Class.CastTo(_SpacerWidget, w);
 	}
 
-	void OnView_ContentAlignmentHorizontal(CF_Model_Base model, CF_Event evt)
+	void OnView_ContentAlignmentHorizontal(CF_ModelBase model, CF_Event evt)
 	{
 		int _contentAlignmentH = _SpacerWidget.GetContentAlignmentH();
 		EnScript.SetClassVar(model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
 	}
 
-	void OnModel_ContentAlignmentHorizontal(CF_Model_Base model, CF_Event evt)
+	void OnModel_ContentAlignmentHorizontal(CF_ModelBase model, CF_Event evt)
 	{
 		int _contentAlignmentH;
 		EnScript.GetClassVar(model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
 		_SpacerWidget.SetContentAlignmentH(_contentAlignmentH);
 	}
 
-	void OnView_ContentAlignmentVertical(CF_Model_Base model, CF_Event evt)
+	void OnView_ContentAlignmentVertical(CF_ModelBase model, CF_Event evt)
 	{
 		int _contentAlignmentV = _SpacerWidget.GetContentAlignmentV();
 		EnScript.SetClassVar(model, ContentAlignmentVertical, 0, _contentAlignmentV);
 	}
 
-	void OnModel_ContentAlignmentVertical(CF_Model_Base model, CF_Event evt)
+	void OnModel_ContentAlignmentVertical(CF_ModelBase model, CF_Event evt)
 	{
 		int _contentAlignmentV;
 		EnScript.GetClassVar(model, ContentAlignmentVertical, 0, _contentAlignmentV);

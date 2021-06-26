@@ -1,4 +1,4 @@
-class CF_CanvasLine
+class CF_CanvasLine : CF_ModelBase
 {
 	float x1;
 	float y1;
@@ -28,12 +28,13 @@ class CF_CanvasWidget : CF_Widget
 		Class.CastTo(_CanvasWidget, w);
 	}
 
-	void OnView_Lines(CF_Model_Base model, CF_Event evt)
+	void OnView_Lines(CF_ModelBase model, CF_Event evt)
 	{
 		EnScript.SetClassVar(model, Lines, 0, _Lines);
 	}
 
-	void OnModel_Lines(CF_Model_Base model, CF_Event evt)
+	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
+	void OnModel_Lines(CF_ModelBase model, CF_Event evt)
 	{
 		EnScript.GetClassVar(model, Lines, 0, _Lines);
 
@@ -41,7 +42,7 @@ class CF_CanvasWidget : CF_Widget
 		for (int i = 0; i < _Lines.Count(); i++)
 		{
 			CF_CanvasLine line;
-			if (!Class.CastTo(line, _Lines.GetRaw(i))) break;
+			if (!Class.CastTo(line, _Lines.GetConverter(i).GetClass())) break;
 			_CanvasWidget.DrawLine(line.x1, line.y1, line.x2, line.y2, line.width, line.color);
 		}
 	}

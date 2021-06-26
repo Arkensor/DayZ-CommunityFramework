@@ -16,7 +16,10 @@ class CF_CollectionInsertEvent : CF_CollectionEvent
 
 	override void Process()
 	{
-		CF_Model_Base model = m_Collection.GetRaw(Index);
+		CF_Trace trace(this, "Process");
+
+		CF_ModelBase model = m_Collection.GetConverter(Index).GetManaged();
+		
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
 		CF.MVVM.Create(model, layout, m_Widget);

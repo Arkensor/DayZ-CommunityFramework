@@ -50,7 +50,7 @@ class CF_MVVM_Property
 		return m_Name;
 	}
 
-	void Assign(CF_Model_Base model, CF_MVVM_View view)
+	void Assign(CF_ModelBase model, CF_MVVM_View view)
 	{
 		if (m_Type.IsInherited(CF_ObservableCollection))
 		{
@@ -82,17 +82,17 @@ class CF_MVVM_Property
 		}
 	}
 	
-	void OnView(CF_Model_Base model, /*notnull*/ CF_Event evt)
+	void OnView(CF_ModelBase model, /*notnull*/ CF_Event evt)
 	{
 		CF_Trace trace(this, "OnView", "" + model, evt.String());
 
-		g_Script.CallFunctionParams(m_Handler, m_FunctionOnView, null, new Param2<CF_Model_Base, CF_Event>(model, evt));
+		g_Script.CallFunctionParams(m_Handler, m_FunctionOnView, null, new Param2<CF_ModelBase, CF_Event>(model, evt));
 	}
 
-	void OnModel(CF_Model_Base model, /*notnull*/ CF_Event evt)
+	void OnModel(CF_ModelBase model, /*notnull*/ CF_Event evt)
 	{
 		CF_Trace trace(this, "OnModel", "" + model, evt.String());
 
-		g_Script.CallFunctionParams(m_Handler, m_FunctionOnModel, null, new Param2<CF_Model_Base, CF_Event>(model, evt));
+		g_Script.CallFunctionParams(m_Handler, m_FunctionOnModel, null, new Param2<CF_ModelBase, CF_Event>(model, evt));
 	}
 };
