@@ -3,14 +3,14 @@ class CF_MVVM_View
 	reference string Model;
 	reference string Children;
 
-	private Widget m_Widget;
+	protected Widget m_Widget;
 
     #ifdef COMPONENT_SYSTEM 
-	private ref CF_ViewModel m_ViewModel;
+	protected ref CF_ViewModel m_ViewModel;
 	private ref Managed m_Model;
 	#else
 	//! In-game, the ref count shouldn't be incremented. When the ref count == 0, then this view should be destroyed.
-	private CF_ViewModel m_ViewModel;
+	protected CF_ViewModel m_ViewModel;
 	#endif
 
 	private bool m_IsRoot;
@@ -69,6 +69,12 @@ class CF_MVVM_View
 	void ~CF_MVVM_View()
 	{
 		CF_Trace trace(this, "~CF_MVVM_View");
+
+		if (m_ViewModel)
+		{
+			m_ViewModel.OnHide(m_Widget);
+			m_ViewModel.OnDestroyed(m_Widget);
+		}
 
 		//! If not in workbench editing
     	#ifndef COMPONENT_SYSTEM

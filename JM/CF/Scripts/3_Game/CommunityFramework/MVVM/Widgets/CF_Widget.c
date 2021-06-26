@@ -30,6 +30,9 @@ class CF_Widget : CF_MVVM_View
 	reference string Event_ChildAdd;
 	reference string Event_ChildRemove;
 	reference string Event_Update;
+	reference string Event_Show;
+	reference string Event_Hide;
+	reference string Event_Destroyed;
 
 	reference string Name;
 	reference string Visible;
@@ -51,6 +54,7 @@ class CF_Widget : CF_MVVM_View
 	reference string Alpha;
 
 	protected Widget _Widget;
+	protected bool _Visible;
 	protected bool _Enabled;
 	protected float _Roll;
 	protected float _Pitch;
@@ -347,6 +351,14 @@ class CF_Widget : CF_MVVM_View
 		
 		NotifyPropertyChanged("ScreenPositionX");
 		NotifyPropertyChanged("ScreenPositionY");
+
+		if (_Visible != _Widget.IsVisible())
+		{
+			_Visible = _Widget.IsVisible();
+			
+			if (_Visible) m_ViewModel.OnShow(m_Widget);
+			else m_ViewModel.OnHide(m_Widget);
+		}
 
 		return super.OnUpdate(evt);
 	}

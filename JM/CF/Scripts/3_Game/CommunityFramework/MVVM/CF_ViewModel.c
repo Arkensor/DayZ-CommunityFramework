@@ -836,4 +836,73 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 		return binding.OnUpdate(evt);
 	}
+	
+	bool OnShow(Widget w)
+	{
+		CF_Trace trace(this, "OnShow", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
+		
+		CF_Widget binding;
+		w.GetScript(binding);
+		if (!binding) return false;
+		if (binding.Event_Show != string.Empty)
+		{
+			CF_ViewEvent evt = new CF_ViewEvent();
+			evt.Target = w;
+
+			Param param = new Param1<CF_ViewEvent>(evt);
+			g_Script.CallFunctionParams(m_Model, binding.Event_Show, null, param);
+		}
+		return true;
+	}
+	
+	bool OnHide(Widget w)
+	{
+		CF_Trace trace(this, "OnHide", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
+		
+		CF_Widget binding;
+		w.GetScript(binding);
+		if (!binding) return false;
+		if (binding.Event_Hide != string.Empty)
+		{
+			CF_ViewEvent evt = new CF_ViewEvent();
+			evt.Target = w;
+
+			Param param = new Param1<CF_ViewEvent>(evt);
+			g_Script.CallFunctionParams(m_Model, binding.Event_Hide, null, param);
+		}
+		return true;
+	}
+	
+	bool OnDestroyed(Widget w)
+	{
+		CF_Trace trace(this, "OnDestroyed", "" + w);
+
+		//! Workbench editing
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM._Assign(this);
+		#endif
+		
+		CF_Widget binding;
+		w.GetScript(binding);
+		if (!binding) return false;
+		if (binding.Event_Destroyed != string.Empty)
+		{
+			CF_ViewEvent evt = new CF_ViewEvent();
+			evt.Target = w;
+
+			Param param = new Param1<CF_ViewEvent>(evt);
+			g_Script.CallFunctionParams(m_Model, binding.Event_Destroyed, null, param);
+		}
+		return true;
+	}
 };
