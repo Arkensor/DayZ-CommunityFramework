@@ -5,9 +5,22 @@ class CF_Model_Test : CF_Model
 {
 	int Index;
 
+	string TextInput = "Input?";
+	bool BlockInput = false;
+
 	string ButtonText = "Press??";
 
 	ref CF_ObservableArray<CF_Model_Test2> Test = new CF_ObservableArray<CF_Model_Test2>();
+
+	void OnChange(CF_ChangeEvent evt)
+	{
+		CF_Trace trace(this, "OnChange", evt.String());
+		
+		evt.Continue = BlockInput;
+
+		ButtonText = TextInput;
+		NotifyPropertyChanged("ButtonText");
+	}
 
 	void OnClick(CF_MouseEvent evt)
 	{
@@ -17,7 +30,6 @@ class CF_Model_Test : CF_Model
 
 		ButtonText = "Pressed " + Index + " times!";
 		NotifyPropertyChanged("ButtonText");
-
 
 		CF_Model_Test2 item = new CF_Model_Test2(this, Index);
 		Test.Insert(item);

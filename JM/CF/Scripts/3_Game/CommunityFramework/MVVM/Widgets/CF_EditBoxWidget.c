@@ -3,6 +3,7 @@ class CF_EditBoxWidget : CF_UIWidget
 	reference string Text;
 
 	protected EditBoxWidget _EditBoxWidget;
+	protected string _Text;
 
 	override void GetProperties()
 	{
@@ -28,6 +29,22 @@ class CF_EditBoxWidget : CF_UIWidget
 	{
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.FromVariable(model, Text);
-		_EditBoxWidget.SetText(pType.GetString());
+		_Text = pType.GetString();
+		_EditBoxWidget.SetText(_Text);
+	}
+
+	override bool OnChange(CF_ChangeEvent evt)
+	{
+		CF_Trace trace(this, "OnChange", evt.String());
+
+		if (!evt.Continue)
+		{
+			_EditBoxWidget.SetText(_Text);
+		}
+
+		_Text = _EditBoxWidget.GetText();
+		NotifyPropertyChanged("Text");
+
+		return true;
 	}
 };

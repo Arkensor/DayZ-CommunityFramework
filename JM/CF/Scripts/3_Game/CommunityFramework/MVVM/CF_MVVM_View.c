@@ -13,6 +13,8 @@ class CF_MVVM_View
 	private CF_ViewModel m_ViewModel;
 	#endif
 
+	private bool m_IsRoot;
+
 	//! Lifetimes are managed by the enfusion widgets
 	private CF_MVVM_View m_Parent = null;
 	private ref set<CF_MVVM_View> m_Children = new set<CF_MVVM_View>();
@@ -70,19 +72,27 @@ class CF_MVVM_View
 
 		//! If not in workbench editing
     	#ifndef COMPONENT_SYSTEM
-		if (CF.MVVM && m_ViewModel) CF.MVVM._Destroy(m_ViewModel);
+		if (CF.MVVM && m_ViewModel && m_IsRoot) CF.MVVM._Destroy(m_ViewModel);
 		#endif
 	}
 
-	void NotifyPropertyChanged(string property)
+	void NotifyPropertyChanged(string name, CF_Event evt = null)
 	{
-		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
+		CF_Trace trace(this, "NotifyPropertyChanged", "" + name);
+
+		if (!m_ViewModel) return;
+
+		m_ViewModel.NotifyViewPropertyChanged(name, evt);
 	}
 
-	void GetProperties(CF_ModelBase model, inout map<string, ref CF_MVVM_Property> propertiesMap, inout array<ref CF_MVVM_Property> properties)
+	void GetProperties(CF_ViewModel viewModel, inout map<string, ref CF_MVVM_Property> propertiesMap, inout array<ref CF_MVVM_Property> properties)
 	{
-		CF_Trace trace(this, "GetProperties", "" + model, "" + propertiesMap, "" + properties);
+		CF_Trace trace(this, "GetProperties", "" + viewModel, "" + propertiesMap, "" + properties);
 		
+		m_ViewModel = viewModel;
+		m_Widget.SetUserData(m_ViewModel);
+		//m_Widget.SetHandler(m_ViewModel);
+
 		m_Properties = properties;
 		m_PropertiesMap = propertiesMap;
 
@@ -116,6 +126,9 @@ class CF_MVVM_View
 		m_ViewModel = viewModel;
 		m_Widget.SetUserData(m_ViewModel);
 		m_Widget.SetHandler(m_ViewModel);
+
+		m_IsRoot = false;
+		if (m_ViewModel) m_IsRoot = true;
 	}
 
 	Widget GetWidget()

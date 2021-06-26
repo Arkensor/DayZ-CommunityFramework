@@ -44,4 +44,17 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	{
 		OnView_CarriagePosition(model, evt);
 	}
+
+	override bool OnChange(CF_ChangeEvent evt)
+	{
+		if (!evt.Continue)
+		{
+			_MultilineEditBoxWidget.SetText(_Text);
+		}
+
+		_MultilineEditBoxWidget.GetText(_Text);
+		NotifyPropertyChanged("Text");
+
+		return true;
+	}
 };
