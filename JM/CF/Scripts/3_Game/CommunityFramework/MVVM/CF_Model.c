@@ -9,16 +9,11 @@ typedef Managed CF_ModelBase;
  */
 class CF_Model : Managed
 {
-	bool DestroyViewOnDestruction = true;
-
 	void ~CF_Model()
 	{
 		CF_Trace trace(this, "~CF_Model");
 
-		if (DestroyViewOnDestruction)
-		{
-			CF.MVVM.Destroy(this);
-		}
+		CF.MVVM.Destroy(this);
 	}
 
 	void NotifyPropertyChanged(string property, CF_Event evt = null)

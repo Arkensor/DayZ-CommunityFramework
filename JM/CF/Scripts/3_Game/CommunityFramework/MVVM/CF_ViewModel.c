@@ -72,6 +72,22 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		return m_View;
 	}
 
+	void _UnlinkView()
+	{
+		CF_Trace trace(this, "_UnlinkView");
+
+		if (m_View)
+		{
+			m_View.SetViewModel(null);
+
+			Widget root = m_View.GetWidget();
+			if (root)
+			{
+				root.Unlink();
+			}
+		}
+	}
+
 	bool _DestroyView()
 	{
 		CF_Trace trace(this, "_DestroyView");
@@ -81,9 +97,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			Widget root = m_View.GetWidget();
 			if (root)
 			{
-				#ifndef COMPONENT_SYSTEM
 				root.Unlink();
-				#endif
 
 				return true;
 			}

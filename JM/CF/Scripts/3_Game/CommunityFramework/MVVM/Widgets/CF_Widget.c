@@ -40,6 +40,10 @@ class CF_Widget : CF_MVVM_View
 	reference string PositionY;
 	reference string Width;
 	reference string Height;
+	reference string ScreenPositionX;
+	reference string ScreenPositionY;
+	reference string ScreenWidth;
+	reference string ScreenHeight;
 	reference string Color;
 	reference string Roll;
 	reference string Pitch;
@@ -65,6 +69,10 @@ class CF_Widget : CF_MVVM_View
 		AddProperty(PositionY, "PositionY");
 		AddProperty(Width, "Width");
 		AddProperty(Height, "Height");
+		AddProperty(PositionX, "ScreenPositionX");
+		AddProperty(PositionY, "ScreenPositionY");
+		AddProperty(Width, "ScreenWidth");
+		AddProperty(Height, "ScreenHeight");
 		AddProperty(Color, "Color");
 		AddProperty(Roll, "Roll");
 		AddProperty(Pitch, "Pitch");
@@ -125,6 +133,7 @@ class CF_Widget : CF_MVVM_View
 	{
 		int _flags;
 		EnScript.GetClassVar(model, Flags, 0, _flags);
+		_Widget.ClearFlags(_Widget.GetFlags(), false);
 		_Widget.SetFlags(_flags);
 	}
 
@@ -179,7 +188,7 @@ class CF_Widget : CF_MVVM_View
 	{
 		float _width;
 		float _height;
-		_Widget.GetPos(_width, _height);
+		_Widget.GetSize(_width, _height);
 		EnScript.SetClassVar(model, Width, 0, _width);
 	}
 
@@ -187,16 +196,16 @@ class CF_Widget : CF_MVVM_View
 	{
 		float _width;
 		float _height;
-		_Widget.GetPos(_width, _height);
+		_Widget.GetSize(_width, _height);
 		EnScript.GetClassVar(model, Width, 0, _width);
-		_Widget.SetPos(_width, _height);
+		_Widget.SetSize(_width, _height);
 	}
 
 	void OnView_Height(CF_ModelBase model, CF_Event evt)
 	{
 		float _width;
 		float _height;
-		_Widget.GetPos(_width, _height);
+		_Widget.GetSize(_width, _height);
 		EnScript.SetClassVar(model, Height, 0, _height);
 	}
 
@@ -204,9 +213,61 @@ class CF_Widget : CF_MVVM_View
 	{
 		float _width;
 		float _height;
-		_Widget.GetPos(_width, _height);
+		_Widget.GetSize(_width, _height);
 		EnScript.GetClassVar(model, Height, 0, _height);
-		_Widget.SetPos(_width, _height);
+		_Widget.SetSize(_width, _height);
+	}
+	
+	void OnView_ScreenPositionX(CF_ModelBase model, CF_Event evt)
+	{
+		float _positionX;
+		float _positionY;
+		_Widget.GetScreenPos(_positionX, _positionY);
+		EnScript.SetClassVar(model, ScreenPositionX, 0, _positionX);
+	}
+
+	void OnModel_ScreenPositionX(CF_ModelBase model, CF_Event evt)
+	{
+		OnView_ScreenPositionX(model, evt);
+	}
+
+	void OnView_ScreenPositionY(CF_ModelBase model, CF_Event evt)
+	{
+		float _positionX;
+		float _positionY;
+		_Widget.GetScreenPos(_positionX, _positionY);
+		EnScript.SetClassVar(model, ScreenPositionY, 0, _positionY);
+	}
+
+	void OnModel_ScreenPositionY(CF_ModelBase model, CF_Event evt)
+	{
+		OnView_ScreenPositionY(model, evt);
+	}
+
+	void OnView_ScreenWidth(CF_ModelBase model, CF_Event evt)
+	{
+		float _width;
+		float _height;
+		_Widget.GetScreenSize(_width, _height);
+		EnScript.SetClassVar(model, ScreenWidth, 0, _width);
+	}
+
+	void OnModel_ScreenWidth(CF_ModelBase model, CF_Event evt)
+	{
+		OnView_ScreenWidth(model, evt);
+	}
+
+	void OnView_ScreenHeight(CF_ModelBase model, CF_Event evt)
+	{
+		float _width;
+		float _height;
+		_Widget.GetScreenSize(_width, _height);
+		EnScript.SetClassVar(model, ScreenHeight, 0, _height);
+	}
+
+	void OnModel_ScreenHeight(CF_ModelBase model, CF_Event evt)
+	{
+		OnView_ScreenHeight(model, evt);
 	}
 
 	void OnView_Color(CF_ModelBase model, CF_Event evt)
@@ -266,5 +327,27 @@ class CF_Widget : CF_MVVM_View
 		int _alpha;
 		EnScript.GetClassVar(model, Alpha, 0, _alpha);
 		_Widget.SetAlpha(_alpha);
+	}
+
+	override bool OnResize(CF_ResizeEvent evt)
+	{
+		NotifyPropertyChanged("Width");
+		NotifyPropertyChanged("Height");
+
+		NotifyPropertyChanged("ScreenWidth");
+		NotifyPropertyChanged("ScreenHeight");
+
+		return super.OnResize(evt);
+	}
+
+	override bool OnUpdate(CF_ViewEvent evt)
+	{
+		NotifyPropertyChanged("PositionX");
+		NotifyPropertyChanged("PositionY");
+		
+		NotifyPropertyChanged("ScreenPositionX");
+		NotifyPropertyChanged("ScreenPositionY");
+
+		return super.OnUpdate(evt);
 	}
 };

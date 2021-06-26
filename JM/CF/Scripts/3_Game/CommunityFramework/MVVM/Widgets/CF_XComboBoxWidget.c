@@ -4,7 +4,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 	reference string Items;
 
 	protected XComboBoxWidget _XComboBoxWidget;
-	protected ref array<string> _Items = new array<string>();
+	protected ref CF_ObservableCollection _Items;
 
 	override void GetProperties()
 	{
@@ -42,10 +42,16 @@ class CF_XComboBoxWidget : CF_UIWidget
 	{
 		EnScript.GetClassVar(model, Items, 0, _Items);
 
+		int selected = _XComboBoxWidget.GetCurrentItem();
+
 		_XComboBoxWidget.ClearAll();
 		for (int i = 0; i < _Items.Count(); i++)
 		{
-			_XComboBoxWidget.AddItem(_Items[i]);
+			_XComboBoxWidget.AddItem(_Items.GetConverter(i).GetString());
 		}
+
+		_XComboBoxWidget.SetCurrentItem(selected);
+
+		NotifyPropertyChanged("Selected");
 	}
 };

@@ -48,6 +48,8 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	void Set(int n, T value)
 	{
 		m_Data.Set(n, value);
+
+		NotifyCollectionChanged(new CF_CollectionSetEvent(n));
 	}
 
 	/*!
@@ -93,7 +95,11 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	int InsertAt(T value, int index)
 	{
-		return m_Data.InsertAt(value, index);
+		int idx = m_Data.InsertAt(value, index);
+
+		NotifyCollectionChanged(new CF_CollectionInsertAtEvent(idx));
+
+		return idx;
 	}
 
 	/**
@@ -144,7 +150,11 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	void Remove(int index)
 	{
+		NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
+
 		m_Data.Remove(index);
+
+		NotifyCollectionChanged(new CF_CollectionSetEvent(index));
 	}
 
 	/*!
@@ -155,6 +165,8 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	void RemoveOrdered(int index)
 	{
+		NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
+
 		m_Data.RemoveOrdered(index);
 	}
 
@@ -274,6 +286,8 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 
 	void SwapItems(int item1_index, int item2_index)
 	{
+		NotifyCollectionChanged(new CF_CollectionSwapEvent(item1_index, item2_index));
+
 		m_Data.SwapItems(item1_index, item2_index);
 	}
 	

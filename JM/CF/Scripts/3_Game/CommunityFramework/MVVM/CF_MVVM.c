@@ -41,6 +41,9 @@ class CF_MVVM
 		m_PropertyMap = null;
 	}
 
+	/**
+	 * @brief Creates a new View for the model. Returns existing view if it already exists for the model
+	 */
 	static CF_ViewModel Create(CF_ModelBase model, string layout, Widget parent = null)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout, "" + parent);
@@ -85,7 +88,7 @@ class CF_MVVM
 		CF_ViewModel viewModel;
 		if (m_ViewModelMap.Find(model, viewModel))
 		{
-			return viewModel;
+			viewModel._UnlinkView();
 		}
 
 		if (!widget) return null;

@@ -70,7 +70,7 @@ class CF_MVVM_View
 
 		//! If not in workbench editing
     	#ifndef COMPONENT_SYSTEM
-		if (CF.MVVM) CF.MVVM._Destroy(m_ViewModel);
+		if (CF.MVVM && m_ViewModel) CF.MVVM._Destroy(m_ViewModel);
 		#endif
 	}
 
@@ -114,31 +114,8 @@ class CF_MVVM_View
 		CF_Trace trace(this, "SetViewModel", "" + viewModel);
 
 		m_ViewModel = viewModel;
+		m_Widget.SetUserData(m_ViewModel);
 		m_Widget.SetHandler(m_ViewModel);
-	}
-	
-	void OnView_Children(CF_ModelBase model, CF_Event evt)
-	{
-		//@note not within the scope of MVVM.
-		// maybe support this at a later stage if possible
-	}
-
-	void OnModel_Children(CF_ModelBase model, CF_Event evt)
-	{
-		CF_Trace trace(this, "OnModel_Children", "" + model, evt.String());
-
-		CF_CollectionEvent cevt;
-		if (!Class.CastTo(cevt, evt)) return;
-
-		CF_ObservableCollection _collection;
-		EnScript.GetClassVar(model, Children, 0, _collection);
-		if (!_collection) return;
-
-		cevt.m_View = this;
-		cevt.m_Widget = m_Widget;
-		cevt.m_Collection = _collection;
-
-		cevt.Process();
 	}
 
 	Widget GetWidget()
@@ -199,6 +176,90 @@ class CF_MVVM_View
 		
 		//! add us to the new parent. only called if the new parent didn't call this
 		if (m_Parent && modifyParent) m_Parent.AddChild(this, false);
+	}
+
+	/**
+	 * @section	Children
+	 * 
+	 * @note	
+	 */
+	void OnView_Children(CF_ModelBase model, CF_Event evt)
+	{
+		// Handled automatically.
+	}
+
+	void OnModel_Children(CF_ModelBase model, CF_Event evt)
+	{
+		CF_Trace trace(this, "OnModel_Children", "" + model, evt.ClassName());
+
+		CF_CollectionEvent cevt;
+		if (!Class.CastTo(cevt, evt)) return;
+
+		CF_ObservableCollection _collection;
+		EnScript.GetClassVar(model, Children, 0, _collection);
+		if (!_collection) return;
+
+		cevt.Process(this, model, _collection);
+	}
+
+	Widget GetChildWidgetAt(int index)
+	{
+		Widget widget = m_Widget.GetChildren();
+		for (int i = 0; i < index; i++)
+		{
+			widget = widget.GetSibling();
+			if (!widget) return null;
+		}
+		return widget;
+	}
+
+	void OnModel_Children_Insert(CF_ObservableCollection collection, CF_CollectionInsertEvent evt)
+	{
+		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
+		
+		string layout;
+		g_Script.CallFunction(model, "GetLayout", layout, null);
+		CF.MVVM.Create(model, layout, m_Widget);
+	}
+
+	void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEvent evt)
+	{
+		CF.Log.Error("Function not implemented");
+	}
+
+	void OnModel_Children_Clear(CF_ObservableCollection collection, CF_CollectionClearEvent evt)
+	{		
+		Widget child = m_Widget.GetChildren();
+		while (child != null)
+		{
+			Widget current = child;
+			child = child.GetSibling();
+
+			CF_ViewModel vm;
+			current.GetUserData(vm);
+			if (vm)
+			{
+				CF.MVVM._Destroy(vm);
+			}
+		}
+	}
+
+	void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEvent evt)
+	{
+		CF.Log.Error("Function not implemented");
+	}
+
+	void OnModel_Children_Remove(CF_ObservableCollection collection, CF_CollectionRemoveEvent evt)
+	{
+		Widget widget = GetChildWidgetAt(evt.Index);
+		if (!widget) return;
+
+		m_Widget.RemoveChild(widget);
+	}
+
+	void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEvent evt)
+	{
+		CF.Log.Error("Function not implemented");
 	}
 
 	/**

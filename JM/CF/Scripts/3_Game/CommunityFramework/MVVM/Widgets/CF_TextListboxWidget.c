@@ -1,4 +1,4 @@
-class CF_TextListboxItem
+class CF_TextListboxItem : CF_ModelBase
 {
 	string Text;
 	Class Data;
@@ -10,7 +10,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 	reference string Items;
 
 	protected TextListboxWidget _TextListboxWidget;
-	protected ref array<ref CF_TextListboxItem> _Items = new array<ref CF_TextListboxItem>();
+	protected ref CF_ObservableCollection _Items;
 
 	override void GetProperties()
 	{
@@ -34,10 +34,32 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 	{
 		EnScript.GetClassVar(model, Items, 0, _Items);
 
+		CF_TextListboxItem selectedItem;
+		int selectedRow = _TextListboxWidget.GetSelectedRow();
+		if (selectedRow != -1)
+		{
+			_TextListboxWidget.GetItemData(selectedRow, 0, selectedItem);
+		}
+
+		selectedRow = -1;
+
+		_TextListboxWidget.ClearItems();
+
 		for (int i = 0; i < _Items.Count(); i++)
 		{
-			_TextListboxWidget.AddItem(_Items[i].Text, _Items[i].Data, 0);
-			_TextListboxWidget.SetItemColor(i, 0, _Items[i].Color);
+			CF_TextListboxItem item;
+			if (!Class.CastTo(item, _Items.GetConverter(i).GetClass())) break;
+
+			_TextListboxWidget.AddItem(item.Text, item, 0);
+			_TextListboxWidget.SetItemColor(i, 0, item.Color);
+
+			if (selectedItem && selectedItem == item)
+			{
+				selectedRow = i;
+			}
 		}
+
+		_TextListboxWidget.SelectRow(i);
+		NotifyPropertyChanged("Selected");
 	}
 };

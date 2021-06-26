@@ -9,7 +9,7 @@ class CF_ObservableCollection : CF_Collection
 		CF_MVVM._CheckInit();
 		#endif
 
-		CF_Trace Trace(this, "Init", "" + model, prop);
+		CF_Trace trace(this, "Init", "" + model, prop);
 
 		m_Model = model;
 		m_Property = prop;
