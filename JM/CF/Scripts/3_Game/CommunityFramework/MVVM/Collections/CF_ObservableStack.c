@@ -1,9 +1,9 @@
-class CF_Stack<Class T> : CF_Collection
+class CF_ObservableStack<Class T> : CF_ObservableCollection
 {
 	private	T m_Data[256];
 	private int m_Count;
 
-	void CF_Stack()
+	void CF_ObservableStack()
 	{
 		typename t = T;
 		m_Converter = CF.TypeConverters.Create(t);
@@ -28,6 +28,9 @@ class CF_Stack<Class T> : CF_Collection
 		else
 		{
 			value = m_Data[m_Count - 1];
+
+			NotifyCollectionChanged(new CF_CollectionRemoveEvent(m_Count - 1));
+
 			m_Count--;
 		}
 
@@ -42,6 +45,8 @@ class CF_Stack<Class T> : CF_Collection
 	T Push(T value)
 	{
 		m_Data[m_Count] = value;
+
+		NotifyCollectionChanged(new CF_CollectionInsertEvent(m_Count));
 
 		m_Count++;
 
@@ -59,6 +64,8 @@ class CF_Stack<Class T> : CF_Collection
 	void Clear()
 	{
 		m_Count = 0;
+
+		NotifyCollectionChanged(new CF_CollectionClearEvent());
 	}
 
 	T Get(int index)
@@ -69,6 +76,8 @@ class CF_Stack<Class T> : CF_Collection
 	void Set(int index, T value)
 	{
 		m_Data[index] = value;
+
+		NotifyCollectionChanged(new CF_CollectionSetEvent(index));
 	}
 
 	override int Count()
