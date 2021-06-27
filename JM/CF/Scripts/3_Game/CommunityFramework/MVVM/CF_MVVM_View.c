@@ -223,8 +223,10 @@ class CF_MVVM_View
 
 	Widget GetChildWidgetAt(int index)
 	{
+		if (index == 0) return null;
+
 		Widget widget = m_Widget.GetChildren();
-		for (int i = 0; i < index; i++)
+		for (int i = 1; i < index; i++)
 		{
 			widget = widget.GetSibling();
 			if (!widget) return null;

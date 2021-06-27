@@ -152,12 +152,11 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	void Remove(int index)
 	{
-		NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
-		//NotifyCollectionChanged(new CF_CollectionRemoveEvent(m_Data.Count()));
+		if (m_Data.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
 
 		m_Data.Remove(index);
 
-		NotifyCollectionChanged(new CF_CollectionSetEvent(index));
+		if (m_Data.Count() > 0) NotifyCollectionChanged(new CF_CollectionSetEvent(index));
 	}
 
 	/*!
