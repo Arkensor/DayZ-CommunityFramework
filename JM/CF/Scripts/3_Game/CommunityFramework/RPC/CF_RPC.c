@@ -11,6 +11,7 @@ class CF_RPC
     static const int CF_RPC_SCRIPT_ID = 10043;
 
     static const PlayerIdentity SERVER = NULL;
+    static const PlayerIdentity BROADCAST = NULL;
 
     /**
      * @brief Registers a handler instance for the RPC receiving machine. A handler is a class instance which RPC functions will be invoked on.

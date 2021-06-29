@@ -55,7 +55,7 @@ class CF_RPC_Whitelist
      * CF.RPC.GetWhitelist(MyHandlerType).AddArray({"MyFirstFunction", "MySecondFunction"});
      * @endcode
      *
-     * @param functionNames Array of function names to be added.
+     * @param functionNames     Array of function names to be added.
      * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
     CF_RPC_Whitelist AddArray(array<string> functionNames)
@@ -75,7 +75,7 @@ class CF_RPC_Whitelist
      * CF.RPC.GetWhitelist(MyHandlerType).Remove("MyFirstFunction");
      * @endcode
      *
-     * @param functionName Name of the function to be removed.
+     * @param functionName      Name of the function to be removed.
      * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
 	CF_RPC_Whitelist Remove(string functionName)
@@ -94,7 +94,7 @@ class CF_RPC_Whitelist
      * CF.RPC.GetWhitelist(MyHandlerType).RemoveArray({"MyFirstFunction", "MySecondFunction"});
      * @endcode
      *
-     * @param functionNames Array of function names to be removed.
+     * @param functionNames     Array of function names to be removed.
      * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
     CF_RPC_Whitelist RemoveArray(array<string> functionNames)

@@ -10,14 +10,17 @@ class CF_RPC_Context extends ScriptRPC
      * @code
      * auto rpc = CF.RPC.Prepare("MyHandler", "MyFunction", true);
      * rpc.SendTo(player.GetIdentity());
-     * rpc.SendTo(player2.GetIdentity());
+     * ...
+     * rpc.SendTo(CF.RPC.SERVER);
+     * ...
+     * rpc.SendTo(CF.RPC.BROADCAST);
      * @endcode
      *
      *
-     * @param recipient (Optional) PlayerIdentity of the receiving machine. When used on the client it can only target the server (NULL). NULL when sent from the server targets ALL players.
-     * @return bool     Returns true if successfully registered, false otherwise (see script log for details).
+     * @param recipient         PlayerIdentity of the receiving machine. When used on the client it can ONLY target the server (CF.RPC.SERVER). On the server CF.RPC.BROADCAST can be used to target all players.
+     * @return CF_RPC_Context   Returns the RPC context (weak reference) that can be used for chaining calls.
      */
-    void SendTo(PlayerIdentity recipient = NULL)
+    CF_RPC_Context SendTo(PlayerIdentity recipient)
     {
         Send(m_Target, CF_RPC.CF_RPC_SCRIPT_ID, m_Guaranteed, recipient);
     }
@@ -33,9 +36,9 @@ class CF_RPC_Context extends ScriptRPC
      * rpc.SendTo(...);
      * @endcode
      *
-     * @return void
+     * @return CF_RPC_Context   Returns the RPC context (weak reference) that can be used for chaining calls.
      */
-    void ResetData()
+    CF_RPC_Context ResetData()
     {
         Reset();
         Write(m_HandlerType);
@@ -45,7 +48,7 @@ class CF_RPC_Context extends ScriptRPC
     /**
      * @brief [Internal] Prepares a new RPC context. Used by CF.RPC.Prepare()
      *
-     * @return CF_RPC_Context RPC write and send context.
+     * @return CF_RPC_Context   RPC write and send context.
      */
     static ref CF_RPC_Context _Prepare(string handlerType, string functionName, bool guaranteed, Object target = NULL)
     {
