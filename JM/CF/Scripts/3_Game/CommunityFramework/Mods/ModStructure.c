@@ -10,7 +10,7 @@ modded class ModStructure
 
 	protected string m_Name;
 
-	protected int m_Hash;
+	protected ref CF_ModHash m_Hash;
 
 	void ~ModStructure()
 	{
@@ -51,7 +51,7 @@ modded class ModStructure
 		{			
 			GetGame().ConfigGetChildName( "CfgMods", m_ModIndex, m_Name );
 
-			m_Hash = m_Name.Hash();
+			m_Hash = new CF_ModHash( m_Name );
 
 			if ( !OnLoad( m_ModName ) )
 			{
@@ -204,7 +204,7 @@ modded class ModStructure
 		return m_Name;
 	}
 
-	int GetHash()
+	CF_ModHash GetHash()
 	{
 		return m_Hash;
 	}

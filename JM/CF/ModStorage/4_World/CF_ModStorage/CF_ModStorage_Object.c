@@ -58,10 +58,11 @@ class CF_ModStorage_Object<Class T>
 
 		for (int i = 0; i < count; i++)
 		{
-			int hash;
+			CF_ModHash hash;
 			if (cf_version >= 3)
 			{
-				if (!ctx.Read(hash)) return false;
+				hash = new CF_ModHash();
+				if (!hash.Load(ctx, cf_version)) return false;
 			}
 			else
 			{
@@ -77,7 +78,7 @@ class CF_ModStorage_Object<Class T>
 
 			if (!store.Load(ctx, cf_version))
 			{
-				Error( "Failed reading " + GetDebugName(m_Entity) + " for mod '" + ModLoader.GetName(hash) + "' (hash " + hash + ")!");
+				Error( "Failed reading " + GetDebugName(m_Entity) + " for mod '" + ModLoader.GetName(hash) + "' (hash " + hash.Repr() +  ")!");
 				return false;
 			}
 
@@ -85,7 +86,7 @@ class CF_ModStorage_Object<Class T>
 			// If both pass, go back to the entity and run the store load with the mod.
 			if (modExists && store.GetVersion() > 0 && !m_Entity.CF_OnStoreLoad(store, mod.GetName()))
 			{
-				Error("Failed loading " + GetDebugName(m_Entity) + " for mod '" + mod.GetName() + "' (hash " + hash + ")!");
+				Error("Failed loading " + GetDebugName(m_Entity) + " for mod '" + mod.GetName() + "' (hash " + hash.Repr() +  ")!");
 				return false;
 			}
 
