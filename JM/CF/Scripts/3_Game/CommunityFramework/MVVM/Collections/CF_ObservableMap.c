@@ -109,4 +109,13 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 	{
 		Set(key, value);
 	}
+
+	void Clear()
+	{
+		NotifyCollectionChanged(new CF_CollectionClearEvent());
+
+		m_Values.Clear();
+		m_Keys.Clear();
+		m_DataMap.Clear();
+	}
 };
