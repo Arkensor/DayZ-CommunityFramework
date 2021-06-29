@@ -98,8 +98,8 @@ class CF_RPC
      *
      * @param handlerInstance   Instance of the handler that contains the target function.
      * @param functionName      Name of the function that the parameters are being registered for.
-     * @param parameters        Parameter declaration as CF_RPC_Param1...CF_RPC_Param7 instance. Note: You should use the default constructor of CF_RPC_Param - so no parameters.
-     * @return bool             Returns true if successfully unregistered, false otherwise (see script log for details).
+     * @param parameters        Parameter declaration as CF_RPC_Param1...CF_RPC_Param7 instance. Note: You should only use the default(no values) constructor of CF_RPC_Param.
+     * @return bool             Returns true if successfully registered, false otherwise (see script log for details).
      */
     static bool RegisterFunctionParameters(Class handlerInstance, string functionName, CF_RPC_Param parameters)
     {
@@ -381,7 +381,7 @@ class CF_RPC
                 else
                 {
                     //Note from Arkensor: Yes this must be one line, or else the format breaks in the scripts log.
-                    PrintFormat("[ERROR][CommunityFramework][RPC] Function invoke '%1::%2' is not allowed. RPC ignored!\n               As the developer you can fix this by calling CF.RPC.GetWhitelist(%1).Add(\"%2\").", handlerType, functionName);
+                    PrintFormat("[ERROR][CommunityFramework][RPC] Function invoke '%1::%2' is not allowed. RPC ignored!\n               As the developer you can fix this by calling > CF.RPC.GetWhitelist(%1).Add(\"%2\")", handlerType, functionName);
                 }
             }
             else

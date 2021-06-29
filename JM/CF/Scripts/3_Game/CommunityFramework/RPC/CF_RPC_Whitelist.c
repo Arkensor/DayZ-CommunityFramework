@@ -1,11 +1,6 @@
 class CF_RPC_Whitelist
 {
-	protected ref set<string> m_FunctionWhitelist;
-
-	void CF_RPC_Whitelist()
-	{
-	    m_FunctionWhitelist = new set<string>();
-	}
+	protected autoptr set<string> m_FunctionWhitelist = new set<string>();
 
     /**
      * @brief Check if a given function is whitelisted to be executed via RPC.
@@ -43,12 +38,14 @@ class CF_RPC_Whitelist
      * CF.RPC.GetWhitelist(MyHandlerType).Add("MyFirstFunction");
      * @endcode
      *
-     * @param functionName Name of the function to be added.
-     * @return void
+     * @param functionName      Name of the function to be added.
+     * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
-	void Add(string functionName)
+	CF_RPC_Whitelist Add(string functionName)
 	{
 	    m_FunctionWhitelist.Insert(functionName);
+
+	    return this;
 	}
 
     /**
@@ -59,14 +56,16 @@ class CF_RPC_Whitelist
      * @endcode
      *
      * @param functionNames Array of function names to be added.
-     * @return void
+     * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
-    void AddArray(array<string> functionNames)
+    CF_RPC_Whitelist AddArray(array<string> functionNames)
     {
         foreach(auto functionName: functionNames)
         {
             Add(functionName);
         }
+
+        return this;
     }
 
     /**
@@ -77,13 +76,15 @@ class CF_RPC_Whitelist
      * @endcode
      *
      * @param functionName Name of the function to be removed.
-     * @return void
+     * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
-	void Remove(string functionName)
+	CF_RPC_Whitelist Remove(string functionName)
 	{
         auto idx = m_FunctionWhitelist.Find(functionName);
 
         if(idx >= 0) m_FunctionWhitelist.Remove(idx);
+
+        return this;
 	}
 
     /**
@@ -94,13 +95,15 @@ class CF_RPC_Whitelist
      * @endcode
      *
      * @param functionNames Array of function names to be removed.
-     * @return void
+     * @return CF_RPC_Whitelist Returns the updated whitelist (weak reference) that can be used for chaining calls.
      */
-    void RemoveArray(array<string> functionNames)
+    CF_RPC_Whitelist RemoveArray(array<string> functionNames)
     {
         foreach(auto functionName: functionNames)
         {
             Remove(functionName);
         }
+
+        return this;
     }
 }
