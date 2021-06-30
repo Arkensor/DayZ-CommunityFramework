@@ -23,6 +23,8 @@ class CF_RPC_Context extends ScriptRPC
     CF_RPC_Context SendTo(PlayerIdentity recipient)
     {
         Send(m_Target, CF_RPC.CF_RPC_SCRIPT_ID, m_Guaranteed, recipient);
+
+        return this;
     }
 
     /**
@@ -43,6 +45,8 @@ class CF_RPC_Context extends ScriptRPC
         Reset();
         Write(m_HandlerType);
         Write(m_FunctionName);
+
+        return this;
     }
 
     /**
