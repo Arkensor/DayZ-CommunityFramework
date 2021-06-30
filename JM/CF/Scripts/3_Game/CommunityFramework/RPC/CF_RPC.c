@@ -7,6 +7,7 @@ class CF_RPC
     protected static ref map<string, Class> m_RegisteredInstances = new map<string, Class>();
     protected static ref map<string, ref CF_RPC_Whitelist> m_FunctionWhitelists = new map<string, ref CF_RPC_Whitelist>();
     protected static ref map<string, typename> m_FunctionParameterTypes = new map<string, typename>();
+    protected static ref set<Class> m_LogTrackedHandlers = new set<Class>();
 
     static const int CF_RPC_SCRIPT_ID = 10043;
 
@@ -31,7 +32,7 @@ class CF_RPC
 	{
 	    if(!instance)
 	    {
-            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to register the handler instance %1. NULL-reference given as instance. See trace below:");
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to register the handler instance. NULL-reference given as instance. See trace below:");
             DumpStack();
             return false;
 	    }
@@ -64,7 +65,7 @@ class CF_RPC
 	{
 	    if(!instance)
 	    {
-            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to unregister the handler instance %1. NULL-reference given as instance. See trace below:");
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to unregister the handler instance. NULL-reference given as instance. See trace below:");
             DumpStack();
             return false;
 	    }
@@ -77,11 +78,81 @@ class CF_RPC
 
         m_RegisteredInstances.Remove(instance.ClassName());
 
+        DisableLogging(instance);
+
         return true;
 	}
 
     /**
-     * @brief Registers the handler-function parameters to allow for automatic unpacking of the received RPC data.
+     * @brief Enable the logging of incoming RPCs for the handler instance.
+     *        Format: [...] Received RPC <handlerType>::<handlerFunction> from Survivor(<plainID> | <hashID>) at hh:mm:ss.
+     *
+     * @code
+     * constructor()
+     * {
+     *     CF.RPC.EnableLogging(this);
+     * }
+     * @endcode
+     *
+     * @param handlerInstance   The handler instance for which logging shall be enabled.
+     * @return void
+     */
+    static void EnableLogging(Class handlerInstance)
+    {
+        if(!handlerInstance)
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to enable logging for the handler instance. NULL-reference given as 'handlerInstance'. See trace below:");
+            DumpStack();
+            return;
+        }
+
+        m_LogTrackedHandlers.Insert(handlerInstance);
+    }
+
+    /**
+     * @brief Disable the logging of incoming RPCs for the handler instance.
+     *
+     * @code
+     * destructor()
+     * {
+     *     CF.RPC.DisableLogging(this);
+     * }
+     * @endcode
+     *
+     * @param handlerInstance   The handler instance for which logging shall be disabled.
+     * @return void
+     */
+    static void DisableLogging(Class handlerInstance)
+    {
+        if(!handlerInstance)
+        {
+            PrintFormat("[ERROR][CommunityFramework][RPC] Failed to disable logging for the handler instance. NULL-reference given as 'handlerInstance'. See trace below:");
+            DumpStack();
+            return;
+        }
+
+        auto idx = m_LogTrackedHandlers.Find(handlerInstance);
+
+        if(idx >= 0) m_LogTrackedHandlers.Remove(idx);
+    }
+
+    /**
+     * @brief Determine if the handler instance has logging of incoming RPCs enabled.
+     *
+     * @code
+     * bool logsEnabled = CF.RPC.HasLoggingEnabled(this);
+     * @endcode
+     *
+     * @param handlerInstance   The handler instance from which to get the logging enabled state.
+     * @return bool             Returns true if logging is active for the given handler instance.
+     */
+    static bool HasLoggingEnabled(Class handlerInstance)
+    {
+        return handlerInstance && m_LogTrackedHandlers.Find(handlerInstance) >= 0;
+    }
+
+    /**
+     * @brief Sets the handler-function parameters to allow for automatic unpacking of the received RPC data.
      *        The PlayerIdentity of the RPC sender is automatically included as the FIRST parameter. Only specific ADDITIONAL parameters.
      *
      *        NOTE: Once parameters are registered, the default overload with Fnc(PlayerIdentity sender, ParamsReadContext ctx) will NOT work anymore.
@@ -90,7 +161,7 @@ class CF_RPC
      * @code
      * constructor()
      * {
-     *     CF.RPC.RegisterFunctionParameters(this, "MyAutomaticUnpackingFunction", new CF_RPC_Param3<int, array<string>, vector>);
+     *     CF.RPC.SetFunctionParameters(this, "MyAutomaticUnpackingFunction", new CF_RPC_Param3<int, array<string>, vector>);
      * }
      *
      * void MyAutomaticUnpackingFunction(PlayerIdentity sender, int integerValue, array<string> stringValues, vector vectorValue){}
@@ -102,7 +173,7 @@ class CF_RPC
      * @param parameters        Parameter declaration as CF_RPC_Param1...CF_RPC_Param7 instance. Note: You should only use the default(no values) constructor of CF_RPC_Param.
      * @return bool             Returns true if successfully registered, false otherwise (see script log for details).
      */
-    static bool RegisterFunctionParameters(Class handlerInstance, string functionName, CF_RPC_Param parameters)
+    static bool SetFunctionParameters(Class handlerInstance, string functionName, CF_RPC_Param parameters)
     {
         auto hashKey = handlerInstance.ClassName() + "::" + functionName;
 
@@ -346,6 +417,18 @@ class CF_RPC
                 }
             }
 
+            if(!invoke || HasLoggingEnabled(invoke))
+            {
+                string from = "SERVER";
+
+                if(sender)
+                {
+                    from = string.Format("%1(%2 | %3)", sender.GetName(), sender.GetPlainId(), sender.GetId())
+                }
+
+                PrintFormat("[DEBUG][CommunityFramework][RPC] Received RPC %1::%2 from %3 at %4.", handlerType, functionName, from, JMDate.Now(false).ToString("hh:mm:ss"));
+            }
+
             if(invoke)
             {
                 //Validate if the invoke is allowed
@@ -402,12 +485,11 @@ class CF_RPC
     static void _Cleanup()
     {
         m_RegisteredInstances.Clear();
-        delete m_RegisteredInstances;
 
         m_FunctionWhitelists.Clear();
-        delete m_FunctionWhitelists;
 
         m_FunctionParameterTypes.Clear();
-        delete m_FunctionParameterTypes;
+
+        m_LogTrackedHandlers.Clear();
     }
 }
