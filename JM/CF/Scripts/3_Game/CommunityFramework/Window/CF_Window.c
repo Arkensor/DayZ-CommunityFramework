@@ -1,10 +1,10 @@
 class CF_Window : CF_Model
 {
-	private float m_PositionX = 0;
-	private float m_PositionY = 0;
- 
-	private float m_Width = 400;
-	private float m_Height = 400;
+	private float m_PositionX;
+	private float m_PositionY;
+
+	private float m_Width;
+	private float m_Height;
 
 	private string m_Title;
 
@@ -13,6 +13,7 @@ class CF_Window : CF_Model
 	private Widget title_bar_drag;
 	private float m_DragOffsetX;
 	private float m_DragOffsetY;
+	private float m_ContentHeight;
  
 	private ref CF_ModelBase m_Model;
 
@@ -21,6 +22,9 @@ class CF_Window : CF_Model
 	void CF_Window(CF_WindowHandle handle)
 	{
 		m_Handle = handle;
+
+		SetPosition(0, 0);
+		SetSize(400, 400);
 	}
 
 	override string GetLayout()
@@ -69,7 +73,7 @@ class CF_Window : CF_Model
 		NotifyPropertyChanged("m_PositionX");
 		NotifyPropertyChanged("m_PositionY");
 		
-		title_bar_drag.SetPos(0, 0, true);
+		if (title_bar_drag) title_bar_drag.SetPos(0, 0, true);
 	}
 
 	void SetSize(float x, float y)
@@ -78,11 +82,13 @@ class CF_Window : CF_Model
 		
 		m_Width = x;
 		m_Height = y;
+		m_ContentHeight = m_Height - 25;
 
 		NotifyPropertyChanged("m_Width");
 		NotifyPropertyChanged("m_Height");
+		NotifyPropertyChanged("m_ContentHeight");
 		
-		title_bar_drag.SetPos(0, 0, true);
+		if (title_bar_drag) title_bar_drag.SetPos(0, 0, true);
 	}
 
 	void OnCloseButtonClicked(CF_MouseEventArgs evt)

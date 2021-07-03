@@ -76,6 +76,11 @@ class CF_MVVM_View
 		#endif
 	}
 
+	bool IsBinded(CF_ViewModel vm)
+	{
+		return m_ViewModel == vm;
+	}
+
 	void NotifyPropertyChanged(string name, CF_EventArgs evt = null)
 	{
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name);
@@ -221,6 +226,8 @@ class CF_MVVM_View
 
 	Widget GetChildWidgetAt(int index)
 	{
+		CF_Trace trace(this, "GetChildWidgetAt", "" + index);
+
 		if (index == 0) return null;
 
 		Widget widget = m_Widget.GetChildren();
@@ -234,9 +241,14 @@ class CF_MVVM_View
 
 	void OnModel_Children_InsertAll(CF_ObservableCollection collection)
 	{
+		CF_Trace trace(this, "OnModel_Children_InsertAll", "" + collection);
+
 		for (int i = 0; i < collection.Count(); i++)
 		{
-			CF_ModelBase model = collection.GetConverter(i).GetManaged();
+			CF_TypeConverter conv = collection.GetConverter(i);
+			if (!conv) return;
+
+			CF_ModelBase model = conv.GetManaged();
 			
 			string layout;
 			g_Script.CallFunction(model, "GetLayout", layout, null);
@@ -246,7 +258,12 @@ class CF_MVVM_View
 
 	void OnModel_Children_Insert(CF_ObservableCollection collection, CF_CollectionInsertEventArgs evt)
 	{
-		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
+		CF_Trace trace(this, "OnModel_Children_Insert", "" + collection, evt.String());
+
+		CF_TypeConverter conv = collection.GetConverter(evt.Index);
+		if (!conv) return;
+
+		CF_ModelBase model = conv.GetManaged();
 		
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
@@ -255,11 +272,15 @@ class CF_MVVM_View
 
 	void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + collection, evt.String());
+
 		CF.Log.Error("Function not implemented");
 	}
 
 	void OnModel_Children_Clear(CF_ObservableCollection collection, CF_CollectionClearEventArgs evt)
-	{		
+	{
+		CF_Trace trace(this, "OnModel_Children_Clear", "" + collection, evt.String());
+
 		Widget child = m_Widget.GetChildren();
 		while (child != null)
 		{
@@ -277,11 +298,15 @@ class CF_MVVM_View
 
 	void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_Set", "" + collection, evt.String());
+
 		CF.Log.Error("Function not implemented");
 	}
 
 	void OnModel_Children_Remove(CF_ObservableCollection collection, CF_CollectionRemoveEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_Remove", "" + collection, evt.String());
+
 		Widget widget = GetChildWidgetAt(evt.Index);
 		if (!widget) return;
 
@@ -290,6 +315,8 @@ class CF_MVVM_View
 
 	void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_Swap", "" + collection, evt.String());
+
 		CF.Log.Error("Function not implemented");
 	}
 

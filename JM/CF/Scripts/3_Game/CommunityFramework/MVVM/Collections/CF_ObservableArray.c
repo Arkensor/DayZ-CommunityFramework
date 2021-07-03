@@ -16,10 +16,21 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 		CF.Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
+	override string String()
+	{
+		string str = super.String();
+		str += "Count: " + m_Data.Count();
+		for (int i = 0; i < m_Data.Count(); i++)
+		{
+			str += " " + m_Data[i];
+		}
+		return str;
+	}
+
 	override CF_TypeConverter GetConverter(int index)
 	{
 		CF_Trace trace(this, "GetConverter", "" + index);
-
+		
 		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
 		return m_Converter;
 	}
@@ -156,7 +167,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 
 		m_Data.Remove(index);
 
-		if (m_Data.Count() > 0) NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
+		if (m_Data.Count() > 0 && index < m_Data.Count()) NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 	}
 
 	/*!

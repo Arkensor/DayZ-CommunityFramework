@@ -1,4 +1,5 @@
-PanelWidgetClass root {
+WrapSpacerWidgetClass root {
+ keepsafezone 0
  color 0.8745 0.6549 0.8196 1
  position 0 0
  size 0.5 0.5
@@ -8,118 +9,97 @@ PanelWidgetClass root {
  vexactpos 1
  hexactsize 0
  vexactsize 0
- scriptclass "CF_PanelWidget"
+ scriptclass "CF_WrapSpacerWidget"
+ style Colorable
  {
-  WrapSpacerWidgetClass root_spacer {
+  GridSpacerWidgetClass GridSpacerWidget1 {
    ignorepointer 1
    position 0 0
    size 1 1
-   halign center_ref
-   valign center_ref
-   hexactpos 1
-   vexactpos 1
+   hexactpos 0
+   vexactpos 0
    hexactsize 0
    vexactsize 0
-   scriptclass "CF_WrapSpacerWidget"
-   Padding 0
-   Margin 0
-   content_halign center
+   "Size To Content H" 1
+   "Size To Content V" 1
+   Columns 2
+   Rows 2
    {
-    GridSpacerWidgetClass GridSpacerWidget1 {
-     ignorepointer 1
-     position 469.25 68.5
-     size 48 48
-     hexactpos 1
-     vexactpos 1
-     hexactsize 1
-     vexactsize 1
-     "Size To Content H" 1
-     "Size To Content V" 1
-     Columns 2
-     Rows 2
-     {
-      CheckBoxWidgetClass CheckBoxWidget0 {
-       position 0 0
-       size 0.5 50
-       hexactpos 0
-       vexactpos 0
-       hexactsize 0
-       vexactsize 1
-       scriptclass "CF_CheckBoxWidget"
-       {
-        ScriptParamsClass {
-         Text "TextInput"
-         Checked "BlockInput"
-        }
-       }
-      }
-      EditBoxWidgetClass EditBoxWidget0 {
-       position 0 0
-       size 0.5 50
-       hexactpos 0
-       vexactpos 0
-       hexactsize 0
-       vexactsize 1
-       scriptclass "CF_EditBoxWidget"
-       {
-        ScriptParamsClass {
-         Event_Change "OnChange"
-         Text "TextInput"
-        }
-       }
-      }
-      ButtonWidgetClass button {
-       position 0 0
-       size 0.5 40
-       halign center_ref
-       valign center_ref
-       hexactpos 0
-       vexactpos 0
-       hexactsize 0
-       vexactsize 1
-       scriptclass "CF_ButtonWidget"
-       "no focus" 1
-       text "Toggle"
-       font "gui/fonts/Metron-Bold28"
-       switch toggle
-       {
-        ScriptParamsClass {
-         Event_Click "OnClick"
-         Text "ButtonText"
-        }
-       }
-      }
-     }
-    }
-    GridSpacerWidgetClass GridSpacerWidget0 {
-     ignorepointer 1
-     position 0.013 0.02
-     size 0.064 0.096
+    CheckBoxWidgetClass CheckBoxWidget0 {
+     position 0 0
+     size 0.5 50
      hexactpos 0
      vexactpos 0
      hexactsize 0
-     vexactsize 0
-     scriptclass "CF_GridSpacerWidget"
-     "Size To Content H" 1
-     "Size To Content V" 1
-     Columns 1
-     Rows 100
+     vexactsize 1
+     scriptclass "CF_CheckBoxWidget"
      {
       ScriptParamsClass {
-       Children "Test"
+       Text "TextInput"
+       Checked "BlockInput"
+      }
+     }
+    }
+    EditBoxWidgetClass EditBoxWidget0 {
+     position 0 0
+     size 0.5 50
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 1
+     scriptclass "CF_EditBoxWidget"
+     {
+      ScriptParamsClass {
+       Event_Change "OnChange"
+       Text "TextInput"
+      }
+     }
+    }
+    ButtonWidgetClass button {
+     position 0 0
+     size 0.5 40
+     halign center_ref
+     valign center_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 1
+     scriptclass "CF_ButtonWidget"
+     "no focus" 1
+     text "Toggle"
+     font "gui/fonts/Metron-Bold28"
+     switch toggle
+     {
+      ScriptParamsClass {
+       Event_Click "OnClick"
+       Text "ButtonText"
       }
      }
     }
    }
+  }
+  GridSpacerWidgetClass GridSpacerWidget0 {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   scriptclass "CF_GridSpacerWidget"
+   "Size To Content H" 1
+   "Size To Content V" 1
+   Columns 1
+   Rows 100
    {
     ScriptParamsClass {
+     Children "Test"
     }
    }
   }
  }
  {
   ScriptParamsClass {
-   Model "CF_Model_Test"
   }
  }
 }

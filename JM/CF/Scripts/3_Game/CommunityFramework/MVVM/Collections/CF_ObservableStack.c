@@ -9,6 +9,17 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 		m_Converter = CF.TypeConverters.Create(t);
 	}
 
+	override string String()
+	{
+		string str = super.String();
+		str += "Count: " + m_Count;
+		for (int i = 0; i < m_Count; i++)
+		{
+			str += " " + m_Data[i];
+		}
+		return str;
+	}
+
 	override CF_TypeConverter GetConverter(int index)
 	{
 		CF_Trace trace(this, "GetConverter", "" + index);

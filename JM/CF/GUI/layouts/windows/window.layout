@@ -20,19 +20,21 @@ PanelWidgetClass base_window {
    vexactsize 0
    style rover_sim_colorable
   }
-  FrameWidgetClass content {
+  PanelWidgetClass content {
    visible 1
+   ignorepointer 0
    color 1 1 1 1
    position 0 25
    size 1 1
    hexactpos 1
    vexactpos 1
    hexactsize 0
-   vexactsize 0
-   scriptclass "CF_FrameWidget"
+   vexactsize 1
+   scriptclass "CF_PanelWidget"
    {
     ScriptParamsClass {
      SubModel "m_Model"
+     Height "m_ContentHeight"
     }
    }
   }

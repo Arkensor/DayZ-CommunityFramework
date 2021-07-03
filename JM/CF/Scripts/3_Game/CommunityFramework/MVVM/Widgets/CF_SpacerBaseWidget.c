@@ -14,7 +14,10 @@ class CF_SpacerBaseWidget : CF_UIWidget
 	{
 		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + collection, evt.String());
 
-		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
+		CF_TypeConverter conv = collection.GetConverter(evt.Index);
+		if (!conv) return;
+
+		CF_ModelBase model = conv.GetManaged();
 
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
@@ -31,14 +34,18 @@ class CF_SpacerBaseWidget : CF_UIWidget
 	{
 		CF_Trace trace(this, "OnModel_Children_Set", "" + collection, evt.String());
 
-		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
+		CF_TypeConverter conv = collection.GetConverter(evt.Index);
+		if (!conv) return;
+
+		CF_ModelBase model = conv.GetManaged();
 
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
 		
 		CF_ViewModel vm = CF.MVVM.Create(model, layout, _SpacerBaseWidget);
+		CF_MVVM_View view = vm.GetView();
 
-		Widget widget = vm.GetView().GetWidget();
+		Widget widget = view.GetWidget();
 		Widget append = GetChildWidgetAt(evt.Index);
 		_SpacerBaseWidget.AddChildAfter(widget, append);
 		_SpacerBaseWidget.RemoveChild(append);

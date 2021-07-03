@@ -90,19 +90,17 @@ class CF_FrameWidget : CF_Widget
 		CF_ModelBase _model;
 		EnScript.GetClassVar(model, SubModel, 0, _model);
 
-		Print(_model);
-
 		if (_SubViewModel && _SubViewModel.GetModel() == _model) return;
 
 		if (_model != null)
 		{
-			string layoutPath;
+			string layoutPath = SubLayoutOverride;
 			if (layoutPath == string.Empty)
 			{
-				g_Script.CallFunction(model, "GetLayout", layoutPath, null);
+				g_Script.CallFunction(_model, "GetLayout", layoutPath, null);
 			}
 
-			_SubViewModel = CF.MVVM.Create(model, layoutPath, _Widget);
+			_SubViewModel = CF.MVVM.Create(_model, layoutPath, _Widget);
 		}
 		else if (_SubViewModel)
 		{

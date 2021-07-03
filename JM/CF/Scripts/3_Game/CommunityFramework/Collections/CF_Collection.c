@@ -6,6 +6,11 @@ class CF_Collection : Managed
 	{
 	}
 
+	string String()
+	{
+		return "[" + this + "]";
+	}
+
 	/*
 	 * @note Returns the same instance of Converter for every index, 
 	 * when called in sucession, the value is overwritten

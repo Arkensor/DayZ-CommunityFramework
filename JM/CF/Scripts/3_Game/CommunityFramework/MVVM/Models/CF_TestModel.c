@@ -18,10 +18,13 @@ class CF_TestModel : CF_Model
 	ref CF_ObservableArray<CF_TestItemModel> Test = new CF_ObservableArray<CF_TestItemModel>();
 
 	private CF_WindowHandle m_WindowHandle;
+	
+	void CF_TestModel()
+	{
+	}
 
 	void OpenWindow()
 	{
-		CF_Trace trace(this, "OpenWindow");
 		CF.Windows.Handle(m_WindowHandle);
 
 		CF_Window window;
@@ -60,7 +63,7 @@ class CF_TestModel : CF_Model
 
 	override string GetLayout()
 	{
-		return "JM/CF/GUI/layouts/samples/mvvm.layout";
+		return "JM/CF/GUI/layouts/mvvm/test.layout";
 	}
 };
 
@@ -87,6 +90,6 @@ class CF_TestItemModel : CF_Model
 
 	override string GetLayout()
 	{
-		return "JM/CF/GUI/layouts/samples/mvvm2.layout";
+		return "JM/CF/GUI/layouts/mvvm/testitem.layout";
 	}
 };

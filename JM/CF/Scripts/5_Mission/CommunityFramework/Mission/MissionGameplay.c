@@ -36,6 +36,10 @@ modded class MissionGameplay
 	{
 		CF.Windows._MissionInit();
 
+		#ifndef COMPONENT_SYSTEM
+		CF_TestModelInstance = new CF_TestModel();
+		#endif
+
 		GetModuleManager().OnMissionLoaded();
 	}
 

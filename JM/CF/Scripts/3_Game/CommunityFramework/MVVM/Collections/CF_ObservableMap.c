@@ -18,6 +18,18 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		CF.Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
+	override string String()
+	{
+		string str = super.String();
+		str += "Count: " + m_Count;
+		for (int i = 0; i < m_Count; i++)
+		{
+			str += " " + m_Keys[i] + ":";
+			str += " " + m_Values[i];
+		}
+		return str;
+	}
+
 	override CF_TypeConverter GetConverter(int index)
 	{
 		CF_Trace trace(this, "GetConverter", "" + index);
@@ -88,7 +100,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		
 		m_DataMap.Remove(key);
 
-		if (m_Keys.Count() > 0)
+		if (m_Keys.Count() > 0 && index < m_Data.Count())
 		{
 			m_DataMap[replaced] = index;
 			NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));

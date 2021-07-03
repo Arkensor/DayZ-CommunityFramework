@@ -1,3 +1,3 @@
-class CF_PanelWidget : CF_Widget
+class CF_PanelWidget : CF_FrameWidget
 {
 };

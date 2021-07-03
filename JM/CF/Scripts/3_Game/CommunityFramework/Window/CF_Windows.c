@@ -53,7 +53,7 @@ class CF_Windows
 	}
 
 	/**
-	 * Generates a handle ID for the window
+	 * @brief Generates a handle ID for the window if input not valid
 	 */
 	static void Handle(inout CF_WindowHandle handle)
 	{
@@ -66,33 +66,42 @@ class CF_Windows
 	}
 
 	/**
-	 * Retrieves the Window for the specified handle, if the window doesn't exist, creates it.
+	 * @brief Retrieves the Window for the specified handle, if the window doesn't exist, creates it.
+	 * 
+	 * @return True if the window was created, false if it already exists
 	 */
-	static void Retrieve(CF_WindowHandle handle)
+	static bool Retrieve(CF_WindowHandle handle)
 	{
 		CF_Trace trace(CF.Windows, "Retrieve", CF_WindowHandleToString(handle));
 		
-		if (s_Windows.Contains(handle)) return;
+		if (s_Windows.Contains(handle)) return false;
 
 		CF_Window window = new CF_Window(handle);
 		s_Windows.Insert(handle, window);
+		s_Z.InsertAt(handle, 0);
 
 		CF.MVVM.Create(window, window.GetLayout(), s_Container);
+
+		return true;
 	}
 
 	/**
-	 * Retrieves the Window for the specified handle, if the window doesn't exist, creates it.
+	 * @brief Retrieves the Window for the specified handle, if the window doesn't exist, creates it.
+	 * @return True if the window was created, false if it already exists
 	 */
-	static void Retrieve(CF_WindowHandle handle, out CF_Window window)
+	static bool Retrieve(CF_WindowHandle handle, out CF_Window window)
 	{
 		CF_Trace trace(CF.Windows, "Retrieve", CF_WindowHandleToString(handle));
 		
-		if (s_Windows.Find(handle, window)) return;
+		if (s_Windows.Find(handle, window)) return false;
 
 		window = new CF_Window(handle);
 		s_Windows.Insert(handle, window);
+		s_Z.InsertAt(handle, 0);
 
 		CF.MVVM.Create(window, window.GetLayout());
+
+		return true;
 	}
 
 	/**
@@ -106,6 +115,7 @@ class CF_Windows
 		if (!s_Windows.Find(handle, window)) return;
 
 		s_Windows.Remove(handle);
+		s_Z.RemoveItem(handle);
 
 		CF.MVVM.Destroy(window);
 	}
