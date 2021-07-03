@@ -24,6 +24,7 @@ class CommunityFramework
 
     static ref CF_MVVM MVVM;
     static ref CF_TypeConverters TypeConverters;
+    static ref CF_Windows Windows;
 
 	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
@@ -52,6 +53,7 @@ class CommunityFramework
 
         TypeConverters = TypeConverters._Init();
         MVVM = MVVM._Init();
+        Windows = Windows._Init();
 
         Log._Init();
 	}
@@ -79,6 +81,7 @@ class CommunityFramework
 		XML._Cleanup();
 
         MVVM._Cleanup();
+        Windows._Cleanup();
 
 		#ifdef CF_MODULE_PERMISSIONS
 		Permission._Cleanup();

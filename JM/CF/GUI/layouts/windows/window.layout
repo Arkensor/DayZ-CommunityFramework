@@ -20,7 +20,7 @@ PanelWidgetClass base_window {
    vexactsize 0
    style rover_sim_colorable
   }
-  PanelWidgetClass content {
+  FrameWidgetClass content {
    visible 1
    color 1 1 1 1
    position 0 25
@@ -29,10 +29,16 @@ PanelWidgetClass base_window {
    vexactpos 1
    hexactsize 0
    vexactsize 0
+   scriptclass "CF_FrameWidget"
+   {
+    ScriptParamsClass {
+     SubModel "m_Model"
+    }
+   }
   }
   PanelWidgetClass title_bar_drag {
-   ignorepointer 0
    visible 1
+   ignorepointer 0
    color 0 0 0 0
    position 0 0
    size 1 25
@@ -41,11 +47,19 @@ PanelWidgetClass base_window {
    hexactsize 0
    vexactsize 1
    draggable 1
+   scriptclass "CF_PanelWidget"
    style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_Drag "OnDrag"
+     Event_Dragging "OnDragging"
+     Event_Drop "OnDrop"
+    }
+   }
   }
   PanelWidgetClass title_wrapper {
-   ignorepointer 1
    visible 1
+   ignorepointer 1
    color 0.02 0.02 0.06 1
    position 0 0
    size 1 25
@@ -67,6 +81,7 @@ PanelWidgetClass base_window {
      vexactpos 0
      hexactsize 0
      vexactsize 0
+     scriptclass "CF_TextWidget"
      style Normal
      text "Placeholder Title"
      font "gui/fonts/sdf_MetronLight24"
@@ -74,12 +89,17 @@ PanelWidgetClass base_window {
      "exact text size" 18
      "text halign" left
      "text valign" center
+     {
+      ScriptParamsClass {
+       Text "Title"
+      }
+     }
     }
     ButtonWidgetClass close_button {
-     ignorepointer 0
      visible 1
+     ignorepointer 0
      color 1 0 0 1
-     position 6 0
+     position 6 1
      size 25 25
      halign right_ref
      valign center_ref
@@ -87,6 +107,7 @@ PanelWidgetClass base_window {
      vexactpos 1
      hexactsize 1
      vexactsize 1
+     scriptclass "CF_ButtonWidget"
      style Default
      {
       ImageWidgetClass close_button_image {
@@ -102,6 +123,12 @@ PanelWidgetClass base_window {
        "src alpha" 1
       }
      }
+     {
+      ScriptParamsClass {
+       Event_Click "OnCloseButtonClicked"
+       State "CloseButton"
+      }
+     }
     }
    }
   }
@@ -109,6 +136,13 @@ PanelWidgetClass base_window {
  {
   ScriptParamsClass {
    Model "CF_Window"
+   Event_MouseButtonDown "OnMouseButtonDown"
+   Event_Update "OnUpdate"
+   Sort "m_Sort"
+   PositionX "m_PositionX"
+   PositionY "m_PositionY"
+   Width "m_Width"
+   Height "m_Height"
   }
  }
 }

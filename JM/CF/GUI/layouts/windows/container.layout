@@ -1,0 +1,13 @@
+PanelWidgetClass windows_container {
+ ignorepointer 1
+ visible 1
+ color 0 0 0 0
+ position 0 0
+ size 1 1
+ halign left_ref
+ valign top_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+}

@@ -4,3 +4,4 @@
 #define CF_GHOSTICONS
 
 #define CF_MVVM
+#define CF_WINDOWS

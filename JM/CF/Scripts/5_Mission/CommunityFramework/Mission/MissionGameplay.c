@@ -29,10 +29,13 @@ modded class MissionGameplay
 		super.OnMissionFinish();
 
 		GetModuleManager().OnMissionFinish();
+		CF.Windows._MissionCleanup();
 	}
 
 	void OnMissionLoaded()
 	{
+		CF.Windows._MissionInit();
+
 		GetModuleManager().OnMissionLoaded();
 	}
 
