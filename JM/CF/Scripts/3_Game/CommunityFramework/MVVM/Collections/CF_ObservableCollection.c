@@ -15,7 +15,7 @@ class CF_ObservableCollection : CF_Collection
 		m_Property = prop;
 	}
 
-	void NotifyCollectionChanged(CF_CollectionEvent evt)
+	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
 	{
 		CF_Trace trace(this, "NotifyCollectionChanged", evt.String());
 

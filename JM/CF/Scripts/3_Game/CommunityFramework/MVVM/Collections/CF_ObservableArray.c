@@ -41,7 +41,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	{
 		m_Data.Clear();
 
-		NotifyCollectionChanged(new CF_CollectionClearEvent());
+		NotifyCollectionChanged(new CF_CollectionClearEventArgs());
 	}
 
 	/*!
@@ -51,7 +51,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	{
 		m_Data.Set(n, value);
 
-		NotifyCollectionChanged(new CF_CollectionSetEvent(n));
+		NotifyCollectionChanged(new CF_CollectionSetEventArgs(n));
 	}
 
 	/*!
@@ -82,7 +82,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	{
 		int index = m_Data.Insert(value);
 
-		NotifyCollectionChanged(new CF_CollectionInsertEvent(index));
+		NotifyCollectionChanged(new CF_CollectionInsertEventArgs(index));
 	}
 
 	/*!
@@ -99,7 +99,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	{
 		int idx = m_Data.InsertAt(value, index);
 
-		NotifyCollectionChanged(new CF_CollectionInsertAtEvent(idx));
+		NotifyCollectionChanged(new CF_CollectionInsertAtEventArgs(idx));
 
 		return idx;
 	}
@@ -152,11 +152,11 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	void Remove(int index)
 	{
-		if (m_Data.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
+		if (m_Data.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
 
 		m_Data.Remove(index);
 
-		if (m_Data.Count() > 0) NotifyCollectionChanged(new CF_CollectionSetEvent(index));
+		if (m_Data.Count() > 0) NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 	}
 
 	/*!
@@ -167,7 +167,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	void RemoveOrdered(int index)
 	{
-		NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
+		NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
 
 		m_Data.RemoveOrdered(index);
 	}
@@ -288,7 +288,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 
 	void SwapItems(int item1_index, int item2_index)
 	{
-		NotifyCollectionChanged(new CF_CollectionSwapEvent(item1_index, item2_index));
+		NotifyCollectionChanged(new CF_CollectionSwapEventArgs(item1_index, item2_index));
 
 		m_Data.SwapItems(item1_index, item2_index);
 	}

@@ -29,7 +29,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 		{
 			value = m_Data[m_Count - 1];
 
-			NotifyCollectionChanged(new CF_CollectionRemoveEvent(m_Count - 1));
+			NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(m_Count - 1));
 
 			m_Count--;
 		}
@@ -46,7 +46,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 	{
 		m_Data[m_Count] = value;
 
-		NotifyCollectionChanged(new CF_CollectionInsertEvent(m_Count));
+		NotifyCollectionChanged(new CF_CollectionInsertEventArgs(m_Count));
 
 		m_Count++;
 
@@ -65,7 +65,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 	{
 		m_Count = 0;
 
-		NotifyCollectionChanged(new CF_CollectionClearEvent());
+		NotifyCollectionChanged(new CF_CollectionClearEventArgs());
 	}
 
 	T Get(int index)
@@ -77,7 +77,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 	{
 		m_Data[index] = value;
 
-		NotifyCollectionChanged(new CF_CollectionSetEvent(index));
+		NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 	}
 
 	override int Count()

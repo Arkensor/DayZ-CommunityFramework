@@ -16,7 +16,7 @@ class CF_Model : Managed
 		CF.MVVM.Destroy(this);
 	}
 
-	void NotifyPropertyChanged(string property, CF_Event evt = null)
+	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
 	{
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
 		

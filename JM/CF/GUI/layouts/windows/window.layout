@@ -1,0 +1,114 @@
+PanelWidgetClass base_window {
+ visible 1
+ color 0 0 0 0
+ size 1 1
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ scriptclass "CF_PanelWidget"
+ {
+  PanelWidgetClass background {
+   visible 1
+   ignorepointer 1
+   color 0.06 0.08 0.11 0.8
+   position 0 0
+   size 1 1
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   style rover_sim_colorable
+  }
+  PanelWidgetClass content {
+   visible 1
+   color 1 1 1 1
+   position 0 25
+   size 1 1
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+  }
+  PanelWidgetClass title_bar_drag {
+   ignorepointer 0
+   visible 1
+   color 0 0 0 0
+   position 0 0
+   size 1 25
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   style rover_sim_colorable
+  }
+  PanelWidgetClass title_wrapper {
+   ignorepointer 1
+   visible 1
+   color 0.02 0.02 0.06 1
+   position 0 0
+   size 1 25
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   draggable 0
+   style rover_sim_colorable
+   {
+    TextWidgetClass title_text {
+     ignorepointer 1
+     color 1 1 1 1
+     position 6 0
+     size 1 1
+     halign left_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     style Normal
+     text "Placeholder Title"
+     font "gui/fonts/sdf_MetronLight24"
+     "exact text" 1
+     "exact text size" 18
+     "text halign" left
+     "text valign" center
+    }
+    ButtonWidgetClass close_button {
+     ignorepointer 0
+     visible 1
+     color 1 0 0 1
+     position 6 0
+     size 25 25
+     halign right_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style Default
+     {
+      ImageWidgetClass close_button_image {
+       ignorepointer 1
+       position 0 0
+       size 1 1
+       halign right_ref
+       valign center_ref
+       hexactsize 0
+       vexactsize 0
+       image0 "set:dayz_gui image:icon_x"
+       mode additive
+       "src alpha" 1
+      }
+     }
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Model "CF_Window"
+  }
+ }
+}

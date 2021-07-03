@@ -18,14 +18,14 @@ class CF_EditBoxWidget : CF_UIWidget
 		Class.CastTo(_EditBoxWidget, w);
 	}
 
-	void OnView_Text(CF_ModelBase model, CF_Event evt)
+	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.SetString(_EditBoxWidget.GetText());
 		pType.ToVariable(model, Text);
 	}
 
-	void OnModel_Text(CF_ModelBase model, CF_Event evt)
+	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.FromVariable(model, Text);
@@ -33,7 +33,7 @@ class CF_EditBoxWidget : CF_UIWidget
 		_EditBoxWidget.SetText(_Text);
 	}
 
-	override bool OnChange(CF_ChangeEvent evt)
+	override bool OnChange(CF_ChangeEventArgs evt)
 	{
 		CF_Trace trace(this, "OnChange", evt.String());
 

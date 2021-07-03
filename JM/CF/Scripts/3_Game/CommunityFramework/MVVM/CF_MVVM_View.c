@@ -16,11 +16,11 @@ class CF_MVVM_View
 	private bool m_IsRoot;
 
 	//! Lifetimes are managed by the enfusion widgets
-	private CF_MVVM_View m_Parent = null;
-	private ref set<CF_MVVM_View> m_Children = new set<CF_MVVM_View>();
+	protected CF_MVVM_View m_Parent = null;
+	protected ref set<CF_MVVM_View> m_Children = new set<CF_MVVM_View>();
 
-	private ref array<ref CF_MVVM_Property> m_Properties;
-	private map<string, ref CF_MVVM_Property> m_PropertiesMap;
+	protected ref array<ref CF_MVVM_Property> m_Properties;
+	protected map<string, ref CF_MVVM_Property> m_PropertiesMap;
 
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -70,7 +70,7 @@ class CF_MVVM_View
 	{
 		CF_Trace trace(this, "~CF_MVVM_View");
 
-		if (m_ViewModel)
+		if (m_ViewModel && m_Widget)
 		{
 			m_ViewModel.OnHide(m_Widget);
 			m_ViewModel.OnDestroyed(m_Widget);
@@ -82,7 +82,7 @@ class CF_MVVM_View
 		#endif
 	}
 
-	void NotifyPropertyChanged(string name, CF_Event evt = null)
+	void NotifyPropertyChanged(string name, CF_EventArgs evt = null)
 	{
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name);
 
@@ -202,23 +202,27 @@ class CF_MVVM_View
 	 * 
 	 * @note	
 	 */
-	void OnView_Children(CF_ModelBase model, CF_Event evt)
+	void OnView_Children(CF_ModelBase model, CF_EventArgs evt)
 	{
 		// Handled automatically.
 	}
 
-	void OnModel_Children(CF_ModelBase model, CF_Event evt)
+	void OnModel_Children(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Children", "" + model, evt.ClassName());
-
-		CF_CollectionEvent cevt;
-		if (!Class.CastTo(cevt, evt)) return;
 
 		CF_ObservableCollection _collection;
 		EnScript.GetClassVar(model, Children, 0, _collection);
 		if (!_collection) return;
 
-		cevt.Process(this, model, _collection);
+		CF_CollectionEventArgs cevt;
+		if (Class.CastTo(cevt, evt))
+		{
+			cevt.Process(this, model, _collection);
+			return;
+		}
+
+		OnModel_Children_InsertAll(_collection);
 	}
 
 	Widget GetChildWidgetAt(int index)
@@ -234,7 +238,19 @@ class CF_MVVM_View
 		return widget;
 	}
 
-	void OnModel_Children_Insert(CF_ObservableCollection collection, CF_CollectionInsertEvent evt)
+	void OnModel_Children_InsertAll(CF_ObservableCollection collection)
+	{
+		for (int i = 0; i < collection.Count(); i++)
+		{
+			CF_ModelBase model = collection.GetConverter(i).GetManaged();
+			
+			string layout;
+			g_Script.CallFunction(model, "GetLayout", layout, null);
+			CF.MVVM.Create(model, layout, m_Widget);
+		}
+	}
+
+	void OnModel_Children_Insert(CF_ObservableCollection collection, CF_CollectionInsertEventArgs evt)
 	{
 		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
 		
@@ -243,12 +259,12 @@ class CF_MVVM_View
 		CF.MVVM.Create(model, layout, m_Widget);
 	}
 
-	void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEvent evt)
+	void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
 	{
 		CF.Log.Error("Function not implemented");
 	}
 
-	void OnModel_Children_Clear(CF_ObservableCollection collection, CF_CollectionClearEvent evt)
+	void OnModel_Children_Clear(CF_ObservableCollection collection, CF_CollectionClearEventArgs evt)
 	{		
 		Widget child = m_Widget.GetChildren();
 		while (child != null)
@@ -265,12 +281,12 @@ class CF_MVVM_View
 		}
 	}
 
-	void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEvent evt)
+	void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEventArgs evt)
 	{
 		CF.Log.Error("Function not implemented");
 	}
 
-	void OnModel_Children_Remove(CF_ObservableCollection collection, CF_CollectionRemoveEvent evt)
+	void OnModel_Children_Remove(CF_ObservableCollection collection, CF_CollectionRemoveEventArgs evt)
 	{
 		Widget widget = GetChildWidgetAt(evt.Index);
 		if (!widget) return;
@@ -278,7 +294,7 @@ class CF_MVVM_View
 		m_Widget.RemoveChild(widget);
 	}
 
-	void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEvent evt)
+	void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEventArgs evt)
 	{
 		CF.Log.Error("Function not implemented");
 	}
@@ -290,30 +306,30 @@ class CF_MVVM_View
 	 * 			events require reverse cancellation. For example, if 'Continue' is set to 'false'
 	 * 			for 'OnChange' in 'CF_EditBoxWidget', then input must be prevented.
 	 */
-	bool OnClick(CF_MouseEvent evt) { return true; }
-	bool OnModalResult(CF_ModalEvent evt) { return true; }
-	bool OnDoubleClick(CF_MouseEvent evt) { return true; }
-	bool OnSelect(CF_SelectEvent evt) { return true; }
-	bool OnItemSelected(CF_ItemSelectEvent evt) { return true; }
-	bool OnFocus(CF_PositionEvent evt) { return true; }
-	bool OnFocusLost(CF_PositionEvent evt) { return true; }
-	bool OnMouseEnter(CF_MouseEvent evt) { return true; }
-	bool OnMouseLeave(CF_MouseEvent evt) { return true; }
-	bool OnMouseWheel(CF_MouseEvent evt) { return true; }
-	bool OnMouseButtonDown(CF_MouseEvent evt) { return true; }
-	bool OnMouseButtonUp(CF_MouseEvent evt) { return true; }
-	bool OnController(CF_ControllerEvent evt) { return true; }
-	bool OnKeyDown(CF_KeyEvent evt) { return true; }
-	bool OnKeyUp(CF_KeyEvent evt) { return true; }
-	bool OnKeyPress(CF_KeyEvent evt) { return true; }
-	bool OnChange(CF_ChangeEvent evt) { return true; }
-	bool OnDrag(CF_DragEvent evt) { return true; }
-	bool OnDragging(CF_DragEvent evt) { return true; }
-	bool OnDraggingOver(CF_DragEvent evt) { return true; }
-	bool OnDrop(CF_DragEvent evt) { return true; }
-	bool OnDropReceived(CF_DragEvent evt) { return true; }
-	bool OnResize(CF_ResizeEvent evt) { return true; }
-	bool OnChildAdd(CF_ChildEvent evt) { return true; }
-	bool OnChildRemove(CF_ChildEvent evt) { return true; }
-	bool OnUpdate(CF_ViewEvent evt) { return true; }
+	bool OnClick(CF_MouseEventArgs evt) { return true; }
+	bool OnModalResult(CF_ModalEventArgs evt) { return true; }
+	bool OnDoubleClick(CF_MouseEventArgs evt) { return true; }
+	bool OnSelect(CF_SelectEventArgs evt) { return true; }
+	bool OnItemSelected(CF_ItemSelectEventArgs evt) { return true; }
+	bool OnFocus(CF_PositionEventArgs evt) { return true; }
+	bool OnFocusLost(CF_PositionEventArgs evt) { return true; }
+	bool OnMouseEnter(CF_MouseEventArgs evt) { return true; }
+	bool OnMouseLeave(CF_MouseEventArgs evt) { return true; }
+	bool OnMouseWheel(CF_MouseEventArgs evt) { return true; }
+	bool OnMouseButtonDown(CF_MouseEventArgs evt) { return true; }
+	bool OnMouseButtonUp(CF_MouseEventArgs evt) { return true; }
+	bool OnController(CF_ControllerEventArgs evt) { return true; }
+	bool OnKeyDown(CF_KeyEventArgs evt) { return true; }
+	bool OnKeyUp(CF_KeyEventArgs evt) { return true; }
+	bool OnKeyPress(CF_KeyEventArgs evt) { return true; }
+	bool OnChange(CF_ChangeEventArgs evt) { return true; }
+	bool OnDrag(CF_DragEventArgs evt) { return true; }
+	bool OnDragging(CF_DragEventArgs evt) { return true; }
+	bool OnDraggingOver(CF_DragEventArgs evt) { return true; }
+	bool OnDrop(CF_DragEventArgs evt) { return true; }
+	bool OnDropReceived(CF_DragEventArgs evt) { return true; }
+	bool OnResize(CF_ResizeEventArgs evt) { return true; }
+	bool OnChildAdd(CF_ChildEventArgs evt) { return true; }
+	bool OnChildRemove(CF_ChildEventArgs evt) { return true; }
+	bool OnUpdate(CF_ViewEventArgs evt) { return true; }
 };

@@ -1,4 +1,4 @@
-class CF_CollectionEvent : CF_Event
+class CF_CollectionEventArgs : CF_EventArgs
 {
 	override string String()
 	{

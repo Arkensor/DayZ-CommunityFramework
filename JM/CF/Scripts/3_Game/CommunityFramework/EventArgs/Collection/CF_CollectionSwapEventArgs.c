@@ -1,9 +1,9 @@
-class CF_CollectionSwapEvent : CF_CollectionEvent
+class CF_CollectionSwapEventArgs : CF_CollectionEventArgs
 {
 	int IndexA;
 	int IndexB;
 
-	void CF_CollectionSwapEvent(int indexa, int indexb)
+	void CF_CollectionSwapEventArgs(int indexa, int indexb)
 	{
 		IndexA = indexa;
 		IndexB = indexb;

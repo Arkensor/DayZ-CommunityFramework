@@ -1,4 +1,4 @@
-class CF_ViewEvent : CF_Event
+class CF_ViewEventArgs : CF_EventArgs
 {
 	Widget Target;
 	bool Continue = true;

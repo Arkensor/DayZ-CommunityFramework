@@ -194,13 +194,15 @@ class CF_MVVM
 
 		if (!viewModel._DestroyView())
 		{
-			_Destroy(viewModel);
+			_Destroy(viewModel, false);
 		}
 	}
 
-	static void _Destroy(CF_ViewModel viewModel)
+	static void _Destroy(CF_ViewModel viewModel, bool forceUI = false)
 	{
-		CF_Trace trace(CF.MVVM, "_Destroy", "" + viewModel);
+		CF_Trace trace(CF.MVVM, "_Destroy", "" + viewModel, "" + forceUI);
+
+		if (forceUI && viewModel._DestroyView()) return;
 
 		m_ViewModelMap.Remove(viewModel.GetModel());
 		int idx = m_ViewModels.Find(viewModel);
@@ -243,7 +245,7 @@ class CF_MVVM
 	}
 	#endif
 
-	static void NotifyPropertyChanged(CF_ModelBase model, string property, CF_Event evt = null)
+	static void NotifyPropertyChanged(CF_ModelBase model, string property, CF_EventArgs evt = null)
 	{
 		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + property);
 

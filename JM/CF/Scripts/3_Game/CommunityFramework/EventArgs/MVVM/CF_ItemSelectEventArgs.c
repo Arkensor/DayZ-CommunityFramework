@@ -1,4 +1,4 @@
-class CF_ItemSelectEvent : CF_PositionEvent
+class CF_ItemSelectEventArgs : CF_PositionEventArgs
 {
 	int Row;
 	int Column;

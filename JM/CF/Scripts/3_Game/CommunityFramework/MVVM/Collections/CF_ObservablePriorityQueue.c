@@ -26,7 +26,7 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 	{
 		m_Data[m_Count] = new Param2<ref T, float>(item, priority);
 		
-		NotifyCollectionChanged(new CF_CollectionInsertEvent(m_Count));
+		NotifyCollectionChanged(new CF_CollectionInsertEventArgs(m_Count));
 
 		m_Count++;
 	}
@@ -45,16 +45,16 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 
 		T bestItem = m_Data[bestIndex].param1;
 
-		NotifyCollectionChanged(new CF_CollectionRemoveEvent(bestIndex));
+		NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(bestIndex));
 
 		m_Count--;
 
-		//NotifyCollectionChanged(new CF_CollectionRemoveEvent(m_Count));
+		//NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(m_Count));
 
 		m_Data[bestIndex] = m_Data[m_Count];
 		m_Data[m_Count] = null;
 
-		NotifyCollectionChanged(new CF_CollectionSetEvent(bestIndex));
+		NotifyCollectionChanged(new CF_CollectionSetEventArgs(bestIndex));
 
 		return bestItem;
 	}

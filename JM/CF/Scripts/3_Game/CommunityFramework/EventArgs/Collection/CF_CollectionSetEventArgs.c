@@ -1,12 +1,16 @@
-class CF_CollectionClearEvent : CF_CollectionEvent
+class CF_CollectionSetEventArgs : CF_CollectionEventArgs
 {
-	void CF_CollectionClearEvent()
+	int Index;
+
+	void CF_CollectionSetEventArgs(int index)
 	{
+		Index = index;
 	}
 
 	override string String()
 	{
 		string str = super.String();
+		str += " Index=" + Index;
 		return str;
 	}
 
@@ -14,6 +18,6 @@ class CF_CollectionClearEvent : CF_CollectionEvent
 	{
 		CF_Trace trace(this, "Process", "" + model, "" + collection, String());
 
-		view.OnModel_Children_Clear(collection, this);
+		view.OnModel_Children_Set(collection, this);
 	}
 };

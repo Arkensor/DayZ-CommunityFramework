@@ -1,4 +1,4 @@
-class CF_KeyEvent : CF_PositionEvent
+class CF_KeyEventArgs : CF_PositionEventArgs
 {
 	int Key;
 	CF_KeyState State;

@@ -1,4 +1,4 @@
-class CF_ChangeEvent : CF_PositionEvent
+class CF_ChangeEventArgs : CF_PositionEventArgs
 {
 	bool Finished;
 

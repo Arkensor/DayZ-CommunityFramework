@@ -1,8 +1,8 @@
-class CF_CollectionSetEvent : CF_CollectionEvent
+class CF_CollectionInsertAtEventArgs : CF_CollectionEventArgs
 {
 	int Index;
 
-	void CF_CollectionSetEvent(int index)
+	void CF_CollectionInsertAtEventArgs(int index)
 	{
 		Index = index;
 	}
@@ -18,6 +18,6 @@ class CF_CollectionSetEvent : CF_CollectionEvent
 	{
 		CF_Trace trace(this, "Process", "" + model, "" + collection, String());
 
-		view.OnModel_Children_Set(collection, this);
+		view.OnModel_Children_InsertAt(collection, this);
 	}
 };

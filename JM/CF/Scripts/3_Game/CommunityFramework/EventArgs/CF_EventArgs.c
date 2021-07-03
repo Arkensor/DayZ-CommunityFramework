@@ -1,4 +1,4 @@
-class CF_Event
+class CF_EventArgs
 {
 	string String()
 	{

@@ -8,7 +8,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		Class.CastTo(_SpacerBaseWidget, w);
 	}
 
-	override void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEvent evt)
+	override void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
 	{
 		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
 
@@ -23,7 +23,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		_SpacerBaseWidget.AddChildAfter(widget, append);
 	}
 
-	override void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEvent evt)
+	override void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEventArgs evt)
 	{
 		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
 
@@ -38,7 +38,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		_SpacerBaseWidget.RemoveChild(append);
 	}
 	
-	override void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEvent evt)
+	override void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEventArgs evt)
 	{
 		if (evt.IndexA == evt.IndexB) return;
 		

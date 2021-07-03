@@ -24,50 +24,50 @@ class CF_PlayerPreviewWidget : CF_Widget
 		Class.CastTo(_PlayerPreviewWidget, w);
 	}
 
-	void OnView_Player(CF_ModelBase model, CF_Event evt)
+	void OnView_Player(CF_ModelBase model, CF_EventArgs evt)
 	{
 		DayZPlayer _value = _PlayerPreviewWidget.GetDummyPlayer();
 		EnScript.SetClassVar(model, Player, 0, _value);
 	}
 
-	void OnModel_Player(CF_ModelBase model, CF_Event evt)
+	void OnModel_Player(CF_ModelBase model, CF_EventArgs evt)
 	{
 		DayZPlayer _value;
 		EnScript.GetClassVar(model, Player, 0, _value);
 		_PlayerPreviewWidget.SetPlayer(_value);
 	}
 
-	void OnView_HandItem(CF_ModelBase model, CF_Event evt)
+	void OnView_HandItem(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.SetClassVar(model, HandItem, 0, _HandItem);
 	}
 
-	void OnModel_HandItem(CF_ModelBase model, CF_Event evt)
+	void OnModel_HandItem(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.GetClassVar(model, HandItem, 0, _HandItem);
 		_PlayerPreviewWidget.UpdateItemInHands(_HandItem);
 	}
 
-	void OnView_Orientation(CF_ModelBase model, CF_Event evt)
+	void OnView_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
 		vector _value = _PlayerPreviewWidget.GetModelOrientation();
 		EnScript.SetClassVar(model, Orientation, 0, _value);
 	}
 
-	void OnModel_Orientation(CF_ModelBase model, CF_Event evt)
+	void OnModel_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
 		vector _value;
 		EnScript.GetClassVar(model, Orientation, 0, _value);
 		_PlayerPreviewWidget.SetModelOrientation(_value);
 	}
 
-	void OnView_Position(CF_ModelBase model, CF_Event evt)
+	void OnView_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		vector _value = _PlayerPreviewWidget.GetModelPosition();
 		EnScript.SetClassVar(model, Position, 0, _value);
 	}
 
-	void OnModel_Position(CF_ModelBase model, CF_Event evt)
+	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		vector _value;
 		EnScript.GetClassVar(model, Position, 0, _value);

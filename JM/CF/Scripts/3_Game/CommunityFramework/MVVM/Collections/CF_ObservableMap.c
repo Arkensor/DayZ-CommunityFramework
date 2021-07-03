@@ -63,7 +63,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		if (Contains(key))
 		{
 			m_Values[m_DataMap[key]] = value;
-			NotifyCollectionChanged(new CF_CollectionSetEvent(m_DataMap[key]));
+			NotifyCollectionChanged(new CF_CollectionSetEventArgs(m_DataMap[key]));
 		}
 		else
 		{
@@ -71,7 +71,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 			m_Keys.Insert(key);
 			m_Values.Insert(value);
 			m_DataMap.Insert(key, idx);
-			NotifyCollectionChanged(new CF_CollectionInsertEvent(m_DataMap[key]));
+			NotifyCollectionChanged(new CF_CollectionInsertEventArgs(m_DataMap[key]));
 		}
 	}
 
@@ -79,7 +79,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 	{
 		int index = m_DataMap[key];
 
-		if (m_Keys.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEvent(index));
+		if (m_Keys.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
 		
 		TKey replaced = m_Keys[m_Keys.Count() - 1];
 
@@ -91,7 +91,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		if (m_Keys.Count() > 0)
 		{
 			m_DataMap[replaced] = index;
-			NotifyCollectionChanged(new CF_CollectionSetEvent(index));
+			NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 		}
 	}
 
@@ -112,7 +112,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 	void Clear()
 	{
-		NotifyCollectionChanged(new CF_CollectionClearEvent());
+		NotifyCollectionChanged(new CF_CollectionClearEventArgs());
 
 		m_Values.Clear();
 		m_Keys.Clear();

@@ -1,4 +1,4 @@
-class CF_DragEvent : CF_PositionEvent
+class CF_DragEventArgs : CF_PositionEventArgs
 {
 	Widget Reciever;
 

@@ -28,13 +28,13 @@ class CF_CanvasWidget : CF_Widget
 		Class.CastTo(_CanvasWidget, w);
 	}
 
-	void OnView_Lines(CF_ModelBase model, CF_Event evt)
+	void OnView_Lines(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.SetClassVar(model, Lines, 0, _Lines);
 	}
 
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
-	void OnModel_Lines(CF_ModelBase model, CF_Event evt)
+	void OnModel_Lines(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.GetClassVar(model, Lines, 0, _Lines);
 

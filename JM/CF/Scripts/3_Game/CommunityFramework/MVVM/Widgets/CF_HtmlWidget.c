@@ -18,12 +18,12 @@ class CF_HtmlWidget : CF_TextWidget
 		Class.CastTo(_HtmlWidget, w);
 	}
 
-	void OnView_File(CF_ModelBase model, CF_Event evt)
+	void OnView_File(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.SetClassVar(model, File, 0, _File);
 	}
 
-	void OnModel_File(CF_ModelBase model, CF_Event evt)
+	void OnModel_File(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.GetClassVar(model, File, 0, _File);
 		_HtmlWidget.LoadFile(_File);

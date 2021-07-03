@@ -1,4 +1,4 @@
-class CF_ModalEvent : CF_PositionEvent
+class CF_ModalEventArgs : CF_PositionEventArgs
 {
 	int Code;
 	int Result;

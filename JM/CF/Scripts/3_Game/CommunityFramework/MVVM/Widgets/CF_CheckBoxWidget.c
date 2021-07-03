@@ -5,6 +5,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	protected CheckBoxWidget _CheckBoxWidget;
 	protected string _Text;
+	protected bool _Checked;
 
 	override void GetProperties()
 	{
@@ -20,30 +21,42 @@ class CF_CheckBoxWidget : CF_UIWidget
 		Class.CastTo(_CheckBoxWidget, w);
 	}
 
-	void OnView_Text(CF_ModelBase model, CF_Event evt)
+	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.SetString(_Text);
 		pType.ToVariable(model, Text);
 	}
 
-	void OnModel_Text(CF_ModelBase model, CF_Event evt)
+	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.FromVariable(model, Text);
 		_CheckBoxWidget.SetText(pType.GetString());
 	}
 
-	void OnView_Checked(CF_ModelBase model, CF_Event evt)
+	void OnView_Checked(CF_ModelBase model, CF_EventArgs evt)
 	{
-		bool _value = _CheckBoxWidget.IsChecked();
-		EnScript.SetClassVar(model, Checked, 0, _value);
+		EnScript.SetClassVar(model, Checked, 0, _Checked);
 	}
 
-	void OnModel_Checked(CF_ModelBase model, CF_Event evt)
+	void OnModel_Checked(CF_ModelBase model, CF_EventArgs evt)
 	{
-		bool _value;
-		EnScript.GetClassVar(model, Checked, 0, _value);
-		_CheckBoxWidget.SetChecked(_value);
+		EnScript.GetClassVar(model, Checked, 0, _Checked);
+		_CheckBoxWidget.SetChecked(_Checked);
+	}
+
+	override bool OnChange(CF_ChangeEventArgs evt)
+	{
+		CF_Trace trace(this, "OnChange", evt.String());
+
+		if (evt.Continue)
+		{
+			_Checked = _CheckBoxWidget.IsChecked();
+		}
+
+		NotifyPropertyChanged("_Checked");
+
+		return true;
 	}
 };

@@ -30,12 +30,12 @@ class CF_MapWidget : CF_BaseListboxWidget
 		Class.CastTo(_MapWidget, w);
 	}
 
-	void OnView_UserMarks(CF_ModelBase model, CF_Event evt)
+	void OnView_UserMarks(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.SetClassVar(model, UserMarks, 0, _UserMarks);
 	}
 
-	void OnModel_UserMarks(CF_ModelBase model, CF_Event evt)
+	void OnModel_UserMarks(CF_ModelBase model, CF_EventArgs evt)
 	{
 		EnScript.GetClassVar(model, UserMarks, 0, _UserMarks);
 
@@ -49,26 +49,26 @@ class CF_MapWidget : CF_BaseListboxWidget
 		}
 	}
 	
-	void OnView_Position(CF_ModelBase model, CF_Event evt)
+	void OnView_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		vector _value = _MapWidget.GetMapPos();
 		EnScript.SetClassVar(model, Position, 0, _value);
 	}
 
-	void OnModel_Position(CF_ModelBase model, CF_Event evt)
+	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		vector _value;
 		EnScript.GetClassVar(model, Position, 0, _value);
 		_MapWidget.SetMapPos(_value);
 	}
 	
-	void OnView_Scale(CF_ModelBase model, CF_Event evt)
+	void OnView_Scale(CF_ModelBase model, CF_EventArgs evt)
 	{
 		float _value = _MapWidget.GetScale();
 		EnScript.SetClassVar(model, Scale, 0, _value);
 	}
 
-	void OnModel_Scale(CF_ModelBase model, CF_Event evt)
+	void OnModel_Scale(CF_ModelBase model, CF_EventArgs evt)
 	{
 		float _value;
 		EnScript.GetClassVar(model, Scale, 0, _value);

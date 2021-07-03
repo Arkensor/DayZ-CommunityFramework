@@ -1,4 +1,4 @@
-class CF_MouseEvent : CF_PositionEvent
+class CF_MouseEventArgs : CF_PositionEventArgs
 {
 	/**
 	 * @brief OnClick, OnDoubleClick, OnMouseButtonDown, OnMouseButtonUp

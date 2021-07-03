@@ -1,8 +1,8 @@
-class CF_CollectionRemoveEvent : CF_CollectionEvent
+class CF_CollectionRemoveEventArgs : CF_CollectionEventArgs
 {
 	int Index;
 
-	void CF_CollectionRemoveEvent(int index)
+	void CF_CollectionRemoveEventArgs(int index)
 	{
 		Index = index;
 	}

@@ -1,4 +1,4 @@
-class CF_ChildEvent : CF_PositionEvent
+class CF_ChildEventArgs : CF_PositionEventArgs
 {
 	Widget Child;
 	bool Remove;
