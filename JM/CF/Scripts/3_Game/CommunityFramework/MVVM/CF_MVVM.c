@@ -21,7 +21,11 @@ class CF_MVVM
 		
 		s_PropertyMap = new map<typename, ref map<string, ref CF_TypeConverter>>();
 
+		CF.Log.Set(0x001111);
+		
+    	#ifdef COMPONENT_SYSTEM
 		CF.Log.Set(CF_LogLevel.ALL);
+		#endif
 
 		return new CF_MVVM();
 	}
@@ -174,7 +178,13 @@ class CF_MVVM
 			typename variableType = type.GetVariableType(i);
 
 			CF_MVVM_Property property;
-			if (!propertyMap.Find(variableName, property)) continue;
+			if (!propertyMap.Find(variableName, property))
+			{
+				if (!variableType.IsInherited(Widget)) continue;
+
+				property = new CF_MVVM_WidgetProperty(null, variableName);
+				propertyMap.Insert(variableName, property);
+			}
 
 			property.SetVariableName(variableName);
 			property.SetType(variableType);
@@ -236,10 +246,8 @@ class CF_MVVM
 
 	static void _CheckInit()
 	{
-		Print("CHECKING INIT");
 		if (s_ViewModels == null && s_ViewModelMap == null)
 		{
-			Print("NEED INIT");
 			CF._GameInit();
 		}
 	}
