@@ -7,6 +7,8 @@ class CF_EditBoxWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
+		CF_Trace trace(this, "GetProperties");
+
 		super.GetProperties();
 		
 		AddProperty(Text, "Text");
@@ -14,12 +16,16 @@ class CF_EditBoxWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_EditBoxWidget, w);
 	}
 
 	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
+		CF_Trace trace(this, "OnView_Text", "" + model, evt.String());
+		
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.SetString(_EditBoxWidget.GetText());
 		pType.ToVariable(model, Text);
@@ -27,6 +33,8 @@ class CF_EditBoxWidget : CF_UIWidget
 
 	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Text", "" + model, evt.String());
+		
 		auto pType = CF.MVVM.GetPropertyType(model, Text);
 		pType.FromVariable(model, Text);
 		_Text = pType.GetString();

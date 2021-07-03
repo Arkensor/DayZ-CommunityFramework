@@ -1,3 +1,8 @@
+
+#ifndef COMPONENT_SYSTEM
+static ref CF_TestModel CF_TestModelInstance = new CF_TestModel();
+#endif
+
 /**
  * @brief Inheriting from 'CF_Model' is not a requirement, must re-implement the 'GetLayout' method.
  */
@@ -11,6 +16,24 @@ class CF_TestModel : CF_Model
 	string ButtonText = "Press??";
 
 	ref CF_ObservableArray<CF_TestItemModel> Test = new CF_ObservableArray<CF_TestItemModel>();
+
+	private CF_WindowHandle m_WindowHandle;
+
+	void OpenWindow()
+	{
+		CF_Trace trace(this, "OpenWindow");
+		CF.Windows.Handle(m_WindowHandle);
+
+		CF_Window window;
+		CF.Windows.Retrieve(m_WindowHandle, window);
+
+		window.SetModel(this);
+	}
+
+	void CloseWindow()
+	{
+		CF.Windows.Destroy(m_WindowHandle);
+	}
 
 	void OnChange(CF_ChangeEventArgs evt)
 	{

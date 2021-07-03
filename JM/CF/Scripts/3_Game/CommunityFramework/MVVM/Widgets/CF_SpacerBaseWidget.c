@@ -4,12 +4,16 @@ class CF_SpacerBaseWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_SpacerBaseWidget, w);
 	}
 
 	override void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + collection, evt.String());
+
 		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
 
 		string layout;
@@ -25,6 +29,8 @@ class CF_SpacerBaseWidget : CF_UIWidget
 
 	override void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_Set", "" + collection, evt.String());
+
 		CF_ModelBase model = collection.GetConverter(evt.Index).GetManaged();
 
 		string layout;
@@ -40,6 +46,8 @@ class CF_SpacerBaseWidget : CF_UIWidget
 	
 	override void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_Children_Swap", "" + collection, evt.String());
+
 		if (evt.IndexA == evt.IndexB) return;
 		
 		Widget widgetA = GetChildWidgetAt(evt.IndexA);

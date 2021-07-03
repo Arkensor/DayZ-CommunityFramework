@@ -4,6 +4,8 @@ class CF_ProgressBarWidget : CF_SimpleProgressBarWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_ProgressBarWidget, w);
 	}

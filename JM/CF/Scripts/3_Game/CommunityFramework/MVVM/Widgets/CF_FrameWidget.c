@@ -12,6 +12,8 @@ class CF_FrameWidget : CF_Widget
 
 	override void GetProperties()
 	{
+		CF_Trace trace(this, "GetProperties");
+
 		super.GetProperties();
 
 		AddProperty(SubModel, "SubModel");
@@ -35,6 +37,8 @@ class CF_FrameWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+
 		super.OnWidgetScriptInit(w);
 
 		if (SubModel == string.Empty && SubModelType != string.Empty)
@@ -57,6 +61,8 @@ class CF_FrameWidget : CF_Widget
 
 	void OnUpdateSubViewModel()
 	{
+		CF_Trace trace(this, "OnUpdateSubViewModel");
+		
 		CF_ModelBase subModel;
 
 		if (_SubViewModel)
@@ -72,26 +78,33 @@ class CF_FrameWidget : CF_Widget
 
 	void OnView_SubModel(CF_ModelBase model, CF_EventArgs evt)
 	{
+		CF_Trace trace(this, "OnView_SubModel", "" + model, evt.String());
+		
 		// Never called.
 	}
 
 	void OnModel_SubModel(CF_ModelBase model, CF_EventArgs evt)
 	{
+		CF_Trace trace(this, "OnModel_SubModel", "" + model, evt.String());
+		
 		CF_ModelBase _model;
 		EnScript.GetClassVar(model, SubModel, 0, _model);
+
+		Print(_model);
 
 		if (_SubViewModel && _SubViewModel.GetModel() == _model) return;
 
 		if (_model != null)
 		{
-			if (SubLayoutOverride == string.Empty)
+			string layoutPath;
+			if (layoutPath == string.Empty)
 			{
-				g_Script.CallFunction(model, "GetLayout", SubLayoutOverride, null);
+				g_Script.CallFunction(model, "GetLayout", layoutPath, null);
 			}
 
-			_SubViewModel = CF.MVVM.Create(model, SubLayoutOverride, _Widget);
+			_SubViewModel = CF.MVVM.Create(model, layoutPath, _Widget);
 		}
-		else
+		else if (_SubViewModel)
 		{
 			CF.MVVM._Destroy(_SubViewModel);
 		}

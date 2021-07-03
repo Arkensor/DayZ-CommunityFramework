@@ -884,29 +884,4 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 		return true;
 	}
-	
-	bool OnDestroyed(Widget w)
-	{
-		CF_Trace trace(this, "OnDestroyed", "" + w);
-
-		//! Workbench editing
-    	#ifdef COMPONENT_SYSTEM
-		CF.MVVM._Assign(this);
-		#endif
-
-		if (!w) return false;
-		
-		CF_Widget binding;
-		w.GetScript(binding);
-		if (!binding) return false;
-		if (binding.Event_Destroyed != string.Empty)
-		{
-			CF_ViewEventArgs evt = new CF_ViewEventArgs();
-			evt.Target = w;
-
-			Param param = new Param1<CF_ViewEventArgs>(evt);
-			g_Script.CallFunctionParams(m_Model, binding.Event_Destroyed, null, param);
-		}
-		return true;
-	}
 };

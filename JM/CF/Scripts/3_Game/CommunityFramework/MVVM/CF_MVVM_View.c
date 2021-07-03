@@ -70,12 +70,6 @@ class CF_MVVM_View
 	{
 		CF_Trace trace(this, "~CF_MVVM_View");
 
-		if (m_ViewModel && m_Widget)
-		{
-			m_ViewModel.OnHide(m_Widget);
-			m_ViewModel.OnDestroyed(m_Widget);
-		}
-
 		//! If not in workbench editing
     	#ifndef COMPONENT_SYSTEM
 		if (CF.MVVM && m_ViewModel && m_IsRoot) CF.MVVM._Destroy(m_ViewModel);
