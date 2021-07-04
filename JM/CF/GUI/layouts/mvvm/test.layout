@@ -35,6 +35,7 @@ WrapSpacerWidgetClass root {
      scriptclass "CF_CheckBoxWidget"
      {
       ScriptParamsClass {
+       Event_Change "OnCheckboxChange"
        Text "TextInput"
        Checked "BlockInput"
       }
@@ -92,6 +93,36 @@ WrapSpacerWidgetClass root {
    Columns 1
    Rows 100
    {
+    VideoWidgetClass VideoWidget0 {
+     clipchildren 1
+     ignorepointer 1
+     position 0 0
+     size 1 0.5
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     scriptclass "CF_VideoWidget"
+     mode opaque
+     "src alpha" 1
+     "no wrap" 1
+     stretch 1
+     "flip u" 1
+     "flip v" 1
+     filter 1
+     font "gui/fonts/Metron-Italic58"
+     "outline color" 1 0 0 1
+     "text background" 0
+     "background color" 0 0 0 1
+     {
+      ScriptParamsClass {
+       Path "videoPath"
+       Command "videoCommand"
+      }
+     }
+    }
+   }
+   {
     ScriptParamsClass {
      Children "Test"
     }
@@ -100,6 +131,7 @@ WrapSpacerWidgetClass root {
  }
  {
   ScriptParamsClass {
+   Model "CF_TestModel"
   }
  }
 }

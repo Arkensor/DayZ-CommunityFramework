@@ -11,7 +11,7 @@ class CF_VideoWidget : CF_Widget
 	reference string Subtitles;
 
 	protected VideoWidget _VideoWidget;
-	protected ref CF_VideoPath _Path;
+	protected ref CF_VideoPath _Path = new CF_VideoPath();
 	protected VideoCommand _Command;
 	protected bool _Subtitles;
 

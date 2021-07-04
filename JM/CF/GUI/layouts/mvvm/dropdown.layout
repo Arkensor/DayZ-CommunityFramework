@@ -1,0 +1,24 @@
+FrameWidgetClass rootFrame {
+ position 0 0
+ size 1 1
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  VideoWidgetClass XComboBoxWidget0 {
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   scriptclass "CF_VideoWidget"
+   video "test.mp4"
+   {
+    ScriptParamsClass {
+    }
+   }
+  }
+ }
+}

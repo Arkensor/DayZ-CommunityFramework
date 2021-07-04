@@ -13,7 +13,9 @@ class CF_Model : Managed
 	{
 		CF_Trace trace(this, "~CF_Model");
 
+		#ifndef SERVER
 		CF.MVVM.Destroy(this);
+		#endif
 	}
 
 	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
@@ -25,6 +27,6 @@ class CF_Model : Managed
 
 	string GetLayout()
 	{
-		return "LAYOUT NOT SET";
+		return "";
 	}
 };

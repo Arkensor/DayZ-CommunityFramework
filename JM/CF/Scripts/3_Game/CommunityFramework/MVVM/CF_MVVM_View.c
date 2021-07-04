@@ -252,6 +252,12 @@ class CF_MVVM_View
 			
 			string layout;
 			g_Script.CallFunction(model, "GetLayout", layout, null);
+			if (layout == string.Empty)
+			{
+				CF.Log.Error("Empty layout file provided.");
+				return;
+			}
+
 			CF.MVVM.Create(model, layout, m_Widget);
 		}
 	}
@@ -267,6 +273,12 @@ class CF_MVVM_View
 		
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
+		if (layout == string.Empty)
+		{
+			CF.Log.Error("Empty layout file provided.");
+			return;
+		}
+		
 		CF.MVVM.Create(model, layout, m_Widget);
 	}
 
