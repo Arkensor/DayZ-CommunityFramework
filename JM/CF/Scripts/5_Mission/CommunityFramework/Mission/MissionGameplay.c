@@ -29,12 +29,11 @@ modded class MissionGameplay
 		super.OnMissionFinish();
 
 		GetModuleManager().OnMissionFinish();
-		CF.Windows._MissionCleanup();
 	}
 
-	void OnMissionLoaded()
+	override void OnMissionLoaded()
 	{
-		CF.Windows._MissionInit();
+		super.OnMissionLoaded();
 
 		#ifndef COMPONENT_SYSTEM
 		CF_TestModelInstance = new CF_TestModel();

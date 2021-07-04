@@ -15,4 +15,16 @@ modded class MissionBase
 			Print( "Ignoring creation of ModuleManager" );
 		}
 	}
+
+	void OnMissionLoaded()
+	{
+		CF._MissionInit();
+	}
+
+	override void OnMissionFinish()
+	{
+		super.OnMissionFinish();
+
+		CF._MissionCleanup();
+	}
 };

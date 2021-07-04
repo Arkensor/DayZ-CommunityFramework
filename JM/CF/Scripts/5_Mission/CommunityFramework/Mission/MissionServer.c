@@ -50,8 +50,10 @@ modded class MissionServer
 		GetModuleManager().OnMissionFinish();
 	}
 
-	void OnMissionLoaded()
+	override void OnMissionLoaded()
 	{
+		super.OnMissionLoaded();
+
 		GetModuleManager().OnMissionLoaded();
 	}
 
