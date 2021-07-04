@@ -22,7 +22,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
 		
-		CF_ViewModel vm = CF.MVVM.Create(model, layout, _SpacerBaseWidget);
+		CF_ViewModel vm = CF.MVVM.Create(model, layout);
 		if (evt.Index == collection.Count()) return;
 
 		Widget widget = vm.GetView().GetWidget();
@@ -42,7 +42,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		string layout;
 		g_Script.CallFunction(model, "GetLayout", layout, null);
 		
-		CF_ViewModel vm = CF.MVVM.Create(model, layout, _SpacerBaseWidget);
+		CF_ViewModel vm = CF.MVVM.Create(model, layout);
 		CF_MVVM_View view = vm.GetView();
 
 		Widget widget = view.GetWidget();

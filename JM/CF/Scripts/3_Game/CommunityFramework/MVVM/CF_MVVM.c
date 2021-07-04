@@ -48,7 +48,46 @@ class CF_MVVM
 	/**
 	 * @brief Creates a new View for the model. Returns existing view if it already exists for the model
 	 */
-	static CF_ViewModel Create(CF_ModelBase model, string layout, Widget parent = null)
+	static CF_ViewModel Create(CF_ModelBase model, string layout)
+	{
+		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout);
+
+    	#ifdef COMPONENT_SYSTEM
+		if (s_ViewModels == null && s_ViewModelMap == null)
+		{
+			CF._GameInit();
+		}
+		#endif
+
+		CF_ViewModel viewModel;
+		if (s_ViewModelMap.Find(model, viewModel))
+		{
+			CF_MVVM_View view = viewModel.GetView();
+			if (view)
+			{
+				return viewModel;
+			}
+
+			_Destroy(viewModel);
+		}
+
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM.WB_NEXT_IN_SCRIPT = true;
+		#endif
+
+		viewModel = Create(model, GetGame().GetWorkspace().CreateWidgets(layout, null));
+
+    	#ifdef COMPONENT_SYSTEM
+		CF.MVVM.WB_NEXT_IN_SCRIPT = false;
+		#endif
+
+		return viewModel;
+	}
+
+	/**
+	 * @brief Creates a new View for the model. Returns existing view if it already exists for the model. Updates the parent widget
+	 */
+	static CF_ViewModel Create(CF_ModelBase model, string layout, Widget parent)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout, "" + parent);
 
@@ -62,7 +101,26 @@ class CF_MVVM
 		CF_ViewModel viewModel;
 		if (s_ViewModelMap.Find(model, viewModel))
 		{
-			return viewModel;
+			CF_MVVM_View view = viewModel.GetView();
+			if (view)
+			{
+				Widget widget = view.GetWidget();
+				Widget old_parent = widget.GetParent();
+
+				if (old_parent && old_parent != parent)
+				{
+					old_parent.RemoveChild(widget);
+				}
+
+				if (parent && old_parent != parent)
+				{
+					parent.AddChild(widget);
+				}
+
+				return viewModel;
+			}
+
+			_Destroy(viewModel);
 		}
 
     	#ifdef COMPONENT_SYSTEM
