@@ -8,8 +8,12 @@ class CF_ItemPreviewWidget : CF_Widget
 	reference string ForceFlip;
 
 	protected ItemPreviewWidget _ItemPreviewWidget;
-	protected bool _ForceFlipEnable;
-	protected bool _ForceFlip;
+	protected CF_TypeConverter _Item;
+	protected CF_TypeConverter _View;
+	protected CF_TypeConverter _Orientation;
+	protected CF_TypeConverter _Position;
+	protected CF_TypeConverter _ForceFlipEnable;
+	protected CF_TypeConverter _ForceFlip;
 
 	override void GetProperties()
 	{
@@ -37,98 +41,92 @@ class CF_ItemPreviewWidget : CF_Widget
 	{
 		CF_Trace trace(this, "OnView_Item", "" + model, evt.String());
 		
-		EntityAI _value = _ItemPreviewWidget.GetItem();
-		EnScript.SetClassVar(model, Item, 0, _value);
+		_Item.SetClass(_ItemPreviewWidget.GetItem());
+		_Item.ToVariable(model, Item);
 	}
 
 	void OnModel_Item(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Item", "" + model, evt.String());
 		
-		EntityAI _value;
-		EnScript.GetClassVar(model, Item, 0, _value);
-		_ItemPreviewWidget.SetItem(_value);
+		_Item.FromVariable(model, Item);
+		_ItemPreviewWidget.SetItem(EntityAI.Cast(_Item.GetClass()));
 	}
 
 	void OnView_View(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_View", "" + model, evt.String());
 		
-		int _value = _ItemPreviewWidget.GetView();
-		EnScript.SetClassVar(model, View, 0, _value);
+		_View.SetInt(_ItemPreviewWidget.GetView());
+		_View.ToVariable(model, View);
 	}
 
 	void OnModel_View(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_View", "" + model, evt.String());
 		
-		int _value;
-		EnScript.GetClassVar(model, View, 0, _value);
-		_ItemPreviewWidget.SetView(_value);
+		_View.FromVariable(model, View);
+		_ItemPreviewWidget.SetView(_View.GetInt());
 	}
 
 	void OnView_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_Orientation", "" + model, evt.String());
 		
-		vector _value = _ItemPreviewWidget.GetModelOrientation();
-		EnScript.SetClassVar(model, Orientation, 0, _value);
+		_Orientation.SetVector(_ItemPreviewWidget.GetModelOrientation());
+		_Orientation.ToVariable(model, Orientation);
 	}
 
 	void OnModel_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Orientation", "" + model, evt.String());
 		
-		vector _value;
-		EnScript.GetClassVar(model, Orientation, 0, _value);
-		_ItemPreviewWidget.SetModelOrientation(_value);
+		_Orientation.FromVariable(model, Orientation);
+		_ItemPreviewWidget.SetModelOrientation(_Orientation.GetVector());
 	}
 
 	void OnView_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_Position", "" + model, evt.String());
 		
-		vector _value = _ItemPreviewWidget.GetModelPosition();
-		EnScript.SetClassVar(model, Position, 0, _value);
+		_Position.SetVector(_ItemPreviewWidget.GetModelPosition());
+		_Position.ToVariable(model, Position);
 	}
 
 	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Position", "" + model, evt.String());
 		
-		vector _value;
-		EnScript.GetClassVar(model, Position, 0, _value);
-		_ItemPreviewWidget.SetModelPosition(_value);
+		_Position.FromVariable(model, Position);
+		_ItemPreviewWidget.SetModelPosition(_Position.GetVector());
 	}
 
 	void OnView_ForceFlipEnable(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_ForceFlipEnable", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, ForceFlipEnable, 0, _ForceFlipEnable);
 	}
 
 	void OnModel_ForceFlipEnable(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_ForceFlipEnable", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, ForceFlipEnable, 0, _ForceFlipEnable);
-		_ItemPreviewWidget.SetForceFlipEnable(_ForceFlipEnable);
+		_ForceFlipEnable.FromVariable(model, ForceFlipEnable);
+		_ItemPreviewWidget.SetForceFlipEnable(_ForceFlipEnable.GetBool());
 	}
 
 	void OnView_ForceFlip(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_ForceFlip", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, ForceFlip, 0, _ForceFlip);
 	}
 
 	void OnModel_ForceFlip(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_ForceFlip", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, ForceFlip, 0, _ForceFlip);
-		_ItemPreviewWidget.SetForceFlip(_ForceFlip);
+		_ForceFlip.FromVariable(model, ForceFlip);
+		_ItemPreviewWidget.SetForceFlip(_ForceFlip.GetBool());
 	}
 
 };

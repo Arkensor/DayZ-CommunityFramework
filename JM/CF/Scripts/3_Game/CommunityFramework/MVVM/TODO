@@ -1,0 +1,5 @@
+- Init type converters for non-linked properties.
+	e.g. Index field may not be binded in ImageWidget while File field may be.
+	To fix, load a default type converter which does nothing. Possible fix is to use 
+	base class 'CF_TypeConverter' as a global variable and by default be assigned
+	to all views type converters. These do nothing.

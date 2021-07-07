@@ -9,8 +9,13 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	reference string VerticalScrollStep;
 
 	protected ScrollWidget _ScrollWidget;
-	protected float _HorizontalScrollStep;
-	protected float _VerticalScrollStep;
+	protected CF_TypeConverter _ScrollbarWidth;
+	protected CF_TypeConverter _ContentWidth;
+	protected CF_TypeConverter _ContentHeight;
+	protected CF_TypeConverter _HorizontalScrollPosition;
+	protected CF_TypeConverter _VerticalScrollPosition;
+	protected CF_TypeConverter _HorizontalScrollStep;
+	protected CF_TypeConverter _VerticalScrollStep;
 
 	override void GetProperties()
 	{

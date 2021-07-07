@@ -54,11 +54,24 @@ class CF_Widget : CF_MVVM_View
 	reference string Alpha;
 
 	protected Widget _Widget;
-	protected bool _Visible;
-	protected bool _Enabled;
-	protected float _Roll;
-	protected float _Pitch;
-	protected float _Yaw;
+	protected CF_TypeConverter _Name;
+	protected CF_TypeConverter _Visible;
+	protected CF_TypeConverter _Enabled;
+	protected CF_TypeConverter _Flags;
+	protected CF_TypeConverter _Sort;
+	protected CF_TypeConverter _PositionX;
+	protected CF_TypeConverter _PositionY;
+	protected CF_TypeConverter _Width;
+	protected CF_TypeConverter _Height;
+	protected CF_TypeConverter _ScreenPositionX;
+	protected CF_TypeConverter _ScreenPositionY;
+	protected CF_TypeConverter _ScreenWidth;
+	protected CF_TypeConverter _ScreenHeight;
+	protected CF_TypeConverter _Color;
+	protected CF_TypeConverter _Roll;
+	protected CF_TypeConverter _Pitch;
+	protected CF_TypeConverter _Yaw;
+	protected CF_TypeConverter _Alpha;
 
 	override void GetProperties()
 	{

@@ -14,6 +14,8 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	protected MapWidget _MapWidget;
 	protected ref CF_ObservableCollection _UserMarks;
+	protected CF_TypeConverter _Position;
+	protected CF_TypeConverter _Scale;
 
 	override void GetProperties()
 	{
@@ -61,33 +63,31 @@ class CF_MapWidget : CF_BaseListboxWidget
 	{
 		CF_Trace trace(this, "OnView_Position", "" + model, evt.String());
 
-		vector _value = _MapWidget.GetMapPos();
-		EnScript.SetClassVar(model, Position, 0, _value);
+		_Position.SetVector(_MapWidget.GetMapPos());
+		_Position.ToVariable(model, Position);
 	}
 
 	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Position", "" + model, evt.String());
 		
-		vector _value;
-		EnScript.GetClassVar(model, Position, 0, _value);
-		_MapWidget.SetMapPos(_value);
+		_Position.FromVariable(model, Position);
+		_MapWidget.SetMapPos(_Position.GetVector());
 	}
 	
 	void OnView_Scale(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_Scale", "" + model, evt.String());
 		
-		float _value = _MapWidget.GetScale();
-		EnScript.SetClassVar(model, Scale, 0, _value);
+		_Scale.SetFloat(_MapWidget.GetScale());
+		_Scale.ToVariable(model, Scale);
 	}
 
 	void OnModel_Scale(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Scale", "" + model, evt.String());
 		
-		float _value;
-		EnScript.GetClassVar(model, Scale, 0, _value);
-		_MapWidget.SetScale(_value);
+		_Scale.FromVariable(model, Scale);
+		_MapWidget.SetScale(_Scale.GetFloat());
 	}
 };

@@ -4,6 +4,8 @@ class CF_BaseListboxWidget : CF_UIWidget
 	reference string Selected;
 
 	protected BaseListboxWidget _BaseListboxWidget;
+	protected CF_TypeConverter _NumberItems;
+	protected CF_TypeConverter _Selected;
 
 	override void GetProperties()
 	{
@@ -27,7 +29,8 @@ class CF_BaseListboxWidget : CF_UIWidget
 	{
 		CF_Trace trace(this, "OnView_NumberItems", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, NumberItems, 0, _BaseListboxWidget.GetNumItems());
+		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
+		_NumberItems.ToVariable(model, NumberItems);
 	}
 
 	void OnModel_NumberItems(CF_ModelBase model, CF_EventArgs evt)
@@ -41,16 +44,15 @@ class CF_BaseListboxWidget : CF_UIWidget
 	{
 		CF_Trace trace(this, "OnView_Selected", "" + model, evt.String());
 		
-		int _value = _BaseListboxWidget.GetSelectedRow();
-		EnScript.SetClassVar(model, Selected, 0, _value);
+		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
+		_Selected.ToVariable(model, Selected);
 	}
 
 	void OnModel_Selected(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.String());
 		
-		int _value;
-		EnScript.GetClassVar(model, Selected, 0, _value);
-		_BaseListboxWidget.SelectRow(_value);
+		_Selected.FromVariable(model, Selected);
+		_BaseListboxWidget.SelectRow(_Selected.GetInt());
 	}
 };

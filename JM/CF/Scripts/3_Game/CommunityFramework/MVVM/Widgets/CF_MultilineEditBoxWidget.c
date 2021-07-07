@@ -4,6 +4,8 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	reference string CarriagePosition;
 
 	protected MultilineEditBoxWidget _MultilineEditBoxWidget;
+	protected CF_TypeConverter _CarriageLine;
+	protected CF_TypeConverter _CarriagePosition;
 
 	override void GetProperties()
 	{
@@ -27,15 +29,18 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	{
 		CF_Trace trace(this, "OnView_Text", "" + model, evt.String());
 
-		_MultilineEditBoxWidget.GetText(_Text);
-		EnScript.SetClassVar(model, Text, 0, _Text);
+		string value;
+		_MultilineEditBoxWidget.GetText(value);
+		_Text.SetString(value);
+		_Text.ToVariable(model, Text);
 	}
 
 	void OnView_CarriageLine(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_CarriageLine", "" + model, evt.String());
 
-		EnScript.SetClassVar(model, CarriageLine, 0, _MultilineEditBoxWidget.GetCarriageLine());
+		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
+		_CarriageLine.ToVariable(model, CarriageLine);
 	}
 
 	void OnModel_CarriageLine(CF_ModelBase model, CF_EventArgs evt)
@@ -49,7 +54,8 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	{
 		CF_Trace trace(this, "OnView_CarriagePosition", "" + model, evt.String());
 
-		EnScript.SetClassVar(model, CarriagePosition, 0, _MultilineEditBoxWidget.GetCarriagePos());
+		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
+		_CarriagePosition.ToVariable(model, CarriagePosition);
 	}
 
 	void OnModel_CarriagePosition(CF_ModelBase model, CF_EventArgs evt)

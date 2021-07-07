@@ -49,15 +49,6 @@ class CF_MVVM_Property
 	{
 		CF_Trace trace(this, "Assign", "" + model, "" + view);
 
-		CF_TypeConverter typeConverter = CF.MVVM.GetPropertyType(model, m_VariableName);
-		if (!typeConverter)
-		{
-			CF.Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
-			return;
-		}
-
-		EnScript.SetClassVar(view, m_Name, 0, typeConverter);
-
 		if (m_Type.IsInherited(CF_ObservableCollection))
 		{
 			CF_ObservableCollection _collection;
@@ -71,6 +62,15 @@ class CF_MVVM_Property
 			_collection.Init(model, m_VariableName);
 			return;
 		}
+
+		CF_TypeConverter typeConverter = CF.MVVM.GetPropertyType(model, m_VariableName);
+		if (!typeConverter)
+		{
+			CF.Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
+			return;
+		}
+
+		EnScript.SetClassVar(view, "_" + m_Name, 0, typeConverter);
 	}
 	
 	void OnView(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)

@@ -6,7 +6,10 @@ class CF_PlayerPreviewWidget : CF_Widget
 	reference string Position;
 
 	protected PlayerPreviewWidget _PlayerPreviewWidget;
-	protected EntityAI _HandItem;
+	protected CF_TypeConverter _Player;
+	protected CF_TypeConverter _HandItem;
+	protected CF_TypeConverter _Orientation;
+	protected CF_TypeConverter _Position;
 
 	override void GetProperties()
 	{
@@ -32,65 +35,61 @@ class CF_PlayerPreviewWidget : CF_Widget
 	{
 		CF_Trace trace(this, "OnView_Player", "" + model, evt.String());
 
-		DayZPlayer _value = _PlayerPreviewWidget.GetDummyPlayer();
-		EnScript.SetClassVar(model, Player, 0, _value);
+		_Player.SetClass(_PlayerPreviewWidget.GetDummyPlayer());
+		_Player.ToVariable(model, Player);
 	}
 
 	void OnModel_Player(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Player", "" + model, evt.String());
 
-		DayZPlayer _value;
-		EnScript.GetClassVar(model, Player, 0, _value);
-		_PlayerPreviewWidget.SetPlayer(_value);
+		_Player.FromVariable(model, Player);
+		_PlayerPreviewWidget.SetPlayer(DayZPlayer.Cast(_Player.GetClass()));
 	}
 
 	void OnView_HandItem(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_HandItem", "" + model, evt.String());
 
-		EnScript.SetClassVar(model, HandItem, 0, _HandItem);
 	}
 
 	void OnModel_HandItem(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_HandItem", "" + model, evt.String());
 
-		EnScript.GetClassVar(model, HandItem, 0, _HandItem);
-		_PlayerPreviewWidget.UpdateItemInHands(_HandItem);
+		_HandItem.FromVariable(model, HandItem);
+		_PlayerPreviewWidget.UpdateItemInHands(EntityAI.Cast(_HandItem.GetClass()));
 	}
 
 	void OnView_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_Orientation", "" + model, evt.String());
-
-		vector _value = _PlayerPreviewWidget.GetModelOrientation();
-		EnScript.SetClassVar(model, Orientation, 0, _value);
+		
+		_Orientation.SetVector(_PlayerPreviewWidget.GetModelOrientation());
+		_Orientation.ToVariable(model, Orientation);
 	}
 
 	void OnModel_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Orientation", "" + model, evt.String());
-
-		vector _value;
-		EnScript.GetClassVar(model, Orientation, 0, _value);
-		_PlayerPreviewWidget.SetModelOrientation(_value);
+		
+		_Orientation.FromVariable(model, Orientation);
+		_PlayerPreviewWidget.SetModelOrientation(_Orientation.GetVector());
 	}
 
 	void OnView_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_Position", "" + model, evt.String());
-
-		vector _value = _PlayerPreviewWidget.GetModelPosition();
-		EnScript.SetClassVar(model, Position, 0, _value);
+		
+		_Position.SetVector(_PlayerPreviewWidget.GetModelPosition());
+		_Position.ToVariable(model, Position);
 	}
 
 	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Position", "" + model, evt.String());
-
-		vector _value;
-		EnScript.GetClassVar(model, Position, 0, _value);
-		_PlayerPreviewWidget.SetModelPosition(_value);
+		
+		_Position.FromVariable(model, Position);
+		_PlayerPreviewWidget.SetModelPosition(_Position.GetVector());
 	}
 };

@@ -3,7 +3,7 @@ class CF_HtmlWidget : CF_TextWidget
 	reference string File;
 
 	protected HtmlWidget _HtmlWidget;
-	protected string _File;
+	protected CF_TypeConverter _File;
 
 	override void GetProperties()
 	{
@@ -26,14 +26,14 @@ class CF_HtmlWidget : CF_TextWidget
 	{
 		CF_Trace trace(this, "OnView_File", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, File, 0, _File);
+		_File.ToVariable(model, File);
 	}
 
 	void OnModel_File(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_File", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, File, 0, _File);
-		_HtmlWidget.LoadFile(_File);
+		_File.FromVariable(model, File);
+		_HtmlWidget.LoadFile(_File.GetString());
 	}
 };

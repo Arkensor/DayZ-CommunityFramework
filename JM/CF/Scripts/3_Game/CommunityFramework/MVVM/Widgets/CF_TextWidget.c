@@ -20,12 +20,24 @@ class CF_TextWidget : CF_Widget
 	reference string TextProportion;
 
 	protected TextWidget _TextWidget;
-	protected string _Text;
-	protected float _TextSpacingHorizontal;
-	protected float _TextSpacingVertical;
-	protected float _TextExactSize;
-	protected float _TextOffsetX;
-	protected float _TextOffsetY;
+	protected CF_TypeConverter _Text;
+	protected CF_TypeConverter _TextSpacingHorizontal;
+	protected CF_TypeConverter _TextSpacingVertical;
+	protected CF_TypeConverter _TextExactSize;
+	protected CF_TypeConverter _TextOffsetX;
+	protected CF_TypeConverter _TextOffsetY;
+	protected CF_TypeConverter _TextOutlineSize;
+	protected CF_TypeConverter _TextOutlineColor;
+	protected CF_TypeConverter _TextShadowSize;
+	protected CF_TypeConverter _TextShadowColor;
+	protected CF_TypeConverter _TextShadowOpacity;
+	protected CF_TypeConverter _TextShadowOffsetX;
+	protected CF_TypeConverter _TextShadowOffsetY;
+	protected CF_TypeConverter _TextItalic;
+	protected CF_TypeConverter _TextBold;
+	protected CF_TypeConverter _TextSizeX;
+	protected CF_TypeConverter _TextSizeY;
+	protected CF_TypeConverter _TextProportion;
 
 	override void GetProperties()
 	{
