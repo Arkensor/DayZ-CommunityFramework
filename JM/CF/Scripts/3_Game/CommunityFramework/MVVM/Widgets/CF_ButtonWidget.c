@@ -9,11 +9,13 @@ class CF_ButtonWidget : CF_UIWidget
 	reference string TextProportion;
 
 	protected ButtonWidget _ButtonWidget;
-	protected string _Text;
-	protected float _TextOffsetX;
-	protected float _TextOffsetY;
-	protected float _TextHorizontalAlignment;
-	protected float _TextVerticalAlignment;
+	protected CF_TypeConverter _State;
+	protected CF_TypeConverter _Text;
+	protected CF_TypeConverter _TextOffsetX;
+	protected CF_TypeConverter _TextOffsetY;
+	protected CF_TypeConverter _TextHorizontalAlignment;
+	protected CF_TypeConverter _TextVerticalAlignment;
+	protected CF_TypeConverter _TextProportion;
 
 	override void GetProperties()
 	{
@@ -41,112 +43,121 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_State(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_State", "" + model, evt.String());
-		
-		bool _state = _ButtonWidget.GetState();
-		EnScript.SetClassVar(model, State, 0, _state);
+
+		_State.SetBool(_ButtonWidget.GetState());
+		_State.ToVariable(model, State);
 	}
 
 	void OnModel_State(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_State", "" + model, evt.String());
 		
-		bool _state;
-		EnScript.GetClassVar(model, State, 0, _state);
-		_ButtonWidget.SetState(_state);
+		_State.FromVariable(model, State);
+		_ButtonWidget.SetState(_State.GetBool());
 	}
 
 	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_Text", "" + model, evt.String());
 		
-		auto pType = CF.MVVM.GetPropertyType(model, Text);
-		pType.SetString(_Text);
-		pType.ToVariable(model, Text);
+		_Text.ToVariable(model, Text);
 	}
 
 	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_Text", "" + model, evt.String());
 		
-		auto pType = CF.MVVM.GetPropertyType(model, Text);
-		pType.FromVariable(model, Text);
-		_ButtonWidget.SetText(pType.GetString());
+		_Text.FromVariable(model, Text);
+		_ButtonWidget.SetText(_Text.GetString());
 	}
 
 	void OnView_TextOffsetX(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_TextOffsetX", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, TextOffsetX, 0, _TextOffsetX);
+		_TextOffsetX.ToVariable(model, TextOffsetX);
 	}
 
 	void OnModel_TextOffsetX(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_TextOffsetX", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, TextOffsetX, 0, _TextOffsetX);
-		_ButtonWidget.SetTextOffset(_TextOffsetX, _TextOffsetY);
+		_TextOffsetX.FromVariable(model, TextOffsetX);
+		_ButtonWidget.SetTextOffset(_TextOffsetX.GetFloat(), _TextOffsetY.GetFloat());
 	}
 
 	void OnView_TextOffsetY(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_TextOffsetY", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, TextOffsetY, 0, _TextOffsetY);
+		_TextOffsetX.ToVariable(model, TextOffsetX);
 	}
 
 	void OnModel_TextOffsetY(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_TextOffsetY", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, TextOffsetY, 0, _TextOffsetY);
-		_ButtonWidget.SetTextOffset(_TextOffsetX, _TextOffsetY);
+		_TextOffsetY.FromVariable(model, TextOffsetY);
+		_ButtonWidget.SetTextOffset(_TextOffsetX.GetFloat(), _TextOffsetY.GetFloat());
 	}
 
 	void OnView_TextHorizontalAlignment(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_TextHorizontalAlignment", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, TextHorizontalAlignment, 0, _TextHorizontalAlignment);
+		_TextHorizontalAlignment.ToVariable(model, TextHorizontalAlignment);
 	}
 
 	void OnModel_TextHorizontalAlignment(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_TextHorizontalAlignment", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, TextHorizontalAlignment, 0, _TextHorizontalAlignment);
-		_ButtonWidget.SetTextHorizontalAlignment(_TextHorizontalAlignment);
+		_TextHorizontalAlignment.FromVariable(model, TextHorizontalAlignment);
+		_ButtonWidget.SetTextHorizontalAlignment(_TextHorizontalAlignment.GetInt());
 	}
 
 	void OnView_TextVerticalAlignment(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_TextVerticalAlignment", "" + model, evt.String());
 		
-		EnScript.SetClassVar(model, TextVerticalAlignment, 0, _TextVerticalAlignment);
+		TextVerticalAlignment.ToVariable(model, TextVerticalAlignment);
 	}
 
 	void OnModel_TextVerticalAlignment(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_TextVerticalAlignment", "" + model, evt.String());
 		
-		EnScript.GetClassVar(model, TextVerticalAlignment, 0, _TextVerticalAlignment);
-		_ButtonWidget.SetTextVerticalAlignment(_TextVerticalAlignment);
+		_TextVerticalAlignment.FromVariable(model, TextVerticalAlignment);
+		_ButtonWidget.SetTextVerticalAlignment(_TextVerticalAlignment.GetInt());
 	}
 
 	void OnView_TextProportion(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView_TextProportion", "" + model, evt.String());
 		
-		float _TextProportion = _ButtonWidget.GetTextProportion();
-		EnScript.SetClassVar(model, TextProportion, 0, _TextProportion);
+		_TextProportion.SetInt(_ButtonWidget.GetTextProportion());
+		_TextProportion.ToVariable(model, TextProportion);
 	}
 
 	void OnModel_TextProportion(CF_ModelBase model, CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel_TextProportion", "" + model, evt.String());
 		
-		float _TextProportion;
-		EnScript.GetClassVar(model, TextProportion, 0, _TextProportion);
-		_ButtonWidget.SetTextProportion(_TextProportion);
+		_TextProportion.FromVariable(model, TextProportion);
+		_ButtonWidget.SetTextProportion(_TextProportion.GetInt());
+	}
+
+	override bool OnChange(CF_ChangeEventArgs evt)
+	{
+		CF_Trace trace(this, "OnChange", evt.String());
+
+		if (!evt.Continue)
+		{
+			_ButtonWidget.SetState(false);
+		}
+
+		NotifyPropertyChanged("State");
+
+		return true;
 	}
 };

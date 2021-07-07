@@ -150,10 +150,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Trace trace(this, "LoadProperties", "" + view);
 		
 		view.GetProperties(this, m_PropertiesMap, m_Properties);
-		
-		for (int i = 0; i < view.Count(); i++)
+
+		set<CF_MVVM_View> children = view.GetChildren();
+		for (int i = 0; i < children.Count(); i++)
 		{
-			LoadProperties(view[i]);
+			LoadProperties(children[i]);
 		}
 	}
 

@@ -96,7 +96,7 @@ class CF_MVVM_View
 		
 		m_ViewModel = viewModel;
 		m_Widget.SetUserData(m_ViewModel);
-		//m_Widget.SetHandler(m_ViewModel);
+		m_Widget.SetHandler(m_ViewModel);
 
 		m_Properties = properties;
 		m_PropertiesMap = propertiesMap;
@@ -136,6 +136,11 @@ class CF_MVVM_View
 		if (m_ViewModel) m_IsRoot = true;
 	}
 
+	CF_ViewModel GetViewModel()
+	{
+		return m_ViewModel;
+	}
+
 	Widget GetWidget()
 	{
 		return m_Widget;
@@ -144,16 +149,6 @@ class CF_MVVM_View
 	set<CF_MVVM_View> GetChildren()
 	{
 		return m_Children;
-	}
-
-	int Count()
-	{
-		return m_Children.Count();
-	}
-
-	CF_MVVM_View Get(int index)
-	{
-		return m_Children[index];
 	}
 
 	void AddChild(CF_MVVM_View child, bool modifyParent = true)

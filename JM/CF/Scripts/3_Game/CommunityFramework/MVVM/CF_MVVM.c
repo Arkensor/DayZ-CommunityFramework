@@ -246,10 +246,11 @@ class CF_MVVM
 
 			property.SetVariableName(variableName);
 			property.SetType(variableType);
+
+			// Must be added before Assign
+			propertyTypeMap.Insert(variableName, CF.TypeConverters.Create(variableType));
 			
 			property.Assign(model, view);
-
-			propertyTypeMap.Insert(variableName, CF.TypeConverters.Create(variableType));
 		}
 	}
 

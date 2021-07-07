@@ -47,6 +47,17 @@ class CF_MVVM_Property
 
 	void Assign(CF_ModelBase model, CF_MVVM_View view)
 	{
+		CF_Trace trace(this, "Assign", "" + model, "" + view);
+
+		CF_TypeConverter typeConverter = CF.MVVM.GetPropertyType(model, m_VariableName);
+		if (!typeConverter)
+		{
+			CF.Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
+			return;
+		}
+
+		EnScript.SetClassVar(view, m_Name, 0, typeConverter);
+
 		if (m_Type.IsInherited(CF_ObservableCollection))
 		{
 			CF_ObservableCollection _collection;
@@ -58,21 +69,6 @@ class CF_MVVM_Property
 			}
 
 			_collection.Init(model, m_VariableName);
-			return;
-		}
-
-		if (m_Type.IsInherited(Widget))
-		{
-			Widget widget = view.GetWidget().FindAnyWidget(m_VariableName);
-			if (!widget) return;
-
-			if (!widget.IsInherited(m_Type))
-			{
-				CF.Log.Error("Widget '%1' was not of type '%2' in model '%3'.", "" + _collection, "" + widget.ClassName(), "" + model);
-				return;
-			}
-
-			EnScript.SetClassVar(model, m_VariableName, 0, widget);
 			return;
 		}
 	}
