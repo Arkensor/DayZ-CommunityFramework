@@ -120,7 +120,7 @@ class CF_ButtonWidget : CF_UIWidget
 	{
 		CF_Trace trace(this, "OnView_TextVerticalAlignment", "" + model, evt.String());
 		
-		TextVerticalAlignment.ToVariable(model, TextVerticalAlignment);
+		_TextVerticalAlignment.ToVariable(model, TextVerticalAlignment);
 	}
 
 	void OnModel_TextVerticalAlignment(CF_ModelBase model, CF_EventArgs evt)
