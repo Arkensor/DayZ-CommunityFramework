@@ -8,7 +8,7 @@ class CF_XML_Element : Managed
 	
 	protected string _data;
 
-	void CF_XML_Element(ref CF_XML_Tag parent = NULL)
+	void CF_XML_Element(CF_XML_Tag parent = NULL)
 	{
 		_tags = new array<ref CF_XML_Tag>;
 		_parentTag = parent;
@@ -24,9 +24,9 @@ class CF_XML_Element : Managed
 		delete _tags;
 	}
 
-	ref CF_XML_Element Copy(ref CF_XML_Tag parent = NULL)
+	CF_XML_Element Copy(CF_XML_Tag parent = NULL)
 	{
-		ref CF_XML_Element element = new CF_XML_Element(parent);
+		CF_XML_Element element = new CF_XML_Element(parent);
 
 		for (int i = 0; i < _tags.Count(); ++i)
 		{
@@ -38,9 +38,9 @@ class CF_XML_Element : Managed
 		return element;
 	}
 
-	ref CF_XML_Tag CreateTag(string name)
+	CF_XML_Tag CreateTag(string name)
 	{
-		ref CF_XML_Tag tag = new CF_XML_Tag(this, name);
+		CF_XML_Tag tag = new CF_XML_Tag(this, name);
 
 		_tags.Insert(tag);
 
@@ -52,12 +52,12 @@ class CF_XML_Element : Managed
 		return _tags.Count();
 	}
 
-	ref CF_XML_Tag Get(int index)
+	CF_XML_Tag Get(int index)
 	{
 		return _tags[index];
 	}
 
-	void Remove(ref CF_XML_Tag tag)
+	void Remove(CF_XML_Tag tag)
 	{
 		int index = _tags.Find(tag);
 		if (index >= 0)
