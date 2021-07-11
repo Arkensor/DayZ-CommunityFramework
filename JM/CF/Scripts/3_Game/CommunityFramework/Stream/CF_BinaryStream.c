@@ -124,14 +124,31 @@ class CF_BinaryStream : CF_Stream
 
 	override void Write(byte value)
 	{
-		m_Data.InsertAt(value, m_Position);
+		m_Data.InsertAt(value, m_Position++);
 		
 		m_NonZeroesDirty = true;
 	}
 
 	override void WriteChar(string value)
 	{
-		m_Data.InsertAt(value.Hash(), m_Position);
+		m_Data.InsertAt(value.Hash(), m_Position++);
+		
+		m_NonZeroesDirty = true;
+	}
+
+	override void WriteFloat(float value)
+	{		
+		int ivalue = CF_Cast<float, int>.Reinterpret(value);
+
+		int b0 = (ivalue >> 24) & 0x000000FF;
+		int b1 = (ivalue >> 16) & 0x000000FF;
+		int b2 = (ivalue >>	8 ) & 0x000000FF;
+		int b3 = (ivalue	  ) & 0x000000FF;
+
+		m_Data.InsertAt(b0, m_Position++);
+		m_Data.InsertAt(b1, m_Position++);
+		m_Data.InsertAt(b2, m_Position++);
+		m_Data.InsertAt(b3, m_Position++);
 		
 		m_NonZeroesDirty = true;
 	}

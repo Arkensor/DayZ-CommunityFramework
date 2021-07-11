@@ -23,6 +23,14 @@ class CF_Stream : Managed
 	}
 
 	/**
+	 * Write an ascii character
+	 */
+	void WriteFloat(float value)
+	{
+		/*CF.Log.*/Error("Not implemented.");
+	}
+
+	/**
 	 * Read a byte
 	 */
 	byte Read()

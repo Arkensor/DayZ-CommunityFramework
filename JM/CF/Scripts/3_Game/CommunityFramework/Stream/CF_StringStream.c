@@ -41,12 +41,12 @@ class CF_StringStream : CF_Stream
 
 	override void Write(byte value)
 	{
-		m_Data.InsertAt(_cf_characters[value - 32], m_Position);
+		m_Data.InsertAt(_cf_characters[value - 32], m_Position++);
 	}
 
 	override void WriteChar(string value)
 	{
-		m_Data.InsertAt(value, m_Position);
+		m_Data.InsertAt(value, m_Position++);
 	}
 
 	override byte Read()
