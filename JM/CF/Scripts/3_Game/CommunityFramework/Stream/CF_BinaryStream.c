@@ -1,6 +1,6 @@
 class CF_BinaryStream : CF_Stream
 {
-	private ref array<byte> m_Data = new array<byte>();
+	private ref array<int> m_Data = new array<int>();
 	private int m_Position = 0;
 
 	private bool m_NonZeroesDirty = true;
@@ -79,10 +79,10 @@ class CF_BinaryStream : CF_Stream
 						continue;
 					}
 
-					byte b0 = m_Data[index++];
-					byte b1 = m_Data[index++];
-					byte b2 = m_Data[index++];
-					byte b3 = m_Data[index++];
+					int b0 = m_Data[index++];
+					int b1 = m_Data[index++];
+					int b2 = m_Data[index++];
+					int b3 = m_Data[index++];
 
 					ivalue = ((b3) << 24) + ((b2) << 16) + ((b1) << 8) + (b0);
 					fs.Write(ivalue);
@@ -122,7 +122,7 @@ class CF_BinaryStream : CF_Stream
 		m_NonZeroesDirty = false;
 	}
 
-	override void Write(byte value)
+	override void Write(int value)
 	{
 		m_Data.InsertAt(value, m_Position++);
 		
@@ -131,29 +131,54 @@ class CF_BinaryStream : CF_Stream
 
 	override void WriteChar(string value)
 	{
-		m_Data.InsertAt(value.Hash(), m_Position++);
-		
-		m_NonZeroesDirty = true;
+		Write(value.Hash());
+	}
+
+	override void WriteBool(bool value)
+	{
+		if (value) Write(0x00000001);
+		else Write(0x00000000);
+	}
+
+	override void WriteInt(int value)
+	{
+		Write((value >> 24) & 0x000000FF);
+		Write((value >> 16) & 0x000000FF);
+		Write((value >> 8 ) & 0x000000FF);
+		Write((value	  ) & 0x000000FF);
 	}
 
 	override void WriteFloat(float value)
-	{		
-		int ivalue = CF_Cast<float, int>.Reinterpret(value);
-
-		int b0 = (ivalue >> 24) & 0x000000FF;
-		int b1 = (ivalue >> 16) & 0x000000FF;
-		int b2 = (ivalue >>	8 ) & 0x000000FF;
-		int b3 = (ivalue	  ) & 0x000000FF;
-
-		m_Data.InsertAt(b0, m_Position++);
-		m_Data.InsertAt(b1, m_Position++);
-		m_Data.InsertAt(b2, m_Position++);
-		m_Data.InsertAt(b3, m_Position++);
-		
-		m_NonZeroesDirty = true;
+	{
+		WriteInt(CF_Cast<float, int>.Reinterpret(value));
 	}
 
-	override byte Read()
+	override void WriteVector(vector value)
+	{
+		WriteFloat(value[0]);
+		WriteFloat(value[1]);
+		WriteFloat(value[2]);
+	}
+
+	override void WriteString(string value)
+	{
+		WriteInt(value.Length());
+		for (int i = 0; i < value.Length(); i++)
+		{
+			Write(value[i].Hash());
+		}
+	}
+
+	override void WriteCString(string value)
+	{
+		for (int i = 0; i < value.Length(); i++)
+		{
+			Write(value[i].Hash());
+		}
+		Write(0);
+	}
+
+	override int Read()
 	{
 		return m_Data[m_Position++];
 	}
@@ -162,6 +187,61 @@ class CF_BinaryStream : CF_Stream
 	{
 		int b = m_Data[m_Position++];
 		return b.AsciiToString();
+	}
+
+	override bool ReadBool()
+	{
+		return Read() != 0;
+	}
+
+	override int ReadInt()
+	{
+		int b3 = Read();
+		int b2 = Read();
+		int b1 = Read();
+		int b0 = Read();
+
+		return ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
+	}
+
+	override float ReadFloat()
+	{
+		return CF_Cast<int, float>.Reinterpret(ReadInt());
+	}
+
+	override vector ReadVector()
+	{
+		vector v;
+		v[0] = ReadFloat();
+		v[1] = ReadFloat();
+		v[2] = ReadFloat();
+		return v;
+	}
+
+	override string ReadString()
+	{
+		string str;
+
+		for (int index = 0; index < ReadInt(); index++)
+		{
+			str += Read().AsciiToString();
+		}
+
+		return str;
+	}
+
+	override string ReadCString()
+	{
+		string str;
+
+		int c = Read();
+		while (c != 0)
+		{
+			str += c.AsciiToString();
+			c = Read();
+		}
+
+		return str;
 	}
 
 	override bool EOF()
@@ -189,7 +269,7 @@ class CF_BinaryStream : CF_Stream
 		m_Position += offset;
 	}
 
-	override void SetBytes(array<byte> bytes)
+	override void SetBytes(array<int> bytes)
 	{
 		m_Data.Clear();
 		m_Data.Copy(bytes);
@@ -197,9 +277,9 @@ class CF_BinaryStream : CF_Stream
 		m_NonZeroesDirty = true;
 	}
 
-	override array<byte> GetBytes()
+	override array<int> GetBytes()
 	{
-		array<byte> arr();
+		array<int> arr();
 		arr.Copy(m_Data);
 		return arr;
 	}

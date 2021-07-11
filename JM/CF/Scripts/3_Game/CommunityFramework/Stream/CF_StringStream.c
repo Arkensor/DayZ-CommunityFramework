@@ -1,6 +1,6 @@
 class CF_StringStream : CF_Stream
 {
-	private ref array<char> m_Data = new array<char>();
+	private ref array<string> m_Data = new array<string>();
 	private int m_Position = 0;
 
 	override bool File(string path, FileMode mode)
@@ -39,9 +39,9 @@ class CF_StringStream : CF_Stream
 		return true;
 	}
 
-	override void Write(byte value)
+	override void Write(int value)
 	{
-		m_Data.InsertAt(_cf_characters[value - 32], m_Position++);
+		m_Data.InsertAt(value.AsciiToString(), m_Position++);
 	}
 
 	override void WriteChar(string value)
@@ -49,7 +49,15 @@ class CF_StringStream : CF_Stream
 		m_Data.InsertAt(value, m_Position++);
 	}
 
-	override byte Read()
+	override void WriteString(string value)
+	{
+		for (int i = 0; i < value.Length(); i++)
+		{
+			m_Data.InsertAt(value[i], m_Position++);
+		}
+	}
+
+	override int Read()
 	{
 		string s = m_Data[m_Position++];
 		return s.Hash();
@@ -58,6 +66,20 @@ class CF_StringStream : CF_Stream
 	override string ReadChar()
 	{
 		return m_Data[m_Position++];
+	}
+
+	override string ReadString()
+	{
+		string str;
+
+		string c = ReadChar();
+		while (c != "" && m_Position < m_Data.Count())
+		{
+			str += c;
+			c = ReadChar();
+		}
+
+		return str;
 	}
 
 	override bool EOF()
@@ -85,14 +107,18 @@ class CF_StringStream : CF_Stream
 		m_Position += offset;
 	}
 
-	override void SetBytes(array<byte> bytes)
+	override void SetBytes(array<int> bytes)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		m_Data.Clear();
+		for (int i = 0; i < bytes.Count(); i++)
+		{
+			m_Data.Insert(bytes[i].AsciiToString());
+		}
 	}
 
-	override array<byte> GetBytes()
+	override array<int> GetBytes()
 	{
-		array<byte> arr();
+		array<int> arr();
 		for (int i = 0; i < m_Data.Count(); i++)
 		{
 			string s = m_Data[i];
