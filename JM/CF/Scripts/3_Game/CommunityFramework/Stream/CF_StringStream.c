@@ -8,7 +8,7 @@ class CF_StringStream : CF_Stream
 		FileHandle fileHandle = OpenFile(path, mode);
 		if (fileHandle == 0) return false;
 
-		int i;
+		int index;
 
 		switch (mode)
 		{
@@ -17,9 +17,9 @@ class CF_StringStream : CF_Stream
 				string lineContent;
 				while (FGets(fileHandle, lineContent) >= 0)
 				{
-					for (i = 0; i < lineContent.Length(); i++)
+					for (index = 0; index < lineContent.Length(); index++)
 					{
-						m_Data.Insert(lineContent[i]);
+						m_Data.Insert(lineContent[index]);
 					}
 				}
 				break;
@@ -27,9 +27,9 @@ class CF_StringStream : CF_Stream
 			case FileMode.APPEND:
 			case FileMode.WRITE:
 			{
-				for (i = 0; i < m_Data.Count(); i++)
+				for (index = 0; index < m_Data.Count(); index++)
 				{
-					FPrint(fileHandle, m_Data[i]);
+					FPrint(fileHandle, m_Data[index]);
 				}
 				break;
 			}
