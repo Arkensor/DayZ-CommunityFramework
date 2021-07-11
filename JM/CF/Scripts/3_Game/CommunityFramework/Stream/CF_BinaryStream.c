@@ -1,43 +1,42 @@
 class CF_BinaryStream : CF_Stream
 {
-	private ref array<int> m_Data = new array<int>();
+	private ref array<byte> m_Data = new array<byte>();
 	private int m_Position = 0;
 
-	override bool ReadFile(string path)
+	override bool _ReadFile(string path)
 	{
-		FileSerializer fileHandle();
-		if (!fileHandle.Open(path, FileMode.READ)) return false;
+		FileHandle fileHandle = OpenFile(path, FileMode.READ);
+		if (fileHandle == 0) return false;
 		
-		int value;
-		while (fileHandle.Read(value))
+		bool varr[1];
+		while (ReadFile(fileHandle, varr, 1) > 0)
 		{
-			int b0 = (value >> 24) & 0x000000FF;
-			int b1 = (value >> 16) & 0x000000FF;
-			int b2 = (value >> 8) & 0x000000FF;
-			int b3 = (value) & 0x000000FF;
-
-			m_Data.Insert(b0);
-			m_Data.Insert(b1);
-			m_Data.Insert(b2);
-			m_Data.Insert(b3);
+			byte value = varr[0] & 0x000000FF;
+			m_Data.Insert(value);
 		}
 
-		fileHandle.Close();
+		CloseFile(fileHandle);
 		return true;
 	}
 
-	override bool WriteFile(string path)
+	override bool _WriteFile(string path)
 	{
 		FileSerializer fileHandle();
 		if (!fileHandle.Open(path, FileMode.WRITE)) return false;
 		
 		int index = 0;
+
+		byte b0;
+		byte b1;
+		byte b2;
+		byte b3;
+
 		while (index < m_Data.Count())
 		{
-			int b0;
-			int b1;
-			int b2;
-			int b3;
+			b0 = 0;
+			b1 = 0;
+			b2 = 0;
+			b3 = 0;
 
 			if (index < m_Data.Count()) b0 = m_Data[index];
 			index++;
@@ -47,8 +46,8 @@ class CF_BinaryStream : CF_Stream
 			index++;
 			if (index < m_Data.Count()) b3 = m_Data[index];
 			index++;
-
-			int value = (b0 << 24) + (b1 << 16) + (b2 << 8) + (b3);
+			
+			int value = ((b3) << 24) + ((b2) << 16) + ((b1) << 8) + (b0);
 			
 			fileHandle.Write(value);
 		}
@@ -57,7 +56,7 @@ class CF_BinaryStream : CF_Stream
 		return true;
 	}
 
-	override void Write(int value)
+	override void Write(byte value)
 	{
 		m_Data.InsertAt(value, m_Position);
 	}
@@ -67,15 +66,15 @@ class CF_BinaryStream : CF_Stream
 		m_Data.InsertAt(value.Hash(), m_Position);
 	}
 
-	override int Read()
+	override byte Read()
 	{
 		return m_Data[m_Position++];
 	}
 
 	override string ReadChar()
 	{
-		int byte = m_Data[m_Position++];
-		return _cf_characters[byte - 32];
+		byte b = m_Data[m_Position++];
+		return _cf_characters[b - 32];
 	}
 
 	override bool EOF()
@@ -103,9 +102,15 @@ class CF_BinaryStream : CF_Stream
 		m_Position += offset;
 	}
 
-	override array<int> GetByteArray()
+	override void SetBytes(array<byte> bytes)
 	{
-		array<int> arr();
+		m_Data.Clear();
+		m_Data.Copy(bytes);
+	}
+
+	override array<byte> GetBytes()
+	{
+		array<byte> arr();
 		arr.Copy(m_Data);
 		return arr;
 	}

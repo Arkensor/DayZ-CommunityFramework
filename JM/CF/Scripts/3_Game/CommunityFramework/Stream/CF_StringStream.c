@@ -1,9 +1,9 @@
 class CF_StringStream : CF_Stream
 {
-	private ref array<string> m_Data = new array<string>();
+	private ref array<char> m_Data = new array<char>();
 	private int m_Position = 0;
 
-	override bool ReadFile(string path)
+	override bool _ReadFile(string path)
 	{
 		FileHandle fileHandle = OpenFile(path, FileMode.READ);
 		if (fileHandle == 0) return false;
@@ -21,7 +21,7 @@ class CF_StringStream : CF_Stream
 		return true;
 	}
 
-	override bool WriteFile(string path)
+	override bool _WriteFile(string path)
 	{
 		FileHandle fileHandle = OpenFile(path, FileMode.WRITE);
 		if (fileHandle == 0) return false;
@@ -35,7 +35,7 @@ class CF_StringStream : CF_Stream
 		return true;
 	}
 
-	override void Write(int value)
+	override void Write(byte value)
 	{
 		m_Data.InsertAt(_cf_characters[value - 32], m_Position);
 	}
@@ -45,9 +45,10 @@ class CF_StringStream : CF_Stream
 		m_Data.InsertAt(value, m_Position);
 	}
 
-	override int Read()
+	override byte Read()
 	{
-		return m_Data[m_Position++].Hash();
+		string s = m_Data[m_Position++];
+		return s.Hash();
 	}
 
 	override string ReadChar()
@@ -80,12 +81,18 @@ class CF_StringStream : CF_Stream
 		m_Position += offset;
 	}
 
-	override array<int> GetByteArray()
+	override void SetBytes(array<byte> bytes)
 	{
-		array<int> arr();
+		/*CF.Log.*/Error("Not implemented.");
+	}
+
+	override array<byte> GetBytes()
+	{
+		array<byte> arr();
 		for (int i = 0; i < m_Data.Count(); i++)
 		{
-			arr.Insert(m_Data[i].Hash());
+			string s = m_Data[i];
+			arr.Insert(s.Hash());
 		}
 		return arr;
 	}
