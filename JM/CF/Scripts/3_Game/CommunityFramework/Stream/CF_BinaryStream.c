@@ -2,57 +2,55 @@ class CF_BinaryStream : CF_Stream
 {
 	private ref array<byte> m_Data = new array<byte>();
 	private int m_Position = 0;
+	private int m_Offset = 8;
 
-	override bool _ReadFile(string path)
+	override bool File(string path, FileMode mode)
 	{
-		FileHandle fileHandle = OpenFile(path, FileMode.READ);
+		FileHandle fileHandle = OpenFile(path, mode);
 		if (fileHandle == 0) return false;
-		
-		bool varr[1];
-		while (ReadFile(fileHandle, varr, 1) > 0)
+
+		switch (mode)
 		{
-			byte value = varr[0] & 0x000000FF;
-			m_Data.Insert(value);
+			case FileMode.READ:
+			{
+				bool varr[1];
+				while (ReadFile(fileHandle, varr, 1) > 0)
+				{
+					m_Data.Insert(varr[0] & 0x000000FF);
+				}
+				break;
+			}
+			case FileMode.APPEND:
+			case FileMode.WRITE:
+			{
+				FileSerializer fs = new FileSerializer();
+				if (!fs.Open(path, FileMode.APPEND)) return false;
+
+				int ivalue = 0;
+
+				int index = 0;
+				while (index < (m_Data.Count() - m_Offset))
+				{
+					byte b0 = m_Data[index++];
+					byte b1 = m_Data[index++];
+					byte b2 = m_Data[index++];
+					byte b3 = m_Data[index++];
+
+					ivalue = ((b3) << 24) + ((b2) << 16) + ((b1) << 8) + (b0);
+
+					fs.Write(ivalue);
+				}
+
+				while (index < m_Data.Count() - m_Offset)
+				{
+					ivalue = m_Data[index++];
+					FPrint(fileHandle, ivalue.AsciiToString());
+				}
+				break;
+			}
 		}
 
 		CloseFile(fileHandle);
-		return true;
-	}
-
-	override bool _WriteFile(string path)
-	{
-		FileSerializer fileHandle();
-		if (!fileHandle.Open(path, FileMode.WRITE)) return false;
-		
-		int index = 0;
-
-		byte b0;
-		byte b1;
-		byte b2;
-		byte b3;
-
-		while (index < m_Data.Count())
-		{
-			b0 = 0;
-			b1 = 0;
-			b2 = 0;
-			b3 = 0;
-
-			if (index < m_Data.Count()) b0 = m_Data[index];
-			index++;
-			if (index < m_Data.Count()) b1 = m_Data[index];
-			index++;
-			if (index < m_Data.Count()) b2 = m_Data[index];
-			index++;
-			if (index < m_Data.Count()) b3 = m_Data[index];
-			index++;
-			
-			int value = ((b3) << 24) + ((b2) << 16) + ((b1) << 8) + (b0);
-			
-			fileHandle.Write(value);
-		}
-
-		fileHandle.Close();
 		return true;
 	}
 
@@ -73,8 +71,8 @@ class CF_BinaryStream : CF_Stream
 
 	override string ReadChar()
 	{
-		byte b = m_Data[m_Position++];
-		return _cf_characters[b - 32];
+		int b = m_Data[m_Position++];
+		return b.AsciiToString();
 	}
 
 	override bool EOF()

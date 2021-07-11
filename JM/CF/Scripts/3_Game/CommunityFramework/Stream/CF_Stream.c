@@ -1,12 +1,6 @@
 class CF_Stream : Managed
 {
-	bool _ReadFile(string path)
-	{
-		/*CF.Log.*/Error("Not implemented.");
-		return false;
-	}
-
-	bool _WriteFile(string path)
+	bool File(string path, FileMode mode)
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return false;

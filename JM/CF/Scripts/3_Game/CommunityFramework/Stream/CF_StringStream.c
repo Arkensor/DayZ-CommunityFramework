@@ -3,32 +3,36 @@ class CF_StringStream : CF_Stream
 	private ref array<char> m_Data = new array<char>();
 	private int m_Position = 0;
 
-	override bool _ReadFile(string path)
+	override bool File(string path, FileMode mode)
 	{
-		FileHandle fileHandle = OpenFile(path, FileMode.READ);
+		FileHandle fileHandle = OpenFile(path, mode);
 		if (fileHandle == 0) return false;
-		
-		string lineContent;
-		while (FGets(fileHandle, lineContent) >= 0)
+
+		int i;
+
+		switch (mode)
 		{
-			for (int i = 0; i < lineContent.Length(); i++)
+			case FileMode.READ:
 			{
-				m_Data.Insert(lineContent[i]);
+				string lineContent;
+				while (FGets(fileHandle, lineContent) >= 0)
+				{
+					for (i = 0; i < lineContent.Length(); i++)
+					{
+						m_Data.Insert(lineContent[i]);
+					}
+				}
+				break;
 			}
-		}
-
-		CloseFile(fileHandle);
-		return true;
-	}
-
-	override bool _WriteFile(string path)
-	{
-		FileHandle fileHandle = OpenFile(path, FileMode.WRITE);
-		if (fileHandle == 0) return false;
-
-		for (int i = 0; i < m_Data.Count(); i++)
-		{
-			FPrint(fileHandle, m_Data[i]);
+			case FileMode.APPEND:
+			case FileMode.WRITE:
+			{
+				for (i = 0; i < m_Data.Count(); i++)
+				{
+					FPrint(fileHandle, m_Data[i]);
+				}
+				break;
+			}
 		}
 
 		CloseFile(fileHandle);
