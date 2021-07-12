@@ -19,10 +19,10 @@ class CF_BinaryStream : CF_Stream
 			{
 				int lastZero = 0;
 
-				bool varr[1];
-				while (ReadFile(fileHandle, varr, 1) > 0)
+				bool readData[1];
+				while (ReadFile(fileHandle, readData, 1) > 0)
 				{
-					m_Data.Insert(varr[0] & 0x000000FF);
+					m_Data.Insert(readData[0] & 0x000000FF);
 
 					// Add if currently only less than maximum required
 					if (m_NonZeroes.Count() < 4)
@@ -178,7 +178,7 @@ class CF_BinaryStream : CF_Stream
 		Write(0);
 	}
 
-	override int Read()
+	override int ReadByte()
 	{
 		return m_Data[m_Position++];
 	}
@@ -191,15 +191,15 @@ class CF_BinaryStream : CF_Stream
 
 	override bool ReadBool()
 	{
-		return Read() != 0;
+		return ReadByte() != 0;
 	}
 
 	override int ReadInt()
 	{
-		int b3 = Read();
-		int b2 = Read();
-		int b1 = Read();
-		int b0 = Read();
+		int b3 = ReadByte();
+		int b2 = ReadByte();
+		int b1 = ReadByte();
+		int b0 = ReadByte();
 
 		return ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
 	}
@@ -224,7 +224,7 @@ class CF_BinaryStream : CF_Stream
 
 		for (int index = 0; index < ReadInt(); index++)
 		{
-			str += Read().AsciiToString();
+			str += ReadByte().AsciiToString();
 		}
 
 		return str;
@@ -234,11 +234,11 @@ class CF_BinaryStream : CF_Stream
 	{
 		string str;
 
-		int c = Read();
+		int c = ReadByte();
 		while (c != 0)
 		{
 			str += c.AsciiToString();
-			c = Read();
+			c = ReadByte();
 		}
 
 		return str;
@@ -259,14 +259,20 @@ class CF_BinaryStream : CF_Stream
 		return m_Data.Count();
 	}
 
-	override void GoTo(int position)
+	override void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
-		m_Position = position;
-	}
-
-	override void Seek(int offset)
-	{
-		m_Position += offset;
+		switch (origin)
+		{
+			case CF_SeekOrigin.SET:
+				m_Position = num;
+				return;
+			case CF_SeekOrigin.CURRENT:
+				m_Position += num;
+				return;
+			case CF_SeekOrigin.END:
+				m_Position = Length() - num;
+				return;
+		}
 	}
 
 	override void SetBytes(array<int> bytes)

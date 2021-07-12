@@ -71,16 +71,16 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a byte
+	 * ReadByte a byte
 	 */
-	int Read()
+	int ReadByte()
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return 0;
 	}
 
 	/**
-	 * Read an ascii character
+	 * ReadByte an ascii character
 	 */
 	string ReadChar()
 	{
@@ -89,7 +89,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a bool
+	 * ReadByte a bool
 	 */
 	bool ReadBool()
 	{
@@ -98,7 +98,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a int
+	 * ReadByte a int
 	 */
 	int ReadInt()
 	{
@@ -107,7 +107,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a float
+	 * ReadByte a float
 	 */
 	float ReadFloat()
 	{
@@ -116,7 +116,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a vector
+	 * ReadByte a vector
 	 */
 	vector ReadVector()
 	{
@@ -125,7 +125,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a string
+	 * ReadByte a string
 	 */
 	string ReadString()
 	{
@@ -134,7 +134,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * Read a null terminated string
+	 * ReadByte a null terminated string
 	 */
 	string ReadCString()
 	{
@@ -160,12 +160,7 @@ class CF_Stream : Managed
 		return 0;
 	}
 
-	void GoTo(int position)
-	{
-		/*CF.Log.*/Error("Not implemented.");
-	}
-
-	void Seek(int offset)
+	void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
 		/*CF.Log.*/Error("Not implemented.");
 	}
