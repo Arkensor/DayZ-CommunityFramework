@@ -57,7 +57,7 @@ class CF_StringStream : CF_Stream
 		}
 	}
 
-	override int Read()
+	override int ReadByte()
 	{
 		string s = m_Data[m_Position++];
 		return s.Hash();
@@ -97,14 +97,20 @@ class CF_StringStream : CF_Stream
 		return m_Data.Count();
 	}
 
-	override void GoTo(int position)
+	override void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
-		m_Position = position;
-	}
-
-	override void Seek(int offset)
-	{
-		m_Position += offset;
+		switch (origin)
+		{
+			case CF_SeekOrigin.SET:
+				m_Position = num;
+				return;
+			case CF_SeekOrigin.CURRENT:
+				m_Position += num;
+				return;
+			case CF_SeekOrigin.END:
+				m_Position = Length() - num;
+				return;
+		}
 	}
 
 	override void SetBytes(array<int> bytes)
