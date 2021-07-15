@@ -17,6 +17,8 @@ class CF_BinaryStream : CF_Stream
 		{
 			case FileMode.READ:
 			{
+				m_Data.Clear();
+
 				int lastZero = 0;
 
 				bool readData[1];
