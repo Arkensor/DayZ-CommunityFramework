@@ -14,17 +14,17 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 		m_SubModel = subModel;
 	}
 
-	override void OnView(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)
+	override void OnView(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView", "" + model, evt.String());
+		CF_Trace trace(this, "OnView", evt.String());
 
-		g_Script.CallFunctionParams(m_SubModel, m_FunctionOnView, null, new Param2<CF_ModelBase, CF_EventArgs>(model, evt));
+		g_Script.CallFunctionParams(m_SubModel, m_FunctionOnView, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
 	}
 
-	override void OnModel(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)
+	override void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel", evt.String());
 
-		g_Script.CallFunctionParams(m_SubModel, m_FunctionOnModel, null, new Param2<CF_ModelBase, CF_EventArgs>(model, evt));
+		g_Script.CallFunctionParams(m_SubModel, m_FunctionOnModel, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
 	}
 };

@@ -1,6 +1,7 @@
 class CF_MVVM_Property
 {
-	protected CF_MVVM_View m_Handler;
+	protected CF_ModelBase m_Model;
+	protected CF_MVVM_View m_ViewModel;
 
 	protected string m_Name;
 	protected string m_FunctionOnView;
@@ -11,13 +12,18 @@ class CF_MVVM_Property
 
 	void CF_MVVM_Property(CF_MVVM_View handler, string name)
 	{
-		CF_Trace trace(this, "CF_MVVM_Property", "" + handler);
+		CF_Trace trace(this, "CF_MVVM_Property", "" + handler, name);
 
-		m_Handler = handler;
+		m_ViewModel = handler;
 		m_Name = name;
 
 		m_FunctionOnView = "OnView_" + m_Name;
 		m_FunctionOnModel = "OnModel_" + m_Name;
+	}
+
+	void ~CF_MVVM_Property()
+	{
+		//TODO: remove from CF_MVVM properties map
 	}
 
 	void SetVariableName(string variableName)
@@ -45,9 +51,11 @@ class CF_MVVM_Property
 		return m_Name;
 	}
 
-	void Assign(CF_ModelBase model, CF_MVVM_View view)
+	void Link(CF_ModelBase model)
 	{
-		CF_Trace trace(this, "Assign", "" + model, "" + view);
+		CF_Trace trace(this, "Assign", "" + model);
+
+		m_Model = model;
 
 		if (m_Type.IsInherited(CF_ObservableCollection))
 		{
@@ -63,27 +71,27 @@ class CF_MVVM_Property
 			return;
 		}
 
-		CF_TypeConverter typeConverter = CF.MVVM.GetPropertyType(model, m_VariableName);
+		CF_TypeConverter typeConverter = CF_MVVM.GetPropertyType(model, m_VariableName);
 		if (!typeConverter)
 		{
 			CF.Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
 			return;
 		}
 
-		EnScript.SetClassVar(view, "_" + m_Name, 0, typeConverter);
+		EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, typeConverter);
 	}
 	
-	void OnView(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)
+	void OnView(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView", "" + model, evt.String());
+		CF_Trace trace(this, "OnView", evt.String());
 
-		g_Script.CallFunctionParams(m_Handler, m_FunctionOnView, null, new Param2<CF_ModelBase, CF_EventArgs>(model, evt));
+		g_Script.CallFunctionParams(m_ViewModel, m_FunctionOnView, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
 	}
 
-	void OnModel(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)
+	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel", evt.String());
 
-		g_Script.CallFunctionParams(m_Handler, m_FunctionOnModel, null, new Param2<CF_ModelBase, CF_EventArgs>(model, evt));
+		g_Script.CallFunctionParams(m_ViewModel, m_FunctionOnModel, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
 	}
 };

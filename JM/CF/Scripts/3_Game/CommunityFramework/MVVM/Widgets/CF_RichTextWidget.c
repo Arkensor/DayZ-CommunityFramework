@@ -59,7 +59,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 		float _value;
 		EnScript.GetClassVar(model, ContentOffset, 0, _value);
-		_RichTextWidget.SetContentOffset(_value, _ContentSnapToLine);
+		//_RichTextWidget.SetContentOffset(_value, _ContentSnapToLine);
 	}
 
 	void OnView_ContentSnapToLine(CF_ModelBase model, CF_EventArgs evt)
@@ -74,7 +74,7 @@ class CF_RichTextWidget : CF_TextWidget
 		CF_Trace trace(this, "OnModel_ContentSnapToLine", "" + model, evt.String());
 
 		EnScript.GetClassVar(model, ContentSnapToLine, 0, _ContentSnapToLine);
-		_RichTextWidget.SetContentOffset(_RichTextWidget.GetContentOffset(), _ContentSnapToLine);
+		//_RichTextWidget.SetContentOffset(_RichTextWidget.GetContentOffset(), _ContentSnapToLine);
 	}
 
 	void OnView_LineWidths(CF_ModelBase model, CF_EventArgs evt)

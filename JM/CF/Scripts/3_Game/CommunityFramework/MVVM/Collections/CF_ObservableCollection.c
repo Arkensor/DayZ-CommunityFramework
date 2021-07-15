@@ -19,6 +19,6 @@ class CF_ObservableCollection : CF_Collection
 	{
 		CF_Trace trace(this, "NotifyCollectionChanged", evt.String());
 
-		CF.MVVM.NotifyPropertyChanged(m_Model, m_Property, evt);
+		CF_MVVM.NotifyPropertyChanged(m_Model, m_Property, evt);
 	}
 };

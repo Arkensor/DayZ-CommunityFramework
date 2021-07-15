@@ -128,7 +128,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 		CF_Trace trace(this, "OnModel_HorizontalScrollStep", "" + model, evt.String());
 
 		EnScript.GetClassVar(model, HorizontalScrollStep, 0, _HorizontalScrollStep);
-		_ScrollWidget.HScrollStep(_HorizontalScrollStep);
+		//_ScrollWidget.HScrollStep(_HorizontalScrollStep);
 	}
 
 	void OnView_VerticalScrollStep(CF_ModelBase model, CF_EventArgs evt)
@@ -143,6 +143,6 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 		CF_Trace trace(this, "OnModel_VerticalScrollStep", "" + model, evt.String());
 
 		EnScript.GetClassVar(model, VerticalScrollStep, 0, _VerticalScrollStep);
-		_ScrollWidget.VScrollStep(_VerticalScrollStep);
+		//_ScrollWidget.VScrollStep(_VerticalScrollStep);
 	}
 };

@@ -4,36 +4,6 @@
 
 class CF_Widget : CF_MVVM_View
 {
-	reference string Event_Click;
-	reference string Event_ModalResult;
-	reference string Event_DoubleClick;
-	reference string Event_Select;
-	reference string Event_ItemSelected;
-	reference string Event_Focus;
-	reference string Event_FocusLost;
-	reference string Event_MouseEnter;
-	reference string Event_MouseLeave;
-	reference string Event_MouseWheel;
-	reference string Event_MouseButtonDown;
-	reference string Event_MouseButtonUp;
-	reference string Event_Controller;
-	reference string Event_KeyDown;
-	reference string Event_KeyUp;
-	reference string Event_KeyPress;
-	reference string Event_Change;
-	reference string Event_Drag;
-	reference string Event_Dragging;
-	reference string Event_DraggingOver;
-	reference string Event_Drop;
-	reference string Event_DropReceived;
-	reference string Event_Resize;
-	reference string Event_ChildAdd;
-	reference string Event_ChildRemove;
-	reference string Event_Update;
-	reference string Event_Show;
-	reference string Event_Hide;
-	reference string Event_Destroyed;
-
 	reference string Name;
 	reference string Visible;
 	reference string Enabled;
@@ -153,7 +123,7 @@ class CF_Widget : CF_MVVM_View
 		CF_Trace trace(this, "OnModel_Enabled", "" + model, evt.String());
 		
 		EnScript.GetClassVar(model, Enabled, 0, _Enabled);
-		_Widget.Enable(_Enabled);
+	//	_Widget.Enable(_Enabled);
 	}
 
 	void OnView_Flags(CF_ModelBase model, CF_EventArgs evt)
@@ -414,7 +384,7 @@ class CF_Widget : CF_MVVM_View
 		CF_Trace trace(this, "OnModel_Roll", "" + model, evt.String());
 		
 		EnScript.GetClassVar(model, Roll, 0, _Roll);
-		_Widget.SetRotation(_Roll, _Pitch, _Yaw);
+		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
 	}
 
 	void OnView_Pitch(CF_ModelBase model, CF_EventArgs evt)
@@ -429,7 +399,7 @@ class CF_Widget : CF_MVVM_View
 		CF_Trace trace(this, "OnModel_Pitch", "" + model, evt.String());
 		
 		EnScript.GetClassVar(model, Pitch, 0, _Pitch);
-		_Widget.SetRotation(_Roll, _Pitch, _Yaw);
+		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
 	}
 
 	void OnView_Yaw(CF_ModelBase model, CF_EventArgs evt)
@@ -444,7 +414,7 @@ class CF_Widget : CF_MVVM_View
 		CF_Trace trace(this, "OnModel_Yaw", "" + model, evt.String());
 		
 		EnScript.GetClassVar(model, Yaw, 0, _Yaw);
-		_Widget.SetRotation(_Roll, _Pitch, _Yaw);
+		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
 	}
 	
 	void OnView_Alpha(CF_ModelBase model, CF_EventArgs evt)
@@ -489,10 +459,10 @@ class CF_Widget : CF_MVVM_View
 
 		if (_Visible != _Widget.IsVisible())
 		{
-			_Visible = _Widget.IsVisible();
+			//_Visible = _Widget.IsVisible();
 			
-			if (_Visible) m_ViewModel.OnShow(m_Widget);
-			else m_ViewModel.OnHide(m_Widget);
+			//if (_Visible) m_ViewModel.OnShow(m_Widget);
+			//else m_ViewModel.OnHide(m_Widget);
 		}
 
 		return super.OnUpdate(evt);

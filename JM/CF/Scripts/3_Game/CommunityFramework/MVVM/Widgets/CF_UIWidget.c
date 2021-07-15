@@ -61,7 +61,7 @@ class CF_UIWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextColor", "" + model, evt.String());
 
 		EnScript.GetClassVar(model, TextColor, 0, _TextColor);
-		_UIWidget.SetTextColor(_TextColor);
+		//_UIWidget.SetTextColor(_TextColor);
 	}
 
 	void OnView_TextOutlineSize(CF_ModelBase model, CF_EventArgs evt)

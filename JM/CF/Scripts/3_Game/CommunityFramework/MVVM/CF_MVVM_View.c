@@ -1,4 +1,4 @@
-class CF_MVVM_View
+class CF_MVVM_View : ScriptedWidgetEventHandler
 {
 	reference string Model;
 	reference string Children;
@@ -6,21 +6,19 @@ class CF_MVVM_View
 	protected Widget m_Widget;
 
     #ifdef COMPONENT_SYSTEM 
-	protected ref CF_ViewModel m_ViewModel;
-	private ref Managed m_Model;
-	#else
-	//! In-game, the ref count shouldn't be incremented. When the ref count == 0, then this view should be destroyed.
-	protected CF_ViewModel m_ViewModel;
+	private ref CF_ModelBase m_WB_Model;
 	#endif
 
-	private bool m_IsRoot;
+	//! In-game, the ref count shouldn't be incremented. When the ref count == 0, then this view should be destroyed.
+	protected CF_ModelBase m_Model;
 
 	//! Lifetimes are managed by the enfusion widgets
 	protected CF_MVVM_View m_Parent = null;
 	protected ref set<CF_MVVM_View> m_Children = new set<CF_MVVM_View>();
 
-	protected ref array<ref CF_MVVM_Property> m_Properties;
-	protected map<string, ref CF_MVVM_Property> m_PropertiesMap;
+	protected ref CF_Map<string, ref CF_MVVM_Property> m_Properties = new CF_Map<string, ref CF_MVVM_Property>();
+
+	protected CF_Map<string, ref CF_MVVM_Property> m_TempProperties;
 
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -35,10 +33,10 @@ class CF_MVVM_View
 			{
 				//! Workbench editing
     			#ifdef COMPONENT_SYSTEM
-				if (!CF.MVVM.WB_NEXT_IN_SCRIPT)
+				if (!CF_MVVM.WB_NEXT_IN_SCRIPT)
 				{
-					Class.CastTo(m_Model, modelType.Spawn());
-					m_ViewModel = new CF_ViewModel(this, m_Model);
+					Class.CastTo(m_WB_Model, modelType.Spawn());
+					m_Model = m_WB_Model;
 				}
 				#endif
 			}
@@ -69,45 +67,71 @@ class CF_MVVM_View
 	void ~CF_MVVM_View()
 	{
 		CF_Trace trace(this, "~CF_MVVM_View");
-
-		//! If not in workbench editing
-    	#ifndef COMPONENT_SYSTEM
-		if (CF.MVVM && m_ViewModel && m_IsRoot) CF.MVVM._Destroy(m_ViewModel);
-		#endif
-	}
-
-	bool IsBinded(CF_ViewModel vm)
-	{
-		return m_ViewModel == vm;
 	}
 
 	void NotifyPropertyChanged(string name, CF_EventArgs evt = null)
 	{
-		CF_Trace trace(this, "NotifyPropertyChanged", "" + name);
+		CF_EventArgs temp = evt;
+		if (temp == null) temp = new CF_EventArgs();
 
-		if (!m_ViewModel) return;
+		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, "" + temp);
 
-		m_ViewModel.NotifyViewPropertyChanged(name, evt);
+		CF_MVVM_Property property;
+		if (!m_Properties.Find(name, property)) return;
+
+		property.OnView(temp);
 	}
 
-	void GetProperties(CF_ViewModel viewModel, inout map<string, ref CF_MVVM_Property> propertiesMap, inout array<ref CF_MVVM_Property> properties)
+	void NotifyPropertyChanged(CF_EventArgs evt = null)
 	{
-		CF_Trace trace(this, "GetProperties", "" + viewModel, "" + propertiesMap, "" + properties);
-		
-		m_ViewModel = viewModel;
-		m_Widget.SetUserData(m_ViewModel);
-		m_Widget.SetHandler(m_ViewModel);
+		CF_EventArgs temp = evt;
+		if (temp == null) temp = new CF_EventArgs();
 
-		m_Properties = properties;
-		m_PropertiesMap = propertiesMap;
+		CF_Trace trace(this, "NotifyPropertyChanged", "" + temp.String());
 
-		GetProperties();
-
-		m_Properties = null;
-		m_PropertiesMap = null;
+		for (int i = 0; i < m_Properties.Count(); i++)
+		{
+			m_Properties.GetElement(i).OnView(temp);
+		}
 	}
 
-	void GetProperties()
+	void SetModel(CF_ModelBase model)
+	{
+		CF_Trace trace(this, "SetModel", "" + model);
+
+		CF_Map<string, ref CF_MVVM_Property> allProps = new CF_Map<string, ref CF_MVVM_Property>();
+
+		_SetModel(model, allProps);
+
+		CF_MVVM._LoadPropertyTypes(m_Model, this, allProps);
+	}
+
+	void _SetModel(CF_ModelBase model, CF_Map<string, ref CF_MVVM_Property> allProps)
+	{
+		CF_Trace trace(this, "_SetModel", "" + model);
+
+		m_Model = model;
+
+		if (m_Model)
+		{
+			m_Widget.SetUserData(model);
+			m_Widget.SetHandler(this);
+
+			m_TempProperties = allProps;
+
+			GetProperties();
+
+			m_TempProperties = null;
+
+			set<CF_MVVM_View> children = GetChildren();
+			for (int i = 0; i < children.Count(); i++)
+			{
+				children[i]._SetModel(model, allProps);
+			}
+		}
+	}
+
+	protected void GetProperties()
 	{
 		CF_Trace trace(this, "GetProperties");
 
@@ -120,25 +144,8 @@ class CF_MVVM_View
 		
 		if (actual == string.Empty) return;
 		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
-		m_Properties.Insert(property);
-		m_PropertiesMap.Insert(actual, property);
-	}
-	
-	void SetViewModel(CF_ViewModel viewModel)
-	{
-		CF_Trace trace(this, "SetViewModel", "" + viewModel);
-
-		m_ViewModel = viewModel;
-		m_Widget.SetUserData(m_ViewModel);
-		m_Widget.SetHandler(m_ViewModel);
-
-		m_IsRoot = false;
-		if (m_ViewModel) m_IsRoot = true;
-	}
-
-	CF_ViewModel GetViewModel()
-	{
-		return m_ViewModel;
+		m_Properties.Insert(actual, property);
+		m_TempProperties.Insert(actual, property);
 	}
 
 	Widget GetWidget()
@@ -253,7 +260,7 @@ class CF_MVVM_View
 				return;
 			}
 
-			CF.MVVM.Create(model, layout, m_Widget);
+			CF_MVVM.Create(model, layout, m_Widget);
 		}
 	}
 
@@ -274,7 +281,7 @@ class CF_MVVM_View
 			return;
 		}
 		
-		CF.MVVM.Create(model, layout, m_Widget);
+		CF_MVVM.Create(model, layout, m_Widget);
 	}
 
 	void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
@@ -294,11 +301,11 @@ class CF_MVVM_View
 			Widget current = child;
 			child = child.GetSibling();
 
-			CF_ViewModel vm;
-			current.GetUserData(vm);
-			if (vm)
+			CF_ModelBase model;
+			current.GetUserData(model);
+			if (model)
 			{
-				CF.MVVM._Destroy(vm);
+				CF_MVVM.Destroy(model);
 			}
 		}
 	}

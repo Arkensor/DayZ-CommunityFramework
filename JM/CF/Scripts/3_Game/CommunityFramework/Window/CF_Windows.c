@@ -80,7 +80,7 @@ class CF_Windows
 		s_Windows.Insert(handle, window);
 		s_Z.InsertAt(handle, 0);
 
-		CF.MVVM.Create(window, window.GetLayout(), s_Container);
+		CF_MVVM.Create(window, window.GetLayout(), s_Container);
 
 		return true;
 	}
@@ -99,7 +99,7 @@ class CF_Windows
 		s_Windows.Insert(handle, window);
 		s_Z.InsertAt(handle, 0);
 
-		CF.MVVM.Create(window, window.GetLayout());
+		CF_MVVM.Create(window, window.GetLayout());
 
 		return true;
 	}
@@ -117,7 +117,7 @@ class CF_Windows
 		s_Windows.Remove(handle);
 		s_Z.RemoveItem(handle);
 
-		CF.MVVM.Destroy(window);
+		CF_MVVM.Destroy(window);
 	}
 
 	/**

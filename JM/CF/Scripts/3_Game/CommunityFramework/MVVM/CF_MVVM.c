@@ -1,7 +1,14 @@
+typedef CF_Map<string, CF_MVVM_Property> CF_MVVM_Properties;
+
+class CF_MVVM_Link
+{
+	ref CF_MVVM_Properties m_Properties = new CF_MVVM_Properties();
+	CF_MVVM_View m_View;
+};
+
 class CF_MVVM
 {
-	private static ref array<ref CF_ViewModel> s_ViewModels;
-	private static ref map<CF_ModelBase, CF_ViewModel> s_ViewModelMap;
+	private static ref map<CF_ModelBase, ref CF_MVVM_Link> s_ViewModelMap;
 
 	private static ref map<typename, ref map<string, ref CF_TypeConverter>> s_PropertyMap;
 
@@ -16,8 +23,7 @@ class CF_MVVM
 
 	static CF_MVVM _Init()
 	{
-		s_ViewModels = new array<ref CF_ViewModel>();
-		s_ViewModelMap = new map<CF_ModelBase, CF_ViewModel>();
+		s_ViewModelMap = new map<CF_ModelBase, ref CF_MVVM_Link>();
 		
 		s_PropertyMap = new map<typename, ref map<string, ref CF_TypeConverter>>();
 
@@ -32,76 +38,71 @@ class CF_MVVM
 
 	static void _Cleanup()
 	{
-    	#ifndef COMPONENT_SYSTEM
-		for (int i = s_ViewModels.Count() - 1; i >= 0; i--)
-		{
-			_Destroy(s_ViewModels[i]);
-		}
-		#endif
-
-		s_ViewModels = null;
 		s_ViewModelMap = null;
 		
 		s_PropertyMap = null;
 	}
 
+	static CF_MVVM_Link _GetLink(CF_ModelBase model)
+	{
+		CF_Trace trace(CF.MVVM, "_GetLink", "" + model);
+
+		return s_ViewModelMap[model];
+	}
+
 	/**
 	 * @brief Creates a new View for the model. Returns existing view if it already exists for the model
 	 */
-	static CF_ViewModel Create(CF_ModelBase model, string layout)
+	static void Create(CF_ModelBase model, string layout)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout);
 
     	#ifdef COMPONENT_SYSTEM
-		if (s_ViewModels == null && s_ViewModelMap == null)
+		if (s_ViewModelMap == null)
 		{
 			CF._GameInit();
 		}
 		#endif
 
-		CF_ViewModel viewModel;
-		if (s_ViewModelMap.Find(model, viewModel))
+		CF_MVVM_Link link;
+		if (s_ViewModelMap.Find(model, link))
 		{
-			CF_MVVM_View view = viewModel.GetView();
-			if (view)
-			{
-				return viewModel;
-			}
+			if (link.m_View) return;
 
-			_Destroy(viewModel);
+			Destroy(model);
 		}
 
     	#ifdef COMPONENT_SYSTEM
-		CF.MVVM.WB_NEXT_IN_SCRIPT = true;
+		CF_MVVM.WB_NEXT_IN_SCRIPT = true;
 		#endif
 
-		viewModel = Create(model, GetGame().GetWorkspace().CreateWidgets(layout, null));
+		Widget widget = GetGame().GetWorkspace().CreateWidgets(layout, null);
+
+		Connect(model, widget);
 
     	#ifdef COMPONENT_SYSTEM
-		CF.MVVM.WB_NEXT_IN_SCRIPT = false;
+		CF_MVVM.WB_NEXT_IN_SCRIPT = false;
 		#endif
-
-		return viewModel;
 	}
 
 	/**
 	 * @brief Creates a new View for the model. Returns existing view if it already exists for the model. Updates the parent widget
 	 */
-	static CF_ViewModel Create(CF_ModelBase model, string layout, Widget parent)
+	static void Create(CF_ModelBase model, string layout, Widget parent)
 	{
 		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout, "" + parent);
 
     	#ifdef COMPONENT_SYSTEM
-		if (s_ViewModels == null && s_ViewModelMap == null)
+		if (s_ViewModelMap == null)
 		{
 			CF._GameInit();
 		}
 		#endif
 
-		CF_ViewModel viewModel;
-		if (s_ViewModelMap.Find(model, viewModel))
+		CF_MVVM_Link link;
+		if (s_ViewModelMap.Find(model, link))
 		{
-			CF_MVVM_View view = viewModel.GetView();
+			CF_MVVM_View view = link.m_View;
 			if (view)
 			{
 				Widget widget = view.GetWidget();
@@ -117,74 +118,74 @@ class CF_MVVM
 					parent.AddChild(widget);
 				}
 
-				return viewModel;
+				return;
 			}
 
-			_Destroy(viewModel);
+			Destroy(model);
 		}
 
     	#ifdef COMPONENT_SYSTEM
-		CF.MVVM.WB_NEXT_IN_SCRIPT = true;
+		CF_MVVM.WB_NEXT_IN_SCRIPT = true;
 		#endif
 
-		viewModel = Create(model, GetGame().GetWorkspace().CreateWidgets(layout, parent));
+		Connect(model, GetGame().GetWorkspace().CreateWidgets(layout, parent));
 
     	#ifdef COMPONENT_SYSTEM
-		CF.MVVM.WB_NEXT_IN_SCRIPT = false;
+		CF_MVVM.WB_NEXT_IN_SCRIPT = false;
 		#endif
-
-		return viewModel;
 	}
 
-	static CF_ViewModel Create(CF_ModelBase model, Widget widget)
+	static void Connect(CF_ModelBase model, Widget widget)
 	{
-		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + widget);
+		CF_Trace trace(CF.MVVM, "Connect", "" + model, "" + widget);
 
     	#ifdef COMPONENT_SYSTEM
-		if (s_ViewModels == null && s_ViewModelMap == null)
+		if (s_ViewModelMap == null)
 		{
 			CF._GameInit();
 		}
 		#endif
 
-		CF_ViewModel viewModel;
-		if (s_ViewModelMap.Find(model, viewModel))
+		CF_MVVM_Link link;
+		if (s_ViewModelMap.Find(model, link))
 		{
-			viewModel._UnlinkView();
+			if (!link.m_View) return;
+
+			link.m_View.GetWidget().Unlink();
+			link.m_View = null;
 		}
 
-		if (!widget) return null;
+		if (!widget) return;
 
 		CF_MVVM_View view;
 		widget.GetScript(view);
 
-		return Create(model, view);
+		Connect(model, view);
 	}
 
-	static CF_ViewModel Create(CF_ModelBase model, CF_MVVM_View view)
+	static void Connect(CF_ModelBase model, notnull CF_MVVM_View view)
 	{
-		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + view);
+		CF_Trace trace(CF.MVVM, "Connect", "" + model, "" + view);
 
     	#ifdef COMPONENT_SYSTEM
-		if (s_ViewModels == null && s_ViewModelMap == null)
+		if (s_ViewModelMap == null)
 		{
 			CF._GameInit();
 		}
 		#endif
 
-		CF_ViewModel viewModel;
-		if (s_ViewModelMap.Find(model, viewModel))
+		view.SetModel(model);
+
+		CF_MVVM_Link link;
+		if (s_ViewModelMap.Find(model, link))
 		{
-			viewModel.SetView(view);
-			return viewModel;
+			link.m_View = view;
+			return;
 		}
 
-		if (!view) return null;
-
-		viewModel = new CF_ViewModel(view, model);
-		s_ViewModels.Insert(viewModel);
-		s_ViewModelMap.Insert(model, viewModel);
-		return viewModel;
+		link = new CF_MVVM_Link();
+		link.m_View = view;
+		s_ViewModelMap.Insert(model, link);
 	}
 
 	static ref CF_TypeConverter GetPropertyType(CF_ModelBase model, string property)
@@ -203,9 +204,9 @@ class CF_MVVM
 		return propertyTypeMap.Get(property);
 	}
 
-	static void _LoadPropertyTypes(CF_ModelBase model, CF_MVVM_View view, map<string, ref CF_MVVM_Property> propertyMap, array<ref CF_MVVM_Property> properties)
+	static void _LoadPropertyTypes(CF_ModelBase model, CF_MVVM_View view, CF_Map<string, ref CF_MVVM_Property> properties)
 	{
-		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + view, "" + propertyMap);
+		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + view, "" + properties);
 
 		map<string, ref CF_TypeConverter> propertyTypeMap;
 		typename type = model.Type();
@@ -222,7 +223,7 @@ class CF_MVVM
 		#else
 			for (int j = 0; j < properties.Count(); j++)
 			{
-				properties[j].Assign(model, view);
+				properties.GetElement(j).Assign(model, view);
 			}
 
 			return;
@@ -236,12 +237,12 @@ class CF_MVVM
 			typename variableType = type.GetVariableType(i);
 
 			CF_MVVM_Property property;
-			if (!propertyMap.Find(variableName, property))
+			if (!properties.Find(variableName, property))
 			{
 				if (!variableType.IsInherited(Widget)) continue;
 
 				property = new CF_MVVM_WidgetProperty(null, variableName);
-				propertyMap.Insert(variableName, property);
+				properties.Insert(variableName, property);
 			}
 
 			property.SetVariableName(variableName);
@@ -250,7 +251,7 @@ class CF_MVVM
 			// Must be added before Assign
 			propertyTypeMap.Insert(variableName, CF.TypeConverters.Create(variableType));
 			
-			property.Assign(model, view);
+			property.Link(model);
 		}
 	}
 
@@ -258,24 +259,12 @@ class CF_MVVM
 	{
 		CF_Trace trace(CF.MVVM, "Destroy", "" + model);
 
-		CF_ViewModel viewModel;
-		if (!s_ViewModelMap.Find(model, viewModel)) return;
+		CF_MVVM_Link link;
+		if (!s_ViewModelMap.Find(model, link)) return;
 
-		if (!viewModel._DestroyView())
-		{
-			_Destroy(viewModel, false);
-		}
-	}
+		link.m_View.GetWidget().Unlink();
 
-	static void _Destroy(CF_ViewModel viewModel, bool forceUI = false)
-	{
-		CF_Trace trace(CF.MVVM, "_Destroy", "" + viewModel, "" + forceUI);
-
-		if (forceUI && viewModel._DestroyView()) return;
-
-		s_ViewModelMap.Remove(viewModel.GetModel());
-		int idx = s_ViewModels.Find(viewModel);
-		if (idx != -1) s_ViewModels.Remove(idx);
+		s_ViewModelMap.Remove(model);
 	}
 
 	/**
@@ -284,41 +273,77 @@ class CF_MVVM
 	 * @note	To only be using during Workbench editing of layout files.
 	 */
     #ifdef COMPONENT_SYSTEM
-	static void _Assign(CF_ViewModel viewModel)
-	{
-		if (s_ViewModels == null && s_ViewModelMap == null)
-		{
-			CF._GameInit();
-		}
-
-		int idx = s_ViewModels.Find(viewModel);
-		if (idx == -1)
-		{
-			s_ViewModels.Insert(viewModel);
-		}
-
-		if (!s_ViewModelMap.Contains(viewModel.GetModel()))
-		{
-			s_ViewModelMap.Insert(viewModel.GetModel(), viewModel);
-		}
-	}
-
 	static void _CheckInit()
 	{
-		if (s_ViewModels == null && s_ViewModelMap == null)
+		if (s_ViewModelMap == null)
 		{
 			CF._GameInit();
 		}
 	}
 	#endif
 
-	static void NotifyPropertyChanged(CF_ModelBase model, string property, CF_EventArgs evt = null)
+	static void NotifyPropertyChanged(CF_ModelBase model, string propertyName, CF_EventArgs evt = null)
 	{
-		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + property);
+		CF_EventArgs temp = evt;
+		if (temp == null) temp = new CF_EventArgs();
 
-		CF_ViewModel viewModel;
-		if (!s_ViewModelMap.Find(model, viewModel)) return;
+		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.String());
 
-		viewModel.NotifyPropertyChanged(property, evt);
+		CF_MVVM_Link link;
+		if (!s_ViewModelMap.Find(model, link)) return;
+
+		CF_MVVM_Properties properties = link.m_Properties;
+
+		CF_MVVM_Property property;
+		if (!properties.Find(propertyName, property)) return;
+
+		property.OnModel(temp);
+	}
+
+	static void NotifyPropertyChanged(CF_ModelBase model)
+	{
+		CF_EventArgs temp = new CF_EventArgs();
+
+		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model);
+
+		CF_MVVM_Link link;
+		if (!s_ViewModelMap.Find(model, link)) return;
+
+		CF_MVVM_Properties properties = link.m_Properties;
+
+		int count = properties.Count();
+		for (int i = 0; i < count; i++)
+		{
+			properties.GetElement(i).OnModel(temp);
+		}
+	}
+
+	void AddProperty(CF_ModelBase model, CF_MVVM_Property property)
+	{
+		CF_MVVM_Link link;
+		if (!s_ViewModelMap.Find(model, link))
+		{
+			link = new CF_MVVM_Link();
+			s_ViewModelMap.Insert(model, link);
+		}
+
+		CF_MVVM_Properties properties = link.m_Properties;
+		
+		properties.Insert(property.GetVariableName(), property);
+	}
+
+	void RemoveProperty(CF_ModelBase model, string propertyName)
+	{
+		CF_MVVM_Link link;
+		if (!s_ViewModelMap.Find(model, link)) return;
+
+		CF_MVVM_Properties properties = link.m_Properties;
+
+		properties.Remove(propertyName);
+	
+		if (properties.Count() == 0)
+		{
+			Destroy(model);
+		}
 	}
 };

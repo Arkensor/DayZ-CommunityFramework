@@ -7,8 +7,8 @@ class CF_FrameWidget : CF_Widget
 	reference string SubModelProperty0;
 	reference string SubModelProperty1;
 
-	protected CF_ViewModel _SubViewModel;
 	protected ref array<CF_MVVM_SubProperty> _SubProperties = new array<CF_MVVM_SubProperty>();
+	protected ref CF_ModelBase _SubModel;
 
 	override void GetProperties()
 	{
@@ -31,8 +31,7 @@ class CF_FrameWidget : CF_Widget
 		if (actual == string.Empty) return;
 		CF_MVVM_SubProperty property = new CF_MVVM_SubProperty(this, name);
 		_SubProperties.Insert(property);
-		m_Properties.Insert(property);
-		m_PropertiesMap.Insert(actual, property);
+		m_Properties.Insert(actual, property);
 	}
 
 	override void OnWidgetScriptInit(Widget w)
@@ -43,8 +42,7 @@ class CF_FrameWidget : CF_Widget
 
 		if (SubModel == string.Empty && SubModelType != string.Empty)
 		{
-			CF_ModelBase model;
-			if (!Class.CastTo(model, SubModelType.ToType().Spawn()))
+			if (!Class.CastTo(_SubModel, SubModelType.ToType().Spawn()))
 			{
 				CF.Log.Error("Error creating sub model %1", SubModelType);
 				return;
@@ -52,27 +50,22 @@ class CF_FrameWidget : CF_Widget
 
 			if (SubLayoutOverride == string.Empty)
 			{
-				g_Script.CallFunction(model, "GetLayout", SubLayoutOverride, null);
+				g_Script.CallFunction(_SubModel, "GetLayout", SubLayoutOverride, null);
 			}
 
-			_SubViewModel = CF.MVVM.Create(model, SubLayoutOverride, _Widget);
+			CF_MVVM.Create(_SubModel, SubLayoutOverride, _Widget);
 		}
 	}
 
 	void OnUpdateSubViewModel()
 	{
 		CF_Trace trace(this, "OnUpdateSubViewModel");
+
+		if (!_SubModel) return;
 		
-		CF_ModelBase subModel;
-
-		if (_SubViewModel)
-		{
-			subModel = _SubViewModel.GetModel();
-		}
-
 		for (int i = 0; i < _SubProperties.Count(); i++)
 		{
-			_SubProperties[i].SetSubModel(subModel);
+			_SubProperties[i].SetSubModel(_SubModel);
 		}
 	}
 
@@ -90,21 +83,23 @@ class CF_FrameWidget : CF_Widget
 		CF_ModelBase _model;
 		EnScript.GetClassVar(model, SubModel, 0, _model);
 
-		if (_SubViewModel && _SubViewModel.GetModel() == _model) return;
+		if (_SubModel == _model) return;
 
-		if (_model != null)
+		_SubModel = _model;
+
+		if (_SubModel != null)
 		{
 			string layoutPath = SubLayoutOverride;
 			if (layoutPath == string.Empty)
 			{
-				g_Script.CallFunction(_model, "GetLayout", layoutPath, null);
+				g_Script.CallFunction(_SubModel, "GetLayout", layoutPath, null);
 			}
 
-			_SubViewModel = CF.MVVM.Create(_model, layoutPath, _Widget);
+			CF_MVVM.Create(_SubModel, layoutPath, _Widget);
 		}
-		else if (_SubViewModel)
+		else if (_SubModel)
 		{
-			CF.MVVM._Destroy(_SubViewModel);
+			CF_MVVM.Destroy(_SubModel);
 		}
 
 		OnUpdateSubViewModel();

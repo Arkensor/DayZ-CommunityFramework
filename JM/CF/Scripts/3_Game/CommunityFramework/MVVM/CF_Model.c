@@ -14,7 +14,7 @@ class CF_Model : Managed
 		CF_Trace trace(this, "~CF_Model");
 
 		#ifndef SERVER
-		CF.MVVM.Destroy(this);
+		CF_MVVM.Destroy(this);
 		#endif
 	}
 
@@ -22,7 +22,7 @@ class CF_Model : Managed
 	{
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
 		
-		CF.MVVM.NotifyPropertyChanged(this, property, evt);
+		CF_MVVM.NotifyPropertyChanged(this, property, evt);
 	}
 
 	string GetLayout()

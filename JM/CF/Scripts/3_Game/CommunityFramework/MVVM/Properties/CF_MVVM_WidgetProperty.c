@@ -5,11 +5,11 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 		CF_Trace trace(this, "CF_MVVM_WidgetProperty", "" + handler);
 	}
 
-	override void Assign(CF_ModelBase model, CF_MVVM_View view)
+	override void Link(CF_ModelBase model)
 	{
-		CF_Trace trace(this, "Assign", "" + model, "" + view);
+		CF_Trace trace(this, "Assign", "" + model);
 
-		Widget widget = view.GetWidget().FindAnyWidget(m_VariableName);
+		Widget widget = m_ViewModel.GetWidget().FindAnyWidget(m_VariableName);
 		if (!widget) return;
 
 		if (!widget.IsInherited(m_Type))
@@ -21,13 +21,13 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 		EnScript.SetClassVar(model, m_VariableName, 0, widget);
 	}
 
-	override void OnView(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)
+	override void OnView(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView", "" + model, evt.String());
+		CF_Trace trace(this, "OnView", evt.String());
 	}
 
-	override void OnModel(CF_ModelBase model, /*notnull*/ CF_EventArgs evt)
+	override void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel", evt.String());
 	}
 };
