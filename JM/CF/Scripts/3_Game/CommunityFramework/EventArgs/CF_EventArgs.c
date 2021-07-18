@@ -1,6 +1,6 @@
 class CF_EventArgs
 {
-	string String()
+	string ToStr()
 	{
 		return "[" + ClassName() + "]";
 	}

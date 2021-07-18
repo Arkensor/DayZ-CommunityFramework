@@ -24,14 +24,14 @@ class CF_HtmlWidget : CF_TextWidget
 
 	void OnView_File(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_File", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_File", "" + model, evt.ToStr());
 		
 		_File.ToVariable(model, File);
 	}
 
 	void OnModel_File(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_File", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_File", "" + model, evt.ToStr());
 		
 		_File.FromVariable(model, File);
 		_HtmlWidget.LoadFile(_File.GetString());

@@ -71,14 +71,14 @@ class CF_FrameWidget : CF_Widget
 
 	void OnView_SubModel(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_SubModel", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_SubModel", "" + model, evt.ToStr());
 		
 		// Never called.
 	}
 
 	void OnModel_SubModel(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_SubModel", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_SubModel", "" + model, evt.ToStr());
 		
 		CF_ModelBase _model;
 		EnScript.GetClassVar(model, SubModel, 0, _model);

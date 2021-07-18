@@ -7,16 +7,16 @@ class CF_CollectionRemoveEventArgs : CF_CollectionEventArgs
 		Index = index;
 	}
 
-	override string String()
+	override string ToStr()
 	{
-		string str = super.String();
+		string str = super.ToStr();
 		str += " Index=" + Index;
 		return str;
 	}
 
 	override void Process(CF_MVVM_View view, CF_ModelBase model, CF_ObservableCollection collection)
 	{
-		CF_Trace trace(this, "Process", "" + model, "" + collection, String());
+		CF_Trace trace(this, "Process", "" + model, "" + collection, ToStr());
 
 		view.OnModel_Children_Remove(collection, this);
 	}

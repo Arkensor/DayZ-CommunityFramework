@@ -36,14 +36,14 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Path(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Path", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Path", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, Path, 0, _Path);
 	}
 
 	void OnModel_Path(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Path", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Path", "" + model, evt.ToStr());
 
 		EnScript.GetClassVar(model, Path, 0, _Path);
 		_VideoWidget.LoadVideo(_Path.Path, _Path.SoundScene);
@@ -51,14 +51,14 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Command(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Command", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Command", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, Command, 0, _Command);
 	}
 
 	void OnModel_Command(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Command", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Command", "" + model, evt.ToStr());
 
 		EnScript.GetClassVar(model, Command, 0, _Command);
 		_VideoWidget.Play(_Command);
@@ -66,14 +66,14 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Subtitles(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Subtitles", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Subtitles", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, Subtitles, 0, _Subtitles);
 	}
 
 	void OnModel_Subtitles(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Subtitles", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Subtitles", "" + model, evt.ToStr());
 
 		EnScript.GetClassVar(model, Subtitles, 0, _Subtitles);
 		_VideoWidget.DisableSubtitles(_Subtitles);

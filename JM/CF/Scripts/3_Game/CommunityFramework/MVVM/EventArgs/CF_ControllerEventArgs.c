@@ -3,9 +3,9 @@ class CF_ControllerEventArgs : CF_ViewEventArgs
 	int Control;
 	int Value;
 
-	override string String()
+	override string ToStr()
 	{
-		string str = super.String();
+		string str = super.ToStr();
 		str += " Control=" + Control;
 		str += " Value=" + Value;
 		return str;

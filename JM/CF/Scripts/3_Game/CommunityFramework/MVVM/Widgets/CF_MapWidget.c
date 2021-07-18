@@ -38,14 +38,14 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnView_UserMarks(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_UserMarks", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_UserMarks", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, UserMarks, 0, _UserMarks);
 	}
 
 	void OnModel_UserMarks(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_UserMarks", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_UserMarks", "" + model, evt.ToStr());
 
 		EnScript.GetClassVar(model, UserMarks, 0, _UserMarks);
 
@@ -61,7 +61,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	
 	void OnView_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Position", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Position", "" + model, evt.ToStr());
 
 		_Position.SetVector(_MapWidget.GetMapPos());
 		_Position.ToVariable(model, Position);
@@ -69,7 +69,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Position", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Position", "" + model, evt.ToStr());
 		
 		_Position.FromVariable(model, Position);
 		_MapWidget.SetMapPos(_Position.GetVector());
@@ -77,7 +77,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	
 	void OnView_Scale(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Scale", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Scale", "" + model, evt.ToStr());
 		
 		_Scale.SetFloat(_MapWidget.GetScale());
 		_Scale.ToVariable(model, Scale);
@@ -85,7 +85,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_Scale(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Scale", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Scale", "" + model, evt.ToStr());
 		
 		_Scale.FromVariable(model, Scale);
 		_MapWidget.SetScale(_Scale.GetFloat());

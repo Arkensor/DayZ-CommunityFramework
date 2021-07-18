@@ -34,7 +34,7 @@ class CF_CanvasWidget : CF_Widget
 
 	void OnView_Lines(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Lines", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Lines", "" + model, evt.ToStr());
 		
 		EnScript.SetClassVar(model, Lines, 0, _Lines);
 	}
@@ -42,7 +42,7 @@ class CF_CanvasWidget : CF_Widget
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
 	void OnModel_Lines(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Lines", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Lines", "" + model, evt.ToStr());
 		
 		EnScript.GetClassVar(model, Lines, 0, _Lines);
 

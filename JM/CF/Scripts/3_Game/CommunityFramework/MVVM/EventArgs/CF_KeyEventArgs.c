@@ -3,9 +3,9 @@ class CF_KeyEventArgs : CF_PositionEventArgs
 	int Key;
 	CF_KeyState State;
 
-	override string String()
+	override string ToStr()
 	{
-		string str = super.String();
+		string str = super.ToStr();
 		str += " Key=" + Key;
 		str += " State=" + State;
 		return str;

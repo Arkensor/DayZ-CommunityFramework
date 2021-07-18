@@ -27,7 +27,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	void OnView_Selected(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Selected", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Selected", "" + model, evt.ToStr());
 
 		int _value = _XComboBoxWidget.GetCurrentItem();
 		EnScript.SetClassVar(model, Selected, 0, _value);
@@ -35,7 +35,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	void OnModel_Selected(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.ToStr());
 
 		int _value;
 		EnScript.GetClassVar(model, Selected, 0, _value);
@@ -44,14 +44,14 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	void OnView_Items(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Items", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Items", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, Items, 0, _Items);
 	}
 
 	void OnModel_Items(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Items", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Items", "" + model, evt.ToStr());
 
 		EnScript.GetClassVar(model, Items, 0, _Items);
 

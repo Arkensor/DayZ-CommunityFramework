@@ -30,35 +30,35 @@ class CF_SliderWidget : CF_UIWidget
 	
 	void OnView_Min(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Min", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Min", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, Min, 0, _SliderWidget.GetMin());
 	}
 
 	void OnModel_Min(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Min", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Min", "" + model, evt.ToStr());
 
 		OnView_Min(model, evt);
 	}
 
 	void OnView_Max(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Max", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Max", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, Max, 0, _SliderWidget.GetMax());
 	}
 
 	void OnModel_Max(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Max", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Max", "" + model, evt.ToStr());
 
 		OnView_Max(model, evt);
 	}
 
 	void OnView_Current(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Current", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Current", "" + model, evt.ToStr());
 
 		float _value = _SliderWidget.GetCurrent();
 		EnScript.SetClassVar(model, Current, 0, _value);
@@ -66,7 +66,7 @@ class CF_SliderWidget : CF_UIWidget
 
 	void OnModel_Current(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Current", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Current", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, Current, 0, _value);

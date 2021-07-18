@@ -9,9 +9,9 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 		m_Converter = CF.TypeConverters.Create(t);
 	}
 
-	override string String()
+	override string ToStr()
 	{
-		string str = super.String();
+		string str = super.ToStr();
 		str += "Count: " + m_Count;
 		for (int i = 0; i < m_Count; i++)
 		{

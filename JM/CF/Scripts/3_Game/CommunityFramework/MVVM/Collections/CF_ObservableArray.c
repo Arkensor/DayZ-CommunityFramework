@@ -16,9 +16,9 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 		CF.Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
-	override string String()
+	override string ToStr()
 	{
-		string str = super.String();
+		string str = super.ToStr();
 		str += "Count: " + m_Data.Count();
 		for (int i = 0; i < m_Data.Count(); i++)
 		{

@@ -6,9 +6,9 @@ class CF_ItemSelectEventArgs : CF_PositionEventArgs
 	int OldRow;
 	int OldColumn;
 
-	override string String()
+	override string ToStr()
 	{
-		string str = super.String();
+		string str = super.ToStr();
 		str += " Row=" + Row;
 		str += " Column=" + Column;
 		str += " OldRow=" + OldRow;

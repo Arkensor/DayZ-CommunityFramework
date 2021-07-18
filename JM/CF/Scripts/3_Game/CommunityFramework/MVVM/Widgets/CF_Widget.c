@@ -79,7 +79,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Name(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Name", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Name", "" + model, evt.ToStr());
 
 		string _name = _Widget.GetName();
 		EnScript.SetClassVar(model, Name, 0, _name);
@@ -87,7 +87,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Name(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Name", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Name", "" + model, evt.ToStr());
 
 		string _name;
 		EnScript.GetClassVar(model, Name, 0, _name);
@@ -96,7 +96,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Visible(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Visible", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Visible", "" + model, evt.ToStr());
 
 		bool _visible = _Widget.IsVisible();
 		EnScript.SetClassVar(model, Visible, 0, _visible);
@@ -104,7 +104,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Visible(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Visible", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Visible", "" + model, evt.ToStr());
 
 		bool _visible;
 		EnScript.GetClassVar(model, Visible, 0, _visible);
@@ -113,14 +113,14 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Enabled(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Enabled", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Enabled", "" + model, evt.ToStr());
 		
 		EnScript.SetClassVar(model, Enabled, 0, _Enabled);
 	}
 
 	void OnModel_Enabled(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Enabled", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Enabled", "" + model, evt.ToStr());
 		
 		EnScript.GetClassVar(model, Enabled, 0, _Enabled);
 	//	_Widget.Enable(_Enabled);
@@ -128,7 +128,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Flags(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Flags", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Flags", "" + model, evt.ToStr());
 		
 		int _flags = _Widget.GetFlags();
 		EnScript.SetClassVar(model, Flags, 0, _flags);
@@ -136,7 +136,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Flags(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Flags", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Flags", "" + model, evt.ToStr());
 		
 		int _flags;
 		EnScript.GetClassVar(model, Flags, 0, _flags);
@@ -146,7 +146,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Sort(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Sort", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Sort", "" + model, evt.ToStr());
 		
 		int _sort = _Widget.GetSort();
 		EnScript.SetClassVar(model, Sort, 0, _sort);
@@ -154,7 +154,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Sort(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Sort", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Sort", "" + model, evt.ToStr());
 		
 		int _sort;
 		EnScript.GetClassVar(model, Sort, 0, _sort);
@@ -163,7 +163,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_PositionX(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_PositionX", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_PositionX", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -173,7 +173,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_PositionX(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_PositionX", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_PositionX", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -184,7 +184,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_PositionY(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_PositionY", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_PositionY", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -194,7 +194,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_PositionY(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_PositionY", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_PositionY", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -205,7 +205,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Width(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Width", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Width", "" + model, evt.ToStr());
 		
 		float _width;
 		float _height;
@@ -215,7 +215,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Width(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Width", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Width", "" + model, evt.ToStr());
 		
 		float _width;
 		float _height;
@@ -226,7 +226,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Height(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Height", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Height", "" + model, evt.ToStr());
 		
 		float _width;
 		float _height;
@@ -236,7 +236,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Height(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Height", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Height", "" + model, evt.ToStr());
 		
 		float _width;
 		float _height;
@@ -247,7 +247,7 @@ class CF_Widget : CF_MVVM_View
 	
 	void OnView_ScreenPositionX(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_ScreenPositionX", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_ScreenPositionX", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -257,7 +257,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_ScreenPositionX(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_ScreenPositionX", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_ScreenPositionX", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -285,7 +285,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_ScreenPositionY(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_ScreenPositionY", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_ScreenPositionY", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -295,7 +295,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_ScreenPositionY(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_ScreenPositionY", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_ScreenPositionY", "" + model, evt.ToStr());
 		
 		float _positionX;
 		float _positionY;
@@ -323,7 +323,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_ScreenWidth(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_ScreenWidth", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_ScreenWidth", "" + model, evt.ToStr());
 		
 		float _width;
 		float _height;
@@ -333,14 +333,14 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_ScreenWidth(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_ScreenWidth", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_ScreenWidth", "" + model, evt.ToStr());
 		
 		OnView_ScreenWidth(model, evt);
 	}
 
 	void OnView_ScreenHeight(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_ScreenHeight", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_ScreenHeight", "" + model, evt.ToStr());
 		
 		float _width;
 		float _height;
@@ -350,14 +350,14 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_ScreenHeight(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_ScreenHeight", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_ScreenHeight", "" + model, evt.ToStr());
 		
 		OnView_ScreenHeight(model, evt);
 	}
 
 	void OnView_Color(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Color", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Color", "" + model, evt.ToStr());
 		
 		int _color = _Widget.GetColor();
 		EnScript.SetClassVar(model, Color, 0, _color);
@@ -365,7 +365,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Color(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Color", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Color", "" + model, evt.ToStr());
 		
 		int _color;
 		EnScript.GetClassVar(model, Color, 0, _color);
@@ -374,14 +374,14 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Roll(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Roll", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Roll", "" + model, evt.ToStr());
 		
 		EnScript.SetClassVar(model, Roll, 0, _Roll);
 	}
 
 	void OnModel_Roll(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Roll", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Roll", "" + model, evt.ToStr());
 		
 		EnScript.GetClassVar(model, Roll, 0, _Roll);
 		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
@@ -389,14 +389,14 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Pitch(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Pitch", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Pitch", "" + model, evt.ToStr());
 		
 		EnScript.SetClassVar(model, Pitch, 0, _Pitch);
 	}
 
 	void OnModel_Pitch(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Pitch", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Pitch", "" + model, evt.ToStr());
 		
 		EnScript.GetClassVar(model, Pitch, 0, _Pitch);
 		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
@@ -404,14 +404,14 @@ class CF_Widget : CF_MVVM_View
 
 	void OnView_Yaw(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Yaw", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Yaw", "" + model, evt.ToStr());
 		
 		EnScript.SetClassVar(model, Yaw, 0, _Yaw);
 	}
 
 	void OnModel_Yaw(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Yaw", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Yaw", "" + model, evt.ToStr());
 		
 		EnScript.GetClassVar(model, Yaw, 0, _Yaw);
 		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
@@ -419,7 +419,7 @@ class CF_Widget : CF_MVVM_View
 	
 	void OnView_Alpha(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Alpha", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Alpha", "" + model, evt.ToStr());
 		
 		int _alpha = _Widget.GetAlpha();
 		EnScript.SetClassVar(model, Alpha, 0, _alpha);
@@ -427,7 +427,7 @@ class CF_Widget : CF_MVVM_View
 
 	void OnModel_Alpha(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Alpha", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Alpha", "" + model, evt.ToStr());
 		
 		int _alpha;
 		EnScript.GetClassVar(model, Alpha, 0, _alpha);
@@ -436,7 +436,7 @@ class CF_Widget : CF_MVVM_View
 
 	override bool OnResize(CF_ResizeEventArgs evt)
 	{
-		CF_Trace trace(this, "OnResize", evt.String());
+		CF_Trace trace(this, "OnResize", evt.ToStr());
 		
 		NotifyPropertyChanged("Width");
 		NotifyPropertyChanged("Height");
@@ -449,7 +449,7 @@ class CF_Widget : CF_MVVM_View
 
 	override bool OnUpdate(CF_ViewEventArgs evt)
 	{
-		CF_Trace trace(this, "OnUpdate", evt.String());
+		CF_Trace trace(this, "OnUpdate", evt.ToStr());
 		
 		NotifyPropertyChanged("PositionX");
 		NotifyPropertyChanged("PositionY");

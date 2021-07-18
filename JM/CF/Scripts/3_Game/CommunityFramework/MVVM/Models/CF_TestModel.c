@@ -40,7 +40,7 @@ class CF_TestModel : CF_Model
 
 	void OnChange(CF_ChangeEventArgs evt)
 	{
-		CF_Trace trace(this, "OnChange", evt.String());
+		CF_Trace trace(this, "OnChange", evt.ToStr());
 		
 		evt.Continue = BlockInput;
 
@@ -50,7 +50,7 @@ class CF_TestModel : CF_Model
 
 	void OnClick(CF_MouseEventArgs evt)
 	{
-		CF_Trace trace(this, "OnClick", evt.String());
+		CF_Trace trace(this, "OnClick", evt.ToStr());
 
 		Index++;
 
@@ -82,7 +82,7 @@ class CF_TestItemModel : CF_Model
 
 	void Remove(CF_MouseEventArgs evt)
 	{
-		CF_Trace trace(this, "Remove", evt.String());
+		CF_Trace trace(this, "Remove", evt.ToStr());
 
 		int index = m_Parent.Test.Find(this);
 		m_Parent.Test.Remove(index);

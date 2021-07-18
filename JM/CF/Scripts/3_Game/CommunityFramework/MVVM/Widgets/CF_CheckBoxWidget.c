@@ -27,14 +27,14 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Text", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Text", "" + model, evt.ToStr());
 		
 		_Text.ToVariable(model, Text);
 	}
 
 	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Text", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Text", "" + model, evt.ToStr());
 		
 		_Text.FromVariable(model, Text);
 		_CheckBoxWidget.SetText(_Text.GetString());
@@ -42,7 +42,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	void OnView_Checked(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Checked", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Checked", "" + model, evt.ToStr());
 		
 		_Checked.SetBool(_CheckBoxWidget.IsChecked());
 		_Checked.ToVariable(model, Checked);
@@ -50,7 +50,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	void OnModel_Checked(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Checked", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Checked", "" + model, evt.ToStr());
 		
 		_Checked.FromVariable(model, Checked);
 		_CheckBoxWidget.SetChecked(_Checked.GetBool());
@@ -58,7 +58,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	override bool OnChange(CF_ChangeEventArgs evt)
 	{
-		CF_Trace trace(this, "OnChange", evt.String());
+		CF_Trace trace(this, "OnChange", evt.ToStr());
 
 		if (!evt.Continue)
 		{

@@ -6,7 +6,7 @@ class CF_Collection : Managed
 	{
 	}
 
-	string String()
+	string ToStr()
 	{
 		return "[" + this + "]";
 	}

@@ -51,14 +51,14 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextColor(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextColor", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextColor", "" + model, evt.ToStr());
 
 		EnScript.SetClassVar(model, TextColor, 0, _TextColor);
 	}
 
 	void OnModel_TextColor(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextColor", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextColor", "" + model, evt.ToStr());
 
 		EnScript.GetClassVar(model, TextColor, 0, _TextColor);
 		//_UIWidget.SetTextColor(_TextColor);
@@ -66,7 +66,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextOutlineSize(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextOutlineSize", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextOutlineSize", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextOutlineSize();
 		EnScript.SetClassVar(model, TextOutlineSize, 0, _value);
@@ -74,7 +74,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextOutlineSize(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextOutlineSize", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextOutlineSize", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextOutlineSize, 0, _value);
@@ -83,7 +83,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextOutlineColor(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextOutlineColor", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextOutlineColor", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextOutlineColor();
 		EnScript.SetClassVar(model, TextOutlineColor, 0, _value);
@@ -91,7 +91,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextOutlineColor(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextOutlineColor", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextOutlineColor", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextOutlineColor, 0, _value);
@@ -100,7 +100,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowSize(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextShadowSize", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextShadowSize", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextShadowSize();
 		EnScript.SetClassVar(model, TextShadowSize, 0, _value);
@@ -108,7 +108,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowSize(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowSize", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextShadowSize", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextShadowSize, 0, _value);
@@ -117,7 +117,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowColor(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextShadowColor", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextShadowColor", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextShadowColor();
 		EnScript.SetClassVar(model, TextShadowColor, 0, _value);
@@ -125,7 +125,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowColor(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowColor", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextShadowColor", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextShadowColor, 0, _value);
@@ -134,7 +134,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowOpacity(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextShadowOpacity", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextShadowOpacity", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextShadowOpacity();
 		EnScript.SetClassVar(model, TextShadowOpacity, 0, _value);
@@ -142,7 +142,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowOpacity(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowOpacity", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextShadowOpacity", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextShadowOpacity, 0, _value);
@@ -151,7 +151,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowOffsetX(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextShadowOffsetX", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextShadowOffsetX", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextShadowOffsetX();
 		EnScript.SetClassVar(model, TextShadowOffsetX, 0, _value);
@@ -159,7 +159,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowOffsetX(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowOffsetX", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextShadowOffsetX", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextShadowOffsetX, 0, _value);
@@ -168,7 +168,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowOffsetY(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextShadowOffsetY", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextShadowOffsetY", "" + model, evt.ToStr());
 
 		float _value = _UIWidget.GetTextShadowOffsetY();
 		EnScript.SetClassVar(model, TextShadowOffsetY, 0, _value);
@@ -176,7 +176,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowOffsetY(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowOffsetY", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextShadowOffsetY", "" + model, evt.ToStr());
 
 		float _value;
 		EnScript.GetClassVar(model, TextShadowOffsetY, 0, _value);
@@ -185,7 +185,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextItalic(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextItalic", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextItalic", "" + model, evt.ToStr());
 
 		bool _value = _UIWidget.GetTextItalic();
 		EnScript.SetClassVar(model, TextItalic, 0, _value);
@@ -193,7 +193,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextItalic(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextItalic", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextItalic", "" + model, evt.ToStr());
 
 		bool _value;
 		EnScript.GetClassVar(model, TextItalic, 0, _value);
@@ -202,7 +202,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextBold(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_TextBold", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_TextBold", "" + model, evt.ToStr());
 
 		bool _value = _UIWidget.GetTextBold();
 		EnScript.SetClassVar(model, TextBold, 0, _value);
@@ -210,7 +210,7 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextBold(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_TextBold", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_TextBold", "" + model, evt.ToStr());
 
 		bool _value;
 		EnScript.GetClassVar(model, TextBold, 0, _value);

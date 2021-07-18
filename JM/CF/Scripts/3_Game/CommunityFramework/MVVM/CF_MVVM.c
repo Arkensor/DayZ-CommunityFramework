@@ -287,7 +287,7 @@ class CF_MVVM
 		CF_EventArgs temp = evt;
 		if (temp == null) temp = new CF_EventArgs();
 
-		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.String());
+		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.ToStr());
 
 		CF_MVVM_Link link;
 		if (!s_ViewModelMap.Find(model, link)) return;

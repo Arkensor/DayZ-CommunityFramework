@@ -39,7 +39,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Item(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Item", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Item", "" + model, evt.ToStr());
 		
 		_Item.SetClass(_ItemPreviewWidget.GetItem());
 		_Item.ToVariable(model, Item);
@@ -47,7 +47,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Item(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Item", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Item", "" + model, evt.ToStr());
 		
 		_Item.FromVariable(model, Item);
 		_ItemPreviewWidget.SetItem(EntityAI.Cast(_Item.GetClass()));
@@ -55,7 +55,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_View(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_View", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_View", "" + model, evt.ToStr());
 		
 		_View.SetInt(_ItemPreviewWidget.GetView());
 		_View.ToVariable(model, View);
@@ -63,7 +63,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_View(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_View", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_View", "" + model, evt.ToStr());
 		
 		_View.FromVariable(model, View);
 		_ItemPreviewWidget.SetView(_View.GetInt());
@@ -71,7 +71,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Orientation", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Orientation", "" + model, evt.ToStr());
 		
 		_Orientation.SetVector(_ItemPreviewWidget.GetModelOrientation());
 		_Orientation.ToVariable(model, Orientation);
@@ -79,7 +79,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Orientation(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Orientation", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Orientation", "" + model, evt.ToStr());
 		
 		_Orientation.FromVariable(model, Orientation);
 		_ItemPreviewWidget.SetModelOrientation(_Orientation.GetVector());
@@ -87,7 +87,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Position", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Position", "" + model, evt.ToStr());
 		
 		_Position.SetVector(_ItemPreviewWidget.GetModelPosition());
 		_Position.ToVariable(model, Position);
@@ -95,7 +95,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Position(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Position", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Position", "" + model, evt.ToStr());
 		
 		_Position.FromVariable(model, Position);
 		_ItemPreviewWidget.SetModelPosition(_Position.GetVector());
@@ -103,13 +103,13 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ForceFlipEnable(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_ForceFlipEnable", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_ForceFlipEnable", "" + model, evt.ToStr());
 		
 	}
 
 	void OnModel_ForceFlipEnable(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_ForceFlipEnable", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_ForceFlipEnable", "" + model, evt.ToStr());
 		
 		_ForceFlipEnable.FromVariable(model, ForceFlipEnable);
 		_ItemPreviewWidget.SetForceFlipEnable(_ForceFlipEnable.GetBool());
@@ -117,13 +117,13 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ForceFlip(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_ForceFlip", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_ForceFlip", "" + model, evt.ToStr());
 		
 	}
 
 	void OnModel_ForceFlip(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_ForceFlip", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_ForceFlip", "" + model, evt.ToStr());
 		
 		_ForceFlip.FromVariable(model, ForceFlip);
 		_ItemPreviewWidget.SetForceFlip(_ForceFlip.GetBool());

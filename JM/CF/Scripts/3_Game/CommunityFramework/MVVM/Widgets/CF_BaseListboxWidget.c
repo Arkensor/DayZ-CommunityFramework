@@ -27,7 +27,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	
 	void OnView_NumberItems(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_NumberItems", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_NumberItems", "" + model, evt.ToStr());
 		
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
 		_NumberItems.ToVariable(model, NumberItems);
@@ -35,14 +35,14 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	void OnModel_NumberItems(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_NumberItems", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_NumberItems", "" + model, evt.ToStr());
 		
 		OnView_NumberItems(model, evt);
 	}
 
 	void OnView_Selected(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView_Selected", "" + model, evt.String());
+		CF_Trace trace(this, "OnView_Selected", "" + model, evt.ToStr());
 		
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
 		_Selected.ToVariable(model, Selected);
@@ -50,7 +50,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	void OnModel_Selected(CF_ModelBase model, CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.String());
+		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.ToStr());
 		
 		_Selected.FromVariable(model, Selected);
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());

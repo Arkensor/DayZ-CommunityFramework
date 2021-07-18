@@ -23,11 +23,11 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 
 	override void OnView(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnView", evt.String());
+		CF_Trace trace(this, "OnView", evt.ToStr());
 	}
 
 	override void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
-		CF_Trace trace(this, "OnModel", evt.String());
+		CF_Trace trace(this, "OnModel", evt.ToStr());
 	}
 };
