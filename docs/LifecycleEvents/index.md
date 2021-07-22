@@ -1,5 +1,5 @@
 # LifecycleEvents
-The static `CF_LifecycleEvents` class offers different [CF_EventHandler](docs/EventHandler/index.md) instances that can be subscribed to with custom logic. This provides an easy way to, for example, reset a global cache every time the player switches servers (aka the mission instance is locally recreated).
+The static `CF_LifecycleEvents` class offers different [CF_EventHandler](../EventHandler/index.md) instances that can be subscribed to with custom logic. This provides an easy way to, for example, reset a global cache every time the player switches servers (aka the mission instance is locally recreated).
 
 ## Event types
 | Module  | Event type       | Event source              | Description                                                      |
