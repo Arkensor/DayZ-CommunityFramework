@@ -2,15 +2,15 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
 {
     protected autoptr ScriptInvoker m_Invoker = new ScriptInvoker();
 
-    void Subscribe(func callback)
+    void AddSubscriber(func subscriber)
     {
-        m_Invoker.Insert(callback);
+        m_Invoker.Insert(subscriber);
     }
 };
 
 class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 {
-    void Invoke(Class sender, TEventArgs args)
+    void Invoke(Class sender = NULL, TEventArgs args = NULL)
     {
         m_Invoker.Invoke(sender, args);
     }
