@@ -55,6 +55,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
 
 		m_Widget = w;
+		
+		m_Widget.SetHandler(this);
 
 		if (Model != string.Empty)
 		{
@@ -149,7 +151,6 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		if (m_Model)
 		{
 			m_Widget.SetUserData(model);
-			m_Widget.SetHandler(this);
 
 			m_TempProperties = allProps;
 
@@ -375,35 +376,36 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	 * 			events require reverse cancellation. For example, if 'Continue' is set to 'false'
 	 * 			for 'OnChange' in 'CF_EditBoxWidget', then input must be prevented.
 	 */
-	bool OnClick(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnModalResult(Class sender, CF_ModalEventArgs args) { return true; }
-	bool OnDoubleClick(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnSelect(Class sender, CF_SelectEventArgs args) { return true; }
-	bool OnItemSelected(Class sender, CF_ItemSelectEventArgs args) { return true; }
-	bool OnFocus(Class sender, CF_PositionEventArgs args) { return true; }
-	bool OnFocusLost(Class sender, CF_PositionEventArgs args) { return true; }
-	bool OnMouseEnter(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnMouseLeave(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnMouseWheel(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnMouseButtonDown(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnMouseButtonUp(Class sender, CF_MouseEventArgs args) { return true; }
-	bool OnController(Class sender, CF_ControllerEventArgs args) { return true; }
-	bool OnKeyDown(Class sender, CF_KeyEventArgs args) { return true; }
-	bool OnKeyUp(Class sender, CF_KeyEventArgs args) { return true; }
-	bool OnKeyPress(Class sender, CF_KeyEventArgs args) { return true; }
-	bool OnChange(Class sender, CF_ChangeEventArgs args) { return true; }
-	bool OnDrag(Class sender, CF_DragEventArgs args) { return true; }
-	bool OnDragging(Class sender, CF_DragEventArgs args) { return true; }
-	bool OnDraggingOver(Class sender, CF_DragEventArgs args) { return true; }
-	bool OnDrop(Class sender, CF_DragEventArgs args) { return true; }
-	bool OnDropReceived(Class sender, CF_DragEventArgs args) { return true; }
-	bool OnResize(Class sender, CF_ResizeEventArgs args) { return true; }
-	bool OnChildAdd(Class sender, CF_ChildEventArgs args) { return true; }
-	bool OnChildRemove(Class sender, CF_ChildEventArgs args) { return true; }
-	bool OnUpdate(Class sender, CF_ViewEventArgs args) { return true; }
+	bool OnClick(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnModalResult(Class sender, CF_ModalEventArgs args) { return false; }
+	bool OnDoubleClick(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnSelect(Class sender, CF_SelectEventArgs args) { return false; }
+	bool OnItemSelected(Class sender, CF_ItemSelectEventArgs args) { return false; }
+	bool OnFocus(Class sender, CF_PositionEventArgs args) { return false; }
+	bool OnFocusLost(Class sender, CF_PositionEventArgs args) { return false; }
+	bool OnMouseEnter(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnMouseLeave(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnMouseWheel(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnMouseButtonDown(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnMouseButtonUp(Class sender, CF_MouseEventArgs args) { return false; }
+	bool OnController(Class sender, CF_ControllerEventArgs args) { return false; }
+	bool OnKeyDown(Class sender, CF_KeyEventArgs args) { return false; }
+	bool OnKeyUp(Class sender, CF_KeyEventArgs args) { return false; }
+	bool OnKeyPress(Class sender, CF_KeyEventArgs args) { return false; }
+	bool OnChange(Class sender, CF_ChangeEventArgs args) { return false; }
+	bool OnDrag(Class sender, CF_DragEventArgs args) { return false; }
+	bool OnDragging(Class sender, CF_DragEventArgs args) { return false; }
+	bool OnDraggingOver(Class sender, CF_DragEventArgs args) { return false; }
+	bool OnDrop(Class sender, CF_DragEventArgs args) { return false; }
+	bool OnDropReceived(Class sender, CF_DragEventArgs args) { return false; }
+	bool OnResize(Class sender, CF_ResizeEventArgs args) { return false; }
+	bool OnChildAdd(Class sender, CF_ChildEventArgs args) { return false; }
+	bool OnChildRemove(Class sender, CF_ChildEventArgs args) { return false; }
+	bool OnUpdate(Class sender, CF_ViewEventArgs args) { return false; }
 
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
+		Print("OnClick");
 		CF_Trace trace(this, "OnClick", "" + w);
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
