@@ -223,7 +223,7 @@ class CF_MVVM
 		#else
 			for (int j = 0; j < properties.Count(); j++)
 			{
-				properties.GetElement(j).Assign(model, view);
+				properties.GetElement(j).Link(model);
 			}
 
 			return;

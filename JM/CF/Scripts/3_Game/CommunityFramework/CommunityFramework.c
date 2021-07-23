@@ -12,6 +12,10 @@ void CF_CreateWorld()
 	CF._WorldInit();
 }
 
+void CF_TestFunction()
+{
+}
+
 typedef CommunityFramework CF;
 
 class CommunityFramework
