@@ -4,8 +4,8 @@ class CF_BaseListboxWidget : CF_UIWidget
 	reference string Selected;
 
 	protected BaseListboxWidget _BaseListboxWidget;
-	protected CF_TypeConverter _NumberItems;
-	protected CF_TypeConverter _Selected;
+	protected CF_TypeConverter _NumberItems = CF_GetDefaultTC();
+	protected CF_TypeConverter _Selected = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

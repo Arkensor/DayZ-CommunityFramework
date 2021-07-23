@@ -9,13 +9,13 @@ class CF_ButtonWidget : CF_UIWidget
 	reference string TextProportion;
 
 	protected ButtonWidget _ButtonWidget;
-	protected CF_TypeConverter _State;
-	protected CF_TypeConverter _Text;
-	protected CF_TypeConverter _TextOffsetX;
-	protected CF_TypeConverter _TextOffsetY;
-	protected CF_TypeConverter _TextHorizontalAlignment;
-	protected CF_TypeConverter _TextVerticalAlignment;
-	protected CF_TypeConverter _TextProportion;
+	protected CF_TypeConverter _State = CF_GetDefaultTC();
+	protected CF_TypeConverter _Text = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextOffsetX = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextOffsetY = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextHorizontalAlignment = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextVerticalAlignment = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextProportion = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{
@@ -156,7 +156,7 @@ class CF_ButtonWidget : CF_UIWidget
 			_ButtonWidget.SetState(false);
 		}
 
-		NotifyPropertyChanged("State");
+		NotifyPropertyChanged(State);
 
 		return true;
 	}

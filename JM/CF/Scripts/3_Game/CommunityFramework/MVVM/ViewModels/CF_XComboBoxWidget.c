@@ -5,7 +5,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	protected XComboBoxWidget _XComboBoxWidget;
 	protected ref CF_ObservableCollection _Items;
-	protected CF_TypeConverter _Selected;
+	protected CF_TypeConverter _Selected = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{
@@ -65,6 +65,6 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 		_XComboBoxWidget.SetCurrentItem(selected);
 
-		NotifyPropertyChanged("Selected");
+		NotifyPropertyChanged(Selected);
 	}
 };

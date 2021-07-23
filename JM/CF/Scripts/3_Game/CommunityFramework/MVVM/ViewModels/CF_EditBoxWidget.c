@@ -3,7 +3,7 @@ class CF_EditBoxWidget : CF_UIWidget
 	reference string Text;
 
 	protected EditBoxWidget _EditBoxWidget;
-	protected CF_TypeConverter _Text;
+	protected CF_TypeConverter _Text = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{
@@ -47,7 +47,7 @@ class CF_EditBoxWidget : CF_UIWidget
 			_EditBoxWidget.SetText(_Text.GetString());
 		}
 
-		NotifyPropertyChanged("Text");
+		NotifyPropertyChanged(Text);
 
 		return true;
 	}

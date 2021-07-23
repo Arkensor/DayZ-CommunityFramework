@@ -107,6 +107,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, "" + temp);
 
+		if (name == string.Empty) return;
+
 		CF_MVVM_Property property;
 		if (!m_Properties.Find(name, property)) return;
 
@@ -122,7 +124,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		for (int i = 0; i < m_Properties.Count(); i++)
 		{
-			m_Properties.GetElement(i).OnView(temp);
+			CF_MVVM_Property property = m_Properties.GetElement(i);
+			property.OnView(temp);
 		}
 	}
 

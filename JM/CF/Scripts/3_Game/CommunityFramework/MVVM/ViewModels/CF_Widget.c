@@ -24,24 +24,24 @@ class CF_Widget : CF_ViewModel
 	reference string Alpha;
 
 	protected Widget _Widget;
-	protected CF_TypeConverter _Name;
-	protected CF_TypeConverter _Visible;
-	protected CF_TypeConverter _Enabled;
-	protected CF_TypeConverter _Flags;
-	protected CF_TypeConverter _Sort;
-	protected CF_TypeConverter _PositionX;
-	protected CF_TypeConverter _PositionY;
-	protected CF_TypeConverter _Width;
-	protected CF_TypeConverter _Height;
-	protected CF_TypeConverter _ScreenPositionX;
-	protected CF_TypeConverter _ScreenPositionY;
-	protected CF_TypeConverter _ScreenWidth;
-	protected CF_TypeConverter _ScreenHeight;
-	protected CF_TypeConverter _Color;
-	protected CF_TypeConverter _Roll;
-	protected CF_TypeConverter _Pitch;
-	protected CF_TypeConverter _Yaw;
-	protected CF_TypeConverter _Alpha;
+	protected CF_TypeConverter _Name = CF_GetDefaultTC();
+	protected CF_TypeConverter _Visible = CF_GetDefaultTC();
+	protected CF_TypeConverter _Enabled = CF_GetDefaultTC();
+	protected CF_TypeConverter _Flags = CF_GetDefaultTC();
+	protected CF_TypeConverter _Sort = CF_GetDefaultTC();
+	protected CF_TypeConverter _PositionX = CF_GetDefaultTC();
+	protected CF_TypeConverter _PositionY = CF_GetDefaultTC();
+	protected CF_TypeConverter _Width = CF_GetDefaultTC();
+	protected CF_TypeConverter _Height = CF_GetDefaultTC();
+	protected CF_TypeConverter _ScreenPositionX = CF_GetDefaultTC();
+	protected CF_TypeConverter _ScreenPositionY = CF_GetDefaultTC();
+	protected CF_TypeConverter _ScreenWidth = CF_GetDefaultTC();
+	protected CF_TypeConverter _ScreenHeight = CF_GetDefaultTC();
+	protected CF_TypeConverter _Color = CF_GetDefaultTC();
+	protected CF_TypeConverter _Roll = CF_GetDefaultTC();
+	protected CF_TypeConverter _Pitch = CF_GetDefaultTC();
+	protected CF_TypeConverter _Yaw = CF_GetDefaultTC();
+	protected CF_TypeConverter _Alpha = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{
@@ -438,11 +438,11 @@ class CF_Widget : CF_ViewModel
 	{
 		CF_Trace trace(this, "OnResize", args.ToStr());
 		
-		NotifyPropertyChanged("Width");
-		NotifyPropertyChanged("Height");
+		NotifyPropertyChanged(Width);
+		NotifyPropertyChanged(Height);
 
-		NotifyPropertyChanged("ScreenWidth");
-		NotifyPropertyChanged("ScreenHeight");
+		NotifyPropertyChanged(ScreenWidth);
+		NotifyPropertyChanged(ScreenHeight);
 
 		return super.OnResize(sender, args);
 	}
@@ -451,21 +451,21 @@ class CF_Widget : CF_ViewModel
 	{
 		CF_Trace trace(this, "OnUpdate", args.ToStr());
 		
-		NotifyPropertyChanged("PositionX");
-		NotifyPropertyChanged("PositionY");
+		NotifyPropertyChanged(PositionX);
+		NotifyPropertyChanged(PositionY);
 		
-		NotifyPropertyChanged("ScreenPositionX");
-		NotifyPropertyChanged("ScreenPositionY");
+		NotifyPropertyChanged(ScreenPositionX);
+		NotifyPropertyChanged(ScreenPositionY);
 
-		if (_Visible != _Widget.IsVisible())
+		bool visible = _Widget.IsVisible();
+		if (!_Visible.IsDefault() && _Visible.GetBool() != visible)
 		{
-			//_Visible = _Widget.IsVisible();
+			_Visible.SetBool(visible);
 			
-			//if (_Visible) m_ViewModel.OnShow(m_Widget);
-			//else m_ViewModel.OnHide(m_Widget);
+			if (visible) OnShow(m_Widget);
+			else OnHide(m_Widget);
 		}
 
-		//return super.OnUpdate(sender, args);
-		return true;
+		return super.OnUpdate(sender, args);
 	}
 };

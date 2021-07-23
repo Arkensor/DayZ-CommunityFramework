@@ -12,16 +12,16 @@ class CF_UIWidget : CF_Widget
 	reference string TextBold;
 	
 	protected UIWidget _UIWidget;
-	protected CF_TypeConverter _TextColor;
-	protected CF_TypeConverter _TextOutlineSize;
-	protected CF_TypeConverter _TextOutlineColor;
-	protected CF_TypeConverter _TextShadowSize;
-	protected CF_TypeConverter _TextShadowColor;
-	protected CF_TypeConverter _TextShadowOpacity;
-	protected CF_TypeConverter _TextShadowOffsetX;
-	protected CF_TypeConverter _TextShadowOffsetY;
-	protected CF_TypeConverter _TextItalic;
-	protected CF_TypeConverter _TextBold;
+	protected CF_TypeConverter _TextColor = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextItalic = CF_GetDefaultTC();
+	protected CF_TypeConverter _TextBold = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

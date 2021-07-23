@@ -1,8 +1,13 @@
 /**
  * Super implementation to handle all possible conversions. 
  */
-class CF_TypeConverter
-{	
+class CF_TypeConverter : Managed
+{
+	bool IsDefault()
+	{
+		return false;
+	}
+
 	void SetInt(int value)
 	{
 		
