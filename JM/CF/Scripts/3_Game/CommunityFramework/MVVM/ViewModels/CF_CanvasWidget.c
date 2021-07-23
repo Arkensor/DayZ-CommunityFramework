@@ -32,19 +32,19 @@ class CF_CanvasWidget : CF_Widget
 		Class.CastTo(_CanvasWidget, w);
 	}
 
-	void OnView_Lines(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Lines(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Lines", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Lines", "" + sender, args.ToStr());
 		
-		EnScript.SetClassVar(model, Lines, 0, _Lines);
+		EnScript.SetClassVar(m_Model, Lines, 0, _Lines);
 	}
 
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
-	void OnModel_Lines(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Lines(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Lines", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Lines", "" + sender, args.ToStr());
 		
-		EnScript.GetClassVar(model, Lines, 0, _Lines);
+		EnScript.GetClassVar(m_Model, Lines, 0, _Lines);
 
 		_CanvasWidget.Clear();
 		for (int i = 0; i < _Lines.Count(); i++)

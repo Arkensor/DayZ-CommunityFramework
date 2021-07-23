@@ -31,58 +31,58 @@ class CF_RichTextWidget : CF_TextWidget
 		Class.CastTo(_RichTextWidget, w);
 	}
 
-	void OnView_ContentHeight(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_ContentHeight(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_ContentHeight", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_ContentHeight", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, ContentHeight, 0, _RichTextWidget.GetContentHeight());
+		EnScript.SetClassVar(m_Model, ContentHeight, 0, _RichTextWidget.GetContentHeight());
 	}
 
-	void OnModel_ContentHeight(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_ContentHeight(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_ContentHeight", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_ContentHeight", "" + sender, args.ToStr());
 
-		OnView_ContentHeight(model, evt);
+		OnView_ContentHeight(m_Model, args);
 	}
 
-	void OnView_ContentOffset(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_ContentOffset(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_ContentOffset", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_ContentOffset", "" + sender, args.ToStr());
 
 		float _value = _RichTextWidget.GetContentOffset();
-		EnScript.SetClassVar(model, ContentOffset, 0, _value);
+		EnScript.SetClassVar(m_Model, ContentOffset, 0, _value);
 	}
 
-	void OnModel_ContentOffset(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_ContentOffset(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_ContentOffset", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_ContentOffset", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, ContentOffset, 0, _value);
+		EnScript.GetClassVar(m_Model, ContentOffset, 0, _value);
 		//_RichTextWidget.SetContentOffset(_value, _ContentSnapToLine);
 	}
 
-	void OnView_ContentSnapToLine(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_ContentSnapToLine(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_ContentSnapToLine", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_ContentSnapToLine", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, ContentSnapToLine, 0, _ContentSnapToLine);
+		EnScript.SetClassVar(m_Model, ContentSnapToLine, 0, _ContentSnapToLine);
 	}
 
-	void OnModel_ContentSnapToLine(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_ContentSnapToLine(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_ContentSnapToLine", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_ContentSnapToLine", "" + sender, args.ToStr());
 
-		EnScript.GetClassVar(model, ContentSnapToLine, 0, _ContentSnapToLine);
+		EnScript.GetClassVar(m_Model, ContentSnapToLine, 0, _ContentSnapToLine);
 		//_RichTextWidget.SetContentOffset(_RichTextWidget.GetContentOffset(), _ContentSnapToLine);
 	}
 
-	void OnView_LineWidths(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_LineWidths(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_LineWidths", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_LineWidths", "" + sender, args.ToStr());
 
 		array<float> _value;
-		EnScript.GetClassVar(model, LineWidths, 0, _value);
+		EnScript.GetClassVar(m_Model, LineWidths, 0, _value);
 
 		_value.Clear();
 		for (int i = 0; i < _RichTextWidget.GetNumLines(); i++)
@@ -91,10 +91,10 @@ class CF_RichTextWidget : CF_TextWidget
 		}
 	}
 
-	void OnModel_LineWidths(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_LineWidths(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_LineWidths", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_LineWidths", "" + sender, args.ToStr());
 
-		OnView_LineWidths(model, evt);
+		OnView_LineWidths(m_Model, args);
 	}
 };

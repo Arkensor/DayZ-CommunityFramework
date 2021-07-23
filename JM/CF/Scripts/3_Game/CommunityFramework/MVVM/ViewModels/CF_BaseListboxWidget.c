@@ -25,34 +25,34 @@ class CF_BaseListboxWidget : CF_UIWidget
 		Class.CastTo(_BaseListboxWidget, w);
 	}
 	
-	void OnView_NumberItems(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_NumberItems(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_NumberItems", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_NumberItems", "" + sender, args.ToStr());
 		
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
-		_NumberItems.ToVariable(model, NumberItems);
+		_NumberItems.ToVariable(m_Model, NumberItems);
 	}
 
-	void OnModel_NumberItems(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_NumberItems(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_NumberItems", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_NumberItems", "" + sender, args.ToStr());
 		
-		OnView_NumberItems(model, evt);
+		OnView_NumberItems(m_Model, args);
 	}
 
-	void OnView_Selected(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Selected(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Selected", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Selected", "" + sender, args.ToStr());
 		
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
-		_Selected.ToVariable(model, Selected);
+		_Selected.ToVariable(m_Model, Selected);
 	}
 
-	void OnModel_Selected(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Selected(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
 		
-		_Selected.FromVariable(model, Selected);
+		_Selected.FromVariable(m_Model, Selected);
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());
 	}
 };

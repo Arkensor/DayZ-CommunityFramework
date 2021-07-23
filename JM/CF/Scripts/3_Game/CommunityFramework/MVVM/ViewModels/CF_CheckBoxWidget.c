@@ -25,42 +25,42 @@ class CF_CheckBoxWidget : CF_UIWidget
 		Class.CastTo(_CheckBoxWidget, w);
 	}
 
-	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Text(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Text", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
 		
-		_Text.ToVariable(model, Text);
+		_Text.ToVariable(m_Model, Text);
 	}
 
-	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Text(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Text", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
 		
-		_Text.FromVariable(model, Text);
+		_Text.FromVariable(m_Model, Text);
 		_CheckBoxWidget.SetText(_Text.GetString());
 	}
 
-	void OnView_Checked(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Checked(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Checked", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Checked", "" + sender, args.ToStr());
 		
 		_Checked.SetBool(_CheckBoxWidget.IsChecked());
-		_Checked.ToVariable(model, Checked);
+		_Checked.ToVariable(m_Model, Checked);
 	}
 
-	void OnModel_Checked(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Checked(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Checked", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Checked", "" + sender, args.ToStr());
 		
-		_Checked.FromVariable(model, Checked);
+		_Checked.FromVariable(m_Model, Checked);
 		_CheckBoxWidget.SetChecked(_Checked.GetBool());
 	}
 
-	override bool OnChange(CF_ChangeEventArgs evt)
+	override bool OnChange(Class sender, CF_ChangeEventArgs args)
 	{
-		CF_Trace trace(this, "OnChange", evt.ToStr());
+		CF_Trace trace(this, "OnChange", args.ToStr());
 
-		if (!evt.Continue)
+		if (!args.Continue)
 		{
 			_CheckBoxWidget.SetChecked(!_CheckBoxWidget.IsChecked());
 		}

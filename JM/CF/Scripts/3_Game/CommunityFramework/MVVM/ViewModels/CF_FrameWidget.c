@@ -44,7 +44,7 @@ class CF_FrameWidget : CF_Widget
 		{
 			if (!Class.CastTo(_SubModel, SubModelType.ToType().Spawn()))
 			{
-				CF.Log.Error("Error creating sub model %1", SubModelType);
+				CF.Log.Error("Error creating sub m_Model %1", SubModelType);
 				return;
 			}
 
@@ -69,19 +69,19 @@ class CF_FrameWidget : CF_Widget
 		}
 	}
 
-	void OnView_SubModel(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_SubModel(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_SubModel", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_SubModel", "" + sender, args.ToStr());
 		
 		// Never called.
 	}
 
-	void OnModel_SubModel(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_SubModel(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_SubModel", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_SubModel", "" + sender, args.ToStr());
 		
 		CF_ModelBase _model;
-		EnScript.GetClassVar(model, SubModel, 0, _model);
+		EnScript.GetClassVar(m_Model, SubModel, 0, _model);
 
 		if (_SubModel == _model) return;
 

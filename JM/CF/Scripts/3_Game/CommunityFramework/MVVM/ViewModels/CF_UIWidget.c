@@ -49,171 +49,171 @@ class CF_UIWidget : CF_Widget
 		Class.CastTo(_UIWidget, w);
 	}
 
-	void OnView_TextColor(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextColor(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextColor", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextColor", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, TextColor, 0, _TextColor);
+		EnScript.SetClassVar(m_Model, TextColor, 0, _TextColor);
 	}
 
-	void OnModel_TextColor(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextColor(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextColor", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextColor", "" + sender, args.ToStr());
 
-		EnScript.GetClassVar(model, TextColor, 0, _TextColor);
+		EnScript.GetClassVar(m_Model, TextColor, 0, _TextColor);
 		//_UIWidget.SetTextColor(_TextColor);
 	}
 
-	void OnView_TextOutlineSize(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextOutlineSize(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextOutlineSize", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextOutlineSize", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextOutlineSize();
-		EnScript.SetClassVar(model, TextOutlineSize, 0, _value);
+		EnScript.SetClassVar(m_Model, TextOutlineSize, 0, _value);
 	}
 
-	void OnModel_TextOutlineSize(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextOutlineSize(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextOutlineSize", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextOutlineSize", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextOutlineSize, 0, _value);
+		EnScript.GetClassVar(m_Model, TextOutlineSize, 0, _value);
 		_UIWidget.SetTextOutline(_value, _UIWidget.GetTextOutlineColor());
 	}
 
-	void OnView_TextOutlineColor(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextOutlineColor(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextOutlineColor", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextOutlineColor", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextOutlineColor();
-		EnScript.SetClassVar(model, TextOutlineColor, 0, _value);
+		EnScript.SetClassVar(m_Model, TextOutlineColor, 0, _value);
 	}
 
-	void OnModel_TextOutlineColor(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextOutlineColor(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextOutlineColor", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextOutlineColor", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextOutlineColor, 0, _value);
+		EnScript.GetClassVar(m_Model, TextOutlineColor, 0, _value);
 		_UIWidget.SetTextOutline(_UIWidget.GetTextOutlineSize(), _value);
 	}
 
-	void OnView_TextShadowSize(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextShadowSize(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextShadowSize", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextShadowSize", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextShadowSize();
-		EnScript.SetClassVar(model, TextShadowSize, 0, _value);
+		EnScript.SetClassVar(m_Model, TextShadowSize, 0, _value);
 	}
 
-	void OnModel_TextShadowSize(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextShadowSize(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowSize", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextShadowSize", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextShadowSize, 0, _value);
+		EnScript.GetClassVar(m_Model, TextShadowSize, 0, _value);
 		_UIWidget.SetTextShadow(_value, _UIWidget.GetTextShadowColor(), _UIWidget.GetTextShadowOpacity(), _UIWidget.GetTextShadowOffsetX(), _UIWidget.GetTextShadowOffsetY());
 	}
 
-	void OnView_TextShadowColor(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextShadowColor(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextShadowColor", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextShadowColor", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextShadowColor();
-		EnScript.SetClassVar(model, TextShadowColor, 0, _value);
+		EnScript.SetClassVar(m_Model, TextShadowColor, 0, _value);
 	}
 
-	void OnModel_TextShadowColor(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextShadowColor(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowColor", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextShadowColor", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextShadowColor, 0, _value);
+		EnScript.GetClassVar(m_Model, TextShadowColor, 0, _value);
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _value, _UIWidget.GetTextShadowOpacity(), _UIWidget.GetTextShadowOffsetX(), _UIWidget.GetTextShadowOffsetY());
 	}
 
-	void OnView_TextShadowOpacity(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextShadowOpacity(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextShadowOpacity", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextShadowOpacity", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextShadowOpacity();
-		EnScript.SetClassVar(model, TextShadowOpacity, 0, _value);
+		EnScript.SetClassVar(m_Model, TextShadowOpacity, 0, _value);
 	}
 
-	void OnModel_TextShadowOpacity(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextShadowOpacity(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowOpacity", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextShadowOpacity", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextShadowOpacity, 0, _value);
+		EnScript.GetClassVar(m_Model, TextShadowOpacity, 0, _value);
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _UIWidget.GetTextShadowColor(), _value, _UIWidget.GetTextShadowOffsetX(), _UIWidget.GetTextShadowOffsetY());
 	}
 
-	void OnView_TextShadowOffsetX(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextShadowOffsetX(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextShadowOffsetX", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextShadowOffsetX", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextShadowOffsetX();
-		EnScript.SetClassVar(model, TextShadowOffsetX, 0, _value);
+		EnScript.SetClassVar(m_Model, TextShadowOffsetX, 0, _value);
 	}
 
-	void OnModel_TextShadowOffsetX(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextShadowOffsetX(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowOffsetX", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextShadowOffsetX", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextShadowOffsetX, 0, _value);
+		EnScript.GetClassVar(m_Model, TextShadowOffsetX, 0, _value);
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _UIWidget.GetTextShadowColor(), _UIWidget.GetTextShadowOpacity(), _value, _UIWidget.GetTextShadowOffsetY());
 	}
 
-	void OnView_TextShadowOffsetY(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextShadowOffsetY(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextShadowOffsetY", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextShadowOffsetY", "" + sender, args.ToStr());
 
 		float _value = _UIWidget.GetTextShadowOffsetY();
-		EnScript.SetClassVar(model, TextShadowOffsetY, 0, _value);
+		EnScript.SetClassVar(m_Model, TextShadowOffsetY, 0, _value);
 	}
 
-	void OnModel_TextShadowOffsetY(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextShadowOffsetY(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextShadowOffsetY", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextShadowOffsetY", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, TextShadowOffsetY, 0, _value);
+		EnScript.GetClassVar(m_Model, TextShadowOffsetY, 0, _value);
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _UIWidget.GetTextShadowColor(), _UIWidget.GetTextShadowOpacity(), _UIWidget.GetTextShadowOffsetX(), _value);
 	}
 
-	void OnView_TextItalic(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextItalic(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextItalic", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextItalic", "" + sender, args.ToStr());
 
 		bool _value = _UIWidget.GetTextItalic();
-		EnScript.SetClassVar(model, TextItalic, 0, _value);
+		EnScript.SetClassVar(m_Model, TextItalic, 0, _value);
 	}
 
-	void OnModel_TextItalic(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextItalic(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextItalic", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextItalic", "" + sender, args.ToStr());
 
 		bool _value;
-		EnScript.GetClassVar(model, TextItalic, 0, _value);
+		EnScript.GetClassVar(m_Model, TextItalic, 0, _value);
 		_UIWidget.SetTextItalic(_value);
 	}
 
-	void OnView_TextBold(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_TextBold(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_TextBold", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_TextBold", "" + sender, args.ToStr());
 
 		bool _value = _UIWidget.GetTextBold();
-		EnScript.SetClassVar(model, TextBold, 0, _value);
+		EnScript.SetClassVar(m_Model, TextBold, 0, _value);
 	}
 
-	void OnModel_TextBold(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_TextBold(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_TextBold", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_TextBold", "" + sender, args.ToStr());
 
 		bool _value;
-		EnScript.GetClassVar(model, TextBold, 0, _value);
+		EnScript.GetClassVar(m_Model, TextBold, 0, _value);
 		_UIWidget.SetTextBold(_value);
 	}
 };

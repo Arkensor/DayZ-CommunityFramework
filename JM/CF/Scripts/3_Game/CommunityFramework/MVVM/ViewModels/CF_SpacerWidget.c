@@ -25,37 +25,37 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 		Class.CastTo(_SpacerWidget, w);
 	}
 
-	void OnView_ContentAlignmentHorizontal(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_ContentAlignmentHorizontal(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_ContentAlignmentHorizontal", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_ContentAlignmentHorizontal", "" + sender, args.ToStr());
 
 		int _contentAlignmentH = _SpacerWidget.GetContentAlignmentH();
-		EnScript.SetClassVar(model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
+		EnScript.SetClassVar(m_Model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
 	}
 
-	void OnModel_ContentAlignmentHorizontal(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_ContentAlignmentHorizontal(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_ContentAlignmentHorizontal", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_ContentAlignmentHorizontal", "" + sender, args.ToStr());
 
 		int _contentAlignmentH;
-		EnScript.GetClassVar(model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
+		EnScript.GetClassVar(m_Model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
 		_SpacerWidget.SetContentAlignmentH(_contentAlignmentH);
 	}
 
-	void OnView_ContentAlignmentVertical(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_ContentAlignmentVertical(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_ContentAlignmentVertical", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_ContentAlignmentVertical", "" + sender, args.ToStr());
 
 		int _contentAlignmentV = _SpacerWidget.GetContentAlignmentV();
-		EnScript.SetClassVar(model, ContentAlignmentVertical, 0, _contentAlignmentV);
+		EnScript.SetClassVar(m_Model, ContentAlignmentVertical, 0, _contentAlignmentV);
 	}
 
-	void OnModel_ContentAlignmentVertical(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_ContentAlignmentVertical(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_ContentAlignmentVertical", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_ContentAlignmentVertical", "" + sender, args.ToStr());
 
 		int _contentAlignmentV;
-		EnScript.GetClassVar(model, ContentAlignmentVertical, 0, _contentAlignmentV);
+		EnScript.GetClassVar(m_Model, ContentAlignmentVertical, 0, _contentAlignmentV);
 		_SpacerWidget.SetContentAlignmentV(_contentAlignmentV);
 	}
 };

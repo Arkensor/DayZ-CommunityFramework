@@ -67,6 +67,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 				{
 					Class.CastTo(m_WB_Model, modelType.Spawn());
 					m_Model = m_WB_Model;
+					SetModel(m_Model);
 				}
 				#endif
 			}
@@ -99,9 +100,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Trace trace(this, "~CF_ViewModel");
 	}
 
-	void NotifyPropertyChanged(string name, CF_EventArgs evt = null)
+	void NotifyPropertyChanged(string name, CF_EventArgs args = null)
 	{
-		CF_EventArgs temp = evt;
+		CF_EventArgs temp = args;
 		if (temp == null) temp = new CF_EventArgs();
 
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, "" + temp);
@@ -112,9 +113,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		property.OnView(temp);
 	}
 
-	void NotifyPropertyChanged(CF_EventArgs evt = null)
+	void NotifyPropertyChanged(CF_EventArgs args = null)
 	{
-		CF_EventArgs temp = evt;
+		CF_EventArgs temp = args;
 		if (temp == null) temp = new CF_EventArgs();
 
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + temp.ToStr());
@@ -178,6 +179,21 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		m_TempProperties.Insert(actual, property);
 	}
 
+	Widget GetChildWidgetAt(int index)
+	{
+		CF_Trace trace(this, "GetChildWidgetAt", "" + index);
+
+		if (index == 0) return null;
+
+		Widget widget = m_Widget.GetChildren();
+		for (int i = 1; i < index; i++)
+		{
+			widget = widget.GetSibling();
+			if (!widget) return null;
+		}
+		return widget;
+	}
+
 	Widget GetWidget()
 	{
 		return m_Widget;
@@ -233,51 +249,36 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	 * 
 	 * @note	
 	 */
-	void OnView_Children(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Children(Class sender, CF_EventArgs args)
 	{
 		// Handled automatically.
 	}
 
-	void OnModel_Children(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Children(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children", "" + model, evt.ClassName());
+		CF_Trace trace(this, "OnModel_Children", "" + sender, args.ClassName());
 
 		CF_ObservableCollection _collection;
-		EnScript.GetClassVar(model, Children, 0, _collection);
+		EnScript.GetClassVar(m_Model, Children, 0, _collection);
 		if (!_collection) return;
 
 		CF_CollectionEventArgs cevt;
-		if (Class.CastTo(cevt, evt))
+		if (Class.CastTo(cevt, args))
 		{
-			cevt.Process(this, model, _collection);
+			cevt.Process(this, m_Model, _collection);
 			return;
 		}
 
-		OnModel_Children_InsertAll(_collection);
+		OnModel_Children_InsertAll(_collection, args);
 	}
 
-	Widget GetChildWidgetAt(int index)
+	void OnModel_Children_InsertAll(CF_ObservableCollection sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "GetChildWidgetAt", "" + index);
+		CF_Trace trace(this, "OnModel_Children_InsertAll", "" + sender);
 
-		if (index == 0) return null;
-
-		Widget widget = m_Widget.GetChildren();
-		for (int i = 1; i < index; i++)
+		for (int i = 0; i < sender.Count(); i++)
 		{
-			widget = widget.GetSibling();
-			if (!widget) return null;
-		}
-		return widget;
-	}
-
-	void OnModel_Children_InsertAll(CF_ObservableCollection collection)
-	{
-		CF_Trace trace(this, "OnModel_Children_InsertAll", "" + collection);
-
-		for (int i = 0; i < collection.Count(); i++)
-		{
-			CF_TypeConverter conv = collection.GetConverter(i);
+			CF_TypeConverter conv = sender.GetConverter(i);
 			if (!conv) return;
 
 			CF_ModelBase model = conv.GetManaged();
@@ -294,11 +295,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 	}
 
-	void OnModel_Children_Insert(CF_ObservableCollection collection, CF_CollectionInsertEventArgs evt)
+	void OnModel_Children_Insert(CF_ObservableCollection sender, CF_CollectionInsertEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Insert", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Insert", "" + sender, args.ToStr());
 
-		CF_TypeConverter conv = collection.GetConverter(evt.Index);
+		CF_TypeConverter conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
 		CF_ModelBase model = conv.GetManaged();
@@ -314,16 +315,16 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_MVVM.Create(model, layout, m_Widget);
 	}
 
-	void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
+	void OnModel_Children_InsertAt(CF_ObservableCollection sender, CF_CollectionInsertAtEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + sender, args.ToStr());
 
 		CF.Log.Error("Function not implemented");
 	}
 
-	void OnModel_Children_Clear(CF_ObservableCollection collection, CF_CollectionClearEventArgs evt)
+	void OnModel_Children_Clear(CF_ObservableCollection sender, CF_CollectionClearEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Clear", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Clear", "" + sender, args.ToStr());
 
 		Widget child = m_Widget.GetChildren();
 		while (child != null)
@@ -340,26 +341,26 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 	}
 
-	void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEventArgs evt)
+	void OnModel_Children_Set(CF_ObservableCollection sender, CF_CollectionSetEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Set", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Set", "" + sender, args.ToStr());
 
 		CF.Log.Error("Function not implemented");
 	}
 
-	void OnModel_Children_Remove(CF_ObservableCollection collection, CF_CollectionRemoveEventArgs evt)
+	void OnModel_Children_Remove(CF_ObservableCollection sender, CF_CollectionRemoveEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Remove", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Remove", "" + sender, args.ToStr());
 
-		Widget widget = GetChildWidgetAt(evt.Index);
+		Widget widget = GetChildWidgetAt(args.Index);
 		if (!widget) return;
 
 		m_Widget.RemoveChild(widget);
 	}
 
-	void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEventArgs evt)
+	void OnModel_Children_Swap(CF_ObservableCollection sender, CF_CollectionSwapEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Swap", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Swap", "" + sender, args.ToStr());
 
 		CF.Log.Error("Function not implemented");
 	}
@@ -371,538 +372,538 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	 * 			events require reverse cancellation. For example, if 'Continue' is set to 'false'
 	 * 			for 'OnChange' in 'CF_EditBoxWidget', then input must be prevented.
 	 */
-	bool OnClick(CF_MouseEventArgs evt) { return true; }
-	bool OnModalResult(CF_ModalEventArgs evt) { return true; }
-	bool OnDoubleClick(CF_MouseEventArgs evt) { return true; }
-	bool OnSelect(CF_SelectEventArgs evt) { return true; }
-	bool OnItemSelected(CF_ItemSelectEventArgs evt) { return true; }
-	bool OnFocus(CF_PositionEventArgs evt) { return true; }
-	bool OnFocusLost(CF_PositionEventArgs evt) { return true; }
-	bool OnMouseEnter(CF_MouseEventArgs evt) { return true; }
-	bool OnMouseLeave(CF_MouseEventArgs evt) { return true; }
-	bool OnMouseWheel(CF_MouseEventArgs evt) { return true; }
-	bool OnMouseButtonDown(CF_MouseEventArgs evt) { return true; }
-	bool OnMouseButtonUp(CF_MouseEventArgs evt) { return true; }
-	bool OnController(CF_ControllerEventArgs evt) { return true; }
-	bool OnKeyDown(CF_KeyEventArgs evt) { return true; }
-	bool OnKeyUp(CF_KeyEventArgs evt) { return true; }
-	bool OnKeyPress(CF_KeyEventArgs evt) { return true; }
-	bool OnChange(CF_ChangeEventArgs evt) { return true; }
-	bool OnDrag(CF_DragEventArgs evt) { return true; }
-	bool OnDragging(CF_DragEventArgs evt) { return true; }
-	bool OnDraggingOver(CF_DragEventArgs evt) { return true; }
-	bool OnDrop(CF_DragEventArgs evt) { return true; }
-	bool OnDropReceived(CF_DragEventArgs evt) { return true; }
-	bool OnResize(CF_ResizeEventArgs evt) { return true; }
-	bool OnChildAdd(CF_ChildEventArgs evt) { return true; }
-	bool OnChildRemove(CF_ChildEventArgs evt) { return true; }
-	bool OnUpdate(CF_ViewEventArgs evt) { return true; }
+	bool OnClick(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnModalResult(Class sender, CF_ModalEventArgs args) { return true; }
+	bool OnDoubleClick(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnSelect(Class sender, CF_SelectEventArgs args) { return true; }
+	bool OnItemSelected(Class sender, CF_ItemSelectEventArgs args) { return true; }
+	bool OnFocus(Class sender, CF_PositionEventArgs args) { return true; }
+	bool OnFocusLost(Class sender, CF_PositionEventArgs args) { return true; }
+	bool OnMouseEnter(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnMouseLeave(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnMouseWheel(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnMouseButtonDown(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnMouseButtonUp(Class sender, CF_MouseEventArgs args) { return true; }
+	bool OnController(Class sender, CF_ControllerEventArgs args) { return true; }
+	bool OnKeyDown(Class sender, CF_KeyEventArgs args) { return true; }
+	bool OnKeyUp(Class sender, CF_KeyEventArgs args) { return true; }
+	bool OnKeyPress(Class sender, CF_KeyEventArgs args) { return true; }
+	bool OnChange(Class sender, CF_ChangeEventArgs args) { return true; }
+	bool OnDrag(Class sender, CF_DragEventArgs args) { return true; }
+	bool OnDragging(Class sender, CF_DragEventArgs args) { return true; }
+	bool OnDraggingOver(Class sender, CF_DragEventArgs args) { return true; }
+	bool OnDrop(Class sender, CF_DragEventArgs args) { return true; }
+	bool OnDropReceived(Class sender, CF_DragEventArgs args) { return true; }
+	bool OnResize(Class sender, CF_ResizeEventArgs args) { return true; }
+	bool OnChildAdd(Class sender, CF_ChildEventArgs args) { return true; }
+	bool OnChildRemove(Class sender, CF_ChildEventArgs args) { return true; }
+	bool OnUpdate(Class sender, CF_ViewEventArgs args) { return true; }
 
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnClick", "" + w);
 
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = button;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = button;
 
 		if (Event_Click != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Click, null, param);
 		}
 
-		return OnClick(evt);
+		return OnClick(this, args);
 	}
 
 	override bool OnModalResult(Widget w, int x, int y, int code, int result)
 	{
 		CF_Trace trace(this, "OnModalResult", "" + w);
 
-		CF_ModalEventArgs evt = new CF_ModalEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Code = code;
-		evt.Result = result;
+		CF_ModalEventArgs args = new CF_ModalEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Code = code;
+		args.Result = result;
 
 		if (Event_ModalResult != string.Empty)
 		{
-			Param param = new Param1<CF_ModalEventArgs>(evt);
+			Param param = new Param2<Class, CF_ModalEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_ModalResult, null, param);
 		}
 
-		return OnModalResult(evt);
+		return OnModalResult(this, args);
 	}
 
 	override bool OnDoubleClick(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnDoubleClick", "" + w);
 		
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = button;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = button;
 
 		if (Event_DoubleClick != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_DoubleClick, null, param);
 		}
 
-		return OnDoubleClick(evt);
+		return OnDoubleClick(this, args);
 	}
 	
 	override bool OnSelect(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnSelect", "" + w);
 
-		CF_SelectEventArgs evt = new CF_SelectEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
+		CF_SelectEventArgs args = new CF_SelectEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
 
 		if (Event_Select != string.Empty)
 		{
-			Param param = new Param1<CF_SelectEventArgs>(evt);
+			Param param = new Param2<Class, CF_SelectEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Select, null, param);
 		}
 
-		return OnSelect(evt);
+		return OnSelect(this, args);
 	}
 	
 	override bool OnItemSelected(Widget w, int x, int y, int row, int column, int oldRow, int oldColumn)
 	{
 		CF_Trace trace(this, "OnItemSelected", "" + w);
 
-		CF_ItemSelectEventArgs evt = new CF_ItemSelectEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Row = row;
-		evt.Column = column;
-		evt.OldRow = oldRow;
-		evt.OldColumn = oldColumn;
+		CF_ItemSelectEventArgs args = new CF_ItemSelectEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Row = row;
+		args.Column = column;
+		args.OldRow = oldRow;
+		args.OldColumn = oldColumn;
 
 		if (Event_ItemSelected != string.Empty)
 		{
-			Param param = new Param1<CF_ItemSelectEventArgs>(evt);
+			Param param = new Param2<Class, CF_ItemSelectEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_ItemSelected, null, param);
 		}
 
-		return OnItemSelected(evt);
+		return OnItemSelected(this, args);
 	}
 	
 	override bool OnFocus(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnFocus", "" + w);
 
-		CF_PositionEventArgs evt = new CF_PositionEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
+		CF_PositionEventArgs args = new CF_PositionEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
 
 		if (Event_Focus != string.Empty)
 		{
-			Param param = new Param1<CF_PositionEventArgs>(evt);
+			Param param = new Param2<Class, CF_PositionEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Focus, null, param);
 		}
 
-		return OnFocus(evt);
+		return OnFocus(this, args);
 	}
 	
 	override bool OnFocusLost(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnFocusLost", "" + w);
 		
-		CF_PositionEventArgs evt = new CF_PositionEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
+		CF_PositionEventArgs args = new CF_PositionEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
 
 		if (Event_FocusLost != string.Empty)
 		{
-			Param param = new Param1<CF_PositionEventArgs>(evt);
+			Param param = new Param2<Class, CF_PositionEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_FocusLost, null, param);
 		}
 
-		return OnFocusLost(evt);
+		return OnFocusLost(this, args);
 	}
 	
 	override bool OnMouseEnter(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnMouseEnter", "" + w);
 
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = -1;
-		evt.Type = 1;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = -1;
+		args.Type = 1;
 
 		if (Event_MouseEnter != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseEnter, null, param);
 		}
 
-		return OnMouseEnter(evt);
+		return OnMouseEnter(this, args);
 	}
 	
 	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y)
 	{
 		CF_Trace trace(this, "OnMouseLeave", "" + w);
 
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = -1;
-		evt.Enter = enterW;
-		evt.Type = 2;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = -1;
+		args.Enter = enterW;
+		args.Type = 2;
 
 		if (Event_MouseLeave != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseLeave, null, param);
 		}
 
-		return OnMouseLeave(evt);
+		return OnMouseLeave(this, args);
 	}
 	
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
 	{
 		CF_Trace trace(this, "OnMouseWheel", "" + w);
 
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = -1;
-		evt.Wheel = wheel;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = -1;
+		args.Wheel = wheel;
 
 		if (Event_MouseWheel != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseWheel, null, param);
 		}
 
-		return OnMouseWheel(evt);
+		return OnMouseWheel(this, args);
 	}
 	
 	override bool OnMouseButtonDown(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnMouseButtonDown", "" + w);
 		
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = button;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = button;
 
 		if (Event_MouseButtonDown != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseButtonDown, null, param);
 		}
 
-		return OnMouseButtonDown(evt);
+		return OnMouseButtonDown(this, args);
 	}
 	
 	override bool OnMouseButtonUp(Widget w, int x, int y, int button)
 	{
 		CF_Trace trace(this, "OnMouseButtonUp", "" + w);
 		
-		CF_MouseEventArgs evt = new CF_MouseEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Button = button;
+		CF_MouseEventArgs args = new CF_MouseEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Button = button;
 
 		if (Event_MouseButtonUp != string.Empty)
 		{
-			Param param = new Param1<CF_MouseEventArgs>(evt);
+			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseButtonUp, null, param);
 		}
 
-		return OnMouseButtonUp(evt);
+		return OnMouseButtonUp(this, args);
 	}
 
 	override bool OnController(Widget w, int control, int value)
 	{
 		CF_Trace trace(this, "OnController", "" + w);
 
-		CF_ControllerEventArgs evt = new CF_ControllerEventArgs();
-		evt.Target = w;
-		evt.Control = control;
-		evt.Value = value;
+		CF_ControllerEventArgs args = new CF_ControllerEventArgs();
+		args.Target = w;
+		args.Control = control;
+		args.Value = value;
 
 		if (Event_Controller == string.Empty)
 		{
-			Param param = new Param1<CF_ControllerEventArgs>(evt);
+			Param param = new Param2<Class, CF_ControllerEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Controller, null, param);
 		}
 
-		return OnController(evt);
+		return OnController(this, args);
 	}
 	
 	override bool OnKeyDown(Widget w, int x, int y, int key)
 	{
 		CF_Trace trace(this, "OnKeyDown", "" + w);
 		
-		CF_KeyEventArgs evt = new CF_KeyEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Key = key;
-		evt.State = CF_KeyState.DOWN;
+		CF_KeyEventArgs args = new CF_KeyEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Key = key;
+		args.State = CF_KeyState.DOWN;
 
 		if (Event_KeyDown != string.Empty)
 		{
-			Param param = new Param1<CF_KeyEventArgs>(evt);
+			Param param = new Param2<Class, CF_KeyEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyDown, null, param);
 		}
 
-		return OnKeyDown(evt);
+		return OnKeyDown(this, args);
 	}
 	
 	override bool OnKeyUp(Widget w, int x, int y, int key)
 	{
 		CF_Trace trace(this, "OnKeyUp", "" + w);
 
-		CF_KeyEventArgs evt = new CF_KeyEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Key = key;
-		evt.State = CF_KeyState.UP;
+		CF_KeyEventArgs args = new CF_KeyEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Key = key;
+		args.State = CF_KeyState.UP;
 
 		if (Event_KeyUp != string.Empty)
 		{
-			Param param = new Param1<CF_KeyEventArgs>(evt);
+			Param param = new Param2<Class, CF_KeyEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyUp, null, param);
 		}
 
-		return OnKeyUp(evt);
+		return OnKeyUp(this, args);
 	}
 	
 	override bool OnKeyPress(Widget w, int x, int y, int key)
 	{
 		CF_Trace trace(this, "OnKeyPress", "" + w);
 
-		CF_KeyEventArgs evt = new CF_KeyEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Key = key;
-		evt.State = CF_KeyState.PRESS;
+		CF_KeyEventArgs args = new CF_KeyEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Key = key;
+		args.State = CF_KeyState.PRESS;
 
 		if (Event_KeyPress != string.Empty)
 		{
-			Param param = new Param1<CF_KeyEventArgs>(evt);
+			Param param = new Param2<Class, CF_KeyEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyPress, null, param);
 		}
 
-		return OnKeyPress(evt);
+		return OnKeyPress(this, args);
 	}
 	
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
 		CF_Trace trace(this, "OnChange", "" + w);
 		
-		CF_ChangeEventArgs evt = new CF_ChangeEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Finished = finished;
+		CF_ChangeEventArgs args = new CF_ChangeEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Finished = finished;
 
 		if (Event_Change != string.Empty)
 		{
-			Param param = new Param1<CF_ChangeEventArgs>(evt);
+			Param param = new Param2<Class, CF_ChangeEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Change, null, param);
 		}
 
-		return OnChange(evt);
+		return OnChange(this, args);
 	}
 	
 	override bool OnDrag(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnDrag", "" + w);
 		
-		CF_DragEventArgs evt = new CF_DragEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Reciever = null;
+		CF_DragEventArgs args = new CF_DragEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Reciever = null;
 
 		if (Event_Drag != string.Empty)
 		{
-			Param param = new Param1<CF_DragEventArgs>(evt);
+			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Drag, null, param);
 		}
 
-		return OnDrag(evt);
+		return OnDrag(this, args);
 	}
 	
 	override bool OnDragging(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDragging", "" + w);
 		
-		CF_DragEventArgs evt = new CF_DragEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Reciever = reciever;
+		CF_DragEventArgs args = new CF_DragEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Reciever = reciever;
 
 		if (Event_Dragging != string.Empty)
 		{
-			Param param = new Param1<CF_DragEventArgs>(evt);
+			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Dragging, null, param);
 		}
 
-		return OnDragging(evt);
+		return OnDragging(this, args);
 	}
 	
 	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDraggingOver", "" + w);
 		
-		CF_DragEventArgs evt = new CF_DragEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Reciever = reciever;
+		CF_DragEventArgs args = new CF_DragEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Reciever = reciever;
 
 		if (Event_DraggingOver != string.Empty)
 		{
-			Param param = new Param1<CF_DragEventArgs>(evt);
+			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_DraggingOver, null, param);
 		}
 
-		return OnDraggingOver(evt);
+		return OnDraggingOver(this, args);
 	}
 	
 	override bool OnDrop(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDrop", "" + w);
 
-		CF_DragEventArgs evt = new CF_DragEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Reciever = reciever;
+		CF_DragEventArgs args = new CF_DragEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Reciever = reciever;
 
 		if (Event_Drop != string.Empty)
 		{
-			Param param = new Param1<CF_DragEventArgs>(evt);
+			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Drop, null, param);
 		}
 
-		return OnDrop(evt);
+		return OnDrop(this, args);
 	}
 	
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
 		CF_Trace trace(this, "OnDropReceived", "" + w);
 
-		CF_DragEventArgs evt = new CF_DragEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
-		evt.Reciever = reciever;
+		CF_DragEventArgs args = new CF_DragEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
+		args.Reciever = reciever;
 
 		if (Event_DropReceived != string.Empty)
 		{
-			Param param = new Param1<CF_DragEventArgs>(evt);
+			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_DropReceived, null, param);
 		}
 
-		return OnDropReceived(evt);
+		return OnDropReceived(this, args);
 	}
 	
 	override bool OnResize(Widget w, int x, int y)
 	{
 		CF_Trace trace(this, "OnResize", "" + w);
 
-		CF_ResizeEventArgs evt = new CF_ResizeEventArgs();
-		evt.Target = w;
-		evt.X = x;
-		evt.Y = y;
+		CF_ResizeEventArgs args = new CF_ResizeEventArgs();
+		args.Target = w;
+		args.X = x;
+		args.Y = y;
 
 		if (Event_Resize != string.Empty)
 		{
-			Param param = new Param1<CF_ResizeEventArgs>(evt);
+			Param param = new Param2<Class, CF_ResizeEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Resize, null, param);
 		}
 
-		return OnResize(evt);
+		return OnResize(this, args);
 	}
 	
 	override bool OnChildAdd(Widget w, Widget child)
 	{
 		CF_Trace trace(this, "OnChildAdd", "" + w);
 
-		CF_ChildEventArgs evt = new CF_ChildEventArgs();
-		evt.Target = w;
-		evt.Child = child;
-		evt.Remove = false;
+		CF_ChildEventArgs args = new CF_ChildEventArgs();
+		args.Target = w;
+		args.Child = child;
+		args.Remove = false;
 
 		if (Event_ChildAdd != string.Empty)
 		{
-			Param param = new Param1<CF_ChildEventArgs>(evt);
+			Param param = new Param2<Class, CF_ChildEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_ChildAdd, null, param);
 		}
 
-		return OnChildAdd(evt);
+		return OnChildAdd(this, args);
 	}
 	
 	override bool OnChildRemove(Widget w, Widget child)
 	{
 		CF_Trace trace(this, "OnChildRemove", "" + w);
 
-		CF_ChildEventArgs evt = new CF_ChildEventArgs();
-		evt.Target = w;
-		evt.Child = child;
-		evt.Remove = true;
+		CF_ChildEventArgs args = new CF_ChildEventArgs();
+		args.Target = w;
+		args.Child = child;
+		args.Remove = true;
 
 		if (Event_ChildRemove != string.Empty)
 		{
-			Param param = new Param1<CF_ChildEventArgs>(evt);
+			Param param = new Param2<Class, CF_ChildEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_ChildRemove, null, param);
 		}
 
-		return OnChildRemove(evt);
+		return OnChildRemove(this, args);
 	}
 	
 	override bool OnUpdate(Widget w)
 	{
 		CF_Trace trace(this, "OnUpdate", "" + w);
 
-		CF_ViewEventArgs evt = new CF_ViewEventArgs();
-		evt.Target = w;
+		CF_ViewEventArgs args = new CF_ViewEventArgs();
+		args.Target = w;
 
 		if (Event_Update != string.Empty)
 		{
-			Param param = new Param1<CF_ViewEventArgs>(evt);
+			Param param = new Param2<Class, CF_ViewEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Update, null, param);
 		}
 
-		return OnUpdate(evt);
+		return OnUpdate(this, args);
 	}
 	
 	bool OnShow(Widget w)
 	{
 		CF_Trace trace(this, "OnShow", "" + w);
 
-		CF_ViewEventArgs evt = new CF_ViewEventArgs();
-		evt.Target = w;
+		CF_ViewEventArgs args = new CF_ViewEventArgs();
+		args.Target = w;
 
 		if (Event_Show != string.Empty)
 		{
-			Param param = new Param1<CF_ViewEventArgs>(evt);
+			Param param = new Param2<Class, CF_ViewEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Show, null, param);
 		}
 
@@ -913,12 +914,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "OnHide", "" + w);
 
-		CF_ViewEventArgs evt = new CF_ViewEventArgs();
-		evt.Target = w;
+		CF_ViewEventArgs args = new CF_ViewEventArgs();
+		args.Target = w;
 
 		if (Event_Hide != string.Empty)
 		{
-			Param param = new Param1<CF_ViewEventArgs>(evt);
+			Param param = new Param2<Class, CF_ViewEventArgs>(this, args);
 			g_Script.CallFunctionParams(m_Model, Event_Hide, null, param);
 		}
 

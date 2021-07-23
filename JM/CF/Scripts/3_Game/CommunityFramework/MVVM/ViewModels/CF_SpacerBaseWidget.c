@@ -10,11 +10,11 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		Class.CastTo(_SpacerBaseWidget, w);
 	}
 
-	override void OnModel_Children_InsertAt(CF_ObservableCollection collection, CF_CollectionInsertAtEventArgs evt)
+	override void OnModel_Children_InsertAt(CF_ObservableCollection sender, CF_CollectionInsertAtEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + sender, args.ToStr());
 
-		CF_TypeConverter conv = collection.GetConverter(evt.Index);
+		CF_TypeConverter conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
 		CF_ModelBase model = conv.GetManaged();
@@ -23,20 +23,20 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		g_Script.CallFunction(model, "GetLayout", layout, null);
 		
 		CF_MVVM.Create(model, layout);
-		if (evt.Index == collection.Count()) return;
+		if (args.Index == sender.Count()) return;
 
 		CF_ViewModel view = CF_MVVM._GetLink(model).m_View;
 
 		Widget widget = view.GetWidget();
-		Widget append = GetChildWidgetAt(evt.Index);
+		Widget append = GetChildWidgetAt(args.Index);
 		_SpacerBaseWidget.AddChildAfter(widget, append);
 	}
 
-	override void OnModel_Children_Set(CF_ObservableCollection collection, CF_CollectionSetEventArgs evt)
+	override void OnModel_Children_Set(CF_ObservableCollection sender, CF_CollectionSetEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Set", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Set", "" + sender, args.ToStr());
 
-		CF_TypeConverter conv = collection.GetConverter(evt.Index);
+		CF_TypeConverter conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
 		CF_ModelBase model = conv.GetManaged();
@@ -49,22 +49,22 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_ViewModel view = CF_MVVM._GetLink(model).m_View;
 
 		Widget widget = view.GetWidget();
-		Widget append = GetChildWidgetAt(evt.Index);
+		Widget append = GetChildWidgetAt(args.Index);
 		_SpacerBaseWidget.AddChildAfter(widget, append);
 		_SpacerBaseWidget.RemoveChild(append);
 	}
 	
-	override void OnModel_Children_Swap(CF_ObservableCollection collection, CF_CollectionSwapEventArgs evt)
+	override void OnModel_Children_Swap(CF_ObservableCollection sender, CF_CollectionSwapEventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Children_Swap", "" + collection, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Children_Swap", "" + sender, args.ToStr());
 
-		if (evt.IndexA == evt.IndexB) return;
+		if (args.IndexA == args.IndexB) return;
 		
-		Widget widgetA = GetChildWidgetAt(evt.IndexA);
-		Widget widgetB = GetChildWidgetAt(evt.IndexB);
+		Widget widgetA = GetChildWidgetAt(args.IndexA);
+		Widget widgetB = GetChildWidgetAt(args.IndexB);
 
-		Widget widgetA_B = GetChildWidgetAt(evt.IndexA - 1);
-		Widget widgetB_B = GetChildWidgetAt(evt.IndexB - 1);
+		Widget widgetA_B = GetChildWidgetAt(args.IndexA - 1);
+		Widget widgetB_B = GetChildWidgetAt(args.IndexB - 1);
 
 		_SpacerBaseWidget.RemoveChild(widgetA);
 		_SpacerBaseWidget.RemoveChild(widgetB);

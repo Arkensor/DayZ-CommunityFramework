@@ -28,48 +28,48 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 		Class.CastTo(_SimpleProgressBarWidget, w);
 	}
 	
-	void OnView_Min(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Min(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Min", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Min", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, Min, 0, _SimpleProgressBarWidget.GetMin());
+		EnScript.SetClassVar(m_Model, Min, 0, _SimpleProgressBarWidget.GetMin());
 	}
 
-	void OnModel_Min(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Min(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Min", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Min", "" + sender, args.ToStr());
 
-		OnView_Min(model, evt);
+		OnView_Min(m_Model, args);
 	}
 
-	void OnView_Max(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Max(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Max", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Max", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, Max, 0, _SimpleProgressBarWidget.GetMax());
+		EnScript.SetClassVar(m_Model, Max, 0, _SimpleProgressBarWidget.GetMax());
 	}
 
-	void OnModel_Max(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Max(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Max", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Max", "" + sender, args.ToStr());
 
-		OnView_Max(model, evt);
+		OnView_Max(m_Model, args);
 	}
 
-	void OnView_Current(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Current(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Current", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Current", "" + sender, args.ToStr());
 
 		float _value = _SimpleProgressBarWidget.GetCurrent();
-		EnScript.SetClassVar(model, Current, 0, _value);
+		EnScript.SetClassVar(m_Model, Current, 0, _value);
 	}
 
-	void OnModel_Current(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Current(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Current", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Current", "" + sender, args.ToStr());
 
 		float _value;
-		EnScript.GetClassVar(model, Current, 0, _value);
+		EnScript.GetClassVar(m_Model, Current, 0, _value);
 		_SimpleProgressBarWidget.SetCurrent(_value);
 	}
 };

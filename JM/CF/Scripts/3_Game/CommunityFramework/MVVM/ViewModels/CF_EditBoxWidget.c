@@ -22,27 +22,27 @@ class CF_EditBoxWidget : CF_UIWidget
 		Class.CastTo(_EditBoxWidget, w);
 	}
 
-	void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Text(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Text", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
 		
 		_Text.SetString(_EditBoxWidget.GetText());
-		_Text.ToVariable(model, Text);
+		_Text.ToVariable(m_Model, Text);
 	}
 
-	void OnModel_Text(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Text(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Text", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
 		
-		_Text.FromVariable(model, Text);
+		_Text.FromVariable(m_Model, Text);
 		_EditBoxWidget.SetText(_Text.GetString());
 	}
 
-	override bool OnChange(CF_ChangeEventArgs evt)
+	override bool OnChange(Class sender, CF_ChangeEventArgs args)
 	{
-		CF_Trace trace(this, "OnChange", evt.ToStr());
+		CF_Trace trace(this, "OnChange", args.ToStr());
 
-		if (!evt.Continue)
+		if (!args.Continue)
 		{
 			_EditBoxWidget.SetText(_Text.GetString());
 		}

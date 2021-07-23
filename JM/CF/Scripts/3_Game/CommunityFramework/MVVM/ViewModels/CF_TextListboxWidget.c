@@ -29,18 +29,18 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 		Class.CastTo(_TextListboxWidget, w);
 	}
 
-	void OnView_Items(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Items(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Items", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Items", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, Items, 0, _Items);
+		EnScript.SetClassVar(m_Model, Items, 0, _Items);
 	}
 
-	void OnModel_Items(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Items(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Items", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Items", "" + sender, args.ToStr());
 
-		EnScript.GetClassVar(model, Items, 0, _Items);
+		EnScript.GetClassVar(m_Model, Items, 0, _Items);
 
 		CF_TextListboxItem selectedItem;
 		int selectedRow = _TextListboxWidget.GetSelectedRow();

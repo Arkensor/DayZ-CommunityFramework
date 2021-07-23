@@ -38,7 +38,7 @@ class CF_TestModel : CF_Model
 		CF.Windows.Destroy(m_WindowHandle);
 	}
 
-	void OnChange(CF_ChangeEventArgs evt)
+	void OnChange(Class sender, CF_ChangeEventArgs evt)
 	{
 		CF_Trace trace(this, "OnChange", evt.ToStr());
 		
@@ -48,7 +48,7 @@ class CF_TestModel : CF_Model
 		NotifyPropertyChanged("ButtonText");
 	}
 
-	void OnClick(CF_MouseEventArgs evt)
+	void OnClick(Class sender, CF_MouseEventArgs evt)
 	{
 		CF_Trace trace(this, "OnClick", evt.ToStr());
 
@@ -80,7 +80,7 @@ class CF_TestItemModel : CF_Model
 		ButtonText = "Press To Remove (" + index + ")";
 	}
 
-	void Remove(CF_MouseEventArgs evt)
+	void Remove(Class sender, CF_MouseEventArgs evt)
 	{
 		CF_Trace trace(this, "Remove", evt.ToStr());
 

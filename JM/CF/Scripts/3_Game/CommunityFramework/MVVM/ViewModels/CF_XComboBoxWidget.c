@@ -25,35 +25,35 @@ class CF_XComboBoxWidget : CF_UIWidget
 		Class.CastTo(_XComboBoxWidget, w);
 	}
 
-	void OnView_Selected(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Selected(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Selected", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Selected", "" + sender, args.ToStr());
 
 		int _value = _XComboBoxWidget.GetCurrentItem();
-		EnScript.SetClassVar(model, Selected, 0, _value);
+		EnScript.SetClassVar(m_Model, Selected, 0, _value);
 	}
 
-	void OnModel_Selected(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Selected(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Selected", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
 
 		int _value;
-		EnScript.GetClassVar(model, Selected, 0, _value);
+		EnScript.GetClassVar(m_Model, Selected, 0, _value);
 		_XComboBoxWidget.SetCurrentItem(_value);
 	}
 
-	void OnView_Items(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Items(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Items", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Items", "" + sender, args.ToStr());
 
-		EnScript.SetClassVar(model, Items, 0, _Items);
+		EnScript.SetClassVar(m_Model, Items, 0, _Items);
 	}
 
-	void OnModel_Items(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Items(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Items", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Items", "" + sender, args.ToStr());
 
-		EnScript.GetClassVar(model, Items, 0, _Items);
+		EnScript.GetClassVar(m_Model, Items, 0, _Items);
 
 		int selected = _XComboBoxWidget.GetCurrentItem();
 

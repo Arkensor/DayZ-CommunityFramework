@@ -25,51 +25,51 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		Class.CastTo(_MultilineEditBoxWidget, w);
 	}
 
-	override void OnView_Text(CF_ModelBase model, CF_EventArgs evt)
+	override void OnView_Text(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Text", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
 
 		string value;
 		_MultilineEditBoxWidget.GetText(value);
 		_Text.SetString(value);
-		_Text.ToVariable(model, Text);
+		_Text.ToVariable(m_Model, Text);
 	}
 
-	void OnView_CarriageLine(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_CarriageLine(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_CarriageLine", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_CarriageLine", "" + sender, args.ToStr());
 
 		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
-		_CarriageLine.ToVariable(model, CarriageLine);
+		_CarriageLine.ToVariable(m_Model, CarriageLine);
 	}
 
-	void OnModel_CarriageLine(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_CarriageLine(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_CarriageLine", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_CarriageLine", "" + sender, args.ToStr());
 
-		OnView_CarriageLine(model, evt);
+		OnView_CarriageLine(m_Model, args);
 	}
 
-	void OnView_CarriagePosition(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_CarriagePosition(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_CarriagePosition", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_CarriagePosition", "" + sender, args.ToStr());
 
 		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
-		_CarriagePosition.ToVariable(model, CarriagePosition);
+		_CarriagePosition.ToVariable(m_Model, CarriagePosition);
 	}
 
-	void OnModel_CarriagePosition(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_CarriagePosition(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_CarriagePosition", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_CarriagePosition", "" + sender, args.ToStr());
 
-		OnView_CarriagePosition(model, evt);
+		OnView_CarriagePosition(m_Model, args);
 	}
 
-	override bool OnChange(CF_ChangeEventArgs evt)
+	override bool OnChange(Class sender, CF_ChangeEventArgs args)
 	{
-		CF_Trace trace(this, "OnChange", evt.ToStr());
+		CF_Trace trace(this, "OnChange", args.ToStr());
 
-		if (!evt.Continue)
+		if (!args.Continue)
 		{
 		//	_MultilineEditBoxWidget.SetText(_Text);
 		}

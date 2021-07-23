@@ -34,81 +34,81 @@ class CF_ImageWidget : CF_Widget
 		Class.CastTo(_ImageWidget, w);
 	}
 
-	void OnView_Index(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_Index(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_Index", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_Index", "" + sender, args.ToStr());
 		
 		_Index.SetInt(_ImageWidget.GetImage());
-		_Index.ToVariable(model, Index);
+		_Index.ToVariable(m_Model, Index);
 	}
 
-	void OnModel_Index(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_Index(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_Index", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_Index", "" + sender, args.ToStr());
 		
-		_Index.FromVariable(model, Index);
+		_Index.FromVariable(m_Model, Index);
 		_ImageWidget.SetImage(_Index.GetInt());
 	}
 
-	void OnView_File(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_File(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_File", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_File", "" + sender, args.ToStr());
 		
-		_File.ToVariable(model, File);
+		_File.ToVariable(m_Model, File);
 	}
 
-	void OnModel_File(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_File(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_File", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_File", "" + sender, args.ToStr());
 		
-		_File.FromVariable(model, File);
+		_File.FromVariable(m_Model, File);
 		_ImageWidget.LoadImageFile(_Index.GetInt(), _File.GetString());
 	}
 
-	void OnView_MaskFile(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_MaskFile(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_MaskFile", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_MaskFile", "" + sender, args.ToStr());
 		
-		_MaskFile.ToVariable(model, MaskFile);
+		_MaskFile.ToVariable(m_Model, MaskFile);
 	}
 
-	void OnModel_MaskFile(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_MaskFile(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_MaskFile", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_MaskFile", "" + sender, args.ToStr());
 		
-		_MaskFile.FromVariable(model, MaskFile);
+		_MaskFile.FromVariable(m_Model, MaskFile);
 		_ImageWidget.LoadMaskTexture(_MaskFile.GetString());
 	}
 
-	void OnView_MaskProgress(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_MaskProgress(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_MaskProgress", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_MaskProgress", "" + sender, args.ToStr());
 		
 		_MaskProgress.SetFloat(_ImageWidget.GetMaskProgress());
-		_MaskProgress.ToVariable(model, MaskProgress);
+		_MaskProgress.ToVariable(m_Model, MaskProgress);
 	}
 
-	void OnModel_MaskProgress(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_MaskProgress(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_MaskProgress", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_MaskProgress", "" + sender, args.ToStr());
 		
-		_MaskProgress.FromVariable(model, MaskProgress);
+		_MaskProgress.FromVariable(m_Model, MaskProgress);
 		_ImageWidget.SetMaskProgress(_MaskProgress.GetFloat());
 	}
 
-	void OnView_MaskTransitionWidth(CF_ModelBase model, CF_EventArgs evt)
+	void OnView_MaskTransitionWidth(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnView_MaskTransitionWidth", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnView_MaskTransitionWidth", "" + sender, args.ToStr());
 		
 		_MaskTransitionWidth.SetFloat(_ImageWidget.GetMaskTransitionWidth());
-		_MaskTransitionWidth.ToVariable(model, MaskTransitionWidth);
+		_MaskTransitionWidth.ToVariable(m_Model, MaskTransitionWidth);
 	}
 
-	void OnModel_MaskTransitionWidth(CF_ModelBase model, CF_EventArgs evt)
+	void OnModel_MaskTransitionWidth(Class sender, CF_EventArgs args)
 	{
-		CF_Trace trace(this, "OnModel_MaskTransitionWidth", "" + model, evt.ToStr());
+		CF_Trace trace(this, "OnModel_MaskTransitionWidth", "" + sender, args.ToStr());
 		
-		_MaskTransitionWidth.FromVariable(model, MaskTransitionWidth);
+		_MaskTransitionWidth.FromVariable(m_Model, MaskTransitionWidth);
 		_ImageWidget.SetMaskTransitionWidth(_MaskTransitionWidth.GetFloat());
 	}
 };
