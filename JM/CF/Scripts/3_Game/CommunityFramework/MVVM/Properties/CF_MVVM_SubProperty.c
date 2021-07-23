@@ -2,7 +2,7 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 {
 	protected CF_ModelBase m_SubModel;
 
-	void CF_MVVM_SubProperty(CF_MVVM_View handler, string name)
+	void CF_MVVM_SubProperty(CF_ViewModel handler, string name)
 	{
 		CF_Trace trace(this, "CF_MVVM_SubProperty", "" + handler);
 	}

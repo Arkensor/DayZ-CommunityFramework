@@ -3,7 +3,7 @@ typedef CF_Map<string, CF_MVVM_Property> CF_MVVM_Properties;
 class CF_MVVM_Link
 {
 	ref CF_MVVM_Properties m_Properties = new CF_MVVM_Properties();
-	CF_MVVM_View m_View;
+	CF_ViewModel m_View;
 };
 
 class CF_MVVM
@@ -102,7 +102,7 @@ class CF_MVVM
 		CF_MVVM_Link link;
 		if (s_ViewModelMap.Find(model, link))
 		{
-			CF_MVVM_View view = link.m_View;
+			CF_ViewModel view = link.m_View;
 			if (view)
 			{
 				Widget widget = view.GetWidget();
@@ -157,13 +157,13 @@ class CF_MVVM
 
 		if (!widget) return;
 
-		CF_MVVM_View view;
+		CF_ViewModel view;
 		widget.GetScript(view);
 
 		Connect(model, view);
 	}
 
-	static void Connect(CF_ModelBase model, notnull CF_MVVM_View view)
+	static void Connect(CF_ModelBase model, notnull CF_ViewModel view)
 	{
 		CF_Trace trace(CF.MVVM, "Connect", "" + model, "" + view);
 
@@ -204,7 +204,7 @@ class CF_MVVM
 		return propertyTypeMap.Get(property);
 	}
 
-	static void _LoadPropertyTypes(CF_ModelBase model, CF_MVVM_View view, CF_Map<string, ref CF_MVVM_Property> properties)
+	static void _LoadPropertyTypes(CF_ModelBase model, CF_ViewModel view, CF_Map<string, ref CF_MVVM_Property> properties)
 	{
 		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + view, "" + properties);
 

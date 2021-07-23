@@ -10,7 +10,7 @@ class CF_CollectionClearEventArgs : CF_CollectionEventArgs
 		return str;
 	}
 
-	override void Process(CF_MVVM_View view, CF_ModelBase model, CF_ObservableCollection collection)
+	override void Process(CF_ViewModel view, CF_ModelBase model, CF_ObservableCollection collection)
 	{
 		CF_Trace trace(this, "Process", "" + model, "" + collection, ToStr());
 

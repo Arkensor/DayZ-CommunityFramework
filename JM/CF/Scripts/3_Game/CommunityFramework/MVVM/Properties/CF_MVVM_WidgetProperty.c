@@ -1,6 +1,6 @@
 class CF_MVVM_WidgetProperty : CF_MVVM_Property
 {
-	void CF_MVVM_WidgetProperty(CF_MVVM_View handler, string name)
+	void CF_MVVM_WidgetProperty(CF_ViewModel handler, string name)
 	{
 		CF_Trace trace(this, "CF_MVVM_WidgetProperty", "" + handler);
 	}

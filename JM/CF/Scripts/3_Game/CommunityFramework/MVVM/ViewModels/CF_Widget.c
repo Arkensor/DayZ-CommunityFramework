@@ -2,7 +2,7 @@
  * Base class for widget properties
  */
 
-class CF_Widget : CF_MVVM_View
+class CF_Widget : CF_ViewModel
 {
 	reference string Name;
 	reference string Visible;

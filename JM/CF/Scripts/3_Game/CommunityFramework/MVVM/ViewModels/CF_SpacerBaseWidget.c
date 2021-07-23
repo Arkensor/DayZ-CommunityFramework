@@ -25,7 +25,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_MVVM.Create(model, layout);
 		if (evt.Index == collection.Count()) return;
 
-		CF_MVVM_View view = CF_MVVM._GetLink(model).m_View;
+		CF_ViewModel view = CF_MVVM._GetLink(model).m_View;
 
 		Widget widget = view.GetWidget();
 		Widget append = GetChildWidgetAt(evt.Index);
@@ -46,7 +46,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		
 		CF_MVVM.Create(model, layout);
 
-		CF_MVVM_View view = CF_MVVM._GetLink(model).m_View;
+		CF_ViewModel view = CF_MVVM._GetLink(model).m_View;
 
 		Widget widget = view.GetWidget();
 		Widget append = GetChildWidgetAt(evt.Index);

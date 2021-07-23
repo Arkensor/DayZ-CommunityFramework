@@ -1,7 +1,7 @@
 class CF_MVVM_Property
 {
 	protected CF_ModelBase m_Model;
-	protected CF_MVVM_View m_ViewModel;
+	protected CF_ViewModel m_ViewModel;
 
 	protected string m_Name;
 	protected string m_FunctionOnView;
@@ -10,7 +10,7 @@ class CF_MVVM_Property
 	protected typename m_Type;
 	protected string m_VariableName;
 
-	void CF_MVVM_Property(CF_MVVM_View handler, string name)
+	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
 		CF_Trace trace(this, "CF_MVVM_Property", "" + handler, name);
 
