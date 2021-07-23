@@ -62,11 +62,13 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 
 	TValue GetElement(int index)
 	{
+		CF_Trace trace(this, "GetElement", "" + index);
 		return m_Values[index];
 	}
 
 	TKey GetKey(int i)
 	{
+		CF_Trace trace(this, "GetKey", "" + i);
 		return m_Keys[i];
 	}
 
@@ -114,6 +116,8 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 
 	void Insert(TKey key, TValue value)
 	{
+		CF_Trace trace(this, "Insert", "" + key, "" + value);
+		
 		Set(key, value);
 	}
 

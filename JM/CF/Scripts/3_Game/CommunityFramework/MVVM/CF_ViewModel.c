@@ -69,7 +69,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 				{
 					Class.CastTo(m_WB_Model, modelType.Spawn());
 					m_Model = m_WB_Model;
-					SetModel(m_Model);
+					CF.MVVM.Connect(m_Model, this);
 				}
 				#endif
 			}
@@ -405,7 +405,6 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		Print("OnClick");
 		CF_Trace trace(this, "OnClick", "" + w);
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
