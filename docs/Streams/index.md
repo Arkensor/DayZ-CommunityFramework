@@ -48,6 +48,7 @@ On the sender the following would be done
 
 ```csharp
 CF_BinaryStream stream = new CF_BinaryStream();
+
 // ... write data to the stream here
 array<CF_Byte> data = stream.GetBytes();
 ```
@@ -69,7 +70,7 @@ stream.SetBytes(data);
 CF_BinaryStream stream = new CF_BinaryStream();
 if (stream.File("$profile:Test.png", FileMode.READ))
 {
-  array<CF_Byte> data = stream.GetBytes();
+	array<CF_Byte> data = stream.GetBytes();
 }
 ```
 
@@ -81,6 +82,6 @@ array<CF_Byte> data = new array<CF_Byte>();
 CF_BinaryStream stream = new CF_BinaryStream();
 if (stream.File("$profile:Test.png", FileMode.WRITE))
 {
-  stream.SetBytes(data);
+	stream.SetBytes(data);
 }
 ```
