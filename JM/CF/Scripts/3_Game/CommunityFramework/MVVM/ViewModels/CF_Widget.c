@@ -4,24 +4,24 @@
 
 class CF_Widget : CF_ViewModel
 {
-	reference string Name;
-	reference string Visible;
-	reference string Enabled;
-	reference string Flags;
-	reference string Sort;
-	reference string PositionX;
-	reference string PositionY;
-	reference string Width;
-	reference string Height;
-	reference string ScreenPositionX;
-	reference string ScreenPositionY;
-	reference string ScreenWidth;
-	reference string ScreenHeight;
-	reference string Color;
-	reference string Roll;
-	reference string Pitch;
-	reference string Yaw;
-	reference string Alpha;
+	reference string Name;				// [R/W]
+	reference string Visible;			// [R/W]
+	reference string Enabled;			// [R/W]
+	reference string Flags;				// [R/W]
+	reference string Sort;				// [R/W]
+	reference string PositionX;			// [R/W]
+	reference string PositionY;			// [R/W]
+	reference string Width;				// [R/W]
+	reference string Height;			// [R/W]
+	reference string ScreenPositionX;	// [R/W]
+	reference string ScreenPositionY;	// [R/W]
+	reference string ScreenWidth;		// [R]
+	reference string ScreenHeight;		// [R]
+	reference string Color;				// [R/W]
+	reference string Roll;				// [R/W]
+	reference string Pitch;				// [R/W]
+	reference string Yaw;				// [R/W]
+	reference string Alpha;				// [R/W]
 
 	protected Widget _Widget;
 	protected CF_TypeConverter _Name = CF_GetDefaultTC();
@@ -81,94 +81,92 @@ class CF_Widget : CF_ViewModel
 	{
 		CF_Trace trace(this, "OnView_Name", "" + sender, args.ToStr());
 
-		string _name = _Widget.GetName();
-		EnScript.SetClassVar(m_Model, Name, 0, _name);
+		_Name.SetString(_Widget.GetName());
+		_Name.ToVariable(m_Model, Name);
 	}
 
 	void OnModel_Name(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Name", "" + sender, args.ToStr());
 
-		string _name;
-		EnScript.GetClassVar(m_Model, Name, 0, _name);
-		_Widget.SetName(_name);
+		_Name.FromVariable(m_Model, Name);
+		_Widget.SetName(_Name.GetString());
 	}
 
 	void OnView_Visible(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Visible", "" + sender, args.ToStr());
 
-		bool _visible = _Widget.IsVisible();
-		EnScript.SetClassVar(m_Model, Visible, 0, _visible);
+		_Visible.SetBool(_Widget.IsVisible());
+		_Visible.ToVariable(m_Model, Visible);
 	}
 
 	void OnModel_Visible(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Visible", "" + sender, args.ToStr());
 
-		bool _visible;
-		EnScript.GetClassVar(m_Model, Visible, 0, _visible);
-		_Widget.Show(_visible);
+		_Visible.FromVariable(m_Model, Visible);
+		_Widget.Show(_Visible.GetBool());
 	}
 
 	void OnView_Enabled(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Enabled", "" + sender, args.ToStr());
-		
-		EnScript.SetClassVar(m_Model, Enabled, 0, _Enabled);
+
+		OnView_Enabled(sender, args);
 	}
 
 	void OnModel_Enabled(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Enabled", "" + sender, args.ToStr());
 		
-		EnScript.GetClassVar(m_Model, Enabled, 0, _Enabled);
-	//	_Widget.Enable(_Enabled);
+		_Enabled.FromVariable(m_Model, Enabled);
+		_Widget.SetName(_Enabled.GetBool());
 	}
 
 	void OnView_Flags(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Flags", "" + sender, args.ToStr());
-		
-		int _flags = _Widget.GetFlags();
-		EnScript.SetClassVar(m_Model, Flags, 0, _flags);
+
+		_Flags.SetInt(_Widget.GetFlags());
+		_Flags.ToVariable(m_Model, Flags);
 	}
 
 	void OnModel_Flags(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Flags", "" + sender, args.ToStr());
 		
-		int _flags;
-		EnScript.GetClassVar(m_Model, Flags, 0, _flags);
+		_Flags.FromVariable(m_Model, Name);
 		_Widget.ClearFlags(_Widget.GetFlags(), false);
-		_Widget.SetFlags(_flags);
+		_Widget.SetFlags(_Flags.GetInt());
 	}
 
 	void OnView_Sort(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Sort", "" + sender, args.ToStr());
-		
-		int _sort = _Widget.GetSort();
-		EnScript.SetClassVar(m_Model, Sort, 0, _sort);
+
+		_Sort.SetInt(_Widget.GetSort());
+		_Sort.ToVariable(m_Model, Sort);
 	}
 
 	void OnModel_Sort(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Sort", "" + sender, args.ToStr());
 		
-		int _sort;
-		EnScript.GetClassVar(m_Model, Sort, 0, _sort);
-		_Widget.SetSort(_sort);
+		_Sort.FromVariable(m_Model, Sort);
+		_Widget.SetSort(_Sort.GetInt());
 	}
 
 	void OnView_PositionX(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_PositionX", "" + sender, args.ToStr());
-		
+
 		float _positionX;
 		float _positionY;
 		_Widget.GetPos(_positionX, _positionY);
-		EnScript.SetClassVar(m_Model, PositionX, 0, _positionX);
+
+		_PositionX.SetFloat(_positionX);
+		_PositionX.ToVariable(m_Model, PositionX);
 	}
 
 	void OnModel_PositionX(Class sender, CF_EventArgs args)
@@ -178,8 +176,9 @@ class CF_Widget : CF_ViewModel
 		float _positionX;
 		float _positionY;
 		_Widget.GetPos(_positionX, _positionY);
-		EnScript.GetClassVar(m_Model, PositionX, 0, _positionX);
-		_Widget.SetPos(_positionX, _positionY);
+
+		_PositionX.FromVariable(m_Model, PositionX);
+		_Widget.SetPos(_PositionX.GetFloat(), _positionY);
 	}
 
 	void OnView_PositionY(Class sender, CF_EventArgs args)
@@ -189,18 +188,21 @@ class CF_Widget : CF_ViewModel
 		float _positionX;
 		float _positionY;
 		_Widget.GetPos(_positionX, _positionY);
-		EnScript.SetClassVar(m_Model, PositionY, 0, _positionY);
+
+		_PositionY.SetFloat(_positionY);
+		_PositionY.ToVariable(m_Model, PositionY);
 	}
 
 	void OnModel_PositionY(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_PositionY", "" + sender, args.ToStr());
-		
+				
 		float _positionX;
 		float _positionY;
 		_Widget.GetPos(_positionX, _positionY);
-		EnScript.GetClassVar(m_Model, PositionY, 0, _positionY);
-		_Widget.SetPos(_positionX, _positionY);
+
+		_PositionY.FromVariable(m_Model, PositionY);
+		_Widget.SetPos(_positionX, _PositionY.GetFloat());
 	}
 
 	void OnView_Width(Class sender, CF_EventArgs args)
@@ -210,28 +212,33 @@ class CF_Widget : CF_ViewModel
 		float _width;
 		float _height;
 		_Widget.GetSize(_width, _height);
-		EnScript.SetClassVar(m_Model, Width, 0, _width);
+
+		_Width.SetFloat(_width);
+		_Width.ToVariable(m_Model, Width);
 	}
 
 	void OnModel_Width(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Width", "" + sender, args.ToStr());
-		
+				
 		float _width;
 		float _height;
 		_Widget.GetSize(_width, _height);
-		EnScript.GetClassVar(m_Model, Width, 0, _width);
-		_Widget.SetSize(_width, _height);
+
+		_Width.FromVariable(m_Model, Width);
+		_Widget.SetSize(_Width.GetFloat(), _height);
 	}
 
 	void OnView_Height(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Height", "" + sender, args.ToStr());
-		
+
 		float _width;
 		float _height;
 		_Widget.GetSize(_width, _height);
-		EnScript.SetClassVar(m_Model, Height, 0, _height);
+
+		_Height.SetFloat(_height);
+		_Height.ToVariable(m_Model, Height);
 	}
 
 	void OnModel_Height(Class sender, CF_EventArgs args)
@@ -241,8 +248,9 @@ class CF_Widget : CF_ViewModel
 		float _width;
 		float _height;
 		_Widget.GetSize(_width, _height);
-		EnScript.GetClassVar(m_Model, Height, 0, _height);
-		_Widget.SetSize(_width, _height);
+
+		_Height.FromVariable(m_Model, Height);
+		_Widget.SetSize(_width, _Height.GetFloat());
 	}
 	
 	void OnView_ScreenPositionX(Class sender, CF_EventArgs args)
@@ -252,7 +260,9 @@ class CF_Widget : CF_ViewModel
 		float _positionX;
 		float _positionY;
 		_Widget.GetScreenPos(_positionX, _positionY);
-		EnScript.SetClassVar(m_Model, ScreenPositionX, 0, _positionX);
+
+		_ScreenPositionX.SetFloat(_positionX);
+		_ScreenPositionX.ToVariable(m_Model, ScreenPositionX);
 	}
 
 	void OnModel_ScreenPositionX(Class sender, CF_EventArgs args)
@@ -262,7 +272,8 @@ class CF_Widget : CF_ViewModel
 		float _positionX;
 		float _positionY;
 		_Widget.GetScreenPos(_positionX, _positionY);
-		EnScript.GetClassVar(m_Model, PositionX, 0, _positionX);
+		_PositionX.FromVariable(m_Model, PositionX);
+		_positionX = _PositionX.GetFloat();
 
 		if ((_Widget.GetFlags() & WidgetFlags.HEXACTPOS) != 0)
 		{
@@ -286,21 +297,24 @@ class CF_Widget : CF_ViewModel
 	void OnView_ScreenPositionY(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ScreenPositionY", "" + sender, args.ToStr());
-		
+
 		float _positionX;
 		float _positionY;
 		_Widget.GetScreenPos(_positionX, _positionY);
-		EnScript.SetClassVar(m_Model, ScreenPositionY, 0, _positionY);
+
+		_ScreenPositionY.SetFloat(_positionY);
+		_ScreenPositionY.ToVariable(m_Model, ScreenPositionY);
 	}
 
 	void OnModel_ScreenPositionY(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ScreenPositionY", "" + sender, args.ToStr());
-		
+
 		float _positionX;
 		float _positionY;
 		_Widget.GetScreenPos(_positionX, _positionY);
-		EnScript.GetClassVar(m_Model, PositionY, 0, _positionY);
+		_PositionY.FromVariable(m_Model, PositionY);
+		_positionY = _PositionY.GetFloat();
 
 		if ((_Widget.GetFlags() & WidgetFlags.VEXACTPOS) != 0)
 		{
@@ -324,114 +338,116 @@ class CF_Widget : CF_ViewModel
 	void OnView_ScreenWidth(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ScreenWidth", "" + sender, args.ToStr());
-		
+
 		float _width;
 		float _height;
 		_Widget.GetScreenSize(_width, _height);
-		EnScript.SetClassVar(m_Model, ScreenWidth, 0, _width);
+
+		_ScreenWidth.SetFloat(_width);
+		_ScreenWidth.ToVariable(m_Model, ScreenWidth);
 	}
 
 	void OnModel_ScreenWidth(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ScreenWidth", "" + sender, args.ToStr());
-		
+				
 		OnView_ScreenWidth(m_Model, args);
 	}
 
 	void OnView_ScreenHeight(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ScreenHeight", "" + sender, args.ToStr());
-		
+
 		float _width;
 		float _height;
 		_Widget.GetScreenSize(_width, _height);
-		EnScript.SetClassVar(m_Model, ScreenHeight, 0, _height);
+
+		_ScreenHeight.SetFloat(_height);
+		_ScreenHeight.ToVariable(m_Model, ScreenHeight);
 	}
 
 	void OnModel_ScreenHeight(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ScreenHeight", "" + sender, args.ToStr());
-		
+				
 		OnView_ScreenHeight(m_Model, args);
 	}
 
 	void OnView_Color(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Color", "" + sender, args.ToStr());
-		
-		int _color = _Widget.GetColor();
-		EnScript.SetClassVar(m_Model, Color, 0, _color);
+
+		_Color.SetString(_Widget.GetColor());
+		_Color.ToVariable(m_Model, Color);
 	}
 
 	void OnModel_Color(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Color", "" + sender, args.ToStr());
 		
-		int _color;
-		EnScript.GetClassVar(m_Model, Color, 0, _color);
-		_Widget.SetColor(_color);
+		_Color.FromVariable(m_Model, Color);
+		_Widget.SetColor(_Color.GetInt());
 	}
 
 	void OnView_Roll(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Roll", "" + sender, args.ToStr());
-		
-		EnScript.SetClassVar(m_Model, Roll, 0, _Roll);
+
+		OnModel_Roll(sender, args);
 	}
 
 	void OnModel_Roll(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Roll", "" + sender, args.ToStr());
 		
-		EnScript.GetClassVar(m_Model, Roll, 0, _Roll);
-		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
+		_Roll.FromVariable(m_Model, Roll);
+		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
 	}
 
 	void OnView_Pitch(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Pitch", "" + sender, args.ToStr());
-		
-		EnScript.SetClassVar(m_Model, Pitch, 0, _Pitch);
+
+		OnModel_Pitch(sender, args);
 	}
 
 	void OnModel_Pitch(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Pitch", "" + sender, args.ToStr());
 		
-		EnScript.GetClassVar(m_Model, Pitch, 0, _Pitch);
-		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
+		_Pitch.FromVariable(m_Model, Pitch);
+		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
 	}
 
 	void OnView_Yaw(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Yaw", "" + sender, args.ToStr());
-		
-		EnScript.SetClassVar(m_Model, Yaw, 0, _Yaw);
+
+		OnModel_Yaw(sender, args);
 	}
 
 	void OnModel_Yaw(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Yaw", "" + sender, args.ToStr());
 		
-		EnScript.GetClassVar(m_Model, Yaw, 0, _Yaw);
-		//_Widget.SetRotation(_Roll, _Pitch, _Yaw);
+		_Yaw.FromVariable(m_Model, Yaw);
+		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
 	}
 	
 	void OnView_Alpha(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Alpha", "" + sender, args.ToStr());
-		
-		int _alpha = _Widget.GetAlpha();
-		EnScript.SetClassVar(m_Model, Alpha, 0, _alpha);
+
+		_Alpha.SetInt(_Widget.GetAlpha());
+		_Alpha.ToVariable(m_Model, Alpha);
 	}
 
 	void OnModel_Alpha(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Alpha", "" + sender, args.ToStr());
 		
-		int _alpha;
-		EnScript.GetClassVar(m_Model, Alpha, 0, _alpha);
-		_Widget.SetAlpha(_alpha);
+		_Alpha.FromVariable(m_Model, Alpha);
+		_Widget.SetAlpha(_Alpha.GetInt());
 	}
 
 	override bool OnResize(Class sender, CF_ResizeEventArgs args)
