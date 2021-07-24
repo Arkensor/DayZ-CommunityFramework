@@ -1,6 +1,6 @@
 class CF_BinaryStream : CF_Stream
 {
-	private ref array<int> m_Data = new array<int>();
+	private ref array<CF_Byte> m_Data = new array<CF_Byte>();
 	private int m_Position = 0;
 
 	private bool m_NonZeroesDirty = true;
@@ -124,30 +124,30 @@ class CF_BinaryStream : CF_Stream
 		m_NonZeroesDirty = false;
 	}
 
-	override void Write(int value)
+	override void WriteByte(CF_Byte value)
 	{
-		m_Data.InsertAt(value, m_Position++);
+		m_Data.InsertAt(value.Clamp(), m_Position++);
 		
 		m_NonZeroesDirty = true;
 	}
 
 	override void WriteChar(string value)
 	{
-		Write(value.Hash());
+		WriteByte(value.Hash());
 	}
 
 	override void WriteBool(bool value)
 	{
-		if (value) Write(0x00000001);
-		else Write(0x00000000);
+		if (value) WriteByte(0x00000001);
+		else WriteByte(0x00000000);
 	}
 
 	override void WriteInt(int value)
 	{
-		Write((value >> 24) & 0x000000FF);
-		Write((value >> 16) & 0x000000FF);
-		Write((value >> 8 ) & 0x000000FF);
-		Write((value	  ) & 0x000000FF);
+		WriteByte((value >> 24) & 0x000000FF);
+		WriteByte((value >> 16) & 0x000000FF);
+		WriteByte((value >> 8 ) & 0x000000FF);
+		WriteByte((value	  ) & 0x000000FF);
 	}
 
 	override void WriteFloat(float value)
@@ -167,7 +167,7 @@ class CF_BinaryStream : CF_Stream
 		WriteInt(value.Length());
 		for (int i = 0; i < value.Length(); i++)
 		{
-			Write(value[i].Hash());
+			WriteByte(value[i].Hash());
 		}
 	}
 
@@ -175,12 +175,12 @@ class CF_BinaryStream : CF_Stream
 	{
 		for (int i = 0; i < value.Length(); i++)
 		{
-			Write(value[i].Hash());
+			WriteByte(value[i].Hash());
 		}
-		Write(0);
+		WriteByte(0);
 	}
 
-	override int ReadByte()
+	override CF_Byte ReadByte()
 	{
 		return m_Data[m_Position++];
 	}
@@ -277,7 +277,7 @@ class CF_BinaryStream : CF_Stream
 		}
 	}
 
-	override void SetBytes(array<int> bytes)
+	override void SetBytes(array<CF_Byte> bytes)
 	{
 		m_Data.Clear();
 		m_Data.Copy(bytes);
@@ -285,9 +285,9 @@ class CF_BinaryStream : CF_Stream
 		m_NonZeroesDirty = true;
 	}
 
-	override array<int> GetBytes()
+	override array<CF_Byte> GetBytes()
 	{
-		array<int> arr();
+		array<CF_Byte> arr();
 		arr.Copy(m_Data);
 		return arr;
 	}

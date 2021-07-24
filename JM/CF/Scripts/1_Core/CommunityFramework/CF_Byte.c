@@ -4,13 +4,13 @@
 
 	Author: Lystic, Jacob_Mango
 
-	When working with bytes. It is necessary to use `byte.Clamp()` to ensure the value remains 8 bit when modifying.
+	When working with bytes. It is necessary to use `CF_Byte::Clamp()` to ensure the value remains 8 bit when modifying.
 */
 
 typedef int CF_Byte;
 class CF_Byte : CF_Uint
 {
-	void Clamp()
+	CF_Byte Clamp()
 	{
 		CF_Byte old_byte = value;
 		value = value & 255;
@@ -18,6 +18,7 @@ class CF_Byte : CF_Uint
 		{
 			Error("byte overflow");
 		}
+		return value;
 	}
 
 	void Set(int index, int v)

@@ -39,7 +39,7 @@ class CF_StringStream : CF_Stream
 		return true;
 	}
 
-	override void Write(int value)
+	override void WriteByte(CF_Byte value)
 	{
 		m_Data.InsertAt(value.AsciiToString(), m_Position++);
 	}
@@ -57,7 +57,7 @@ class CF_StringStream : CF_Stream
 		}
 	}
 
-	override int ReadByte()
+	override CF_Byte ReadByte()
 	{
 		string s = m_Data[m_Position++];
 		return s.Hash();
@@ -113,7 +113,7 @@ class CF_StringStream : CF_Stream
 		}
 	}
 
-	override void SetBytes(array<int> bytes)
+	override void SetBytes(array<CF_Byte> bytes)
 	{
 		m_Data.Clear();
 		for (int i = 0; i < bytes.Count(); i++)
@@ -122,9 +122,9 @@ class CF_StringStream : CF_Stream
 		}
 	}
 
-	override array<int> GetBytes()
+	override array<CF_Byte> GetBytes()
 	{
-		array<int> arr();
+		array<CF_Byte> arr();
 		for (int i = 0; i < m_Data.Count(); i++)
 		{
 			string s = m_Data[i];

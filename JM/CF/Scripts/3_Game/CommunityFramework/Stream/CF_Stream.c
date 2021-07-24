@@ -9,7 +9,7 @@ class CF_Stream : Managed
 	/**
 	 * Write a byte
 	 */
-	void Write(int value)
+	void WriteByte(CF_Byte value)
 	{
 		/*CF.Log.*/Error("Not implemented.");
 	}
@@ -73,7 +73,7 @@ class CF_Stream : Managed
 	/**
 	 * ReadByte a byte
 	 */
-	int ReadByte()
+	CF_Byte ReadByte()
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return 0;
@@ -165,12 +165,12 @@ class CF_Stream : Managed
 		/*CF.Log.*/Error("Not implemented.");
 	}
 
-	void SetBytes(array<int> bytes)
+	void SetBytes(array<CF_Byte> bytes)
 	{
 		/*CF.Log.*/Error("Not implemented.");
 	}
 
-	array<int> GetBytes()
+	array<CF_Byte> GetBytes()
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return null;
