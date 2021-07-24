@@ -7,7 +7,7 @@ class CF_BinaryStream : CF_Stream
 	private ref array<int> m_NonZeroes = new array<int>();
 
 	override bool File(string path, FileMode mode)
-	{
+	{		
 		FileHandle fileHandle = OpenFile(path, mode);
 		if (fileHandle == 0) return false;
 
