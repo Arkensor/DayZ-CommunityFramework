@@ -135,4 +135,14 @@ class CF_Uint : int
 		int d = (b | c);
 		return (a & d);
 	}
+
+	CF_Uint XOR(CF_Uint y)
+	{
+		CF_Uint x = value;
+		int a = (x | y);
+		int b = ~x;
+		int c = ~y;
+		int d = (b | c);
+		return (a & d);
+	}
 };

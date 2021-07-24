@@ -56,4 +56,11 @@ class CF_Byte : CF_Uint
 		CF_Byte b = super.XOR(y) & 255;
 		return b;
 	}
+
+	override CF_Uint XOR(CF_Uint y)
+	{
+		CF_Byte b = super.XOR(y);
+		b.Clamp();
+		return b;
+	}
 };
