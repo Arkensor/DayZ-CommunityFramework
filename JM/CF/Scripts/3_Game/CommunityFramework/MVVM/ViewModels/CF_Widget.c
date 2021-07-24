@@ -121,7 +121,7 @@ class CF_Widget : CF_ViewModel
 		CF_Trace trace(this, "OnModel_Enabled", "" + sender, args.ToStr());
 		
 		_Enabled.FromVariable(m_Model, Enabled);
-		_Widget.SetName(_Enabled.GetBool());
+		_Widget.Enable(_Enabled.GetBool());
 	}
 
 	void OnView_Flags(Class sender, CF_EventArgs args)
@@ -377,7 +377,7 @@ class CF_Widget : CF_ViewModel
 	{
 		CF_Trace trace(this, "OnView_Color", "" + sender, args.ToStr());
 
-		_Color.SetString(_Widget.GetColor());
+		_Color.SetInt(_Widget.GetColor());
 		_Color.ToVariable(m_Model, Color);
 	}
 
