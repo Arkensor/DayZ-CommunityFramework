@@ -1,4 +1,4 @@
-static int ^(int x, int y)
+static int CF_XOR(int x, int y)
 {
 	int a = (x | y);
 	int b = ~x;
