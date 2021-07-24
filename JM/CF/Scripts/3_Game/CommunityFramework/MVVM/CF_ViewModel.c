@@ -1,6 +1,7 @@
 class CF_ViewModel : ScriptedWidgetEventHandler
 {
 	reference string Model;
+	reference bool CreateModel = false;
 	reference string Children;
 
 	reference string Event_Click;
@@ -35,9 +36,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	protected Widget m_Widget;
 
-    #ifdef COMPONENT_SYSTEM 
+    //#ifdef COMPONENT_SYSTEM 
 	private ref CF_ModelBase m_WB_Model;
-	#endif
+	//#endif
 
 	//! In-game, the ref count shouldn't be incremented. When the ref count == 0, then this view should be destroyed.
 	protected CF_ModelBase m_Model;
@@ -63,25 +64,25 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			typename modelType = Model.ToType();
 			if (modelType)
 			{
-				//! Workbench editing
-    			#ifdef COMPONENT_SYSTEM
+    			#ifdef COMPONENT_SYSTEM //! Workbench editing
 				if (!CF_MVVM.WB_NEXT_IN_SCRIPT)
+				#else
+				if (CreateModel)
+				#endif
 				{
 					Class.CastTo(m_WB_Model, modelType.Spawn());
-					m_Model = m_WB_Model;
-					CF.MVVM.Connect(m_Model, this);
+					CF.MVVM.Connect(m_WB_Model, this);
 				}
-				#endif
 			}
 			else
 			{
-				Model = "";
+				Model = string.Empty;
 			}
 		}
 
 		if (Model == string.Empty)
 		{
-			Widget parent = w.GetParent();
+			Widget parent = m_Widget.GetParent();
 			while (parent != null)
 			{
 				CF_ViewModel view = null;
