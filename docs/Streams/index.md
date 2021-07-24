@@ -8,22 +8,21 @@ In binary format, all values are in little-endian format.
 
 In text format, only ASCII characters are supported.
 
-## Files
+Using the `File` method in the target stream, different `FileMode`'s can be used. They are `READ`, `WRITE` and `APPEND`.
 
-Use the `CF_FileStream` class to read and write files on the a file system. 
+**$profile:text.txt**:
+```
+Hello, World!
+```
 
 ```csharp
 string path = "$profile:test.txt";
 
-// Create the file
-CF_TextWriter writer = new CF_TextWriter(new CF_FileStream(path, FileMode.WRITE));
-writer.WriteLine("This is some text");
-writer.Close();
-
-// Open the file and read it back
-CF_TextReader reader = new CF_TextReader(new CF_FileStream(path, FileMode.READ));
-Print(reader.ReadLine()); // "This is some text"
-reader.Close();
+```csharp
+CF_StringStream stream = new CF_StringStream();
+stream.File("$profile:test.txt", FileMode.READ);
+string output = stream.ReadLine();
+Print(output); // 'Hello, World!'
 ```
 
 ## String
