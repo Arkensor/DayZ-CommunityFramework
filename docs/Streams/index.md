@@ -8,76 +8,79 @@ There are currently two Streams avaliable, `CF_BinaryStream` and `CF_StringStrea
 
 ### Working with files
 
-Using the `File` method in the target stream, different `FileMode`'s can be used. 
+Using the `File` method in the target stream, different `FileMode`'s can be used. They are `READ`, `WRITE` and `APPEND`.
 
-**text.txt**:
+**$profile:text.txt**:
 ```
 Hello, World!
 ```
 
 #### Read
 
-```
-CF_StringStream stream();
+```csharp
+CF_StringStream stream = new CF_StringStream();
 stream.File("$profile:test.txt", FileMode.READ);
 string output = stream.ReadLine();
-Print(output);
+Print(output); // 'Hello, World!'
 ```
 
 #### Write
 
-```
-CF_StringStream stream();
+```csharp
+CF_StringStream stream = new CF_StringStream();
 stream.WriteString("Why, World?");
 stream.File("$profile:test.txt", FileMode.WRITE);
 ```
 
 #### Append
 
-```
-CF_StringStream stream();
+```csharp
+CF_StringStream stream = new CF_StringStream();
 stream.WriteString("Bye, World!");
 stream.File("$profile:test.txt", FileMode.APPEND);
 ```
 
-```
-CF_BinaryStream stream();
-if (stream.File("$profile:Test.png"))
-{
-  array<int> data = stream.GetBytes();
-  GetRPCManager().
-}
+#### Passing data
+
+To send raw data to another stream through an intermediatry source, such as an RPC, then `GetBytes` and `SetBytes` must be used for optimal performance.
+
+On the sender the following would be done
+
+```csharp
+CF_BinaryStream stream = new CF_BinaryStream();
+// ... write data to the stream here
+array<CF_Byte> data = stream.GetBytes();
 ```
 
-### **Saving a File**
+On the reciever the following would be done
 
-```
-CF_BinaryStream stream();
-if (stream.File("$profile:Test.png"))
-{
-  array<int> data = stream.GetBytes();
-  GetRPCManager().
-}
+```csharp
+array<CF_Byte> data = new array<CF_Byte>();
+
+CF_BinaryStream stream = new CF_BinaryStream();
+stream.SetBytes(data);
+
+// ... read data from the stream here
 ```
 
 ### Getting raw data
 
-```
-CF_BinaryStream stream();
+```csharp
+CF_BinaryStream stream = new CF_BinaryStream();
 if (stream.File("$profile:Test.png", FileMode.READ))
 {
-  array<int> data = stream.GetBytes();
+  array<CF_Byte> data = stream.GetBytes();
 }
 ```
 
 ### Setting raw data
 
-```
-array<int> data = // ...
+```csharp
+array<CF_Byte> data = new array<CF_Byte>();
 
-CF_BinaryStream stream();
+CF_BinaryStream stream = new CF_BinaryStream();
 if (stream.File("$profile:Test.png", FileMode.WRITE))
 {
-   stream.SetBytes(data);
+  stream.SetBytes(data);
 }
 ```
