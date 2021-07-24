@@ -29,17 +29,16 @@ class CF_XComboBoxWidget : CF_UIWidget
 	{
 		CF_Trace trace(this, "OnView_Selected", "" + sender, args.ToStr());
 
-		int _value = _XComboBoxWidget.GetCurrentItem();
-		EnScript.SetClassVar(m_Model, Selected, 0, _value);
+		_Selected.SetFloat(_XComboBoxWidget.GetCurrentItem());
+		_Selected.ToVariable(m_Model, Selected);
 	}
 
 	void OnModel_Selected(Class sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
 
-		int _value;
-		EnScript.GetClassVar(m_Model, Selected, 0, _value);
-		_XComboBoxWidget.SetCurrentItem(_value);
+		_Selected.FromVariable(m_Model, Selected);
+		_XComboBoxWidget.SetCurrentItem(_Selected.GetFloat());
 	}
 
 	void OnView_Items(Class sender, CF_EventArgs args)
