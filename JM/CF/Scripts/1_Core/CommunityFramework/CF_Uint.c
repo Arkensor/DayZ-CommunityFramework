@@ -76,9 +76,8 @@ class CF_Uint : int
 		return (y | z);
 	}
 
-	static CF_Uint CH(CF_Uint y, CF_Uint z)
+	static CF_Uint CH(CF_Uint x, CF_Uint y, CF_Uint z)
 	{
-		CF_Uint x = value;
 		CF_Uint a = (x & y);
 		CF_Uint b = ~x;
 		CF_Uint c = (b & z);
@@ -112,7 +111,7 @@ class CF_Uint : int
 	CF_Uint SIG0()
 	{
 		CF_Uint x = value;
-		CF_Uint a = CF_Uint.RotateRight(x 7);
+		CF_Uint a = CF_Uint.RotateRight(x, 7);
 		CF_Uint b = CF_Uint.RotateRight(x, 18);
 		CF_Uint c = x.ShiftRight(3);
 		return a.^(b.^(c))); //a ^ b ^ c
@@ -121,7 +120,7 @@ class CF_Uint : int
 	CF_Uint SIG1()
 	{
 		CF_Uint x = value;
-		CF_Uint a = CF_Uint.RotateRight(x 17);
+		CF_Uint a = CF_Uint.RotateRight(x, 17);
 		CF_Uint b = CF_Uint.RotateRight(x, 19);
 		CF_Uint c = x.ShiftRight(10);
 		return a.^(b.^(c))); //a ^ b ^ c
