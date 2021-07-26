@@ -1,23 +1,69 @@
 # Expressions
-Used to parse mathematical expressions in runtime.
+Used to parse mathematical expressions in runtime. The default format used is `CF_MathExpression`. All values are treated as floating point numbers. Expressions are optimized for evaluating, not compiling. Recommended practise is to compile as few times as needed. 
 
 ```csharp
 auto expr = CF_ExpressionVM.Compile("5 * 5");
-expr
+float value = expr.Evaluate();
+Print(value); // 25
+```
+
+## CF_MathExpression
+For performance reasons every parameter after the first one is evaluated at compile time and as such can't contain user defined variables. The first parameter is treated as if it was in brackets following the BODMAS principle.
+
+```csharp
+auto expr = CF_ExpressionVM.Compile("4 * factor(4, 0, 5)", CF_MathExpression);
+float value = expr.Evaluate();
+Print(value); // 4
 ```
 
 ## CF_SQFExpression
+PBO config binaries such as SoundShaders use a similar mathematical syntax found in SQF. They make use of square brackets for denoting parameters within a function. For performance reasons, these parameters are evaluated at compile time and as such can't contain user defined variables.
 
-## CF_MathExpression
-
-The EventHandler feature is a wrapper around `ScriptInvoker` that mimics the [C# EventHandler concept](https://docs.microsoft.com/en-us/dotnet/api/system.eventhandler-1) by introducing subscriber functions that receive a `sender` object and `args` of a variable type `TEventArgs`.
-
-## CF_EventArgs
-The class `CF_EventArgs` transports all additional event data besides the `sender` object and is the base class that all non-primitive types of event `args` should inherit from. The constant `CF_EventArgs.Empty` can be used when sending an event that has no data.
 ```csharp
-class MyCustomEventArgs : CF_EventArgs
+auto expr = CF_ExpressionVM.Compile("4 * (4 factor [0, 5])", CF_SQFExpression);
+float value = expr.Evaluate();
+Print(value); // 4
+```
+
+## Functions
+Functions and operators are treated the same way. Not all functions require brackets and parameters. In `CF_MathExpression` the first 'parameter' is a continuation of the expression and can have variables. The other parameters are evaluated during compilation so can't have variables. In `CF_SQFExpression` the first 'parameter' is given from context and is decalred before the function call.
+
+### Custom Functions
+Custom functions can be registered for use if needed. They are globally added so any expression in any mod can use them. 
+
+For `CF_SQFExpression` the above function is used `(2 pow [4])`.
+For `CF_MathExpression` the above function is used `pow(2, 4)`.
+
+```csharp
+class ExpressionFunctionPow : CF_ExpressionFunction
 {
-    int someValue;
-    float moreData;
+	[CF_EventSubscriber(ExpressionFunctionAbs.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("pow", new ExpressionFunctionPow());
+	}
+
+	void ExpressionFunctionPow()
+	{
+		params = 1;
+	}
+
+	override void Call()
+	{
+		//! minimize variable moving and declarations
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Pow(g_CF_Expression_stack[g_CF_Expression_stackPointer], g_CF_Expression_instruction.param1);
+	}
 };
+```
+
+## Variables
+All expressions can make use of user defined variables that can be re-evaluated during runtime. They are loaded from an array of strings during compile. When evaluating the array of floats for the variables must be the same length as the string array.
+
+```csharp
+array<string> variableNames = { "speed" };
+array<float> variableValues = { 50.0 };
+
+auto expr = CF_ExpressionVM.Compile("50 * (speed factor [0, 100])", variableNames, CF_MathExpression);
+float value = expr.Evaluate(variableValues);
+Print(value); // 25
 ```
