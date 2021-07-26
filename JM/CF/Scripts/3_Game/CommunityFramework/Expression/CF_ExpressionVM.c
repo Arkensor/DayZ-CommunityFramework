@@ -8,8 +8,8 @@ class CF_ExpressionVM
 	[CF_EventSubscriber(CF_ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
-		AddFunction("#INTERNAL_1", new CF_ExpressionFunctionValue());
-		AddFunction("#INTERNAL_2", new CF_ExpressionFunctionVariable());
+		MoveFunctionTo(AddFunction("#INTERNAL_0", new CF_ExpressionFunctionValue()), 0);
+		MoveFunctionTo(AddFunction("#INTERNAL_1", new CF_ExpressionFunctionVariable()), 1);
 		
 		AddFunction("^", new CF_ExpressionFunctionPow());
 		AddFunction("*", new CF_ExpressionFunctionMul());
@@ -29,18 +29,45 @@ class CF_ExpressionVM
 		s_Functions = null;
 	}
 
-	static void AddFunction(string name, CF_ExpressionFunction function)
+	private static void MoveFunctionTo(CF_ExpressionFunction function, int index)
 	{
+		//! Check if the index is not the right function
+		if (g_CF_ExpressionVM_Lookup[index] != function)
+		{
+			//! Perform swap
+			g_CF_ExpressionVM_Lookup[function.index] = g_CF_ExpressionVM_Lookup[index];
+			g_CF_ExpressionVM_Lookup[function.index].index = function.index;
+			g_CF_ExpressionVM_Lookup[index] = function;
+			g_CF_ExpressionVM_Lookup[index].index = index;
+		}
+	}
+
+	static CF_ExpressionFunction AddFunction(string name, notnull CF_ExpressionFunction function)
+	{
+		//! Init map
 		if (s_Functions == null)
 		{
 			s_Functions = new map<string, ref CF_ExpressionFunction>();
 			s_Count = 0;
 		}
 
-		s_Functions[name] = function;
-		function.index = s_Count;
-		g_CF_ExpressionVM_Lookup[function.index] = function;
+		int index = s_Count;
 		s_Count++;
+
+		//! Handling edge case if function was registered twice
+		CF_ExpressionFunction old_function;
+		if (s_Functions.Find(name, old_function))
+		{
+			index = old_function.index;
+			s_Count--;
+		}
+
+		//! Add the function
+		s_Functions[name] = function;
+		function.index = index;
+		g_CF_ExpressionVM_Lookup[function.index] = function;
+
+		return function;
 	}
 
 	static CF_Expression Create(string src)
