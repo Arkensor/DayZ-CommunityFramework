@@ -12,8 +12,8 @@ class ExpressionCompileToken
 		parameters = new array< float >();
 	}
 
-	ExpressionInstruction ToOperation( int type, int token_i = -1 )
+	ExpressionInstruction ToOperation( int func_idx = -1 )
 	{
-		return new ExpressionInstruction( token, type, parameters, token_i );
+		return new ExpressionInstruction( token, parameters, func_idx, -1 );
 	}
 };

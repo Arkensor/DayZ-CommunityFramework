@@ -1,3 +1,8 @@
+ExpressionInstruction g_CF_Expression_instruction;
+float g_CF_Expression_stack[16];
+int g_CF_Expression_stackPointer;
+array<float> g_CF_Expression_variables;
+
 class ExpressionFunction
 {
 	int index;
@@ -15,7 +20,31 @@ class ExpressionFunction
 		associative = false;
 	}
 
-	void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer);
+	void Call();
+};
+
+class ExpressionFunctionValue : ExpressionFunction
+{
+	void ExpressionFunctionVariable()
+	{
+	}
+
+	override void Call()
+	{
+		g_CF_Expression_stack[++g_CF_Expression_stackPointer] = g_CF_Expression_instruction.token_f;
+	}
+};
+
+class ExpressionFunctionVariable : ExpressionFunction
+{
+	void ExpressionFunctionVariable()
+	{
+	}
+
+	override void Call()
+	{
+		g_CF_Expression_stack[++g_CF_Expression_stackPointer] = g_CF_Expression_variables[g_CF_Expression_instruction.var_idx];
+	}
 };
 
 class ExpressionFunctionPow : ExpressionFunction
@@ -26,11 +55,11 @@ class ExpressionFunctionPow : ExpressionFunction
 		associative = false;
 	}
 
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = Math.Pow(numA, numB);
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Pow(numA, numB);
 	}
 };
 
@@ -42,11 +71,11 @@ class ExpressionFunctionMul : ExpressionFunction
 		associative = true;
 	}
 
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = numA * numB;
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = numA * numB;
 	}
 };
 
@@ -58,11 +87,11 @@ class ExpressionFunctionDiv : ExpressionFunction
 		associative = true;
 	}
 
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = numB / numA;
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = numB / numA;
 	}
 };
 
@@ -74,11 +103,11 @@ class ExpressionFunctionAdd : ExpressionFunction
 		associative = true;
 	}
 
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = numA + numB;
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = numA + numB;
 	}
 };
 
@@ -90,11 +119,11 @@ class ExpressionFunctionSub : ExpressionFunction
 		associative = true;
 	}
 
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = numB - numA;
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = numB - numA;
 	}
 };
 
@@ -105,44 +134,44 @@ class ExpressionFunctionFactor : ExpressionFunction
 		params = 2;
 	}
 
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		stack[stackPointer] = Math.Interpolate(stack[stackPointer], instruction.param1, instruction.param2, 0.0, 1.0);
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Interpolate(g_CF_Expression_stack[g_CF_Expression_stackPointer], g_CF_Expression_instruction.param1, g_CF_Expression_instruction.param2, 0.0, 1.0);
 	}
 };
 
 class ExpressionFunctionCos : ExpressionFunction
 {
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		stack[stackPointer] = Math.Cos(stack[stackPointer]);
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Cos(g_CF_Expression_stack[g_CF_Expression_stackPointer]);
 	}
 };
 
 class ExpressionFunctionSin : ExpressionFunction
 {
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		stack[stackPointer] = Math.Sin(stack[stackPointer]);
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Sin(g_CF_Expression_stack[g_CF_Expression_stackPointer]);
 	}
 };
 
 class ExpressionFunctionMin : ExpressionFunction
 {
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = Math.Min(numA, numB);
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Min(numA, numB);
 	}
 };
 
 class ExpressionFunctionMax : ExpressionFunction
 {
-	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
+	override void Call()
 	{
-		float numA = stack[stackPointer--];
-		float numB = stack[stackPointer];
-		stack[stackPointer] = Math.Max(numA, numB);
+		float numA = g_CF_Expression_stack[g_CF_Expression_stackPointer--];
+		float numB = g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Max(numA, numB);
 	}
 };

@@ -11,6 +11,9 @@ class ExpressionVM
 		s_Functions = new map<string, ref ExpressionFunction>();
 		s_Count = 0;
 
+		AddFunction("#INTERNAL_1", new ExpressionFunctionValue());
+		AddFunction("#INTERNAL_2", new ExpressionFunctionVariable());
+		
 		AddFunction("^", new ExpressionFunctionPow());
 		AddFunction("*", new ExpressionFunctionMul());
 		AddFunction("/", new ExpressionFunctionDiv());

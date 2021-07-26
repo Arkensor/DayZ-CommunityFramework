@@ -4,7 +4,8 @@ class Expression
 
 	private int _position = -1;
 	
-	private autoptr array< ref ExpressionInstruction > _compiled = new array< ref ExpressionInstruction >();
+	private ref ExpressionInstruction _compiled[1024];
+	private int _compileCount;
 
 	private string BackChar()
 	{
@@ -215,36 +216,35 @@ class Expression
 	float EvaluateTest( array< float > variables, bool test )
 	{
 		int start = TickCount( 0 );
-		
-		float num = Evaluate( variables );
+
+		_position = -1;
+		float num = _Evaluate( variables );
 		
 		int time = TickCount( start );
-		Print( "Expression::Evaluate took " + time + " ticks to execute." ); 
+		if ( test )
+			Print( "Expression::Evaluate took " + time + " ticks to execute." ); 
 		
 		return num;
 	}
 
 	private float _Evaluate( array< float > variables )
 	{
-		float stack[16];
-		int stackPointer = 0;
+		g_CF_Expression_stackPointer = 0;
+		g_CF_Expression_variables = variables;
 		
-		for ( int i = 0; i < _compiled.Count(); i++ )
+		for ( int i = 0; i < _compileCount; i++ )
 		{
-			ExpressionInstruction instruction = _compiled[i];
-			if ( instruction.type == 2 )
-			{
-				ExpressionVM.Lookup[ instruction.token_i ].Call( instruction, stack, stackPointer );		
-			} else if ( instruction.type == 1 )
-			{
-				stack[++stackPointer] = variables[instruction.token_i];
-			} else
-			{
-				stack[++stackPointer] = instruction.token_f;
-			}
+			g_CF_Expression_instruction = _compiled[i];
+			ExpressionVM.Lookup[g_CF_Expression_instruction.func_idx].Call();
 		}
 		
-		return stack[stackPointer];
+		return g_CF_Expression_stack[g_CF_Expression_stackPointer];
+	}
+	
+	private void AddInstruction(ExpressionInstruction instruction)
+	{
+		_compiled[_compileCount] = instruction;
+		_compileCount++;
 	}
 	
 	private int _Compile( array< string > variables )
@@ -252,7 +252,7 @@ class Expression
 		array< ref ExpressionCompileToken > dataStackStore();
 		__Stack< ExpressionCompileToken > stack();
 		
-		_compiled.Clear();
+		_compileCount = 0;
 		
 		while ( !EOF() )
 		{
@@ -277,7 +277,7 @@ class Expression
 					int c = op1.precedence - op2.precedence;
 										
 					if ( c < 0 || ( !op1.associative && c <= 0 ) )
-						_compiled.Insert( stack.Pop().ToOperation( 2, ExpressionVM.GetIndex( tok ) ) );
+						AddInstruction( stack.Pop().ToOperation( ExpressionVM.GetIndex( tok ) ) );
 					else
 						break;
 				}
@@ -336,7 +336,7 @@ class Expression
 					if ( top.token == "(" )
 						break;
 					
-                    _compiled.Insert( top.ToOperation( 2, ExpressionVM.GetIndex( topToken ) ) );
+                    AddInstruction( top.ToOperation( ExpressionVM.GetIndex( topToken ) ) );
                 }
 				
 				if ( topToken != "(" )
@@ -345,10 +345,10 @@ class Expression
 			{
 				if ( IsNumber( token ) )
 				{
-					_compiled.Insert( new ExpressionInstruction( token, 0, null, -1 ) );
+					AddInstruction( new ExpressionInstruction( token, null, 0, -1 ) );
 				} else
 				{
-					_compiled.Insert( new ExpressionInstruction( token, 1, null, variables.Find( token ) ) );
+					AddInstruction( new ExpressionInstruction( token, null, 1, variables.Find( token ) ) );
 				}
 			}
 		}
@@ -359,7 +359,7 @@ class Expression
             if ( !ExpressionVM.Contains( o.token ) )
 				Error( "No matching right parenthesis" );
 			
-            _compiled.Insert( o.ToOperation( 2, ExpressionVM.GetIndex( o.token ) ) );
+            AddInstruction( o.ToOperation( ExpressionVM.GetIndex( o.token ) ) );
         }
 		
 		while ( dataStackStore.Count() > 0 )
@@ -397,19 +397,19 @@ class Expression
 	{
 		string rpn = string.Empty;
 		
-		if ( _compiled.Count() == 0 )
+		if (_compileCount == 0 )
 			return "0"; //! edge case because I managed to accidentally optimize this out
 
-		for ( int i = 0; i < _compiled.Count(); i++ )
+		for ( int i = 0; i < _compileCount; i++ )
 		{
 			if ( i > 0 )
 				rpn = rpn + " ";
 
 			rpn = rpn + _compiled[i].token;
 			
-			if ( _compiled[i].type == 2 )
+			if ( _compiled[i].func_idx >= 2 )
 			{
-	           	ExpressionFunction function = ExpressionVM.Get(_compiled[i].token_i);
+	           	ExpressionFunction function = ExpressionVM.Get(_compiled[i].func_idx);
 				
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )
