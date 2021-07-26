@@ -4,27 +4,7 @@ class Expression
 
 	private int _position = -1;
 	
-	private ref array< ref ExpressionInstruction > _compiled;
-
-	private static ExpressionVM _vm = ExpressionVM.Get();
-
-	void Expression( string val = "" )
-	{
-		value = val;
-		
-		_compiled = new array< ref ExpressionInstruction >();
-	}
-	
-	void ~Expression()
-	{
-		while ( _compiled.Count() > 0 )
-		{
-			delete _compiled[0];
-			_compiled.Remove(0);
-		}
-		
-		delete _compiled;
-	}
+	private autoptr array< ref ExpressionInstruction > _compiled = new array< ref ExpressionInstruction >();
 
 	private string BackChar()
 	{
@@ -188,7 +168,7 @@ class Expression
 		return true;
 	}
 
-	float CompileEvaluate( ref map< string, float > variables )
+	float CompileEvaluate( map< string, float > variables )
 	{
 		if ( Compile( variables.GetKeyArray() ) )
 			return Evaluate( variables.GetValueArray() );
@@ -196,7 +176,7 @@ class Expression
 		return 0;
 	}
 
-	float CompileEvaluateTest( ref map< string, float > variables, bool test )
+	float CompileEvaluateTest( map< string, float > variables, bool test )
 	{
 		if ( CompileTest( variables.GetKeyArray(), test ) )
 			return EvaluateTest( variables.GetValueArray(), test );
@@ -204,14 +184,14 @@ class Expression
 		return 0;
 	}
 	
-	bool Compile( ref array< string > variables )
+	bool Compile( array< string > variables )
 	{
 		_Compile( variables );
 		
 		return true;
 	}
 	
-	bool CompileTest( ref array< string > variables, bool test )
+	bool CompileTest( array< string > variables, bool test )
 	{
 		int start = TickCount( 0 );
 		
@@ -224,7 +204,7 @@ class Expression
 		return success;
 	}
 
-	float Evaluate( ref array< float > variables )
+	float Evaluate( array< float > variables )
 	{
 		//! Make sure the evaluation position is set at the start
 		_position = -1;
@@ -232,7 +212,7 @@ class Expression
 		return _Evaluate( variables );
 	}
 
-	float EvaluateTest( ref array< float > variables, bool test )
+	float EvaluateTest( array< float > variables, bool test )
 	{
 		int start = TickCount( 0 );
 		
@@ -244,17 +224,17 @@ class Expression
 		return num;
 	}
 
-	private float _Evaluate( ref array< float > variables )
+	private float _Evaluate( array< float > variables )
 	{
 		float stack[16];
 		int stackPointer = 0;
 		
 		for ( int i = 0; i < _compiled.Count(); i++ )
 		{
-			ref ExpressionInstruction instruction = _compiled[i];
+			ExpressionInstruction instruction = _compiled[i];
 			if ( instruction.type == 2 )
 			{
-				_vm[ instruction.token_i ].Call( instruction, stack, stackPointer );		
+				ExpressionVM.Lookup[ instruction.token_i ].Call( instruction, stack, stackPointer );		
 			} else if ( instruction.type == 1 )
 			{
 				stack[++stackPointer] = variables[instruction.token_i];
@@ -267,7 +247,7 @@ class Expression
 		return stack[stackPointer];
 	}
 	
-	private int _Compile( ref array< string > variables )
+	private int _Compile( array< string > variables )
 	{
 		array< ref ExpressionCompileToken > dataStackStore();
 		__Stack< ExpressionCompileToken > stack();
@@ -286,23 +266,23 @@ class Expression
 			ExpressionFunction op1;
 			ExpressionFunction op2;
 			
-			if ( _vm.Find( token, op1 ) )
+			if ( ExpressionVM.Find( token, op1 ) )
 			{
 				while ( stack.Count() > 0 )
 				{
 					string tok = stack.Peek().token;
-					if ( !_vm.Find( tok, op2 ) )
+					if ( !ExpressionVM.Find( tok, op2 ) )
 						break;
 						
 					int c = op1.precedence - op2.precedence;
 										
 					if ( c < 0 || ( !op1.associative && c <= 0 ) )
-						_compiled.Insert( stack.Pop().ToOperation( 2, _vm.GetIndex( tok ) ) );
+						_compiled.Insert( stack.Pop().ToOperation( 2, ExpressionVM.GetIndex( tok ) ) );
 					else
 						break;
 				}
 				
-				ExpressionCompileToken ct = stack.Push( new ref ExpressionCompileToken( token ) );
+				ExpressionCompileToken ct = stack.Push( new ExpressionCompileToken( token ) );
 				dataStackStore.Insert( ct );
 				
 				int startPosition = _position;
@@ -351,12 +331,12 @@ class Expression
 				string topToken = "";
                 while ( stack.Count() > 0 )
 				{
-					ref ExpressionCompileToken top = stack.Pop();
+					ExpressionCompileToken top = stack.Pop();
 					topToken = top.token;
 					if ( top.token == "(" )
 						break;
 					
-                    _compiled.Insert( top.ToOperation( 2, _vm.GetIndex( topToken ) ) );
+                    _compiled.Insert( top.ToOperation( 2, ExpressionVM.GetIndex( topToken ) ) );
                 }
 				
 				if ( topToken != "(" )
@@ -375,11 +355,11 @@ class Expression
 		
 		while ( stack.Count() > 0 )
 		{
-			ref ExpressionCompileToken o = stack.Pop();
-            if ( !_vm.Contains( o.token ) )
+			ExpressionCompileToken o = stack.Pop();
+            if ( !ExpressionVM.Contains( o.token ) )
 				Error( "No matching right parenthesis" );
 			
-            _compiled.Insert( o.ToOperation( 2, _vm.GetIndex( o.token ) ) );
+            _compiled.Insert( o.ToOperation( 2, ExpressionVM.GetIndex( o.token ) ) );
         }
 		
 		while ( dataStackStore.Count() > 0 )
@@ -429,7 +409,7 @@ class Expression
 			
 			if ( _compiled[i].type == 2 )
 			{
-	           	ExpressionFunction function = _vm[ _compiled[i].token_i ];
+	           	ExpressionFunction function = ExpressionVM.Get(_compiled[i].token_i);
 				
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )

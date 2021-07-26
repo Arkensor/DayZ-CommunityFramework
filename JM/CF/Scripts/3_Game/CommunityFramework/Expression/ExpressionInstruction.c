@@ -13,7 +13,7 @@ class ExpressionInstruction
 	float param3;
 	float param4;
 
-	void ExpressionInstruction( string _token, int _type, ref array< float > _parameters, int _token_i )
+	void ExpressionInstruction( string _token, int _type, array< float > _parameters, int _token_i )
 	{
 		token = _token;
 		type = _type;

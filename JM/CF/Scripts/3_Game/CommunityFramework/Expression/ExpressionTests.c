@@ -113,7 +113,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "5 * 5";
 		
 		float expectedNum = 5 * 5;
@@ -129,7 +129,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "5 / 2";
 		
 		float expectedNum = 5 / 2;
@@ -145,7 +145,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "5 + 2";
 		
 		float expectedNum = 5 + 2;
@@ -161,7 +161,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "5 - 2";
 		
 		float expectedNum = 5 - 2;
@@ -178,7 +178,7 @@ class ExpressionTests
 		map< string, float > variables = new map< string, float >();
 		variables["speed"] = 45;
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "speed * 2";
 		
 		float expectedNum = variables["speed"] * 2;
@@ -194,7 +194,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "4 factor [0, 5]";
 		
 		float expectedNum = Math.Interpolate(4, 0, 5, 0, 1);
@@ -214,7 +214,7 @@ class ExpressionTests
 		variables["toRad"] = Math.DEG2RAD;
 		variables["toDeg"] = Math.RAD2DEG;
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "(angle * toRad) cos";
 		
 		float expectedNum = Math.Cos(variables["angle"] * Math.DEG2RAD);
@@ -230,7 +230,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "3 * (4 - 2) * 2";
 		
 		float expectedNum = 3 * (4 - 2) * 2;
@@ -246,7 +246,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "2 + 5 * 5 + 2";
 		
 		float expectedNum = 2 + 5 * 5 + 2;
@@ -262,7 +262,7 @@ class ExpressionTests
 	{
 		map< string, float > variables = new map< string, float >();
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "5 * 5 - 8 * 8";
 		
 		float expectedNum = 5 * 5 - 8 * 8;
@@ -283,7 +283,7 @@ class ExpressionTests
 		variables["campos"] = 0;
 		variables["engineOn"] = 1;
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "0.75 * 1 * (0.7 + 0.3 * (speed factor [10,60])) * engineOn * 1 * ((850 + ((rpm - 850)/(8000/5600))) factor [(((3250+4400)/2) - 2.5*200),(((3250+4400)/2) + 200)]) * ((1 - 0.25*doors) max campos) * (rpm factor[4800,6200])";
 		
 		float expectedNum = 0.75 * 1 * (0.7 + 0.3 * Math.Interpolate( variables["speed"], 10, 60, 0, 1 ) ) * variables["engineOn"] * 1 * Math.Interpolate(850 + ((variables["rpm"] - 850)/(8000/5600)), (((3250+4400)/2) - 2.5*200),(((3250+4400)/2) + 200), 0, 1) * (Math.Max(1 - 0.25*variables["doors"], variables["campos"]) * Math.Interpolate(variables["rpm"], 4800,6200, 0, 1);
@@ -304,7 +304,7 @@ class ExpressionTests
 		variables["campos"] = 0;
 		variables["engineOn"] = 1;
 		
-		Expression test = new Expression();
+		Expression test = ExpressionVM.Create("", Expression);
 		test.value = "0.75 * 1 * engineOn * 0.4 * ((850 + ((rpm - 850)/(8000/5600))) factor [(((850+1200)/2) + 2.5*50),(((850+1200)/2) - 50)]) * ((1 - 0.25*doors) max campos)";
 		
 		float expectedNum = 0.75 * 1 * variables["engineOn"] * 0.4 * Math.Interpolate(850 +((variables["rpm"] - 850)/(8000/5600)),(((850+1200)/2) - 50), (((850+1200)/2) + 2.5*50),0, 1) * Math.Max((1 - 0.25 * variables["doors"]), variables["campos"]);

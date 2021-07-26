@@ -1,24 +1,24 @@
 class ExpressionFunction
 {
 	int index;
-	
+
 	int params;
-	
+
 	int precedence;
 	bool associative;
-		
+
 	void ExpressionFunction()
 	{
 		params = 0;
-		
+
 		precedence = 1;
 		associative = false;
 	}
 
-	void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer );
+	void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer);
 };
 
-class ExpressionFunctionPow: ExpressionFunction
+class ExpressionFunctionPow : ExpressionFunction
 {
 	void ExpressionFunctionPow()
 	{
@@ -26,15 +26,15 @@ class ExpressionFunctionPow: ExpressionFunction
 		associative = false;
 	}
 
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
-		stack[stackPointer] = Math.Pow( numA, numB );
+		stack[stackPointer] = Math.Pow(numA, numB);
 	}
 };
 
-class ExpressionFunctionMul: ExpressionFunction
+class ExpressionFunctionMul : ExpressionFunction
 {
 	void ExpressionFunctionMul()
 	{
@@ -42,7 +42,7 @@ class ExpressionFunctionMul: ExpressionFunction
 		associative = true;
 	}
 
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
@@ -50,7 +50,7 @@ class ExpressionFunctionMul: ExpressionFunction
 	}
 };
 
-class ExpressionFunctionDiv: ExpressionFunction
+class ExpressionFunctionDiv : ExpressionFunction
 {
 	void ExpressionFunctionDiv()
 	{
@@ -58,7 +58,7 @@ class ExpressionFunctionDiv: ExpressionFunction
 		associative = true;
 	}
 
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
@@ -66,7 +66,7 @@ class ExpressionFunctionDiv: ExpressionFunction
 	}
 };
 
-class ExpressionFunctionAdd: ExpressionFunction
+class ExpressionFunctionAdd : ExpressionFunction
 {
 	void ExpressionFunctionAdd()
 	{
@@ -74,7 +74,7 @@ class ExpressionFunctionAdd: ExpressionFunction
 		associative = true;
 	}
 
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
@@ -82,7 +82,7 @@ class ExpressionFunctionAdd: ExpressionFunction
 	}
 };
 
-class ExpressionFunctionSub: ExpressionFunction
+class ExpressionFunctionSub : ExpressionFunction
 {
 	void ExpressionFunctionSub()
 	{
@@ -90,7 +90,7 @@ class ExpressionFunctionSub: ExpressionFunction
 		associative = true;
 	}
 
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
@@ -98,51 +98,51 @@ class ExpressionFunctionSub: ExpressionFunction
 	}
 };
 
-class ExpressionFunctionFactor: ExpressionFunction
+class ExpressionFunctionFactor : ExpressionFunction
 {
 	void ExpressionFunctionFactor()
 	{
 		params = 2;
 	}
-	
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
-		stack[stackPointer] = Math.Interpolate( stack[stackPointer], instruction.param1, instruction.param2, 0.0, 1.0 );
+		stack[stackPointer] = Math.Interpolate(stack[stackPointer], instruction.param1, instruction.param2, 0.0, 1.0);
 	}
 };
 
-class ExpressionFunctionCos: ExpressionFunction
+class ExpressionFunctionCos : ExpressionFunction
 {
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
-		stack[stackPointer] = Math.Cos( stack[stackPointer] );
+		stack[stackPointer] = Math.Cos(stack[stackPointer]);
 	}
 };
 
-class ExpressionFunctionSin: ExpressionFunction
+class ExpressionFunctionSin : ExpressionFunction
 {
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
-		stack[stackPointer] = Math.Sin( stack[stackPointer] );
+		stack[stackPointer] = Math.Sin(stack[stackPointer]);
 	}
 };
 
-class ExpressionFunctionMin: ExpressionFunction
+class ExpressionFunctionMin : ExpressionFunction
 {
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
-		stack[stackPointer] = Math.Min( numA, numB );
+		stack[stackPointer] = Math.Min(numA, numB);
 	}
 };
 
-class ExpressionFunctionMax: ExpressionFunction
+class ExpressionFunctionMax : ExpressionFunction
 {
-	override void Call( ref ExpressionInstruction instruction, inout float stack[16], inout int stackPointer )
+	override void Call(ExpressionInstruction instruction, inout float stack[16], inout int stackPointer)
 	{
 		float numA = stack[stackPointer--];
 		float numB = stack[stackPointer];
-		stack[stackPointer] = Math.Max( numA, numB );
+		stack[stackPointer] = Math.Max(numA, numB);
 	}
 };

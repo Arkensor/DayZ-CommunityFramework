@@ -1,82 +1,66 @@
 class ExpressionVM
 {
-	private ref map< string, ref ExpressionFunction > _functions;
-	private ref set< ExpressionFunction > _fastLookup;
+	private	static ref map<string, ref ExpressionFunction> s_Functions;
+	private	static int s_Count;
 
-	private static ref ExpressionVM _instance = new ExpressionVM();
+	static ref ExpressionFunction Lookup[256];
 
-	static ref ExpressionVM Get()
+	[CF_EventSubscriber(ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
 	{
-		return _instance;
+		s_Functions = new map<string, ref ExpressionFunction>();
+		s_Count = 0;
+
+		AddFunction("^", new ExpressionFunctionPow());
+		AddFunction("*", new ExpressionFunctionMul());
+		AddFunction("/", new ExpressionFunctionDiv());
+		AddFunction("+", new ExpressionFunctionAdd());
+		AddFunction("-", new ExpressionFunctionSub());
+		AddFunction("factor", new ExpressionFunctionFactor());
+		AddFunction("cos", new ExpressionFunctionCos());
+		AddFunction("sin", new ExpressionFunctionSin());
+		AddFunction("min", new ExpressionFunctionMin());
+		AddFunction("max", new ExpressionFunctionMax());
 	}
 
+	[CF_EventSubscriber(ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
 	static void Destroy()
 	{
-		delete _instance;
+		s_Functions = null;
 	}
 
-	private void ExpressionVM()
+	static void AddFunction(string name, ExpressionFunction function)
 	{
-		_functions = new map< string, ref ExpressionFunction >();
-		_fastLookup = new set< ExpressionFunction >();
-
-		SetFunctions();
+		s_Functions[name] = function;
+		function.index = s_Count;
+		Lookup[function.index] = function;
+		s_Count++;
 	}
 
-	void ~ExpressionVM()
+	static Expression Create(string expression, typename type)
 	{
-		while ( _functions.Count() > 0 )
-		{
-			string key = _functions.GetKey( 0 );
-			delete _functions[key];
-			_functions.Remove( key );
-		}
-		
-		delete _functions;
-
-		delete _fastLookup;
+		Expression expr = Expression.Cast(type.Spawn());
+		expr.value = expression;
+		return expr;
 	}
 
-	void AddFunction( string name, ref ExpressionFunction function )
+	static int GetIndex(string name)
 	{
-		_functions[name] = function;
-		function.index = _fastLookup.Insert( function );
+		return s_Functions[name].index;
 	}
 
-	/*
-	 * /brief Override this to add functions
-	 */
-	void SetFunctions()
+	static ExpressionFunction Get(int index)
 	{
-		AddFunction( "^", new ExpressionFunctionPow() );
-		AddFunction( "*", new ExpressionFunctionMul() );
-		AddFunction( "/", new ExpressionFunctionDiv() );
-		AddFunction( "+", new ExpressionFunctionAdd() );
-		AddFunction( "-", new ExpressionFunctionSub() );
-		AddFunction( "factor", new ExpressionFunctionFactor() );
-		AddFunction( "cos", new ExpressionFunctionCos() );
-		AddFunction( "sin", new ExpressionFunctionSin() );
-		AddFunction( "min", new ExpressionFunctionMin() );
-		AddFunction( "max", new ExpressionFunctionMax() );
+		return Lookup[index];
 	}
 
-	int GetIndex( string name )
+	static bool Find(string name, inout ExpressionFunction function)
 	{
-		return _functions[name].index;
+		return s_Functions.Find(name, function);
 	}
 
-	ref ExpressionFunction Get( int index )
+	static bool Contains(string name)
 	{
-		return _fastLookup[ index ];
-	}
-
-	bool Find( string name, ExpressionFunction function )
-	{
-		return _functions.Find( name, function );
-	}
-
-	bool Contains( string name )
-	{
-		return _functions.Contains( name );
+		return s_Functions.Contains(name);
 	}
 };
