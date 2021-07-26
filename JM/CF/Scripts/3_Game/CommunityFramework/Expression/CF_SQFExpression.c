@@ -129,7 +129,7 @@ class CF_SQFExpression : CF_Expression
  */
 class Expression : CF_SQFExpression
 {
-	void Expression(string val)
+	void Expression(string val = "")
 	{
 		SetSource(val);
 	}
