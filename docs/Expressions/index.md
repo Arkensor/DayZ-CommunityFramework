@@ -31,13 +31,10 @@ Functions and operators are treated the same way. Not all functions require brac
 ### Custom Functions
 Custom functions can be registered for use if needed. They are globally added so any expression in any mod can use them. 
 
-For `CF_SQFExpression` the above function is used `(2 pow [4])`.
-For `CF_MathExpression` the above function is used `pow(2, 4)`.
-
 ```csharp
 class ExpressionFunctionPow : CF_ExpressionFunction
 {
-	[CF_EventSubscriber(ExpressionFunctionAbs.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ExpressionFunctionPow.Init, CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction("pow", new ExpressionFunctionPow());
@@ -55,6 +52,13 @@ class ExpressionFunctionPow : CF_ExpressionFunction
 	}
 };
 ```
+
+The above function would be used like the following in each respective expression type
+
+Expression Type|Input
+-|-
+`CF_SQFExpression`|`(someVar pow [4])`
+`CF_MathExpression`|`pow(someVar, 4)`
 
 ## Variables
 All expressions can make use of user defined variables that can be re-evaluated during runtime. They are loaded from an array of strings during compile. When evaluating the array of floats for the variables must be the same length as the string array.
