@@ -129,6 +129,9 @@ class CF_SQFExpression : CF_Expression
  */
 class Expression : CF_SQFExpression
 {
+	// DEPRECATED
+	string value;
+
 	void Expression(string val = "")
 	{
 		SetSource(val);
