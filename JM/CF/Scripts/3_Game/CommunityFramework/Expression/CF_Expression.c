@@ -223,6 +223,14 @@ class CF_Expression
 		return _Evaluate( variables );
 	}
 
+	float Evaluate()
+	{
+		//! Make sure the evaluation position is set at the start
+		m_Position = -1;
+		
+		return _Evaluate(new array<float>());
+	}
+
 	float EvaluateTest( array< float > variables, bool test )
 	{
 		int start = TickCount( 0 );
