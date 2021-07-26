@@ -539,4 +539,44 @@ class CF_ExpressionTests
 
 		_assert( expectedNum, actualNum, expectedRPN, actualRPN );
 	}
+
+	void TestPerformance()
+	{
+		map< string, float > variables = new map< string, float >();
+		
+		variables["rpm"] = 7000;
+		variables["doors"] = 0;
+		variables["campos"] = 0;
+		variables["engineOn"] = 1;
+
+		string expr = "0.75 * 1 * (0.7 + 0.3 * (speed factor [10,60])) * engineOn * 1 * ((850 + ((rpm - 850)/(8000/5600))) factor [(((3250+4400)/2) - 2.5*200),(((3250+4400)/2) + 200)]) * ((1 - 0.25*doors) max campos) * (rpm factor[4800,6200])";
+		CF_Expression test = CF_ExpressionVM.Create(expr, CF_SQFExpression);
+		
+		float expectedNum = 0.75 * 1 * (0.7 + 0.3 * Math.Interpolate( variables["speed"], 10, 60, 0, 1 ) ) * variables["engineOn"] * 1 * Math.Interpolate(850 + ((variables["rpm"] - 850)/(8000/5600)), (((3250+4400)/2) - 2.5*200),(((3250+4400)/2) + 200), 0, 1) * (Math.Max(1 - 0.25*variables["doors"], variables["campos"]) * Math.Interpolate(variables["rpm"], 4800,6200, 0, 1));
+		test.CompileTest(variables.GetKeyArray(), true);
+		array<float> varFloats = variables.GetValueArray();
+		
+		float actualNum = test.EvaluateTest(varFloats, true);
+
+		string expectedRPN = "0.75 1 0.7 0.3 speed factor [10, 60] * + engineOn 1 850 rpm 850 - 8000 5600 / / + factor [3325, 4025] 1 0.25 doors * - campos max rpm factor [4800, 6200] * * * * * * *";
+		string actualRPN = test.ToRPN(true);
+		
+		int count = 100000;
+
+    	float s_start = GetGame().GetTickTime();
+		int t_start = TickCount( 0 );
+
+		for (int i = 0; i < count; i++)
+		{
+			test.Evaluate(varFloats);
+		}
+
+		int t_time = TickCount(t_start);
+    	float s_time = GetGame().GetTickTime() - s_start;
+		
+		Print( "TestPerformance took " + (t_time) + " ticks to execute for " + count + " iterations, an average of " + (t_time / count) + " ticks." ); 
+		Print( "TestPerformance took " + (s_time) + " seconds to execute for " + count + " iterations, an average of " + (s_time / (count / 1000.0)) + " milliseconds." ); 
+
+		_assert( expectedNum, actualNum, expectedRPN, actualRPN );
+	}
 };
