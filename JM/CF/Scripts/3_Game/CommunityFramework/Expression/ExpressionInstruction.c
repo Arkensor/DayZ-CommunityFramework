@@ -1,7 +1,7 @@
 /*
  * Private class
  */
-class ExpressionInstruction
+class CF_ExpressionInstruction
 {
 	string token;
 	float token_f;
@@ -14,7 +14,7 @@ class ExpressionInstruction
 	float param3;
 	float param4;
 
-	void ExpressionInstruction(string _token, array< float > _parameters, int _func_idx, int _var_idx)
+	void CF_ExpressionInstruction(string _token, array< float > _parameters, int _func_idx, int _var_idx)
 	{
 		token = _token;
 		if (_func_idx == 0) token_f = token.ToFloat();

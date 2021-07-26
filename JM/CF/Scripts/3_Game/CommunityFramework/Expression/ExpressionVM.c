@@ -1,48 +1,48 @@
-class ExpressionVM
+static ref CF_ExpressionFunction g_CF_ExpressionVM_Lookup[256];
+
+class CF_ExpressionVM
 {
-	private	static ref map<string, ref ExpressionFunction> s_Functions;
+	private	static ref map<string, ref CF_ExpressionFunction> s_Functions;
 	private	static int s_Count;
 
-	static ref ExpressionFunction Lookup[256];
-
-	[CF_EventSubscriber(ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(CF_ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
-		s_Functions = new map<string, ref ExpressionFunction>();
+		s_Functions = new map<string, ref CF_ExpressionFunction>();
 		s_Count = 0;
 
-		AddFunction("#INTERNAL_1", new ExpressionFunctionValue());
-		AddFunction("#INTERNAL_2", new ExpressionFunctionVariable());
+		AddFunction("#INTERNAL_1", new CF_ExpressionFunctionValue());
+		AddFunction("#INTERNAL_2", new CF_ExpressionFunctionVariable());
 		
-		AddFunction("^", new ExpressionFunctionPow());
-		AddFunction("*", new ExpressionFunctionMul());
-		AddFunction("/", new ExpressionFunctionDiv());
-		AddFunction("+", new ExpressionFunctionAdd());
-		AddFunction("-", new ExpressionFunctionSub());
-		AddFunction("factor", new ExpressionFunctionFactor());
-		AddFunction("cos", new ExpressionFunctionCos());
-		AddFunction("sin", new ExpressionFunctionSin());
-		AddFunction("min", new ExpressionFunctionMin());
-		AddFunction("max", new ExpressionFunctionMax());
+		AddFunction("^", new CF_ExpressionFunctionPow());
+		AddFunction("*", new CF_ExpressionFunctionMul());
+		AddFunction("/", new CF_ExpressionFunctionDiv());
+		AddFunction("+", new CF_ExpressionFunctionAdd());
+		AddFunction("-", new CF_ExpressionFunctionSub());
+		AddFunction("factor", new CF_ExpressionFunctionFactor());
+		AddFunction("cos", new CF_ExpressionFunctionCos());
+		AddFunction("sin", new CF_ExpressionFunctionSin());
+		AddFunction("min", new CF_ExpressionFunctionMin());
+		AddFunction("max", new CF_ExpressionFunctionMax());
 	}
 
-	[CF_EventSubscriber(ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
+	[CF_EventSubscriber(CF_ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
 	static void Destroy()
 	{
 		s_Functions = null;
 	}
 
-	static void AddFunction(string name, ExpressionFunction function)
+	static void AddFunction(string name, CF_ExpressionFunction function)
 	{
 		s_Functions[name] = function;
 		function.index = s_Count;
-		Lookup[function.index] = function;
+		g_CF_ExpressionVM_Lookup[function.index] = function;
 		s_Count++;
 	}
 
-	static Expression Create(string expression, typename type)
+	static CF_Expression Create(string expression, typename type)
 	{
-		Expression expr = Expression.Cast(type.Spawn());
+		CF_Expression expr = CF_Expression.Cast(type.Spawn());
 		expr.value = expression;
 		return expr;
 	}
@@ -52,12 +52,12 @@ class ExpressionVM
 		return s_Functions[name].index;
 	}
 
-	static ExpressionFunction Get(int index)
+	static CF_ExpressionFunction Get(int index)
 	{
-		return Lookup[index];
+		return g_CF_ExpressionVM_Lookup[index];
 	}
 
-	static bool Find(string name, inout ExpressionFunction function)
+	static bool Find(string name, inout CF_ExpressionFunction function)
 	{
 		return s_Functions.Find(name, function);
 	}

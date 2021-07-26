@@ -1,9 +1,10 @@
-ExpressionInstruction g_CF_Expression_instruction;
+//! Significant performance improvement as global variables.
+CF_ExpressionInstruction g_CF_Expression_instruction;
 float g_CF_Expression_stack[16];
 int g_CF_Expression_stackPointer;
 array<float> g_CF_Expression_variables;
 
-class ExpressionFunction
+class CF_ExpressionFunction
 {
 	int index;
 
@@ -12,7 +13,7 @@ class ExpressionFunction
 	int precedence;
 	bool associative;
 
-	void ExpressionFunction()
+	void CF_ExpressionFunction()
 	{
 		params = 0;
 
@@ -23,9 +24,9 @@ class ExpressionFunction
 	void Call();
 };
 
-class ExpressionFunctionValue : ExpressionFunction
+class CF_ExpressionFunctionValue : CF_ExpressionFunction
 {
-	void ExpressionFunctionVariable()
+	void CF_ExpressionFunctionVariable()
 	{
 	}
 
@@ -35,9 +36,9 @@ class ExpressionFunctionValue : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionVariable : ExpressionFunction
+class CF_ExpressionFunctionVariable : CF_ExpressionFunction
 {
-	void ExpressionFunctionVariable()
+	void CF_ExpressionFunctionVariable()
 	{
 	}
 
@@ -47,9 +48,9 @@ class ExpressionFunctionVariable : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionPow : ExpressionFunction
+class CF_ExpressionFunctionPow : CF_ExpressionFunction
 {
-	void ExpressionFunctionPow()
+	void CF_ExpressionFunctionPow()
 	{
 		precedence = 4;
 		associative = false;
@@ -63,9 +64,9 @@ class ExpressionFunctionPow : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionMul : ExpressionFunction
+class CF_ExpressionFunctionMul : CF_ExpressionFunction
 {
-	void ExpressionFunctionMul()
+	void CF_ExpressionFunctionMul()
 	{
 		precedence = 3;
 		associative = true;
@@ -79,9 +80,9 @@ class ExpressionFunctionMul : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionDiv : ExpressionFunction
+class CF_ExpressionFunctionDiv : CF_ExpressionFunction
 {
-	void ExpressionFunctionDiv()
+	void CF_ExpressionFunctionDiv()
 	{
 		precedence = 3;
 		associative = true;
@@ -95,9 +96,9 @@ class ExpressionFunctionDiv : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionAdd : ExpressionFunction
+class CF_ExpressionFunctionAdd : CF_ExpressionFunction
 {
-	void ExpressionFunctionAdd()
+	void CF_ExpressionFunctionAdd()
 	{
 		precedence = 2;
 		associative = true;
@@ -111,9 +112,9 @@ class ExpressionFunctionAdd : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionSub : ExpressionFunction
+class CF_ExpressionFunctionSub : CF_ExpressionFunction
 {
-	void ExpressionFunctionSub()
+	void CF_ExpressionFunctionSub()
 	{
 		precedence = 2;
 		associative = true;
@@ -127,9 +128,9 @@ class ExpressionFunctionSub : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionFactor : ExpressionFunction
+class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 {
-	void ExpressionFunctionFactor()
+	void CF_ExpressionFunctionFactor()
 	{
 		params = 2;
 	}
@@ -140,7 +141,7 @@ class ExpressionFunctionFactor : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionCos : ExpressionFunction
+class CF_ExpressionFunctionCos : CF_ExpressionFunction
 {
 	override void Call()
 	{
@@ -148,7 +149,7 @@ class ExpressionFunctionCos : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionSin : ExpressionFunction
+class CF_ExpressionFunctionSin : CF_ExpressionFunction
 {
 	override void Call()
 	{
@@ -156,7 +157,7 @@ class ExpressionFunctionSin : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionMin : ExpressionFunction
+class CF_ExpressionFunctionMin : CF_ExpressionFunction
 {
 	override void Call()
 	{
@@ -166,7 +167,7 @@ class ExpressionFunctionMin : ExpressionFunction
 	}
 };
 
-class ExpressionFunctionMax : ExpressionFunction
+class CF_ExpressionFunctionMax : CF_ExpressionFunction
 {
 	override void Call()
 	{

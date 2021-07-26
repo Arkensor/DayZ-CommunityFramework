@@ -1,10 +1,11 @@
-class Expression
+typedef CF_Expression Expression;
+class CF_Expression
 {
 	string value;
 
 	private int _position = -1;
 	
-	private ref ExpressionInstruction _compiled[1024];
+	private ref CF_ExpressionInstruction _compiled[1024];
 	private int _compileCount;
 
 	private string BackChar()
@@ -200,7 +201,7 @@ class Expression
 		
 		int time = TickCount( start );
 		if ( test )
-			Print( "Expression::Compile took " + time + " ticks to execute." ); 
+			Print( "CF_Expression::Compile took " + time + " ticks to execute." ); 
 		
 		return success;
 	}
@@ -222,7 +223,7 @@ class Expression
 		
 		int time = TickCount( start );
 		if ( test )
-			Print( "Expression::Evaluate took " + time + " ticks to execute." ); 
+			Print( "CF_Expression::Evaluate took " + time + " ticks to execute." ); 
 		
 		return num;
 	}
@@ -235,13 +236,13 @@ class Expression
 		for ( int i = 0; i < _compileCount; i++ )
 		{
 			g_CF_Expression_instruction = _compiled[i];
-			ExpressionVM.Lookup[g_CF_Expression_instruction.func_idx].Call();
+			g_CF_ExpressionVM_Lookup[g_CF_Expression_instruction.func_idx].Call();
 		}
 		
 		return g_CF_Expression_stack[g_CF_Expression_stackPointer];
 	}
 	
-	private void AddInstruction(ExpressionInstruction instruction)
+	private void AddInstruction(CF_ExpressionInstruction instruction)
 	{
 		_compiled[_compileCount] = instruction;
 		_compileCount++;
@@ -249,8 +250,8 @@ class Expression
 	
 	private int _Compile( array< string > variables )
 	{
-		array< ref ExpressionCompileToken > dataStackStore();
-		__Stack< ExpressionCompileToken > stack();
+		array< ref CF_ExpressionCompileToken > dataStackStore();
+		__Stack< CF_ExpressionCompileToken > stack();
 		
 		_compileCount = 0;
 		
@@ -263,26 +264,26 @@ class Expression
 			if ( token == "]" || token == "," )
 				break;
 						
-			ExpressionFunction op1;
-			ExpressionFunction op2;
+			CF_ExpressionFunction op1;
+			CF_ExpressionFunction op2;
 			
-			if ( ExpressionVM.Find( token, op1 ) )
+			if ( CF_ExpressionVM.Find( token, op1 ) )
 			{
 				while ( stack.Count() > 0 )
 				{
 					string tok = stack.Peek().token;
-					if ( !ExpressionVM.Find( tok, op2 ) )
+					if ( !CF_ExpressionVM.Find( tok, op2 ) )
 						break;
 						
 					int c = op1.precedence - op2.precedence;
 										
 					if ( c < 0 || ( !op1.associative && c <= 0 ) )
-						AddInstruction( stack.Pop().ToOperation( ExpressionVM.GetIndex( tok ) ) );
+						AddInstruction( stack.Pop().ToOperation( CF_ExpressionVM.GetIndex( tok ) ) );
 					else
 						break;
 				}
 				
-				ExpressionCompileToken ct = stack.Push( new ExpressionCompileToken( token ) );
+				CF_ExpressionCompileToken ct = stack.Push( new CF_ExpressionCompileToken( token ) );
 				dataStackStore.Insert( ct );
 				
 				int startPosition = _position;
@@ -294,7 +295,7 @@ class Expression
 					_position--;
 					while ( token != "]" )
 					{
-						Expression parameter = new Expression();
+						CF_Expression parameter = new CF_Expression();
 						
 						parameter.value = value + "";
 						parameter._position = _position + 0;
@@ -325,18 +326,18 @@ class Expression
 				}
 			} else if ( token == "(" )
 			{
-				dataStackStore.Insert( stack.Push( new ExpressionCompileToken( token ) ) );
+				dataStackStore.Insert( stack.Push( new CF_ExpressionCompileToken( token ) ) );
 			} else if ( token == ")" )
 			{
 				string topToken = "";
                 while ( stack.Count() > 0 )
 				{
-					ExpressionCompileToken top = stack.Pop();
+					CF_ExpressionCompileToken top = stack.Pop();
 					topToken = top.token;
 					if ( top.token == "(" )
 						break;
 					
-                    AddInstruction( top.ToOperation( ExpressionVM.GetIndex( topToken ) ) );
+                    AddInstruction( top.ToOperation( CF_ExpressionVM.GetIndex( topToken ) ) );
                 }
 				
 				if ( topToken != "(" )
@@ -345,21 +346,21 @@ class Expression
 			{
 				if ( IsNumber( token ) )
 				{
-					AddInstruction( new ExpressionInstruction( token, null, 0, -1 ) );
+					AddInstruction( new CF_ExpressionInstruction( token, null, 0, -1 ) );
 				} else
 				{
-					AddInstruction( new ExpressionInstruction( token, null, 1, variables.Find( token ) ) );
+					AddInstruction( new CF_ExpressionInstruction( token, null, 1, variables.Find( token ) ) );
 				}
 			}
 		}
 		
 		while ( stack.Count() > 0 )
 		{
-			ExpressionCompileToken o = stack.Pop();
-            if ( !ExpressionVM.Contains( o.token ) )
+			CF_ExpressionCompileToken o = stack.Pop();
+            if ( !CF_ExpressionVM.Contains( o.token ) )
 				Error( "No matching right parenthesis" );
 			
-            AddInstruction( o.ToOperation( ExpressionVM.GetIndex( o.token ) ) );
+            AddInstruction( o.ToOperation( CF_ExpressionVM.GetIndex( o.token ) ) );
         }
 		
 		while ( dataStackStore.Count() > 0 )
@@ -383,7 +384,7 @@ class Expression
 		string rpn = _ToRPN();
 		
 		int time = TickCount( start );
-		Print( "Expression::ToRPN took " + time + " ticks to execute." ); 
+		Print( "CF_Expression::ToRPN took " + time + " ticks to execute." ); 
 		
 		return rpn;
 	}
@@ -409,7 +410,7 @@ class Expression
 			
 			if ( _compiled[i].func_idx >= 2 )
 			{
-	           	ExpressionFunction function = ExpressionVM.Get(_compiled[i].func_idx);
+	           	CF_ExpressionFunction function = CF_ExpressionVM.Get(_compiled[i].func_idx);
 				
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )

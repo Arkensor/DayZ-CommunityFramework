@@ -1,19 +1,19 @@
 /*
  * Private class
  */
-class ExpressionCompileToken
+class CF_ExpressionCompileToken
 {
 	string token;
 	ref array< float > parameters;
 	
-	void ExpressionCompileToken( string _token )
+	void CF_ExpressionCompileToken( string _token )
 	{
 		token = _token;
 		parameters = new array< float >();
 	}
 
-	ExpressionInstruction ToOperation( int func_idx = -1 )
+	CF_ExpressionInstruction ToOperation( int func_idx = -1 )
 	{
-		return new ExpressionInstruction( token, parameters, func_idx, -1 );
+		return new CF_ExpressionInstruction( token, parameters, func_idx, -1 );
 	}
 };
