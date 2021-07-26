@@ -43,10 +43,27 @@ class CF_ExpressionVM
 		s_Count++;
 	}
 
-	static CF_Expression Create(string expression, typename type)
+	static CF_Expression Create(string src)
+	{
+		return Create(src, CF_MathExpression);
+	}
+
+	static CF_Expression Create(string src, typename type)
 	{
 		CF_Expression expr = CF_Expression.Cast(type.Spawn());
-		if (expr) expr.SetSource(expression);
+		if (expr) expr.SetSource(src);
+		return expr;
+	}
+
+	static CF_Expression Compile(string src, array<string> variables)
+	{
+		return Compile(src, variables, CF_MathExpression);
+	}
+
+	static CF_Expression Compile(string src, array<string> variables, typename type)
+	{
+		CF_Expression expr = Create(src, type);
+		expr.Compile(variables);
 		return expr;
 	}
 
