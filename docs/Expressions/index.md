@@ -2,7 +2,7 @@
 Used to parse mathematical expressions in runtime.
 
 ```csharp
-auto expr = CF_ExpressionVM.Create("5 * 5", CF_MathExpression);
+auto expr = CF_ExpressionVM.Compile("5 * 5");
 expr
 ```
 

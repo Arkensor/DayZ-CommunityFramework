@@ -55,6 +55,11 @@ class CF_ExpressionVM
 		return expr;
 	}
 
+	static CF_Expression Compile(string src)
+	{
+		return Compile(src, new array<string>(), CF_MathExpression);
+	}
+
 	static CF_Expression Compile(string src, array<string> variables)
 	{
 		return Compile(src, variables, CF_MathExpression);
