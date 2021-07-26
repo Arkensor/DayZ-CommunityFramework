@@ -8,9 +8,6 @@ class CF_ExpressionVM
 	[CF_EventSubscriber(CF_ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
-		s_Functions = new map<string, ref CF_ExpressionFunction>();
-		s_Count = 0;
-
 		AddFunction("#INTERNAL_1", new CF_ExpressionFunctionValue());
 		AddFunction("#INTERNAL_2", new CF_ExpressionFunctionVariable());
 		
@@ -34,6 +31,12 @@ class CF_ExpressionVM
 
 	static void AddFunction(string name, CF_ExpressionFunction function)
 	{
+		if (s_Functions == null)
+		{
+			s_Functions = new map<string, ref CF_ExpressionFunction>();
+			s_Count = 0;
+		}
+
 		s_Functions[name] = function;
 		function.index = s_Count;
 		g_CF_ExpressionVM_Lookup[function.index] = function;
@@ -43,7 +46,7 @@ class CF_ExpressionVM
 	static CF_Expression Create(string expression, typename type)
 	{
 		CF_Expression expr = CF_Expression.Cast(type.Spawn());
-		expr.value = expression;
+		if (expr) expr.SetSource(expression);
 		return expr;
 	}
 

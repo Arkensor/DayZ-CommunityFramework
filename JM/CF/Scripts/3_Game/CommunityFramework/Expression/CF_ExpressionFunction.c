@@ -18,7 +18,7 @@ class CF_ExpressionFunction
 		params = 0;
 
 		precedence = 1;
-		associative = false;
+		associative = true;
 	}
 
 	void Call();
