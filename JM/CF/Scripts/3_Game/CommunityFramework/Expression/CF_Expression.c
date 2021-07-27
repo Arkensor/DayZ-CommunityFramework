@@ -247,16 +247,16 @@ class CF_Expression
 
 	protected float _Evaluate( array< float > variables )
 	{
-		CF_ExpressionVM_StackPointer = 0;
-		CF_ExpressionVM_Variables = variables;
+		CF_ExpressionVM.StackPointer = 0;
+		CF_ExpressionVM.Variables = variables;
 		
 		for (int i = 0; i < m_InstructionCount; i++)
 		{
-			CF_ExpressionVM_Instruction = m_Instructions[i];
-			CF_ExpressionVM_Lookup[CF_ExpressionVM_Instruction.func_idx].Call();
+			CF_ExpressionVM.Instruction = m_Instructions[i];
+			CF_ExpressionVM.Lookup[CF_ExpressionVM.Instruction.func_idx].Call();
 		}
 		
-		return CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer];
+		return CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer];
 	}
 
 	protected void ClearInstructions()

@@ -1,13 +1,12 @@
-//! Significant performance improvement as global variables.
-static ref CF_ExpressionFunction CF_ExpressionVM_Lookup[256];
-static CF_ExpressionInstruction CF_ExpressionVM_Instruction;
-static float CF_ExpressionVM_Stack[16];
-static ref CF_ExpressionStackDebug CF_ExpressionVM_StackDebugger = new CF_ExpressionStackDebug();
-static int CF_ExpressionVM_StackPointer;
-static array<float> CF_ExpressionVM_Variables;
-	
 class CF_ExpressionVM
 {
+	static ref CF_ExpressionFunction Lookup[256];
+	static CF_ExpressionInstruction Instruction;
+	static float Stack[16];
+	static ref CF_ExpressionStackDebug StackDebugger = new CF_ExpressionStackDebug();
+	static int StackPointer;
+	static array<float> Variables;
+
 	private	static ref map<string, ref CF_ExpressionFunction> s_Functions;
 	private	static int s_Count;
 
@@ -20,13 +19,13 @@ class CF_ExpressionVM
 	static void _MoveFunctionTo(CF_ExpressionFunction function, int index)
 	{
 		//! Check if the index is not the right function
-		if (CF_ExpressionVM_Lookup[index] != function)
+		if (CF_ExpressionVM.Lookup[index] != function)
 		{
 			//! Perform swap
-			CF_ExpressionVM_Lookup[function.index] = CF_ExpressionVM_Lookup[index];
-			CF_ExpressionVM_Lookup[function.index].index = function.index;
-			CF_ExpressionVM_Lookup[index] = function;
-			CF_ExpressionVM_Lookup[index].index = index;
+			CF_ExpressionVM.Lookup[function.index] = CF_ExpressionVM.Lookup[index];
+			CF_ExpressionVM.Lookup[function.index].index = function.index;
+			CF_ExpressionVM.Lookup[index] = function;
+			CF_ExpressionVM.Lookup[index].index = index;
 		}
 	}
 
@@ -53,7 +52,7 @@ class CF_ExpressionVM
 		//! Add the function
 		s_Functions[name] = function;
 		function.index = index;
-		CF_ExpressionVM_Lookup[function.index] = function;
+		CF_ExpressionVM.Lookup[function.index] = function;
 
 		return function;
 	}
@@ -99,7 +98,7 @@ class CF_ExpressionVM
 
 	static CF_ExpressionFunction Get(int index)
 	{
-		return CF_ExpressionVM_Lookup[index];
+		return CF_ExpressionVM.Lookup[index];
 	}
 
 	static bool Find(string name, inout CF_ExpressionFunction function)

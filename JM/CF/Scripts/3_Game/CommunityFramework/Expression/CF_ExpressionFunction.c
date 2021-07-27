@@ -32,7 +32,7 @@ class CF_ExpressionFunctionValue : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[++CF_ExpressionVM_StackPointer] = CF_ExpressionVM_Instruction.token_f;
+		CF_ExpressionVM.Stack[++CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Instruction.token_f;
 	}
 };
 
@@ -50,7 +50,7 @@ class CF_ExpressionFunctionVariable : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[++CF_ExpressionVM_StackPointer] = CF_ExpressionVM_Variables[CF_ExpressionVM_Instruction.var_idx];
+		CF_ExpressionVM.Stack[++CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Variables[CF_ExpressionVM.Instruction.var_idx];
 	}
 };
 
@@ -70,7 +70,7 @@ class CF_ExpressionFunctionPow : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Pow(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--], CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Pow(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer--], CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer]);
 	}
 };
 
@@ -90,7 +90,7 @@ class CF_ExpressionFunctionMul : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--] * CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer];
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer--] * CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer];
 	}
 };
 
@@ -110,8 +110,8 @@ class CF_ExpressionFunctionDiv : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_StackPointer--;
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] / CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer + 1];
+		CF_ExpressionVM.StackPointer--;
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] / CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer + 1];
 	}
 };
 
@@ -131,7 +131,7 @@ class CF_ExpressionFunctionAdd : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--] + CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer];
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer--] + CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer];
 	}
 };
 
@@ -151,8 +151,8 @@ class CF_ExpressionFunctionSub : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_StackPointer--;
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] - CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer + 1];
+		CF_ExpressionVM.StackPointer--;
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] - CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer + 1];
 	}
 };
 
@@ -171,7 +171,7 @@ class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Interpolate(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer], CF_ExpressionVM_Instruction.param1, CF_ExpressionVM_Instruction.param2, 0.0, 1.0);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Interpolate(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], CF_ExpressionVM.Instruction.param1, CF_ExpressionVM.Instruction.param2, 0.0, 1.0);
 	}
 };
 
@@ -185,7 +185,7 @@ class CF_ExpressionFunctionCos : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Cos(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Cos(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer]);
 	}
 };
 
@@ -199,7 +199,7 @@ class CF_ExpressionFunctionSin : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Sin(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Sin(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer]);
 	}
 };
 
@@ -213,7 +213,7 @@ class CF_ExpressionFunctionMin : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Min(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--], CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Min(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer--], CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer]);
 	}
 };
 
@@ -227,6 +227,6 @@ class CF_ExpressionFunctionMax : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Max(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--], CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Max(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer--], CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer]);
 	}
 };
