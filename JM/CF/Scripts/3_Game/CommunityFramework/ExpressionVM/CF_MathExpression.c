@@ -112,7 +112,7 @@ class CF_MathExpression : CF_Expression
 						break;
 
 					if (CF_ExpressionVM.Find( topToken, funcDef ))
-                    	AddInstruction( compileToken.ToOperation( funcDef ) );
+						AddInstruction( compileToken.ToOperation( funcDef ) );
 				}
 
 				if (topToken != "(")
@@ -141,7 +141,7 @@ class CF_MathExpression : CF_Expression
 		while (stack.Count() > 0)
 		{
 			compileToken = stack.Pop();
-            if ( !CF_ExpressionVM.Contains( compileToken.token ) )
+			if ( !CF_ExpressionVM.Contains( compileToken.token ) )
 				Error( "No matching right parenthesis" );
 			
 			if (CF_ExpressionVM.Find( compileToken.token, funcDef ))

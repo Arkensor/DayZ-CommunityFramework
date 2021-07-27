@@ -563,7 +563,7 @@ class CF_ExpressionTests
 		
 		int count = 100000;
 
-    	float s_start = GetGame().GetTickTime();
+		float s_start = GetGame().GetTickTime();
 		int t_start = TickCount( 0 );
 
 		for (int i = 0; i < count; i++)
@@ -572,7 +572,7 @@ class CF_ExpressionTests
 		}
 
 		int t_time = TickCount(t_start);
-    	float s_time = GetGame().GetTickTime() - s_start;
+		float s_time = GetGame().GetTickTime() - s_start;
 		
 		Print( "TestPerformance took " + (t_time) + " ticks to execute for " + count + " iterations, an average of " + (t_time / count) + " ticks." ); 
 		Print( "TestPerformance took " + (s_time) + " seconds to execute for " + count + " iterations, an average of " + (s_time / (count / 1000.0)) + " milliseconds." ); 
