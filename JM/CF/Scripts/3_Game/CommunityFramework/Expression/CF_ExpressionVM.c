@@ -1,5 +1,10 @@
-static ref CF_ExpressionFunction g_CF_ExpressionVM_Lookup[256];
-
+//! Significant performance improvement as global variables.
+static ref CF_ExpressionFunction CF_ExpressionVM_Lookup[256];
+static CF_ExpressionInstruction CF_ExpressionVM_Instruction;
+static float CF_ExpressionVM_Stack[16];
+static int CF_ExpressionVM_StackPointer;
+static array<float> CF_ExpressionVM_Variables;
+	
 class CF_ExpressionVM
 {
 	private	static ref map<string, ref CF_ExpressionFunction> s_Functions;
@@ -32,13 +37,13 @@ class CF_ExpressionVM
 	private static void MoveFunctionTo(CF_ExpressionFunction function, int index)
 	{
 		//! Check if the index is not the right function
-		if (g_CF_ExpressionVM_Lookup[index] != function)
+		if (CF_ExpressionVM_Lookup[index] != function)
 		{
 			//! Perform swap
-			g_CF_ExpressionVM_Lookup[function.index] = g_CF_ExpressionVM_Lookup[index];
-			g_CF_ExpressionVM_Lookup[function.index].index = function.index;
-			g_CF_ExpressionVM_Lookup[index] = function;
-			g_CF_ExpressionVM_Lookup[index].index = index;
+			CF_ExpressionVM_Lookup[function.index] = CF_ExpressionVM_Lookup[index];
+			CF_ExpressionVM_Lookup[function.index].index = function.index;
+			CF_ExpressionVM_Lookup[index] = function;
+			CF_ExpressionVM_Lookup[index].index = index;
 		}
 	}
 
@@ -65,7 +70,7 @@ class CF_ExpressionVM
 		//! Add the function
 		s_Functions[name] = function;
 		function.index = index;
-		g_CF_ExpressionVM_Lookup[function.index] = function;
+		CF_ExpressionVM_Lookup[function.index] = function;
 
 		return function;
 	}
@@ -111,7 +116,7 @@ class CF_ExpressionVM
 
 	static CF_ExpressionFunction Get(int index)
 	{
-		return g_CF_ExpressionVM_Lookup[index];
+		return CF_ExpressionVM_Lookup[index];
 	}
 
 	static bool Find(string name, inout CF_ExpressionFunction function)

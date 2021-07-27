@@ -1,4 +1,3 @@
-
 class CF_Expression
 {
 	protected string m_Source;
@@ -25,6 +24,7 @@ class CF_Expression
 			m_Position = 0;
 		
 		string c = m_Source.Substring( m_Position, 1 );
+		
 		
 		return c;
 	}
@@ -247,16 +247,16 @@ class CF_Expression
 
 	protected float _Evaluate( array< float > variables )
 	{
-		g_CF_Expression_stackPointer = 0;
-		g_CF_Expression_variables = variables;
+		CF_ExpressionVM_StackPointer = 0;
+		CF_ExpressionVM_Variables = variables;
 		
-		for ( int i = 0; i < m_InstructionCount; i++ )
+		for (int i = 0; i < m_InstructionCount; i++)
 		{
-			g_CF_Expression_instruction = m_Instructions[i];
-			g_CF_ExpressionVM_Lookup[g_CF_Expression_instruction.func_idx].Call();
+			CF_ExpressionVM_Instruction = m_Instructions[i];
+			CF_ExpressionVM_Lookup[CF_ExpressionVM_Instruction.func_idx].Call();
 		}
 		
-		return g_CF_Expression_stack[g_CF_Expression_stackPointer];
+		return CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer];
 	}
 
 	protected void ClearInstructions()

@@ -48,7 +48,7 @@ class ExpressionFunctionPow : CF_ExpressionFunction
 	override void Call()
 	{
 		//! minimize variable moving and declarations
-		g_CF_Expression_stack[g_CF_Expression_stackPointer] = Math.Pow(g_CF_Expression_stack[g_CF_Expression_stackPointer], g_CF_Expression_instruction.param1);
+		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Pow(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer], CF_ExpressionVM_Instruction.param1);
 	}
 };
 ```
