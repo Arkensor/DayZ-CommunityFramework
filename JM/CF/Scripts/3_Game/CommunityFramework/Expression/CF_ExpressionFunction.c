@@ -20,6 +20,12 @@ class CF_ExpressionFunction
 
 class CF_ExpressionFunctionValue : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionValue.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM._MoveFunctionTo(CF_ExpressionVM.AddFunction("#INTERNAL_0", new CF_ExpressionFunctionValue()), 0);
+	}
+
 	void CF_ExpressionFunctionVariable()
 	{
 	}
@@ -32,6 +38,12 @@ class CF_ExpressionFunctionValue : CF_ExpressionFunction
 
 class CF_ExpressionFunctionVariable : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionVariable.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM._MoveFunctionTo(CF_ExpressionVM.AddFunction("#INTERNAL_1", new CF_ExpressionFunctionVariable()), 1);
+	}
+
 	void CF_ExpressionFunctionVariable()
 	{
 	}
@@ -44,6 +56,12 @@ class CF_ExpressionFunctionVariable : CF_ExpressionFunction
 
 class CF_ExpressionFunctionPow : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionPow.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("^", new CF_ExpressionFunctionPow());
+	}
+
 	void CF_ExpressionFunctionPow()
 	{
 		precedence = 4;
@@ -58,6 +76,12 @@ class CF_ExpressionFunctionPow : CF_ExpressionFunction
 
 class CF_ExpressionFunctionMul : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionMul.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("*", new CF_ExpressionFunctionMul());
+	}
+
 	void CF_ExpressionFunctionMul()
 	{
 		precedence = 3;
@@ -72,6 +96,12 @@ class CF_ExpressionFunctionMul : CF_ExpressionFunction
 
 class CF_ExpressionFunctionDiv : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionDiv.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("/", new CF_ExpressionFunctionDiv());
+	}
+
 	void CF_ExpressionFunctionDiv()
 	{
 		precedence = 3;
@@ -87,6 +117,12 @@ class CF_ExpressionFunctionDiv : CF_ExpressionFunction
 
 class CF_ExpressionFunctionAdd : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionAdd.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("+", new CF_ExpressionFunctionAdd());
+	}
+
 	void CF_ExpressionFunctionAdd()
 	{
 		precedence = 2;
@@ -101,6 +137,12 @@ class CF_ExpressionFunctionAdd : CF_ExpressionFunction
 
 class CF_ExpressionFunctionSub : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionSub.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("-", new CF_ExpressionFunctionSub());
+	}
+
 	void CF_ExpressionFunctionSub()
 	{
 		precedence = 2;
@@ -116,6 +158,12 @@ class CF_ExpressionFunctionSub : CF_ExpressionFunction
 
 class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionFactor.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("factor", new CF_ExpressionFunctionFactor());
+	}
+
 	void CF_ExpressionFunctionFactor()
 	{
 		params = 2;
@@ -129,6 +177,12 @@ class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 
 class CF_ExpressionFunctionCos : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionCos.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("cos", new CF_ExpressionFunctionCos());
+	}
+
 	override void Call()
 	{
 		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Cos(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
@@ -137,6 +191,12 @@ class CF_ExpressionFunctionCos : CF_ExpressionFunction
 
 class CF_ExpressionFunctionSin : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionSin.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("sin", new CF_ExpressionFunctionSin());
+	}
+
 	override void Call()
 	{
 		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Sin(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
@@ -145,6 +205,12 @@ class CF_ExpressionFunctionSin : CF_ExpressionFunction
 
 class CF_ExpressionFunctionMin : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionMin.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("min", new CF_ExpressionFunctionMin());
+	}
+
 	override void Call()
 	{
 		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Min(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--], CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);
@@ -153,6 +219,12 @@ class CF_ExpressionFunctionMin : CF_ExpressionFunction
 
 class CF_ExpressionFunctionMax : CF_ExpressionFunction
 {
+	[CF_EventSubscriber(CF_ExpressionFunctionMax.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction("max", new CF_ExpressionFunctionMax());
+	}
+
 	override void Call()
 	{
 		CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer] = Math.Max(CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer--], CF_ExpressionVM_Stack[CF_ExpressionVM_StackPointer]);

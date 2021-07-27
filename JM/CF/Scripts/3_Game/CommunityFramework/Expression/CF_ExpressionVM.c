@@ -11,24 +11,6 @@ class CF_ExpressionVM
 	private	static ref map<string, ref CF_ExpressionFunction> s_Functions;
 	private	static int s_Count;
 
-	[CF_EventSubscriber(CF_ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
-	static void Init()
-	{
-		_MoveFunctionTo(AddFunction("#INTERNAL_0", new CF_ExpressionFunctionValue()), 0);
-		_MoveFunctionTo(AddFunction("#INTERNAL_1", new CF_ExpressionFunctionVariable()), 1);
-		
-		AddFunction("^", new CF_ExpressionFunctionPow());
-		AddFunction("*", new CF_ExpressionFunctionMul());
-		AddFunction("/", new CF_ExpressionFunctionDiv());
-		AddFunction("+", new CF_ExpressionFunctionAdd());
-		AddFunction("-", new CF_ExpressionFunctionSub());
-		AddFunction("factor", new CF_ExpressionFunctionFactor());
-		AddFunction("cos", new CF_ExpressionFunctionCos());
-		AddFunction("sin", new CF_ExpressionFunctionSin());
-		AddFunction("min", new CF_ExpressionFunctionMin());
-		AddFunction("max", new CF_ExpressionFunctionMax());
-	}
-
 	[CF_EventSubscriber(CF_ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
 	static void Destroy()
 	{
