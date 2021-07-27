@@ -72,7 +72,7 @@ All expressions can make use of user defined variables that can be re-evaluated 
 array<string> variableNames = { "speed" };
 array<float> variableValues = { 50.0 };
 
-auto expr = CF_ExpressionVM.Compile("50 * (speed factor [0, 100])", variableNames, CF_MathExpression);
+auto expr = CF_ExpressionVM.Compile("50 * factor(speed, 0, 100)", variableNames, CF_MathExpression);
 float value = expr.Evaluate(variableValues);
 Print(value); // 25
 ```
