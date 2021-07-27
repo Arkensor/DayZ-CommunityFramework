@@ -23,10 +23,7 @@ class CF_Expression
 		if ( m_Position < 0 )
 			m_Position = 0;
 		
-		string c = m_Source.Substring( m_Position, 1 );
-		
-		
-		return c;
+		return m_Source[m_Position];
 	}
 
 	protected string GetChar()
@@ -36,9 +33,7 @@ class CF_Expression
 		if ( m_Position >= m_Source.Length() )
 			m_Position = m_Source.Length();
 		
-		string c = m_Source.Substring( m_Position, 1 );
-		
-		return c;
+		return m_Source[m_Position];
 	}
 
 	protected bool EOF()
@@ -66,26 +61,8 @@ class CF_Expression
 	protected bool IsAlphanumeric( string c )
 	{
 		int i = c.Hash();
-			
-		if ( i >= 48 && i <= 57 )
-			return true;
 		
-		if ( i == 46 )
-			return true;
-		
-		if ( i == 42 )
-			return true;
-		
-		if ( i == 43 )
-			return true;
-
-		if ( i == 44 )
-			return true;
-		
-		if ( i == 45 )
-			return true;
-		
-		if ( i == 47 )
+		if (i >= 42 && i <= 57)
 			return true;
 
 		if ( i > 90 )
