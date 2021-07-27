@@ -231,7 +231,7 @@ class CF_Expression
 		
 		while (CF_ExpressionVM.CurrentInstruction)
 		{
-			CF_ExpressionVM.Lookup[CF_ExpressionVM.CurrentInstruction.func_idx].Call();
+			CF_ExpressionVM.CurrentInstruction.Call();
 			CF_ExpressionVM.CurrentInstruction = CF_ExpressionVM.CurrentInstruction.next;
 		}
 		
@@ -298,12 +298,11 @@ class CF_Expression
 			
 			first = false;
 
-			rpn = rpn + instruction.token;
+			rpn = rpn + instruction.ToStr();
 			
-			if ( instruction.func_idx >= 2 )
+			CF_ExpressionFunctionDef function;
+			if (CF_ExpressionVM.Find(instruction.ToStr(), function))
 			{
-	           	CF_ExpressionFunction function = CF_ExpressionVM.Get(instruction.func_idx);
-				
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )
 				{

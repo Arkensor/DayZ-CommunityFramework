@@ -12,8 +12,20 @@ class CF_ExpressionCompileToken
 		parameters = new array< float >();
 	}
 
-	CF_ExpressionInstruction ToOperation( int func_idx = -1 )
+	CF_ExpressionInstruction ToOperation(CF_ExpressionFunctionDef funcDef, int variableIdx = -1)
 	{
-		return new CF_ExpressionInstruction( token, parameters, func_idx, -1 );
+		CF_ExpressionInstruction instruction;
+		if (funcDef)
+		{
+			instruction = funcDef.SpawnFunction();
+		}
+		else
+		{
+			instruction = new CF_ExpressionInstruction();
+		}
+
+		instruction.SetFields(token, parameters, variableIdx);
+
+		return instruction;
 	}
 };

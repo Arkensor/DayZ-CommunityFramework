@@ -6,6 +6,9 @@ class CF_SQFExpression : CF_Expression
 		__Stack< CF_ExpressionCompileToken > stack();
 		
 		ClearInstructions();
+
+		CF_ExpressionFunctionDef funcDef;
+		CF_ExpressionCompileToken compileToken;
 		
 		while ( !EOF() )
 		{
@@ -16,8 +19,8 @@ class CF_SQFExpression : CF_Expression
 			if ( token == "]" || token == "," )
 				break;
 						
-			CF_ExpressionFunction op1;
-			CF_ExpressionFunction op2;
+			CF_ExpressionFunctionDef op1;
+			CF_ExpressionFunctionDef op2;
 			
 			if ( CF_ExpressionVM.Find( token, op1 ) )
 			{
@@ -30,13 +33,13 @@ class CF_SQFExpression : CF_Expression
 					int c = op1.precedence - op2.precedence;
 										
 					if ( c < 0 || ( !op1.associative && c <= 0 ) )
-						AddInstruction( stack.Pop().ToOperation( CF_ExpressionVM.GetIndex( tok ) ) );
+						AddInstruction( stack.Pop().ToOperation( op2 ) );
 					else
 						break;
 				}
 				
-				CF_ExpressionCompileToken ct = stack.Push( new CF_ExpressionCompileToken( token ) );
-				dataStackStore.Insert( ct );
+				compileToken = stack.Push( new CF_ExpressionCompileToken( token ) );
+				dataStackStore.Insert( compileToken );
 				
 				int startPosition = m_Position;
 								
@@ -56,20 +59,20 @@ class CF_SQFExpression : CF_Expression
 						int nPos = parameter._Compile( variables );
 						float nVal = parameter._Evaluate( new array<float>() );
 						
-						ct.parameters.Insert( nVal );
+						compileToken.parameters.Insert( nVal );
 
 						m_Position = nPos - 1;
 						token = SkipWhitespace();
 					}
 					
 					//! factor function optimization
-					if ( ct.token == "factor" )
+					if ( compileToken.token == "factor" )
 					{
-						if ( ct.parameters[1] < ct.parameters[0] )
+						if ( compileToken.parameters[1] < compileToken.parameters[0] )
 						{
-							float temp = ct.parameters[1];
-							ct.parameters[1] = ct.parameters[0];
-							ct.parameters[0] = temp;
+							float temp = compileToken.parameters[1];
+							compileToken.parameters[1] = compileToken.parameters[0];
+							compileToken.parameters[0] = temp;
 						}
 					}
 				} else
@@ -84,12 +87,13 @@ class CF_SQFExpression : CF_Expression
 				string topToken = "";
                 while ( stack.Count() > 0 )
 				{
-					CF_ExpressionCompileToken top = stack.Pop();
-					topToken = top.token;
-					if ( top.token == "(" )
+					compileToken = stack.Pop();
+					topToken = compileToken.token;
+					if ( compileToken.token == "(" )
 						break;
-					
-                    AddInstruction( top.ToOperation( CF_ExpressionVM.GetIndex( topToken ) ) );
+
+					if (CF_ExpressionVM.Find( topToken, funcDef ))
+                    	AddInstruction( compileToken.ToOperation( funcDef ) );
                 }
 				
 				if ( topToken != "(" )
@@ -98,21 +102,32 @@ class CF_SQFExpression : CF_Expression
 			{
 				if ( IsNumber( token ) )
 				{
-					AddInstruction( new CF_ExpressionInstruction( token, null, 0, -1 ) );
+					compileToken = new CF_ExpressionCompileToken( token );
+					if (CF_ExpressionVM.Find( CF_ExpressionFunctionValue.CF_NAME, funcDef ))
+					{
+						AddInstruction( compileToken.ToOperation( funcDef, -2 ) );
+					}
 				} else
 				{
-					AddInstruction( new CF_ExpressionInstruction( token, null, 1, variables.Find( token ) ) );
+					compileToken = new CF_ExpressionCompileToken( token );
+					if (CF_ExpressionVM.Find( CF_ExpressionFunctionVariable.CF_NAME, funcDef ))
+					{
+						AddInstruction( compileToken.ToOperation( funcDef, variables.Find( token ) ) );
+					}
 				}
 			}
 		}
 		
 		while ( stack.Count() > 0 )
 		{
-			CF_ExpressionCompileToken o = stack.Pop();
-            if ( !CF_ExpressionVM.Contains( o.token ) )
+			compileToken = stack.Pop();
+            if ( !CF_ExpressionVM.Contains( compileToken.token ) )
 				Error( "No matching right parenthesis" );
 			
-            AddInstruction( o.ToOperation( CF_ExpressionVM.GetIndex( o.token ) ) );
+			if (CF_ExpressionVM.Find( compileToken.token, funcDef ))
+			{
+				AddInstruction( compileToken.ToOperation( funcDef ) );
+			}
         }
 		
 		while ( dataStackStore.Count() > 0 )

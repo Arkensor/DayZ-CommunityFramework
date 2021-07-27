@@ -6,6 +6,9 @@ class CF_MathExpression : CF_Expression
 		array<ref CF_ExpressionCompileToken> dataStackStore();
 		__Stack<CF_ExpressionCompileToken> stack();
 
+		CF_ExpressionFunctionDef funcDef;
+		CF_ExpressionCompileToken compileToken;
+
 		while (!EOF())
 		{
 			string token = GetToken();
@@ -15,13 +18,13 @@ class CF_MathExpression : CF_Expression
 			if (token == ",")
 				break;
 
-			CF_ExpressionFunction op1;
-			CF_ExpressionFunction op2;
+			CF_ExpressionFunctionDef op1;
+			CF_ExpressionFunctionDef op2;
 
 			if (CF_ExpressionVM.Find(token, op1))
 			{
-				CF_ExpressionCompileToken ct = new CF_ExpressionCompileToken(token);
-				dataStackStore.Insert(ct);
+				compileToken = new CF_ExpressionCompileToken(token);
+				dataStackStore.Insert(compileToken);
 
 				int startPosition = m_Position;
 
@@ -53,7 +56,7 @@ class CF_MathExpression : CF_Expression
 							nPos = parameter._Compile(variables);
 							float nVal = parameter._Evaluate(new array<float>());
 
-							ct.parameters.Insert(nVal);
+							compileToken.parameters.Insert(nVal);
 
 							m_Position = nPos - 1;
 							token = SkipWhitespace();
@@ -67,13 +70,13 @@ class CF_MathExpression : CF_Expression
 				}
 
 				//! factor function optimization
-				if ( ct.token == "factor" )
+				if ( compileToken.token == "factor" )
 				{
-					if ( ct.parameters[1] < ct.parameters[0] )
+					if ( compileToken.parameters[1] < compileToken.parameters[0] )
 					{
-						float temp = ct.parameters[1];
-						ct.parameters[1] = ct.parameters[0];
-						ct.parameters[0] = temp;
+						float temp = compileToken.parameters[1];
+						compileToken.parameters[1] = compileToken.parameters[0];
+						compileToken.parameters[0] = temp;
 					}
 				}
 
@@ -86,12 +89,12 @@ class CF_MathExpression : CF_Expression
 					int c = op1.precedence - op2.precedence;
 
 					if (op1.precedence != 1 && (c < 0 || (!op1.associative && c <= 0)))
-						AddInstruction(stack.Pop().ToOperation(CF_ExpressionVM.GetIndex(tok)));
+						AddInstruction(stack.Pop().ToOperation(op2));
 					else
 						break;
 				}
 
-				stack.Push(ct);
+				stack.Push(compileToken);
 			}
 			else if (token == "(")
 			{
@@ -103,12 +106,13 @@ class CF_MathExpression : CF_Expression
 
 				while (stack.Count() > 0)
 				{
-					CF_ExpressionCompileToken top = stack.Pop();
-					topToken = top.token;
-					if (top.token == "(")
+					compileToken = stack.Pop();
+					topToken = compileToken.token;
+					if ( compileToken.token == "(" )
 						break;
 
-					AddInstruction(top.ToOperation(CF_ExpressionVM.GetIndex(topToken)));
+					if (CF_ExpressionVM.Find( topToken, funcDef ))
+                    	AddInstruction( compileToken.ToOperation( funcDef ) );
 				}
 
 				if (topToken != "(")
@@ -116,24 +120,34 @@ class CF_MathExpression : CF_Expression
 			}
 			else
 			{
-				if (IsNumber(token))
+				if ( IsNumber( token ) )
 				{
-					AddInstruction(new CF_ExpressionInstruction(token, null, 0, -1));
-				}
-				else
+					compileToken = new CF_ExpressionCompileToken( token );
+					if (CF_ExpressionVM.Find( CF_ExpressionFunctionValue.CF_NAME, funcDef ))
+					{
+						AddInstruction( compileToken.ToOperation( funcDef, -2 ) );
+					}
+				} else
 				{
-					AddInstruction(new CF_ExpressionInstruction(token, null, 1, variables.Find(token)));
+					compileToken = new CF_ExpressionCompileToken( token );
+					if (CF_ExpressionVM.Find( CF_ExpressionFunctionVariable.CF_NAME, funcDef ))
+					{
+						AddInstruction( compileToken.ToOperation( funcDef, variables.Find( token ) ) );
+					}
 				}
 			}
 		}
 
 		while (stack.Count() > 0)
 		{
-			CF_ExpressionCompileToken o = stack.Pop();
-			if (!CF_ExpressionVM.Contains(o.token))
-				Error("No matching right parenthesis");
-
-			AddInstruction(o.ToOperation(CF_ExpressionVM.GetIndex(o.token)));
+			compileToken = stack.Pop();
+            if ( !CF_ExpressionVM.Contains( compileToken.token ) )
+				Error( "No matching right parenthesis" );
+			
+			if (CF_ExpressionVM.Find( compileToken.token, funcDef ))
+			{
+				AddInstruction( compileToken.ToOperation( funcDef ) );
+			}
 		}
 
 		while (dataStackStore.Count() > 0)

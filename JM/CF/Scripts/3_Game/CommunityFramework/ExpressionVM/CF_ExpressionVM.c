@@ -1,14 +1,12 @@
 class CF_ExpressionVM
 {
-	static ref CF_ExpressionFunction Lookup[256];
 	static CF_ExpressionInstruction CurrentInstruction;
 	static float Stack[16];
 	static ref CF_ExpressionStackDebug StackDebugger = new CF_ExpressionStackDebug();
 	static int StackPointer;
 	static array<float> Variables;
 
-	private	static ref map<string, ref CF_ExpressionFunction> s_Functions;
-	private	static int s_Count;
+	private	static ref map<string, ref CF_ExpressionFunctionDef> s_Functions;
 
 	[CF_EventSubscriber(CF_ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
 	static void Destroy()
@@ -16,45 +14,16 @@ class CF_ExpressionVM
 		s_Functions = null;
 	}
 
-	static void _MoveFunctionTo(CF_ExpressionFunction function, int index)
-	{
-		//! Check if the index is not the right function
-		if (CF_ExpressionVM.Lookup[index] != function)
-		{
-			//! Perform swap
-			CF_ExpressionVM.Lookup[function.index] = CF_ExpressionVM.Lookup[index];
-			CF_ExpressionVM.Lookup[function.index].index = function.index;
-			CF_ExpressionVM.Lookup[index] = function;
-			CF_ExpressionVM.Lookup[index].index = index;
-		}
-	}
-
-	static CF_ExpressionFunction AddFunction(string name, notnull CF_ExpressionFunction function)
+	static void AddFunction(string name, notnull CF_ExpressionFunctionDef function)
 	{
 		//! Init map
 		if (s_Functions == null)
 		{
-			s_Functions = new map<string, ref CF_ExpressionFunction>();
-			s_Count = 0;
-		}
-
-		int index = s_Count;
-		s_Count++;
-
-		//! Handling edge case if function was registered twice
-		CF_ExpressionFunction old_function;
-		if (s_Functions.Find(name, old_function))
-		{
-			index = old_function.index;
-			s_Count--;
+			s_Functions = new map<string, ref CF_ExpressionFunctionDef>();
 		}
 
 		//! Add the function
 		s_Functions[name] = function;
-		function.index = index;
-		CF_ExpressionVM.Lookup[function.index] = function;
-
-		return function;
 	}
 
 	static CF_Expression Create(string src)
@@ -91,17 +60,7 @@ class CF_ExpressionVM
 		return expr;
 	}
 
-	static int GetIndex(string name)
-	{
-		return s_Functions[name].index;
-	}
-
-	static CF_ExpressionFunction Get(int index)
-	{
-		return CF_ExpressionVM.Lookup[index];
-	}
-
-	static bool Find(string name, inout CF_ExpressionFunction function)
+	static bool Find(string name, inout CF_ExpressionFunctionDef function)
 	{
 		return s_Functions.Find(name, function);
 	}

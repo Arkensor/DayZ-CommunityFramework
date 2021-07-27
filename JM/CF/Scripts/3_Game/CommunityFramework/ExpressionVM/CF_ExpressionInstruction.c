@@ -4,10 +4,9 @@
 class CF_ExpressionInstruction
 {
 	string token;
-	float token_f;
+	float value;
 
-	int func_idx;
-	int var_idx;
+	int variableIndex;
 
 	ref CF_ExpressionInstruction next;
 	
@@ -16,13 +15,11 @@ class CF_ExpressionInstruction
 	float param3;
 	float param4;
 
-	void CF_ExpressionInstruction(string _token, array< float > _parameters, int _func_idx, int _var_idx)
+	void SetFields(string _token, array< float > _parameters, int _variableIndex)
 	{
 		token = _token;
-		if (_func_idx == 0) token_f = token.ToFloat();
-		
-		func_idx = _func_idx;
-		var_idx = _var_idx;
+		if (_variableIndex == -2) value = _token.ToFloat();
+		variableIndex = _variableIndex;
 		
 		//! Setting the variables
 		//! This looks bad but the code runs a couple of CPU ticks faster with it like this
@@ -49,5 +46,12 @@ class CF_ExpressionInstruction
 				param1 = _parameters[0];
 			}
 		}
+	}
+
+	void Call();
+
+	string ToStr()
+	{
+		return ToString();
 	}
 };
