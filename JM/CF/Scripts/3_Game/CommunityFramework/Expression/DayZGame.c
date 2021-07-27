@@ -1,6 +1,6 @@
+#ifdef CF_EXPRESSION_TEST
 modded class DayZGame
 {
-#ifdef CF_EXPRESSION_TEST
 	private float m_CF_UpdateTime;
 	private int m_CF_Tests;
 
@@ -18,5 +18,5 @@ modded class DayZGame
 			CF_ExpressionTests.PerformSingle("TestPerformance");
 		}
 	}
-#endif
 };
+#endif
