@@ -34,21 +34,26 @@ Custom functions can be registered for use if needed. They are globally added so
 ```csharp
 class ExpressionFunctionPow : CF_ExpressionFunction
 {
+	static string CF_NAME = "pow";
+
 	[CF_EventSubscriber(ExpressionFunctionPow.Init, CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
-		CF_ExpressionVM.AddFunction("pow", new ExpressionFunctionPow());
-	}
-
-	void ExpressionFunctionPow()
-	{
-		params = 1;
+		int params = 1;
+		int precedence = 1;
+		int associative = true;
+		CF_ExpressionVM.AddFunction(CF_NAME, ExpressionFunctionPow, params, precedence, associative);
 	}
 
 	override void Call()
 	{
 		//! minimize variable moving and declarations
-		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Pow(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], CF_ExpressionVM.CurrentInstruction.param1);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Pow(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param1);
+	}
+
+	override string ToStr()
+	{
+		return CF_NAME;
 	}
 };
 ```
