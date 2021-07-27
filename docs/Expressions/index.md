@@ -7,7 +7,7 @@ float value = expr.Evaluate();
 Print(value); // 25
 ```
 
-## CF_MathExpression
+### CF_MathExpression
 For performance reasons every parameter after the first one is evaluated at compile time and as such can't contain user defined variables. The first parameter is treated as if it was in brackets following the BODMAS principle.
 
 ```csharp
@@ -16,7 +16,7 @@ float value = expr.Evaluate();
 Print(value); // 4
 ```
 
-## CF_SQFExpression
+### CF_SQFExpression
 PBO config binaries such as SoundShaders use a similar mathematical syntax found in SQF. They make use of square brackets for denoting parameters within a function. For performance reasons, these parameters are evaluated at compile time and as such can't contain user defined variables.
 
 ```csharp
@@ -25,7 +25,7 @@ float value = expr.Evaluate();
 Print(value); // 4
 ```
 
-## Functions
+# Functions
 Functions and operators are treated the same way. Not all functions require brackets and parameters. In `CF_MathExpression` the first 'parameter' is a continuation of the expression and can have variables. The other parameters are evaluated during compilation so can't have variables. In `CF_SQFExpression` the first 'parameter' is given from context and is decalred before the function call.
 
 ### Custom Functions
@@ -55,12 +55,12 @@ class ExpressionFunctionPow : CF_ExpressionFunction
 
 The above function would be used like the following in each respective expression type
 
-Expression Type|Input
--|-
-`CF_SQFExpression`|`(someVar pow [4])`
-`CF_MathExpression`|`pow(someVar, 4)`
+| Expression Type   | Input              |
+| ----------------- | ------------------ |
+| CF_MathExpression |`pow(someVar, 4)`   |
+| CF_SQFExpression  |`(someVar pow [4])` |
 
-## Variables
+# Variables
 All expressions can make use of user defined variables that can be re-evaluated during runtime. They are loaded from an array of strings during compile. When evaluating the array of floats for the variables must be the same length as the string array.
 
 ```csharp
