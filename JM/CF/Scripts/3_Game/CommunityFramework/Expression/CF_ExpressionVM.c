@@ -2,6 +2,7 @@
 static ref CF_ExpressionFunction CF_ExpressionVM_Lookup[256];
 static CF_ExpressionInstruction CF_ExpressionVM_Instruction;
 static float CF_ExpressionVM_Stack[16];
+static ref CF_ExpressionStackDebug CF_ExpressionVM_StackDebugger = new CF_ExpressionStackDebug();
 static int CF_ExpressionVM_StackPointer;
 static array<float> CF_ExpressionVM_Variables;
 	
@@ -13,8 +14,8 @@ class CF_ExpressionVM
 	[CF_EventSubscriber(CF_ExpressionVM.Init, CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
-		MoveFunctionTo(AddFunction("#INTERNAL_0", new CF_ExpressionFunctionValue()), 0);
-		MoveFunctionTo(AddFunction("#INTERNAL_1", new CF_ExpressionFunctionVariable()), 1);
+		_MoveFunctionTo(AddFunction("#INTERNAL_0", new CF_ExpressionFunctionValue()), 0);
+		_MoveFunctionTo(AddFunction("#INTERNAL_1", new CF_ExpressionFunctionVariable()), 1);
 		
 		AddFunction("^", new CF_ExpressionFunctionPow());
 		AddFunction("*", new CF_ExpressionFunctionMul());
@@ -34,7 +35,7 @@ class CF_ExpressionVM
 		s_Functions = null;
 	}
 
-	private static void MoveFunctionTo(CF_ExpressionFunction function, int index)
+	static void _MoveFunctionTo(CF_ExpressionFunction function, int index)
 	{
 		//! Check if the index is not the right function
 		if (CF_ExpressionVM_Lookup[index] != function)
