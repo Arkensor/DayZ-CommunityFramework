@@ -1,6 +1,6 @@
 class CF_MathExpression : CF_Expression
 {
-	//! I want this to be protected or private but a compile error happens
+	//! @Jacob-Mango: I want this to be protected or private but a compile error happens
 	int __Compile(array<string> variables)
 	{
 		array<ref CF_ExpressionCompileToken> dataStackStore();
