@@ -3,8 +3,8 @@ class CF_Expression
 	protected string m_Source;
 	protected int m_Position = -1;
 	
-	protected ref CF_ExpressionInstruction m_Instructions[1024];
-	protected int m_InstructionCount;
+	protected ref CF_ExpressionInstruction m_RootInstruction;
+	protected CF_ExpressionInstruction m_TailInstruction;
 
 	void SetSource(string source)
 	{
@@ -226,11 +226,13 @@ class CF_Expression
 	{
 		CF_ExpressionVM.StackPointer = 0;
 		CF_ExpressionVM.Variables = variables;
+
+		CF_ExpressionVM.CurrentInstruction = m_RootInstruction;
 		
-		for (int i = 0; i < m_InstructionCount; i++)
+		while (CF_ExpressionVM.CurrentInstruction)
 		{
-			CF_ExpressionVM.Instruction = m_Instructions[i];
-			CF_ExpressionVM.Lookup[CF_ExpressionVM.Instruction.func_idx].Call();
+			CF_ExpressionVM.Lookup[CF_ExpressionVM.CurrentInstruction.func_idx].Call();
+			CF_ExpressionVM.CurrentInstruction = CF_ExpressionVM.CurrentInstruction.next;
 		}
 		
 		return CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer];
@@ -238,13 +240,20 @@ class CF_Expression
 
 	protected void ClearInstructions()
 	{
-		m_InstructionCount = 0;
+		m_RootInstruction = null;
 	}
 	
 	protected void AddInstruction(CF_ExpressionInstruction instruction)
 	{
-		m_Instructions[m_InstructionCount] = instruction;
-		m_InstructionCount++;
+		if (!m_RootInstruction)
+		{
+			m_RootInstruction = instruction;
+			m_TailInstruction = instruction;
+			return;
+		}
+
+		m_TailInstruction.next = instruction;
+		m_TailInstruction = instruction;
 	}
 	
 	protected int _Compile( array< string > variables )
@@ -278,19 +287,22 @@ class CF_Expression
 	{
 		string rpn = string.Empty;
 		
-		if (m_InstructionCount == 0 )
+		if (!m_RootInstruction)
 			return "0"; //! edge case because I managed to accidentally optimize this out
 
-		for ( int i = 0; i < m_InstructionCount; i++ )
+		CF_ExpressionInstruction instruction = m_RootInstruction;
+		bool first = true;
+		while (instruction)
 		{
-			if ( i > 0 )
-				rpn = rpn + " ";
-
-			rpn = rpn + m_Instructions[i].token;
+			if (!first) rpn = rpn + " ";
 			
-			if ( m_Instructions[i].func_idx >= 2 )
+			first = false;
+
+			rpn = rpn + instruction.token;
+			
+			if ( instruction.func_idx >= 2 )
 			{
-	           	CF_ExpressionFunction function = CF_ExpressionVM.Get(m_Instructions[i].func_idx);
+	           	CF_ExpressionFunction function = CF_ExpressionVM.Get(instruction.func_idx);
 				
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )
@@ -299,33 +311,35 @@ class CF_Expression
 					
 					if ( function.params >= 4 )
 					{
-						rpn = rpn + m_Instructions[i].param1;
+						rpn = rpn + instruction.param1;
 						rpn = rpn + ", ";
-						rpn = rpn + m_Instructions[i].param2;
+						rpn = rpn + instruction.param2;
 						rpn = rpn + ", ";
-						rpn = rpn + m_Instructions[i].param3;
+						rpn = rpn + instruction.param3;
 						rpn = rpn + ", ";
-						rpn = rpn + m_Instructions[i].param4;
+						rpn = rpn + instruction.param4;
 					} else if ( function.params >= 3 )
 					{
-						rpn = rpn + m_Instructions[i].param1;
+						rpn = rpn + instruction.param1;
 						rpn = rpn + ", ";
-						rpn = rpn + m_Instructions[i].param2;
+						rpn = rpn + instruction.param2;
 						rpn = rpn + ", ";
-						rpn = rpn + m_Instructions[i].param3;
+						rpn = rpn + instruction.param3;
 					} else if ( function.params >= 2 )
 					{
-						rpn = rpn + m_Instructions[i].param1;
+						rpn = rpn + instruction.param1;
 						rpn = rpn + ", ";
-						rpn = rpn + m_Instructions[i].param2;
+						rpn = rpn + instruction.param2;
 					} else if ( function.params >= 1 )
 					{
-						rpn = rpn + m_Instructions[i].param1;
+						rpn = rpn + instruction.param1;
 					}
 					
 					rpn = rpn + "]";
 				}
 			}
+
+			instruction = instruction.next;
 		}
 
 		return rpn;

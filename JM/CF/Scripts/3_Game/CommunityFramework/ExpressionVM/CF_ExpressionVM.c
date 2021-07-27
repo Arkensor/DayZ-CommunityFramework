@@ -1,7 +1,7 @@
 class CF_ExpressionVM
 {
 	static ref CF_ExpressionFunction Lookup[256];
-	static CF_ExpressionInstruction Instruction;
+	static CF_ExpressionInstruction CurrentInstruction;
 	static float Stack[16];
 	static ref CF_ExpressionStackDebug StackDebugger = new CF_ExpressionStackDebug();
 	static int StackPointer;

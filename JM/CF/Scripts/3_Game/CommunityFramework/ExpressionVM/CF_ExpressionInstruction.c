@@ -8,6 +8,8 @@ class CF_ExpressionInstruction
 
 	int func_idx;
 	int var_idx;
+
+	ref CF_ExpressionInstruction next;
 	
 	float param1;
 	float param2;

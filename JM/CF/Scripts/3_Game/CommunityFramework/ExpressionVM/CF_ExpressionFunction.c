@@ -32,7 +32,7 @@ class CF_ExpressionFunctionValue : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM.Stack[++CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Instruction.token_f;
+		CF_ExpressionVM.Stack[++CF_ExpressionVM.StackPointer] = CF_ExpressionVM.CurrentInstruction.token_f;
 	}
 };
 
@@ -50,7 +50,7 @@ class CF_ExpressionFunctionVariable : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM.Stack[++CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Variables[CF_ExpressionVM.Instruction.var_idx];
+		CF_ExpressionVM.Stack[++CF_ExpressionVM.StackPointer] = CF_ExpressionVM.Variables[CF_ExpressionVM.CurrentInstruction.var_idx];
 	}
 };
 
@@ -171,7 +171,7 @@ class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Interpolate(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], CF_ExpressionVM.Instruction.param1, CF_ExpressionVM.Instruction.param2, 0.0, 1.0);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Interpolate(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], CF_ExpressionVM.CurrentInstruction.param1, CF_ExpressionVM.CurrentInstruction.param2, 0.0, 1.0);
 	}
 };
 
