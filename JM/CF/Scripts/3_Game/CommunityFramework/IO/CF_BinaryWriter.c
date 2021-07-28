@@ -1,4 +1,4 @@
-class CF_BinaryStream : CF_Stream
+class CF_BinaryWriter : CF_File
 {
 	private ref array<CF_Byte> m_Data = new array<CF_Byte>();
 	private int m_Position = 0;
@@ -17,39 +17,9 @@ class CF_BinaryStream : CF_Stream
 		{
 			case FileMode.READ:
 			{
-				m_Data.Clear();
-
-				int lastZero = 0;
-
-				bool readData[1];
-				while (ReadFile(fileHandle, readData, 1) > 0)
-				{
-					m_Data.Insert(readData[0] & 0x000000FF);
-
-					// Add if currently only less than maximum required
-					if (m_NonZeroes.Count() < 4)
-					{
-						// Isn't the value we are trying to ignore
-						if (m_Data[index] != 0)
-						{
-							// The value is at the start of a block of 4 bytes
-							if (((index - lastZero) % 4) == 0)
-							{
-								m_NonZeroes.Insert(index);
-								lastZero = index + 1;
-							}
-						}
-					}
-					
-					index++;
-				}
-
-				// Don't need all non-zero variables
-				m_NonZeroes.Resize(m_Data.Count() % 4);
-				m_NonZeroesDirty = false;
-
 				CloseFile(fileHandle);
-				
+				Error("Invalid file mode");
+				return false;
 				break;
 			}
 			case FileMode.APPEND:
@@ -180,72 +150,6 @@ class CF_BinaryStream : CF_Stream
 		WriteByte(0);
 	}
 
-	override CF_Byte ReadByte()
-	{
-		return m_Data[m_Position++];
-	}
-
-	override string ReadChar()
-	{
-		int b = m_Data[m_Position++];
-		return b.AsciiToString();
-	}
-
-	override bool ReadBool()
-	{
-		return ReadByte() != 0;
-	}
-
-	override int ReadInt()
-	{
-		int b3 = ReadByte();
-		int b2 = ReadByte();
-		int b1 = ReadByte();
-		int b0 = ReadByte();
-
-		return ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
-	}
-
-	override float ReadFloat()
-	{
-		return CF_Cast<int, float>.Reinterpret(ReadInt());
-	}
-
-	override vector ReadVector()
-	{
-		vector v;
-		v[0] = ReadFloat();
-		v[1] = ReadFloat();
-		v[2] = ReadFloat();
-		return v;
-	}
-
-	override string ReadString()
-	{
-		string str;
-
-		for (int index = 0; index < ReadInt(); index++)
-		{
-			str += ReadByte().AsciiToString();
-		}
-
-		return str;
-	}
-
-	override string ReadCString()
-	{
-		string str;
-
-		int c = ReadByte();
-		while (c != 0)
-		{
-			str += c.AsciiToString();
-			c = ReadByte();
-		}
-
-		return str;
-	}
-
 	override bool EOF()
 	{
 		return m_Position >= m_Data.Count();
@@ -272,7 +176,7 @@ class CF_BinaryStream : CF_Stream
 				m_Position += num;
 				return;
 			case CF_SeekOrigin.END:
-				m_Position = Length() - num;
+				m_Position = Length() - num - 1;
 				return;
 		}
 	}
@@ -283,12 +187,5 @@ class CF_BinaryStream : CF_Stream
 		m_Data.Copy(bytes);
 		
 		m_NonZeroesDirty = true;
-	}
-
-	override array<CF_Byte> GetBytes()
-	{
-		array<CF_Byte> arr();
-		arr.Copy(m_Data);
-		return arr;
 	}
 };
