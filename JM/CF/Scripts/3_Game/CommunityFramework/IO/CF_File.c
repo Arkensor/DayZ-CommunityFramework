@@ -1,4 +1,4 @@
-class CF_Stream : Managed
+class CF_File : Managed
 {
 	bool File(string path, FileMode mode)
 	{
@@ -63,6 +63,14 @@ class CF_Stream : Managed
 	}
 
 	/**
+	 * Write a string line
+	 */
+	void WriteLine(string value)
+	{
+		/*CF.Log.*/Error("Not implemented.");
+	}
+
+	/**
 	 * Write a null terminated string
 	 */
 	void WriteCString(string value)
@@ -80,7 +88,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * ReadByte an ascii character
+	 * ReadChar an ascii character
 	 */
 	string ReadChar()
 	{
@@ -89,7 +97,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * ReadByte a bool
+	 * ReadBool a bool
 	 */
 	bool ReadBool()
 	{
@@ -98,7 +106,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * ReadByte a int
+	 * ReadInt a int
 	 */
 	int ReadInt()
 	{
@@ -107,7 +115,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * ReadByte a float
+	 * ReadFloat a float
 	 */
 	float ReadFloat()
 	{
@@ -116,7 +124,7 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * ReadByte a vector
+	 * ReadVector a vector
 	 */
 	vector ReadVector()
 	{
@@ -125,9 +133,18 @@ class CF_Stream : Managed
 	}
 
 	/**
-	 * ReadByte a string
+	 * ReadString a string
 	 */
 	string ReadString()
+	{
+		/*CF.Log.*/Error("Not implemented.");
+		return "";
+	}
+
+	/**
+	 * ReadLine a line ended with '\n'
+	 */
+	string ReadLine()
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return "";

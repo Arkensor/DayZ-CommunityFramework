@@ -1,4 +1,4 @@
-class CF_StringStream : CF_Stream
+class CF_TextReader : CF_File
 {
 	private ref array<string> m_Data = new array<string>();
 	private int m_Position = 0;
@@ -21,40 +21,22 @@ class CF_StringStream : CF_Stream
 					{
 						m_Data.Insert(lineContent[index]);
 					}
+					m_Data.Insert("\n");
 				}
 				break;
 			}
 			case FileMode.APPEND:
 			case FileMode.WRITE:
 			{
-				for (index = 0; index < m_Data.Count(); index++)
-				{
-					FPrint(fileHandle, m_Data[index]);
-				}
+				CloseFile(fileHandle);
+				Error("Invalid file mode");
+				return false;
 				break;
 			}
 		}
 
 		CloseFile(fileHandle);
 		return true;
-	}
-
-	override void WriteByte(CF_Byte value)
-	{
-		m_Data.InsertAt(value.AsciiToString(), m_Position++);
-	}
-
-	override void WriteChar(string value)
-	{
-		m_Data.InsertAt(value, m_Position++);
-	}
-
-	override void WriteString(string value)
-	{
-		for (int i = 0; i < value.Length(); i++)
-		{
-			m_Data.InsertAt(value[i], m_Position++);
-		}
 	}
 
 	override CF_Byte ReadByte()
@@ -74,6 +56,20 @@ class CF_StringStream : CF_Stream
 
 		string c = ReadChar();
 		while (c != "" && m_Position < m_Data.Count())
+		{
+			str += c;
+			c = ReadChar();
+		}
+
+		return str;
+	}
+
+	override string ReadLine()
+	{
+		string str;
+
+		string c = ReadChar();
+		while (c != "\n" && m_Position < m_Data.Count())
 		{
 			str += c;
 			c = ReadChar();
@@ -108,7 +104,7 @@ class CF_StringStream : CF_Stream
 				m_Position += num;
 				return;
 			case CF_SeekOrigin.END:
-				m_Position = Length() - num;
+				m_Position = Length() - num - 1;
 				return;
 		}
 	}

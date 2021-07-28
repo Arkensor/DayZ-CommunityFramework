@@ -1,8 +1,8 @@
 ### Streams
 
-There are currently two Streams avaliable, `CF_BinaryStream` and `CF_StringStream`.
+There are currently two Streams avaliable, `CF_BinaryReader` and `CF_StringStream`.
 
-`CF_BinaryStream` is optimized for working with binary files and allowing reading of characters, bytes, ints, floats, booleans and vectors.
+`CF_BinaryReader` is optimized for working with binary files and allowing reading of characters, bytes, ints, floats, booleans and vectors.
 
 `CF_StringStream` is optimized for working with text files and allows reading of characters.
 
@@ -47,7 +47,7 @@ To send raw data to another stream through an intermediatry source, such as an R
 On the sender the following would be done
 
 ```csharp
-CF_BinaryStream stream = new CF_BinaryStream();
+CF_BinaryReader stream = new CF_BinaryReader();
 
 // ... write data to the stream here
 array<CF_Byte> data = stream.GetBytes();
@@ -58,7 +58,7 @@ On the reciever the following would be done
 ```csharp
 array<CF_Byte> data = new array<CF_Byte>();
 
-CF_BinaryStream stream = new CF_BinaryStream();
+CF_BinaryReader stream = new CF_BinaryReader();
 stream.SetBytes(data);
 
 // ... read data from the stream here
@@ -67,7 +67,7 @@ stream.SetBytes(data);
 ### Getting raw data
 
 ```csharp
-CF_BinaryStream stream = new CF_BinaryStream();
+CF_BinaryReader stream = new CF_BinaryReader();
 if (stream.File("$profile:Test.png", FileMode.READ))
 {
 	array<CF_Byte> data = stream.GetBytes();
@@ -79,7 +79,7 @@ if (stream.File("$profile:Test.png", FileMode.READ))
 ```csharp
 array<CF_Byte> data = new array<CF_Byte>();
 
-CF_BinaryStream stream = new CF_BinaryStream();
+CF_BinaryReader stream = new CF_BinaryReader();
 if (stream.File("$profile:Test.png", FileMode.WRITE))
 {
 	stream.SetBytes(data);
