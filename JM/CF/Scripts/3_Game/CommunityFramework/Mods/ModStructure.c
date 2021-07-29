@@ -43,7 +43,7 @@ modded class ModStructure
 	{
 		super.LoadData();
 
-		m_ModInputs = new ref array< ref ModInput >;
+		m_ModInputs = new array< ref ModInput >;
 
 		m_StorageVersion = 0;
 
@@ -76,10 +76,10 @@ modded class ModStructure
 				
 				string credits = "";
 
-				m_Credits = new ref JsonDataCredits;
+				m_Credits = new JsonDataCredits;
 				m_Credits.Departments = new array< ref JsonDataCreditsDepartment >;
 
-				ref JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
+				JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
 				mod_department_header.Sections = new array<ref JsonDataCreditsSection>;
 				mod_department_header.DepartmentName = "				" + m_ModName;
 
@@ -91,7 +91,7 @@ modded class ModStructure
 				//GetLogger().Log( "	Author: " + author, "JM_CF_Mods" );
 				if ( hasAuthor && author != "" )
 				{
-					ref JsonDataCreditsSection mod_section_modheader_author = new JsonDataCreditsSection;
+					JsonDataCreditsSection mod_section_modheader_author = new JsonDataCreditsSection;
 					mod_section_modheader_author.SectionLines = new array<string>;
 					mod_section_modheader_author.SectionName = ( "Author" );
 					
@@ -104,7 +104,7 @@ modded class ModStructure
 				//GetLogger().Log( "	Credits: " + credits, "JM_CF_Mods" );
 				if ( credits != "" )
 				{
-					ref JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
+					JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
 					mod_section_modheader.SectionLines = new array<string>;
 					mod_section_modheader.SectionName = ( "Credits" );
 					
@@ -121,7 +121,7 @@ modded class ModStructure
 				m_Credits.Departments.Insert( mod_department_header );
 			} else
 			{
-				m_Credits = new ref JsonDataCredits;
+				m_Credits = new JsonDataCredits;
 			}
 			
 			if ( GetGame().ConfigIsExisting( m_ModPath + " versionPath" ) )
@@ -164,7 +164,7 @@ modded class ModStructure
 
 					for ( int i = 0; i < inputs.Count(); i++ )
 					{
-						ref ModInput modInput = new ref ModInput;
+						ModInput modInput = new ModInput;
 
 						CF_XML_Attribute attrib = null;
 
@@ -189,12 +189,12 @@ modded class ModStructure
 		}
 	}
 	
-	ref array< ref ModInput > GetModInputs()
+	array< ref ModInput > GetModInputs()
 	{
 		return m_ModInputs;
 	}
 
-	ref JsonDataCredits GetCredits()
+	JsonDataCredits GetCredits()
 	{
 		return m_Credits;
 	}

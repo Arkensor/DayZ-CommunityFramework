@@ -14,7 +14,7 @@ class CF_ModStorage
 	private autoptr array<ref CF_ModStorage_Data> m_Data = new array<ref CF_ModStorage_Data>();
 	private int m_Index;
 
-	void CF_ModStorage(ref ModStructure mod, ref CF_ModHash hashOverride = NULL)
+	void CF_ModStorage(ModStructure mod, CF_ModHash hashOverride = NULL)
 	{
 		m_Version = -1;
 		m_Mod = mod;
@@ -93,14 +93,14 @@ class CF_ModStorage
 		return true;
 	}
 
-	ref CF_ModStorage_Data ReadRaw()
+	CF_ModStorage_Data ReadRaw()
 	{
 		if (m_Index >= m_Data.Count()) return null;
 
 		return m_Data[m_Index++];
 	}
 
-	void WriteRaw(ref CF_ModStorage_Data data)
+	void WriteRaw(CF_ModStorage_Data data)
 	{
 		data.OnSet();
 		m_Data.Insert(data);
@@ -114,7 +114,7 @@ class CF_ModStorage
 
 	bool Read(out bool value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		value = Param1<bool>.Cast(data.Get()).param1;
@@ -124,7 +124,7 @@ class CF_ModStorage
 
 	bool Read(out int value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		value = Param1<int>.Cast(data.Get()).param1;
@@ -134,7 +134,7 @@ class CF_ModStorage
 
 	bool Read(out float value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		value = Param1<float>.Cast(data.Get()).param1;
@@ -144,7 +144,7 @@ class CF_ModStorage
 
 	bool Read(out vector value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		value = Param1<vector>.Cast(data.Get()).param1;
@@ -154,7 +154,7 @@ class CF_ModStorage
 
 	bool Read(out string value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		value = Param1<string>.Cast(data.Get()).param1;
@@ -169,7 +169,7 @@ class CF_ModStorage
 	 */
 	bool Read(ref Class value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		if (!value) return data.IsNull();
@@ -179,7 +179,7 @@ class CF_ModStorage
 
 	bool Read(ref TBoolArray value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		Class cls = value;
@@ -191,7 +191,7 @@ class CF_ModStorage
 
 	bool Read(ref TIntArray value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		Class cls = value;
@@ -203,7 +203,7 @@ class CF_ModStorage
 
 	bool Read(ref TFloatArray value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		Class cls = value;
@@ -215,7 +215,7 @@ class CF_ModStorage
 
 	bool Read(ref TVectorArray value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		Class cls = value;
@@ -227,7 +227,7 @@ class CF_ModStorage
 
 	bool Read(ref TStringArray value)
 	{
-		ref CF_ModStorage_Data data = ReadRaw();
+		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
 
 		Class cls = value;

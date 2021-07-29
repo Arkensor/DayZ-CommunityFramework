@@ -7,12 +7,12 @@ modded class ModLoader
 	private static ref map<string, ref CF_ModHash> m_CF_ModNameHashMap = new map<string, ref CF_ModHash>();
 	private static ref map<string, string> m_CF_ModHashNameMap = new map<string, string>();
 
-	static ref ModStructure Get(string name)
+	static ModStructure Get(string name)
 	{
 		return Get(GetHash(name));
 	}
 
-	static ref ModStructure Get(CF_ModHash hash)
+	static ModStructure Get(CF_ModHash hash)
 	{
 		if (!m_Loaded) LoadMods();
 		return m_ModMap.Get(hash.GetPacked());
@@ -99,7 +99,7 @@ modded class ModLoader
 			string mod_name;
 			GetGame().ConfigGetChildName("CfgMods", i, mod_name);
 
-			ref ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
+			ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
 
 			m_Mods.Insert(mod);
 
@@ -167,7 +167,7 @@ modded class ModLoader
 		}
 	}
 
-	static void DebugPrint2(string name, ref map<string, ModStructure> modMap)
+	static void DebugPrint2(string name, map<string, ModStructure> modMap)
 	{
 		Print(name + " mods, hash key (for lookup only) -> mod name -> mod actual hash: " + modMap.Count());
 		foreach (string hash_key, ModStructure mod: modMap)
