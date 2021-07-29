@@ -216,7 +216,7 @@ class CF_ModStorage_Data_ArrayProperty
 	{
 	}
 
-	void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 	}
 };
@@ -232,7 +232,7 @@ class CF_ModStorage_Data_ArrayProperty_String : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TStringArray dstArr = TStringArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -253,7 +253,7 @@ class CF_ModStorage_Data_ArrayProperty_Float : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TFloatArray dstArr = TFloatArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -274,7 +274,7 @@ class CF_ModStorage_Data_ArrayProperty_Vector : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TVectorArray dstArr = TVectorArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -295,7 +295,7 @@ class CF_ModStorage_Data_ArrayProperty_Int : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TIntArray dstArr = TIntArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -316,7 +316,7 @@ class CF_ModStorage_Data_ArrayProperty_Bool : CF_ModStorage_Data_ArrayProperty
 		}
 	}
 
-	override void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 		TBoolArray dstArr = TBoolArray.Cast(cls);
 		for (int i = 0; i < _srcArr.Count(); i++)
@@ -358,7 +358,7 @@ class CF_ModStorage_Data_ArrayProperty_Class<Class T> : CF_ModStorage_Data_Array
 		}
 	}
 
-	override void Write(inout Class cls, inout array<ref CF_ModStorage_Data> _srcArr)
+	override void Write(inout Class cls, array<ref CF_ModStorage_Data> _srcArr)
 	{
 		T cVal;
 		Class value;

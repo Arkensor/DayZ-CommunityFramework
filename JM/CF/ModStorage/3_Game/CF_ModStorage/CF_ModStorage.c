@@ -167,7 +167,7 @@ class CF_ModStorage
 	 *
 	 * @note value can't be null and can't be marked out/inout
 	 */
-	bool Read(ref Class value)
+	bool Read(Class value)
 	{
 		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
@@ -177,7 +177,7 @@ class CF_ModStorage
 		return data.Get(value);
 	}
 
-	bool Read(ref TBoolArray value)
+	bool Read(TBoolArray value)
 	{
 		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
@@ -189,7 +189,7 @@ class CF_ModStorage
 		return true;
 	}
 
-	bool Read(ref TIntArray value)
+	bool Read(TIntArray value)
 	{
 		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
@@ -201,7 +201,7 @@ class CF_ModStorage
 		return true;
 	}
 
-	bool Read(ref TFloatArray value)
+	bool Read(TFloatArray value)
 	{
 		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
@@ -213,7 +213,7 @@ class CF_ModStorage
 		return true;
 	}
 
-	bool Read(ref TVectorArray value)
+	bool Read(TVectorArray value)
 	{
 		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
@@ -225,7 +225,7 @@ class CF_ModStorage
 		return true;
 	}
 
-	bool Read(ref TStringArray value)
+	bool Read(TStringArray value)
 	{
 		CF_ModStorage_Data data = ReadRaw();
 		if (!data) return false;
