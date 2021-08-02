@@ -29,6 +29,7 @@ class CF_TypeConverters
 		RegisterType(Managed, CF_TypeConverterManaged);
 		RegisterType(CF_Expression, CF_TypeConverterExpression);
 		RegisterType(CF_Date, CF_TypeConverterDate);
+		RegisterType(CF_Localiser, CF_TypeConverterLocaliser);
 	}
 	
 	static CF_TypeConverters _Init()

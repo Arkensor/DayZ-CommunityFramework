@@ -2,7 +2,9 @@ class CF_TypeConverterManaged : CF_TypeConverterClass
 {
 	override string GetString()
 	{
-		return "" + m_Value;
+		string toStr = "";
+		g_Script.CallFunction(m_Value, "ToStr", toStr, null);
+		return toStr;
 	}
 	
 	override void SetManaged(Managed value)

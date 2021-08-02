@@ -2,7 +2,9 @@ class CF_TypeConverterClass : CF_TypeConverterT<Class>
 {
 	override string GetString()
 	{
-		return "" + m_Value;
+		string toStr = "";
+		g_Script.CallFunction(m_Value, "ToStr", toStr, null);
+		return toStr;
 	}
 	
 	override void SetClass(Class value)
