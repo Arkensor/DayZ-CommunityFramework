@@ -38,7 +38,7 @@ class CF_TestModel : CF_Model
 		CF_Windows.Destroy(m_WindowHandle);
 	}
 
-	void OnCheckboxChange(Class sender, CF_ChangeEventArgs evt)
+	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
 	{
 		CF_Trace trace(this, "OnCheckboxChange", evt.ToStr());
 
@@ -47,7 +47,7 @@ class CF_TestModel : CF_Model
 		Print(BlockInput);
 	}
 
-	void OnChange(Class sender, CF_ChangeEventArgs evt)
+	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
 	{
 		CF_Trace trace(this, "OnChange", evt.ToStr());
 		
@@ -57,7 +57,7 @@ class CF_TestModel : CF_Model
 		NotifyPropertyChanged("ButtonText");
 	}
 
-	void OnClick(Class sender, CF_MouseEventArgs evt)
+	void OnClick(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		CF_Trace trace(this, "OnClick", evt.ToStr());
 
@@ -89,7 +89,7 @@ class CF_TestItemModel : CF_Model
 		ButtonText = "Press To Remove (" + index + ")";
 	}
 
-	void Remove(Class sender, CF_MouseEventArgs evt)
+	void Remove(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		CF_Trace trace(this, "Remove", evt.ToStr());
 

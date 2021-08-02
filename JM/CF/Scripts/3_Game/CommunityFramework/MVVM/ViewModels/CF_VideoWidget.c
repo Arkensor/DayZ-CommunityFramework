@@ -34,14 +34,14 @@ class CF_VideoWidget : CF_Widget
 		Class.CastTo(_VideoWidget, w);
 	}
 
-	void OnView_Path(Class sender, CF_EventArgs args)
+	void OnView_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Path", "" + sender, args.ToStr());
 
 		EnScript.SetClassVar(m_Model, Path, 0, _Path);
 	}
 
-	void OnModel_Path(Class sender, CF_EventArgs args)
+	void OnModel_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Path", "" + sender, args.ToStr());
 
@@ -49,14 +49,14 @@ class CF_VideoWidget : CF_Widget
 		_VideoWidget.LoadVideo(_Path.Path, _Path.SoundScene);
 	}
 
-	void OnView_Command(Class sender, CF_EventArgs args)
+	void OnView_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Command", "" + sender, args.ToStr());
 
 		EnScript.SetClassVar(m_Model, Command, 0, _Command);
 	}
 
-	void OnModel_Command(Class sender, CF_EventArgs args)
+	void OnModel_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Command", "" + sender, args.ToStr());
 
@@ -64,14 +64,14 @@ class CF_VideoWidget : CF_Widget
 		_VideoWidget.Play(_Command);
 	}
 
-	void OnView_Subtitles(Class sender, CF_EventArgs args)
+	void OnView_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Subtitles", "" + sender, args.ToStr());
 
 		EnScript.SetClassVar(m_Model, Subtitles, 0, _Subtitles);
 	}
 
-	void OnModel_Subtitles(Class sender, CF_EventArgs args)
+	void OnModel_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Subtitles", "" + sender, args.ToStr());
 

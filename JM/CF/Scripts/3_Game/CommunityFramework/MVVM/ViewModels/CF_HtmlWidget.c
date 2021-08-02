@@ -22,14 +22,14 @@ class CF_HtmlWidget : CF_TextWidget
 		Class.CastTo(_HtmlWidget, w);
 	}
 
-	void OnView_File(Class sender, CF_EventArgs args)
+	void OnView_File(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_File", "" + sender, args.ToStr());
 		
 		_File.ToVariable(m_Model, File);
 	}
 
-	void OnModel_File(Class sender, CF_EventArgs args)
+	void OnModel_File(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_File", "" + sender, args.ToStr());
 		

@@ -69,14 +69,14 @@ class CF_FrameWidget : CF_Widget
 		}
 	}
 
-	void OnView_SubModel(Class sender, CF_EventArgs args)
+	void OnView_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_SubModel", "" + sender, args.ToStr());
 		
 		// Never called.
 	}
 
-	void OnModel_SubModel(Class sender, CF_EventArgs args)
+	void OnModel_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_SubModel", "" + sender, args.ToStr());
 		

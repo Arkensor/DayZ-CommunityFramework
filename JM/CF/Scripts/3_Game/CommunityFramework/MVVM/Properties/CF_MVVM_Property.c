@@ -1,6 +1,6 @@
 class CF_MVVM_Property
 {
-	protected CF_ModelBase m_Model;
+	protected ref CF_ModelBase m_Model;
 	protected CF_ViewModel m_ViewModel;
 
 	protected CF_ObservableCollection m_Collection;
@@ -104,7 +104,7 @@ class CF_MVVM_Property
 	{
 		CF_Trace trace(this, "OnView", evt.ToStr());
 
-		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
+		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(null, evt));
 	}
 
 	void OnModel(/*notnull*/ CF_EventArgs evt)

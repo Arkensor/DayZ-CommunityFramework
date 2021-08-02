@@ -255,12 +255,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	 * 
 	 * @note	
 	 */
-	void OnView_Children(Class sender, CF_EventArgs args)
+	void OnView_Children(CF_ModelBase sender, CF_EventArgs args)
 	{
 		// Handled automatically.
 	}
 
-	void OnModel_Children(Class sender, CF_EventArgs args)
+	void OnModel_Children(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Children", "" + sender, args.ClassName());
 
@@ -378,32 +378,32 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	 * 			events require reverse cancellation. For example, if 'Continue' is set to 'false'
 	 * 			for 'OnChange' in 'CF_EditBoxWidget', then input must be prevented.
 	 */
-	bool OnClick(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnModalResult(Class sender, CF_ModalEventArgs args) { return !args.Continue; }
-	bool OnDoubleClick(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnSelect(Class sender, CF_SelectEventArgs args) { return !args.Continue; }
-	bool OnItemSelected(Class sender, CF_ItemSelectEventArgs args) { return !args.Continue; }
-	bool OnFocus(Class sender, CF_PositionEventArgs args) { return !args.Continue; }
-	bool OnFocusLost(Class sender, CF_PositionEventArgs args) { return !args.Continue; }
-	bool OnMouseEnter(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnMouseLeave(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnMouseWheel(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnMouseButtonDown(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnMouseButtonUp(Class sender, CF_MouseEventArgs args) { return !args.Continue; }
-	bool OnController(Class sender, CF_ControllerEventArgs args) { return !args.Continue; }
-	bool OnKeyDown(Class sender, CF_KeyEventArgs args) { return !args.Continue; }
-	bool OnKeyUp(Class sender, CF_KeyEventArgs args) { return !args.Continue; }
-	bool OnKeyPress(Class sender, CF_KeyEventArgs args) { return !args.Continue; }
-	bool OnChange(Class sender, CF_ChangeEventArgs args) { return !args.Continue; }
-	bool OnDrag(Class sender, CF_DragEventArgs args) { return !args.Continue; }
-	bool OnDragging(Class sender, CF_DragEventArgs args) { return !args.Continue; }
-	bool OnDraggingOver(Class sender, CF_DragEventArgs args) { return !args.Continue; }
-	bool OnDrop(Class sender, CF_DragEventArgs args) { return !args.Continue; }
-	bool OnDropReceived(Class sender, CF_DragEventArgs args) { return !args.Continue; }
-	bool OnResize(Class sender, CF_ResizeEventArgs args) { return !args.Continue; }
-	bool OnChildAdd(Class sender, CF_ChildEventArgs args) { return !args.Continue; }
-	bool OnChildRemove(Class sender, CF_ChildEventArgs args) { return !args.Continue; }
-	bool OnUpdate(Class sender, CF_ViewEventArgs args) { return !args.Continue; }
+	bool OnClick(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnModalResult(CF_ModelBase sender, CF_ModalEventArgs args) { return !args.Continue; }
+	bool OnDoubleClick(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnSelect(CF_ModelBase sender, CF_SelectEventArgs args) { return !args.Continue; }
+	bool OnItemSelected(CF_ModelBase sender, CF_ItemSelectEventArgs args) { return !args.Continue; }
+	bool OnFocus(CF_ModelBase sender, CF_PositionEventArgs args) { return !args.Continue; }
+	bool OnFocusLost(CF_ModelBase sender, CF_PositionEventArgs args) { return !args.Continue; }
+	bool OnMouseEnter(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnMouseLeave(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnMouseWheel(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnMouseButtonUp(CF_ModelBase sender, CF_MouseEventArgs args) { return !args.Continue; }
+	bool OnController(CF_ModelBase sender, CF_ControllerEventArgs args) { return !args.Continue; }
+	bool OnKeyDown(CF_ModelBase sender, CF_KeyEventArgs args) { return !args.Continue; }
+	bool OnKeyUp(CF_ModelBase sender, CF_KeyEventArgs args) { return !args.Continue; }
+	bool OnKeyPress(CF_ModelBase sender, CF_KeyEventArgs args) { return !args.Continue; }
+	bool OnChange(CF_ModelBase sender, CF_ChangeEventArgs args) { return !args.Continue; }
+	bool OnDrag(CF_ModelBase sender, CF_DragEventArgs args) { return !args.Continue; }
+	bool OnDragging(CF_ModelBase sender, CF_DragEventArgs args) { return !args.Continue; }
+	bool OnDraggingOver(CF_ModelBase sender, CF_DragEventArgs args) { return !args.Continue; }
+	bool OnDrop(CF_ModelBase sender, CF_DragEventArgs args) { return !args.Continue; }
+	bool OnDropReceived(CF_ModelBase sender, CF_DragEventArgs args) { return !args.Continue; }
+	bool OnResize(CF_ModelBase sender, CF_ResizeEventArgs args) { return !args.Continue; }
+	bool OnChildAdd(CF_ModelBase sender, CF_ChildEventArgs args) { return !args.Continue; }
+	bool OnChildRemove(CF_ModelBase sender, CF_ChildEventArgs args) { return !args.Continue; }
+	bool OnUpdate(CF_ModelBase sender, CF_ViewEventArgs args) { return !args.Continue; }
 
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
@@ -417,7 +417,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Click != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Click, null, param);
 		}
 
@@ -437,7 +437,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ModalResult != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ModalEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ModalEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ModalResult, null, param);
 		}
 
@@ -456,7 +456,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_DoubleClick != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_DoubleClick, null, param);
 		}
 
@@ -474,7 +474,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Select != string.Empty)
 		{
-			Param param = new Param2<Class, CF_SelectEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_SelectEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Select, null, param);
 		}
 
@@ -496,7 +496,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ItemSelected != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ItemSelectEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ItemSelectEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ItemSelected, null, param);
 		}
 
@@ -514,7 +514,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Focus != string.Empty)
 		{
-			Param param = new Param2<Class, CF_PositionEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_PositionEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Focus, null, param);
 		}
 
@@ -532,7 +532,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_FocusLost != string.Empty)
 		{
-			Param param = new Param2<Class, CF_PositionEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_PositionEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_FocusLost, null, param);
 		}
 
@@ -552,7 +552,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseEnter != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseEnter, null, param);
 		}
 
@@ -573,7 +573,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseLeave != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseLeave, null, param);
 		}
 
@@ -593,7 +593,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseWheel != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseWheel, null, param);
 		}
 
@@ -612,7 +612,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseButtonDown != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseButtonDown, null, param);
 		}
 
@@ -631,7 +631,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseButtonUp != string.Empty)
 		{
-			Param param = new Param2<Class, CF_MouseEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseButtonUp, null, param);
 		}
 
@@ -649,7 +649,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Controller == string.Empty)
 		{
-			Param param = new Param2<Class, CF_ControllerEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ControllerEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Controller, null, param);
 		}
 
@@ -669,7 +669,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_KeyDown != string.Empty)
 		{
-			Param param = new Param2<Class, CF_KeyEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_KeyEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyDown, null, param);
 		}
 
@@ -689,7 +689,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_KeyUp != string.Empty)
 		{
-			Param param = new Param2<Class, CF_KeyEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_KeyEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyUp, null, param);
 		}
 
@@ -709,7 +709,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_KeyPress != string.Empty)
 		{
-			Param param = new Param2<Class, CF_KeyEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_KeyEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyPress, null, param);
 		}
 
@@ -728,7 +728,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Change != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ChangeEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ChangeEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Change, null, param);
 		}
 
@@ -747,7 +747,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Drag != string.Empty)
 		{
-			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Drag, null, param);
 		}
 
@@ -766,7 +766,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Dragging != string.Empty)
 		{
-			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Dragging, null, param);
 		}
 
@@ -785,7 +785,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_DraggingOver != string.Empty)
 		{
-			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_DraggingOver, null, param);
 		}
 
@@ -804,7 +804,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Drop != string.Empty)
 		{
-			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Drop, null, param);
 		}
 
@@ -823,7 +823,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_DropReceived != string.Empty)
 		{
-			Param param = new Param2<Class, CF_DragEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_DropReceived, null, param);
 		}
 
@@ -841,7 +841,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Resize != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ResizeEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ResizeEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Resize, null, param);
 		}
 
@@ -859,7 +859,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ChildAdd != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ChildEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ChildEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ChildAdd, null, param);
 		}
 
@@ -877,7 +877,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ChildRemove != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ChildEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ChildEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ChildRemove, null, param);
 		}
 
@@ -893,7 +893,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Update != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ViewEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ViewEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Update, null, param);
 		}
 
@@ -909,7 +909,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Show != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ViewEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ViewEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Show, null, param);
 		}
 
@@ -925,7 +925,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Hide != string.Empty)
 		{
-			Param param = new Param2<Class, CF_ViewEventArgs>(this, args);
+			Param param = new Param2<CF_ModelBase, CF_ViewEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Hide, null, param);
 		}
 

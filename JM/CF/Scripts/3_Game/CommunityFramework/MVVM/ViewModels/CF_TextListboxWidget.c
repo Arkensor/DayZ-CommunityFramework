@@ -29,14 +29,14 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 		Class.CastTo(_TextListboxWidget, w);
 	}
 
-	void OnView_Items(Class sender, CF_EventArgs args)
+	void OnView_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Items", "" + sender, args.ToStr());
 
 		EnScript.SetClassVar(m_Model, Items, 0, _Items);
 	}
 
-	void OnModel_Items(Class sender, CF_EventArgs args)
+	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Items", "" + sender, args.ToStr());
 

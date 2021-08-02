@@ -37,7 +37,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		Class.CastTo(_ItemPreviewWidget, w);
 	}
 
-	void OnView_Item(Class sender, CF_EventArgs args)
+	void OnView_Item(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Item", "" + sender, args.ToStr());
 		
@@ -45,7 +45,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_Item.ToVariable(m_Model, Item);
 	}
 
-	void OnModel_Item(Class sender, CF_EventArgs args)
+	void OnModel_Item(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Item", "" + sender, args.ToStr());
 		
@@ -53,7 +53,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_ItemPreviewWidget.SetItem(EntityAI.Cast(_Item.GetClass()));
 	}
 
-	void OnView_View(Class sender, CF_EventArgs args)
+	void OnView_View(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_View", "" + sender, args.ToStr());
 		
@@ -61,7 +61,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_View.ToVariable(m_Model, View);
 	}
 
-	void OnModel_View(Class sender, CF_EventArgs args)
+	void OnModel_View(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_View", "" + sender, args.ToStr());
 		
@@ -69,7 +69,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_ItemPreviewWidget.SetView(_View.GetInt());
 	}
 
-	void OnView_Orientation(Class sender, CF_EventArgs args)
+	void OnView_Orientation(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Orientation", "" + sender, args.ToStr());
 		
@@ -77,7 +77,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_Orientation.ToVariable(m_Model, Orientation);
 	}
 
-	void OnModel_Orientation(Class sender, CF_EventArgs args)
+	void OnModel_Orientation(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Orientation", "" + sender, args.ToStr());
 		
@@ -85,7 +85,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_ItemPreviewWidget.SetModelOrientation(_Orientation.GetVector());
 	}
 
-	void OnView_Position(Class sender, CF_EventArgs args)
+	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
 		
@@ -93,7 +93,7 @@ class CF_ItemPreviewWidget : CF_Widget
 		_Position.ToVariable(m_Model, Position);
 	}
 
-	void OnModel_Position(Class sender, CF_EventArgs args)
+	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
 		
@@ -101,13 +101,13 @@ class CF_ItemPreviewWidget : CF_Widget
 		_ItemPreviewWidget.SetModelPosition(_Position.GetVector());
 	}
 
-	void OnView_ForceFlipEnable(Class sender, CF_EventArgs args)
+	void OnView_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ForceFlipEnable", "" + sender, args.ToStr());
 		
 	}
 
-	void OnModel_ForceFlipEnable(Class sender, CF_EventArgs args)
+	void OnModel_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ForceFlipEnable", "" + sender, args.ToStr());
 		
@@ -115,13 +115,13 @@ class CF_ItemPreviewWidget : CF_Widget
 		_ItemPreviewWidget.SetForceFlipEnable(_ForceFlipEnable.GetBool());
 	}
 
-	void OnView_ForceFlip(Class sender, CF_EventArgs args)
+	void OnView_ForceFlip(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ForceFlip", "" + sender, args.ToStr());
 		
 	}
 
-	void OnModel_ForceFlip(Class sender, CF_EventArgs args)
+	void OnModel_ForceFlip(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ForceFlip", "" + sender, args.ToStr());
 		

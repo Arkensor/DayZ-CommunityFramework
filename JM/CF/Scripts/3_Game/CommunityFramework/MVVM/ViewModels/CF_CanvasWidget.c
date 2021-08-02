@@ -32,7 +32,7 @@ class CF_CanvasWidget : CF_Widget
 		Class.CastTo(_CanvasWidget, w);
 	}
 
-	void OnView_Lines(Class sender, CF_EventArgs args)
+	void OnView_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Lines", "" + sender, args.ToStr());
 		
@@ -40,7 +40,7 @@ class CF_CanvasWidget : CF_Widget
 	}
 
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
-	void OnModel_Lines(Class sender, CF_EventArgs args)
+	void OnModel_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Lines", "" + sender, args.ToStr());
 		

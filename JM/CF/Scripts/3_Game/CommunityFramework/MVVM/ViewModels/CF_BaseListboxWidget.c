@@ -25,7 +25,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 		Class.CastTo(_BaseListboxWidget, w);
 	}
 	
-	void OnView_NumberItems(Class sender, CF_EventArgs args)
+	void OnView_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_NumberItems", "" + sender, args.ToStr());
 		
@@ -33,14 +33,14 @@ class CF_BaseListboxWidget : CF_UIWidget
 		_NumberItems.ToVariable(m_Model, NumberItems);
 	}
 
-	void OnModel_NumberItems(Class sender, CF_EventArgs args)
+	void OnModel_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_NumberItems", "" + sender, args.ToStr());
 		
 		OnView_NumberItems(m_Model, args);
 	}
 
-	void OnView_Selected(Class sender, CF_EventArgs args)
+	void OnView_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_Selected", "" + sender, args.ToStr());
 		
@@ -48,7 +48,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 		_Selected.ToVariable(m_Model, Selected);
 	}
 
-	void OnModel_Selected(Class sender, CF_EventArgs args)
+	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
 		

@@ -31,21 +31,21 @@ class CF_RichTextWidget : CF_TextWidget
 		Class.CastTo(_RichTextWidget, w);
 	}
 
-	void OnView_ContentHeight(Class sender, CF_EventArgs args)
+	void OnView_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ContentHeight", "" + sender, args.ToStr());
 
 		EnScript.SetClassVar(m_Model, ContentHeight, 0, _RichTextWidget.GetContentHeight());
 	}
 
-	void OnModel_ContentHeight(Class sender, CF_EventArgs args)
+	void OnModel_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ContentHeight", "" + sender, args.ToStr());
 
 		OnView_ContentHeight(m_Model, args);
 	}
 
-	void OnView_ContentOffset(Class sender, CF_EventArgs args)
+	void OnView_ContentOffset(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ContentOffset", "" + sender, args.ToStr());
 
@@ -53,7 +53,7 @@ class CF_RichTextWidget : CF_TextWidget
 		EnScript.SetClassVar(m_Model, ContentOffset, 0, _value);
 	}
 
-	void OnModel_ContentOffset(Class sender, CF_EventArgs args)
+	void OnModel_ContentOffset(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ContentOffset", "" + sender, args.ToStr());
 
@@ -62,14 +62,14 @@ class CF_RichTextWidget : CF_TextWidget
 		//_RichTextWidget.SetContentOffset(_value, _ContentSnapToLine);
 	}
 
-	void OnView_ContentSnapToLine(Class sender, CF_EventArgs args)
+	void OnView_ContentSnapToLine(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ContentSnapToLine", "" + sender, args.ToStr());
 
 		EnScript.SetClassVar(m_Model, ContentSnapToLine, 0, _ContentSnapToLine);
 	}
 
-	void OnModel_ContentSnapToLine(Class sender, CF_EventArgs args)
+	void OnModel_ContentSnapToLine(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ContentSnapToLine", "" + sender, args.ToStr());
 
@@ -77,7 +77,7 @@ class CF_RichTextWidget : CF_TextWidget
 		//_RichTextWidget.SetContentOffset(_RichTextWidget.GetContentOffset(), _ContentSnapToLine);
 	}
 
-	void OnView_LineWidths(Class sender, CF_EventArgs args)
+	void OnView_LineWidths(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_LineWidths", "" + sender, args.ToStr());
 
@@ -91,7 +91,7 @@ class CF_RichTextWidget : CF_TextWidget
 		}
 	}
 
-	void OnModel_LineWidths(Class sender, CF_EventArgs args)
+	void OnModel_LineWidths(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_LineWidths", "" + sender, args.ToStr());
 

@@ -25,7 +25,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 		Class.CastTo(_SpacerWidget, w);
 	}
 
-	void OnView_ContentAlignmentHorizontal(Class sender, CF_EventArgs args)
+	void OnView_ContentAlignmentHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ContentAlignmentHorizontal", "" + sender, args.ToStr());
 
@@ -33,7 +33,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 		EnScript.SetClassVar(m_Model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
 	}
 
-	void OnModel_ContentAlignmentHorizontal(Class sender, CF_EventArgs args)
+	void OnModel_ContentAlignmentHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ContentAlignmentHorizontal", "" + sender, args.ToStr());
 
@@ -42,7 +42,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 		_SpacerWidget.SetContentAlignmentH(_contentAlignmentH);
 	}
 
-	void OnView_ContentAlignmentVertical(Class sender, CF_EventArgs args)
+	void OnView_ContentAlignmentVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnView_ContentAlignmentVertical", "" + sender, args.ToStr());
 
@@ -50,7 +50,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 		EnScript.SetClassVar(m_Model, ContentAlignmentVertical, 0, _contentAlignmentV);
 	}
 
-	void OnModel_ContentAlignmentVertical(Class sender, CF_EventArgs args)
+	void OnModel_ContentAlignmentVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
 		CF_Trace trace(this, "OnModel_ContentAlignmentVertical", "" + sender, args.ToStr());
 
