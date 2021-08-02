@@ -127,4 +127,26 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 		m_Keys.Clear();
 		m_DataMap.Clear();
 	}
+
+	array<TKey> GetKeyArray()
+	{
+		array<TKey> result();
+		result.Resize(m_Keys.Count());
+		for (int i = 0; i < m_Keys.Count(); i++)
+		{
+			result[i] = m_Keys[i];
+		}
+		return result;
+	}
+
+	array<TValue> GetValueArray()
+	{
+		array<TValue> result();
+		result.Resize(m_Values.Count());
+		for (int i = 0; i < m_Values.Count(); i++)
+		{
+			result[i] = m_Values[i];
+		}
+		return result;
+	}
 };
