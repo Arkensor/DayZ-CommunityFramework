@@ -1,5 +1,6 @@
 class CF_TypeConverterExpression : CF_TypeConverterClass
 {
+	//TODO: store as 'CF_Map' within 'CF_Expression'
 	private ref CF_Map<string, float> m_Variables = new CF_Map<string, float>();
 
 	override void SetBool(bool value)
