@@ -4,8 +4,8 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	reference string ContentAlignmentVertical;
 
 	protected SpacerWidget _SpacerWidget;
-	protected CF_TypeConverter _ContentAlignmentHorizontal = CF_GetDefaultTC();
-	protected CF_TypeConverter _ContentAlignmentVertical = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ContentAlignmentHorizontal = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ContentAlignmentVertical = CF_GetDefaultTC();
 	
 	override void GetProperties()
 	{

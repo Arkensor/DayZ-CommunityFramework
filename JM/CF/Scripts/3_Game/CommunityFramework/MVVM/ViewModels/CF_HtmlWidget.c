@@ -3,7 +3,7 @@ class CF_HtmlWidget : CF_TextWidget
 	reference string File;
 
 	protected HtmlWidget _HtmlWidget;
-	protected CF_TypeConverter _File = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _File = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

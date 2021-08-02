@@ -5,9 +5,9 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	reference string Current;
 
 	protected SimpleProgressBarWidget _SimpleProgressBarWidget;
-	protected CF_TypeConverter _Min = CF_GetDefaultTC();
-	protected CF_TypeConverter _Max = CF_GetDefaultTC();
-	protected CF_TypeConverter _Current = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Min = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Max = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Current = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

@@ -45,6 +45,7 @@ class CF_TestModel : CF_Model
 		evt.Continue = true;
 
 		Print(BlockInput);
+		//NotifyPropertyChanged("BlockInput");
 	}
 
 	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs evt)

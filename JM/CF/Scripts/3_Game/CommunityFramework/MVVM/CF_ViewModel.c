@@ -47,9 +47,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	protected CF_ViewModel m_Parent = null;
 	protected ref set<CF_ViewModel> m_Children = new set<CF_ViewModel>();
 
-	protected ref CF_Map<string, ref CF_MVVM_Property> m_Properties = new CF_Map<string, ref CF_MVVM_Property>();
+	protected ref CF_MVVM_Properties m_Properties = new CF_MVVM_Properties();
 
-	protected CF_Map<string, ref CF_MVVM_Property> m_TempProperties;
+	protected CF_MVVM_Properties m_TempProperties;
 	
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -112,10 +112,10 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (name == string.Empty) return;
 
-		CF_MVVM_Property property;
-		if (!m_Properties.Find(name, property)) return;
+		array<ref CF_MVVM_Property> propertyList;
+		if (!m_Properties.Find(name, propertyList)) return;
 
-		property.OnView(temp);
+		foreach (auto property : propertyList) property.OnView(temp);
 	}
 
 	void NotifyPropertyChanged(CF_EventArgs args = null)
@@ -127,8 +127,10 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		for (int i = 0; i < m_Properties.Count(); i++)
 		{
-			CF_MVVM_Property property = m_Properties.GetElement(i);
-			property.OnView(temp);
+			foreach (auto property : m_Properties.GetElement(i))
+			{
+				property.OnView(temp);
+			}
 		}
 	}
 
@@ -136,14 +138,14 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "SetModel", "" + model);
 
-		CF_Map<string, ref CF_MVVM_Property> allProps = new CF_Map<string, ref CF_MVVM_Property>();
+		CF_Map<string, ref array<ref CF_MVVM_Property>> allProps = new CF_Map<string, ref array<ref CF_MVVM_Property>>();
 
 		_SetModel(model, allProps);
 
 		CF_MVVM._LoadPropertyTypes(m_Model, this, allProps);
 	}
 
-	void _SetModel(CF_ModelBase model, CF_Map<string, ref CF_MVVM_Property> allProps)
+	void _SetModel(CF_ModelBase model, CF_MVVM_Properties allProps)
 	{
 		CF_Trace trace(this, "_SetModel", "" + model);
 
@@ -181,8 +183,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		if (actual == string.Empty) return;
 		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
 		string variableName = property.SetVariableName(actual);
-		m_Properties.Insert(variableName, property);
-		m_TempProperties.Insert(variableName, property);
+
+		CF_MVVM.AddProperty(m_Properties, variableName, property);
+		CF_MVVM.AddProperty(m_TempProperties, variableName, property);
 	}
 
 	Widget GetChildWidgetAt(int index)

@@ -4,8 +4,8 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	reference string CarriagePosition;
 
 	protected MultilineEditBoxWidget _MultilineEditBoxWidget;
-	protected CF_TypeConverter _CarriageLine = CF_GetDefaultTC();
-	protected CF_TypeConverter _CarriagePosition = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _CarriageLine = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _CarriagePosition = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

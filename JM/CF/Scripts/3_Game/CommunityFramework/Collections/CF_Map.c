@@ -3,6 +3,7 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 	private ref map<autoptr TKey, int> m_DataMap = new map<autoptr TKey, int>();
 	private ref array<autoptr TKey> m_Keys = new array<autoptr TKey>();
 	private ref array<autoptr TValue> m_Values = new array<autoptr TValue>();
+	private TValue m_NullValue;
 
 	void CF_Map()
 	{
@@ -45,7 +46,9 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 
 	TValue Get(TKey key)
 	{
-		return m_Values[m_DataMap[key]];
+		int index = m_DataMap[key];
+		if (!m_DataMap.Find(key, index)) return m_NullValue;
+		return m_Values[index];
 	}
 
 	bool Find(TKey key, out TValue val)

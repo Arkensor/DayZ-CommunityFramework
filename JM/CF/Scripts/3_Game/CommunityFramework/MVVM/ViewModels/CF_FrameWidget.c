@@ -31,7 +31,7 @@ class CF_FrameWidget : CF_Widget
 		if (actual == string.Empty) return;
 		CF_MVVM_SubProperty property = new CF_MVVM_SubProperty(this, name);
 		_SubProperties.Insert(property);
-		m_Properties.Insert(actual, property);
+		CF_MVVM.AddProperty(m_Properties, actual, property);
 	}
 
 	override void OnWidgetScriptInit(Widget w)

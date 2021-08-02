@@ -8,12 +8,12 @@ class CF_ItemPreviewWidget : CF_Widget
 	reference string ForceFlip;
 
 	protected ItemPreviewWidget _ItemPreviewWidget;
-	protected CF_TypeConverter _Item = CF_GetDefaultTC();
-	protected CF_TypeConverter _View = CF_GetDefaultTC();
-	protected CF_TypeConverter _Orientation = CF_GetDefaultTC();
-	protected CF_TypeConverter _Position = CF_GetDefaultTC();
-	protected CF_TypeConverter _ForceFlipEnable = CF_GetDefaultTC();
-	protected CF_TypeConverter _ForceFlip = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Item = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _View = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Orientation = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Position = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ForceFlipEnable = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ForceFlip = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

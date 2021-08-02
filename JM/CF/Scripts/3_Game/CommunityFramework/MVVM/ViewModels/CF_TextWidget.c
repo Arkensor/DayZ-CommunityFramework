@@ -20,24 +20,24 @@ class CF_TextWidget : CF_Widget
 	reference string TextProportion;
 
 	protected TextWidget _TextWidget;
-	protected CF_TypeConverter _Text = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextSpacingHorizontal = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextSpacingVertical = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextExactSize = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextOffsetX = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextOffsetY = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextItalic = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextBold = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextSizeX = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextSizeY = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextProportion = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Text = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextSpacingHorizontal = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextSpacingVertical = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextExactSize = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextOffsetX = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextOffsetY = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextItalic = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextBold = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextSizeX = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextSizeY = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextProportion = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

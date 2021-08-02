@@ -87,13 +87,13 @@ class CF_MVVM_Property
 		CF_TypeConverter replacingTypeConverter;
 		if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
 		{
-			if (!replacingTypeConverter.IsInherited(typeConverter.Type()))
+			if (replacingTypeConverter.IsInherited(typeConverter.Type()))
 			{
 				typeConverter = replacingTypeConverter;
 			}
 			else
 			{
-				CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%1'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+				CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
 			}
 		}
 
@@ -104,7 +104,8 @@ class CF_MVVM_Property
 	{
 		CF_Trace trace(this, "OnView", evt.ToStr());
 
-		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(null, evt));
+		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt);
+		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, param);
 	}
 
 	void OnModel(/*notnull*/ CF_EventArgs evt)
@@ -139,13 +140,13 @@ class CF_MVVM_Property
 				CF_TypeConverter replacingTypeConverter;
 				if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
 				{
-					if (!replacingTypeConverter.IsInherited(typeConverter.Type()))
+					if (replacingTypeConverter.IsInherited(typeConverter.Type()))
 					{
 						_collection.OverrideConverter(replacingTypeConverter);
 					}
 					else
 					{
-						CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%1'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+						CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
 					}
 				}
 			}
@@ -156,6 +157,7 @@ class CF_MVVM_Property
 			if (!m_Collection) eventOverride = new CF_CollectionClearEventArgs();
 		}
 
-		g_Script.CallFunctionParams(m_ViewModel, "OnModel_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, eventOverride));
+		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, eventOverride);
+		g_Script.CallFunctionParams(m_ViewModel, "OnModel_" + m_Name, null, param);
 	}
 };

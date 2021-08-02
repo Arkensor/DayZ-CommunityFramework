@@ -24,24 +24,24 @@ class CF_Widget : CF_ViewModel
 	reference string Alpha;				// [R/W]
 
 	protected Widget _Widget;
-	protected CF_TypeConverter _Name = CF_GetDefaultTC();
-	protected CF_TypeConverter _Visible = CF_GetDefaultTC();
-	protected CF_TypeConverter _Enabled = CF_GetDefaultTC();
-	protected CF_TypeConverter _Flags = CF_GetDefaultTC();
-	protected CF_TypeConverter _Sort = CF_GetDefaultTC();
-	protected CF_TypeConverter _PositionX = CF_GetDefaultTC();
-	protected CF_TypeConverter _PositionY = CF_GetDefaultTC();
-	protected CF_TypeConverter _Width = CF_GetDefaultTC();
-	protected CF_TypeConverter _Height = CF_GetDefaultTC();
-	protected CF_TypeConverter _ScreenPositionX = CF_GetDefaultTC();
-	protected CF_TypeConverter _ScreenPositionY = CF_GetDefaultTC();
-	protected CF_TypeConverter _ScreenWidth = CF_GetDefaultTC();
-	protected CF_TypeConverter _ScreenHeight = CF_GetDefaultTC();
-	protected CF_TypeConverter _Color = CF_GetDefaultTC();
-	protected CF_TypeConverter _Roll = CF_GetDefaultTC();
-	protected CF_TypeConverter _Pitch = CF_GetDefaultTC();
-	protected CF_TypeConverter _Yaw = CF_GetDefaultTC();
-	protected CF_TypeConverter _Alpha = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Name = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Visible = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Enabled = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Flags = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Sort = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _PositionX = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _PositionY = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Width = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Height = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ScreenPositionX = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ScreenPositionY = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ScreenWidth = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ScreenHeight = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Color = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Roll = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Pitch = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Yaw = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _Alpha = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

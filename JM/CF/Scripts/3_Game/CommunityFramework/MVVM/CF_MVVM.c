@@ -1,4 +1,4 @@
-typedef CF_Map<string, CF_MVVM_Property> CF_MVVM_Properties;
+typedef CF_Map<string, ref array<ref CF_MVVM_Property>> CF_MVVM_Properties;
 
 class CF_MVVM_Link
 {
@@ -222,7 +222,7 @@ class CF_MVVM
 		return propertyTypeMap.Get(property);
 	}
 
-	static void _LoadPropertyTypes(CF_ModelBase model, CF_ViewModel view, CF_Map<string, ref CF_MVVM_Property> properties)
+	static void _LoadPropertyTypes(CF_ModelBase model, CF_ViewModel view, CF_MVVM_Properties properties)
 	{
 		CF_Trace trace(g_CF_MVVM, "_LoadPropertyTypes", "" + model, "" + view, properties.ToStr());
 
@@ -235,7 +235,8 @@ class CF_MVVM
 
 		CF_MVVM_Link link;
 		if (!s_ViewModelMap.Find(model, link)) return;
-
+		
+		array<ref CF_MVVM_Property> propertyList;
 		CF_MVVM_Property property;
 		CF_MVVM_Properties mapTo = link.m_Properties;
 		
@@ -271,22 +272,25 @@ class CF_MVVM
 			string variableName = type.GetVariableName(i);
 			typename variableType = type.GetVariableType(i);
 
-			if (!properties.Find(variableName, property))
+			if (variableType.IsInherited(Widget))
 			{
-				if (!variableType.IsInherited(Widget)) continue;
-
-				property = new CF_MVVM_WidgetProperty(null, variableName);
-				properties.Insert(variableName, property);
+				AddProperty(properties, variableName, new CF_MVVM_WidgetProperty(null, variableName));
 			}
-			
-			property.SetType(variableType);
 
-			// Must be added before Assign
+			if (!properties.Find(variableName, propertyList)) continue;
+			
+			// Must be inserted before Link
 			propertyTypeMap.Insert(variableName, CF_TypeConverters.Create(variableType));
-			
-			property.Link(model);
-			
-			mapTo.Insert(variableName, property);
+
+			for (int k = 0; k < propertyList.Count(); k++)
+			{
+				property = propertyList[k];
+				property.SetType(variableType);
+				
+				property.Link(model);
+				
+				CF_MVVM.AddProperty(mapTo, variableName, property);
+			}
 		}
 	}
 
@@ -343,10 +347,10 @@ class CF_MVVM
 
 		CF_MVVM_Properties properties = link.m_Properties;
 
-		CF_MVVM_Property property;
-		if (!properties.Find(propertyName, property)) return;
+		array<ref CF_MVVM_Property> propertyList;
+		if (!properties.Find(propertyName, propertyList)) return;
 
-		property.OnModel(temp);
+		foreach (auto property : propertyList) property.OnModel(temp);
 	}
 
 	static void NotifyPropertyChanged(CF_ModelBase model)
@@ -370,7 +374,10 @@ class CF_MVVM
 		int count = properties.Count();
 		for (int i = 0; i < count; i++)
 		{
-			properties.GetElement(i).OnModel(temp);
+			foreach (auto property : properties.GetElement(i))
+			{
+				property.OnModel(temp);
+			}
 		}
 	}
 
@@ -392,9 +399,7 @@ class CF_MVVM
 			s_ViewModelMap.Insert(model, link);
 		}
 
-		CF_MVVM_Properties properties = link.m_Properties;
-		
-		properties.Insert(property.GetVariableName(), property);
+		CF_MVVM.AddProperty(link.m_Properties, property.GetVariableName(), property);
 	}
 
 	void RemoveProperty(CF_ModelBase model, string propertyName)
@@ -419,5 +424,15 @@ class CF_MVVM
 		{
 			Destroy(model);
 		}
+	}
+
+	static void AddProperty(inout CF_MVVM_Properties propertiesMap, string variableName, CF_MVVM_Property property)
+	{
+		if (variableName == string.Empty) return;
+		
+		array<ref CF_MVVM_Property> properties = propertiesMap[variableName];
+		if (!properties) properties = new array<ref CF_MVVM_Property>();
+		propertiesMap[variableName] = properties;
+		properties.Insert(property);
 	}
 };

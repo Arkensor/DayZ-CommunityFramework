@@ -12,16 +12,16 @@ class CF_UIWidget : CF_Widget
 	reference string TextBold;
 	
 	protected UIWidget _UIWidget;
-	protected CF_TypeConverter _TextColor = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextItalic = CF_GetDefaultTC();
-	protected CF_TypeConverter _TextBold = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextColor = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextItalic = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _TextBold = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{

@@ -6,10 +6,10 @@ class CF_RichTextWidget : CF_TextWidget
 	reference string LineWidths;
 
 	protected RichTextWidget _RichTextWidget;
-	protected CF_TypeConverter _ContentHeight = CF_GetDefaultTC();
-	protected CF_TypeConverter _ContentOffset = CF_GetDefaultTC();
-	protected CF_TypeConverter _ContentSnapToLine = CF_GetDefaultTC();
-	protected CF_TypeConverter _LineWidths = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ContentHeight = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ContentOffset = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _ContentSnapToLine = CF_GetDefaultTC();
+	protected ref CF_TypeConverter _LineWidths = CF_GetDefaultTC();
 
 	override void GetProperties()
 	{
