@@ -156,7 +156,7 @@ class CF_ButtonWidget : CF_UIWidget
 			_ButtonWidget.SetState(false);
 		}
 
-		NotifyPropertyChanged(State);
+		NotifyPropertyChanged(State, "State");
 
 		return true;
 	}

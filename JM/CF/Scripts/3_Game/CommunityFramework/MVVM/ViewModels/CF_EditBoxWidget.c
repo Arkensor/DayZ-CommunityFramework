@@ -47,7 +47,7 @@ class CF_EditBoxWidget : CF_UIWidget
 			_EditBoxWidget.SetText(_Text.GetString());
 		}
 
-		NotifyPropertyChanged(Text);
+		NotifyPropertyChanged(Text, "Text");
 
 		return true;
 	}

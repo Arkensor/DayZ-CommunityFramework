@@ -64,6 +64,6 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 		_XComboBoxWidget.SetCurrentItem(selected);
 
-		NotifyPropertyChanged(Selected);
+		NotifyPropertyChanged(Selected, "Selected");
 	}
 };

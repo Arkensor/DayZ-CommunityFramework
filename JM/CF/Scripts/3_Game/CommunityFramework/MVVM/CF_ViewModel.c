@@ -47,7 +47,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	protected CF_ViewModel m_Parent = null;
 	protected ref set<CF_ViewModel> m_Children = new set<CF_ViewModel>();
 
-	protected ref CF_MVVM_Properties m_Properties = new CF_MVVM_Properties();
+	protected ref CF_MVVM_SourceProperties m_Properties = new CF_MVVM_SourceProperties();
 
 	protected CF_MVVM_Properties m_TempProperties;
 	
@@ -103,7 +103,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Trace trace(this, "~CF_ViewModel");
 	}
 
-	void NotifyPropertyChanged(string name, CF_EventArgs args = null)
+	void NotifyPropertyChanged(string name, string source, CF_EventArgs args = null)
 	{
 		CF_EventArgs temp = args;
 		if (temp == null) temp = new CF_EventArgs();
@@ -112,10 +112,22 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (name == string.Empty) return;
 
-		array<ref CF_MVVM_Property> propertyList;
+		CF_Map<string, ref CF_MVVM_Property> propertyList;
 		if (!m_Properties.Find(name, propertyList)) return;
 
-		foreach (auto property : propertyList) property.OnView(temp);
+		CF_MVVM_Property property;
+		if (!propertyList.Find(source, property)) return;
+
+		property.OnView(temp);
+
+		//TODO: store CF_MVVM_Link as variable within CF_ViewModel
+
+		CF_MVVM.NotifyPropertyChanged(m_Model, name, args);
+
+		//for (int i = 0; i < propertyList.Count(); i++)
+		//{
+		//	propertyList.GetElement(i).OnModel(temp);
+		//}
 	}
 
 	void NotifyPropertyChanged(CF_EventArgs args = null)
@@ -127,9 +139,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		for (int i = 0; i < m_Properties.Count(); i++)
 		{
-			foreach (auto property : m_Properties.GetElement(i))
+			//foreach (auto property : m_Properties.GetElement(i))
 			{
-				property.OnView(temp);
+			//	property.OnView(temp);
 			}
 		}
 	}
@@ -184,8 +196,10 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
 		string variableName = property.SetVariableName(actual);
 
-		CF_MVVM.AddProperty(m_Properties, variableName, property);
+		EnScript.SetClassVar(this, name, 0, variableName);
+
 		CF_MVVM.AddProperty(m_TempProperties, variableName, property);
+		CF_MVVM.AddSourceProperty(m_Properties, variableName, name, property);
 	}
 
 	Widget GetChildWidgetAt(int index)

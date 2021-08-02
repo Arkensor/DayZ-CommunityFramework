@@ -75,7 +75,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		}
 
 		//_MultilineEditBoxWidget.GetText(_Text);
-		NotifyPropertyChanged(Text);
+		NotifyPropertyChanged(Text, "Text");
 
 		return true;
 	}

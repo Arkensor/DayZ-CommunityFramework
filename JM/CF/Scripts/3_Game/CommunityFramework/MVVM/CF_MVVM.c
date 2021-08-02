@@ -1,4 +1,6 @@
+//TODO: massive cleanup of CF_MVVM_Properties, CF_MVVM_SourceProperties and CF_MVVM_Link
 typedef CF_Map<string, ref array<ref CF_MVVM_Property>> CF_MVVM_Properties;
+typedef CF_Map<string, ref CF_Map<string, ref CF_MVVM_Property>> CF_MVVM_SourceProperties;
 
 class CF_MVVM_Link
 {
@@ -434,5 +436,15 @@ class CF_MVVM
 		if (!properties) properties = new array<ref CF_MVVM_Property>();
 		propertiesMap[variableName] = properties;
 		properties.Insert(property);
+	}
+
+	static void AddSourceProperty(inout CF_MVVM_SourceProperties propertiesMap, string variableName, string sourceName, CF_MVVM_Property property)
+	{
+		if (variableName == string.Empty || sourceName == string.Empty) return;
+		
+		CF_Map<string, ref CF_MVVM_Property> properties = propertiesMap[variableName];
+		if (!properties) properties = new CF_Map<string, ref CF_MVVM_Property>;
+		propertiesMap[variableName] = properties;
+		properties.Insert(sourceName, property);
 	}
 };

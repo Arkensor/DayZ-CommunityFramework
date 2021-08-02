@@ -68,6 +68,6 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 		}
 
 		_TextListboxWidget.SelectRow(i);
-		NotifyPropertyChanged(Selected);
+		NotifyPropertyChanged(Selected, "Selected");
 	}
 };

@@ -454,11 +454,11 @@ class CF_Widget : CF_ViewModel
 	{
 		CF_Trace trace(this, "OnResize", args.ToStr());
 		
-		NotifyPropertyChanged(Width);
-		NotifyPropertyChanged(Height);
+		NotifyPropertyChanged(Width, "Width");
+		NotifyPropertyChanged(Height, "Height");
 
-		NotifyPropertyChanged(ScreenWidth);
-		NotifyPropertyChanged(ScreenHeight);
+		NotifyPropertyChanged(ScreenWidth, "ScreenWidth");
+		NotifyPropertyChanged(ScreenHeight, "ScreenHeight");
 
 		return super.OnResize(sender, args);
 	}
@@ -467,11 +467,11 @@ class CF_Widget : CF_ViewModel
 	{
 		CF_Trace trace(this, "OnUpdate", args.ToStr());
 		
-		NotifyPropertyChanged(PositionX);
-		NotifyPropertyChanged(PositionY);
+		NotifyPropertyChanged(PositionX, "PositionX");
+		NotifyPropertyChanged(PositionY, "PositionY");
 		
-		NotifyPropertyChanged(ScreenPositionX);
-		NotifyPropertyChanged(ScreenPositionY);
+		NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
+		NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
 
 		bool visible = _Widget.IsVisible();
 		if (!_Visible.IsDefault() && _Visible.GetBool() != visible)
