@@ -3,7 +3,7 @@ class CF_ObservableCollection : CF_Collection
 	private CF_ModelBase m_Model;
 	private string m_Property;
 
-	void Init(CF_ModelBase model, string prop)
+	void Init(CF_ModelBase model, string prop = "")
 	{
 		#ifdef COMPONENT_SYSTEM
 		CF_MVVM._CheckInit();
@@ -18,6 +18,8 @@ class CF_ObservableCollection : CF_Collection
 	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
 	{
 		CF_Trace trace(this, "NotifyCollectionChanged", evt.ToStr());
+
+		if (m_Model == null) return;
 
 		CF_MVVM.NotifyPropertyChanged(m_Model, m_Property, evt);
 	}

@@ -41,6 +41,22 @@ WrapSpacerWidgetClass root {
       }
      }
     }
+    CheckBoxWidgetClass CheckBoxWidget1 {
+     position 0 0
+     size 0.5 50
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 1
+     scriptclass "CF_CheckBoxWidget"
+     {
+      ScriptParamsClass {
+       Event_Change "OnCheckboxChange"
+       Text "TextInput"
+       Checked "BlockInput:CF_TypeConverter_BoolInvert"
+      }
+     }
+    }
     EditBoxWidgetClass EditBoxWidget0 {
      position 0 0
      size 0.5 50

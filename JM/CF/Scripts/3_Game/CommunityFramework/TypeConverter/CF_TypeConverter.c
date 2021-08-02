@@ -78,6 +78,11 @@ class CF_TypeConverter : Managed
 		return null;
 	}
 
+	string ToStr()
+	{
+		return "" + this;
+	}
+
 	void FromVariable(Class instance, string variable)
 	{
 		CF_Trace trace(this, "FromVariable", "" + instance, variable);

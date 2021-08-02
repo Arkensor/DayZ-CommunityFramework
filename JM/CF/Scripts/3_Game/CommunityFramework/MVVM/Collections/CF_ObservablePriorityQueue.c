@@ -6,7 +6,11 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 	void CF_ObservablePriorityQueue()
 	{
 		typename t = T;
-		m_Converter = CF_TypeConverters.Create(t);
+		CF_Trace trace(this, string.Format("CF_ObservablePriorityQueue<%1>", "" + t));
+
+		OverrideConverter();
+
+		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
 	override string ToStr()
@@ -26,6 +30,20 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
 		return m_Converter;
+	}
+
+	override void OverrideConverter(CF_TypeConverter converter = null)
+	{
+		CF_Trace trace(this, "OverrideConverter", "" + converter);
+
+		if (!converter)
+		{
+			typename t = T;
+			m_Converter = CF_TypeConverters.Create(t);
+			return;
+		}
+
+		m_Converter = converter;
 	}
 
 	override int Count()

@@ -10,10 +10,11 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		CF_MVVM._CheckInit();
 		#endif
 
-		typename t = TValue;
-		CF_Trace trace(this, string.Format("CF_ObservableMap<%1>", "" + t));
+		typename k = TKey;
+		typename v = TValue;
+		CF_Trace trace(this, string.Format("CF_ObservableMap<%1, %2>", "" + k, "" + v));
 
-		m_Converter = CF_TypeConverters.Create(t);
+		OverrideConverter();
 
 		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
@@ -36,6 +37,20 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Values[index]);
 		return m_Converter;
+	}
+
+	override void OverrideConverter(CF_TypeConverter converter = null)
+	{
+		CF_Trace trace(this, "OverrideConverter", "" + converter);
+
+		if (!converter)
+		{
+			typename t = T;
+			m_Converter = CF_TypeConverters.Create(t);
+			return;
+		}
+
+		m_Converter = converter;
 	}
 
 	override int Count()

@@ -11,7 +11,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 		typename t = T;
 		CF_Trace trace(this, string.Format("CF_ObservableArray<%1>", "" + t));
 
-		m_Converter = CF_TypeConverters.Create(t);
+		OverrideConverter();
 
 		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
@@ -33,6 +33,20 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 		
 		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
 		return m_Converter;
+	}
+
+	override void OverrideConverter(CF_TypeConverter converter = null)
+	{
+		CF_Trace trace(this, "OverrideConverter", "" + converter);
+
+		if (!converter)
+		{
+			typename t = T;
+			m_Converter = CF_TypeConverters.Create(t);
+			return;
+		}
+
+		m_Converter = converter;
 	}
 
 	/*!

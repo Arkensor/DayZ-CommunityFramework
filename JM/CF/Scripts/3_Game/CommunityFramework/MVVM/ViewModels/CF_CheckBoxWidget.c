@@ -65,6 +65,8 @@ class CF_CheckBoxWidget : CF_UIWidget
 			_CheckBoxWidget.SetChecked(!_CheckBoxWidget.IsChecked());
 		}
 
+		NotifyPropertyChanged(Checked);
+
 		return true;
 	}
 };

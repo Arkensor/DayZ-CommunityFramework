@@ -38,6 +38,15 @@ class CF_TestModel : CF_Model
 		CF_Windows.Destroy(m_WindowHandle);
 	}
 
+	void OnCheckboxChange(Class sender, CF_ChangeEventArgs evt)
+	{
+		CF_Trace trace(this, "OnCheckboxChange", evt.ToStr());
+
+		evt.Continue = true;
+
+		Print(BlockInput);
+	}
+
 	void OnChange(Class sender, CF_ChangeEventArgs evt)
 	{
 		CF_Trace trace(this, "OnChange", evt.ToStr());

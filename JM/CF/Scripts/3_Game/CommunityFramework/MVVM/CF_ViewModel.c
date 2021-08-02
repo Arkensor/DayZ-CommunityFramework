@@ -180,8 +180,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		
 		if (actual == string.Empty) return;
 		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
-		m_Properties.Insert(actual, property);
-		m_TempProperties.Insert(actual, property);
+		string variableName = property.SetVariableName(actual);
+		m_Properties.Insert(variableName, property);
+		m_TempProperties.Insert(variableName, property);
 	}
 
 	Widget GetChildWidgetAt(int index)

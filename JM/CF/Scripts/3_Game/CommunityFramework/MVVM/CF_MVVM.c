@@ -278,8 +278,7 @@ class CF_MVVM
 				property = new CF_MVVM_WidgetProperty(null, variableName);
 				properties.Insert(variableName, property);
 			}
-
-			property.SetVariableName(variableName);
+			
 			property.SetType(variableType);
 
 			// Must be added before Assign

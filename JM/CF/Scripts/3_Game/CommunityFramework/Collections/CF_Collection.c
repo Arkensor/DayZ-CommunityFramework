@@ -20,6 +20,16 @@ class CF_Collection : Managed
 		return m_Converter;
 	}
 
+	CF_TypeConverter GetConverter()
+	{
+		return m_Converter;
+	}
+
+	void OverrideConverter(CF_TypeConverter converter = null)
+	{
+		m_Converter = converter;
+	}
+
 	int Count()
 	{
 		return 0;

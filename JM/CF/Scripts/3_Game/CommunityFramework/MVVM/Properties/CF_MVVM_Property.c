@@ -3,12 +3,15 @@ class CF_MVVM_Property
 	protected CF_ModelBase m_Model;
 	protected CF_ViewModel m_ViewModel;
 
+	protected CF_ObservableCollection m_Collection;
+	protected bool m_IsCollection;
+
 	protected string m_Name;
-	protected string m_FunctionOnView;
-	protected string m_FunctionOnModel;
 
 	protected typename m_Type;
 	protected string m_VariableName;
+
+	protected string m_TypeConverterType;
 
 	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
@@ -16,9 +19,6 @@ class CF_MVVM_Property
 
 		m_ViewModel = handler;
 		m_Name = name;
-
-		m_FunctionOnView = "OnView_" + m_Name;
-		m_FunctionOnModel = "OnModel_" + m_Name;
 	}
 
 	void ~CF_MVVM_Property()
@@ -26,9 +26,21 @@ class CF_MVVM_Property
 		//TODO: remove from CF_MVVM properties map
 	}
 
-	void SetVariableName(string variableName)
+	string SetVariableName(string variableName)
 	{
-		m_VariableName = variableName;
+		CF_Trace trace(this, "SetVariableName", "" + variableName);
+
+		int colonSeperator = variableName.IndexOf(":");
+		if (colonSeperator == -1)
+		{
+			m_VariableName = variableName;
+			return m_VariableName;
+		}
+
+		m_VariableName = variableName.Substring(0, colonSeperator);
+		m_TypeConverterType = variableName.Substring(colonSeperator + 1, variableName.Length() - colonSeperator - 1);
+
+		return m_VariableName;
 	}
 
 	string GetVariableName()
@@ -57,25 +69,32 @@ class CF_MVVM_Property
 
 		m_Model = model;
 
-		if (m_Type.IsInherited(CF_ObservableCollection))
+		m_IsCollection = m_Type.IsInherited(CF_ObservableCollection);
+		if (m_IsCollection)
 		{
-			CF_ObservableCollection _collection;
-			EnScript.GetClassVar(model, m_VariableName, 0, _collection);
-			if (!_collection)
-			{
-				CF_Log.Error("'%1' was null in model '%2'. Treat this variable as final, initiate during construction.", "" + _collection, "" + model);
-				return;
-			}
+			OnModel(new CF_EventArgs());
 
-			_collection.Init(model, m_VariableName);
 			return;
 		}
 
-		CF_TypeConverter typeConverter = CF_MVVM.GetPropertyType(model, m_VariableName);
+		CF_TypeConverter typeConverter = CF_MVVM.GetPropertyType(m_Model, m_VariableName);
 		if (!typeConverter)
 		{
-			CF_Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
+			CF_Log.Error("'%1.%2' has no assigned type converter!", "" + m_Model, m_VariableName);
 			return;
+		}
+
+		CF_TypeConverter replacingTypeConverter;
+		if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
+		{
+			if (!replacingTypeConverter.IsInherited(typeConverter.Type()))
+			{
+				typeConverter = replacingTypeConverter;
+			}
+			else
+			{
+				CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%1'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+			}
 		}
 
 		EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, typeConverter);
@@ -85,13 +104,58 @@ class CF_MVVM_Property
 	{
 		CF_Trace trace(this, "OnView", evt.ToStr());
 
-		g_Script.CallFunctionParams(m_ViewModel, m_FunctionOnView, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
+		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
 	}
 
 	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel", evt.ToStr());
 
-		g_Script.CallFunctionParams(m_ViewModel, m_FunctionOnModel, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
+		CF_EventArgs eventOverride = evt;
+
+		if (m_IsCollection && !evt.Type().IsInherited(CF_CollectionEventArgs))
+		{
+			CF_ObservableCollection _collection;
+			EnScript.GetClassVar(m_Model, m_VariableName, 0, _collection);
+			if (_collection == m_Collection) return;
+
+			// the previous instance may still be alive, if so, make sure it doesn't notify from now on
+			if (m_Collection)
+			{
+				m_Collection.Init(null);
+			}
+
+			if (_collection)
+			{
+				_collection.Init(m_Model, m_VariableName);
+
+				CF_TypeConverter typeConverter = _collection.GetConverter();
+				if (!typeConverter)
+				{
+					CF_Log.Error("Collection '%1.%2' has no assigned type converter!", "" + m_Model, m_VariableName);
+					return;
+				}
+
+				CF_TypeConverter replacingTypeConverter;
+				if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
+				{
+					if (!replacingTypeConverter.IsInherited(typeConverter.Type()))
+					{
+						_collection.OverrideConverter(replacingTypeConverter);
+					}
+					else
+					{
+						CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%1'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+					}
+				}
+			}
+
+			m_Collection = _collection;
+
+			// The variable is no longer set to an instance, override event to reset UI
+			if (!m_Collection) eventOverride = new CF_CollectionClearEventArgs();
+		}
+
+		g_Script.CallFunctionParams(m_ViewModel, "OnModel_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, eventOverride));
 	}
 };
