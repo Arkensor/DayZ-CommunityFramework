@@ -17,6 +17,8 @@ class CF_MultiEventSubscriber
     {
         foreach(auto evt : events)
         {
+            //Always remove first, to make sure we do not have the same function subscribed twice
+            evt.RemoveSubscriber(subscriber);
             evt.AddSubscriber(subscriber);
         }
     }

@@ -24,14 +24,15 @@ class CF_EventSubscriber
         CF_EventHandlerBase evt8 = NULL,
         CF_EventHandlerBase evt9 = NULL)
     {
-        if(evt1) evt1.AddSubscriber(subscriber);
-        if(evt2) evt2.AddSubscriber(subscriber);
-        if(evt3) evt3.AddSubscriber(subscriber);
-        if(evt4) evt4.AddSubscriber(subscriber);
-        if(evt5) evt5.AddSubscriber(subscriber);
-        if(evt6) evt6.AddSubscriber(subscriber);
-        if(evt7) evt7.AddSubscriber(subscriber);
-        if(evt8) evt8.AddSubscriber(subscriber);
-        if(evt9) evt9.AddSubscriber(subscriber);
+        //Always remove first, to make sure we do not have the same function subscribed twice
+        if (evt1){ evt1.RemoveSubscriber(subscriber); evt1.AddSubscriber(subscriber); }
+        if (evt2){ evt2.RemoveSubscriber(subscriber); evt2.AddSubscriber(subscriber); }
+        if (evt3){ evt3.RemoveSubscriber(subscriber); evt3.AddSubscriber(subscriber); }
+        if (evt4){ evt4.RemoveSubscriber(subscriber); evt4.AddSubscriber(subscriber); }
+        if (evt5){ evt5.RemoveSubscriber(subscriber); evt5.AddSubscriber(subscriber); }
+        if (evt6){ evt6.RemoveSubscriber(subscriber); evt6.AddSubscriber(subscriber); }
+        if (evt7){ evt7.RemoveSubscriber(subscriber); evt7.AddSubscriber(subscriber); }
+        if (evt8){ evt8.RemoveSubscriber(subscriber); evt8.AddSubscriber(subscriber); }
+        if (evt9){ evt9.RemoveSubscriber(subscriber); evt9.AddSubscriber(subscriber); }
     }
 };

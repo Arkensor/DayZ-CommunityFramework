@@ -6,6 +6,11 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
     {
         m_Invoker.Insert(subscriber);
     }
+
+    void RemoveSubscriber(func subscriber)
+    {
+        m_Invoker.Remove(subscriber);
+    }
 };
 
 class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
