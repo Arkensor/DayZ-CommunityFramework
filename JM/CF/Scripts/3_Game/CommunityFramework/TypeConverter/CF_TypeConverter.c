@@ -81,13 +81,13 @@ class CF_TypeConverter : Managed
 	void FromVariable(Class instance, string variable)
 	{
 		CF_Trace trace(this, "FromVariable", "" + instance, variable);
-		CF.Log.Error("Override FromVariable!");
+		CF_Log.Error("Override FromVariable!");
 	}
 
 	void ToVariable(Class instance, string variable)
 	{
 		CF_Trace trace(this, "ToVariable", "" + instance, variable);
-		CF.Log.Error("Override ToVariable!");
+		CF_Log.Error("Override ToVariable!");
 	}
 };
 

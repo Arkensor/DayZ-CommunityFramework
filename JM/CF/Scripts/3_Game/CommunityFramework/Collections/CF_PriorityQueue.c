@@ -6,7 +6,7 @@ class CF_PriorityQueue<Class T> : CF_Collection
 	void CF_PriorityQueue()
 	{
 		typename t = T;
-		m_Converter = CF.TypeConverters.Create(t);
+		m_Converter = CF_TypeConverters.Create(t);
 	}
 
 	override string ToStr()

@@ -2,15 +2,6 @@ class CF_Log
 {
 	static int Level = 0;
 
-	static void _Init()
-	{
-	}
-
-	static void _Cleanup()
-	{
-
-	}
-
 	static int Set(int mask)
 	{
 		Level |= mask;

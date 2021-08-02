@@ -6,7 +6,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 	void CF_ObservableStack()
 	{
 		typename t = T;
-		m_Converter = CF.TypeConverters.Create(t);
+		m_Converter = CF_TypeConverters.Create(t);
 	}
 
 	override string ToStr()

@@ -38,7 +38,7 @@ class CF_Trace
 
 		trace = string.Format(trace, param1, param2, param3, param4, param5, param6);
 
-		CF.Log.Trace("%1+%2%3 (%4)", Depth(), m_ClassName, m_StackName, trace);
+		CF_Log.Trace("%1+%2%3 (%4)", Depth(), m_ClassName, m_StackName, trace);
 
 		s_TraceDepth += " ";
 	}
@@ -49,6 +49,6 @@ class CF_Trace
 
 		m_TickCount = TickCount(m_TickCount);
 
-		CF.Log.Trace("%1-%2%3 CPU Ticks: %4", Depth(), m_ClassName, m_StackName, m_TickCount.ToString());
+		CF_Log.Trace("%1-%2%3 CPU Ticks: %4", Depth(), m_ClassName, m_StackName, m_TickCount.ToString());
 	}
 };

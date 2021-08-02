@@ -13,9 +13,9 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		typename t = TValue;
 		CF_Trace trace(this, string.Format("CF_ObservableMap<%1>", "" + t));
 
-		m_Converter = CF.TypeConverters.Create(t);
+		m_Converter = CF_TypeConverters.Create(t);
 
-		CF.Log.Info("m_Converter=%1", "" + m_Converter);
+		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
 	override string ToStr()

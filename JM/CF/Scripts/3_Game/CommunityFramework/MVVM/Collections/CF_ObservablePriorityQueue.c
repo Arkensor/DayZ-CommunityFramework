@@ -6,7 +6,7 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 	void CF_ObservablePriorityQueue()
 	{
 		typename t = T;
-		m_Converter = CF.TypeConverters.Create(t);
+		m_Converter = CF_TypeConverters.Create(t);
 	}
 
 	override string ToStr()

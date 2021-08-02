@@ -14,7 +14,7 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 
 		if (!widget.IsInherited(m_Type))
 		{
-			CF.Log.Error("Widget '%1' was not of type '%2' in model '%3'.", "" + widget.ClassName(), m_Type.ToString(), "" + model);
+			CF_Log.Error("Widget '%1' was not of type '%2' in model '%3'.", "" + widget.ClassName(), m_Type.ToString(), "" + model);
 			return;
 		}
 

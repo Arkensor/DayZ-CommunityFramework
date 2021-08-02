@@ -25,17 +25,17 @@ class CF_TestModel : CF_Model
 
 	void OpenWindow()
 	{
-		CF.Windows.Handle(m_WindowHandle);
+		CF_Windows.Handle(m_WindowHandle);
 
 		CF_Window window;
-		CF.Windows.Retrieve(m_WindowHandle, window);
+		CF_Windows.Retrieve(m_WindowHandle, window);
 
 		window.SetModel(this);
 	}
 
 	void CloseWindow()
 	{
-		CF.Windows.Destroy(m_WindowHandle);
+		CF_Windows.Destroy(m_WindowHandle);
 	}
 
 	void OnChange(Class sender, CF_ChangeEventArgs evt)

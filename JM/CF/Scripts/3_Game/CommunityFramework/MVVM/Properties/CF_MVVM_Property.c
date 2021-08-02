@@ -63,7 +63,7 @@ class CF_MVVM_Property
 			EnScript.GetClassVar(model, m_VariableName, 0, _collection);
 			if (!_collection)
 			{
-				CF.Log.Error("'%1' was null in model '%2'. Treat this variable as final, initiate during construction.", "" + _collection, "" + model);
+				CF_Log.Error("'%1' was null in model '%2'. Treat this variable as final, initiate during construction.", "" + _collection, "" + model);
 				return;
 			}
 
@@ -74,7 +74,7 @@ class CF_MVVM_Property
 		CF_TypeConverter typeConverter = CF_MVVM.GetPropertyType(model, m_VariableName);
 		if (!typeConverter)
 		{
-			CF.Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
+			CF_Log.Error("'%1.%2' has no assigned type converter!", "" + model, m_VariableName);
 			return;
 		}
 

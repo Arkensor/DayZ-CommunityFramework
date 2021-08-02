@@ -6,6 +6,8 @@ class CF_MVVM_Link
 	CF_ViewModel m_View;
 };
 
+static autoptr CF_MVVM g_CF_MVVM = null;
+
 class CF_MVVM
 {
 	private static ref map<CF_ModelBase, ref CF_MVVM_Link> s_ViewModelMap;
@@ -18,34 +20,40 @@ class CF_MVVM
 
 	private void CF_MVVM()
 	{
-
+		CF_Trace trace(this, "CF_MVVM");
 	}
 
-	static CF_MVVM _Init()
+	[CF_EventSubscriber(CF_MVVM._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
 	{
+		if (g_CF_MVVM) return;
+
 		s_ViewModelMap = new map<CF_ModelBase, ref CF_MVVM_Link>();
 		
 		s_PropertyMap = new map<typename, ref map<string, ref CF_TypeConverter>>();
 
-		CF.Log.Set(0x001111);
+		CF_Log.Set(0x001111);
 		
     	#ifdef COMPONENT_SYSTEM
-		CF.Log.Set(CF_LogLevel.ALL);
+		CF_Log.Set(CF_LogLevel.ALL);
 		#endif
 
-		return new CF_MVVM();
+		g_CF_MVVM = new CF_MVVM();
 	}
 
+	[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
 		s_ViewModelMap = null;
 		
 		s_PropertyMap = null;
+
+		g_CF_MVVM = null;
 	}
 
 	static CF_MVVM_Link _GetLink(CF_ModelBase model)
 	{
-		CF_Trace trace(CF.MVVM, "_GetLink", "" + model);
+		CF_Trace trace(g_CF_MVVM, "_GetLink", "" + model);
 
 		return s_ViewModelMap[model];
 	}
@@ -55,7 +63,7 @@ class CF_MVVM
 	 */
 	static void Create(CF_ModelBase model, string layout)
 	{
-		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout);
+		CF_Trace trace(g_CF_MVVM, "Create", "" + model, "" + layout);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -90,7 +98,7 @@ class CF_MVVM
 	 */
 	static void Create(CF_ModelBase model, string layout, Widget parent)
 	{
-		CF_Trace trace(CF.MVVM, "Create", "" + model, "" + layout, "" + parent);
+		CF_Trace trace(g_CF_MVVM, "Create", "" + model, "" + layout, "" + parent);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -150,7 +158,7 @@ class CF_MVVM
 
 	static void Connect(CF_ModelBase model, Widget widget)
 	{
-		CF_Trace trace(CF.MVVM, "Connect", "" + model, "" + widget);
+		CF_Trace trace(g_CF_MVVM, "Connect", "" + model, "" + widget);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -178,7 +186,7 @@ class CF_MVVM
 
 	static void Connect(CF_ModelBase model, notnull CF_ViewModel view)
 	{
-		CF_Trace trace(CF.MVVM, "Connect", "" + model, "" + view);
+		CF_Trace trace(g_CF_MVVM, "Connect", "" + model, "" + view);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -200,14 +208,14 @@ class CF_MVVM
 
 	static ref CF_TypeConverter GetPropertyType(CF_ModelBase model, string property)
 	{
-		CF_Trace trace(CF.MVVM, "GetPropertyType", "" + model, "" + property);
+		CF_Trace trace(g_CF_MVVM, "GetPropertyType", "" + model, "" + property);
 
 		typename type = model.Type();
 
 		map<string, ref CF_TypeConverter> propertyTypeMap;
 		if (!s_PropertyMap.Find(type, propertyTypeMap)) 
 		{
-			CF.Log.Error("Property wasn't added to property map...");
+			CF_Log.Error("Property wasn't added to property map...");
 			return null;
 		}
 		
@@ -216,7 +224,7 @@ class CF_MVVM
 
 	static void _LoadPropertyTypes(CF_ModelBase model, CF_ViewModel view, CF_Map<string, ref CF_MVVM_Property> properties)
 	{
-		CF_Trace trace(CF.MVVM, "_LoadPropertyTypes", "" + model, "" + view, properties.ToStr());
+		CF_Trace trace(g_CF_MVVM, "_LoadPropertyTypes", "" + model, "" + view, properties.ToStr());
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -275,7 +283,7 @@ class CF_MVVM
 			property.SetType(variableType);
 
 			// Must be added before Assign
-			propertyTypeMap.Insert(variableName, CF.TypeConverters.Create(variableType));
+			propertyTypeMap.Insert(variableName, CF_TypeConverters.Create(variableType));
 			
 			property.Link(model);
 			
@@ -285,7 +293,7 @@ class CF_MVVM
 
 	static void Destroy(CF_ModelBase model)
 	{
-		CF_Trace trace(CF.MVVM, "Destroy", "" + model);
+		CF_Trace trace(g_CF_MVVM, "Destroy", "" + model);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -322,7 +330,7 @@ class CF_MVVM
 		CF_EventArgs temp = evt;
 		if (temp == null) temp = new CF_EventArgs();
 
-		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.ToStr());
+		CF_Trace trace(g_CF_MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.ToStr());
 		
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -346,7 +354,7 @@ class CF_MVVM
 	{
 		CF_EventArgs temp = new CF_EventArgs();
 
-		CF_Trace trace(CF.MVVM, "NotifyPropertyChanged", "" + model);
+		CF_Trace trace(g_CF_MVVM, "NotifyPropertyChanged", "" + model);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -369,7 +377,7 @@ class CF_MVVM
 
 	void AddProperty(CF_ModelBase model, CF_MVVM_Property property)
 	{
-		CF_Trace trace(CF.MVVM, "AddProperty", "" + model, "" + property);
+		CF_Trace trace(g_CF_MVVM, "AddProperty", "" + model, "" + property);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)
@@ -392,7 +400,7 @@ class CF_MVVM
 
 	void RemoveProperty(CF_ModelBase model, string propertyName)
 	{
-		CF_Trace trace(CF.MVVM, "RemoveProperty", "" + model, "" + propertyName);
+		CF_Trace trace(g_CF_MVVM, "RemoveProperty", "" + model, "" + propertyName);
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ViewModelMap == null)

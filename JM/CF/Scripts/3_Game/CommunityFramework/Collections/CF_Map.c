@@ -13,9 +13,9 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 		typename t = TValue;
 		CF_Trace trace(this, string.Format("CF_Map<%1>", "" + t));
 
-		m_Converter = CF.TypeConverters.Create(t);
+		m_Converter = CF_TypeConverters.Create(t);
 
-		CF.Log.Info("m_Converter=%1", "" + m_Converter);
+		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
 	override string ToStr()

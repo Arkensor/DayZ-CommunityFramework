@@ -71,7 +71,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 				#endif
 				{
 					Class.CastTo(m_WB_Model, modelType.Spawn());
-					CF.MVVM.Connect(m_WB_Model, this);
+					CF_MVVM.Connect(m_WB_Model, this);
 				}
 			}
 			else
@@ -292,7 +292,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			g_Script.CallFunction(model, "GetLayout", layout, null);
 			if (layout == string.Empty)
 			{
-				CF.Log.Error("Empty layout file provided.");
+				CF_Log.Error("Empty layout file provided.");
 				return;
 			}
 
@@ -313,7 +313,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		g_Script.CallFunction(model, "GetLayout", layout, null);
 		if (layout == string.Empty)
 		{
-			CF.Log.Error("Empty layout file provided.");
+			CF_Log.Error("Empty layout file provided.");
 			return;
 		}
 		
@@ -324,7 +324,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "OnModel_Children_InsertAt", "" + sender, args.ToStr());
 
-		CF.Log.Error("Function not implemented");
+		CF_Log.Error("Function not implemented");
 	}
 
 	void OnModel_Children_Clear(CF_ObservableCollection sender, CF_CollectionClearEventArgs args)
@@ -350,7 +350,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "OnModel_Children_Set", "" + sender, args.ToStr());
 
-		CF.Log.Error("Function not implemented");
+		CF_Log.Error("Function not implemented");
 	}
 
 	void OnModel_Children_Remove(CF_ObservableCollection sender, CF_CollectionRemoveEventArgs args)
@@ -367,7 +367,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	{
 		CF_Trace trace(this, "OnModel_Children_Swap", "" + sender, args.ToStr());
 
-		CF.Log.Error("Function not implemented");
+		CF_Log.Error("Function not implemented");
 	}
 
 	/**

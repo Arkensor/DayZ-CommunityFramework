@@ -39,7 +39,7 @@ class CF_Window : CF_Model
 
 	void SetTitle(string title)
 	{
-		CF_Trace trace(CF.Windows, "SetTitle", "" + title);
+		CF_Trace trace(this, "SetTitle", "" + title);
 		
 		m_Title = title;
 
@@ -48,7 +48,7 @@ class CF_Window : CF_Model
 
 	void SetModel(CF_ModelBase model)
 	{
-		CF_Trace trace(CF.Windows, "SetModel", "" + model);
+		CF_Trace trace(this, "SetModel", "" + model);
 		
 		if (model != m_Model)
 		{
@@ -65,7 +65,7 @@ class CF_Window : CF_Model
 
 	void SetPosition(float x, float y)
 	{
-		CF_Trace trace(CF.Windows, "SetPosition", "" + x, "" + y);
+		CF_Trace trace(this, "SetPosition", "" + x, "" + y);
 		
 		m_PositionX = x;
 		m_PositionY = y;
@@ -78,7 +78,7 @@ class CF_Window : CF_Model
 
 	void SetSize(float x, float y)
 	{
-		CF_Trace trace(CF.Windows, "SetSize", "" + x, "" + y);
+		CF_Trace trace(this, "SetSize", "" + x, "" + y);
 		
 		m_Width = x;
 		m_Height = y;
@@ -93,21 +93,21 @@ class CF_Window : CF_Model
 
 	void OnCloseButtonClicked(CF_MouseEventArgs evt)
 	{
-		CF_Trace trace(CF.Windows, "OnCloseButtonClicked", evt.ToStr());
+		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
 		
-		CF.Windows.Destroy(m_Handle);
+		CF_Windows.Destroy(m_Handle);
 	}
 
 	void OnMouseButtonDown(CF_MouseEventArgs evt)
 	{
-		CF_Trace trace(CF.Windows, "OnMouseButtonDown", evt.ToStr());
+		CF_Trace trace(this, "OnMouseButtonDown", evt.ToStr());
 		
-		CF.Windows.Focus(m_Handle);
+		CF_Windows.Focus(m_Handle);
 	}
 
 	void OnDrag(CF_DragEventArgs evt)
 	{
-		CF_Trace trace(CF.Windows, "OnDrag", evt.ToStr());
+		CF_Trace trace(this, "OnDrag", evt.ToStr());
 		
 		m_DragOffsetX = evt.X - m_PositionX;
 		m_DragOffsetY = evt.Y - m_PositionY;
@@ -118,23 +118,23 @@ class CF_Window : CF_Model
 
 	void OnDragging(CF_DragEventArgs evt)
 	{
-		CF_Trace trace(CF.Windows, "OnDragging", evt.ToStr());
+		CF_Trace trace(this, "OnDragging", evt.ToStr());
 		
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
 	void OnDrop(CF_DragEventArgs evt)
 	{
-		CF_Trace trace(CF.Windows, "OnDrop", evt.ToStr());
+		CF_Trace trace(this, "OnDrop", evt.ToStr());
 		
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
 	void OnUpdate(CF_ViewEventArgs evt)
 	{
-		CF_Trace trace(CF.Windows, "OnUpdate", evt.ToStr());
+		CF_Trace trace(this, "OnUpdate", evt.ToStr());
 		
-		int newSort = CF.Windows.ZIndex(m_Handle);
+		int newSort = CF_Windows.ZIndex(m_Handle);
 		if (m_Sort != newSort)
 		{
 			m_Sort = newSort;

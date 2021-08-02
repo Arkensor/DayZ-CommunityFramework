@@ -44,7 +44,7 @@ class CF_FrameWidget : CF_Widget
 		{
 			if (!Class.CastTo(_SubModel, SubModelType.ToType().Spawn()))
 			{
-				CF.Log.Error("Error creating sub m_Model %1", SubModelType);
+				CF_Log.Error("Error creating sub m_Model %1", SubModelType);
 				return;
 			}
 

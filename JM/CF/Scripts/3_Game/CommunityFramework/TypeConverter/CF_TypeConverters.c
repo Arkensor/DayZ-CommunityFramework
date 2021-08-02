@@ -1,3 +1,5 @@
+static autoptr CF_TypeConverters g_CF_TypeConverters = null;
+	
 class CF_TypeConverters
 {
 	private static ref map<typename, typename> m_TypeConvertersMap;
@@ -10,7 +12,7 @@ class CF_TypeConverters
 
 	protected void RegisterType(typename type, typename converter)
 	{
-		CF_Trace trace(CF.TypeConverters, "RegisterTypes", "" + type, "" + converter);
+		CF_Trace trace(g_CF_TypeConverters, "RegisterTypes", "" + type, "" + converter);
 		
 		m_TypeConvertersMap.Insert(type, converter);
 		m_TypeConverters.Insert(type);
@@ -18,7 +20,7 @@ class CF_TypeConverters
 	
 	protected void RegisterTypes()
 	{
-		CF_Trace trace(CF.TypeConverters, "RegisterTypes");
+		CF_Trace trace(g_CF_TypeConverters, "RegisterTypes");
 		
 		RegisterType(bool, CF_TypeConverterBool);
 		RegisterType(int, CF_TypeConverterInt);
@@ -32,23 +34,29 @@ class CF_TypeConverters
 		RegisterType(CF_Localiser, CF_TypeConverterLocaliser);
 	}
 	
-	static CF_TypeConverters _Init()
+	[CF_EventSubscriber(CF_TypeConverters._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
 	{
+		if (g_CF_TypeConverters) return;
+
 		m_TypeConvertersMap = new map<typename, typename>();
 		m_TypeConverters = new array<typename>();
-
-		return new CF_TypeConverters();
+		
+		g_CF_TypeConverters = new CF_TypeConverters();
 	}
 
+	[CF_EventSubscriber(CF_TypeConverters._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
+		g_CF_TypeConverters = null;
+
 		m_TypeConverters = null;
 		m_TypeConvertersMap = null;
 	}
 
 	static CF_TypeConverter Create(typename type)
 	{
-		CF_Trace trace(CF.TypeConverters, "Create", "" + type);
+		CF_Trace trace(g_CF_TypeConverters, "Create", "" + type);
 				
 		typename baseType = type;
 		typename convType;
@@ -70,9 +78,9 @@ class CF_TypeConverters
 		
 		CF_TypeConverter res = CF_TypeConverter.Cast(convType.Spawn());
 		
-		CF.Log.Info("Type=%1", "" + type);
-		CF.Log.Info("BaseType=%1", "" + baseType);
-		CF.Log.Info("Conv=%1", "" + res);
+		CF_Log.Info("Type=%1", "" + type);
+		CF_Log.Info("BaseType=%1", "" + baseType);
+		CF_Log.Info("Conv=%1", "" + res);
 		
 		return res;
 	}
