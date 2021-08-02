@@ -1,4 +1,4 @@
-class JMModuleBase
+class JMModuleBase : CF_Module
 {
 	protected bool m_Enabled;
 	protected bool m_PreventInput;

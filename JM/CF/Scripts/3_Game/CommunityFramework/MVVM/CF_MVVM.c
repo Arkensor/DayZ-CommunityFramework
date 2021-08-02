@@ -108,6 +108,8 @@ class CF_MVVM
 				Widget widget = view.GetWidget();
 				Widget old_parent = widget.GetParent();
 
+				if (parent == old_parent) return;
+
 				if (old_parent && old_parent != parent)
 				{
 					old_parent.RemoveChild(widget);
