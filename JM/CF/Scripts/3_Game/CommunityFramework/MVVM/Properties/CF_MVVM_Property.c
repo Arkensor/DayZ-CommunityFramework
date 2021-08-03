@@ -124,47 +124,52 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 		CF_EventArgs eventOverride = evt;
 
-		if (m_IsCollection && !evt.Type().IsInherited(CF_CollectionEventArgs))
+		if (m_IsCollection)
 		{
 			CF_ObservableCollection _collection;
 			EnScript.GetClassVar(m_Model, m_VariableName, 0, _collection);
-			if (_collection == m_Collection) return;
+			EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, _collection);
 
-			// the previous instance may still be alive, if so, make sure it doesn't notify from now on
-			if (m_Collection)
+			if (!evt.Type().IsInherited(CF_CollectionEventArgs))
 			{
-				m_Collection.Init(null);
-			}
+				if (_collection == m_Collection) return;
 
-			if (_collection)
-			{
-				_collection.Init(m_Model, m_VariableName);
-
-				CF_TypeConverter typeConverter = _collection.GetConverter();
-				if (!typeConverter)
+				// the previous instance may still be alive, if so, make sure it doesn't notify from now on
+				if (m_Collection)
 				{
-					CF_Log.Error("Collection '%1.%2' has no assigned type converter!", "" + m_Model, m_VariableName);
-					return;
+					m_Collection.Init(null);
 				}
 
-				CF_TypeConverter replacingTypeConverter;
-				if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
+				if (_collection)
 				{
-					if (replacingTypeConverter.IsInherited(typeConverter.Type()))
+					_collection.Init(m_Model, m_VariableName);
+
+					CF_TypeConverter typeConverter = _collection.GetConverter();
+					if (!typeConverter)
 					{
-						_collection.OverrideConverter(replacingTypeConverter);
+						CF_Log.Error("Collection '%1.%2' has no assigned type converter!", "" + m_Model, m_VariableName);
+						return;
 					}
-					else
+
+					CF_TypeConverter replacingTypeConverter;
+					if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
 					{
-						CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+						if (replacingTypeConverter.IsInherited(typeConverter.Type()))
+						{
+							_collection.OverrideConverter(replacingTypeConverter);
+						}
+						else
+						{
+							CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+						}
 					}
 				}
+
+				// The variable is no longer set to an instance, override event to reset UI
+				if (!_collection) eventOverride = new CF_CollectionClearEventArgs();
 			}
 
 			m_Collection = _collection;
-
-			// The variable is no longer set to an instance, override event to reset UI
-			if (!m_Collection) eventOverride = new CF_CollectionClearEventArgs();
 		}
 
 		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, eventOverride);
