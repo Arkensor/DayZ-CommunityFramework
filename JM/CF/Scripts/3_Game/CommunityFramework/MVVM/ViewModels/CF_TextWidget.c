@@ -101,7 +101,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextSpacingHorizontal", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, TextSpacingHorizontal, 0, _TextSpacingHorizontal);
+		OnModel_TextSpacingHorizontal(sender, args);
 	}
 
 	void OnModel_TextSpacingHorizontal(CF_ModelBase sender, CF_EventArgs args)
@@ -110,8 +110,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextSpacingHorizontal", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, TextSpacingHorizontal, 0, _TextSpacingHorizontal);
-		//_TextWidget.SetTextSpacing(_TextSpacingHorizontal, _TextSpacingVertical);
+		_TextWidget.SetTextSpacing(_TextSpacingHorizontal.GetInt(), _TextSpacingVertical.GetInt());
 	}
 
 	void OnView_TextSpacingVertical(CF_ModelBase sender, CF_EventArgs args)
@@ -120,7 +119,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextSpacingVertical", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, TextSpacingVertical, 0, _TextSpacingVertical);
+		OnModel_TextSpacingVertical(sender, args);
 	}
 
 	void OnModel_TextSpacingVertical(CF_ModelBase sender, CF_EventArgs args)
@@ -129,8 +128,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextSpacingVertical", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, TextSpacingVertical, 0, TextSpacingVertical);
-		//_TextWidget.SetTextSpacing(_TextSpacingHorizontal, _TextSpacingVertical);
+		_TextWidget.SetTextSpacing(_TextSpacingHorizontal.GetInt(), _TextSpacingVertical.GetInt());
 	}
 
 	void OnView_TextExactSize(CF_ModelBase sender, CF_EventArgs args)
@@ -139,7 +137,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextExactSize", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, TextExactSize, 0, _TextExactSize);
+		OnModel_TextExactSize(sender, args);
 	}
 
 	void OnModel_TextExactSize(CF_ModelBase sender, CF_EventArgs args)
@@ -148,8 +146,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextExactSize", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, TextExactSize, 0, _TextExactSize);
-		//_TextWidget.SetTextExactSize(_TextExactSize);
+		_TextWidget.SetTextExactSize(_TextExactSize.GetInt());
 	}
 
 	void OnView_TextOffsetX(CF_ModelBase sender, CF_EventArgs args)
@@ -158,7 +155,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextOffsetX", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, TextOffsetX, 0, _TextOffsetX);
+		OnModel_TextOffsetX(sender, args);
 	}
 
 	void OnModel_TextOffsetX(CF_ModelBase sender, CF_EventArgs args)
@@ -167,8 +164,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextOffsetX", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, TextOffsetX, 0, _TextOffsetX);
-		//_TextWidget.SetShadow(_TextOffsetX, _TextOffsetY);
+		_TextWidget.SetTextOffset(_TextOffsetX.GetInt(), _TextOffsetY.GetInt());
 	}
 
 	void OnView_TextOffsetY(CF_ModelBase sender, CF_EventArgs args)
@@ -177,7 +173,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextOffsetY", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, TextOffsetY, 0, _TextOffsetY);
+		OnModel_TextOffsetY(sender, args);
 	}
 
 	void OnModel_TextOffsetY(CF_ModelBase sender, CF_EventArgs args)
@@ -186,8 +182,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextOffsetY", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, TextOffsetY, 0, _TextOffsetY);
-		//_TextWidget.SetShadow(_TextOffsetX, _TextOffsetY);
+		_TextWidget.SetTextOffset(_TextOffsetX.GetInt(), _TextOffsetY.GetInt());
 	}
 
 	void OnView_TextOutlineSize(CF_ModelBase sender, CF_EventArgs args)
@@ -196,8 +191,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextOutlineSize", "" + sender, args.ToStr());
 		#endif
 
-		float _value = _TextWidget.GetOutlineSize();
-		EnScript.SetClassVar(m_Model, TextOutlineSize, 0, _value);
+		_TextOutlineSize.SetInt(_TextWidget.GetOutlineSize());
 	}
 
 	void OnModel_TextOutlineSize(CF_ModelBase sender, CF_EventArgs args)
@@ -206,9 +200,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextOutlineSize", "" + sender, args.ToStr());
 		#endif
 
-		float _value;
-		EnScript.GetClassVar(m_Model, TextOutlineSize, 0, _value);
-		//_TextWidget.SetOutline(_value, _TextWidget.GetOutlineColor());
+		_TextWidget.SetOutline(_TextOutlineSize.GetInt(), _TextWidget.GetOutlineColor());
 	}
 
 	void OnView_TextOutlineColor(CF_ModelBase sender, CF_EventArgs args)
@@ -217,8 +209,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextOutlineColor", "" + sender, args.ToStr());
 		#endif
 
-		float _value = _TextWidget.GetOutlineColor();
-		EnScript.SetClassVar(m_Model, TextOutlineColor, 0, _value);
+		_TextOutlineColor.SetInt(_TextWidget.GetOutlineColor());
 	}
 
 	void OnModel_TextOutlineColor(CF_ModelBase sender, CF_EventArgs args)
@@ -227,9 +218,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextOutlineColor", "" + sender, args.ToStr());
 		#endif
 
-		float _value;
-		EnScript.GetClassVar(m_Model, TextOutlineColor, 0, _value);
-		//_TextWidget.SetOutline(_TextWidget.GetOutlineSize(), _value);
+		_TextWidget.SetOutline(_TextWidget.GetOutlineSize(), _TextOutlineColor.GetInt());
 	}
 
 	void OnView_TextShadowSize(CF_ModelBase sender, CF_EventArgs args)
@@ -238,8 +227,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextShadowSize", "" + sender, args.ToStr());
 		#endif
 
-		float _value = _TextWidget.GetShadowSize();
-		EnScript.SetClassVar(m_Model, TextShadowSize, 0, _value);
+		_TextShadowSize.SetFloat(_TextWidget.GetShadowSize());
 	}
 
 	void OnModel_TextShadowSize(CF_ModelBase sender, CF_EventArgs args)
@@ -251,9 +239,7 @@ class CF_TextWidget : CF_Widget
 		float _sx, _sy;
 		_TextWidget.GetShadowOffset(_sx, _sy);
 		
-		float _value;
-		EnScript.GetClassVar(m_Model, TextShadowSize, 0, _value);
-		//_TextWidget.SetShadow(_value, _TextWidget.GetShadowColor(), _TextWidget.GetShadowOpacity(), _sx, _sy);
+		_TextWidget.SetShadow(_TextShadowSize.GetInt(), _TextWidget.GetShadowColor(), _TextWidget.GetShadowOpacity(), _sx, _sy);
 	}
 
 	void OnView_TextShadowColor(CF_ModelBase sender, CF_EventArgs args)
@@ -262,8 +248,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextShadowColor", "" + sender, args.ToStr());
 		#endif
 
-		float _value = _TextWidget.GetShadowColor();
-		EnScript.SetClassVar(m_Model, TextShadowColor, 0, _value);
+		_TextShadowColor.SetInt(_TextWidget.GetShadowColor());
 	}
 
 	void OnModel_TextShadowColor(CF_ModelBase sender, CF_EventArgs args)
@@ -275,9 +260,7 @@ class CF_TextWidget : CF_Widget
 		float _sx, _sy;
 		_TextWidget.GetShadowOffset(_sx, _sy);
 		
-		float _value;
-		EnScript.GetClassVar(m_Model, TextShadowColor, 0, _value);
-		//_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _value, _TextWidget.GetShadowOpacity(), _sx, _sy);
+		_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextShadowColor.GetInt(), _TextWidget.GetShadowOpacity(), _sx, _sy);
 	}
 
 	void OnView_TextShadowOpacity(CF_ModelBase sender, CF_EventArgs args)
@@ -286,8 +269,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextShadowOpacity", "" + sender, args.ToStr());
 		#endif
 
-		float _value = _TextWidget.GetShadowOpacity();
-		EnScript.SetClassVar(m_Model, TextShadowOpacity, 0, _value);
+		_TextShadowOpacity.SetFloat(_TextWidget.GetShadowOpacity());
 	}
 
 	void OnModel_TextShadowOpacity(CF_ModelBase sender, CF_EventArgs args)
@@ -298,10 +280,8 @@ class CF_TextWidget : CF_Widget
 
 		float _sx, _sy;
 		_TextWidget.GetShadowOffset(_sx, _sy);
-
-		float _value;
-		EnScript.GetClassVar(m_Model, TextShadowOpacity, 0, _value);
-		//_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextWidget.GetShadowColor(), _value, _sx, _sy);
+		
+		_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextWidget.GetShadowColor(), _TextShadowOpacity.GetFloat(), _sx, _sy);
 	}
 
 	void OnView_TextShadowOffsetX(CF_ModelBase sender, CF_EventArgs args)
@@ -310,9 +290,10 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextShadowOffsetX", "" + sender, args.ToStr());
 		#endif
 
-		float _value, _other;
-		_TextWidget.GetShadowOffset(_value, _other);
-		EnScript.SetClassVar(m_Model, TextShadowOffsetX, 0, _value);
+		float _sx, _sy;
+		_TextWidget.GetShadowOffset(_sx, _sy);
+
+		_TextShadowOffsetX.SetFloat(_sx);
 	}
 
 	void OnModel_TextShadowOffsetX(CF_ModelBase sender, CF_EventArgs args)
@@ -324,8 +305,7 @@ class CF_TextWidget : CF_Widget
 		float _sx, _sy;
 		_TextWidget.GetShadowOffset(_sx, _sy);
 
-		EnScript.GetClassVar(m_Model, TextShadowOffsetX, 0, _sx);
-		//_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextWidget.GetShadowColor(), _TextWidget.GetShadowOpacity(), _sx, _sy);
+		_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextWidget.GetShadowColor(), _TextWidget.GetShadowOpacity(), _TextShadowOffsetX.GetFloat(), _sy);
 	}
 
 	void OnView_TextShadowOffsetY(CF_ModelBase sender, CF_EventArgs args)
@@ -334,9 +314,10 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextShadowOffsetY", "" + sender, args.ToStr());
 		#endif
 
-		float _value, _other;
-		_TextWidget.GetShadowOffset(_other, _value);
-		EnScript.SetClassVar(m_Model, TextShadowOffsetY, 0, _value);
+		float _sx, _sy;
+		_TextWidget.GetShadowOffset(_sx, _sy);
+
+		_TextShadowOffsetY.SetFloat(_sy);
 	}
 
 	void OnModel_TextShadowOffsetY(CF_ModelBase sender, CF_EventArgs args)
@@ -348,8 +329,7 @@ class CF_TextWidget : CF_Widget
 		float _sx, _sy;
 		_TextWidget.GetShadowOffset(_sx, _sy);
 
-		EnScript.GetClassVar(m_Model, TextShadowOffsetY, 0, _sy);
-		//_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextWidget.GetShadowColor(), _TextWidget.GetShadowOpacity(), _sx, _sy);
+		_TextWidget.SetShadow(_TextWidget.GetShadowSize(), _TextWidget.GetShadowColor(), _TextWidget.GetShadowOpacity(), _sx, _TextShadowOffsetY.GetFloat());
 	}
 
 	void OnView_TextItalic(CF_ModelBase sender, CF_EventArgs args)
@@ -358,8 +338,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextItalic", "" + sender, args.ToStr());
 		#endif
 
-		bool _value = _TextWidget.GetItalic();
-		EnScript.SetClassVar(m_Model, TextItalic, 0, _value);
+		_TextItalic.SetBool(_TextWidget.GetItalic());
 	}
 
 	void OnModel_TextItalic(CF_ModelBase sender, CF_EventArgs args)
@@ -368,9 +347,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextItalic", "" + sender, args.ToStr());
 		#endif
 
-		bool _value;
-		EnScript.GetClassVar(m_Model, TextItalic, 0, _value);
-		//_TextWidget.SetItalic(_value);
+		_TextWidget.SetItalic(_TextItalic.GetBool());
 	}
 
 	void OnView_TextBold(CF_ModelBase sender, CF_EventArgs args)
@@ -379,8 +356,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextBold", "" + sender, args.ToStr());
 		#endif
 
-		bool _value = _TextWidget.GetBold();
-		EnScript.SetClassVar(m_Model, TextBold, 0, _value);
+		_TextBold.SetBool(_TextWidget.GetBold());
 	}
 
 	void OnModel_TextBold(CF_ModelBase sender, CF_EventArgs args)
@@ -389,9 +365,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextBold", "" + sender, args.ToStr());
 		#endif
 
-		bool _value;
-		EnScript.GetClassVar(m_Model, TextBold, 0, _value);
-		//_TextWidget.SetBold(_value);
+		_TextWidget.SetBold(_TextBold.GetBool());
 	}
 
 	void OnView_TextSizeX(CF_ModelBase sender, CF_EventArgs args)
@@ -400,9 +374,9 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextSizeX", "" + sender, args.ToStr());
 		#endif
 
-		int _value, _other;
-		_TextWidget.GetTextSize(_value, _other);
-		EnScript.SetClassVar(m_Model, TextSizeX, 0, _value);
+		int _x, _y;
+		_TextWidget.GetTextSize(_x, _y);
+		_TextSizeX.SetInt(_x);
 	}
 
 	void OnModel_TextSizeX(CF_ModelBase sender, CF_EventArgs args)
@@ -420,9 +394,9 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextSizeY", "" + sender, args.ToStr());
 		#endif
 
-		int _value, _other;
-		_TextWidget.GetTextSize(_other, _value);
-		EnScript.SetClassVar(m_Model, TextSizeY, 0, _value);
+		int _x, _y;
+		_TextWidget.GetTextSize(_x, _y);
+		_TextSizeY.SetInt(_y);
 	}
 
 	void OnModel_TextSizeY(CF_ModelBase sender, CF_EventArgs args)
@@ -440,8 +414,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_TextProportion", "" + sender, args.ToStr());
 		#endif
 
-		bool _value = _TextWidget.GetTextProportion();
-		EnScript.SetClassVar(m_Model, TextProportion, 0, _value);
+		_TextProportion.SetFloat(_TextWidget.GetTextProportion());
 	}
 
 	void OnModel_TextProportion(CF_ModelBase sender, CF_EventArgs args)
@@ -450,8 +423,6 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_TextProportion", "" + sender, args.ToStr());
 		#endif
 
-		bool _value;
-		EnScript.GetClassVar(m_Model, TextProportion, 0, _value);
-		_TextWidget.SetTextProportion(_value);
+		_TextWidget.SetTextProportion(_TextProportion.GetFloat());
 	}
 };
