@@ -274,11 +274,38 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		EnScript.GetClassVar(m_Model, Children, 0, _collection);
 		if (!_collection) return;
 
-		CF_CollectionEventArgs cevt;
-		if (Class.CastTo(cevt, args))
+		switch (args.Type())
 		{
-			cevt.Process(this, m_Model, _collection);
-			return;
+			case CF_CollectionInsertEventArgs:
+			{
+				OnModel_Children_Insert(_collection, CF_CollectionInsertEventArgs.Cast(args));
+				return;
+			}
+			case CF_CollectionInsertAtEventArgs:
+			{
+				OnModel_Children_InsertAt(_collection, CF_CollectionInsertAtEventArgs.Cast(args));
+				return;
+			}
+			case CF_CollectionClearEventArgs:
+			{
+				OnModel_Children_Clear(_collection, CF_CollectionClearEventArgs.Cast(args));
+				return;
+			}
+			case CF_CollectionSetEventArgs:
+			{
+				OnModel_Children_Set(_collection, CF_CollectionSetEventArgs.Cast(args));
+				return;
+			}
+			case CF_CollectionRemoveEventArgs:
+			{
+				OnModel_Children_Remove(_collection, CF_CollectionRemoveEventArgs.Cast(args));
+				return;
+			}
+			case CF_CollectionSwapEventArgs:
+			{
+				OnModel_Children_Swap(_collection, CF_CollectionSwapEventArgs.Cast(args));
+				return;
+			}
 		}
 
 		OnModel_Children_InsertAll(_collection, args);
@@ -786,9 +813,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		args.Finished = finished;
 
 		string name;
-		if (WhatChanged(name, args.Changed))
+		if (WhatChanged(name, args.What))
 		{
-			NotifyPropertyChanged(args.Changed, name);
+			NotifyPropertyChanged(args.What, name);
 		}
 
 		if (Event_Change != string.Empty)
