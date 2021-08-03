@@ -165,17 +165,10 @@ class CF_ButtonWidget : CF_UIWidget
 		_ButtonWidget.SetTextProportion(_TextProportion.GetInt());
 	}
 
-	/*
-	 * @note Prevent input in OnMouseButtonDown by setting Continue to false.
-	 */
-	override bool OnChange(Widget w, int x, int y, bool finished)
+	override bool WhatChanged(out string name, out string variable)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnChange", "" + w);
-		#endif
-		
-		NotifyPropertyChanged(State, "State");
-		
-		return super.OnChange(w, x, y, finished);
+		name = "State";
+		variable = State;
+		return true;
 	}
 };

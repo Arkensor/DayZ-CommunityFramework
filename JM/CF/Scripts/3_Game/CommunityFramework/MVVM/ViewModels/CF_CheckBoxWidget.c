@@ -64,17 +64,10 @@ class CF_CheckBoxWidget : CF_UIWidget
 		_CheckBoxWidget.SetChecked(_Checked.GetBool());
 	}
 
-	/*
-	 * @note Prevent input in OnMouseButtonDown by setting Continue to false.
-	 */
-	override bool OnChange(Widget w, int x, int y, bool finished)
+	override bool WhatChanged(out string name, out string variable)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnChange", "" + w);
-		#endif
-		
-		NotifyPropertyChanged(Checked, "Checked");
-		
-		return super.OnChange(w, x, y, finished);
+		name = "Checked";
+		variable = Checked;
+		return true;
 	}
 };

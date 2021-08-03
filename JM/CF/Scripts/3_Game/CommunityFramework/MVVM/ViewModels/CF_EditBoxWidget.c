@@ -44,19 +44,10 @@ class CF_EditBoxWidget : CF_UIWidget
 		_EditBoxWidget.SetText(_Text.GetString());
 	}
 
-	override bool OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
+	override bool WhatChanged(out string name, out string variable)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnChange", args.ToStr());
-		#endif
-
-		if (!args.Continue)
-		{
-			_EditBoxWidget.SetText(_Text.GetString());
-		}
-
-		NotifyPropertyChanged(Text, "Text");
-
+		name = "Text";
+		variable = Text;
 		return true;
 	}
 };

@@ -76,20 +76,10 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		OnView_CarriagePosition(m_Model, args);
 	}
 
-	override bool OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
+	override bool WhatChanged(out string name, out string variable)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnChange", args.ToStr());
-		#endif
-
-		if (!args.Continue)
-		{
-		//	_MultilineEditBoxWidget.SetText(_Text);
-		}
-
-		//_MultilineEditBoxWidget.GetText(_Text);
-		NotifyPropertyChanged(Text, "Text");
-
+		name = "Text";
+		variable = Text;
 		return true;
 	}
 };

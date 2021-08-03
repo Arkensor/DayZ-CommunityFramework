@@ -391,6 +391,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Log.Error("Function not implemented");
 	}
 
+	bool WhatChanged(out string name, out string variable)
+	{
+		return false;
+	}
+
 	/**
 	 * @section	Events
 	 * 
@@ -779,6 +784,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		args.X = x;
 		args.Y = y;
 		args.Finished = finished;
+
+		string name;
+		if (WhatChanged(name, args.Changed))
+		{
+			NotifyPropertyChanged(args.Changed, name);
+		}
 
 		if (Event_Change != string.Empty)
 		{
