@@ -100,28 +100,6 @@ class CF_MVVM_Linker
 		m_Root._RecursiveSetModel(model, this);
 
 		typename modelType = model.Type();
-						
-		map<string, ref CF_TypeConverter> propertyTypeMap;
-		if (!CF_MVVM.s_PropertyMap.Find(modelType, propertyTypeMap))
-		{
-			propertyTypeMap = new map<string, ref CF_TypeConverter>();
-			CF_MVVM.s_PropertyMap.Insert(modelType, propertyTypeMap);
-		}
-		else
-		{
-		//! Workbench editing
-    	#ifdef COMPONENT_SYSTEM
-			propertyTypeMap.Clear();
-		#else
-			for (int j = 0; j < m_Properties.Count(); j++)
-			{
-				m_Properties[j].Link(model);
-			}
-
-			return;
-		#endif
-		}
-
 		int count = modelType.GetVariableCount();
 		for (int i = 0; i < count; i++)
 		{
@@ -136,13 +114,11 @@ class CF_MVVM_Linker
 			CF_TArrayProperties properties;
 			if (!m_PropertyVariableMap.Find(variableName, properties)) continue;
 			
-			// Must be inserted before Link
-			propertyTypeMap.Insert(variableName, CF_TypeConverters.Create(variableType));
+			auto typeConverter = CF_TypeConverters.Create(variableType);
 
 			foreach (auto property : properties)
 			{
-				property.SetType(variableType);
-				property.Link(model);
+				property.Link(model, variableType, typeConverter);
 			}
 		}
 	}

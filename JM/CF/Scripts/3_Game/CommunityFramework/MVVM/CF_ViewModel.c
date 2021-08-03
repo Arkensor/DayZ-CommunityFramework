@@ -110,6 +110,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, "" + temp);
 		
 		auto property = m_PropertiesSourceMap[source];
+		if (!property) return;
 		property.OnView(temp);
 
 		m_Properties._ViewChanged(name, property, temp);

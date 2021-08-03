@@ -2,9 +2,8 @@ static autoptr CF_MVVM g_CF_MVVM = null;
 
 class CF_MVVM
 {
+	//TODO: maybe change from 'CF_ModelBase' to typename + an ID of sorts (maybe casting to int)
 	private static ref map<CF_ModelBase, ref CF_MVVM_Linker> s_ModelMap;
-
-	static ref map<typename, ref map<string, ref CF_TypeConverter>> s_PropertyMap;
 
     #ifdef COMPONENT_SYSTEM
 	static bool WB_NEXT_IN_SCRIPT = false;
@@ -21,8 +20,6 @@ class CF_MVVM
 		if (g_CF_MVVM) return;
 
 		s_ModelMap = new map<CF_ModelBase, ref CF_MVVM_Linker>();
-		
-		s_PropertyMap = new map<typename, ref map<string, ref CF_TypeConverter>>();
 
 		CF_Log.Set(0x001111);
 		
@@ -37,8 +34,6 @@ class CF_MVVM
 	static void _Cleanup()
 	{
 		s_ModelMap = null;
-		
-		s_PropertyMap = null;
 
 		g_CF_MVVM = null;
 	}
@@ -227,22 +222,6 @@ class CF_MVVM
 		link.Link(view, model);
 
 		return link;
-	}
-
-	static CF_TypeConverter GetPropertyType(CF_ModelBase model, string property)
-	{
-		CF_Trace trace(g_CF_MVVM, "GetPropertyType", "" + model, "" + property);
-
-		typename type = model.Type();
-
-		map<string, ref CF_TypeConverter> propertyTypeMap;
-		if (!s_PropertyMap.Find(type, propertyTypeMap)) 
-		{
-			CF_Log.Error("Property wasn't added to property map...");
-			return null;
-		}
-		
-		return propertyTypeMap.Get(property);
 	}
 
 	static void Destroy(CF_ModelBase model)
