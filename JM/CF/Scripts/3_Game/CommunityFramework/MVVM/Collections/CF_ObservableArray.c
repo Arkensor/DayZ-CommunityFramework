@@ -68,7 +68,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	Destroyes all elements of the array and sets the Count to 0.
 	The underlying memory of the array is not freed.
 	*/
-	void Clear()
+	override void Clear()
 	{
 		m_Data.Clear();
 

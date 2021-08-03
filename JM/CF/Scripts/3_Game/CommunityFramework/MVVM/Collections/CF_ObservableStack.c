@@ -96,7 +96,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 		return arr;
 	}
 
-	void Clear()
+	override void Clear()
 	{
 		m_Count = 0;
 

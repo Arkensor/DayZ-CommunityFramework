@@ -143,7 +143,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		Set(key, value);
 	}
 
-	void Clear()
+	override void Clear()
 	{
 		NotifyCollectionChanged(new CF_CollectionClearEventArgs());
 

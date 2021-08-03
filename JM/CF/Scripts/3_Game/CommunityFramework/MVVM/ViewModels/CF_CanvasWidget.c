@@ -13,7 +13,7 @@ class CF_CanvasWidget : CF_Widget
 	reference string Lines;
 
 	protected CanvasWidget _CanvasWidget;
-	protected ref CF_ObservableCollection _Lines;
+	protected CF_ObservableCollection _Lines;
 
 	override void GetProperties()
 	{
@@ -41,8 +41,6 @@ class CF_CanvasWidget : CF_Widget
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Lines", "" + sender, args.ToStr());
 		#endif
-		
-		EnScript.SetClassVar(m_Model, Lines, 0, _Lines);
 	}
 
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
@@ -51,14 +49,12 @@ class CF_CanvasWidget : CF_Widget
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Lines", "" + sender, args.ToStr());
 		#endif
-		
-		EnScript.GetClassVar(m_Model, Lines, 0, _Lines);
 
 		_CanvasWidget.Clear();
 		for (int i = 0; i < _Lines.Count(); i++)
 		{
 			CF_CanvasLine line;
-			if (!Class.CastTo(line, _Lines.GetConverter(i).GetClass())) break;
+			if (!Class.CastTo(line, _Lines.GetClass(i))) break;
 			_CanvasWidget.DrawLine(line.x1, line.y1, line.x2, line.y2, line.width, line.color);
 		}
 	}
