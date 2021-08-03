@@ -165,19 +165,17 @@ class CF_ButtonWidget : CF_UIWidget
 		_ButtonWidget.SetTextProportion(_TextProportion.GetInt());
 	}
 
-	override bool OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
+	/*
+	 * @note Prevent input in OnMouseButtonDown by setting Continue to false.
+	 */
+	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnChange", args.ToStr());
+		CF_Trace trace(this, "OnChange", "" + w);
 		#endif
-
-		if (!args.Continue)
-		{
-			_ButtonWidget.SetState(false);
-		}
-
+		
 		NotifyPropertyChanged(State, "State");
-
-		return true;
+		
+		return super.OnChange(w, x, y, finished);
 	}
 };
