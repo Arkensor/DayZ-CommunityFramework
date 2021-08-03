@@ -36,7 +36,6 @@ class CF_XComboBoxWidget : CF_UIWidget
 		#endif
 
 		_Selected.SetFloat(_XComboBoxWidget.GetCurrentItem());
-		_Selected.ToVariable(m_Model, Selected);
 	}
 
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
@@ -45,7 +44,6 @@ class CF_XComboBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
 		#endif
 
-		_Selected.FromVariable(m_Model, Selected);
 		_XComboBoxWidget.SetCurrentItem(_Selected.GetFloat());
 	}
 

@@ -92,7 +92,6 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
 		#endif
 
-		_Text.FromVariable(m_Model, Text);
 		_TextWidget.SetText(_Text.GetString());
 	}
 

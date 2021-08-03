@@ -33,7 +33,6 @@ class CF_EditBoxWidget : CF_UIWidget
 		#endif
 		
 		_Text.SetString(_EditBoxWidget.GetText());
-		_Text.ToVariable(m_Model, Text);
 	}
 
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
@@ -42,7 +41,6 @@ class CF_EditBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
 		#endif
 		
-		_Text.FromVariable(m_Model, Text);
 		_EditBoxWidget.SetText(_Text.GetString());
 	}
 

@@ -45,7 +45,6 @@ class CF_ImageWidget : CF_Widget
 		#endif
 		
 		_Index.SetInt(_ImageWidget.GetImage());
-		_Index.ToVariable(m_Model, Index);
 	}
 
 	void OnModel_Index(CF_ModelBase sender, CF_EventArgs args)
@@ -54,7 +53,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_Index", "" + sender, args.ToStr());
 		#endif
 		
-		_Index.FromVariable(m_Model, Index);
 		_ImageWidget.SetImage(_Index.GetInt());
 	}
 
@@ -64,7 +62,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnView_File", "" + sender, args.ToStr());
 		#endif
 		
-		_File.ToVariable(m_Model, File);
 	}
 
 	void OnModel_File(CF_ModelBase sender, CF_EventArgs args)
@@ -73,7 +70,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_File", "" + sender, args.ToStr());
 		#endif
 		
-		_File.FromVariable(m_Model, File);
 		_ImageWidget.LoadImageFile(_Index.GetInt(), _File.GetString());
 	}
 
@@ -83,7 +79,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnView_MaskFile", "" + sender, args.ToStr());
 		#endif
 		
-		_MaskFile.ToVariable(m_Model, MaskFile);
 	}
 
 	void OnModel_MaskFile(CF_ModelBase sender, CF_EventArgs args)
@@ -92,7 +87,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_MaskFile", "" + sender, args.ToStr());
 		#endif
 		
-		_MaskFile.FromVariable(m_Model, MaskFile);
 		_ImageWidget.LoadMaskTexture(_MaskFile.GetString());
 	}
 
@@ -103,7 +97,6 @@ class CF_ImageWidget : CF_Widget
 		#endif
 		
 		_MaskProgress.SetFloat(_ImageWidget.GetMaskProgress());
-		_MaskProgress.ToVariable(m_Model, MaskProgress);
 	}
 
 	void OnModel_MaskProgress(CF_ModelBase sender, CF_EventArgs args)
@@ -112,7 +105,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_MaskProgress", "" + sender, args.ToStr());
 		#endif
 		
-		_MaskProgress.FromVariable(m_Model, MaskProgress);
 		_ImageWidget.SetMaskProgress(_MaskProgress.GetFloat());
 	}
 
@@ -123,7 +115,6 @@ class CF_ImageWidget : CF_Widget
 		#endif
 		
 		_MaskTransitionWidth.SetFloat(_ImageWidget.GetMaskTransitionWidth());
-		_MaskTransitionWidth.ToVariable(m_Model, MaskTransitionWidth);
 	}
 
 	void OnModel_MaskTransitionWidth(CF_ModelBase sender, CF_EventArgs args)
@@ -132,7 +123,6 @@ class CF_ImageWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_MaskTransitionWidth", "" + sender, args.ToStr());
 		#endif
 		
-		_MaskTransitionWidth.FromVariable(m_Model, MaskTransitionWidth);
 		_ImageWidget.SetMaskTransitionWidth(_MaskTransitionWidth.GetFloat());
 	}
 };

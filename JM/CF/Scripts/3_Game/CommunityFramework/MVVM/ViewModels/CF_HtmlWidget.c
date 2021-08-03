@@ -32,7 +32,6 @@ class CF_HtmlWidget : CF_TextWidget
 		CF_Trace trace(this, "OnView_File", "" + sender, args.ToStr());
 		#endif
 		
-		_File.ToVariable(m_Model, File);
 	}
 
 	void OnModel_File(CF_ModelBase sender, CF_EventArgs args)
@@ -41,7 +40,6 @@ class CF_HtmlWidget : CF_TextWidget
 		CF_Trace trace(this, "OnModel_File", "" + sender, args.ToStr());
 		#endif
 		
-		_File.FromVariable(m_Model, File);
 		_HtmlWidget.LoadFile(_File.GetString());
 	}
 };

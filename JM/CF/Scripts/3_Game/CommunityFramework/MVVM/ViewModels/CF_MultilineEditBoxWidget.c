@@ -38,7 +38,6 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		string value;
 		_MultilineEditBoxWidget.GetText(value);
 		_Text.SetString(value);
-		_Text.ToVariable(m_Model, Text);
 	}
 
 	void OnView_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
@@ -48,7 +47,6 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		#endif
 
 		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
-		_CarriageLine.ToVariable(m_Model, CarriageLine);
 	}
 
 	void OnModel_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
@@ -67,7 +65,6 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 		#endif
 
 		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
-		_CarriagePosition.ToVariable(m_Model, CarriagePosition);
 	}
 
 	void OnModel_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)

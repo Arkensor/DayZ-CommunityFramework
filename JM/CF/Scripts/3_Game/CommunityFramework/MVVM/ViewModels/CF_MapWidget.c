@@ -74,7 +74,6 @@ class CF_MapWidget : CF_BaseListboxWidget
 		#endif
 
 		_Position.SetVector(_MapWidget.GetMapPos());
-		_Position.ToVariable(m_Model, Position);
 	}
 
 	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
@@ -83,7 +82,6 @@ class CF_MapWidget : CF_BaseListboxWidget
 		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
 		#endif
 		
-		_Position.FromVariable(m_Model, Position);
 		_MapWidget.SetMapPos(_Position.GetVector());
 	}
 	
@@ -94,7 +92,6 @@ class CF_MapWidget : CF_BaseListboxWidget
 		#endif
 		
 		_Scale.SetFloat(_MapWidget.GetScale());
-		_Scale.ToVariable(m_Model, Scale);
 	}
 
 	void OnModel_Scale(CF_ModelBase sender, CF_EventArgs args)
@@ -103,7 +100,6 @@ class CF_MapWidget : CF_BaseListboxWidget
 		CF_Trace trace(this, "OnModel_Scale", "" + sender, args.ToStr());
 		#endif
 		
-		_Scale.FromVariable(m_Model, Scale);
 		_MapWidget.SetScale(_Scale.GetFloat());
 	}
 };

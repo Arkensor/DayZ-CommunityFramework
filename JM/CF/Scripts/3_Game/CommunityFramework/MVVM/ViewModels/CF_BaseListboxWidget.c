@@ -36,7 +36,6 @@ class CF_BaseListboxWidget : CF_UIWidget
 		#endif
 		
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
-		_NumberItems.ToVariable(m_Model, NumberItems);
 	}
 
 	void OnModel_NumberItems(CF_ModelBase sender, CF_EventArgs args)
@@ -55,7 +54,6 @@ class CF_BaseListboxWidget : CF_UIWidget
 		#endif
 		
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
-		_Selected.ToVariable(m_Model, Selected);
 	}
 
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
@@ -64,7 +62,6 @@ class CF_BaseListboxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
 		#endif
 		
-		_Selected.FromVariable(m_Model, Selected);
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());
 	}
 };

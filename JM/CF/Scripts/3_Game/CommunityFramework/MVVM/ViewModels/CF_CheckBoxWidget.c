@@ -35,7 +35,6 @@ class CF_CheckBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
 		#endif
 		
-		_Text.ToVariable(m_Model, Text);
 	}
 
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
@@ -44,7 +43,6 @@ class CF_CheckBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
 		#endif
 		
-		_Text.FromVariable(m_Model, Text);
 		_CheckBoxWidget.SetText(_Text.GetString());
 	}
 
@@ -55,7 +53,6 @@ class CF_CheckBoxWidget : CF_UIWidget
 		#endif
 		
 		_Checked.SetBool(_CheckBoxWidget.IsChecked());
-		_Checked.ToVariable(m_Model, Checked);
 	}
 
 	void OnModel_Checked(CF_ModelBase sender, CF_EventArgs args)
@@ -64,7 +61,6 @@ class CF_CheckBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnModel_Checked", "" + sender, args.ToStr());
 		#endif
 		
-		_Checked.FromVariable(m_Model, Checked);
 		_CheckBoxWidget.SetChecked(_Checked.GetBool());
 	}
 

@@ -51,7 +51,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		return m_Name;
 	}
 
-	string ToStr()
+	override string ToStr()
 	{
 		string str = "[" + ClassName() + "] ";
 		str += "Name=" + m_Name;

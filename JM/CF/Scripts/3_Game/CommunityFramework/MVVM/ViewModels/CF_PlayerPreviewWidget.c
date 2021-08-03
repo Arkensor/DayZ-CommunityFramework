@@ -42,7 +42,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		#endif
 
 		_Player.SetClass(_PlayerPreviewWidget.GetDummyPlayer());
-		_Player.ToVariable(m_Model, Player);
 	}
 
 	void OnModel_Player(CF_ModelBase sender, CF_EventArgs args)
@@ -51,7 +50,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_Player", "" + sender, args.ToStr());
 		#endif
 
-		_Player.FromVariable(m_Model, Player);
 		_PlayerPreviewWidget.SetPlayer(DayZPlayer.Cast(_Player.GetClass()));
 	}
 
@@ -69,7 +67,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_HandItem", "" + sender, args.ToStr());
 		#endif
 
-		_HandItem.FromVariable(m_Model, HandItem);
 		_PlayerPreviewWidget.UpdateItemInHands(EntityAI.Cast(_HandItem.GetClass()));
 	}
 
@@ -80,7 +77,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		#endif
 		
 		_Orientation.SetVector(_PlayerPreviewWidget.GetModelOrientation());
-		_Orientation.ToVariable(m_Model, Orientation);
 	}
 
 	void OnModel_Orientation(CF_ModelBase sender, CF_EventArgs args)
@@ -89,7 +85,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_Orientation", "" + sender, args.ToStr());
 		#endif
 		
-		_Orientation.FromVariable(m_Model, Orientation);
 		_PlayerPreviewWidget.SetModelOrientation(_Orientation.GetVector());
 	}
 
@@ -100,7 +95,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		#endif
 		
 		_Position.SetVector(_PlayerPreviewWidget.GetModelPosition());
-		_Position.ToVariable(m_Model, Position);
 	}
 
 	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
@@ -109,7 +103,6 @@ class CF_PlayerPreviewWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
 		#endif
 		
-		_Position.FromVariable(m_Model, Position);
 		_PlayerPreviewWidget.SetModelPosition(_Position.GetVector());
 	}
 };
