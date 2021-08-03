@@ -138,7 +138,7 @@ class CF_MVVM
 		CF_MVVM.WB_NEXT_IN_SCRIPT = true;
 		#endif
 
-		Widget widget = GetGame().GetWorkspace().CreateWidgets(layout, parent);
+		Widget widget = wSpace.CreateWidgets(layout, parent);
 		if (!widget) return null;
 
 		CF_ViewModel view;
