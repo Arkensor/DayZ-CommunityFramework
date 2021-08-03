@@ -25,9 +25,9 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_MVVM.Create(model, layout);
 		if (args.Index == sender.Count()) return;
 
-		CF_ViewModel view = CF_MVVM._GetLink(model).m_View;
-
-		Widget widget = view.GetWidget();
+		Widget widget = CF_MVVM.GetPropertyCollection(model).GetWidget();
+		if (!widget) return;
+		
 		Widget append = GetChildWidgetAt(args.Index);
 		_SpacerBaseWidget.AddChildAfter(widget, append);
 	}
@@ -46,9 +46,9 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		
 		CF_MVVM.Create(model, layout);
 
-		CF_ViewModel view = CF_MVVM._GetLink(model).m_View;
+		Widget widget = CF_MVVM.GetPropertyCollection(model).GetWidget();
+		if (!widget) return;
 
-		Widget widget = view.GetWidget();
 		Widget append = GetChildWidgetAt(args.Index);
 		_SpacerBaseWidget.AddChildAfter(widget, append);
 		_SpacerBaseWidget.RemoveChild(append);

@@ -47,9 +47,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	protected CF_ViewModel m_Parent = null;
 	protected ref set<CF_ViewModel> m_Children = new set<CF_ViewModel>();
 
-	protected ref CF_MVVM_SourceProperties m_Properties = new CF_MVVM_SourceProperties();
-
-	protected CF_MVVM_Properties m_TempProperties;
+	protected autoptr map<string, ref CF_MVVM_Property> m_PropertiesSourceMap = new map<string, ref CF_MVVM_Property>();
+	protected ref CF_MVVM_Linker m_Properties;
 	
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -109,25 +108,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		if (temp == null) temp = new CF_EventArgs();
 
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, "" + temp);
-
-		if (name == string.Empty) return;
-
-		CF_Map<string, ref CF_MVVM_Property> propertyList;
-		if (!m_Properties.Find(name, propertyList)) return;
-
-		CF_MVVM_Property property;
-		if (!propertyList.Find(source, property)) return;
-
+		
+		auto property = m_PropertiesSourceMap[source];
 		property.OnView(temp);
 
-		//TODO: store CF_MVVM_Link as variable within CF_ViewModel
-
-		CF_MVVM.NotifyPropertyChanged(m_Model, name, args);
-
-		//for (int i = 0; i < propertyList.Count(); i++)
-		//{
-		//	propertyList.GetElement(i).OnModel(temp);
-		//}
+		m_Properties._ViewChanged(name, property, temp);
 	}
 
 	void NotifyPropertyChanged(CF_EventArgs args = null)
@@ -137,46 +122,26 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + temp.ToStr());
 
-		for (int i = 0; i < m_Properties.Count(); i++)
-		{
-			//foreach (auto property : m_Properties.GetElement(i))
-			{
-			//	property.OnView(temp);
-			}
-		}
+		m_Properties._ViewChanged(temp);
 	}
 
-	void SetModel(CF_ModelBase model)
+	void _RecursiveSetModel(CF_ModelBase model, CF_MVVM_Linker properties)
 	{
-		CF_Trace trace(this, "SetModel", "" + model);
-
-		CF_Map<string, ref array<ref CF_MVVM_Property>> allProps = new CF_Map<string, ref array<ref CF_MVVM_Property>>();
-
-		_SetModel(model, allProps);
-
-		CF_MVVM._LoadPropertyTypes(m_Model, this, allProps);
-	}
-
-	void _SetModel(CF_ModelBase model, CF_MVVM_Properties allProps)
-	{
-		CF_Trace trace(this, "_SetModel", "" + model);
+		CF_Trace trace(this, "_RecursiveSetModel", "" + model);
 
 		m_Model = model;
+		m_Properties = properties;
 
 		if (m_Model)
 		{
-			m_Widget.SetUserData(model);
-
-			m_TempProperties = allProps;
+			m_Widget.SetUserData(m_Model);
 
 			GetProperties();
-
-			m_TempProperties = null;
 
 			set<CF_ViewModel> children = GetChildren();
 			for (int i = 0; i < children.Count(); i++)
 			{
-				children[i]._SetModel(model, allProps);
+				children[i]._RecursiveSetModel(m_Model, m_Properties);
 			}
 		}
 	}
@@ -188,18 +153,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		AddProperty(Children, "Children");
 	}
 	
-	protected void AddProperty(string actual, string name)
+	protected void AddProperty(inout string actual, string name)
 	{
 		CF_Trace trace(this, "AddProperty", "Actual=" + actual + " Name=" + name);
 		
 		if (actual == string.Empty) return;
+
 		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
-		string variableName = property.SetVariableName(actual);
-
-		EnScript.SetClassVar(this, name, 0, variableName);
-
-		CF_MVVM.AddProperty(m_TempProperties, variableName, property);
-		CF_MVVM.AddSourceProperty(m_Properties, variableName, name, property);
+		actual = property.SetVariableName(actual);
+		
+		m_PropertiesSourceMap.Insert(name, property);
+		m_Properties.Insert(property);
 	}
 
 	Widget GetChildWidgetAt(int index)

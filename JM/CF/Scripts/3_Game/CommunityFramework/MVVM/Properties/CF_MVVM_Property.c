@@ -63,6 +63,27 @@ class CF_MVVM_Property
 		return m_Name;
 	}
 
+	string ToStr()
+	{
+		string str = "[" + ClassName() + "] ";
+		str += "Type=" + m_Type;
+		str += ", ";
+		str += "Name=" + m_Name;
+		str += ", ";
+		str += "VariableName=" + m_VariableName;
+		str += ", ";
+		str += "IsCollection=" + m_IsCollection;
+		str += ", ";
+		str += "Collection=" + m_Collection;
+		str += ", ";
+		str += "Model=" + m_Model;
+		str += ", ";
+		str += "ViewModel=" + m_ViewModel;
+		str += ", ";
+		str += "TypeConverterType=" + m_TypeConverterType;
+		return str;
+	}
+
 	void Link(CF_ModelBase model)
 	{
 		CF_Trace trace(this, "Assign", "" + model);
@@ -98,11 +119,15 @@ class CF_MVVM_Property
 		}
 
 		EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, typeConverter);
+
+		OnModel(new CF_EventArgs());
 	}
 	
 	void OnView(/*notnull*/ CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnView", evt.ToStr());
+
+		Print(ToStr());
 
 		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt);
 		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, param);
@@ -111,6 +136,8 @@ class CF_MVVM_Property
 	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		CF_Trace trace(this, "OnModel", evt.ToStr());
+
+		Print(ToStr());
 
 		CF_EventArgs eventOverride = evt;
 

@@ -24,14 +24,17 @@ class CF_FrameWidget : CF_Widget
 		OnUpdateSubViewModel();
 	}
 
-	protected void AddSubProperty(string actual, string name)
+	protected void AddSubProperty(inout string actual, string name)
 	{
 		CF_Trace trace(this, "AddSubProperty", "Actual=" + actual + " Name=" + name);
 		
 		if (actual == string.Empty) return;
 		CF_MVVM_SubProperty property = new CF_MVVM_SubProperty(this, name);
+		actual = property.SetVariableName(actual);
+
 		_SubProperties.Insert(property);
-		CF_MVVM.AddSourceProperty(m_Properties, actual, name, property);
+		m_PropertiesSourceMap.Insert(name, property);
+		m_Properties.Insert(property);
 	}
 
 	override void OnWidgetScriptInit(Widget w)
