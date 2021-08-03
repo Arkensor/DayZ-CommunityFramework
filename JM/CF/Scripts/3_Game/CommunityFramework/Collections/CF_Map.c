@@ -12,7 +12,9 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 		#endif
 
 		typename t = TValue;
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, string.Format("CF_Map<%1>", "" + t));
+		#endif
 
 		m_Converter = CF_TypeConverters.Create(t);
 
@@ -33,7 +35,9 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 
 	override CF_TypeConverter GetConverter(int index)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetConverter", "" + index);
+		#endif
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Values[index]);
 		return m_Converter;
@@ -65,13 +69,17 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 
 	TValue GetElement(int index)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetElement", "" + index);
+		#endif
 		return m_Values[index];
 	}
 
 	TKey GetKey(int i)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetKey", "" + i);
+		#endif
 		return m_Keys[i];
 	}
 
@@ -119,7 +127,9 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 
 	void Insert(TKey key, TValue value)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "Insert", "" + key, "" + value);
+		#endif
 		
 		Set(key, value);
 	}

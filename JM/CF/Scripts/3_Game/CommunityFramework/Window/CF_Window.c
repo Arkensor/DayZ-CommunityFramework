@@ -39,7 +39,9 @@ class CF_Window : CF_Model
 
 	void SetTitle(string title)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "SetTitle", "" + title);
+		#endif
 		
 		m_Title = title;
 
@@ -48,7 +50,9 @@ class CF_Window : CF_Model
 
 	void SetModel(CF_ModelBase model)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "SetModel", "" + model);
+		#endif
 		
 		if (model != m_Model)
 		{
@@ -65,7 +69,9 @@ class CF_Window : CF_Model
 
 	void SetPosition(float x, float y)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "SetPosition", "" + x, "" + y);
+		#endif
 		
 		m_PositionX = x;
 		m_PositionY = y;
@@ -78,7 +84,9 @@ class CF_Window : CF_Model
 
 	void SetSize(float x, float y)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "SetSize", "" + x, "" + y);
+		#endif
 		
 		m_Width = x;
 		m_Height = y;
@@ -93,21 +101,27 @@ class CF_Window : CF_Model
 
 	void OnCloseButtonClicked(CF_MouseEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
+		#endif
 		
 		CF_Windows.Destroy(m_Handle);
 	}
 
 	void OnMouseButtonDown(CF_MouseEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnMouseButtonDown", evt.ToStr());
+		#endif
 		
 		CF_Windows.Focus(m_Handle);
 	}
 
 	void OnDrag(CF_DragEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnDrag", evt.ToStr());
+		#endif
 		
 		m_DragOffsetX = evt.X - m_PositionX;
 		m_DragOffsetY = evt.Y - m_PositionY;
@@ -118,21 +132,27 @@ class CF_Window : CF_Model
 
 	void OnDragging(CF_DragEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnDragging", evt.ToStr());
+		#endif
 		
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
 	void OnDrop(CF_DragEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnDrop", evt.ToStr());
+		#endif
 		
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
 	void OnUpdate(CF_ViewEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnUpdate", evt.ToStr());
+		#endif
 		
 		int newSort = CF_Windows.ZIndex(m_Handle);
 		if (m_Sort != newSort)

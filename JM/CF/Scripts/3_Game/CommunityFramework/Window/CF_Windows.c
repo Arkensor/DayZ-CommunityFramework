@@ -37,7 +37,9 @@ class CF_Windows
 	[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "_Cleanup");
+		#endif
 		
 		s_Windows = null;
 		s_Z = null;
@@ -68,7 +70,9 @@ class CF_Windows
 	 */
 	static void Handle(inout CF_WindowHandle handle)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "Handle", CF_WindowHandleToString(handle));
+		#endif
 		
 		if (handle != 0) return;
 
@@ -83,7 +87,9 @@ class CF_Windows
 	 */
 	static bool Retrieve(CF_WindowHandle handle)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "Retrieve", CF_WindowHandleToString(handle));
+		#endif
 		
 		if (s_Windows.Contains(handle)) return false;
 
@@ -102,7 +108,9 @@ class CF_Windows
 	 */
 	static bool Retrieve(CF_WindowHandle handle, out CF_Window window)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "Retrieve", CF_WindowHandleToString(handle));
+		#endif
 		
 		if (s_Windows.Find(handle, window)) return false;
 
@@ -120,7 +128,9 @@ class CF_Windows
 	 */
 	static void Destroy(CF_WindowHandle handle)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "Destroy", CF_WindowHandleToString(handle));
+		#endif
 		
 		CF_Window window;
 		if (!s_Windows.Find(handle, window)) return;
@@ -136,7 +146,9 @@ class CF_Windows
 	 */
 	static void Focus(CF_WindowHandle handle)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "Focus", CF_WindowHandleToString(handle));
+		#endif
 		
 		int z = s_Z.Find(handle);
 		if (z <= 0) return;
@@ -150,7 +162,9 @@ class CF_Windows
 	 */
 	static int ZIndex(CF_WindowHandle handle)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_Windows, "ZIndex", CF_WindowHandleToString(handle));
+		#endif
 		
 		return s_Z.Find(handle);
 	}

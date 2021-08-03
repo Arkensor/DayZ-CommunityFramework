@@ -25,7 +25,9 @@ class CF_UIWidget : CF_Widget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -43,7 +45,9 @@ class CF_UIWidget : CF_Widget
 	
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_UIWidget, w);
@@ -51,14 +55,18 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextColor(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextColor", "" + sender, args.ToStr());
+		#endif
 
 		OnModel_TextColor(sender, args);
 	}
 
 	void OnModel_TextColor(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextColor", "" + sender, args.ToStr());
+		#endif
 
 		_TextColor.FromVariable(m_Model, TextColor);
 		_UIWidget.SetTextColor(_TextColor.GetInt());
@@ -66,7 +74,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextOutlineSize(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextOutlineSize", "" + sender, args.ToStr());
+		#endif
 
 		_TextOutlineSize.SetFloat(_UIWidget.GetTextOutlineSize());
 		_TextOutlineSize.ToVariable(m_Model, TextOutlineSize);
@@ -74,7 +84,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextOutlineSize(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextOutlineSize", "" + sender, args.ToStr());
+		#endif
 
 		_TextOutlineSize.FromVariable(m_Model, TextOutlineSize);
 		_UIWidget.SetTextOutline(_TextOutlineSize.GetFloat(), _UIWidget.GetTextOutlineColor());
@@ -82,7 +94,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextOutlineColor(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextOutlineColor", "" + sender, args.ToStr());
+		#endif
 
 		_TextOutlineColor.SetFloat(_UIWidget.GetTextOutlineColor());
 		_TextOutlineColor.ToVariable(m_Model, TextOutlineColor);
@@ -90,7 +104,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextOutlineColor(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextOutlineColor", "" + sender, args.ToStr());
+		#endif
 
 		_TextOutlineColor.FromVariable(m_Model, TextOutlineColor);
 		_UIWidget.SetTextOutline(_UIWidget.GetTextOutlineSize(), _TextOutlineColor.GetFloat());
@@ -98,7 +114,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowSize(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextShadowSize", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowSize.SetFloat(_UIWidget.GetTextShadowSize());
 		_TextShadowSize.ToVariable(m_Model, TextShadowSize);
@@ -106,7 +124,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowSize(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextShadowSize", "" + sender, args.ToStr());
+		#endif
 		
 		_TextShadowSize.FromVariable(m_Model, TextShadowSize);
 		_UIWidget.SetTextShadow(_TextShadowSize.GetFloat(), _UIWidget.GetTextShadowColor(), _UIWidget.GetTextShadowOpacity(), _UIWidget.GetTextShadowOffsetX(), _UIWidget.GetTextShadowOffsetY());
@@ -114,7 +134,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowColor(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextShadowColor", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowColor.SetFloat(_UIWidget.GetTextShadowColor());
 		_TextShadowColor.ToVariable(m_Model, TextShadowColor);
@@ -122,7 +144,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowColor(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextShadowColor", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowColor.FromVariable(m_Model, TextShadowColor);		
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _TextShadowColor.GetFloat(), _UIWidget.GetTextShadowOpacity(), _UIWidget.GetTextShadowOffsetX(), _UIWidget.GetTextShadowOffsetY());
@@ -130,7 +154,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowOpacity(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextShadowOpacity", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowOpacity.SetFloat(_UIWidget.GetTextShadowOpacity());
 		_TextShadowOpacity.ToVariable(m_Model, TextShadowOpacity);
@@ -138,7 +164,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowOpacity(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextShadowOpacity", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowOpacity.FromVariable(m_Model, TextShadowOpacity);		
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _UIWidget.GetTextShadowColor(), _TextShadowOpacity.GetFloat(), _UIWidget.GetTextShadowOffsetX(), _UIWidget.GetTextShadowOffsetY());
@@ -146,7 +174,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextShadowOffsetX", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowOffsetX.SetFloat(_UIWidget.GetTextShadowOffsetX());
 		_TextShadowOffsetX.ToVariable(m_Model, TextShadowOffsetX);
@@ -154,7 +184,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextShadowOffsetX", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowOffsetX.FromVariable(m_Model, TextShadowOffsetX);		
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _UIWidget.GetTextShadowColor(), _UIWidget.GetTextShadowOpacity(), _TextShadowOffsetX.GetFloat(), _UIWidget.GetTextShadowOffsetY());
@@ -162,7 +194,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextShadowOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextShadowOffsetY", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowOffsetY.SetFloat(_UIWidget.GetTextShadowOffsetY());
 		_TextShadowOffsetY.ToVariable(m_Model, TextShadowOffsetY);
@@ -170,7 +204,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextShadowOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextShadowOffsetY", "" + sender, args.ToStr());
+		#endif
 
 		_TextShadowOffsetY.FromVariable(m_Model, TextShadowOffsetY);		
 		_UIWidget.SetTextShadow(_UIWidget.GetTextShadowSize(), _UIWidget.GetTextShadowColor(), _UIWidget.GetTextShadowOpacity(), _UIWidget.GetTextShadowOffsetX(), _TextShadowOffsetY.GetFloat());
@@ -178,7 +214,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextItalic(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextItalic", "" + sender, args.ToStr());
+		#endif
 
 		_TextItalic.SetBool(_UIWidget.GetTextItalic());
 		_TextItalic.ToVariable(m_Model, TextItalic);
@@ -186,7 +224,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextItalic(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextItalic", "" + sender, args.ToStr());
+		#endif
 
 		_TextItalic.FromVariable(m_Model, TextItalic);
 		_UIWidget.SetTextItalic(_TextItalic.GetBool());
@@ -194,7 +234,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnView_TextBold(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_TextBold", "" + sender, args.ToStr());
+		#endif
 
 		_TextBold.SetBool(_UIWidget.GetTextBold());
 		_TextBold.ToVariable(m_Model, TextBold);
@@ -202,7 +244,9 @@ class CF_UIWidget : CF_Widget
 
 	void OnModel_TextBold(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_TextBold", "" + sender, args.ToStr());
+		#endif
 
 		_TextBold.FromVariable(m_Model, TextBold);
 		_UIWidget.SetTextBold(_TextBold.GetBool());

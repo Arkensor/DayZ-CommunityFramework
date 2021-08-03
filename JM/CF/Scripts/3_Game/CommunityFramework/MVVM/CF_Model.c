@@ -11,7 +11,9 @@ class CF_Model : Managed
 {
 	void ~CF_Model()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "~CF_Model");
+		#endif
 
 		#ifndef SERVER
 		CF_MVVM.Destroy(this);
@@ -20,7 +22,9 @@ class CF_Model : Managed
 
 	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
+		#endif
 		
 		CF_MVVM.NotifyPropertyChanged(this, property, evt);
 	}

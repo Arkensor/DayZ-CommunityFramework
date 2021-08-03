@@ -17,7 +17,9 @@ class CF_MVVM_Linker
 	 */
 	void _ViewChanged(string name, CF_MVVM_Property srcProperty, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "_ViewChanged", "" + name, "" + srcProperty, args.ToStr());
+		#endif
 
 		if (name == string.Empty) return;
 
@@ -36,7 +38,9 @@ class CF_MVVM_Linker
 	 */
 	void _ViewChanged(CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "_ViewChanged", args.ToStr());
+		#endif
 
 		for (int j = 0; j < m_PropertyVariableMap.Count(); j++)
 		{
@@ -51,7 +55,9 @@ class CF_MVVM_Linker
 
 	void NotifyPropertyChanged(string name, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "NotifyPropertyChanged", "" + name, args.ToStr());
+		#endif
 
 		if (name == string.Empty) return;
 
@@ -66,7 +72,9 @@ class CF_MVVM_Linker
 
 	void NotifyPropertyChanged(CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "NotifyPropertyChanged", args.ToStr());
+		#endif
 
 		for (int j = 0; j < m_PropertyVariableMap.Count(); j++)
 		{
@@ -94,7 +102,9 @@ class CF_MVVM_Linker
 
 	void Link(CF_ViewModel viewModel, CF_ModelBase model)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "Link", "" + viewModel, "" + model);
+		#endif
 
 		m_Root = viewModel;
 		m_Root._RecursiveSetModel(model, this);

@@ -14,7 +14,9 @@ class CF_MVVM_Property : CF_TypeConverter
 
 	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "CF_MVVM_Property", "" + handler, name);
+		#endif
 
 		m_ViewModel = handler;
 		m_Name = name;
@@ -22,7 +24,9 @@ class CF_MVVM_Property : CF_TypeConverter
 
 	string SetVariableName(string variableName)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "SetVariableName", "" + variableName);
+		#endif
 
 		int colonSeperator = variableName.IndexOf(":");
 		if (colonSeperator == -1)
@@ -68,7 +72,9 @@ class CF_MVVM_Property : CF_TypeConverter
 
 	void Link(CF_ModelBase model, typename variableType, CF_TypeConverter typeConverter)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "Assign", "" + model);
+		#endif
 
 		m_Model = model;
 
@@ -102,7 +108,9 @@ class CF_MVVM_Property : CF_TypeConverter
 	
 	void OnView(/*notnull*/ CF_EventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView", evt.ToStr());
+		#endif
 
 		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt);
 		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, param);
@@ -110,7 +118,9 @@ class CF_MVVM_Property : CF_TypeConverter
 
 	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel", evt.ToStr());
+		#endif
 
 		Print(ToStr());
 

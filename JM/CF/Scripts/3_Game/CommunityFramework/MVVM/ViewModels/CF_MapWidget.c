@@ -19,7 +19,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -30,7 +32,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_MapWidget, w);
@@ -38,14 +42,18 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnView_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_UserMarks", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.SetClassVar(m_Model, UserMarks, 0, _UserMarks);
 	}
 
 	void OnModel_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_UserMarks", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.GetClassVar(m_Model, UserMarks, 0, _UserMarks);
 
@@ -61,7 +69,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 	
 	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
+		#endif
 
 		_Position.SetVector(_MapWidget.GetMapPos());
 		_Position.ToVariable(m_Model, Position);
@@ -69,7 +79,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
+		#endif
 		
 		_Position.FromVariable(m_Model, Position);
 		_MapWidget.SetMapPos(_Position.GetVector());
@@ -77,7 +89,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 	
 	void OnView_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Scale", "" + sender, args.ToStr());
+		#endif
 		
 		_Scale.SetFloat(_MapWidget.GetScale());
 		_Scale.ToVariable(m_Model, Scale);
@@ -85,7 +99,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Scale", "" + sender, args.ToStr());
+		#endif
 		
 		_Scale.FromVariable(m_Model, Scale);
 		_MapWidget.SetScale(_Scale.GetFloat());

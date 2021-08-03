@@ -22,7 +22,9 @@ class CF_PriorityQueue<Class T> : CF_Collection
 
 	override CF_TypeConverter GetConverter(int index)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetConverter", "" + index);
+		#endif
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
 		return m_Converter;

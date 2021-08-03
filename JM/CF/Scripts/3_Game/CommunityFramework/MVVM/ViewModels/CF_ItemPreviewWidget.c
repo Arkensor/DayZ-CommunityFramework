@@ -17,7 +17,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -31,7 +33,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_ItemPreviewWidget, w);
@@ -39,7 +43,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Item(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Item", "" + sender, args.ToStr());
+		#endif
 		
 		_Item.SetClass(_ItemPreviewWidget.GetItem());
 		_Item.ToVariable(m_Model, Item);
@@ -47,7 +53,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Item(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Item", "" + sender, args.ToStr());
+		#endif
 		
 		_Item.FromVariable(m_Model, Item);
 		_ItemPreviewWidget.SetItem(EntityAI.Cast(_Item.GetClass()));
@@ -55,7 +63,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_View(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_View", "" + sender, args.ToStr());
+		#endif
 		
 		_View.SetInt(_ItemPreviewWidget.GetView());
 		_View.ToVariable(m_Model, View);
@@ -63,7 +73,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_View(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_View", "" + sender, args.ToStr());
+		#endif
 		
 		_View.FromVariable(m_Model, View);
 		_ItemPreviewWidget.SetView(_View.GetInt());
@@ -71,7 +83,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Orientation(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Orientation", "" + sender, args.ToStr());
+		#endif
 		
 		_Orientation.SetVector(_ItemPreviewWidget.GetModelOrientation());
 		_Orientation.ToVariable(m_Model, Orientation);
@@ -79,7 +93,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Orientation(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Orientation", "" + sender, args.ToStr());
+		#endif
 		
 		_Orientation.FromVariable(m_Model, Orientation);
 		_ItemPreviewWidget.SetModelOrientation(_Orientation.GetVector());
@@ -87,7 +103,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
+		#endif
 		
 		_Position.SetVector(_ItemPreviewWidget.GetModelPosition());
 		_Position.ToVariable(m_Model, Position);
@@ -95,7 +113,9 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
+		#endif
 		
 		_Position.FromVariable(m_Model, Position);
 		_ItemPreviewWidget.SetModelPosition(_Position.GetVector());
@@ -103,13 +123,17 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_ForceFlipEnable", "" + sender, args.ToStr());
+		#endif
 		
 	}
 
 	void OnModel_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ForceFlipEnable", "" + sender, args.ToStr());
+		#endif
 		
 		_ForceFlipEnable.FromVariable(m_Model, ForceFlipEnable);
 		_ItemPreviewWidget.SetForceFlipEnable(_ForceFlipEnable.GetBool());
@@ -117,13 +141,17 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ForceFlip(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_ForceFlip", "" + sender, args.ToStr());
+		#endif
 		
 	}
 
 	void OnModel_ForceFlip(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ForceFlip", "" + sender, args.ToStr());
+		#endif
 		
 		_ForceFlip.FromVariable(m_Model, ForceFlip);
 		_ItemPreviewWidget.SetForceFlip(_ForceFlip.GetBool());

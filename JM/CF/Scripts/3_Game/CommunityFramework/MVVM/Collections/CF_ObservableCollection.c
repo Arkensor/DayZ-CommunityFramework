@@ -9,7 +9,9 @@ class CF_ObservableCollection : CF_Collection
 		CF_MVVM._CheckInit();
 		#endif
 
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "Init", "" + model, prop);
+		#endif
 
 		m_Model = model;
 		m_Property = prop;
@@ -17,7 +19,9 @@ class CF_ObservableCollection : CF_Collection
 
 	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "NotifyCollectionChanged", evt.ToStr());
+		#endif
 
 		if (m_Model == null) return;
 

@@ -7,7 +7,9 @@ class CF_HtmlWidget : CF_TextWidget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -16,7 +18,9 @@ class CF_HtmlWidget : CF_TextWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_HtmlWidget, w);
@@ -24,14 +28,18 @@ class CF_HtmlWidget : CF_TextWidget
 
 	void OnView_File(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_File", "" + sender, args.ToStr());
+		#endif
 		
 		_File.ToVariable(m_Model, File);
 	}
 
 	void OnModel_File(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_File", "" + sender, args.ToStr());
+		#endif
 		
 		_File.FromVariable(m_Model, File);
 		_HtmlWidget.LoadFile(_File.GetString());

@@ -17,7 +17,9 @@ class CF_VideoWidget : CF_Widget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -28,7 +30,9 @@ class CF_VideoWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_VideoWidget, w);
@@ -36,14 +40,18 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Path", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.SetClassVar(m_Model, Path, 0, _Path);
 	}
 
 	void OnModel_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Path", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.GetClassVar(m_Model, Path, 0, _Path);
 		_VideoWidget.LoadVideo(_Path.Path, _Path.SoundScene);
@@ -51,14 +59,18 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Command", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.SetClassVar(m_Model, Command, 0, _Command);
 	}
 
 	void OnModel_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Command", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.GetClassVar(m_Model, Command, 0, _Command);
 		_VideoWidget.Play(_Command);
@@ -66,14 +78,18 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Subtitles", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.SetClassVar(m_Model, Subtitles, 0, _Subtitles);
 	}
 
 	void OnModel_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Subtitles", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.GetClassVar(m_Model, Subtitles, 0, _Subtitles);
 		_VideoWidget.DisableSubtitles(_Subtitles);

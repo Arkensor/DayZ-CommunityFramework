@@ -9,7 +9,9 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -19,7 +21,9 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_BaseListboxWidget, w);
@@ -27,7 +31,9 @@ class CF_BaseListboxWidget : CF_UIWidget
 	
 	void OnView_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_NumberItems", "" + sender, args.ToStr());
+		#endif
 		
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
 		_NumberItems.ToVariable(m_Model, NumberItems);
@@ -35,14 +41,18 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	void OnModel_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_NumberItems", "" + sender, args.ToStr());
+		#endif
 		
 		OnView_NumberItems(m_Model, args);
 	}
 
 	void OnView_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Selected", "" + sender, args.ToStr());
+		#endif
 		
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
 		_Selected.ToVariable(m_Model, Selected);
@@ -50,7 +60,9 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
+		#endif
 		
 		_Selected.FromVariable(m_Model, Selected);
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());

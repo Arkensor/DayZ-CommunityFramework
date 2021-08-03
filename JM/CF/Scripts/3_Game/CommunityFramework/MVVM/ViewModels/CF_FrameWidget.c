@@ -12,7 +12,9 @@ class CF_FrameWidget : CF_Widget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 
@@ -26,7 +28,9 @@ class CF_FrameWidget : CF_Widget
 
 	protected void AddSubProperty(inout string actual, string name)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "AddSubProperty", "Actual=" + actual + " Name=" + name);
+		#endif
 		
 		if (actual == string.Empty) return;
 		CF_MVVM_SubProperty property = new CF_MVVM_SubProperty(this, name);
@@ -39,7 +43,9 @@ class CF_FrameWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 
@@ -62,7 +68,9 @@ class CF_FrameWidget : CF_Widget
 
 	void OnUpdateSubViewModel()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnUpdateSubViewModel");
+		#endif
 
 		if (!_SubModel) return;
 		
@@ -74,14 +82,18 @@ class CF_FrameWidget : CF_Widget
 
 	void OnView_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_SubModel", "" + sender, args.ToStr());
+		#endif
 		
 		// Never called.
 	}
 
 	void OnModel_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_SubModel", "" + sender, args.ToStr());
+		#endif
 		
 		CF_ModelBase _model;
 		EnScript.GetClassVar(m_Model, SubModel, 0, _model);

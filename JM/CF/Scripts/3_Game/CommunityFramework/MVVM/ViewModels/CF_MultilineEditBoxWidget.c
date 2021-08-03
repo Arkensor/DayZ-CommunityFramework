@@ -9,7 +9,9 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -19,7 +21,9 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_MultilineEditBoxWidget, w);
@@ -27,7 +31,9 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	override void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
+		#endif
 
 		string value;
 		_MultilineEditBoxWidget.GetText(value);
@@ -37,7 +43,9 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	void OnView_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_CarriageLine", "" + sender, args.ToStr());
+		#endif
 
 		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
 		_CarriageLine.ToVariable(m_Model, CarriageLine);
@@ -45,14 +53,18 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	void OnModel_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_CarriageLine", "" + sender, args.ToStr());
+		#endif
 
 		OnView_CarriageLine(m_Model, args);
 	}
 
 	void OnView_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_CarriagePosition", "" + sender, args.ToStr());
+		#endif
 
 		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
 		_CarriagePosition.ToVariable(m_Model, CarriagePosition);
@@ -60,14 +72,18 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	void OnModel_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_CarriagePosition", "" + sender, args.ToStr());
+		#endif
 
 		OnView_CarriagePosition(m_Model, args);
 	}
 
 	override bool OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnChange", args.ToStr());
+		#endif
 
 		if (!args.Continue)
 		{

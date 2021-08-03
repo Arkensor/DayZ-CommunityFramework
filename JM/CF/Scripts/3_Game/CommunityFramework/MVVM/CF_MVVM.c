@@ -11,7 +11,9 @@ class CF_MVVM
 
 	private void CF_MVVM()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "CF_MVVM");
+		#endif
 	}
 
 	[CF_EventSubscriber(CF_MVVM._Init, CF_LifecycleEvents.OnGameCreate)]
@@ -40,7 +42,9 @@ class CF_MVVM
 
 	static CF_MVVM_Linker GetPropertyCollection(CF_ModelBase model)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "GetPropertyCollection", "" + model);
+		#endif
 
 		return s_ModelMap[model];
 	}
@@ -50,7 +54,9 @@ class CF_MVVM
 	 */
 	static CF_MVVM_Linker Create(CF_ModelBase model, string layout)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "Create", "" + model, "" + layout);
+		#endif
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)
@@ -99,7 +105,9 @@ class CF_MVVM
 	 */
 	static CF_MVVM_Linker Create(CF_ModelBase model, string layout, Widget parent)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "Create", "" + model, "" + layout, "" + parent);
+		#endif
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)
@@ -155,7 +163,9 @@ class CF_MVVM
 
 	static CF_MVVM_Linker Connect(CF_ModelBase model, Widget widget)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "Connect", "" + model, "" + widget);
+		#endif
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)
@@ -193,7 +203,9 @@ class CF_MVVM
 
 	static CF_MVVM_Linker Connect(CF_ModelBase model, CF_ViewModel view)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "Connect", "" + model, "" + view);
+		#endif
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)
@@ -226,7 +238,9 @@ class CF_MVVM
 
 	static void Destroy(CF_ModelBase model)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "Destroy", "" + model);
+		#endif
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)
@@ -263,7 +277,9 @@ class CF_MVVM
 		CF_EventArgs temp = evt;
 		if (temp == null) temp = new CF_EventArgs();
 
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.ToStr());
+		#endif
 		
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)
@@ -282,7 +298,9 @@ class CF_MVVM
 	{
 		CF_EventArgs temp = new CF_EventArgs();
 
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(g_CF_MVVM, "NotifyPropertyChanged", "" + model);
+		#endif
 
     	#ifdef COMPONENT_SYSTEM
 		if (s_ModelMap == null)

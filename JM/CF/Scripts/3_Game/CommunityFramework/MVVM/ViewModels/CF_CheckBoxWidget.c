@@ -9,7 +9,9 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -19,7 +21,9 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_CheckBoxWidget, w);
@@ -27,14 +31,18 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
+		#endif
 		
 		_Text.ToVariable(m_Model, Text);
 	}
 
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
+		#endif
 		
 		_Text.FromVariable(m_Model, Text);
 		_CheckBoxWidget.SetText(_Text.GetString());
@@ -42,7 +50,9 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	void OnView_Checked(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Checked", "" + sender, args.ToStr());
+		#endif
 		
 		_Checked.SetBool(_CheckBoxWidget.IsChecked());
 		_Checked.ToVariable(m_Model, Checked);
@@ -50,7 +60,9 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	void OnModel_Checked(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Checked", "" + sender, args.ToStr());
+		#endif
 		
 		_Checked.FromVariable(m_Model, Checked);
 		_CheckBoxWidget.SetChecked(_Checked.GetBool());
@@ -58,7 +70,9 @@ class CF_CheckBoxWidget : CF_UIWidget
 
 	override bool OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnChange", args.ToStr());
+		#endif
 
 		if (!args.Continue)
 		{

@@ -85,13 +85,17 @@ class CF_TypeConverter : Managed
 
 	void FromVariable(Class instance, string variable)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "FromVariable", "" + instance, variable);
+		#endif
 		CF_Log.Error("Override FromVariable!");
 	}
 
 	void ToVariable(Class instance, string variable)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "ToVariable", "" + instance, variable);
+		#endif
 		CF_Log.Error("Override ToVariable!");
 	}
 };
@@ -112,13 +116,17 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 
 	override void FromVariable(Class instance, string variable)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "FromVariable", "" + instance, variable);
+		#endif
 		EnScript.GetClassVar(instance, variable, 0, m_Value);
 	}
 
 	override void ToVariable(Class instance, string variable)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "ToVariable", "" + instance, variable);
+		#endif
 		EnScript.SetClassVar(instance, variable, 0, m_Value);
 	}
 };

@@ -45,7 +45,9 @@ class CF_Widget : CF_ViewModel
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -71,7 +73,9 @@ class CF_Widget : CF_ViewModel
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_Widget, w);
@@ -79,7 +83,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Name(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Name", "" + sender, args.ToStr());
+		#endif
 
 		_Name.SetString(_Widget.GetName());
 		_Name.ToVariable(m_Model, Name);
@@ -87,7 +93,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Name(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Name", "" + sender, args.ToStr());
+		#endif
 
 		_Name.FromVariable(m_Model, Name);
 		_Widget.SetName(_Name.GetString());
@@ -95,7 +103,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Visible(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Visible", "" + sender, args.ToStr());
+		#endif
 
 		_Visible.SetBool(_Widget.IsVisible());
 		_Visible.ToVariable(m_Model, Visible);
@@ -103,7 +113,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Visible(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Visible", "" + sender, args.ToStr());
+		#endif
 
 		_Visible.FromVariable(m_Model, Visible);
 		_Widget.Show(_Visible.GetBool());
@@ -111,14 +123,18 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Enabled(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Enabled", "" + sender, args.ToStr());
+		#endif
 
 		OnView_Enabled(sender, args);
 	}
 
 	void OnModel_Enabled(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Enabled", "" + sender, args.ToStr());
+		#endif
 		
 		_Enabled.FromVariable(m_Model, Enabled);
 		_Widget.Enable(_Enabled.GetBool());
@@ -126,7 +142,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Flags(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Flags", "" + sender, args.ToStr());
+		#endif
 
 		_Flags.SetInt(_Widget.GetFlags());
 		_Flags.ToVariable(m_Model, Flags);
@@ -134,7 +152,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Flags(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Flags", "" + sender, args.ToStr());
+		#endif
 		
 		_Flags.FromVariable(m_Model, Name);
 		_Widget.ClearFlags(_Widget.GetFlags(), false);
@@ -143,7 +163,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Sort(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Sort", "" + sender, args.ToStr());
+		#endif
 
 		_Sort.SetInt(_Widget.GetSort());
 		_Sort.ToVariable(m_Model, Sort);
@@ -151,7 +173,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Sort(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Sort", "" + sender, args.ToStr());
+		#endif
 		
 		_Sort.FromVariable(m_Model, Sort);
 		_Widget.SetSort(_Sort.GetInt());
@@ -159,7 +183,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_PositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_PositionX", "" + sender, args.ToStr());
+		#endif
 
 		float _positionX;
 		float _positionY;
@@ -171,7 +197,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_PositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_PositionX", "" + sender, args.ToStr());
+		#endif
 		
 		float _positionX;
 		float _positionY;
@@ -183,7 +211,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_PositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_PositionY", "" + sender, args.ToStr());
+		#endif
 		
 		float _positionX;
 		float _positionY;
@@ -195,7 +225,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_PositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_PositionY", "" + sender, args.ToStr());
+		#endif
 				
 		float _positionX;
 		float _positionY;
@@ -207,7 +239,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Width(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Width", "" + sender, args.ToStr());
+		#endif
 		
 		float _width;
 		float _height;
@@ -219,7 +253,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Width(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Width", "" + sender, args.ToStr());
+		#endif
 				
 		float _width;
 		float _height;
@@ -231,7 +267,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Height(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Height", "" + sender, args.ToStr());
+		#endif
 
 		float _width;
 		float _height;
@@ -243,7 +281,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Height(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Height", "" + sender, args.ToStr());
+		#endif
 		
 		float _width;
 		float _height;
@@ -255,7 +295,9 @@ class CF_Widget : CF_ViewModel
 	
 	void OnView_ScreenPositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_ScreenPositionX", "" + sender, args.ToStr());
+		#endif
 		
 		float _positionX;
 		float _positionY;
@@ -267,7 +309,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_ScreenPositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ScreenPositionX", "" + sender, args.ToStr());
+		#endif
 		
 		float _positionX;
 		float _positionY;
@@ -296,7 +340,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_ScreenPositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_ScreenPositionY", "" + sender, args.ToStr());
+		#endif
 
 		float _positionX;
 		float _positionY;
@@ -308,7 +354,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_ScreenPositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ScreenPositionY", "" + sender, args.ToStr());
+		#endif
 
 		float _positionX;
 		float _positionY;
@@ -337,7 +385,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_ScreenWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_ScreenWidth", "" + sender, args.ToStr());
+		#endif
 
 		float _width;
 		float _height;
@@ -349,14 +399,18 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_ScreenWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ScreenWidth", "" + sender, args.ToStr());
+		#endif
 				
 		OnView_ScreenWidth(m_Model, args);
 	}
 
 	void OnView_ScreenHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_ScreenHeight", "" + sender, args.ToStr());
+		#endif
 
 		float _width;
 		float _height;
@@ -368,14 +422,18 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_ScreenHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ScreenHeight", "" + sender, args.ToStr());
+		#endif
 				
 		OnView_ScreenHeight(m_Model, args);
 	}
 
 	void OnView_Color(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Color", "" + sender, args.ToStr());
+		#endif
 
 		_Color.SetInt(_Widget.GetColor());
 		_Color.ToVariable(m_Model, Color);
@@ -383,7 +441,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Color(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Color", "" + sender, args.ToStr());
+		#endif
 		
 		_Color.FromVariable(m_Model, Color);
 		_Widget.SetColor(_Color.GetInt());
@@ -391,14 +451,18 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Roll(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Roll", "" + sender, args.ToStr());
+		#endif
 
 		OnModel_Roll(sender, args);
 	}
 
 	void OnModel_Roll(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Roll", "" + sender, args.ToStr());
+		#endif
 		
 		_Roll.FromVariable(m_Model, Roll);
 		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
@@ -406,14 +470,18 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Pitch(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Pitch", "" + sender, args.ToStr());
+		#endif
 
 		OnModel_Pitch(sender, args);
 	}
 
 	void OnModel_Pitch(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Pitch", "" + sender, args.ToStr());
+		#endif
 		
 		_Pitch.FromVariable(m_Model, Pitch);
 		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
@@ -421,14 +489,18 @@ class CF_Widget : CF_ViewModel
 
 	void OnView_Yaw(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Yaw", "" + sender, args.ToStr());
+		#endif
 
 		OnModel_Yaw(sender, args);
 	}
 
 	void OnModel_Yaw(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Yaw", "" + sender, args.ToStr());
+		#endif
 		
 		_Yaw.FromVariable(m_Model, Yaw);
 		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
@@ -436,7 +508,9 @@ class CF_Widget : CF_ViewModel
 	
 	void OnView_Alpha(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Alpha", "" + sender, args.ToStr());
+		#endif
 
 		_Alpha.SetInt(_Widget.GetAlpha());
 		_Alpha.ToVariable(m_Model, Alpha);
@@ -444,7 +518,9 @@ class CF_Widget : CF_ViewModel
 
 	void OnModel_Alpha(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Alpha", "" + sender, args.ToStr());
+		#endif
 		
 		_Alpha.FromVariable(m_Model, Alpha);
 		_Widget.SetAlpha(_Alpha.GetInt());
@@ -452,7 +528,9 @@ class CF_Widget : CF_ViewModel
 
 	override bool OnResize(CF_ModelBase sender, CF_ResizeEventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnResize", args.ToStr());
+		#endif
 		
 		NotifyPropertyChanged(Width, "Width");
 		NotifyPropertyChanged(Height, "Height");
@@ -465,7 +543,9 @@ class CF_Widget : CF_ViewModel
 
 	override bool OnUpdate(CF_ModelBase sender, CF_ViewEventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnUpdate", args.ToStr());
+		#endif
 		
 		NotifyPropertyChanged(PositionX, "PositionX");
 		NotifyPropertyChanged(PositionY, "PositionY");

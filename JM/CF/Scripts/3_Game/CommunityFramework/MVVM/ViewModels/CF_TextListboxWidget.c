@@ -14,7 +14,9 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -23,7 +25,9 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_TextListboxWidget, w);
@@ -31,14 +35,18 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	void OnView_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Items", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.SetClassVar(m_Model, Items, 0, _Items);
 	}
 
 	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Items", "" + sender, args.ToStr());
+		#endif
 
 		EnScript.GetClassVar(m_Model, Items, 0, _Items);
 

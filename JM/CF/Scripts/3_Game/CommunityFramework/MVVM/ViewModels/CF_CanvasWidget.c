@@ -17,7 +17,9 @@ class CF_CanvasWidget : CF_Widget
 
 	override void GetProperties()
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "GetProperties");
+		#endif
 
 		super.GetProperties();
 		
@@ -26,7 +28,9 @@ class CF_CanvasWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_CanvasWidget, w);
@@ -34,7 +38,9 @@ class CF_CanvasWidget : CF_Widget
 
 	void OnView_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnView_Lines", "" + sender, args.ToStr());
+		#endif
 		
 		EnScript.SetClassVar(m_Model, Lines, 0, _Lines);
 	}
@@ -42,7 +48,9 @@ class CF_CanvasWidget : CF_Widget
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
 	void OnModel_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_Lines", "" + sender, args.ToStr());
+		#endif
 		
 		EnScript.GetClassVar(m_Model, Lines, 0, _Lines);
 
