@@ -4,7 +4,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 	reference string Items;
 
 	protected XComboBoxWidget _XComboBoxWidget;
-	protected ref CF_ObservableCollection _Items;
+	protected CF_ObservableCollection _Items;
 	protected CF_MVVM_PropertyBase _Selected = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
@@ -53,7 +53,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnView_Items", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, Items, 0, _Items);
+		OnModel_Items(sender, args);
 	}
 
 	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
@@ -62,14 +62,12 @@ class CF_XComboBoxWidget : CF_UIWidget
 		CF_Trace trace(this, "OnModel_Items", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, Items, 0, _Items);
-
 		int selected = _XComboBoxWidget.GetCurrentItem();
 
 		_XComboBoxWidget.ClearAll();
 		for (int i = 0; i < _Items.Count(); i++)
 		{
-			_XComboBoxWidget.AddItem(_Items.GetConverter(i).GetString());
+			_XComboBoxWidget.AddItem(_Items.GetString(i));
 		}
 
 		_XComboBoxWidget.SetCurrentItem(selected);

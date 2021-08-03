@@ -13,7 +13,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	reference string Scale;
 
 	protected MapWidget _MapWidget;
-	protected ref CF_ObservableCollection _UserMarks;
+	protected CF_ObservableCollection _UserMarks;
 	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _Scale = CF_MVVM_GetDefaultProperty();
 
@@ -46,7 +46,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 		CF_Trace trace(this, "OnView_UserMarks", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, UserMarks, 0, _UserMarks);
+		OnModel_UserMarks(sender, args);
 	}
 
 	void OnModel_UserMarks(CF_ModelBase sender, CF_EventArgs args)
@@ -55,13 +55,11 @@ class CF_MapWidget : CF_BaseListboxWidget
 		CF_Trace trace(this, "OnModel_UserMarks", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, UserMarks, 0, _UserMarks);
-
 		_MapWidget.ClearUserMarks();
 		for (int i = 0; i < _UserMarks.Count(); i++)
 		{
 			CF_MapUserMark userMark;
-			if (!Class.CastTo(userMark, _UserMarks.GetConverter(i).GetClass())) break;
+			if (!Class.CastTo(userMark, _UserMarks.GetClass(i))) break;
 
 			_MapWidget.AddUserMark(userMark.Position, userMark.Text, userMark.Color, userMark.TexturePath);
 		}
