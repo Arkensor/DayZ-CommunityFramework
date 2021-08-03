@@ -5,9 +5,9 @@ class CF_SliderWidget : CF_UIWidget
 	reference string Current;
 	
 	protected SliderWidget _SliderWidget;
-	protected ref CF_TypeConverter _Min = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Max = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Current = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Min = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Max = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Current = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

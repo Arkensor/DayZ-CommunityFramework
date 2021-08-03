@@ -9,13 +9,13 @@ class CF_ButtonWidget : CF_UIWidget
 	reference string TextProportion;
 
 	protected ButtonWidget _ButtonWidget;
-	protected ref CF_TypeConverter _State = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Text = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOffsetX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOffsetY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextHorizontalAlignment = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextVerticalAlignment = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextProportion = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _State = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Text = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOffsetX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOffsetY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextHorizontalAlignment = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextVerticalAlignment = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextProportion = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

@@ -1,4 +1,4 @@
-class CF_MVVM_Property : CF_TypeConverter
+class CF_MVVM_Property : CF_MVVM_PropertyBase
 {
 	protected CF_ModelBase m_Model;
 	protected CF_ViewModel m_ViewModel;
@@ -101,7 +101,7 @@ class CF_MVVM_Property : CF_TypeConverter
 			}
 		}
 
-		EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, m_TypeConverter);
+		EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, this);
 
 		OnModel(new CF_EventArgs());
 	}
@@ -121,8 +121,6 @@ class CF_MVVM_Property : CF_TypeConverter
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel", evt.ToStr());
 		#endif
-
-		Print(ToStr());
 
 		CF_EventArgs eventOverride = evt;
 
@@ -171,5 +169,94 @@ class CF_MVVM_Property : CF_TypeConverter
 
 		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, eventOverride);
 		g_Script.CallFunctionParams(m_ViewModel, "OnModel_" + m_Name, null, param);
+	}
+
+	override bool IsDefault()
+	{
+		return false;
+	}
+
+	override void SetInt(int value)
+	{
+		m_TypeConverter.SetInt(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override int GetInt()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetInt();
+	}
+
+	override void SetBool(bool value)
+	{
+		m_TypeConverter.SetBool(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override bool GetBool()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetBool();
+	}
+
+	override void SetFloat(float value)
+	{
+		m_TypeConverter.SetFloat(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override float GetFloat()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetFloat();
+	}
+
+	override void SetVector(vector value)
+	{
+		m_TypeConverter.SetVector(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override vector GetVector()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetVector();
+	}
+	
+	override void SetString(string value)
+	{
+		m_TypeConverter.SetString(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override string GetString()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetString();
+	}
+
+	override void SetClass(Class value)
+	{
+		m_TypeConverter.SetClass(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override Class GetClass()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetClass();
+	}
+
+	override void SetManaged(Managed value)
+	{
+		m_TypeConverter.SetManaged(value);
+		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+	}
+
+	override Managed GetManaged()
+	{
+		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		return m_TypeConverter.GetManaged();
 	}
 };

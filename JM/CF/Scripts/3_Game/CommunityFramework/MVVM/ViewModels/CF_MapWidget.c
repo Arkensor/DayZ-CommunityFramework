@@ -14,8 +14,8 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	protected MapWidget _MapWidget;
 	protected ref CF_ObservableCollection _UserMarks;
-	protected ref CF_TypeConverter _Position = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Scale = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Scale = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

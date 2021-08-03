@@ -3,11 +3,6 @@
  */
 class CF_TypeConverter : Managed
 {
-	bool IsDefault()
-	{
-		return false;
-	}
-
 	void SetInt(int value)
 	{
 		

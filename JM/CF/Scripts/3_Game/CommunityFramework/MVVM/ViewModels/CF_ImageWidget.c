@@ -7,11 +7,11 @@ class CF_ImageWidget : CF_Widget
 	reference string MaskTransitionWidth;
 
 	protected ImageWidget _ImageWidget;
-	protected ref CF_TypeConverter _Index = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _File = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _MaskFile = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _MaskProgress = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _MaskTransitionWidth = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Index = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _File = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _MaskFile = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _MaskProgress = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _MaskTransitionWidth = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

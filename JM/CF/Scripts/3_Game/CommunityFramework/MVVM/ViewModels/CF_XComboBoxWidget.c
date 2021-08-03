@@ -5,7 +5,7 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	protected XComboBoxWidget _XComboBoxWidget;
 	protected ref CF_ObservableCollection _Items;
-	protected ref CF_TypeConverter _Selected = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Selected = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

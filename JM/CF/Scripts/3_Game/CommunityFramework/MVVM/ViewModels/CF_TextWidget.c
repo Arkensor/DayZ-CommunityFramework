@@ -20,24 +20,24 @@ class CF_TextWidget : CF_Widget
 	reference string TextProportion;
 
 	protected TextWidget _TextWidget;
-	protected ref CF_TypeConverter _Text = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextSpacingHorizontal = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextSpacingVertical = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextExactSize = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOffsetX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOffsetY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextItalic = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextBold = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextSizeX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextSizeY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextProportion = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Text = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextSpacingHorizontal = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextSpacingVertical = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextExactSize = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOffsetX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOffsetY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOutlineSize = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOutlineColor = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowSize = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowColor = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowOpacity = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowOffsetX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowOffsetY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextItalic = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextBold = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextSizeX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextSizeY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextProportion = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{
@@ -83,7 +83,7 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.SetClassVar(m_Model, Text, 0, _Text);
+		OnModel_Text(sender, args);
 	}
 
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
@@ -92,8 +92,8 @@ class CF_TextWidget : CF_Widget
 		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
 		#endif
 
-		EnScript.GetClassVar(m_Model, Text, 0, _Text);
-		//_TextWidget.SetText(_Text);
+		_Text.FromVariable(m_Model, Text);
+		_TextWidget.SetText(_Text.GetString());
 	}
 
 	void OnView_TextSpacingHorizontal(CF_ModelBase sender, CF_EventArgs args)

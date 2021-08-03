@@ -6,10 +6,10 @@ class CF_PlayerPreviewWidget : CF_Widget
 	reference string Position;
 
 	protected PlayerPreviewWidget _PlayerPreviewWidget;
-	protected ref CF_TypeConverter _Player = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _HandItem = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Orientation = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Position = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Player = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _HandItem = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Orientation = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

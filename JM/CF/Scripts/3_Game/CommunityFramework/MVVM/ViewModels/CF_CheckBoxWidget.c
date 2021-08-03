@@ -4,8 +4,8 @@ class CF_CheckBoxWidget : CF_UIWidget
 	reference string Checked;
 
 	protected CheckBoxWidget _CheckBoxWidget;
-	protected ref CF_TypeConverter _Text = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Checked = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Text = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Checked = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

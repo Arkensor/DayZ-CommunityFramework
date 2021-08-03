@@ -3,7 +3,7 @@ class CF_EditBoxWidget : CF_UIWidget
 	reference string Text;
 
 	protected EditBoxWidget _EditBoxWidget;
-	protected ref CF_TypeConverter _Text = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Text = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

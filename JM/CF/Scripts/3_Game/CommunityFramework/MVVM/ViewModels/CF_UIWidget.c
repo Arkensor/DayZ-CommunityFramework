@@ -12,16 +12,16 @@ class CF_UIWidget : CF_Widget
 	reference string TextBold;
 	
 	protected UIWidget _UIWidget;
-	protected ref CF_TypeConverter _TextColor = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOutlineSize = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextOutlineColor = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowSize = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowColor = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowOpacity = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowOffsetX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextShadowOffsetY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextItalic = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _TextBold = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _TextColor = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOutlineSize = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextOutlineColor = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowSize = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowColor = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowOpacity = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowOffsetX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextShadowOffsetY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextItalic = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _TextBold = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{

@@ -24,24 +24,24 @@ class CF_Widget : CF_ViewModel
 	reference string Alpha;				// [R/W]
 
 	protected Widget _Widget;
-	protected ref CF_TypeConverter _Name = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Visible = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Enabled = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Flags = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Sort = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _PositionX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _PositionY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Width = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Height = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _ScreenPositionX = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _ScreenPositionY = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _ScreenWidth = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _ScreenHeight = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Color = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Roll = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Pitch = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Yaw = CF_GetDefaultTC();
-	protected ref CF_TypeConverter _Alpha = CF_GetDefaultTC();
+	protected CF_MVVM_PropertyBase _Name = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Visible = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Enabled = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Flags = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Sort = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _PositionX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _PositionY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Width = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Height = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ScreenPositionX = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ScreenPositionY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ScreenWidth = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ScreenHeight = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Color = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Roll = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Pitch = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Yaw = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Alpha = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{
