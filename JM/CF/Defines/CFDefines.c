@@ -10,3 +10,5 @@
 
 #define CF_MVVM
 #define CF_WINDOWS
+
+#define CF_DebugUI
