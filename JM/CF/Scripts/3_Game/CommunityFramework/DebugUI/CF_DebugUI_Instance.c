@@ -60,9 +60,37 @@ class CF_DebugUI_Instance
 	 */
 	void Add(Class value)
 	{
-		m_TabDepth++;
-        GetGame().GameScript.CallFunctionParams(value, "CF_DebugUI", null, new Param2<CF_DebugUI_Instance, CF_DebugUI_Type>(this, CF.DebugUI.Types));
-		m_TabDepth--;
+		if (!value)
+		{
+			m_TabDepth++;
+			Add("null");
+			m_TabDepth--;
+			return;
+		}
+
+		bool useFallback = false;
+
+		CF_DebugUI_Instance childInstance = new CF_DebugUI_Instance();
+		childInstance.m_TabDepth = m_TabDepth + 1;
+        GetGame().GameScript.CallFunctionParams(value, "CF_DebugUI", useFallback, new Param2<CF_DebugUI_Instance, CF_DebugUI_Type>(childInstance, CF_DebugUI.s_Types));
+		if (!useFallback)
+		{
+			typename type = value.Type();
+			int count = type.GetVariableCount();
+			for (int i = 0; i < count; i++)
+			{
+				string variableName = type.GetVariableName(i);
+				typename variableType = type.GetVariableType(i);
+
+				CF_TypeConverter converter = CF_TypeConverters.Create(variableType);
+				converter.FromVariable(value, variableName);
+				Add(variableName, converter.GetString());
+			}
+
+			return;
+		}
+
+		Merge(childInstance);
 	}
 
 	/**
@@ -73,5 +101,10 @@ class CF_DebugUI_Instance
 		string _value = "" + value;
 		if (value) _value += "(" + value.GetNetworkIDString() + ")";
 		Add(name, _value);
+	}
+
+	protected void Merge(CF_DebugUI_Instance other)
+	{
+		m_Data += other.m_Data;
 	}
 };

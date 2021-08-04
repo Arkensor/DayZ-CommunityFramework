@@ -1,27 +1,41 @@
 class CF_DebugUI
 {
-	CF_DebugUI_Type Types;
+	static ref CF_DebugUI_Type s_Types;
 
-	private ref set<Class> m_Classes = new set<Class>();
+	private static ref set<Class> s_Classes;
 
-	void Show(Class cls)
+	[CF_EventSubscriber(CF_DebugUI._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
 	{
-		m_Classes.Insert(cls);
+		s_Types = new CF_DebugUI_Type();
+		s_Classes = new set<Class>();
 	}
 
-	void Hide(Class cls)
+	[CF_EventSubscriber(CF_DebugUI._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	static void _Cleanup()
 	{
-		int idx = m_Classes.Find(cls);
-		if (idx != -1) m_Classes.Remove(idx);
+		s_Types = null;
+		s_Classes = null;
 	}
 
-	void Update(inout array<ref CF_DebugUI_Instance> instances)
+	static void Show(Class cls)
+	{
+		s_Classes.Insert(cls);
+	}
+
+	static void Hide(Class cls)
+	{
+		int idx = s_Classes.Find(cls);
+		if (idx != -1) s_Classes.Remove(idx);
+	}
+
+	static void Update(inout array<ref CF_DebugUI_Instance> instances)
 	{
 		instances.Clear();
-		for (int i = 0; i < m_Classes.Count(); i++)
+		for (int i = 0; i < s_Classes.Count(); i++)
 		{
 			CF_DebugUI_Instance instance = new CF_DebugUI_Instance();
-			instance.Add(m_Classes[i]);
+			instance.Add(s_Classes[i]);
 			instances.Insert(instance);
 		}
 	}
