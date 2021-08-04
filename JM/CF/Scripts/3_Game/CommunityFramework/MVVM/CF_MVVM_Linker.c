@@ -118,7 +118,7 @@ class CF_MVVM_Linker
 
 			if (variableType.IsInherited(Widget))
 			{
-				Insert(new CF_MVVM_WidgetProperty(null, variableName));
+				Insert(new CF_MVVM_WidgetProperty(viewModel, variableName));
 			}
 
 			CF_TArrayProperties properties;

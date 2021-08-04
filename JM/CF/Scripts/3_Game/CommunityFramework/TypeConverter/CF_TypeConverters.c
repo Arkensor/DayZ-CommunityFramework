@@ -85,10 +85,6 @@ class CF_TypeConverters
 		
 		CF_TypeConverter res = CF_TypeConverter.Cast(convType.Spawn());		
 		
-		CF_Log.Info("Type=%1", "" + type);
-		CF_Log.Info("BaseType=%1", "" + baseType);
-		CF_Log.Info("Conv=%1", "" + res);
-		
 		return res;
 	}
 };

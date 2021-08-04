@@ -17,9 +17,13 @@ class CF_Windows
 	private static ref array<CF_WindowHandle> s_Z;
 	private static CF_WindowHandle s_HandleTicker;
 
+	private static bool m_FocusInput;
+	private static bool m_WasFocusWindows;
+	private static bool m_RespondingToMouse;
+
 	private void CF_Windows()
 	{
-
+		CF_Timer.Create(this, "Update");
 	}
 
 	[CF_EventSubscriber(CF_Windows._Init, CF_LifecycleEvents.OnGameCreate)]
@@ -85,6 +89,11 @@ class CF_Windows
 		if (handle != 0) return true;
 
 		return false;
+	}
+
+	static bool IsOpen(CF_WindowHandle handle)
+	{
+		return s_Windows.Contains(handle);
 	}
 
 	/**
@@ -174,5 +183,97 @@ class CF_Windows
 		#endif
 		
 		return s_Z.Find(handle);
+	}
+
+	static bool IsWidgetWindowRoot(Widget widget)
+	{  
+		for (int i = 0; i < s_Windows.Count(); i++)
+		{
+			auto window = s_Windows.GetElement(i);
+			if (widget == window.GetWidgetRoot())
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	static bool IsInputFocused()
+	{
+		return m_FocusInput;
+	}
+
+	static void InputFocus(bool shouldFocus)
+	{
+		m_FocusInput = shouldFocus;
+	}
+
+	void Update(CF_TimerBase timer, float dt)
+	{
+		UpdateInputFocus();
+
+		InputFocus(s_Z.Count() > 0);// && !m_RespondingToMouse);
+
+		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
+
+		if (m_RespondingToMouse && !isMouseDown)
+		{
+			m_RespondingToMouse = false;
+		}
+		else if (isMouseDown && IsInputFocused())
+		{
+			m_RespondingToMouse = true;
+
+			if (!KeepMouseFocused())
+			{
+				InputFocus(false);
+			}
+		}
+	}
+
+	void UpdateInputFocus()
+	{
+		if (m_WasFocusWindows == m_FocusInput) return;
+
+		m_WasFocusWindows = m_FocusInput;
+
+		if (!m_FocusInput)
+		{
+			GetGame().GetInput().ChangeGameFocus(-1);
+			GetGame().GetUIManager().ShowUICursor(false);
+			
+			SetFocus(NULL);
+		}
+		else
+		{
+			GetGame().GetInput().ChangeGameFocus(1);
+			GetGame().GetUIManager().ShowUICursor(true);
+		}
+	}
+
+	bool KeepMouseFocused()
+	{
+		if (!GetGame().GetUIManager().GetMenu()) return false;
+
+		Widget widget = GetWidgetUnderCursor();
+		while (widget != null)
+		{
+			if (IsWidgetWindowRoot(widget)) return true;
+
+			if (CheckWidgetForFocus(widget)) return true;
+
+			widget = widget.GetParent();
+		}
+
+		return false;
+	}
+
+	/*
+	 * @note Function for modders to override
+	 */
+	bool CheckWidgetForFocus(Widget widget)
+	{
+		return false;
 	}
 };

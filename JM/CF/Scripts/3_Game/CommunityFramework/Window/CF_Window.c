@@ -14,6 +14,9 @@ class CF_Window : CF_Model
 	private float m_DragOffsetX;
 	private float m_DragOffsetY;
 	private float m_ContentHeight;
+
+	private Widget base_window;
+	private Widget content;
  
 	private ref CF_ModelBase m_Model;
 
@@ -30,6 +33,36 @@ class CF_Window : CF_Model
 	override string GetLayoutFile()
 	{
 		return "JM/CF/GUI/layouts/windows/window.layout";
+	}
+
+	Widget GetWidgetRoot()
+	{
+		return base_window;
+	}
+
+	Widget CreateWidgets(string layoutFile)
+	{
+		Print(content);
+		Widget child = content.GetChildren();
+		while (child != null)
+		{
+			Widget temp = child;
+			child = child.GetSibling();
+			temp.Unlink();
+		}
+		
+		WorkspaceWidget wSpace = GetGame().GetWorkspace();
+		// A mess to fix an issue in Workbench, can also substitute for loading screen support
+		if (wSpace == null)
+		{
+			wSpace = GetGame().GetLoadingWorkspace();
+			if (!wSpace) wSpace = CF.Game().GetWorkspace();
+			if (!wSpace) wSpace = CF.Game().GetLoadingWorkspace();
+
+			if (!wSpace) return null;
+		}
+
+		return wSpace.CreateWidgets(layoutFile, content);
 	}
 
 	CF_WindowHandle GetHandle()
@@ -58,7 +91,7 @@ class CF_Window : CF_Model
 		{
 			m_Model = model;
 
-			NotifyPropertyChanged("m_Model");
+			//NotifyPropertyChanged("m_Model");
 		}
 	}
 
@@ -99,7 +132,7 @@ class CF_Window : CF_Model
 		if (title_bar_drag) title_bar_drag.SetPos(0, 0, true);
 	}
 
-	void OnCloseButtonClicked(CF_MouseEventArgs evt)
+	void OnCloseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
@@ -108,7 +141,7 @@ class CF_Window : CF_Model
 		CF_Windows.Destroy(m_Handle);
 	}
 
-	void OnMouseButtonDown(CF_MouseEventArgs evt)
+	void OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnMouseButtonDown", evt.ToStr());
@@ -117,7 +150,7 @@ class CF_Window : CF_Model
 		CF_Windows.Focus(m_Handle);
 	}
 
-	void OnDrag(CF_DragEventArgs evt)
+	void OnDrag(CF_ModelBase sender, CF_DragEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnDrag", evt.ToStr());
@@ -130,7 +163,7 @@ class CF_Window : CF_Model
 		title_bar_drag.SetPos(0, 0, false);
 	}
 
-	void OnDragging(CF_DragEventArgs evt)
+	void OnDragging(CF_ModelBase sender, CF_DragEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnDragging", evt.ToStr());
@@ -139,7 +172,7 @@ class CF_Window : CF_Model
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
-	void OnDrop(CF_DragEventArgs evt)
+	void OnDrop(CF_ModelBase sender, CF_DragEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnDrop", evt.ToStr());
@@ -148,7 +181,7 @@ class CF_Window : CF_Model
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
-	void OnUpdate(CF_ViewEventArgs evt)
+	void OnUpdate(CF_ModelBase sender, CF_ViewEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnUpdate", evt.ToStr());

@@ -1,5 +1,6 @@
 class CF_FrameWidget : CF_Widget
 {
+	/*
 	reference string SubModel;
 	reference string SubModelType;
 	reference string SubLayoutOverride;
@@ -119,4 +120,5 @@ class CF_FrameWidget : CF_Widget
 
 		OnUpdateSubViewModel();
 	}
+	*/
 };

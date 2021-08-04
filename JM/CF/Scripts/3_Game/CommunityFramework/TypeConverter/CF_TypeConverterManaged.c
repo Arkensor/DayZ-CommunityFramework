@@ -9,7 +9,7 @@ class CF_TypeConverterManaged : CF_TypeConverterT<Managed>
 	
 	override void SetClass(Class value)
 	{
-		m_Value = value;
+		Class.CastTo(m_Value, value);
 	}
 	
 	override Class GetClass()
