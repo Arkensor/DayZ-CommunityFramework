@@ -2,8 +2,8 @@ class CF_DebugUI
 {
 	static ref CF_DebugUI_Type s_Types;
 
-	private static int s_Count = 0;
-	private static ref CF_DebugUI_Instance s_Instances[256];
+	static int s_Count = 0;
+	static ref CF_DebugUI_Instance s_Instances[256];
 
 	[CF_EventSubscriber(CF_DebugUI._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
@@ -40,7 +40,7 @@ class CF_DebugUI
 			if (s_Instances[i].GetClass() == cls) return;
 		}
 
-		s_Instances[s_Count] = new CF_DebugUI_Instance(cls);
+		s_Instances[s_Count] = new CF_DebugUI_Instance(cls, s_Count);
 		s_Count++;
 	}
 
@@ -54,10 +54,8 @@ class CF_DebugUI
 		{
 			if (s_Instances[i].GetClass() == cls)
 			{
-				s_Count--;
 				delete s_Instances[i];
-				s_Instances[i] = s_Instances[s_Count];
-				s_Instances[s_Count] = null;
+				return;
 			}
 		}
 	}

@@ -1,8 +1,4 @@
 
-#ifndef COMPONENT_SYSTEM
-static ref CF_TestModel CF_TestModelInstance = new CF_TestModel();
-#endif
-
 /**
  * @brief Inheriting from 'CF_Model' is not a requirement, must re-implement the 'GetLayoutFile' method.
  */
@@ -16,8 +12,6 @@ class CF_TestModel : CF_Model
 	string ButtonText = "Press??";
 
 	ref CF_ObservableArray<CF_TestItemModel> Test = new CF_ObservableArray<CF_TestItemModel>();
-
-	private CF_WindowHandle m_WindowHandle;
 	
 	void CF_TestModel()
 	{
@@ -25,17 +19,10 @@ class CF_TestModel : CF_Model
 
 	void OpenWindow()
 	{
-		CF_Windows.Handle(m_WindowHandle);
-
-		CF_Window window;
-		CF_Windows.Retrieve(m_WindowHandle, window);
-
-		window.SetModel(this);
 	}
 
 	void CloseWindow()
 	{
-		CF_Windows.Destroy(m_WindowHandle);
 	}
 
 	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs evt)

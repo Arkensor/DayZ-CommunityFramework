@@ -128,7 +128,6 @@ PanelWidgetClass base_window {
      {
       ScriptParamsClass {
        Event_Click "OnCloseButtonClicked"
-       State "CloseButton"
       }
      }
     }

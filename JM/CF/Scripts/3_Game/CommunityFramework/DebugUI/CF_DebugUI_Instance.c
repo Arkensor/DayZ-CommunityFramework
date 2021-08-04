@@ -3,20 +3,22 @@ class CF_DebugUI_Instance : CF_TimerBase
 	private string m_Data = "";
 	private int m_TabDepth = -1;
 
-	private CF_WindowHandle m_Handle;
+	private int m_DBGIndex;
+
+	private ref CF_Window m_Window;
 	private Class m_Class;
 
-	void CF_DebugUI_Instance(Class cls)
+	void CF_DebugUI_Instance(Class cls, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "CF_DebugUI_Instance", "" + cls);
 		#endif
 
 		m_Class = cls;
-		//CF_Window window;
-		//CF_Windows.Retrieve(m_Handle, window);
-		//CF_MVVM.Create(this, "JM/CF/GUI/layouts/debugui/debugui.layout", parent);
-		CF_MVVM.Create(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
+		m_DBGIndex = index;
+		
+		m_Window = new CF_Window();
+		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
 	}
 
 	void ~CF_DebugUI_Instance()
@@ -25,11 +27,10 @@ class CF_DebugUI_Instance : CF_TimerBase
 		CF_Trace trace(this, "~CF_DebugUI_Instance");
 		#endif
 
-		//if (CF_Windows.IsValid(m_Handle))
-		//{
-		//	CF_Windows.Destroy(m_Handle);
-		//}
-		CF_MVVM.Destroy(this);
+		CF_DebugUI.s_Count--;
+		CF_DebugUI.s_Instances[m_DBGIndex] = CF_DebugUI.s_Instances[CF_DebugUI.s_Count];
+		CF_DebugUI.s_Instances[m_DBGIndex].m_DBGIndex = m_DBGIndex;
+		CF_DebugUI.s_Instances[CF_DebugUI.s_Count] = null;
 	}
 
 	Class GetClass()

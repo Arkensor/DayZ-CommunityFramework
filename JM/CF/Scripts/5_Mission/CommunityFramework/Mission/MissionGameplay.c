@@ -37,10 +37,6 @@ modded class MissionGameplay
 	{
 		super.OnMissionLoaded();
 
-		#ifndef COMPONENT_SYSTEM
-		CF_TestModelInstance = new CF_TestModel();
-		#endif
-
 		GetModuleManager().OnMissionLoaded();
 		
 		CF_DebugUI.Show(GetGame().GetPlayer());
