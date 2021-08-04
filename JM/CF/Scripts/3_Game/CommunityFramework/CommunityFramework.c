@@ -1,6 +1,9 @@
 CGame CF_CreateGame()
 {
 	Print("CF_CreateGame()");
+
+	CF_Log.Set(CF_LogLevel.ALL);
+
 	g_Game = new DayZGame;
 	CF._GameInit(true);
 	return g_Game;
@@ -70,16 +73,10 @@ class CommunityFramework
 
     static void _MissionInit()
     {
-        #ifdef CF_WINDOWS
-		CF_Windows._MissionInit();
-        #endif
     }
 
     static void _MissionCleanup()
     {
-        #ifdef CF_WINDOWS
-		CF_Windows._MissionCleanup();
-        #endif
     }
 
     /**

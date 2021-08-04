@@ -325,7 +325,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			CF_ModelBase model = conv.GetManaged();
 			
 			string layout;
-			g_Script.CallFunction(model, "GetLayout", layout, null);
+			g_Script.CallFunction(model, "GetLayoutFile", layout, null);
 			if (layout == string.Empty)
 			{
 				CF_Log.Error("Empty layout file provided.");
@@ -348,7 +348,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_ModelBase model = conv.GetManaged();
 		
 		string layout;
-		g_Script.CallFunction(model, "GetLayout", layout, null);
+		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
 		if (layout == string.Empty)
 		{
 			CF_Log.Error("Empty layout file provided.");

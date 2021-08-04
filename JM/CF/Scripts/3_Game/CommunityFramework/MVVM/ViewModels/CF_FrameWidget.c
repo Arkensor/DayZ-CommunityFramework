@@ -59,7 +59,7 @@ class CF_FrameWidget : CF_Widget
 
 			if (SubLayoutOverride == string.Empty)
 			{
-				g_Script.CallFunction(_SubModel, "GetLayout", SubLayoutOverride, null);
+				g_Script.CallFunction(_SubModel, "GetLayoutFile", SubLayoutOverride, null);
 			}
 
 			CF_MVVM.Create(_SubModel, SubLayoutOverride, _Widget);
@@ -107,7 +107,7 @@ class CF_FrameWidget : CF_Widget
 			string layoutPath = SubLayoutOverride;
 			if (layoutPath == string.Empty)
 			{
-				g_Script.CallFunction(_SubModel, "GetLayout", layoutPath, null);
+				g_Script.CallFunction(_SubModel, "GetLayoutFile", layoutPath, null);
 			}
 
 			CF_MVVM.Create(_SubModel, layoutPath, _Widget);

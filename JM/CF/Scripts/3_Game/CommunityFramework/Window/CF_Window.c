@@ -27,7 +27,7 @@ class CF_Window : CF_Model
 		SetSize(400, 400);
 	}
 
-	override string GetLayout()
+	override string GetLayoutFile()
 	{
 		return "JM/CF/GUI/layouts/windows/window.layout";
 	}

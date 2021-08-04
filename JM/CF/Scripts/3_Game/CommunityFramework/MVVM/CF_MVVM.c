@@ -23,8 +23,6 @@ class CF_MVVM
 
 		s_ModelMap = new map<CF_ModelBase, ref CF_MVVM_Linker>();
 
-		CF_Log.Set(0x001111);
-		
     	#ifdef COMPONENT_SYSTEM
 		CF_Log.Set(CF_LogLevel.ALL);
 		#endif

@@ -80,6 +80,13 @@ class CF_Windows
 		s_HandleTicker++;
 	}
 
+	static bool IsValid(CF_WindowHandle handle)
+	{
+		if (handle != 0) return true;
+
+		return false;
+	}
+
 	/**
 	 * @brief Retrieves the Window for the specified handle, if the window doesn't exist, creates it.
 	 * 
@@ -97,7 +104,7 @@ class CF_Windows
 		s_Windows.Insert(handle, window);
 		s_Z.InsertAt(handle, 0);
 
-		CF_MVVM.Create(window, window.GetLayout(), s_Container);
+		CF_MVVM.Create(window, window.GetLayoutFile(), s_Container);
 
 		return true;
 	}
@@ -118,7 +125,7 @@ class CF_Windows
 		s_Windows.Insert(handle, window);
 		s_Z.InsertAt(handle, 0);
 
-		CF_MVVM.Create(window, window.GetLayout());
+		CF_MVVM.Create(window, window.GetLayoutFile());
 
 		return true;
 	}

@@ -24,7 +24,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_ModelBase model = conv.GetManaged();
 
 		string layout;
-		g_Script.CallFunction(model, "GetLayout", layout, null);
+		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
 		
 		CF_MVVM.Create(model, layout);
 		if (args.Index == sender.Count()) return;
@@ -48,7 +48,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_ModelBase model = conv.GetManaged();
 
 		string layout;
-		g_Script.CallFunction(model, "GetLayout", layout, null);
+		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
 		
 		CF_MVVM.Create(model, layout);
 

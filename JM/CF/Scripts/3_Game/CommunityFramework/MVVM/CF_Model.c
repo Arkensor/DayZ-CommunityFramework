@@ -29,7 +29,7 @@ class CF_Model : Managed
 		CF_MVVM.NotifyPropertyChanged(this, property, evt);
 	}
 
-	string GetLayout()
+	string GetLayoutFile()
 	{
 		return "";
 	}

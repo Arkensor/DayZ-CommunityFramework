@@ -1,10 +1,20 @@
-class CF_TypeConverterManaged : CF_TypeConverterClass
+class CF_TypeConverterManaged : CF_TypeConverterT<Managed>
 {
 	override string GetString()
 	{
 		string toStr = "";
 		g_Script.CallFunction(m_Value, "ToStr", toStr, null);
 		return toStr;
+	}
+	
+	override void SetClass(Class value)
+	{
+		m_Value = value;
+	}
+	
+	override Class GetClass()
+	{
+		return m_Value;
 	}
 	
 	override void SetManaged(Managed value)
@@ -14,6 +24,6 @@ class CF_TypeConverterManaged : CF_TypeConverterClass
 	
 	override Managed GetManaged()
 	{
-		return Managed.Cast(m_Value);
+		return m_Value;
 	}
 };

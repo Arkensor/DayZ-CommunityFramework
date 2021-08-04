@@ -1,0 +1,40 @@
+WrapSpacerWidgetClass BlockSpacer {
+ ignorepointer 1
+ position 0 0
+ size 500 1
+ hexactpos 0
+ vexactpos 0
+ hexactsize 1
+ vexactsize 0
+ Padding 0
+ Margin 0
+ "Size To Content H" 1
+ scriptclass "CF_WrapSpacerWidget"
+ {
+  MultilineTextWidgetClass TextField {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   scriptclass "CF_MultilineTextWidget"
+   text "AAA"
+   font "gui/fonts/system"
+   "exact text" 1
+   "size to text h" 1
+   "size to text v" 1
+   {
+    ScriptParamsClass {
+     Text "m_Data"
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Model "CF_DebugUI_Instance"
+  }
+ }
+}

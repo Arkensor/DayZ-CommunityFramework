@@ -4,7 +4,7 @@ static ref CF_TestModel CF_TestModelInstance = new CF_TestModel();
 #endif
 
 /**
- * @brief Inheriting from 'CF_Model' is not a requirement, must re-implement the 'GetLayout' method.
+ * @brief Inheriting from 'CF_Model' is not a requirement, must re-implement the 'GetLayoutFile' method.
  */
 class CF_TestModel : CF_Model
 {
@@ -77,7 +77,7 @@ class CF_TestModel : CF_Model
 		Test.Insert(item);
 	}
 
-	override string GetLayout()
+	override string GetLayoutFile()
 	{
 		return "JM/CF/GUI/layouts/mvvm/test.layout";
 	}
@@ -106,7 +106,7 @@ class CF_TestItemModel : CF_Model
 		m_Parent.Test.Remove(index);
 	}
 
-	override string GetLayout()
+	override string GetLayoutFile()
 	{
 		return "JM/CF/GUI/layouts/mvvm/testitem.layout";
 	}

@@ -1,10 +1,52 @@
-class CF_DebugUI_Instance
+class CF_DebugUI_Instance : CF_TimerBase
 {
 	private string m_Data = "";
 	private int m_TabDepth = -1;
 
+	private CF_WindowHandle m_Handle;
+	private Class m_Class;
+
+	void CF_DebugUI_Instance(Class cls)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CF_DebugUI_Instance", "" + cls);
+		#endif
+
+		m_Class = cls;
+		//CF_Window window;
+		//CF_Windows.Retrieve(m_Handle, window);
+		//CF_MVVM.Create(this, "JM/CF/GUI/layouts/debugui/debugui.layout", parent);
+		CF_MVVM.Create(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
+	}
+
+	void ~CF_DebugUI_Instance()
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "~CF_DebugUI_Instance");
+		#endif
+
+		//if (CF_Windows.IsValid(m_Handle))
+		//{
+		//	CF_Windows.Destroy(m_Handle);
+		//}
+		CF_MVVM.Destroy(this);
+	}
+
+	Class GetClass()
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "GetClass");
+		#endif
+
+		return m_Class;
+	}
+
 	private string Tab()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Tab");
+		#endif
+
 		string tab = "";
 		for (int i = 0; i < m_TabDepth; i++) tab += " ";
 		return tab;
@@ -12,6 +54,10 @@ class CF_DebugUI_Instance
 	
 	private string NewLine()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "NewLine");
+		#endif
+
 		return "\n" + Tab();
 	}
 
@@ -20,6 +66,10 @@ class CF_DebugUI_Instance
 	 */
 	void Add(string value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Add", "" + value);
+		#endif
+
 		m_Data += NewLine() + value;
 	}
 
@@ -28,6 +78,10 @@ class CF_DebugUI_Instance
 	 */
 	void Add(string name, int value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Add", "" + name, "" + value);
+		#endif
+
 		m_Data += NewLine() + name + ": " + value;
 	}
 
@@ -36,6 +90,10 @@ class CF_DebugUI_Instance
 	 */
 	void Add(string name, bool value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Add", "" + name, "" + value);
+		#endif
+
 		m_Data += NewLine() + name + ": " + value;
 	}
 
@@ -44,6 +102,10 @@ class CF_DebugUI_Instance
 	 */
 	void Add(string name, float value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Add", "" + name, "" + value);
+		#endif
+
 		m_Data += NewLine() + name + ": " + value;
 	}
 
@@ -52,29 +114,38 @@ class CF_DebugUI_Instance
 	 */
 	void Add(string name, string value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Add", "" + name, "" + value);
+		#endif
+
 		m_Data += NewLine() + name + ": " + value;
 	}
 
 	/**
-	 * @brief Calls the 'CF_DebugUI' method for the target Class
+	 * @brief Calls the 'CF_DebugUI' method for the target Class, 'CF_DebugUI' must return true.
 	 */
 	void Add(Class value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Add", "" + value);
+		#endif
+
+		m_TabDepth++;
+
 		if (!value)
 		{
-			m_TabDepth++;
 			Add("null");
 			m_TabDepth--;
 			return;
 		}
 
-		bool useFallback = false;
+		bool functionCallSuccess = false;
+        GetGame().GameScript.CallFunctionParams(value, "CF_DebugUI", functionCallSuccess, new Param2<CF_DebugUI_Instance, CF_DebugUI_Type>(this, CF_DebugUI.s_Types));
 
-		CF_DebugUI_Instance childInstance = new CF_DebugUI_Instance();
-		childInstance.m_TabDepth = m_TabDepth + 1;
-        GetGame().GameScript.CallFunctionParams(value, "CF_DebugUI", useFallback, new Param2<CF_DebugUI_Instance, CF_DebugUI_Type>(childInstance, CF_DebugUI.s_Types));
-		if (!useFallback)
+		if (!functionCallSuccess)
 		{
+			Add("this", value.ClassName());
+
 			typename type = value.Type();
 			int count = type.GetVariableCount();
 			for (int i = 0; i < count; i++)
@@ -83,14 +154,14 @@ class CF_DebugUI_Instance
 				typename variableType = type.GetVariableType(i);
 
 				CF_TypeConverter converter = CF_TypeConverters.Create(variableType);
-				converter.FromVariable(value, variableName);
-				Add(variableName, converter.GetString());
+				if (converter.FromTypename(value, i))
+				{
+					Add(variableName, converter.GetString());
+				}
 			}
-
-			return;
 		}
 
-		Merge(childInstance);
+		m_TabDepth--;
 	}
 
 	/**
@@ -98,13 +169,26 @@ class CF_DebugUI_Instance
 	 */
 	void AddObject(string name, Object value)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "AddObject", "" + name, "" + value);
+		#endif
+
 		string _value = "" + value;
 		if (value) _value += "(" + value.GetNetworkIDString() + ")";
 		Add(name, _value);
 	}
 
-	protected void Merge(CF_DebugUI_Instance other)
+	protected override void OnUpdate(float dt)
 	{
-		m_Data += other.m_Data;
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnUpdate", "" + dt);
+		#endif
+
+		m_Data = string.Empty;
+		m_TabDepth = 0;
+
+		Add(m_Class);
+
+		CF_MVVM.NotifyPropertyChanged(this, "m_Data");
 	}
 };

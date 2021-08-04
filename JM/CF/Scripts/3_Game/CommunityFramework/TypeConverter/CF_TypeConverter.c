@@ -86,6 +86,15 @@ class CF_TypeConverter : Managed
 		CF_Log.Error("Override FromVariable!");
 	}
 
+	bool FromTypename(Class instance, int index)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "FromVariable", "" + instance, "" + index);
+		#endif
+		CF_Log.Error("Override FromVariable!");
+		return false;
+	}
+
 	void ToVariable(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -115,6 +124,35 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 		CF_Trace trace(this, "FromVariable", "" + instance, variable);
 		#endif
 		EnScript.GetClassVar(instance, variable, 0, m_Value);
+	}
+
+	override bool FromTypename(Class instance, int index)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "FromVariable", "" + instance, "" + index);
+		#endif
+
+		typename type = instance.Type();
+
+		typename variableType = type.GetVariableType(index);
+		string variableName = type.GetVariableName(index);
+
+		if (variableType.IsInherited(Class))
+		{
+			string variableTypeStr = variableType.ToString();
+			int idx = variableTypeStr.IndexOf("<");
+			if (idx != -1) return false;
+
+			return false;
+			
+			//FromVariable(instance, variableName);
+		}
+		else
+		{
+			type.GetVariableValue(instance, index, m_Value);
+		}
+
+		return true;
 	}
 
 	override void ToVariable(Class instance, string variable)

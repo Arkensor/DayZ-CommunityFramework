@@ -33,6 +33,7 @@ class CF_TypeConverters
 		RegisterType(string, CF_TypeConverterString);
 		RegisterType(Class, CF_TypeConverterClass);
 		RegisterType(Managed, CF_TypeConverterManaged);
+		RegisterType(EntityAI, CF_TypeConverterManaged);
 		RegisterType(CF_Expression, CF_TypeConverterExpression);
 		RegisterType(CF_Date, CF_TypeConverterDate);
 		RegisterType(CF_Localiser, CF_TypeConverterLocaliser);
@@ -82,7 +83,7 @@ class CF_TypeConverters
 			m_TypeConvertersMap.Find(baseType, convType);
 		}
 		
-		CF_TypeConverter res = CF_TypeConverter.Cast(convType.Spawn());
+		CF_TypeConverter res = CF_TypeConverter.Cast(convType.Spawn());		
 		
 		CF_Log.Info("Type=%1", "" + type);
 		CF_Log.Info("BaseType=%1", "" + baseType);
