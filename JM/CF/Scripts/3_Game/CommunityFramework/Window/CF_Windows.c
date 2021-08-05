@@ -15,7 +15,7 @@ class CF_Windows
 		CF_Timer.Create(this, "Update");
 	}
 
-	[CF_EventSubscriber(CF_Windows._Init, CF_LifecycleEvents.OnGameCreate)]
+	//[CF_EventSubscriber(CF_Windows._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
 		if (g_CF_Windows) return;
@@ -23,7 +23,7 @@ class CF_Windows
 		g_CF_Windows = new CF_Windows();
 	}
 
-	[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	//[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -33,13 +33,13 @@ class CF_Windows
 		g_CF_Windows = null;
 	}
 
-	[CF_EventSubscriber(CF_Windows._MissionInit, CF_LifecycleEvents.OnMissionCreate)]
+	//[CF_EventSubscriber(CF_Windows._MissionInit, CF_LifecycleEvents.OnMissionCreate)]
 	static void _MissionInit()
 	{
-		s_Container = GetGame().GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/windows/container.layout", NULL );
+		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
 	}
 
-	[CF_EventSubscriber(CF_Windows._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
+	//[CF_EventSubscriber(CF_Windows._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
 	static void _MissionCleanup()
 	{
 		s_Container.Unlink();
@@ -48,22 +48,6 @@ class CF_Windows
 	static Widget _GetContainer()
 	{
 		return s_Container;
-	}
-
-	static bool IsWidgetWindowRoot(Widget widget)
-	{  
-		CF_Window window = s_TopWindow;
-		while (window != null)
-		{
-			if (widget == window.GetWidgetRoot())
-			{
-				return true;
-			}
-			
-			window = window.GetNext();
-		}
-
-		return false;
 	}
 
 	static bool IsInputFocused()
@@ -88,15 +72,14 @@ class CF_Windows
 			window = window.GetNext();
 		}
 
-		UpdateInputFocus();
-
-		InputFocus(s_TopWindow != null);// && !m_RespondingToMouse);
-
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
 
-		if (m_RespondingToMouse && !isMouseDown)
+		if (m_RespondingToMouse)
 		{
-			m_RespondingToMouse = false;
+			if (!isMouseDown)
+			{
+				m_RespondingToMouse = false;
+			}
 		}
 		else if (isMouseDown && IsInputFocused())
 		{
@@ -107,6 +90,10 @@ class CF_Windows
 				InputFocus(false);
 			}
 		}
+
+		UpdateInputFocus();
+
+		InputFocus(s_TopWindow != null && !m_RespondingToMouse);
 	}
 
 	void UpdateInputFocus()
@@ -115,17 +102,17 @@ class CF_Windows
 
 		m_WasFocusWindows = m_FocusInput;
 
-		if (!m_FocusInput)
+		if (m_FocusInput)
 		{
-			GetGame().GetInput().ChangeGameFocus(-1);
-			GetGame().GetUIManager().ShowUICursor(false);
+			GetGame().GetInput().ChangeGameFocus(1);
+			GetGame().GetUIManager().ShowUICursor(true);
 			
 			SetFocus(NULL);
 		}
 		else
 		{
-			GetGame().GetInput().ChangeGameFocus(1);
-			GetGame().GetUIManager().ShowUICursor(true);
+			GetGame().GetInput().ChangeGameFocus(-1);
+			GetGame().GetUIManager().ShowUICursor(false);
 		}
 	}
 
@@ -151,6 +138,22 @@ class CF_Windows
 	 */
 	bool CheckWidgetForFocus(Widget widget)
 	{
+		return false;
+	}
+
+	static bool IsWidgetWindowRoot(Widget widget)
+	{  
+		CF_Window window = s_TopWindow;
+		while (window != null)
+		{
+			if (widget == window.GetWidgetRoot())
+			{
+				return true;
+			}
+			
+			window = window.GetNext();
+		}
+
 		return false;
 	}
 };

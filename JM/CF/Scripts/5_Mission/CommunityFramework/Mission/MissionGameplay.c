@@ -20,6 +20,8 @@ modded class MissionGameplay
 	{
 		super.OnMissionStart();
 
+        CF._MissionInit();
+
 		GetModuleManager().OnSettingsUpdated();
 		GetModuleManager().OnMissionStart();
 	}
@@ -27,6 +29,8 @@ modded class MissionGameplay
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
+
+        CF._MissionCleanup();
 		
 		CF_DebugUI.Hide(GetGame().GetPlayer());
 

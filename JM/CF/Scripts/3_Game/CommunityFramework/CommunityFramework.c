@@ -57,6 +57,8 @@ class CommunityFramework
 	static void _GameInit(bool realInit = false)
 	{
         if (!realInit) Game();
+
+        CF_Windows._Init();
 	}
 
     /**
@@ -73,10 +75,12 @@ class CommunityFramework
 
     static void _MissionInit()
     {
+        CF_Windows._MissionInit();
     }
 
     static void _MissionCleanup()
     {
+        CF_Windows._MissionCleanup();
     }
 
     /**
@@ -88,6 +92,8 @@ class CommunityFramework
     {
         ObjectManager._Cleanup();
 		XML._Cleanup();
+
+        CF_Windows._Cleanup();
 
 		#ifdef CF_MODULE_PERMISSIONS
 		Permission._Cleanup();

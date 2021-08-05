@@ -21,6 +21,13 @@ modded class MissionBase
 		CF._MissionInit();
 	}
 
+	override void OnMissionStart()
+	{
+		super.OnMissionStart();
+
+		CF._MissionInit();
+	}
+
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();

@@ -5,7 +5,7 @@ class CF_DebugUI_Instance : CF_TimerBase
 
 	private int m_DBGIndex;
 
-	private ref CF_Window m_Window;
+	private autoptr CF_Window m_Window;
 	private Class m_Class;
 
 	void CF_DebugUI_Instance(Class cls, int index)

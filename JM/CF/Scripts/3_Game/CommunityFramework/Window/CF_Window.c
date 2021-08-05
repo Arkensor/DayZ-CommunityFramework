@@ -25,10 +25,10 @@ class CF_Window : CF_Model
 
 	void CF_Window()
 	{
-		CF_MVVM.Create(this, GetLayoutFile(), CF_Windows._GetContainer());
-
 		SetPosition(0, 0);
 		SetSize(400, 400);
+
+		CF_MVVM.Create(this, GetLayoutFile(), CF_Windows._GetContainer());
 
 		if (CF_Windows.s_TopWindow)
 		{
@@ -69,7 +69,6 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(string layoutFile)
 	{
-		Print(content);
 		Widget child = content.GetChildren();
 		while (child != null)
 		{
@@ -90,6 +89,8 @@ class CF_Window : CF_Model
 		}
 
 		Widget newContent = wSpace.CreateWidgets(layoutFile, content);
+		if (!newContent) return null;
+		
 		newContent.ClearFlags(WidgetFlags.HEXACTSIZE | WidgetFlags.VEXACTSIZE);
 		newContent.SetPos(0, 0);
 		newContent.SetSize(1, 1);
@@ -98,7 +99,6 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(CF_ModelBase model, string layoutFile)
 	{
-		Print(content);
 		Widget child = content.GetChildren();
 		while (child != null)
 		{
@@ -110,7 +110,6 @@ class CF_Window : CF_Model
 		m_Model = model;
 
 		Widget newContent = CF_MVVM.Create(m_Model, layoutFile, content).GetWidget();
-		Print(newContent);
 		if (!newContent) return null;
 
 		newContent.ClearFlags(WidgetFlags.HEXACTSIZE | WidgetFlags.VEXACTSIZE);
@@ -187,7 +186,7 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
 		#endif
 		
-		//delete this;
+		delete this;
 	}
 
 	void OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs evt)
@@ -204,11 +203,11 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDrag", evt.ToStr());
 		#endif
 		
-		m_DragOffsetX = evt.X - m_PositionX;
-		m_DragOffsetY = evt.Y - m_PositionY;
+		//m_DragOffsetX = evt.X - m_PositionX;
+		//m_DragOffsetY = evt.Y - m_PositionY;
 
-		title_bar_drag.SetPos(0, 0, true);
-		title_bar_drag.SetPos(0, 0, false);
+		//title_bar_drag.SetPos(0, 0, true);
+		//title_bar_drag.SetPos(0, 0, false);
 	}
 
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs evt)
@@ -217,7 +216,7 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDragging", evt.ToStr());
 		#endif
 		
-		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
+		//SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
 	void OnDrop(CF_ModelBase sender, CF_DragEventArgs evt)
@@ -226,6 +225,6 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDrop", evt.ToStr());
 		#endif
 		
-		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
+		//SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 };

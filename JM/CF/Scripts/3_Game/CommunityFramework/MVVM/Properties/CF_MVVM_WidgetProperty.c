@@ -15,7 +15,8 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 		CF_Trace trace(this, "Assign", "" + model);
 		#endif
 
-		Widget widget = m_ViewModel.GetWidget().FindAnyWidget(m_VariableName);
+		Widget widget = m_ViewModel.GetWidget();
+		if (widget && widget.GetName() != m_VariableName) widget = widget.FindAnyWidget(m_VariableName);
 		if (!widget) return;
 
 		if (!widget.IsInherited(variableType))
