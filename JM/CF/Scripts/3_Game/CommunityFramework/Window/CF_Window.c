@@ -6,6 +6,15 @@ class CF_Window : CF_Model
 	private float m_Width;
 	private float m_Height;
 
+	private bool m_FullScreen;
+	private bool m_Minimized;
+
+	private float m_PreviousWidth;
+	private float m_PreviousHeight;
+
+	private float m_PreviousPositionX;
+	private float m_PreviousPositionY;
+
 	private string m_Title;
 
 	private int m_Sort;
@@ -164,6 +173,40 @@ class CF_Window : CF_Model
 		return m_Model;
 	}
 
+	void SetFullscreen(bool fullscreen, bool wasDrag = false)
+	{
+		if (m_FullScreen == fullscreen) return;
+
+		m_FullScreen = fullscreen;
+		NotifyPropertyChanged("m_FullScreen");
+
+		if (m_FullScreen)
+		{
+			m_PreviousWidth = m_Width;
+			m_PreviousHeight = m_Height;
+
+			m_PreviousPositionX = m_PositionX;
+			m_PreviousPositionY = m_PositionY;
+			
+			int w, h;
+			GetScreenSize(w, h);
+
+			SetSize(w - 300, h);
+			SetPosition(0, 0);
+		}
+		else
+		{
+			SetSize(m_PreviousWidth, m_PreviousHeight);
+			if (!wasDrag) SetPosition(m_PreviousPositionX, m_PreviousPositionY);
+		}
+	}
+
+	void SetMinimized(bool minimized)
+	{
+		m_Minimized = minimized;
+		NotifyPropertyChanged("m_Minimized");
+	}
+
 	void SetPosition(float x, float y)
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -196,6 +239,42 @@ class CF_Window : CF_Model
 		if (title_bar_drag) title_bar_drag.SetPos(0, 0, true);
 	}
 
+	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
+		#endif
+
+		SetMinimized(true);
+	}
+
+	void OnExpandButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
+		#endif
+
+		SetMinimized(false);
+	}
+
+	void OnWindowButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
+		#endif
+
+		SetFullscreen(false);
+	}
+
+	void OnFullscreenButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnCloseButtonClicked", evt.ToStr());
+		#endif
+
+		SetFullscreen(true);
+	}
+
 	void OnCloseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -220,11 +299,22 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDrag", evt.ToStr());
 		#endif
 		
+		if (m_FullScreen)
+		{
+			float newX = evt.X - (m_PreviousWidth * 0.5);
+			if (newX < 0) newX = 0;
+			else if (newX > m_Width) newX = m_Width - m_PreviousWidth;
+			
+			SetPosition(newX, 0.0);
+		}
+		
 		m_DragOffsetX = evt.X - m_PositionX;
 		m_DragOffsetY = evt.Y - m_PositionY;
 
 		title_bar_drag.SetPos(0, 0, true);
 		title_bar_drag.SetPos(0, 0, false);
+		
+		SetFullscreen(false, true);
 	}
 
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs evt)

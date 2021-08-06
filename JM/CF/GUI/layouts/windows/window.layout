@@ -1,7 +1,7 @@
 PanelWidgetClass base_window {
  visible 1
  color 0 0 0 0
- size 1 1
+ size 400 400
  hexactpos 1
  vexactpos 1
  hexactsize 1
@@ -33,7 +33,6 @@ PanelWidgetClass base_window {
    scriptclass "CF_PanelWidget"
    {
     ScriptParamsClass {
-     SubModel "m_Model"
      Height "m_ContentHeight"
     }
    }
@@ -72,28 +71,73 @@ PanelWidgetClass base_window {
    draggable 0
    style rover_sim_colorable
    {
-    TextWidgetClass title_text {
-     ignorepointer 1
-     color 1 1 1 1
-     position 6 0
-     size 1 1
-     halign left_ref
+    ButtonWidgetClass window_button {
+     visible 1
+     ignorepointer 0
+     color 1 0 0 1
+     position 30 1
+     size 25 25
+     halign right_ref
      valign center_ref
      hexactpos 1
-     vexactpos 0
-     hexactsize 0
-     vexactsize 0
-     scriptclass "CF_TextWidget"
-     style Normal
-     text "Placeholder Title"
-     font "gui/fonts/sdf_MetronLight24"
-     "exact text" 1
-     "exact text size" 18
-     "text halign" left
-     "text valign" center
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scriptclass "CF_ButtonWidget"
+     style Default
+     {
+      ImageWidgetClass window_button_image {
+       ignorepointer 1
+       position 0 0
+       size 0.8 0.8
+       halign center_ref
+       valign center_ref
+       hexactsize 0
+       vexactsize 0
+       image0 "set:cf_imageset image:window_white"
+       mode additive
+       "src alpha" 1
+      }
+     }
      {
       ScriptParamsClass {
-       Text "m_Title"
+       Event_Click "OnWindowButtonClicked"
+       Visible "m_FullScreen"
+      }
+     }
+    }
+    ButtonWidgetClass fullscreen_button {
+     visible 1
+     ignorepointer 0
+     color 1 0 0 1
+     position 30 1
+     size 25 25
+     halign right_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scriptclass "CF_ButtonWidget"
+     style Default
+     {
+      ImageWidgetClass fullscreen_button_image {
+       ignorepointer 1
+       position 0 0
+       size 0.8 0.8
+       halign center_ref
+       valign center_ref
+       hexactsize 0
+       vexactsize 0
+       image0 "set:cf_imageset image:fullscreen_white"
+       mode additive
+       "src alpha" 1
+      }
+     }
+     {
+      ScriptParamsClass {
+       Event_Click "OnFullscreenButtonClicked"
+       Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
       }
      }
     }
@@ -101,7 +145,7 @@ PanelWidgetClass base_window {
      visible 1
      ignorepointer 0
      color 1 0 0 1
-     position 6 1
+     position 2 1
      size 25 25
      halign right_ref
      valign center_ref
@@ -115,12 +159,12 @@ PanelWidgetClass base_window {
       ImageWidgetClass close_button_image {
        ignorepointer 1
        position 0 0
-       size 1 1
-       halign right_ref
+       size 0.8 0.8
+       halign center_ref
        valign center_ref
        hexactsize 0
        vexactsize 0
-       image0 "set:dayz_gui image:icon_x"
+       image0 "set:cf_imageset image:close_white"
        mode additive
        "src alpha" 1
       }
@@ -128,6 +172,146 @@ PanelWidgetClass base_window {
      {
       ScriptParamsClass {
        Event_Click "OnCloseButtonClicked"
+      }
+     }
+    }
+    PanelWidgetClass title_wrapper_fullscreen {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass title_text_fullscreen {
+       ignorepointer 1
+       color 1 1 1 1
+       position 32 0
+       size 1 1
+       halign left_ref
+       valign center_ref
+       hexactpos 1
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       scriptclass "CF_TextWidget"
+       style Normal
+       text "Placeholder Title"
+       font "gui/fonts/sdf_MetronLight24"
+       "exact text" 1
+       "exact text size" 18
+       "text halign" left
+       "text valign" center
+       {
+        ScriptParamsClass {
+         Text "m_Title"
+        }
+       }
+      }
+     }
+    }
+    PanelWidgetClass title_wrapper_windowed {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass title_text_windowed {
+       ignorepointer 1
+       color 1 1 1 1
+       position 32 0
+       size 1 1
+       halign left_ref
+       valign center_ref
+       hexactpos 1
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       scriptclass "CF_TextWidget"
+       style Normal
+       text "Placeholder Title"
+       font "gui/fonts/sdf_MetronLight24"
+       "exact text" 1
+       "exact text size" 18
+       "text halign" left
+       "text valign" center
+       {
+        ScriptParamsClass {
+         Text "m_Title"
+        }
+       }
+      }
+      ButtonWidgetClass shrink_button {
+       visible 1
+       ignorepointer 0
+       color 1 0 0 1
+       position 2 0
+       size 25 25
+       valign center_ref
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass "CF_ButtonWidget"
+       style Default
+       {
+        ImageWidgetClass shrink_button_image {
+         ignorepointer 1
+         position 0 0
+         size 0.8 0.8
+         halign center_ref
+         valign center_ref
+         hexactsize 0
+         vexactsize 0
+         image0 "set:cf_imageset image:minimize_white"
+         mode additive
+         "src alpha" 1
+        }
+       }
+       {
+        ScriptParamsClass {
+         Visible "m_Minimized:CF_TypeConverter_BoolInvert"
+         Event_Click "OnShrinkButtonClicked"
+        }
+       }
+      }
+      ButtonWidgetClass expand_button {
+       visible 1
+       ignorepointer 0
+       color 1 0 0 1
+       position 2 0
+       size 25 25
+       valign center_ref
+       hexactpos 1
+       vexactpos 1
+       hexactsize 1
+       vexactsize 1
+       scriptclass "CF_ButtonWidget"
+       style Default
+       {
+        ImageWidgetClass expand_button_image {
+         ignorepointer 1
+         position 0 0
+         size 0.8 0.8
+         halign center_ref
+         valign center_ref
+         hexactsize 0
+         vexactsize 0
+         image0 "set:cf_imageset image:maximize_white"
+         mode additive
+         "src alpha" 1
+        }
+       }
+       {
+        ScriptParamsClass {
+         Visible "m_Minimized"
+         Event_Click "OnExpandButtonClicked"
+        }
+       }
       }
      }
     }

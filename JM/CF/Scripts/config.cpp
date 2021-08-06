@@ -43,6 +43,19 @@ class CfgMods
 		
 		class defs
 		{
+			class widgetStyles
+			{
+				files[]=
+				{
+				};
+			};
+			class imageSets
+			{
+				files[]=
+				{
+					"JM/CF/GUI/textures/imageset.imageset"
+				};
+			};
 			class engineScriptModule
 			{
 				value = "";

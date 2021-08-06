@@ -73,26 +73,23 @@ class CF_Windows
 
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
 
-		if (m_RespondingToMouse)
+		if (m_RespondingToMouse && !isMouseDown)
 		{
-			if (!isMouseDown)
-			{
-				m_RespondingToMouse = false;
-			}
+			m_RespondingToMouse = false;
 		}
-		else if (!m_RespondingToMouse && isMouseDown && IsInputFocused())
+		else if (!m_RespondingToMouse && isMouseDown)
 		{
-			if (!KeepMouseFocused())
-			{
-				m_RespondingToMouse = true;
+			m_RespondingToMouse = true;
 
+			if (!KeepMouseFocused() && IsInputFocused())
+			{
 				InputFocus(false);
 			}
 		}
 
 		UpdateInputFocus();
 
-		InputFocus(numRemovesMouseFocus > 0 && !m_RespondingToMouse);
+		if (!m_RespondingToMouse) InputFocus(numRemovesMouseFocus > 0);
 		
 		s_Container.SetFlags(WidgetFlags.VEXACTSIZE | WidgetFlags.HEXACTSIZE);
 		int w, h;
