@@ -22,7 +22,8 @@ class CF_Timer : CF_TimerBase
 		timer.m_Params = params;
 		if (!timer.m_Params) timer.m_Params = new CF_TimerParam();
 
-		timer.SetDuration(duration);
+		timer.SetInterval(duration);
+		timer.Start();
 
 		return timer;
 	}
@@ -33,13 +34,13 @@ class CF_Timer : CF_TimerBase
 		CF_Trace trace(this, "OnUpdate", "" + dt);
 		#endif
 
-		if (m_Object)
+		if (!m_Object)
 		{
-			super.OnUpdate(dt);
+			Destroy();
 			return;
 		}
 		
-		delete this;
+		super.OnUpdate(dt);
 	}
 
 	protected override void OnTick(float dt)
@@ -50,25 +51,5 @@ class CF_Timer : CF_TimerBase
 
 		m_Params.m_DeltaTime = dt;
 		g_Script.CallFunctionParams(m_Object, m_Function, NULL, m_Params);
-	}
-};
-
-class CF_TimerParam
-{
-	CF_Timer m_Timer;
-	float m_DeltaTime;
-};
-
-class CF_TimerParam1<Class T> : CF_TimerParam
-{
-	ref T m_Param1;
-
-	void CF_TimerParam1(T param1)
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_TimerParam1", "" + param1);
-		#endif
-
-		m_Param1 = param1;
 	}
 };
