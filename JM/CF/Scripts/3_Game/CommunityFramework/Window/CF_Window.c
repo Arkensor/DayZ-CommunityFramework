@@ -30,6 +30,10 @@ class CF_Window : CF_Model
 	private Widget border_down;
 	private Widget border_left;
 	private Widget border_right;
+	private Widget border_upleft;
+	private Widget border_upright;
+	private Widget border_downleft;
+	private Widget border_downright;
 
 	private Widget base_window;
 	private Widget content;
@@ -411,6 +415,71 @@ class CF_Window : CF_Model
 
 		float newSizeX = m_PreviousWidth + (evt.X - m_ResizeStartX);
 		SetSize(newSizeX, m_PreviousHeight);
+
+		FixDraggables();
+	}
+
+	void OnResizingUpLeft(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeX = m_PreviousWidth - (evt.X - m_ResizeStartX);
+		float newPosX = m_PreviousPositionX + (evt.X - m_ResizeStartX);
+		float newSizeY = m_PreviousHeight - (evt.Y - m_ResizeStartY);
+		float newPosY = m_PreviousPositionY + (evt.Y - m_ResizeStartY);
+
+		SetSize(newSizeX, newSizeY);
+		SetPosition(newPosX, newPosY);
+
+		FixDraggables();
+	}
+
+	void OnResizingUpRight(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeX = m_PreviousWidth + (evt.X - m_ResizeStartX);
+		float newSizeY = m_PreviousHeight - (evt.Y - m_ResizeStartY);
+		float newPosY = m_PreviousPositionY + (evt.Y - m_ResizeStartY);
+
+		SetSize(newSizeX, newSizeY);
+		SetPosition(m_PreviousPositionX, newPosY);
+
+		FixDraggables();
+	}
+
+	void OnResizingDownLeft(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeX = m_PreviousWidth - (evt.X - m_ResizeStartX);
+		float newPosX = m_PreviousPositionX + (evt.X - m_ResizeStartX);
+		float newSizeY = m_PreviousHeight + (evt.Y - m_ResizeStartY);
+
+		SetSize(newSizeX, newSizeY);
+		SetPosition(newPosX, m_PreviousPositionY);
+
+		FixDraggables();
+	}
+
+	void OnResizingDownRight(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeX = m_PreviousWidth + (evt.X - m_ResizeStartX);
+		float newSizeY = m_PreviousHeight + (evt.Y - m_ResizeStartY);
+
+		SetSize(newSizeX, newSizeY);
+
+		FixDraggables();
 	}
 
 	void FixDraggables()

@@ -403,6 +403,90 @@ PanelWidgetClass base_window {
     }
    }
   }
+  ButtonWidgetClass border_up_left {
+   ignorepointer 0
+   color 1 0 1 1
+   size 3 3
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingUpLeft"
+     Event_Drop "OnStopResizing"
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  ButtonWidgetClass border_up_right {
+   ignorepointer 0
+   color 1 0 1 1
+   size 3 3
+   halign right_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingUpRight"
+     Event_Drop "OnStopResizing"
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  ButtonWidgetClass border_down_left {
+   ignorepointer 0
+   color 1 0 1 1
+   size 3 3
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingDownLeft"
+     Event_Drop "OnStopResizing"
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  ButtonWidgetClass border_down_right {
+   ignorepointer 0
+   color 1 0 1 1
+   size 3 3
+   halign right_ref
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingDownRight"
+     Event_Drop "OnStopResizing"
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
  }
  {
   ScriptParamsClass {
