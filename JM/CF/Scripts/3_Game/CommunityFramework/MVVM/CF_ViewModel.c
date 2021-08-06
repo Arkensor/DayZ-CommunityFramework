@@ -104,6 +104,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "~CF_ViewModel");
 		#endif
+
+		if (!m_Parent)
+		{
+			CF_MVVM.s_ModelMap.Remove(m_Model);
+		}
 	}
 
 	void NotifyPropertyChanged(string name, string source, CF_EventArgs args = null)

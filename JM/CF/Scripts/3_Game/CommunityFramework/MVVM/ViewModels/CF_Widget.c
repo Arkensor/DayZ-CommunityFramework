@@ -282,6 +282,8 @@ class CF_Widget : CF_ViewModel
 		CF_Trace trace(this, "OnView_ScreenPositionX", "" + sender, args.ToStr());
 		#endif
 		
+		return;
+		
 		float _positionX;
 		float _positionY;
 		_Widget.GetScreenPos(_positionX, _positionY);
@@ -294,6 +296,8 @@ class CF_Widget : CF_ViewModel
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ScreenPositionX", "" + sender, args.ToStr());
 		#endif
+		
+		return;
 		
 		float _positionX;
 		float _positionY;
@@ -325,6 +329,8 @@ class CF_Widget : CF_ViewModel
 		CF_Trace trace(this, "OnView_ScreenPositionY", "" + sender, args.ToStr());
 		#endif
 
+		return;
+
 		float _positionX;
 		float _positionY;
 		_Widget.GetScreenPos(_positionX, _positionY);
@@ -337,6 +343,8 @@ class CF_Widget : CF_ViewModel
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnModel_ScreenPositionY", "" + sender, args.ToStr());
 		#endif
+
+		return;
 
 		float _positionX;
 		float _positionY;
@@ -517,11 +525,11 @@ class CF_Widget : CF_ViewModel
 		CF_Trace trace(this, "OnUpdate", args.ToStr());
 		#endif
 		
-		NotifyPropertyChanged(PositionX, "PositionX");
-		NotifyPropertyChanged(PositionY, "PositionY");
+		//NotifyPropertyChanged(PositionX, "PositionX");
+		//NotifyPropertyChanged(PositionY, "PositionY");
 		
-		NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
-		NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
+		//NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
+		//NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
 
 		bool visible = _Widget.IsVisible();
 		if (!_Visible.IsDefault() && _Visible.GetBool() != visible)

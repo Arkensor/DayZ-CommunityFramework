@@ -18,6 +18,7 @@ class CF_DebugUI_Instance : CF_TimerBase
 		m_DBGIndex = index;
 		
 		m_Window = new CF_Window();
+		m_Window.SetTakesGameFocus(false);
 		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
 	}
 

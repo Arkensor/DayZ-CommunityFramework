@@ -93,7 +93,7 @@ PanelWidgetClass base_window {
      "text valign" center
      {
       ScriptParamsClass {
-       Text "Title"
+       Text "m_Title"
       }
      }
     }

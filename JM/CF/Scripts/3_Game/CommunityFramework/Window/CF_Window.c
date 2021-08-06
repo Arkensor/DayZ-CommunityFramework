@@ -8,7 +8,7 @@ class CF_Window : CF_Model
 
 	private string m_Title;
 
-	int m_Sort;
+	private int m_Sort;
 
 	private Widget title_bar_drag;
 	private float m_DragOffsetX;
@@ -20,31 +20,27 @@ class CF_Window : CF_Model
  
 	private ref CF_ModelBase m_Model;
 
-	private CF_Window m_Above;
-	private CF_Window m_Below;
+	private CF_Window m_Prev;
+	private CF_Window m_Next;
 
-	void CF_Window()
+	private bool m_TakesGameFocus;
+
+	void CF_Window(string title = "Window", int width = 400, int height = 400)
 	{
+		m_TakesGameFocus = true;
+
+		SetTitle(title);
 		SetPosition(0, 0);
-		SetSize(400, 400);
+		SetSize(width, height);
 
 		CF_MVVM.Create(this, GetLayoutFile(), CF_Windows._GetContainer());
 
-		if (CF_Windows.s_TopWindow)
-		{
-			CF_Windows.s_TopWindow.m_Above = this;
-			m_Below = CF_Windows.s_TopWindow;
-		}
-
-		CF_Windows.s_TopWindow = this;
+		Add();
 	}
 
 	void ~CF_Window()
 	{
-		if (m_Above) m_Above.m_Below = m_Below;
-		if (m_Below) m_Below.m_Above = m_Above;
-
-		if (CF_Windows.s_TopWindow == this) CF_Windows.s_TopWindow = m_Below;
+		Remove();
 
 		if (m_Model)
 		{
@@ -59,7 +55,12 @@ class CF_Window : CF_Model
 
 	CF_Window GetNext()
 	{
-		return m_Below;
+		return m_Next;
+	}
+
+	CF_Window GetPrev()
+	{
+		return m_Prev;
 	}
 
 	Widget GetWidgetRoot()
@@ -129,6 +130,21 @@ class CF_Window : CF_Model
 		NotifyPropertyChanged("m_Title");
 	}
 
+	string GetTitle()
+	{
+		return m_Title;
+	}
+
+	void SetTakesGameFocus(bool takes)
+	{
+		m_TakesGameFocus = takes;
+	}
+
+	bool DoesTakeGameFocus()
+	{
+		return m_TakesGameFocus;
+	}
+
 	void SetModel(CF_ModelBase model)
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -195,6 +211,7 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnMouseButtonDown", evt.ToStr());
 		#endif
 
+		BringTop();
 	}
 
 	void OnDrag(CF_ModelBase sender, CF_DragEventArgs evt)
@@ -203,11 +220,11 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDrag", evt.ToStr());
 		#endif
 		
-		//m_DragOffsetX = evt.X - m_PositionX;
-		//m_DragOffsetY = evt.Y - m_PositionY;
+		m_DragOffsetX = evt.X - m_PositionX;
+		m_DragOffsetY = evt.Y - m_PositionY;
 
-		//title_bar_drag.SetPos(0, 0, true);
-		//title_bar_drag.SetPos(0, 0, false);
+		title_bar_drag.SetPos(0, 0, true);
+		title_bar_drag.SetPos(0, 0, false);
 	}
 
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs evt)
@@ -216,7 +233,7 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDragging", evt.ToStr());
 		#endif
 		
-		//SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
+		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
 	void OnDrop(CF_ModelBase sender, CF_DragEventArgs evt)
@@ -225,6 +242,138 @@ class CF_Window : CF_Model
 		CF_Trace trace(this, "OnDrop", evt.ToStr());
 		#endif
 		
-		//SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
+		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
+	}
+
+	/*private*/ void _SetSort(int sort)
+	{
+		m_Sort = sort;
+		NotifyPropertyChanged("m_Sort");
+	}
+
+	private CF_Window Add()
+	{
+		CF_Window _this = this;
+
+		if (!CF_Windows.m_Head)
+		{
+			CF_Windows.m_Head = _this;
+			CF_Windows.m_Tail = _this;
+		}
+		else
+		{
+			m_Next = CF_Windows.m_Head;
+			CF_Windows.m_Head.m_Prev = _this;
+			CF_Windows.m_Head = _this;
+		}
+
+		return _this;
+	}
+
+	private CF_Window Insert(CF_Window previous)
+	{
+		CF_Window _this = this;
+
+		if (!previous)
+		{
+			m_Prev = null;
+			m_Next = CF_Windows.m_Head;
+			CF_Windows.m_Head.m_Prev = _this;
+			CF_Windows.m_Head = _this;
+		}
+		else if (!previous.m_Next)
+		{
+			m_Next = null;
+			m_Prev = CF_Windows.m_Tail;
+			CF_Windows.m_Tail.m_Next = _this;
+			CF_Windows.m_Tail = _this;
+		}
+		else
+		{
+			m_Prev = previous;
+			m_Next = m_Prev.m_Next;
+			m_Next.m_Prev = this;
+			m_Prev.m_Next = this;
+		}
+
+		return _this;
+	}
+
+	private CF_Window Remove()
+	{
+		CF_Window _this = this;
+
+		if (m_Next)
+		{
+			m_Next.m_Prev = m_Prev;
+		}
+		else
+		{
+			CF_Windows.m_Tail = m_Prev;
+		}
+
+		if (m_Prev)
+		{
+			m_Prev.m_Next = m_Next;
+		}
+		else
+		{
+			CF_Windows.m_Head = m_Next;
+		}
+
+		m_Prev = null;
+		m_Next = null;
+
+		return _this;
+	}
+
+	void BringUp()
+	{
+		CF_Window _this = this;
+
+		CF_Window prev = null;
+		if (m_Prev) prev = m_Prev.m_Prev;
+
+		if (m_Prev || m_Next)
+		{
+			// Incrementing the reference count, so this window doesn't get destroyed.
+			_this = Remove();
+		} else return;
+
+		Insert(prev);
+
+		return;
+	}
+
+	void BringDown()
+	{
+		CF_Window _this = this;
+
+		CF_Window prev = m_Next;
+
+		if (m_Prev || m_Next)
+		{
+			// Incrementing the reference count, so this window doesn't get destroyed.
+			_this = Remove();
+		} else return;
+
+		Insert(prev);
+
+		return;
+	}
+
+	void BringTop()
+	{
+		CF_Window _this = this;
+
+		if (CF_Windows.m_Head == _this) return;
+
+		if (m_Prev || m_Next)
+		{
+			// Incrementing the reference count, so this window doesn't get destroyed.
+			_this = Remove();
+		} else return;
+
+		Add();
 	}
 };

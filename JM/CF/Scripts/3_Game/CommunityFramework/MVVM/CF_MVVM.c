@@ -2,8 +2,8 @@ static autoptr CF_MVVM g_CF_MVVM = null;
 
 class CF_MVVM
 {
-	//TODO: maybe change from 'CF_ModelBase' to typename + an ID of sorts (maybe casting to int)
-	private static ref map<CF_ModelBase, ref CF_MVVM_Linker> s_ModelMap;
+	//! Do not directly use this variable, interface with the functions..
+	/*private*/ static ref map<CF_ModelBase, ref CF_MVVM_Linker> s_ModelMap;
 
     #ifdef COMPONENT_SYSTEM
 	static bool WB_NEXT_IN_SCRIPT = false;
@@ -251,8 +251,6 @@ class CF_MVVM
 		if (!s_ModelMap.Find(model, link)) return;
 
 		link.Unlink();
-
-		s_ModelMap.Remove(model);
 	}
 
 	/**

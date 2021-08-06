@@ -1,8 +1,9 @@
-static autoptr CF_Windows g_CF_Windows = null;
+static autoptr CF_Windows g_CF_Windows;
 
 class CF_Windows
 {
-	static CF_Window s_TopWindow;
+	static CF_Window m_Head;
+	static CF_Window m_Tail;
 
 	private static Widget s_Container;
 
@@ -15,7 +16,6 @@ class CF_Windows
 		CF_Timer.Create(this, "Update");
 	}
 
-	//[CF_EventSubscriber(CF_Windows._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
 		if (g_CF_Windows) return;
@@ -23,7 +23,6 @@ class CF_Windows
 		g_CF_Windows = new CF_Windows();
 	}
 
-	//[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -33,13 +32,11 @@ class CF_Windows
 		g_CF_Windows = null;
 	}
 
-	//[CF_EventSubscriber(CF_Windows._MissionInit, CF_LifecycleEvents.OnMissionCreate)]
 	static void _MissionInit()
 	{
 		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
 	}
 
-	//[CF_EventSubscriber(CF_Windows._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
 	static void _MissionCleanup()
 	{
 		s_Container.Unlink();
@@ -62,14 +59,16 @@ class CF_Windows
 
 	void Update(CF_TimerBase timer, float dt)
 	{
-		CF_Window window = s_TopWindow;
+		CF_Window window = m_Tail;
+		int numRemovesMouseFocus = 0;
 		int index = 1;
 		while (window != null)
 		{
-			window.m_Sort = index++;
-			window.NotifyPropertyChanged("m_Sort");
+			window._SetSort(index++);
 
-			window = window.GetNext();
+			if (window.DoesTakeGameFocus()) numRemovesMouseFocus++;
+
+			window = window.GetPrev();
 		}
 
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
@@ -81,19 +80,24 @@ class CF_Windows
 				m_RespondingToMouse = false;
 			}
 		}
-		else if (isMouseDown && IsInputFocused())
+		else if (!m_RespondingToMouse && isMouseDown && IsInputFocused())
 		{
-			m_RespondingToMouse = true;
-
 			if (!KeepMouseFocused())
 			{
+				m_RespondingToMouse = true;
+
 				InputFocus(false);
 			}
 		}
 
 		UpdateInputFocus();
 
-		InputFocus(s_TopWindow != null && !m_RespondingToMouse);
+		InputFocus(numRemovesMouseFocus > 0 && !m_RespondingToMouse);
+		
+		s_Container.SetFlags(WidgetFlags.VEXACTSIZE | WidgetFlags.HEXACTSIZE);
+		int w, h;
+		GetScreenSize(w, h);
+		s_Container.SetSize(w, h);
 	}
 
 	void UpdateInputFocus()
@@ -118,7 +122,7 @@ class CF_Windows
 
 	bool KeepMouseFocused()
 	{
-		if (!GetGame().GetUIManager().GetMenu()) return false;
+		//if (GetGame().GetUIManager().GetMenu()) return true;
 
 		Widget widget = GetWidgetUnderCursor();
 		while (widget != null)
@@ -143,7 +147,7 @@ class CF_Windows
 
 	static bool IsWidgetWindowRoot(Widget widget)
 	{  
-		CF_Window window = s_TopWindow;
+		CF_Window window = m_Tail;
 		while (window != null)
 		{
 			if (widget == window.GetWidgetRoot())
@@ -151,7 +155,7 @@ class CF_Windows
 				return true;
 			}
 			
-			window = window.GetNext();
+			window = window.GetPrev();
 		}
 
 		return false;

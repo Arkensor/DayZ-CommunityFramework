@@ -4,11 +4,14 @@ modded class MissionGameplay
 
 	void MissionGameplay()
 	{
+        CF._MissionInit();
+
 		m_bLoaded = false;
 	}
 
 	void ~MissionGameplay()
 	{
+        CF._MissionCleanup();
 	}
 
 	override void OnInit()
@@ -20,8 +23,6 @@ modded class MissionGameplay
 	{
 		super.OnMissionStart();
 
-        CF._MissionInit();
-
 		GetModuleManager().OnSettingsUpdated();
 		GetModuleManager().OnMissionStart();
 	}
@@ -29,10 +30,6 @@ modded class MissionGameplay
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
-
-        CF._MissionCleanup();
-		
-		CF_DebugUI.Hide(GetGame().GetPlayer());
 
 		GetModuleManager().OnMissionFinish();
 	}
@@ -42,8 +39,6 @@ modded class MissionGameplay
 		super.OnMissionLoaded();
 
 		GetModuleManager().OnMissionLoaded();
-		
-		CF_DebugUI.Show(GetGame().GetPlayer());
 	}
 
 	override void OnUpdate( float timeslice )
