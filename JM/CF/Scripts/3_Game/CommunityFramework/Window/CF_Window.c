@@ -24,6 +24,13 @@ class CF_Window : CF_Model
 	private float m_DragOffsetY;
 	private float m_ContentHeight;
 
+	private float m_ResizeStartX;
+	private float m_ResizeStartY;
+	private Widget border_up;
+	private Widget border_down;
+	private Widget border_left;
+	private Widget border_right;
+
 	private Widget base_window;
 	private Widget content;
  
@@ -218,8 +225,8 @@ class CF_Window : CF_Model
 
 		NotifyPropertyChanged("m_PositionX");
 		NotifyPropertyChanged("m_PositionY");
-		
-		if (title_bar_drag) title_bar_drag.SetPos(0, 0, true);
+
+		FixDraggables();
 	}
 
 	void SetSize(float x, float y)
@@ -230,13 +237,17 @@ class CF_Window : CF_Model
 		
 		m_Width = x;
 		m_Height = y;
+
+		if (m_Width < 100) m_Width = 100;
+		if (m_Height < 25) m_Height = 25;
+
 		m_ContentHeight = m_Height - 25;
 
 		NotifyPropertyChanged("m_Width");
 		NotifyPropertyChanged("m_Height");
 		NotifyPropertyChanged("m_ContentHeight");
-		
-		if (title_bar_drag) title_bar_drag.SetPos(0, 0, true);
+
+		FixDraggables();
 	}
 
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs evt)
@@ -304,15 +315,12 @@ class CF_Window : CF_Model
 			float newX = evt.X - (m_PreviousWidth * 0.5);
 			if (newX < 0) newX = 0;
 			else if (newX > m_Width) newX = m_Width - m_PreviousWidth;
-			
+
 			SetPosition(newX, 0.0);
 		}
 		
 		m_DragOffsetX = evt.X - m_PositionX;
 		m_DragOffsetY = evt.Y - m_PositionY;
-
-		title_bar_drag.SetPos(0, 0, true);
-		title_bar_drag.SetPos(0, 0, false);
 		
 		SetFullscreen(false, true);
 	}
@@ -326,13 +334,99 @@ class CF_Window : CF_Model
 		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
 	}
 
-	void OnDrop(CF_ModelBase sender, CF_DragEventArgs evt)
+	void OnStartResizing(CF_ModelBase sender, CF_DragEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnDrop", evt.ToStr());
+		CF_Trace trace(this, "OnStartResizing", evt.ToStr());
 		#endif
-		
-		SetPosition(evt.X - m_DragOffsetX, evt.Y - m_DragOffsetY);
+
+		m_ResizeStartX = evt.X;
+		m_ResizeStartY = evt.Y;
+
+		m_PreviousWidth = m_Width;
+		m_PreviousHeight = m_Height;
+
+		m_PreviousPositionX = m_PositionX;
+		m_PreviousPositionY = m_PositionY;
+
+		FixDraggables();
+	}
+
+	void OnStopResizing(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnStartResizing", evt.ToStr());
+		#endif
+
+		SetFocus(null);
+
+		FixDraggables();
+	}
+
+	void OnResizingUp(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeY = m_PreviousHeight - (evt.Y - m_ResizeStartY);
+		float newPosY = m_PreviousPositionY + (evt.Y - m_ResizeStartY);
+		SetSize(m_PreviousWidth, newSizeY);
+		SetPosition(m_PreviousPositionX, newPosY);
+
+		FixDraggables();
+	}
+
+	void OnResizingDown(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeY = m_PreviousHeight + (evt.Y - m_ResizeStartY);
+		SetSize(m_PreviousWidth, newSizeY);
+
+		FixDraggables();
+	}
+
+	void OnResizingLeft(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeX = m_PreviousWidth - (evt.X - m_ResizeStartX);
+		float newPosX = m_PreviousPositionX + (evt.X - m_ResizeStartX);
+		SetSize(newSizeX, m_PreviousHeight);
+		SetPosition(newPosX, m_PreviousPositionY);
+
+		FixDraggables();
+	}
+
+	void OnResizingRight(CF_ModelBase sender, CF_DragEventArgs evt)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnResizingUp", evt.ToStr());
+		#endif
+
+		float newSizeX = m_PreviousWidth + (evt.X - m_ResizeStartX);
+		SetSize(newSizeX, m_PreviousHeight);
+	}
+
+	void FixDraggables()
+	{
+		title_bar_drag.SetPos(0, 0, true);
+		title_bar_drag.SetPos(0, 0, false);
+
+		border_up.SetPos(0, 0, true);
+		border_down.SetPos(0, 0, true);
+		border_left.SetPos(0, 0, true);
+		border_right.SetPos(0, 0, true);
+
+		border_up.SetPos(0, 0, false);
+		border_down.SetPos(0, 0, false);
+		border_left.SetPos(0, 0, false);
+		border_right.SetPos(0, 0, false);
 	}
 
 	/*private*/ void _SetSort(int sort)
