@@ -1,7 +1,7 @@
 class CF_Window : CF_Model
 {
 	// Attached
-	private ref CF_ModelBase m_Model;
+	private CF_ModelBase m_Model;
 
 	// Sorting
 	private CF_Window m_Prev;
@@ -338,7 +338,7 @@ class CF_Window : CF_Model
 		{
 			float newX = args.X - (m_PreviousWidth * 0.5);
 			if (newX < 0) newX = 0;
-			else if (newX > m_Width - m_PreviousWidth) newX = m_Width - m_PreviousWidth;
+			else if (newX > m_Width) newX = m_Width - m_PreviousWidth;
 
 			SetPosition(newX, 0.0);
 		}
@@ -391,9 +391,7 @@ class CF_Window : CF_Model
 
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
-
 		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight) newPosY = m_PreviousPositionY + m_PreviousHeight;
-
 		SetSize(m_PreviousWidth, newSizeY);
 		SetPosition(m_PreviousPositionX, newPosY);
 
@@ -409,7 +407,6 @@ class CF_Window : CF_Model
 		#endif
 
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
-
 		SetSize(m_PreviousWidth, newSizeY);
 
 		ResetBorder();
@@ -425,9 +422,6 @@ class CF_Window : CF_Model
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
-
-		if (newPosX + m_MinimumWidth > m_PreviousPositionX + m_PreviousWidth) newPosX = m_PreviousPositionX + m_PreviousWidth;
-
 		SetSize(newSizeX, m_PreviousHeight);
 		SetPosition(newPosX, m_PreviousPositionY);
 
@@ -443,7 +437,6 @@ class CF_Window : CF_Model
 		#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
-
 		SetSize(newSizeX, m_PreviousHeight);
 
 		ResetBorder();
@@ -461,9 +454,6 @@ class CF_Window : CF_Model
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
-
-		if (newPosX + m_MinimumWidth > m_PreviousPositionX + m_PreviousWidth) newPosX = m_PreviousPositionX + m_PreviousWidth;
-		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight) newPosY = m_PreviousPositionY + m_PreviousHeight;
 
 		SetSize(newSizeX, newSizeY);
 		SetPosition(newPosX, newPosY);
@@ -483,8 +473,6 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 
-		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight) newPosY = m_PreviousPositionY + m_PreviousHeight;
-
 		SetSize(newSizeX, newSizeY);
 		SetPosition(m_PreviousPositionX, newPosY);
 
@@ -502,8 +490,6 @@ class CF_Window : CF_Model
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
-
-		if (newPosX + m_MinimumWidth > m_PreviousPositionX + m_PreviousWidth) newPosX = m_PreviousPositionX + m_PreviousWidth;
 
 		SetSize(newSizeX, newSizeY);
 		SetPosition(newPosX, m_PreviousPositionY);

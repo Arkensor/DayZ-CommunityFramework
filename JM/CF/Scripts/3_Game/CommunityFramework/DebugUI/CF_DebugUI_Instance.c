@@ -16,10 +16,8 @@ class CF_DebugUI_Instance : CF_TimerBase
 
 		m_Class = cls;
 		m_DBGIndex = index;
-		
-		m_Window = new CF_Window();
-		m_Window.SetTakesGameFocus(false);
-		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
+
+		Show();
 	}
 
 	void ~CF_DebugUI_Instance()
@@ -32,6 +30,23 @@ class CF_DebugUI_Instance : CF_TimerBase
 		CF_DebugUI.s_Instances[m_DBGIndex] = CF_DebugUI.s_Instances[CF_DebugUI.s_Count];
 		CF_DebugUI.s_Instances[m_DBGIndex].m_DBGIndex = m_DBGIndex;
 		CF_DebugUI.s_Instances[CF_DebugUI.s_Count] = null;
+	}
+
+	void Show()
+	{
+		if (m_Window) return;
+		
+		m_Window = new CF_Window();
+		m_Window.SetTakesGameFocus(false);
+		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
+		
+		Start();
+	}
+
+	void Close()
+	{
+		m_Window = null;
+		Stop();
 	}
 
 	Class GetClass()
