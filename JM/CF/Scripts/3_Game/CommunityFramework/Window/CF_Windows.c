@@ -106,30 +106,35 @@ class CF_Windows
 		if (m_FocusInput)
 		{
 			GetGame().GetInput().ChangeGameFocus(1);
-			GetGame().GetUIManager().ShowUICursor(true);
 			
 			SetFocus(NULL);
 		}
 		else
 		{
 			GetGame().GetInput().ChangeGameFocus(-1);
-			GetGame().GetUIManager().ShowUICursor(false);
 		}
+		
+		GetGame().GetUIManager().ShowUICursor(!GetGame().GetInput().HasGameFocus());
 	}
 
 	bool KeepMouseFocused()
 	{
-		//if (GetGame().GetUIManager().GetMenu()) return true;
+		if (CheckForFocus()) return true;
 
 		Widget widget = GetWidgetUnderCursor();
 		while (widget != null)
 		{
-			if (IsWidgetWindowRoot(widget)) return true;
-
 			if (CheckWidgetForFocus(widget)) return true;
 
 			widget = widget.GetParent();
 		}
+
+		return false;
+	}
+
+	bool CheckForFocus()
+	{
+		if (GetGame().GetUIManager().GetMenu()) return true;
 
 		return false;
 	}
@@ -139,6 +144,8 @@ class CF_Windows
 	 */
 	bool CheckWidgetForFocus(Widget widget)
 	{
+		if (IsWidgetWindowRoot(widget)) return true;
+
 		return false;
 	}
 

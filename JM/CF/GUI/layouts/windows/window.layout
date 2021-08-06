@@ -317,9 +317,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_up {
+  PanelWidgetClass border_drag_up {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 1 3
    halign center_ref
    hexactpos 1
@@ -331,6 +332,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderUp"
+     Event_MouseLeave "OnMouseBorderUp"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingUp"
      Event_Drop "OnStopResizing"
@@ -338,9 +341,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_down {
+  PanelWidgetClass border_drag_down {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 1 3
    halign center_ref
    valign bottom_ref
@@ -353,6 +357,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderDown"
+     Event_MouseLeave "OnMouseBorderDown"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingDown"
      Event_Drop "OnStopResizing"
@@ -360,9 +366,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_left {
+  PanelWidgetClass border_drag_left {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 3 1
    valign center_ref
    hexactpos 1
@@ -374,6 +381,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderLeft"
+     Event_MouseLeave "OnMouseBorderLeft"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingLeft"
      Event_Drop "OnStopResizing"
@@ -381,9 +390,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_right {
+  PanelWidgetClass border_drag_right {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 3 1
    halign right_ref
    valign center_ref
@@ -396,6 +406,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderRight"
+     Event_MouseLeave "OnMouseBorderRight"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingRight"
      Event_Drop "OnStopResizing"
@@ -403,9 +415,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_up_left {
+  PanelWidgetClass border_drag_up_left {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 3 3
    hexactpos 1
    vexactpos 1
@@ -416,6 +429,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderUpLeft"
+     Event_MouseLeave "OnMouseBorderUpLeft"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingUpLeft"
      Event_Drop "OnStopResizing"
@@ -423,9 +438,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_up_right {
+  PanelWidgetClass border_drag_up_right {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 3 3
    halign right_ref
    hexactpos 1
@@ -437,6 +453,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderUpRight"
+     Event_MouseLeave "OnMouseBorderUpRight"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingUpRight"
      Event_Drop "OnStopResizing"
@@ -444,9 +462,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_down_left {
+  PanelWidgetClass border_drag_down_left {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 3 3
    valign bottom_ref
    hexactpos 1
@@ -458,6 +477,8 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderDownLeft"
+     Event_MouseLeave "OnMouseBorderDownLeft"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingDownLeft"
      Event_Drop "OnStopResizing"
@@ -465,9 +486,10 @@ PanelWidgetClass base_window {
     }
    }
   }
-  ButtonWidgetClass border_down_right {
+  PanelWidgetClass border_drag_down_right {
    ignorepointer 0
-   color 1 0 1 1
+   visible 0
+   color 0 0 0 0
    size 3 3
    halign right_ref
    valign bottom_ref
@@ -480,10 +502,166 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderDownRight"
+     Event_MouseLeave "OnMouseBorderDownRight"
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingDownRight"
      Event_Drop "OnStopResizing"
      Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass border_up {
+   ignorepointer 1
+   color 1 0 1 1
+   size 1 3
+   halign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderUColor"
+    }
+   }
+  }
+  PanelWidgetClass border_down {
+   ignorepointer 1
+   color 1 0 1 1
+   size 1 3
+   halign center_ref
+   valign bottom_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderDColor"
+    }
+   }
+  }
+  PanelWidgetClass border_left {
+   ignorepointer 1
+   color 1 0 1 1
+   size 3 1
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderLColor"
+    }
+   }
+  }
+  PanelWidgetClass border_right {
+   ignorepointer 1
+   color 1 0 1 1
+   size 3 1
+   halign right_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderRColor"
+    }
+   }
+  }
+  PanelWidgetClass border_up_left {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderULColor"
+    }
+   }
+  }
+  PanelWidgetClass border_up_right {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   halign right_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderURColor"
+    }
+   }
+  }
+  PanelWidgetClass border_down_left {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderDLColor"
+    }
+   }
+  }
+  PanelWidgetClass border_down_right {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   halign right_ref
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Color "m_BorderDRColor"
     }
    }
   }
