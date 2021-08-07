@@ -4,6 +4,6 @@ modded class DayZGame
 	{
 		super.OnUpdate(doSim, timeslice);
 		
-		CF_TimerBase.Update(timeslice);
+		CF_TimerBase._Update(timeslice);
 	}
 };
