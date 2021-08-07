@@ -16,7 +16,7 @@ class CF_Timer : CF_TimerBase
 	 * 
 	 * @note The function passed must have a signature that starts with 'CF_TimerBase,float` and then continues with the matching 'params'.
 	 */
-	static CF_TimerBase Create(Managed instance, string function, float interval = 0.025, CF_TimerParam params = null)
+	static CF_TimerBase Create(Managed instance, string function, float interval = 0.0, CF_TimerParam params = null)
 	{
 		if (instance == null) return null;
 
