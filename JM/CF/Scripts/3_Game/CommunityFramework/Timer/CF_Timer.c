@@ -1,6 +1,6 @@
 class CF_Timer : CF_TimerBase
 {
-	protected Managed m_Object;
+	protected Managed m_Instance;
 	protected string m_Function;
 	protected ref CF_TimerParam m_Params;
 	
@@ -8,26 +8,39 @@ class CF_Timer : CF_TimerBase
 	{
 	}
 
-	static CF_TimerBase Create(Managed obj, string funcName, float duration = 0.025, CF_TimerParam params = null)
+	/**
+	 * @param instance The instance that owns the function
+	 * @param function The function that is called
+	 * @param interval The time between each function call, in seconds.
+	 * @param params The static parameters that are passed into the function
+	 * 
+	 * @note The function passed must have a signature that starts with 'CF_TimerBase,float` and then continues with the matching 'params'.
+	 */
+	static CF_TimerBase Create(Managed instance, string function, float interval = 0.025, CF_TimerParam params = null)
 	{
-		if (obj == null) return null;
+		if (instance == null) return null;
 
 		CF_Timer timer = new CF_Timer();
-		timer.m_Object = obj;
-		timer.m_Function = funcName;
-		timer.m_Params = params;
-		if (!timer.m_Params) timer.m_Params = new CF_TimerParam();
-		timer.m_Params.m_Timer = this;
+		timer.m_Instance = instance;
+		timer.m_Function = function;
 
-		timer.SetInterval(duration);
+		timer.SetParams(params);
+		timer.SetInterval(interval);
 		timer.Start();
 
 		return timer;
 	}
+
+	void SetParams(CF_TimerParam params)
+	{
+		m_Params = params;
+		if (!m_Params) m_Params = new CF_TimerParam();
+		m_Params.m_Timer = this;
+	}
 	
 	protected override void OnUpdate(float dt)
 	{
-		if (!m_Object)
+		if (!m_Instance)
 		{
 			Destroy();
 			return;
@@ -38,7 +51,7 @@ class CF_Timer : CF_TimerBase
 
 	protected override void OnTick(float dt)
 	{
-		m_Params.m_DeltaTime = dt;
-		g_Script.CallFunctionParams(m_Object, m_Function, NULL, m_Params);
+		if (m_Params) m_Params.m_DeltaTime = dt;
+		g_Script.CallFunctionParams(m_Instance, m_Function, NULL, m_Params);
 	}
 };

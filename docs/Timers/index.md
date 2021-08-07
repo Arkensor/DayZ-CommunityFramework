@@ -16,13 +16,13 @@ class TestClass : Managed
 
     void TimerFunction(CF_Timer timer, float deltaTime, Widget widget, float timeToFade)
     {
-        if (timer.GetTime() > timeToFade * 1000.0)
+        if (timer.GetTimeElapsed() > timeToFade * 1000.0)
         {
             timer.Stop();
             return;
         }
 
-		float alpha = timer.GetTime() / (1000.0 * timeToFade);
+		float alpha = timer.GetTimeElapsed() / (1000.0 * timeToFade);
         widget.SetAlpha(Easing.EaseInCubic(alpha));
     }
 };
@@ -48,13 +48,13 @@ class FadeIn : CF_TimerBase
 
     override void OnTick(float dt)
     {
-        if (timer.GetTime() > m_TimeToFade)
+        if (timer.GetTimeElapsed() > m_TimeToFade)
         {
             timer.Stop();
             return;
         }
 
-		float alpha = timer.GetTime() / (1000.0 * m_TimeToFade);
+		float alpha = timer.GetTimeElapsed() / (1000.0 * m_TimeToFade);
         m_Widget.SetAlpha(Easing.EaseInCubic(alpha));
     }
 

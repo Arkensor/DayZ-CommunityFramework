@@ -8,7 +8,7 @@ class CF_TimerBase : Managed
 
 	protected float m_Interval; // Seconds
 	protected float m_DeltaTime; // Seconds
-	protected int m_Time; // Milliseconds
+	protected int m_TimeElapsed; // Milliseconds
 
 	protected void CF_TimerBase()
 	{
@@ -70,25 +70,37 @@ class CF_TimerBase : Managed
 		m_Destroy = true;
 	}
 
-	void SetInterval(float duration)
+	/**
+	 * The time between each 'OnTick' call, in seconds.
+	 */
+	void SetInterval(float interval)
 	{
-		m_Interval = duration;
+		m_Interval = interval;
 		if (m_Interval < 0) m_Interval = 0;
 	}
 
+	/**
+	 * The time between each 'OnTick' call, in seconds.
+	 */
 	float GetInterval()
 	{
 		return m_Interval;
 	}
 
-	void SetTime(int time)
+	/**
+	 * THe total time elapsed for this timer, in milliseconds.
+	 */
+	void SetTimeElapsed(int elapsed)
 	{
-		m_Time = time;
+		m_TimeElapsed = elapsed;
 	}
 
-	int GetTime()
+	/**
+	 * THe total time elapsed for this timer, in milliseconds.
+	 */
+	int GetTimeElapsed()
 	{
-		return m_Time;
+		return m_TimeElapsed;
 	}
 
 	protected void OnCreate();
@@ -103,7 +115,7 @@ class CF_TimerBase : Managed
 
 	protected void OnUpdate(float dt)
 	{
-		m_Time += dt * 1000.0;
+		m_TimeElapsed += dt * 1000.0;
 		m_DeltaTime += dt;
 
 		if (m_DeltaTime >= m_Interval)
