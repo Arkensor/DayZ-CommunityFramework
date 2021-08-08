@@ -11,10 +11,6 @@ class CF_Model : Managed
 {
 	void ~CF_Model()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "~CF_Model");
-		#endif
-
 		#ifndef SERVER
 		CF_MVVM.Destroy(this);
 		#endif
@@ -32,5 +28,13 @@ class CF_Model : Managed
 	string GetLayoutFile()
 	{
 		return "";
+	}
+
+	/**
+	 * @note When overriding and adding to the instance, you must return true.
+	 */
+	bool CF_OnDebugUpdate(CF_DebugUI_Instance instance, CF_DebugUI_Type type)
+	{
+		return false;
 	}
 };

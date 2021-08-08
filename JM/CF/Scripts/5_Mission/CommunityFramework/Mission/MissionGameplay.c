@@ -7,6 +7,11 @@ modded class MissionGameplay
         CF._MissionInit();
 
 		m_bLoaded = false;
+
+		if (GetGame().IsServer())
+		{
+			CF_DebugUI.SetAllowed(true);
+		}
 	}
 
 	void ~MissionGameplay()

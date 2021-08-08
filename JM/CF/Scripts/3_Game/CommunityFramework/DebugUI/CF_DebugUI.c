@@ -2,8 +2,9 @@ class CF_DebugUI : Managed
 {
 	static ref CF_DebugUI_Type s_Types;
 
-	private Class m_Owner;
-	private ref CF_DebugUI_Instance m_Instance;
+	private static bool s_Allowed = false;
+
+	private static ref map<Class, CF_DebugUI_Instance> s_Instances;
 
 	[CF_EventSubscriber(CF_DebugUI._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
@@ -13,6 +14,9 @@ class CF_DebugUI : Managed
 		#endif
 
 		s_Types = new CF_DebugUI_Type();
+		s_Instances = new map<Class, CF_DebugUI_Instance>();
+
+		SetAllowed(false);
 	}
 
 	[CF_EventSubscriber(CF_DebugUI._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
@@ -23,51 +27,87 @@ class CF_DebugUI : Managed
 		#endif
 
 		s_Types = null;
+		s_Instances = null;
 	}
 
-	static CF_DebugUI Create(Class cls, string title = "##")
+	[CF_EventSubscriber(CF_DebugUI._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
+	static void _MissionCleanup()
 	{
-		if (title == "##")
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(null, "CF_DebugUI::_MissionCleanup");
+		#endif
+
+		SetAllowed(false);
+	}
+
+	static bool IsAllowed()
+	{
+		return s_Allowed;
+	}
+
+	static void SetAllowed(bool newState)
+	{
+		s_Allowed = newState;
+	}
+
+	static void Create(Class instance, string title = "##")
+	{
+		#ifdef SERVER
+		return null;
+		#endif
+
+		if (!s_Allowed || !instance) return;
+
+		CF_DebugUI_Instance cf_debug;
+		s_Instances.Find(instance, cf_debug);
+
+		bool overrideTitle = title == "##";
+
+		if (overrideTitle && !cf_debug)
 		{
-			title = "Debug " + cls.ClassName() + "";
-		
-			Object obj;
-			if (Class.CastTo(obj, cls))
+			string hex = "" + instance;
+			int previousIndex = hex.IndexOf("<");
+			int index = -1;
+			while (previousIndex != -1)
 			{
-				title = "Debug " + obj.GetType() + "";
+				index = previousIndex;
+				hex = hex.Substring(index + 1, hex.Length() - index - 1);
+				previousIndex = hex.IndexOf("<");
 			}
+			hex = hex.Substring(0, hex.Length() - 1);
+
+			title = instance.ClassName();
+		
+			Object object;
+			if (Class.CastTo(object, instance))
+			{
+				title = object.GetDisplayName();
+
+				if (GetGame().IsMultiplayer())
+				{
+					title += " (" + object.GetNetworkIDString() + ")";
+				}
+			}
+
+			title += " (" + hex + ")";
 		}
 
-		CF_DebugUI instance;
-
-		if (!instance)
+		if (cf_debug)
 		{
-			instance = new CF_DebugUI();
-			instance.m_Instance = new CF_DebugUI_Instance(cls, title);
-			instance.m_Owner = cls;
+			if (!overrideTitle)
+			{
+				cf_debug.SetTitle(title);
+			}
+
+			return;
 		}
 
-		return instance;
+		cf_debug = new CF_DebugUI_Instance(instance, title);
+		s_Instances.Insert(instance, cf_debug);
 	}
 
-	// Creation of DebugUI is done through the static Create. 
-	// Jacob: static methods can't access protected functions.
-	private void CF_DebugUI()
+	static void Destroy(Class instance)
 	{
-	}
-
-	void ~CF_DebugUI()
-	{
-		m_Instance.Destroy();
-	}
-
-	void Show()
-	{
-		m_Instance.Start();
-	}
-
-	void Close()
-	{
-		m_Instance.Stop();
+		s_Instances.Remove(instance);
 	}
 };

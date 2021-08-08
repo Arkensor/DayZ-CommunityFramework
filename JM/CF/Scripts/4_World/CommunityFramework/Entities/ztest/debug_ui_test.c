@@ -1,8 +1,15 @@
+// This is only temporary testing code. Due to a script compile error the folder name is weird :)
+
 modded class ZombieBase
 {
 	void ZombieBase()
 	{
-		CF_CreateDebugUI().Show();
+		CF_DebugUI.Create(this);
+	}
+
+	void ~ZombieBase()
+	{
+		CF_DebugUI.Destroy(this);
 	}
 
 	/**
@@ -29,7 +36,12 @@ modded class CarScript
 {
 	void CarScript()
 	{
-		CF_CreateDebugUI().Show();
+		CF_DebugUI.Create(this);
+	}
+
+	void ~CarScript()
+	{
+		CF_DebugUI.Destroy(this);
 	}
 
 	/**

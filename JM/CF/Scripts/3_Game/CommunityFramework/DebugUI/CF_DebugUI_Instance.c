@@ -13,6 +13,8 @@ class CF_DebugUI_Instance : CF_TimerBase
 		m_Title = title;
 
 		SetInterval(0);
+
+		Start();
 	}
 
 	protected override void OnStart()
@@ -27,6 +29,16 @@ class CF_DebugUI_Instance : CF_TimerBase
 	protected override void OnStop()
 	{
 		m_Window = null;
+	}
+
+	void SetTitle(string title)
+	{
+		m_Title = title;
+		
+		if (m_Window)
+		{
+			m_Window.SetTitle(title);
+		}
 	}
 
 	Class GetClass()

@@ -1,4 +1,4 @@
-class CF_TimerBase : Managed
+class CF_TimerBase : CF_Model
 {
 	private static ref CF_TimerBase s_Head;
 	private ref CF_TimerBase m_Next;

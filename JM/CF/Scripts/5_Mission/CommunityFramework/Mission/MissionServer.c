@@ -6,11 +6,13 @@ modded class MissionServer
 	{
 		m_bLoaded = false;
 
-		GetRPCManager().AddRPC( "CF", "RecieveModList", this, SingeplayerExecutionType.Server );
+		bool enabled = GetGame().ServerConfigGetInt("cfDebugUI") != 0;
+		CF_DebugUI.SetAllowed(enabled);
 	}
 
 	void ~MissionServer()
 	{
+		CF_DebugUI.SetAllowed(false);
 	}
 
 	override void OnEvent( EventType eventTypeId, Param params ) 
@@ -19,6 +21,26 @@ modded class MissionServer
 
 		switch( eventTypeId )
 		{
+		case ClientPrepareEventTypeID:
+			ClientPrepareEventParams clientPrepareParams;
+			Class.CastTo(clientPrepareParams, params);
+			CF_SendDebugUIState(clientPrepareParams.param1);
+			break;
+		case ClientNewEventTypeID:
+			ClientNewEventParams newParams;
+			Class.CastTo(newParams, params);
+			CF_SendDebugUIState(newParams.param1);
+			break;
+		case ClientReadyEventTypeID:
+			ClientReadyEventParams readyParams;
+			Class.CastTo(readyParams, params);
+			CF_SendDebugUIState(readyParams.param1);
+			break;
+		case ClientReadyEventTypeID:
+			ClientReconnectEventParams reconnectParams;
+			Class.CastTo(reconnectParams, params);
+			CF_SendDebugUIState(reconnectParams.param1);
+			break;
 		case LogoutCancelEventTypeID:
 			LogoutCancelEventParams logoutCancelParams;
 			
