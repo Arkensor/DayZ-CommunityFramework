@@ -10,7 +10,7 @@ modded class MissionGameplay
 
 		if (GetGame().IsServer())
 		{
-			CF_DebugUI.SetAllowed(true);
+			CF_Debug.SetAllowed(true);
 		}
 	}
 

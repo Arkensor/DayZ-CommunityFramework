@@ -1,5 +1,20 @@
 class CF_TypeConverterClass : CF_TypeConverterT<Class>
 {
+	override int GetInt()
+	{
+		return (int) m_Value;		
+	}
+
+	override bool GetBool()
+	{
+		return m_Value != null;
+	}
+
+	override float GetFloat()
+	{
+		return GetInt();
+	}
+
 	override string GetString()
 	{
 		string toStr = "";

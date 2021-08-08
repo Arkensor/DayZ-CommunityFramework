@@ -7,12 +7,12 @@ modded class MissionServer
 		m_bLoaded = false;
 
 		bool enabled = GetGame().ServerConfigGetInt("cfDebugUI") != 0;
-		CF_DebugUI.SetAllowed(enabled);
+		CF_Debug.SetAllowed(enabled);
 	}
 
 	void ~MissionServer()
 	{
-		CF_DebugUI.SetAllowed(false);
+		CF_Debug.SetAllowed(false);
 	}
 
 	override void OnEvent( EventType eventTypeId, Param params ) 

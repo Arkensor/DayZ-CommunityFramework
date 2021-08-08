@@ -1,5 +1,7 @@
 class CF_Window : CF_Model
 {
+	CF_EventHandler OnClose;
+
 	// Attached
 	private CF_ModelBase m_Model;
 
@@ -82,6 +84,8 @@ class CF_Window : CF_Model
 
 	void ~CF_Window()
 	{
+		OnClose.Invoke(this);
+
 		Remove();
 
 		if (m_Model)

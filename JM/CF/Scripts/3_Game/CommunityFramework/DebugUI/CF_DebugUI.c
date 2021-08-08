@@ -1,113 +1,108 @@
-class CF_DebugUI : Managed
+class CF_DebugUI : CF_DebugOutput
 {
-	static ref CF_DebugUI_Type s_Types;
+	private CF_Debug m_Parent;
 
-	private static bool s_Allowed = false;
+	private string m_Data;
+	private int m_TabDepth;
 
-	private static ref map<Class, CF_DebugUI_Instance> s_Instances;
+	private autoptr CF_Window m_Window;
 
-	[CF_EventSubscriber(CF_DebugUI._Init, CF_LifecycleEvents.OnGameCreate)]
-	static void _Init()
+	void CF_DebugUI(CF_Debug parent, string name)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_DebugUI::_Init");
-		#endif
+		m_Parent = parent;
 
-		s_Types = new CF_DebugUI_Type();
-		s_Instances = new map<Class, CF_DebugUI_Instance>();
+		m_Window = new CF_Window(name);
+		m_Window.SetTakesGameFocus(false);
+		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
 
-		SetAllowed(false);
+		m_Window.OnClose.AddSubscriber(parent.Event_CloseWindow);
+
+		ResetBuffer();
 	}
 
-	[CF_EventSubscriber(CF_DebugUI._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
-	static void _Cleanup()
+	override void SetName(string name)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_DebugUI::_Cleanup");
-		#endif
-
-		s_Types = null;
-		s_Instances = null;
+		m_Window.SetTitle(name);
 	}
 
-	[CF_EventSubscriber(CF_DebugUI._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
-	static void _MissionCleanup()
+	/**
+	 * @brief Adds the value to the string. Formatted as "value"
+	 */
+	override void Add(string value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_DebugUI::_MissionCleanup");
-		#endif
-
-		SetAllowed(false);
+		m_Data += NewLine() + value;
 	}
 
-	static bool IsAllowed()
+	/**
+	 * @brief Adds the name and value to the string. Formatted as "name: value"
+	 */
+	override void Add(string name, int value)
 	{
-		return s_Allowed;
+		m_Data += NewLine() + name + ": " + value;
 	}
 
-	static void SetAllowed(bool newState)
+	/**
+	 * @brief Adds the name and value to the string. Formatted as "name: value"
+	 */
+	override void Add(string name, bool value)
 	{
-		s_Allowed = newState;
+		m_Data += NewLine() + name + ": " + value;
 	}
 
-	static void Create(Class instance, string title = "##")
+	/**
+	 * @brief Adds the name and value to the string. Formatted as "name: value"
+	 */
+	override void Add(string name, float value)
 	{
-		#ifdef SERVER
-		return null;
-		#endif
-
-		if (!s_Allowed || !instance) return;
-
-		CF_DebugUI_Instance cf_debug;
-		s_Instances.Find(instance, cf_debug);
-
-		bool overrideTitle = title == "##";
-
-		if (overrideTitle && !cf_debug)
-		{
-			string hex = "" + instance;
-			int previousIndex = hex.IndexOf("<");
-			int index = -1;
-			while (previousIndex != -1)
-			{
-				index = previousIndex;
-				hex = hex.Substring(index + 1, hex.Length() - index - 1);
-				previousIndex = hex.IndexOf("<");
-			}
-			hex = hex.Substring(0, hex.Length() - 1);
-
-			title = instance.ClassName();
-		
-			Object object;
-			if (Class.CastTo(object, instance))
-			{
-				title = object.GetDisplayName();
-
-				if (GetGame().IsMultiplayer())
-				{
-					title += " (" + object.GetNetworkIDString() + ")";
-				}
-			}
-
-			title += " (" + hex + ")";
-		}
-
-		if (cf_debug)
-		{
-			if (!overrideTitle)
-			{
-				cf_debug.SetTitle(title);
-			}
-
-			return;
-		}
-
-		cf_debug = new CF_DebugUI_Instance(instance, title);
-		s_Instances.Insert(instance, cf_debug);
+		m_Data += NewLine() + name + ": " + value;
 	}
 
-	static void Destroy(Class instance)
+	/**
+	 * @brief Adds the name and value to the string. Formatted as "name: value"
+	 */
+	override void Add(string name, vector value)
 	{
-		s_Instances.Remove(instance);
+		m_Data += NewLine() + name + ": " + value[0] + ", " + value[1] + ", " + value[2];
+	}
+
+	/**
+	 * @brief Adds the name and value to the string. Formatted as "name: value"
+	 */
+	override void Add(string name, string value)
+	{
+		m_Data += NewLine() + name + ": " + value;
+	}
+
+	override void IncrementTab()
+	{
+		m_TabDepth++;
+	}
+
+	override void DecrementTab()
+	{
+		m_TabDepth--;
+	}
+
+	override void ResetBuffer()
+	{
+		m_Data = string.Empty;
+		m_TabDepth = -1;
+	}
+
+	override void PushBuffer()
+	{
+		CF_MVVM.NotifyPropertyChanged(this, "m_Data");
+	}
+
+	private string Tab()
+	{
+		string tab = "";
+		for (int i = 0; i < m_TabDepth; i++) tab += " ";
+		return tab;
+	}
+	
+	private string NewLine()
+	{
+		return "\n" + Tab();
 	}
 };

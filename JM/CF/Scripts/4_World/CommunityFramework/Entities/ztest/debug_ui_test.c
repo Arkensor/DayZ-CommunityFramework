@@ -4,18 +4,18 @@ modded class ZombieBase
 {
 	void ZombieBase()
 	{
-		CF_DebugUI.Create(this);
+		CF_Debug.Create(this);
 	}
 
 	void ~ZombieBase()
 	{
-		CF_DebugUI.Destroy(this);
+		CF_Debug.Destroy(this);
 	}
 
 	/**
 	 * @note When overriding and adding to the instance, you must return true.
 	 */
-	override bool CF_OnDebugUpdate(CF_DebugUI_Instance instance, CF_DebugUI_Type type)
+	override bool CF_OnDebugUpdate(CF_Debug instance, CF_DebugUI_Type type)
 	{
 		DayZInfectedInputController dzip = GetInputController();
 
@@ -36,18 +36,18 @@ modded class CarScript
 {
 	void CarScript()
 	{
-		CF_DebugUI.Create(this);
+		CF_Debug.Create(this);
 	}
 
 	void ~CarScript()
 	{
-		CF_DebugUI.Destroy(this);
+		CF_Debug.Destroy(this);
 	}
 
 	/**
 	 * @note When overriding and adding to the instance, you must return true.
 	 */
-	override bool CF_OnDebugUpdate(CF_DebugUI_Instance instance, CF_DebugUI_Type type)
+	override bool CF_OnDebugUpdate(CF_Debug instance, CF_DebugUI_Type type)
 	{
 		super.CF_OnDebugUpdate(instance, type);
 

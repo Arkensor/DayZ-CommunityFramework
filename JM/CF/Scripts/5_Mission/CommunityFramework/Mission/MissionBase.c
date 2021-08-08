@@ -44,18 +44,18 @@ modded class MissionBase
 
 		if (type == CallType.Server) return;
 
-		CF_DebugUI.SetAllowed(data.param1);
+		CF_Debug.SetAllowed(data.param1);
 	}
 
 	void CF_SendDebugUIState(PlayerIdentity target)
 	{
-		GetRPCManager().SendRPC("CF", "CF_DebugUIState", new Param1<bool>(CF_DebugUI.IsAllowed()), true, target);  
+		GetRPCManager().SendRPC("CF", "CF_DebugUIState", new Param1<bool>(CF_Debug.IsAllowed()), true, target);  
 	}
 	
 	/**
 	 * @note When overriding and adding to the instance, you must return true.
 	 */
-	bool CF_OnDebugUpdate(CF_DebugUI_Instance instance, CF_DebugUI_Type type)
+	bool CF_OnDebugUpdate(CF_Debug instance, CF_DebugUI_Type type)
 	{
 		return false;
 	}
