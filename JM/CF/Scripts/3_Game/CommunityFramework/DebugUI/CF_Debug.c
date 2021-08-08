@@ -2,9 +2,7 @@ class CF_Debug : CF_TimerBase
 {
 	static ref CF_DebugUI_Type s_Types;
 
-	private static bool s_Allowed = false;
-
-	private static ref map<Class, CF_Debug> s_Instances;
+	private static ref CF_DebugManager s_Manager;
 
 	[CF_EventSubscriber(CF_Debug._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
@@ -14,7 +12,7 @@ class CF_Debug : CF_TimerBase
 		#endif
 
 		s_Types = new CF_DebugUI_Type();
-		s_Instances = new map<Class, CF_Debug>();
+		s_Manager = new CF_DebugManager();
 
 		SetAllowed(false);
 	}
@@ -27,7 +25,7 @@ class CF_Debug : CF_TimerBase
 		#endif
 
 		s_Types = null;
-		s_Instances = null;
+		s_Manager = null;
 	}
 
 	[CF_EventSubscriber(CF_Debug._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
@@ -40,75 +38,34 @@ class CF_Debug : CF_TimerBase
 		SetAllowed(false);
 	}
 
+	static Widget ShowManager(Widget parent = null)
+	{
+		return CF_MVVM.Create(s_Manager, s_Manager.GetLayoutFile(), parent).GetWidget();
+	}
+
+	static void CloseManager()
+	{
+		CF_MVVM.Destroy(s_Manager);
+	}
+
 	static bool IsAllowed()
 	{
-		return s_Allowed;
+		return s_Manager.IsAllowed();
 	}
 
 	static void SetAllowed(bool newState)
 	{
-		s_Allowed = newState;
+		s_Manager.SetAllowed(newState);
 	}
 
 	static void Create(Class instance, string title = "##")
 	{
-		#ifdef SERVER
-		return null;
-		#endif
-
-		if (!s_Allowed || !instance) return;
-
-		CF_Debug cf_debug;
-		s_Instances.Find(instance, cf_debug);
-
-		bool overrideTitle = title == "##";
-
-		if (overrideTitle && !cf_debug)
-		{
-			string hex = "" + instance;
-			int previousIndex = hex.IndexOf("<");
-			int index = -1;
-			while (previousIndex != -1)
-			{
-				index = previousIndex;
-				hex = hex.Substring(index + 1, hex.Length() - index - 1);
-				previousIndex = hex.IndexOf("<");
-			}
-			hex = hex.Substring(0, hex.Length() - 1);
-
-			title = instance.ClassName();
-		
-			Object object;
-			if (Class.CastTo(object, instance))
-			{
-				title = object.GetDisplayName();
-
-				if (GetGame().IsMultiplayer())
-				{
-					title += " (" + object.GetNetworkIDString() + ")";
-				}
-			}
-
-			title += " (" + hex + ")";
-		}
-
-		if (cf_debug)
-		{
-			if (!overrideTitle)
-			{
-				cf_debug.SetName(title);
-			}
-
-			return;
-		}
-
-		cf_debug = new CF_Debug(instance, title);
-		s_Instances.Insert(instance, cf_debug);
+		s_Manager.Create(instance, title);
 	}
 
 	static void Destroy(Class instance)
 	{
-		s_Instances.Remove(instance);
+		s_Manager.Destroy(instance);
 	}
 
 	protected ref array<ref CF_DebugOutput> m_Outputs = new array<ref CF_DebugOutput>();
@@ -120,10 +77,19 @@ class CF_Debug : CF_TimerBase
 
 	/*private*/ void CF_Debug(Class instance, string name)
 	{
-		m_Instance = instance;
-		m_Name = name;
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CF_Debug");
+		#endif
 
-		ShowWindow();
+		m_Instance = instance;
+		SetName(name);
+	}
+
+	void ~CF_Debug()
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "~CF_Debug");
+		#endif
 	}
 
 	void SetName(string name)
@@ -134,6 +100,8 @@ class CF_Debug : CF_TimerBase
 		{
 			output.SetName(name);
 		}
+
+		CF_MVVM.NotifyPropertyChanged(this, "m_Name");
 	}
 
 	string GetName()
@@ -283,16 +251,37 @@ class CF_Debug : CF_TimerBase
 
 	protected override void OnStart()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnStart");
+		#endif
+
+		super.OnStart();
+
 		CF_MVVM.NotifyPropertyChanged(this, "m_IsActive");
 	}
 
 	protected override void OnStop()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnStop");
+		#endif
+
+		super.OnStop();
+		
 		CF_MVVM.NotifyPropertyChanged(this, "m_IsActive");
+	}
+
+	override string GetLayoutFile()
+	{
+		return "JM/CF/GUI/layouts/debug/entry.layout";
 	}
 
 	void ShowWindow()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "ShowWindow");
+		#endif
+
 		if (m_UI) return;
 
 		Start();
@@ -306,6 +295,10 @@ class CF_Debug : CF_TimerBase
 
 	void CloseWindow()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CloseWindow");
+		#endif
+
 		m_Outputs.RemoveItemUnOrdered(m_UI);
 		m_UI = null;
 
@@ -317,23 +310,28 @@ class CF_Debug : CF_TimerBase
 		}
 	}
 
-	void Event_Start(CF_ModelBase sender, CF_EventArgs args)
+	void Event_ToggleWindow(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
-		Start();
-	}
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Event_ToggleWindow", "" + sender, args.ToStr());
+		#endif
 
-	void Event_Stop(CF_ModelBase sender, CF_EventArgs args)
-	{
-		Stop();
-	}
-
-	void Event_ShowWindow(CF_ModelBase sender, CF_EventArgs args)
-	{
-		ShowWindow();
+		if (m_UI)
+		{
+			CloseWindow();
+		}
+		else
+		{
+			ShowWindow();
+		}
 	}
 
 	void Event_CloseWindow(CF_ModelBase sender, CF_EventArgs args)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "Event_ToggleWindow", "" + sender, args.ToStr());
+		#endif
+
 		CloseWindow();
 	}
 };

@@ -9,15 +9,31 @@ class CF_DebugUI : CF_DebugOutput
 
 	void CF_DebugUI(CF_Debug parent, string name)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CF_DebugUI");
+		#endif
+
 		m_Parent = parent;
 
 		m_Window = new CF_Window(name);
 		m_Window.SetTakesGameFocus(false);
-		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
+		m_Window.CreateWidgets(this, GetLayoutFile());
 
 		m_Window.OnClose.AddSubscriber(parent.Event_CloseWindow);
 
 		ResetBuffer();
+	}
+
+	void ~CF_DebugUI()
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "~CF_DebugUI");
+		#endif
+	}
+
+	override string GetLayoutFile()
+	{
+		return "JM/CF/GUI/layouts/debug/debugui.layout";
 	}
 
 	override void SetName(string name)

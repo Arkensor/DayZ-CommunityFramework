@@ -1,4 +1,4 @@
-class CF_DebugOutput : Managed
+class CF_DebugOutput : CF_Model
 {
 	void CF_DebugOutput(CF_Debug parent, string name);
 

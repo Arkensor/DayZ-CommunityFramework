@@ -1,6 +1,6 @@
 class CF_Window : CF_Model
 {
-	CF_EventHandler OnClose;
+	autoptr CF_EventHandler OnClose = new CF_EventHandler();
 
 	// Attached
 	private CF_ModelBase m_Model;
@@ -37,6 +37,7 @@ class CF_Window : CF_Model
 	private bool m_FullScreen;
 	private bool m_Minimized;
 
+	private float m_ContentWidth;
 	private float m_ContentHeight;
 
 	private float m_PreviousPositionX;
@@ -61,6 +62,10 @@ class CF_Window : CF_Model
 
 	void CF_Window(string title = "Window", int width = 400, int height = 400)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CF_Window", title, "" + width, "" + height);
+		#endif
+
 		m_MinimumWidth = 100;
 		m_MinimumHeight = 25;
 
@@ -84,6 +89,10 @@ class CF_Window : CF_Model
 
 	void ~CF_Window()
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "~CF_Window");
+		#endif
+
 		OnClose.Invoke(this);
 
 		Remove();
@@ -116,6 +125,10 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(string layoutFile)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CreateWidgets", "" + layoutFile);
+		#endif
+
 		Widget child = content.GetChildren();
 		while (child != null)
 		{
@@ -146,6 +159,10 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(CF_ModelBase model, string layoutFile)
 	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "CreateWidgets", "" + model, "" + layoutFile);
+		#endif
+
 		Widget child = content.GetChildren();
 		while (child != null)
 		{
@@ -271,10 +288,12 @@ class CF_Window : CF_Model
 		if (m_Height < m_MinimumHeight) m_Height = m_MinimumHeight;
 		else if (m_Height > m_MaximumHeight) m_Height = m_MaximumHeight;
 
-		m_ContentHeight = m_Height - 25;
+		m_ContentWidth = m_Width - 4;
+		m_ContentHeight = m_Height - 29;
 
 		NotifyPropertyChanged("m_Width");
 		NotifyPropertyChanged("m_Height");
+		NotifyPropertyChanged("m_ContentWidth");
 		NotifyPropertyChanged("m_ContentHeight");
 	}
 

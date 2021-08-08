@@ -49,6 +49,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	protected autoptr map<string, ref CF_MVVM_Property> m_PropertiesSourceMap = new map<string, ref CF_MVVM_Property>();
 	protected ref CF_MVVM_Linker m_Properties;
+
+	protected bool m_ChangeEventFiring;
 	
 	void OnWidgetScriptInit(Widget w)
 	{
@@ -810,6 +812,10 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		#ifdef CF_TRACE_ENABLED
 		CF_Trace trace(this, "OnChange", "" + w);
 		#endif
+
+		if (w != m_Widget || m_ChangeEventFiring) return false;
+
+		m_ChangeEventFiring = true;
 		
 		CF_ChangeEventArgs args = new CF_ChangeEventArgs();
 		args.Target = w;
@@ -828,6 +834,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			Param param = new Param2<CF_ModelBase, CF_ChangeEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Change, null, param);
 		}
+
+		m_ChangeEventFiring = false;
 
 		return OnChange(this, args);
 	}
