@@ -71,6 +71,8 @@ class CF_Windows
 			window = window.GetPrev();
 		}
 
+		UpdateInputFocus();
+
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
 
 		if (m_RespondingToMouse && !isMouseDown)
@@ -86,8 +88,6 @@ class CF_Windows
 				InputFocus(false);
 			}
 		}
-
-		UpdateInputFocus();
 
 		if (!m_RespondingToMouse) InputFocus(numRemovesMouseFocus > 0);
 		

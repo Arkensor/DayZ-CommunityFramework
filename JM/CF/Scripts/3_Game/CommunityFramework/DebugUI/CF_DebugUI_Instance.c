@@ -3,67 +3,39 @@ class CF_DebugUI_Instance : CF_TimerBase
 	private string m_Data = "";
 	private int m_TabDepth = -1;
 
-	private int m_DBGIndex;
-
+	private string m_Title;
 	private autoptr CF_Window m_Window;
 	private Class m_Class;
 
-	void CF_DebugUI_Instance(Class cls, int index)
+	void CF_DebugUI_Instance(Class cls, string title)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_DebugUI_Instance", "" + cls);
-		#endif
-
 		m_Class = cls;
-		m_DBGIndex = index;
+		m_Title = title;
 
-		Show();
+		SetInterval(0);
 	}
 
-	void ~CF_DebugUI_Instance()
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "~CF_DebugUI_Instance");
-		#endif
-
-		CF_DebugUI.s_Count--;
-		CF_DebugUI.s_Instances[m_DBGIndex] = CF_DebugUI.s_Instances[CF_DebugUI.s_Count];
-		CF_DebugUI.s_Instances[m_DBGIndex].m_DBGIndex = m_DBGIndex;
-		CF_DebugUI.s_Instances[CF_DebugUI.s_Count] = null;
-	}
-
-	void Show()
+	protected override void OnStart()
 	{
 		if (m_Window) return;
 		
-		m_Window = new CF_Window();
+		m_Window = new CF_Window(m_Title);
 		m_Window.SetTakesGameFocus(false);
 		m_Window.CreateWidgets(this, "JM/CF/GUI/layouts/debugui/debugui.layout");
-		
-		Start();
 	}
 
-	void Close()
+	protected override void OnStop()
 	{
 		m_Window = null;
-		Stop();
 	}
 
 	Class GetClass()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetClass");
-		#endif
-
 		return m_Class;
 	}
 
 	private string Tab()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Tab");
-		#endif
-
 		string tab = "";
 		for (int i = 0; i < m_TabDepth; i++) tab += " ";
 		return tab;
@@ -71,10 +43,6 @@ class CF_DebugUI_Instance : CF_TimerBase
 	
 	private string NewLine()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "NewLine");
-		#endif
-
 		return "\n" + Tab();
 	}
 
@@ -83,10 +51,6 @@ class CF_DebugUI_Instance : CF_TimerBase
 	 */
 	void Add(string value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Add", "" + value);
-		#endif
-
 		m_Data += NewLine() + value;
 	}
 
@@ -95,10 +59,6 @@ class CF_DebugUI_Instance : CF_TimerBase
 	 */
 	void Add(string name, int value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Add", "" + name, "" + value);
-		#endif
-
 		m_Data += NewLine() + name + ": " + value;
 	}
 
@@ -107,10 +67,6 @@ class CF_DebugUI_Instance : CF_TimerBase
 	 */
 	void Add(string name, bool value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Add", "" + name, "" + value);
-		#endif
-
 		m_Data += NewLine() + name + ": " + value;
 	}
 
@@ -119,11 +75,15 @@ class CF_DebugUI_Instance : CF_TimerBase
 	 */
 	void Add(string name, float value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Add", "" + name, "" + value);
-		#endif
-
 		m_Data += NewLine() + name + ": " + value;
+	}
+
+	/**
+	 * @brief Adds the name and value to the string. Formatted as "name: value"
+	 */
+	void Add(string name, vector value)
+	{
+		m_Data += NewLine() + name + ": " + value[0] + ", " + value[1] + ", " + value[2];
 	}
 
 	/**
@@ -131,10 +91,6 @@ class CF_DebugUI_Instance : CF_TimerBase
 	 */
 	void Add(string name, string value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Add", "" + name, "" + value);
-		#endif
-
 		m_Data += NewLine() + name + ": " + value;
 	}
 
@@ -143,10 +99,6 @@ class CF_DebugUI_Instance : CF_TimerBase
 	 */
 	void Add(Class value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Add", "" + value);
-		#endif
-
 		m_TabDepth++;
 
 		if (!value)
@@ -157,7 +109,7 @@ class CF_DebugUI_Instance : CF_TimerBase
 		}
 
 		bool functionCallSuccess = false;
-        GetGame().GameScript.CallFunctionParams(value, "CF_DebugUI", functionCallSuccess, new Param2<CF_DebugUI_Instance, CF_DebugUI_Type>(this, CF_DebugUI.s_Types));
+        GetGame().GameScript.CallFunctionParams(value, "CF_OnDebugUpdate", functionCallSuccess, new Param2<CF_DebugUI_Instance, CF_DebugUI_Type>(this, CF_DebugUI.s_Types));
 
 		if (!functionCallSuccess)
 		{
@@ -181,26 +133,32 @@ class CF_DebugUI_Instance : CF_TimerBase
 		m_TabDepth--;
 	}
 
+	void Add(string name, Class value)
+	{
+		Object obj;
+		if (Class.CastTo(obj, value))
+		{
+			AddObject(name, obj);
+			return;
+		}
+
+		string clsVal = "null";
+		if (value) clsVal = "" + value;
+		Add(name, clsVal);
+	}
+
 	/**
 	 * @brief Converts the 'Object' to a string, adds it to the string. Formatted as "name: object (network id)"
 	 */
 	void AddObject(string name, Object value)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "AddObject", "" + name, "" + value);
-		#endif
-
 		string _value = "" + value;
 		if (value) _value += "(" + value.GetNetworkIDString() + ")";
 		Add(name, _value);
 	}
 
-	protected override void OnUpdate(float dt)
+	protected override void OnTick(float dt)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnUpdate", "" + dt);
-		#endif
-
 		m_Data = string.Empty;
 		m_TabDepth = 0;
 

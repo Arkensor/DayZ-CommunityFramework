@@ -71,13 +71,13 @@ class CF_Window : CF_Model
 
 		m_TakesGameFocus = true;
 
-		SetTitle(title);
-		SetPosition(0, 0);
-		SetSize(width, height);
+		Add();
 
 		CF_MVVM.Create(this, GetLayoutFile(), CF_Windows._GetContainer());
 
-		Add();
+		SetTitle(title);
+		SetPosition(0, 0);
+		SetSize(width, height);
 	}
 
 	void ~CF_Window()

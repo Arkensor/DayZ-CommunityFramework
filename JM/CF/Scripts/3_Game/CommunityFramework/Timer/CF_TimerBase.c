@@ -129,7 +129,7 @@ class CF_TimerBase : Managed
 	{
 		CF_TimerBase current = s_Head;
 		CF_TimerBase next = null;
-		while (!current)
+		while (current)
 		{
 			next = current.m_Next;
 			current.OnUpdate(dt);

@@ -1,9 +1,9 @@
-class CF_DebugUI
+class CF_DebugUI : Managed
 {
 	static ref CF_DebugUI_Type s_Types;
 
-	static int s_Count = 0;
-	static ref CF_DebugUI_Instance s_Instances[256];
+	private Class m_Owner;
+	private ref CF_DebugUI_Instance m_Instance;
 
 	[CF_EventSubscriber(CF_DebugUI._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
@@ -13,7 +13,6 @@ class CF_DebugUI
 		#endif
 
 		s_Types = new CF_DebugUI_Type();
-		s_Count = 0;
 	}
 
 	[CF_EventSubscriber(CF_DebugUI._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
@@ -24,39 +23,51 @@ class CF_DebugUI
 		#endif
 
 		s_Types = null;
-		s_Count = 0;
 	}
 
-	static void Show(Class cls)
+	static CF_DebugUI Create(Class cls, string title = "##")
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_DebugUI::Show", "" + cls);
-		#endif
-
-		if (s_Count >= 256) return;
-
-		for (int i = 0; i < s_Count; i++)
+		if (title == "##")
 		{
-			if (s_Instances[i].GetClass() == cls) return;
-		}
-
-		s_Instances[s_Count] = new CF_DebugUI_Instance(cls, s_Count);
-		s_Count++;
-	}
-
-	static void Hide(Class cls)
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_DebugUI::Hide", "" + cls);
-		#endif
-
-		for (int i = 0; i < s_Count; i++)
-		{
-			if (s_Instances[i].GetClass() == cls)
+			title = "Debug " + cls.ClassName() + "";
+		
+			Object obj;
+			if (Class.CastTo(obj, cls))
 			{
-				delete s_Instances[i];
-				return;
+				title = "Debug " + obj.GetType() + "";
 			}
 		}
+
+		CF_DebugUI instance;
+
+		if (!instance)
+		{
+			instance = new CF_DebugUI();
+			instance.m_Instance = new CF_DebugUI_Instance(cls, title);
+			instance.m_Owner = cls;
+		}
+
+		return instance;
+	}
+
+	// Creation of DebugUI is done through the static Create. 
+	// Jacob: static methods can't access protected functions.
+	private void CF_DebugUI()
+	{
+	}
+
+	void ~CF_DebugUI()
+	{
+		m_Instance.Destroy();
+	}
+
+	void Show()
+	{
+		m_Instance.Start();
+	}
+
+	void Close()
+	{
+		m_Instance.Stop();
 	}
 };
