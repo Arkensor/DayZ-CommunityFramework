@@ -1,6 +1,6 @@
 class CF_TimerBase : Managed
 {
-	private static ref CF_TimerBase s_Root;
+	private static ref CF_TimerBase s_Head;
 	private ref CF_TimerBase m_Next;
 	private CF_TimerBase m_Prev;
 	private bool m_IsActive;
@@ -8,23 +8,15 @@ class CF_TimerBase : Managed
 
 	protected float m_Interval; // Seconds
 	protected float m_DeltaTime; // Seconds
-	protected int m_Time; // Milliseconds
+	protected int m_TimeElapsed; // Milliseconds
 
 	protected void CF_TimerBase()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_TimerBase");
-		#endif
-
 		OnCreate();
 	}
 
 	void ~CF_TimerBase()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "~CF_TimerBase");
-		#endif
-
 		Stop();
 
 		OnDestroy();
@@ -32,23 +24,19 @@ class CF_TimerBase : Managed
 
 	void Start()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Start");
-		#endif
-
 		if (m_IsActive) return;
 
 		m_IsActive = true;
 
-		if (s_Root == null)
+		if (s_Head == null)
 		{
-			s_Root = this;
+			s_Head = this;
 		}
 		else
 		{
-			m_Next = s_Root;
-			s_Root.m_Prev = this;
-			s_Root = this;
+			m_Next = s_Head;
+			s_Head.m_Prev = this;
+			s_Head = this;
 		}
 
 		OnStart();
@@ -59,18 +47,14 @@ class CF_TimerBase : Managed
 	 */
 	void Stop()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Stop");
-		#endif
-
 		if (!m_IsActive) return;
 
 		m_IsActive = false;
 
-		if (s_Root == this)
+		if (s_Head == this)
 		{
-			s_Root = m_Next;
-			if (s_Root) s_Root.m_Prev = null;
+			s_Head = m_Next;
+			if (s_Head) s_Head.m_Prev = null;
 		}
 		else
 		{
@@ -83,97 +67,55 @@ class CF_TimerBase : Managed
 
 	void Destroy()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Stop");
-		#endif
-
 		m_Destroy = true;
 	}
 
-	void SetInterval(float duration)
+	/**
+	 * The time between each 'OnTick' call, in seconds.
+	 */
+	void SetInterval(float interval)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetInterval", "" + duration);
-		#endif
-
-		m_Interval = duration;
+		m_Interval = interval;
 		if (m_Interval < 0) m_Interval = 0;
 	}
 
+	/**
+	 * The time between each 'OnTick' call, in seconds.
+	 */
 	float GetInterval()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetInterval");
-		#endif
-
 		return m_Interval;
 	}
 
-	void SetTime(int time)
+	/**
+	 * THe total time elapsed for this timer, in milliseconds.
+	 */
+	void SetTimeElapsed(int elapsed)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetTime", "" + time);
-		#endif
-
-		m_Time = time;
+		m_TimeElapsed = elapsed;
 	}
 
-	int GetTime()
+	/**
+	 * THe total time elapsed for this timer, in milliseconds.
+	 */
+	int GetTimeElapsed()
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetTime");
-		#endif
-
-		return m_Time;
+		return m_TimeElapsed;
 	}
 
-	protected void OnCreate()
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnCreate");
-		#endif
+	protected void OnCreate();
 
-	}
+	protected void OnDestroy();
 
-	protected void OnDestroy()
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnDestroy");
-		#endif
+	protected void OnStart();
 
-	}
+	protected void OnStop();
 
-	protected void OnStart()
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnStart");
-		#endif
-
-	}
-
-	protected void OnStop()
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnStop");
-		#endif
-
-	}
-
-	protected void OnTick(float dt)
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnTick", "" + dt);
-		#endif
-
-	}
+	protected void OnTick(float dt);
 
 	protected void OnUpdate(float dt)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnUpdate", "" + dt);
-		#endif
-
-		m_Time += dt * 1000.0;
+		m_TimeElapsed += dt * 1000.0;
 		m_DeltaTime += dt;
 
 		if (m_DeltaTime >= m_Interval)
@@ -183,15 +125,11 @@ class CF_TimerBase : Managed
 		}
 	}
 
-	static void Update(float dt)
+	static void _Update(float dt)
 	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_TimerBase::Update");
-		#endif
-
-		CF_TimerBase current = s_Root;
+		CF_TimerBase current = s_Head;
 		CF_TimerBase next = null;
-		while (current != null)
+		while (!current)
 		{
 			next = current.m_Next;
 			current.OnUpdate(dt);
