@@ -12,16 +12,16 @@ class CF_Localiser
 
 	void CF_Localiser(string text = "", string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
-		Set(0, text);
-		Set(1, param1);
-		Set(2, param2);
-		Set(3, param3);
-		Set(4, param4);
-		Set(5, param5);
-		Set(6, param6);
-		Set(7, param7);
-		Set(8, param8);
-		Set(9, param9);
+		Set(-1, text);
+		Set(0, param1);
+		Set(1, param2);
+		Set(2, param3);
+		Set(3, param4);
+		Set(4, param5);
+		Set(5, param6);
+		Set(6, param7);
+		Set(7, param8);
+		Set(8, param9);
 	}
 
 	void SetTranslates(bool translates)
@@ -36,16 +36,16 @@ class CF_Localiser
 
 	string ToStr()
 	{
-		string text = GetTranslated(0);
-		string p1 = GetTranslated(1);
-		string p2 = GetTranslated(2);
-		string p3 = GetTranslated(3);
-		string p4 = GetTranslated(4);
-		string p5 = GetTranslated(5);
-		string p6 = GetTranslated(6);
-		string p7 = GetTranslated(7);
-		string p8 = GetTranslated(8);
-		string p9 = GetTranslated(9);
+		string text = GetTranslated(-1);
+		string p1 = GetTranslated(0);
+		string p2 = GetTranslated(1);
+		string p3 = GetTranslated(2);
+		string p4 = GetTranslated(3);
+		string p5 = GetTranslated(4);
+		string p6 = GetTranslated(5);
+		string p7 = GetTranslated(6);
+		string p8 = GetTranslated(7);
+		string p9 = GetTranslated(8);
 
 		return string.Format(text, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	}
@@ -116,14 +116,15 @@ class CF_Localiser
 
 	string GetTranslated(int index)
 	{
-		if (index < 0 || index >= m_Count)
+		int realIndex = index + 1;
+		if (realIndex < 0 || realIndex >= m_Count)
 			return "";
-		string value = m_Strings[index];
-		if (m_Translates[index])
+		string value = m_Strings[realIndex];
+		if (m_Translates[realIndex])
 		{
 			value = Widget.TranslateString("#" + value);
 			if (value == "" || value[0] == " ")
-				return m_Strings[index];
+				return m_Strings[realIndex];
 		}
 		return value;
 	}
