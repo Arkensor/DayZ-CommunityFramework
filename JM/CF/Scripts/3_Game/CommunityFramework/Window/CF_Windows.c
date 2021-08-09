@@ -1,5 +1,17 @@
 static autoptr CF_Windows g_CF_Windows;
 
+enum CF_WindowsState
+{
+	NONE = 0,
+	FOCUSED
+};
+
+enum CF_WindowsInputState
+{
+	RELEASE = 0,
+	PRESS
+};
+
 class CF_Windows
 {
 	static CF_Window m_Head;
@@ -7,9 +19,18 @@ class CF_Windows
 
 	private static Widget s_Container;
 
-	private static bool m_FocusInput;
-	private static bool m_WasFocusWindows;
-	private static bool m_RespondingToMouse;
+	private static UAInput s_ToggleInput;
+	private static CF_WindowsState s_PreservedState;
+
+	private static CF_WindowsState s_State;
+	private static CF_WindowsState s_PreviousState;
+
+	private static bool s_Override;
+	private static CF_WindowsState s_OverrideState;
+
+	private static CF_WindowsInputState s_InputState;
+	private static CF_WindowsInputState s_PreviousInputState;
+	private static bool s_InputForcingLossOfFocus;
 
 	private void CF_Windows()
 	{
@@ -35,6 +56,8 @@ class CF_Windows
 	static void _MissionInit()
 	{
 		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
+
+		s_ToggleInput = GetUApi().GetInputByName("UACFToggleWindowMode");
 	}
 
 	static void _MissionCleanup()
@@ -47,49 +70,109 @@ class CF_Windows
 		return s_Container;
 	}
 
-	static bool IsInputFocused()
-	{
-		return m_FocusInput;
+	static bool IsWidgetWindowRoot(Widget widget)
+	{  
+		CF_Window window = m_Tail;
+		while (window != null)
+		{
+			if (widget == window.GetWidgetRoot())
+			{
+				return true;
+			}
+			
+			window = window.GetPrev();
+		}
+
+		return false;
 	}
 
-	static void InputFocus(bool shouldFocus)
+	static void SetState(CF_WindowsState state)
 	{
-		m_FocusInput = shouldFocus;
+		s_PreservedState = state;
+	}
+
+	static CF_WindowsState GetState()
+	{
+		return s_PreservedState;
+	}
+
+	static void FlipState()
+	{
+		if (s_PreservedState == CF_WindowsState.NONE)
+		{
+			s_PreservedState = CF_WindowsState.FOCUSED;
+			return;
+		}
+
+		s_PreservedState = CF_WindowsState.NONE;
+	}
+
+	static void OverrideInputState(bool pOverride, CF_WindowsState pState = CF_WindowsState.NONE)
+	{
+		s_Override = pOverride;
+		s_OverrideState = pState;
 	}
 
 	void Update(CF_TimerBase timer, float dt)
 	{
 		CF_Window window = m_Tail;
-		int numRemovesMouseFocus = 0;
-		int index = 1;
+
+		int windowCount = 0;
 		while (window != null)
 		{
-			window._SetSort(index++);
-
-			if (window.DoesTakeGameFocus()) numRemovesMouseFocus++;
-
+			window._SetSort(windowCount++);
 			window = window.GetPrev();
 		}
 
-		UpdateInputFocus();
+		if (s_ToggleInput.LocalPress()) // Flip the state when the key is pressed
+		{
+			FlipState();
+		}
+
+		if (s_InputForcingLossOfFocus) // Left mouse button pressed in the world
+		{
+			s_State = CF_WindowsState.NONE;
+		}
+		else if (s_Override) // Some mod overriding the input
+		{
+			s_State = s_OverrideState;
+		}
+		else if (windowCount <= 0) // No windows avaliable
+		{
+			s_State = CF_WindowsState.NONE;
+			s_PreservedState = s_State;
+		}
+		else // Default behaviour
+		{
+			s_State = s_PreservedState;
+		}
+
+		// Update the state change
+		if (s_State != s_PreviousState)
+		{
+			s_PreviousState = s_State;
+
+			OnStateChanged();
+		}
+
+		// Delay input state change by 1 frame
+		if (s_PreviousInputState != s_InputState)
+		{
+			s_PreviousInputState = s_InputState;
+
+			OnInputStateChanged();
+		}
 
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
-
-		if (m_RespondingToMouse && !isMouseDown)
+		switch (s_InputState)
 		{
-			m_RespondingToMouse = false;
+			case CF_WindowsInputState.PRESS:
+				if (!isMouseDown) s_InputState = CF_WindowsInputState.RELEASE;
+				break;
+			case CF_WindowsInputState.RELEASE:
+				if (isMouseDown) s_InputState = CF_WindowsInputState.PRESS;
+				break;
 		}
-		else if (!m_RespondingToMouse && isMouseDown)
-		{
-			m_RespondingToMouse = true;
-
-			if (!KeepMouseFocused() && IsInputFocused())
-			{
-				InputFocus(false);
-			}
-		}
-
-		if (!m_RespondingToMouse) InputFocus(numRemovesMouseFocus > 0);
 		
 		s_Container.SetFlags(WidgetFlags.VEXACTSIZE | WidgetFlags.HEXACTSIZE);
 		int w, h;
@@ -97,13 +180,22 @@ class CF_Windows
 		s_Container.SetSize(w, h);
 	}
 
-	void UpdateInputFocus()
+	void OnInputStateChanged()
 	{
-		if (m_WasFocusWindows == m_FocusInput) return;
+		s_InputForcingLossOfFocus = false;
 
-		m_WasFocusWindows = m_FocusInput;
+		if (s_InputState == CF_WindowsInputState.PRESS)
+		{
+			if (!KeepMouseFocused())
+			{
+				s_InputForcingLossOfFocus = true;
+			}
+		}
+	}
 
-		if (m_FocusInput)
+	void OnStateChanged()
+	{
+		if (s_State == CF_WindowsInputState.PRESS)
 		{
 			GetGame().GetInput().ChangeGameFocus(1);
 			
@@ -145,22 +237,6 @@ class CF_Windows
 	bool CheckWidgetForFocus(Widget widget)
 	{
 		if (IsWidgetWindowRoot(widget)) return true;
-
-		return false;
-	}
-
-	static bool IsWidgetWindowRoot(Widget widget)
-	{  
-		CF_Window window = m_Tail;
-		while (window != null)
-		{
-			if (widget == window.GetWidgetRoot())
-			{
-				return true;
-			}
-			
-			window = window.GetPrev();
-		}
 
 		return false;
 	}

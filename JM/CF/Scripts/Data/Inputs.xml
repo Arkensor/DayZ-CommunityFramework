@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<modded_inputs>
+    <inputs>
+        <actions>
+            <input name="UACFToggleWindowMode" loc="STR_COT_INPUT_TOGGLE" />
+        </actions>
+    </inputs>
+
+    <preset>
+        <input name="UACFToggleWindowMode">
+            <btn name="kHome">
+            </btn>
+        </input>
+    </preset>
+</modded_inputs>

@@ -245,7 +245,7 @@ class CF_Window : CF_Model
 			int w, h;
 			GetScreenSize(w, h);
 
-			SetSize(w - 300, h);
+			SetSize(w, h);
 			SetPosition(0, 0);
 		}
 		else
