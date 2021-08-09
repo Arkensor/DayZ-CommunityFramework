@@ -8,7 +8,7 @@ class CF_TimerBase : Managed
 
 	protected float m_Interval; // Seconds
 	protected float m_DeltaTime; // Seconds
-	protected int m_TimeElapsed; // Milliseconds
+	protected int m_TimeElapsedMS; // Milliseconds
 
 	protected void CF_TimerBase()
 	{
@@ -88,19 +88,27 @@ class CF_TimerBase : Managed
 	}
 
 	/**
-	 * THe total time elapsed for this timer, in milliseconds.
+	 * The total time elapsed for this timer, in milliseconds.
 	 */
-	void SetTimeElapsed(int elapsed)
+	void SetTimeElapsedMS(int elapsed)
 	{
-		m_TimeElapsed = elapsed;
+		m_TimeElapsedMS = elapsed;
 	}
 
 	/**
-	 * THe total time elapsed for this timer, in milliseconds.
+	 * The total time elapsed for this timer, in milliseconds.
 	 */
-	int GetTimeElapsed()
+	int GetTimeElapsedMS()
 	{
-		return m_TimeElapsed;
+		return m_TimeElapsedMS;
+	}
+
+	/**
+	 * The total time elapsed for this timer, in seconds.
+	 */
+	float GetTimeElapsed()
+	{
+		return m_TimeElapsedMS / 1000.0;
 	}
 
 	protected void OnCreate();
@@ -115,7 +123,7 @@ class CF_TimerBase : Managed
 
 	protected void OnUpdate(float dt)
 	{
-		m_TimeElapsed += dt * 1000.0;
+		m_TimeElapsedMS += dt * 1000.0;
 		m_DeltaTime += dt;
 
 		if (m_DeltaTime >= m_Interval)
@@ -129,11 +137,18 @@ class CF_TimerBase : Managed
 	{
 		CF_TimerBase current = s_Head;
 		CF_TimerBase next = null;
-		while (!current)
+		while (current)
 		{
 			next = current.m_Next;
+
 			current.OnUpdate(dt);
-			if (current.m_Destroy) delete current;
+
+			if (current.m_Destroy)
+			{
+				// Destructor will remove the timer from the linked list, joining the adjacent variables.
+				delete current;
+			}
+			
 			current = next;
 		}
 	}

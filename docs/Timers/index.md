@@ -14,16 +14,16 @@ class TestClass : Managed
         CF_Timer.Create(this, "FadeIn", 0.0, new CF_TimerParam1<Widget, float>(widget, timeToFade));
     }
 
-    void TimerFunction(CF_Timer timer, float deltaTime, Widget widget, float timeToFade)
+    void FadeIn(CF_Timer timer, float deltaTime, Widget widget, float timeToFade)
     {
-        if (timer.GetTimeElapsed() > timeToFade * 1000.0)
+        if (timer.GetTimeElapsed() > timeToFade)
         {
             timer.Stop();
             return;
         }
 
-		float alpha = timer.GetTimeElapsed() / (1000.0 * timeToFade);
-        widget.SetAlpha(Easing.EaseInCubic(alpha));
+		float alpha = timer.GetTimeElapsed() / timeToFade;
+        widget.SetAlpha(alpha);
     }
 };
 ```
@@ -42,8 +42,6 @@ class FadeIn : CF_TimerBase
     {
 		m_Widget = widget;
 		m_TimeToFade = timeToFade;
-
-		SetInterval(0.0);
     }
 
     override void OnTick(float dt)
@@ -54,18 +52,8 @@ class FadeIn : CF_TimerBase
             return;
         }
 
-		float alpha = timer.GetTimeElapsed() / (1000.0 * m_TimeToFade);
-        m_Widget.SetAlpha(Easing.EaseInCubic(alpha));
+		float alpha = timer.GetTimeElapsed() / m_TimeToFade;
+        m_Widget.SetAlpha(alpha);
     }
-
-	override void OnStart()
-	{
-		m_Widget.SetAlpha(0);
-	}
-
-	override void OnStop()
-	{
-		m_Widget.SetAlpha(1);
-	}
 };
 ```
