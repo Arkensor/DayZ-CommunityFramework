@@ -2,6 +2,9 @@ class CF_Window : CF_Model
 {
 	autoptr CF_EventHandler OnClose = new CF_EventHandler();
 
+	autoptr CF_EventHandler OnFocus = new CF_EventHandler();
+	autoptr CF_EventHandler OnUnfocus = new CF_EventHandler();
+
 	// Attached
 	private CF_ModelBase m_Model;
 
@@ -36,6 +39,9 @@ class CF_Window : CF_Model
 	// State
 	private bool m_FullScreen;
 	private bool m_Minimized;
+
+	private bool m_IsFocused;
+	private bool m_WasFocused;
 
 	private float m_ContentWidth;
 	private float m_ContentHeight;
@@ -259,6 +265,24 @@ class CF_Window : CF_Model
 	{
 		m_Minimized = minimized;
 		NotifyPropertyChanged("m_Minimized");
+	}
+
+	void UpdateFocus(bool focused)
+	{
+		m_IsFocused = focused;
+		if (m_IsFocused == m_WasFocused) return;
+		m_WasFocused = m_IsFocused;
+
+		if (m_IsFocused)
+		{
+			OnFocus.Invoke(this, null);
+		}
+		else
+		{
+			SetFocus(null);
+
+			OnUnfocus.Invoke(this, null);
+		}
 	}
 
 	void SetPosition(float x, float y)
@@ -657,16 +681,16 @@ class CF_Window : CF_Model
 	{
 		CF_Window _this = this;
 
-		if (!CF_Windows.m_Head)
+		if (!CF_Windows.s_Head)
 		{
-			CF_Windows.m_Head = _this;
-			CF_Windows.m_Tail = _this;
+			CF_Windows.s_Head = _this;
+			CF_Windows.s_Tail = _this;
 		}
 		else
 		{
-			m_Next = CF_Windows.m_Head;
-			CF_Windows.m_Head.m_Prev = _this;
-			CF_Windows.m_Head = _this;
+			m_Next = CF_Windows.s_Head;
+			CF_Windows.s_Head.m_Prev = _this;
+			CF_Windows.s_Head = _this;
 		}
 
 		return _this;
@@ -679,16 +703,16 @@ class CF_Window : CF_Model
 		if (!previous)
 		{
 			m_Prev = null;
-			m_Next = CF_Windows.m_Head;
-			CF_Windows.m_Head.m_Prev = _this;
-			CF_Windows.m_Head = _this;
+			m_Next = CF_Windows.s_Head;
+			CF_Windows.s_Head.m_Prev = _this;
+			CF_Windows.s_Head = _this;
 		}
 		else if (!previous.m_Next)
 		{
 			m_Next = null;
-			m_Prev = CF_Windows.m_Tail;
-			CF_Windows.m_Tail.m_Next = _this;
-			CF_Windows.m_Tail = _this;
+			m_Prev = CF_Windows.s_Tail;
+			CF_Windows.s_Tail.m_Next = _this;
+			CF_Windows.s_Tail = _this;
 		}
 		else
 		{
@@ -711,7 +735,7 @@ class CF_Window : CF_Model
 		}
 		else
 		{
-			CF_Windows.m_Tail = m_Prev;
+			CF_Windows.s_Tail = m_Prev;
 		}
 
 		if (m_Prev)
@@ -720,7 +744,7 @@ class CF_Window : CF_Model
 		}
 		else
 		{
-			CF_Windows.m_Head = m_Next;
+			CF_Windows.s_Head = m_Next;
 		}
 
 		m_Prev = null;
@@ -768,7 +792,7 @@ class CF_Window : CF_Model
 	{
 		CF_Window _this = this;
 
-		if (CF_Windows.m_Head == _this) return;
+		if (CF_Windows.s_Head == _this) return;
 
 		if (m_Prev || m_Next)
 		{

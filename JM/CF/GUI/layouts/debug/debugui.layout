@@ -33,7 +33,7 @@ WrapSpacerWidgetClass BlockSpacer {
  }
  {
   ScriptParamsClass {
-   Model "CF_DebugUI_Instance"
+   Model "CF_DebugUI"
   }
  }
 }

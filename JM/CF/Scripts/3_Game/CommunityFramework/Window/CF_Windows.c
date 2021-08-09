@@ -1,9 +1,9 @@
 static autoptr CF_Windows g_CF_Windows;
 
-enum CF_WindowsState
+enum CF_WindowsFocusState
 {
-	NONE = 0,
-	FOCUSED
+	WORLD = 0,
+	WINDOW
 };
 
 enum CF_WindowsInputState
@@ -14,19 +14,21 @@ enum CF_WindowsInputState
 
 class CF_Windows
 {
-	static CF_Window m_Head;
-	static CF_Window m_Tail;
+	static CF_Window s_Head;
+	static CF_Window s_Tail;
+
+	static int s_Count;
 
 	private static Widget s_Container;
 
 	private static UAInput s_ToggleInput;
-	private static CF_WindowsState s_PreservedState;
+	private static CF_WindowsFocusState s_PreservedState;
 
-	private static CF_WindowsState s_State;
-	private static CF_WindowsState s_PreviousState;
+	private static CF_WindowsFocusState s_State;
+	private static CF_WindowsFocusState s_PreviousState;
 
 	private static bool s_Override;
-	private static CF_WindowsState s_OverrideState;
+	private static CF_WindowsFocusState s_OverrideState;
 
 	private static CF_WindowsInputState s_InputState;
 	private static CF_WindowsInputState s_PreviousInputState;
@@ -72,7 +74,7 @@ class CF_Windows
 
 	static bool IsWidgetWindowRoot(Widget widget)
 	{  
-		CF_Window window = m_Tail;
+		CF_Window window = s_Tail;
 		while (window != null)
 		{
 			if (widget == window.GetWidgetRoot())
@@ -86,28 +88,33 @@ class CF_Windows
 		return false;
 	}
 
-	static void SetState(CF_WindowsState state)
+	static UAInput GetInput()
+	{
+		return s_ToggleInput;
+	}
+
+	static void SetState(CF_WindowsFocusState state)
 	{
 		s_PreservedState = state;
 	}
 
-	static CF_WindowsState GetState()
+	static CF_WindowsFocusState GetState()
 	{
 		return s_PreservedState;
 	}
 
 	static void FlipState()
 	{
-		if (s_PreservedState == CF_WindowsState.NONE)
+		if (s_PreservedState == CF_WindowsFocusState.WORLD)
 		{
-			s_PreservedState = CF_WindowsState.FOCUSED;
+			s_PreservedState = CF_WindowsFocusState.WINDOW;
 			return;
 		}
 
-		s_PreservedState = CF_WindowsState.NONE;
+		s_PreservedState = CF_WindowsFocusState.WORLD;
 	}
 
-	static void OverrideInputState(bool pOverride, CF_WindowsState pState = CF_WindowsState.NONE)
+	static void OverrideInputState(bool pOverride, CF_WindowsFocusState pState = CF_WindowsFocusState.WORLD)
 	{
 		s_Override = pOverride;
 		s_OverrideState = pState;
@@ -115,12 +122,17 @@ class CF_Windows
 
 	void Update(CF_TimerBase timer, float dt)
 	{
-		CF_Window window = m_Tail;
+		s_Count = 0;
 
-		int windowCount = 0;
+		CF_Window window = s_Tail;
 		while (window != null)
 		{
-			window._SetSort(windowCount++);
+			if (window.GetPrev())
+			{
+				window.UpdateFocus(false);
+			}
+
+			window._SetSort(s_Count++);
 			window = window.GetPrev();
 		}
 
@@ -131,15 +143,15 @@ class CF_Windows
 
 		if (s_InputForcingLossOfFocus) // Left mouse button pressed in the world
 		{
-			s_State = CF_WindowsState.NONE;
+			s_State = CF_WindowsFocusState.WORLD;
 		}
 		else if (s_Override) // Some mod overriding the input
 		{
 			s_State = s_OverrideState;
 		}
-		else if (windowCount <= 0) // No windows avaliable
+		else if (s_Count <= 0 || CheckForFocus()) // No windows avaliable
 		{
-			s_State = CF_WindowsState.NONE;
+			s_State = CF_WindowsFocusState.WORLD;
 			s_PreservedState = s_State;
 		}
 		else // Default behaviour
@@ -153,6 +165,11 @@ class CF_Windows
 			s_PreviousState = s_State;
 
 			OnStateChanged();
+		}
+
+		if (window)
+		{
+			window.UpdateFocus(s_State == CF_WindowsFocusState.WORLD);
 		}
 
 		// Delay input state change by 1 frame
@@ -195,11 +212,9 @@ class CF_Windows
 
 	void OnStateChanged()
 	{
-		if (s_State == CF_WindowsInputState.PRESS)
+		if (s_State == CF_WindowsFocusState.WINDOW)
 		{
 			GetGame().GetInput().ChangeGameFocus(1);
-			
-			SetFocus(NULL);
 		}
 		else
 		{

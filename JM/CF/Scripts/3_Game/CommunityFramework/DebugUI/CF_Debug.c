@@ -40,12 +40,12 @@ class CF_Debug : CF_TimerBase
 
 	static Widget ShowManager(Widget parent = null)
 	{
-		return CF_MVVM.Create(s_Manager, s_Manager.GetLayoutFile(), parent).GetWidget();
+		return s_Manager.Open(parent);
 	}
 
 	static void CloseManager()
 	{
-		CF_MVVM.Destroy(s_Manager);
+		s_Manager.Close();
 	}
 
 	static bool IsAllowed()

@@ -37,6 +37,25 @@ WrapSpacerWidgetClass cf_debug_panel {
      "text halign" center
      "text valign" center
     }
+    CheckBoxWidgetClass cf_debug_cursor_toggle {
+     clipchildren 0
+     size 0.204 0.98
+     valign center_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     fixaspect fixwidth
+     scriptclass "CF_CheckBoxWidget"
+     {
+      ScriptParamsClass {
+       Event_Change "Event_ToggleCursor"
+       Enabled "m_CanChangeInputState"
+       Text "m_InputCombo"
+       Checked "m_InputState"
+      }
+     }
+    }
    }
   }
   ScrollWidgetClass cf_debug_scroll {
