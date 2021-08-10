@@ -234,41 +234,43 @@ class CF_MVVM
 		return link;
 	}
 
-	static void OpenMenu(string modelName)
+	static CF_ModelBase OpenMenu(string modelName)
 	{
 		CF_ModelBase model = CF_ModelBase.Cast(modelName.ToType().Spawn());
-		if (!model) return;
+		if (!model) return null;
 
-		OpenMenu(model);
+		return OpenMenu(model);
 	}
 
-	static void OpenMenu(typename modelType)
+	static CF_ModelBase OpenMenu(typename modelType)
 	{
 		CF_ModelBase model = CF_ModelBase.Cast(modelType.Spawn());
-		if (!model) return;
+		if (!model) return null;
 
-		OpenMenu(model);
+		return OpenMenu(model);
 	}
 
-	static void OpenMenu(CF_ModelBase model)
+	static CF_ModelBase OpenMenu(CF_ModelBase model)
 	{
-		if (!model) return;
+		if (!model) return null;
 
 		string layoutFile;
 		g_Script.CallFunction(model, "GetLayoutFile", layoutFile, null);
-		if (layoutFile == string.Empty) return;
+		if (layoutFile == string.Empty) return null;
 
-		OpenMenu(model, layoutFile);
+		return OpenMenu(model, layoutFile);
 	}
 
-	static void OpenMenu(CF_ModelBase model, string layoutFile)
+	static CF_ModelBase OpenMenu(CF_ModelBase model, string layoutFile)
 	{
-		if (!GetGame() || !model) return;
+		if (!GetGame() || !model) return null;
 
 		CF_MVVM_Menu menu;
-		if (!Class.CastTo(menu, GetGame().GetUIManager().EnterScriptedMenu(__Constants.CF_MVVM_MENU, null))) return;
+		if (!Class.CastTo(menu, GetGame().GetUIManager().EnterScriptedMenu(__Constants.CF_MVVM_MENU, null))) return null;
 
 		menu.SetModel(model, layoutFile);
+
+		return model;
 	}
 
 	static void Destroy(CF_ModelBase model)
