@@ -25,9 +25,9 @@ class CF_DelayCall : CF_TimerBase
 		CF_DelayCall timer = new CF_DelayCall();
 		timer.m_Instance = instance;
 		timer.m_Function = function;
+		timer.m_Delay = delay;
 
 		timer.SetParams(params);
-		timer.SetInterval(interval);
 		timer.Start();
 
 		return timer;
@@ -51,7 +51,7 @@ class CF_DelayCall : CF_TimerBase
 		m_TimeElapsedMS += dt * 1000.0;
 		m_TimeElapsed = m_TimeElapsedMS / 1000.0;
 
-		if (m_TimeElapsedMS >= delay)
+		if (m_TimeElapsedMS >= m_Delay)
 		{
 			m_DeltaTime = dt;
 
