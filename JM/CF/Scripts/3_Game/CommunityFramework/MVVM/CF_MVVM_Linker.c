@@ -2,6 +2,8 @@ typedef array<ref CF_MVVM_Property> CF_TArrayProperties;
 
 class CF_MVVM_Linker
 {
+	ref CF_EventHandler OnDestroy = new CF_EventHandler();
+	
 	autoptr CF_Map<string, ref CF_TArrayProperties> m_PropertyVariableMap;
 	autoptr CF_TArrayProperties m_Properties;
 	CF_ViewModel m_Root;
@@ -10,6 +12,11 @@ class CF_MVVM_Linker
 	{
 		m_PropertyVariableMap = new CF_Map<string, ref CF_TArrayProperties>();
 		m_Properties = new CF_TArrayProperties();
+	}
+
+	void ~CF_MVVM_Linker()
+	{
+		OnDestroy.Invoke(this);
 	}
 
 	/**
@@ -158,6 +165,8 @@ class CF_MVVM_Linker
 
 		if (newParent == oldParent) return true;
 
+		OnDestroy.Invoke(this);
+		
 		if (oldParent && oldParent != newParent)
 		{
 			oldParent.RemoveChild(widget);

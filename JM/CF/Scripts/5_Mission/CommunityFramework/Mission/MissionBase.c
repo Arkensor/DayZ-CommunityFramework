@@ -37,6 +37,29 @@ modded class MissionBase
 		CF._MissionCleanup();
 	}
 
+	override UIScriptedMenu CreateScriptedMenu(int id)
+	{
+		UIScriptedMenu menu = NULL;
+
+		switch (id)
+		{
+		case __Constants.CF_MVVM_MENU:
+			menu = new CF_MVVM_Menu();
+			break;
+		}
+
+		if (menu)
+		{
+			menu.SetID(id);
+		}
+		else
+		{
+			menu = super.CreateScriptedMenu(id);
+		}
+
+		return menu;
+	}
+
 	void CF_DebugUIState(CallType type, ParamsReadContext ctx, PlayerIdentity sender, Object target)
 	{
 		Param1<bool> data;

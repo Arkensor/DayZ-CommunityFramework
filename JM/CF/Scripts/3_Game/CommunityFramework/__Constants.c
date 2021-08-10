@@ -1,5 +1,7 @@
 class __Constants
 {
+	static const int CF_MVVM_MENU = 10042;
+
 	static const string OFFLINE_GUID = "OFFLINE";
 	static const string OFFLINE_STEAM = "OFFLINE";
 	static const string OFFLINE_NAME = "OFFLINE";

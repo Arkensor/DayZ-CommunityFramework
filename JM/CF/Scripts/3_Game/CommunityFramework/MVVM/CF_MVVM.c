@@ -234,6 +234,43 @@ class CF_MVVM
 		return link;
 	}
 
+	static void OpenMenu(string modelName)
+	{
+		CF_ModelBase model = CF_ModelBase.Cast(modelName.ToType().Spawn());
+		if (!model) return;
+
+		OpenMenu(model);
+	}
+
+	static void OpenMenu(typename modelType)
+	{
+		CF_ModelBase model = CF_ModelBase.Cast(modelType.Spawn());
+		if (!model) return;
+
+		OpenMenu(model);
+	}
+
+	static void OpenMenu(CF_ModelBase model)
+	{
+		if (!model) return;
+
+		string layoutFile;
+		g_Script.CallFunction(model, "GetLayoutFile", layoutFile, null);
+		if (layoutFile == string.Empty) return;
+
+		OpenMenu(model, layoutFile);
+	}
+
+	static void OpenMenu(CF_ModelBase model, string layoutFile)
+	{
+		if (!GetGame() || !model) return;
+
+		CF_MVVM_Menu menu;
+		if (!Class.CastTo(menu, GetGame().GetUIManager().EnterScriptedMenu(__Constants.CF_MVVM_MENU, null))) return;
+
+		menu.SetModel(model, layoutFile);
+	}
+
 	static void Destroy(CF_ModelBase model)
 	{
 		#ifdef CF_TRACE_ENABLED
