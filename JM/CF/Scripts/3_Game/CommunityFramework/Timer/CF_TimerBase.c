@@ -6,9 +6,11 @@ class CF_TimerBase : CF_Model
 	private bool m_IsActive;
 	private bool m_Destroy;
 
-	protected float m_Interval; // Seconds
-	protected float m_DeltaTime; // Seconds
-	protected int m_TimeElapsed; // Milliseconds
+	//! It is recommended to not modify these variables while the timer is active/running.
+	float m_Interval; // Seconds
+	float m_DeltaTime; // Seconds
+	float m_TimeElapsed; // Seconds
+	int m_TimeElapsedMS; // Milliseconds
 
 	protected void CF_TimerBase()
 	{
@@ -65,6 +67,16 @@ class CF_TimerBase : CF_Model
 		OnStop();
 	}
 
+	bool IsActive()
+	{
+		return m_IsActive;
+	}
+
+	bool IsDestroyed()
+	{
+		return m_Destroy;
+	}
+
 	void Destroy()
 	{
 		m_Destroy = true;
@@ -88,17 +100,25 @@ class CF_TimerBase : CF_Model
 	}
 
 	/**
-	 * THe total time elapsed for this timer, in milliseconds.
+	 * The total time elapsed for this timer, in milliseconds.
 	 */
-	void SetTimeElapsed(int elapsed)
+	void SetTimeElapsedMS(int elapsed)
 	{
-		m_TimeElapsed = elapsed;
+		m_TimeElapsedMS = elapsed;
 	}
 
 	/**
-	 * THe total time elapsed for this timer, in milliseconds.
+	 * The total time elapsed for this timer, in milliseconds.
 	 */
-	int GetTimeElapsed()
+	int GetTimeElapsedMS()
+	{
+		return m_TimeElapsedMS;
+	}
+
+	/**
+	 * The total time elapsed for this timer, in seconds.
+	 */
+	float GetTimeElapsed()
 	{
 		return m_TimeElapsed;
 	}
@@ -115,7 +135,9 @@ class CF_TimerBase : CF_Model
 
 	protected void OnUpdate(float dt)
 	{
-		m_TimeElapsed += dt * 1000.0;
+		m_TimeElapsedMS += dt * 1000.0;
+		m_TimeElapsed = m_TimeElapsedMS / 1000.0;
+		
 		m_DeltaTime += dt;
 
 		if (m_DeltaTime >= m_Interval)
@@ -132,8 +154,15 @@ class CF_TimerBase : CF_Model
 		while (current)
 		{
 			next = current.m_Next;
+
 			current.OnUpdate(dt);
-			if (current.m_Destroy) delete current;
+
+			if (current.m_Destroy)
+			{
+				// Destructor will remove the timer from the linked list, joining the adjacent variables.
+				delete current;
+			}
+			
 			current = next;
 		}
 	}
