@@ -6,9 +6,11 @@ class CF_TimerBase : Managed
 	private bool m_IsActive;
 	private bool m_Destroy;
 
-	protected float m_Interval; // Seconds
-	protected float m_DeltaTime; // Seconds
-	protected int m_TimeElapsedMS; // Milliseconds
+	//! It is recommended to not modify these variables while the timer is active/running.
+	float m_Interval; // Seconds
+	float m_DeltaTime; // Seconds
+	float m_TimeElapsed; // Seconds
+	int m_TimeElapsedMS; // Milliseconds
 
 	protected void CF_TimerBase()
 	{
@@ -65,6 +67,16 @@ class CF_TimerBase : Managed
 		OnStop();
 	}
 
+	bool IsActive()
+	{
+		return m_IsActive;
+	}
+
+	bool IsDestroyed()
+	{
+		return m_Destroy;
+	}
+
 	void Destroy()
 	{
 		m_Destroy = true;
@@ -108,7 +120,7 @@ class CF_TimerBase : Managed
 	 */
 	float GetTimeElapsed()
 	{
-		return m_TimeElapsedMS / 1000.0;
+		return m_TimeElapsed;
 	}
 
 	protected void OnCreate();
@@ -124,6 +136,8 @@ class CF_TimerBase : Managed
 	protected void OnUpdate(float dt)
 	{
 		m_TimeElapsedMS += dt * 1000.0;
+		m_TimeElapsed = m_TimeElapsedMS / 1000.0;
+		
 		m_DeltaTime += dt;
 
 		if (m_DeltaTime >= m_Interval)
