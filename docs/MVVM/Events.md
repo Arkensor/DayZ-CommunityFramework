@@ -7,7 +7,7 @@ Inside the model class you will want a method that handles the event called from
 e.g. Handling a click event would require the function signature:
 
 ```csharp
-void SomeClickEvent(CF_ModelBase sender, CF_MouseEventArgs args)
+void OnClick(CF_ModelBase sender, CF_MouseEventArgs args)
 ```
 
 ## Adding an Event in Workbench
