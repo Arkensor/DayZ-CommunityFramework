@@ -1,6 +1,7 @@
 class CF_Collection : Managed
 {
 	protected ref CF_TypeConverter m_Converter;
+	protected int m_Count;
 
 	void CF_Collection()
 	{
@@ -32,6 +33,6 @@ class CF_Collection : Managed
 
 	int Count()
 	{
-		return 0;
+		return m_Count;
 	}
 };

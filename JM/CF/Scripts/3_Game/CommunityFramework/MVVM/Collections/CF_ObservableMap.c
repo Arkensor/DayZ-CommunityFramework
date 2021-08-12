@@ -10,12 +10,6 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		CF_MVVM._CheckInit();
 		#endif
 
-		typename k = TKey;
-		typename v = TValue;
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, string.Format("CF_ObservableMap<%1, %2>", "" + k, "" + v));
-		#endif
-
 		OverrideConverter();
 
 		CF_Log.Info("m_Converter=%1", "" + m_Converter);
@@ -51,7 +45,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 		if (!converter)
 		{
-			typename t = T;
+			typename t = TValue;
 			m_Converter = CF_TypeConverters.Create(t);
 			return;
 		}
@@ -106,6 +100,8 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 			m_DataMap.Insert(key, idx);
 			NotifyCollectionChanged(new CF_CollectionInsertEventArgs(m_DataMap[key]));
 		}
+		
+		m_Count = m_Keys.Count();
 	}
 
 	void Remove(TKey key)
@@ -121,11 +117,13 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		
 		m_DataMap.Remove(key);
 
-		if (m_Keys.Count() > 0 && index < m_Data.Count())
+		if (m_Keys.Count() > 0 && index < m_Keys.Count())
 		{
 			m_DataMap[replaced] = index;
 			NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 		}
+		
+		m_Count = m_Keys.Count();
 	}
 
 	void RemoveElement(int index)
@@ -150,5 +148,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		m_Values.Clear();
 		m_Keys.Clear();
 		m_DataMap.Clear();
+		
+		m_Count = 0;
 	}
 };

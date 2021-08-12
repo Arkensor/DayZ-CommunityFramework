@@ -1,7 +1,6 @@
 class CF_Stack<Class T> : CF_Collection
 {
 	private	T m_Data[256];
-	private int m_Count;
 
 	void CF_Stack()
 	{

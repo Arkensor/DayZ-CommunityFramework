@@ -10,11 +10,16 @@ class CF_TestModel : CF_Model
 	bool BlockInput = false;
 
 	string ButtonText = "Press??";
+	
+	//ref CF_Dropdown<ref CF_TestColour> Dropdown = new CF_Dropdown<ref CF_TestColour>();
 
 	ref CF_ObservableArray<CF_TestItemModel> Test = new CF_ObservableArray<CF_TestItemModel>();
 	
 	void CF_TestModel()
 	{
+		//Dropdown.Insert(new CF_TestColour(0xFFFF0000, "Red"));
+		//Dropdown.Insert(new CF_TestColour(0xFF00FF00, "Green"));
+		//Dropdown.Insert(new CF_TestColour(0xFF0000FF, "Blue"));
 	}
 
 	void OpenWindow()
@@ -32,9 +37,6 @@ class CF_TestModel : CF_Model
 		#endif
 
 		evt.Continue = true;
-
-		Print(BlockInput);
-		//NotifyPropertyChanged("BlockInput");
 	}
 
 	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
@@ -60,7 +62,8 @@ class CF_TestModel : CF_Model
 		ButtonText = "Pressed " + Index + " times!";
 		NotifyPropertyChanged("ButtonText");
 
-		CF_TestItemModel item = new CF_TestItemModel(this, Index);
+		// Dropdown.GetSelected()
+		CF_TestItemModel item = new CF_TestItemModel(this, null, Index);
 		Test.Insert(item);
 	}
 
@@ -70,15 +73,37 @@ class CF_TestModel : CF_Model
 	}
 };
 
+class CF_TestColour : CF_Model
+{
+	int Hex;
+
+	string Name;
+
+	void CF_TestColour(int _hex, string _name)
+	{
+		Hex = _hex;
+		Name = _name;
+	}
+
+	override string ToStr()
+	{
+		return Name;
+	}
+};
+
 class CF_TestItemModel : CF_Model
 {
 	string ButtonText = "NOT SET!";
 
+	ref CF_TestColour Colour;
+
 	private CF_TestModel m_Parent;
 
-	void CF_TestItemModel(CF_TestModel parent, int index)
+	void CF_TestItemModel(CF_TestModel parent, CF_TestColour colour, int index)
 	{
 		m_Parent = parent;
+
+		Colour = colour;
 
 		ButtonText = "Press To Remove (" + index + ")";
 	}
@@ -97,4 +122,31 @@ class CF_TestItemModel : CF_Model
 	{
 		return "JM/CF/GUI/layouts/mvvm/testitem.layout";
 	}
+};
+
+class CF_TestModelTester
+{
+	static ref CF_TestModelTester s_Tester;
+
+	static void _Init()
+	{
+		s_Tester = new CF_TestModelTester();
+	}
+
+	private UAInput m_ToggleInput;
+
+	void CF_TestModelTester()
+	{
+		m_ToggleInput = GetUApi().GetInputByName("UACFTEST");
+
+		CF_Timer.Create(this, "Update");
+	}
+
+	void Update(CF_TimerBase timer, float dt)
+	{
+		if (GetGame().GetUIManager().GetMenu())
+		{
+
+		}
+	}	
 };

@@ -1,0 +1,48 @@
+PanelWidgetClass dropdown {
+ position 0 0
+ size 1 1
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ scriptclass "CF_PanelWidget"
+ style blank
+ {
+  FrameWidgetClass dropdown_selected_element {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   scriptclass "CF_FrameWidget"
+   {
+    ScriptParamsClass {
+     SubModel "m_Selected"
+    }
+   }
+  }
+  ButtonWidgetClass dropdown_popup_toggle {
+   position 0 0
+   size 1 1
+   halign right_ref
+   valign center_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   fixaspect fixwidth
+   scriptclass "CF_ButtonWidget"
+   {
+    ScriptParamsClass {
+     Event_Click "OnToggle"
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Model "CF_Dropdown"
+  }
+ }
+}

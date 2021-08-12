@@ -29,6 +29,11 @@ class CF_Model : Managed
 	{
 		return "";
 	}
+	
+	string ToStr()
+	{
+		return "";
+	}
 
 	/**
 	 * @note When overriding and adding to the instance, you must return true.

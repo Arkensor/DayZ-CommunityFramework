@@ -3,12 +3,17 @@
     <inputs>
         <actions>
             <input name="UACFToggleWindowMode" loc="STR_COT_INPUT_TOGGLE" />
+            <input name="UACFTEST" loc="STR_COT_INPUT_TOGGLE" />
         </actions>
     </inputs>
 
     <preset>
         <input name="UACFToggleWindowMode">
             <btn name="kHome">
+            </btn>
+        </input>
+        <input name="UACFTEST">
+            <btn name="kK">
             </btn>
         </input>
     </preset>

@@ -1,20 +1,5 @@
-class CF_Dropdown<Class T> : CF_Model
+class CF_DropdownBase : CF_Model
 {
-	ref CF_ObservableArray<T> m_Elements;
-
-	T m_Selected;
-
-	autoptr CF_DropdownPopup<T> m_Popup;
-
-	void CF_Dropdown(CF_ObservableArray<T> elements)
-	{
-		m_Elements = elements;
-		if (!m_Elements)
-		{
-			m_Elements = new CF_ObservableArray<T>();
-		}
-	}
-
 	override string GetLayoutFile()
 	{
 		return "";
@@ -29,21 +14,57 @@ class CF_Dropdown<Class T> : CF_Model
 	{
 		return "";
 	}
+};
+
+class CF_Dropdown<Class T> : CF_DropdownBase
+{
+	ref CF_ObservableArray<ref T> m_Elements;
+
+	ref CF_DropdownElement<T> m_Selected;
+
+	autoptr CF_DropdownPopup<T> m_Popup;
+
+	void CF_Dropdown(CF_ObservableArray<ref T> elements = null)
+	{
+		m_Elements = elements;
+		if (!m_Elements)
+		{
+			m_Elements = new CF_ObservableArray<ref T>();
+		}
+
+		m_Selected = new CF_DropdownElement<T>();
+		m_Selected.Init(null, this, GetElementLayoutFile());
+	}
+
+	void Insert(T item)
+	{
+		m_Elements.Insert(item);
+	}
 
 	void SetSelected(T selected)
 	{
-		if (m_Selected == selected) return;
-
-		m_Selected = selected;
+		m_Selected.m_Data = selected;
 
 		if (m_Popup) m_Popup.SetSelected(m_Selected);
+	}
+
+	T GetSelected()
+	{
+		return m_Selected.m_Data;
+	}
+	
+	void OnToggle(CF_ModelBase sender, CF_EventArgs args)
+	{
+		if (m_Popup) Close();
+		else Open();
 	}
 
 	void Open()
 	{
 		if (m_Popup) return;
 
-		m_Popup = new CF_DropdownPopup<T>(this, GetPopupLayoutFile(), GetElementLayoutFile());
+		m_Popup = new CF_DropdownPopup<T>();
+		m_Popup.Init(this, GetPopupLayoutFile(), GetElementLayoutFile());
 		m_Popup.OnDestroy.AddSubscriber(OnClose);
 		NotifyPropertyChanged("m_Popup");
 	}
@@ -62,7 +83,14 @@ class CF_Dropdown<Class T> : CF_Model
 	}
 };
 
-class CF_DropdownElement<Class T> : CF_Model
+class CF_DropdownElementBase : CF_Model
+{
+	void Init(Class data, CF_DropdownBase dropdown, string layoutFile);
+		
+	void SetSelected(bool selected);
+};
+
+class CF_DropdownElement<Class T> : CF_DropdownElementBase
 {
 	T m_Data;
 	bool m_Selected;
@@ -71,10 +99,10 @@ class CF_DropdownElement<Class T> : CF_Model
 
 	string m_LayoutFile;
 
-	void CF_DropdownElement(T data, CF_Dropdown<T> dropdown, string layoutFile)
+	override void Init(Class data, CF_DropdownBase dropdown, string layoutFile)
 	{
-		m_Data = data;
-		m_Dropdown = dropdown;
+		Class.CastTo(m_Dropdown, dropdown);
+		Class.CastTo(m_Data, data);
 
 		m_LayoutFile = layoutFile;
 	}
@@ -89,34 +117,43 @@ class CF_DropdownElement<Class T> : CF_Model
 		m_Dropdown.SetSelected(m_Data);
 	}
 
-	void SetSelected(bool selected)
+	override void SetSelected(bool selected)
 	{
 		m_Selected = selected;
 		NotifyPropertyChanged("m_Selected");
 	}
 };
 
-class CF_DropdownPopup<Class T> : CF_Popup
+class CF_DropdownPopupBase : CF_Popup
 {
-	ref CF_ObservableMap<T, ref CF_DropdownElement<T>> m_Elements;
+	void Init(CF_DropdownBase dropdown, string popupLayoutFile, string elementLayoutFile);
+	
+	void SetSelected(Class selected);
+};
+
+class CF_DropdownPopup<Class T> : CF_DropdownPopupBase
+{
+	ref CF_ObservableMap<T, ref CF_DropdownElementBase> m_Elements;
 
 	CF_Dropdown<T> m_Dropdown;
 
 	string m_LayoutFile;
 
-	void CF_DropdownPopup(CF_Dropdown<T> dropdown, string popupLayoutFile, string elementLayoutFile)
+	override void Init(CF_DropdownBase dropdown, string popupLayoutFile, string elementLayoutFile)
 	{
-		m_Dropdown = dropdown;
+		Class.CastTo(m_Dropdown, dropdown);
 
 		m_LayoutFile = popupLayoutFile;
 
-		m_Elements = new CF_ObservableMap<T, ref CF_DropdownElement<T>>();
+		m_Elements = new CF_ObservableMap<T, ref CF_DropdownElementBase>();
 
 		int count = m_Dropdown.m_Elements.Count();
 		for (int i = 0; i < count; i++)
 		{
 			T item = m_Dropdown.m_Elements[i];
-			m_Elements.Insert(item, new CF_DropdownElement<T>(item, m_Dropdown, elementLayoutFile));
+			auto element = new CF_DropdownElement<T>();
+			element.Init(item, m_Dropdown, elementLayoutFile);
+			m_Elements.Insert(item, element);
 		}
 	}
 
@@ -125,17 +162,19 @@ class CF_DropdownPopup<Class T> : CF_Popup
 		return m_LayoutFile;
 	}
 
-	void SetSelected(T selected)
+	override void SetSelected(Class selected)
 	{
 		for (int i = 0; i < m_Elements.Count(); i++)
 		{
-			if (m_Elements[i].m_Data == selected)
+			auto element = CF_DropdownElement<T>.Cast(m_Elements.GetElement(i));
+
+			if (element.m_Data == selected)
 			{
-				m_Elements[i].SetSelected(true);
+				element.SetSelected(true);
 				continue;
 			}
 
-			m_Elements[i].SetSelected(false);
+			element.SetSelected(false);
 		}
 	}
 };

@@ -11,13 +11,11 @@ class CF_Popup : CF_Model
 	private float m_PositionX;
 	private float m_PositionY;
 
-	void CF_Popup(Widget parent)
+	void CF_Popup()
 	{
 		s_Instance = this;
 		
 		CF_Timer.Create(this, "OnUpdate");
-		
-		Widget widget;
 		CF_MVVM.Create(this, GetLayoutFile());
 	}
 
