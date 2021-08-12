@@ -243,6 +243,8 @@ class CF_Windows
 	{
 		if (GetGame().GetUIManager().GetMenu()) return true;
 
+		if (CF_Popup.IsOpen()) return true;
+
 		return false;
 	}
 

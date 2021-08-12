@@ -8,6 +8,11 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	protected string m_Name;
 	protected string m_VariableName;
+	protected string m_ActualVariableName;
+	// Going 1 deep is more than enough.
+
+	protected int m_VariableIndices[4];
+	protected int m_IndexCount;
 
 	protected string m_TypeConverterType;
 	protected ref CF_TypeConverter m_TypeConverter;
@@ -28,15 +33,22 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		CF_Trace trace(this, "SetVariableName", "" + variableName);
 		#endif
 
-		int colonSeperator = variableName.IndexOf(":");
-		if (colonSeperator == -1)
+		m_IndexCount = -1;
+		m_VariableName = variableName;
+
+		int colonSeperator = m_VariableName.IndexOf(":");
+		if (colonSeperator != -1)
 		{
-			m_VariableName = variableName;
-			return m_VariableName;
+			m_VariableName = variableName.Substring(0, colonSeperator);
+			m_TypeConverterType = variableName.Substring(colonSeperator + 1, variableName.Length() - colonSeperator - 1);
 		}
 
-		m_VariableName = variableName.Substring(0, colonSeperator);
-		m_TypeConverterType = variableName.Substring(colonSeperator + 1, variableName.Length() - colonSeperator - 1);
+		m_ActualVariableName = m_VariableName;
+
+		if (m_VariableName.IndexOf(".") == -1)
+		{
+			m_IndexCount = 0;
+		}
 
 		return m_VariableName;
 	}
@@ -112,6 +124,8 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		CF_Trace trace(this, "OnView", evt.ToStr());
 		#endif
 
+		if (m_IndexCount == -1) AcquireIndices();
+
 		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt);
 		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, param);
 	}
@@ -122,23 +136,26 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		CF_Trace trace(this, "OnModel", evt.ToStr());
 		#endif
 
+		if (m_IndexCount == -1) AcquireIndices();
+
 		CF_EventArgs eventOverride = evt;
 
 		if (m_IsCollection)
 		{
-			CF_ObservableCollection _collection;
-			EnScript.GetClassVar(m_Model, m_VariableName, 0, _collection);
+			CF_ObservableCollection _collection = CF_ObservableCollection.Cast(GetClass());
+
 			EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, _collection);
 
 			if (!evt.Type().IsInherited(CF_CollectionEventArgs))
 			{
 				if (_collection == m_Collection) return;
 
+				//UPDATE: will continue to notify, even if unlinked
 				// the previous instance may still be alive, if so, make sure it doesn't notify from now on
-				if (m_Collection)
-				{
-					m_Collection.Init(null);
-				}
+				//if (m_Collection)
+				//{
+				//	m_Collection.Init(null);
+				//}
 
 				if (_collection)
 				{
@@ -181,87 +198,150 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		return false;
 	}
 
+	void AcquireIndices()
+	{
+		array<string> tokens();
+		m_VariableName.Split(".", tokens);
+
+		typename type = m_Model.Type();
+
+		m_IndexCount = tokens.Count() - 1;
+
+		for (int i = 0; i < m_IndexCount; i++)
+		{
+			bool success = false;
+			for (int j = 0; j < type.GetVariableCount(); j++)
+			{
+				if (type.GetVariableName(j) == tokens[i])
+				{
+					m_VariableIndices[i] = j;
+
+					type = type.GetVariableType(j);
+
+					success = true;
+
+					break; // break bad
+				}
+			}
+
+			// couldn't find sub variable
+			if (!success) return;
+		}
+
+		m_ActualVariableName = tokens[m_IndexCount];
+	}
+
+	void ToVariable()
+	{
+		typename type = m_Model.Type();
+		Class cls = m_Model;
+
+		for (int i = 0; i < m_IndexCount; i++)
+		{
+			int idx = m_VariableIndices[i];
+			type.GetVariableValue(cls, idx, cls);
+			type = type.GetVariableType(idx);
+		}
+
+		m_TypeConverter.ToVariable(cls, m_ActualVariableName);
+	}
+
+	void FromVariable()
+	{
+		typename type = m_Model.Type();
+		Class cls = m_Model;
+
+		for (int i = 0; i < m_IndexCount; i++)
+		{
+			int idx = m_VariableIndices[i];
+			type.GetVariableValue(cls, idx, cls);
+			type = type.GetVariableType(idx);
+		}
+
+		m_TypeConverter.FromVariable(cls, m_ActualVariableName);
+	}
+
 	override void SetInt(int value)
 	{
 		m_TypeConverter.SetInt(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override int GetInt()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetInt();
 	}
 
 	override void SetBool(bool value)
 	{
 		m_TypeConverter.SetBool(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override bool GetBool()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetBool();
 	}
 
 	override void SetFloat(float value)
 	{
 		m_TypeConverter.SetFloat(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override float GetFloat()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetFloat();
 	}
 
 	override void SetVector(vector value)
 	{
 		m_TypeConverter.SetVector(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override vector GetVector()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetVector();
 	}
 	
 	override void SetString(string value)
 	{
 		m_TypeConverter.SetString(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override string GetString()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetString();
 	}
 
 	override void SetClass(Class value)
 	{
 		m_TypeConverter.SetClass(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override Class GetClass()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetClass();
 	}
 
 	override void SetManaged(Managed value)
 	{
 		m_TypeConverter.SetManaged(value);
-		m_TypeConverter.ToVariable(m_Model, m_VariableName);
+		ToVariable();
 	}
 
 	override Managed GetManaged()
 	{
-		m_TypeConverter.FromVariable(m_Model, m_VariableName);
+		FromVariable();
 		return m_TypeConverter.GetManaged();
 	}
 };

@@ -1,9 +1,9 @@
 class CF_ObservableCollection : CF_Collection
 {
-	private CF_ModelBase m_Model;
-	private string m_Property;
+	private int m_LinkCount;
+	private ref Param2<CF_ModelBase, string> m_Links[16];
 
-	void Init(CF_ModelBase model, string prop = "")
+	void Init(CF_ModelBase model, string prop)
 	{
 		#ifdef COMPONENT_SYSTEM
 		CF_MVVM._CheckInit();
@@ -13,8 +13,8 @@ class CF_ObservableCollection : CF_Collection
 		CF_Trace trace(this, "Init", "" + model, prop);
 		#endif
 
-		m_Model = model;
-		m_Property = prop;
+		m_Links[m_LinkCount] = new Param2<CF_ModelBase, string>(model, prop);
+		m_LinkCount++;
 	}
 
 	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
@@ -23,9 +23,10 @@ class CF_ObservableCollection : CF_Collection
 		CF_Trace trace(this, "NotifyCollectionChanged", evt.ToStr());
 		#endif
 
-		if (m_Model == null) return;
-
-		CF_MVVM.NotifyPropertyChanged(m_Model, m_Property, evt);
+		for (int i = 0; i < m_LinkCount; i++)
+		{
+			CF_MVVM.NotifyPropertyChanged(m_Links[i].param1, m_Links[i].param2, evt);
+		}
 	}
 
 	void Clear()

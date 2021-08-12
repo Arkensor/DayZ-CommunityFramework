@@ -90,7 +90,7 @@ class CF_TestItemModel : CF_Model
 		#endif
 
 		int index = m_Parent.Test.Find(this);
-		m_Parent.Test.Remove(index);
+		m_Parent.Test.RemoveOrdered(index);
 	}
 
 	override string GetLayoutFile()
