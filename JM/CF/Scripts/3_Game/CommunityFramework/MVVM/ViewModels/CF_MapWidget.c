@@ -9,12 +9,12 @@ class CF_MapUserMark : CF_ModelBase
 class CF_MapWidget : CF_BaseListboxWidget
 {
 	reference string UserMarks;
-	reference string Position;
+	reference string CenterPosition;
 	reference string Scale;
 
 	protected MapWidget _MapWidget;
 	protected CF_ObservableCollection _UserMarks;
-	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _CenterPosition = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _Scale = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
@@ -26,7 +26,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 		super.GetProperties();
 		
 		AddProperty(UserMarks, "UserMarks");
-		AddProperty(Position, "Position");
+		AddProperty(CenterPosition, "CenterPosition");
 		AddProperty(Scale, "Scale");
 	}
 
@@ -65,22 +65,22 @@ class CF_MapWidget : CF_BaseListboxWidget
 		}
 	}
 	
-	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
+	void OnView_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnView_CenterPosition", "" + sender, args.ToStr());
 		#endif
 
-		_Position.SetVector(_MapWidget.GetMapPos());
+		_CenterPosition.SetVector(_MapWidget.GetMapPos());
 	}
 
-	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
+	void OnModel_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnModel_CenterPosition", "" + sender, args.ToStr());
 		#endif
 		
-		_MapWidget.SetMapPos(_Position.GetVector());
+		_MapWidget.SetMapPos(_CenterPosition.GetVector());
 	}
 	
 	void OnView_Scale(CF_ModelBase sender, CF_EventArgs args)

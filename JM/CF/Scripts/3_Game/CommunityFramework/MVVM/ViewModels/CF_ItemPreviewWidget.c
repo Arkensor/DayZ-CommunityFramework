@@ -2,16 +2,16 @@ class CF_ItemPreviewWidget : CF_Widget
 {
 	reference string Item;
 	reference string View;
-	reference string Orientation;
-	reference string Position;
+	reference string ModelOrientation;
+	reference string ModelPosition;
 	reference string ForceFlipEnable;
 	reference string ForceFlip;
 
 	protected ItemPreviewWidget _ItemPreviewWidget;
 	protected CF_MVVM_PropertyBase _Item = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _View = CF_MVVM_GetDefaultProperty();
-	protected CF_MVVM_PropertyBase _Orientation = CF_MVVM_GetDefaultProperty();
-	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ModelOrientation = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ModelPosition = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _ForceFlipEnable = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _ForceFlip = CF_MVVM_GetDefaultProperty();
 
@@ -25,8 +25,8 @@ class CF_ItemPreviewWidget : CF_Widget
 		
 		AddProperty(Item, "Item");
 		AddProperty(View, "View");
-		AddProperty(Orientation, "Orientation");
-		AddProperty(Position, "Position");
+		AddProperty(ModelOrientation, "ModelOrientation");
+		AddProperty(ModelPosition, "ModelPosition");
 		AddProperty(ForceFlipEnable, "ForceFlipEnable");
 		AddProperty(ForceFlip, "ForceFlip");
 	}
@@ -77,40 +77,40 @@ class CF_ItemPreviewWidget : CF_Widget
 		_ItemPreviewWidget.SetView(_View.GetInt());
 	}
 
-	void OnView_Orientation(CF_ModelBase sender, CF_EventArgs args)
+	void OnView_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Orientation", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnViewModel_Orientation", "" + sender, args.ToStr());
 		#endif
 		
-		_Orientation.SetVector(_ItemPreviewWidget.GetModelOrientation());
+		_ModelOrientation.SetVector(_ItemPreviewWidget.GetModelOrientation());
 	}
 
-	void OnModel_Orientation(CF_ModelBase sender, CF_EventArgs args)
+	void OnModel_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Orientation", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnModel_ModelOrientation", "" + sender, args.ToStr());
 		#endif
 		
-		_ItemPreviewWidget.SetModelOrientation(_Orientation.GetVector());
+		_ItemPreviewWidget.SetModelOrientation(_ModelOrientation.GetVector());
 	}
 
-	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
+	void OnView_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnView_ModelPosition", "" + sender, args.ToStr());
 		#endif
 		
-		_Position.SetVector(_ItemPreviewWidget.GetModelPosition());
+		_ModelPosition.SetVector(_ItemPreviewWidget.GetModelPosition());
 	}
 
-	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
+	void OnModel_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnModel_ModelPosition", "" + sender, args.ToStr());
 		#endif
 		
-		_ItemPreviewWidget.SetModelPosition(_Position.GetVector());
+		_ItemPreviewWidget.SetModelPosition(_ModelPosition.GetVector());
 	}
 
 	void OnView_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)

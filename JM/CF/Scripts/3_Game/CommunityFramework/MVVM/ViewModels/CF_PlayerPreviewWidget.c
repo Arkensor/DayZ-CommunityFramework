@@ -2,14 +2,14 @@ class CF_PlayerPreviewWidget : CF_Widget
 {
 	reference string Player;
 	reference string HandItem;
-	reference string Orientation;
-	reference string Position;
+	reference string ModelOrientation;
+	reference string ModelPosition;
 
 	protected PlayerPreviewWidget _PlayerPreviewWidget;
 	protected CF_MVVM_PropertyBase _Player = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _HandItem = CF_MVVM_GetDefaultProperty();
-	protected CF_MVVM_PropertyBase _Orientation = CF_MVVM_GetDefaultProperty();
-	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ModelOrientation = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _ModelPosition = CF_MVVM_GetDefaultProperty();
 
 	override void GetProperties()
 	{
@@ -21,8 +21,8 @@ class CF_PlayerPreviewWidget : CF_Widget
 		
 		AddProperty(Player, "Player");
 		AddProperty(HandItem, "HandItem");
-		AddProperty(Orientation, "Orientation");
-		AddProperty(Position, "Position");
+		AddProperty(ModelOrientation, "ModelOrientation");
+		AddProperty(ModelPosition, "ModelPosition");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
@@ -70,39 +70,39 @@ class CF_PlayerPreviewWidget : CF_Widget
 		_PlayerPreviewWidget.UpdateItemInHands(EntityAI.Cast(_HandItem.GetClass()));
 	}
 
-	void OnView_Orientation(CF_ModelBase sender, CF_EventArgs args)
+	void OnView_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Orientation", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnView_ModelOrientation", "" + sender, args.ToStr());
 		#endif
 		
-		_Orientation.SetVector(_PlayerPreviewWidget.GetModelOrientation());
+		_ModelOrientation.SetVector(_PlayerPreviewWidget.GetModelOrientation());
 	}
 
-	void OnModel_Orientation(CF_ModelBase sender, CF_EventArgs args)
+	void OnModel_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Orientation", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnModel_ModelOrientation", "" + sender, args.ToStr());
 		#endif
 		
-		_PlayerPreviewWidget.SetModelOrientation(_Orientation.GetVector());
+		_PlayerPreviewWidget.SetModelOrientation(_ModelOrientation.GetVector());
 	}
 
-	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
+	void OnView_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnView_ModelPosition", "" + sender, args.ToStr());
 		#endif
 		
-		_Position.SetVector(_PlayerPreviewWidget.GetModelPosition());
+		_ModelPosition.SetVector(_PlayerPreviewWidget.GetModelPosition());
 	}
 
-	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
+	void OnModel_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
+		CF_Trace trace(this, "OnModel_ModelPosition", "" + sender, args.ToStr());
 		#endif
 		
-		_PlayerPreviewWidget.SetModelPosition(_Position.GetVector());
+		_PlayerPreviewWidget.SetModelPosition(_ModelPosition.GetVector());
 	}
 };

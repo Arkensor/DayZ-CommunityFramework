@@ -9,8 +9,10 @@ class CF_Widget : CF_ViewModel
 	reference string Enabled;			// [R/W]
 	reference string Flags;				// [R/W]
 	reference string Sort;				// [R/W]
+	reference string Position;			// [R/W]
 	reference string PositionX;			// [R/W]
 	reference string PositionY;			// [R/W]
+	reference string Size;				// [R/W]
 	reference string Width;				// [R/W]
 	reference string Height;			// [R/W]
 	reference string ScreenPositionX;	// [R/W]
@@ -29,8 +31,10 @@ class CF_Widget : CF_ViewModel
 	protected CF_MVVM_PropertyBase _Enabled = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _Flags = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _Sort = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Position = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _PositionX = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _PositionY = CF_MVVM_GetDefaultProperty();
+	protected CF_MVVM_PropertyBase _Size = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _Width = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _Height = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _ScreenPositionX = CF_MVVM_GetDefaultProperty();
@@ -172,6 +176,33 @@ class CF_Widget : CF_ViewModel
 		_Widget.SetSort(_Sort.GetInt());
 	}
 
+	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnView_Position", "" + sender, args.ToStr());
+		#endif
+		
+		float _positionX;
+		float _positionY;
+		_Widget.GetPos(_positionX, _positionY);
+
+		_Position.SetVector(Vector(_positionX, _positionY, 0));
+	}
+
+	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnModel_Position", "" + sender, args.ToStr());
+		#endif
+				
+		vector position = _Position.GetVector();
+
+		_Widget.SetPos(position[0], position[1]);
+		
+		NotifyPropertyChanged(PositionX, "PositionX");
+		NotifyPropertyChanged(PositionY, "PositionY");
+	}
+
 	void OnView_PositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
@@ -222,6 +253,33 @@ class CF_Widget : CF_ViewModel
 		_Widget.GetPos(_positionX, _positionY);
 
 		_Widget.SetPos(_positionX, _PositionY.GetFloat());
+	}
+
+	void OnView_Size(CF_ModelBase sender, CF_EventArgs args)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnView_Size", "" + sender, args.ToStr());
+		#endif
+		
+		float _width;
+		float _height;
+		_Widget.GetSize(_width, _height);
+
+		_Size.SetVector(Vector(_width, _height, 0));
+	}
+
+	void OnModel_Size(CF_ModelBase sender, CF_EventArgs args)
+	{
+		#ifdef CF_TRACE_ENABLED
+		CF_Trace trace(this, "OnModel_Size", "" + sender, args.ToStr());
+		#endif
+				
+		vector size = _Size.GetVector();
+
+		_Widget.SetSize(size[0], size[1]);
+		
+		NotifyPropertyChanged(Width, "Width");
+		NotifyPropertyChanged(Height, "Height");
 	}
 
 	void OnView_Width(CF_ModelBase sender, CF_EventArgs args)
@@ -502,11 +560,13 @@ class CF_Widget : CF_ViewModel
 		CF_Trace trace(this, "OnResize", args.ToStr());
 		#endif
 		
-		//NotifyPropertyChanged(Width, "Width");
-		//NotifyPropertyChanged(Height, "Height");
+		NotifyPropertyChanged(Size, "Size");
+		
+		NotifyPropertyChanged(Width, "Width");
+		NotifyPropertyChanged(Height, "Height");
 
-		//NotifyPropertyChanged(ScreenWidth, "ScreenWidth");
-		//NotifyPropertyChanged(ScreenHeight, "ScreenHeight");
+		NotifyPropertyChanged(ScreenWidth, "ScreenWidth");
+		NotifyPropertyChanged(ScreenHeight, "ScreenHeight");
 
 		return super.OnResize(sender, args);
 	}
@@ -517,11 +577,12 @@ class CF_Widget : CF_ViewModel
 		CF_Trace trace(this, "OnUpdate", args.ToStr());
 		#endif
 		
-		//NotifyPropertyChanged(PositionX, "PositionX");
-		//NotifyPropertyChanged(PositionY, "PositionY");
+		NotifyPropertyChanged(Position, "Position");
+		NotifyPropertyChanged(PositionX, "PositionX");
+		NotifyPropertyChanged(PositionY, "PositionY");
 		
-		//NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
-		//NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
+		NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
+		NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
 
 		bool visible = _Widget.IsVisible();
 		if (!_Visible.IsDefault() && _Visible.GetBool() != visible)
