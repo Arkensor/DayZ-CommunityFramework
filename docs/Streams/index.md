@@ -2,6 +2,8 @@
 
 A stream is a doubly linked list of bytes. It can be used for file input/output, DayZ serializers, hex conversion or string parsing. Once a stream is finished, it is recommended to close the stream either by letting the reference count equal zero or call the `Close` method.
 
+Streams can be manipulated with `CF_TextWriter`, and `CF_BinaryWriter`. Streams can be read with `CF_TextReader`, and`CF_BinaryReader`.
+
 ## Files
 
 Use the `CF_FileStream` class to read and write files on the a file system. 
