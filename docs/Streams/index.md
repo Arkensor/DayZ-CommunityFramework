@@ -1,87 +1,71 @@
-### Streams
+# Streams
 
-There are currently two Streams avaliable, `CF_BinaryReader` and `CF_StringStream`.
+A stream is closed when the reference count for the stream instance reaches 0.
 
-`CF_BinaryReader` is optimized for working with binary files and allowing reading of characters, bytes, ints, floats, booleans and vectors.
+## Files
 
-`CF_StringStream` is optimized for working with text files and allows reading of characters.
-
-### Working with files
-
-Using the `File` method in the target stream, different `FileMode`'s can be used. They are `READ`, `WRITE` and `APPEND`.
-
-**$profile:text.txt**:
-```
-Hello, World!
-```
-
-#### Read
+Use the `CF_FileStream` class to read and write files on the a file system. A file handle is permentantly open while the reference count for the stream has not reached 0.
 
 ```csharp
-CF_StringStream stream = new CF_StringStream();
-stream.File("$profile:test.txt", FileMode.READ);
-string output = stream.ReadLine();
-Print(output); // 'Hello, World!'
+string path = "$profile:test.txt";
+
+if (FileExist(path)) DeleteFile(path);
+
+// Create the file
+CF_TextWriter writer = new CF_TextWriter(new CF_FileStream(path, FileMode.WRITE));
+writer.WriteLine("This is some text");
+writer.Close();
+
+// Open the file and read it back
+CF_TextReader reader = new CF_TextReader(new CF_FileStream(path, FileMode.READ));
+Print(reader.ReadLine()); // "This is some text")
+reader.Close();
 ```
 
-#### Write
+## String
+
+Use the `CF_StringStream` class to read and write to a string source. This stream does not accept '\0' bytes.
 
 ```csharp
-CF_StringStream stream = new CF_StringStream();
-stream.WriteString("Why, World?");
-stream.File("$profile:test.txt", FileMode.WRITE);
+string data = "Hello, World!";
+
+CF_TextReader reader = new CF_TextReader(new CF_StringStream(data));
+Print("ReadWord: " + reader.ReadWord());				// "Hello"
+Print("ReadChar: " + reader.ReadChar());				// ","
+Print("ReadWhitespace: " + reader.ReadWhitespace());	// ""
+Print("ReadWord: " + reader.ReadWord());				// "World"
+Print("ReadChar: " + reader.ReadChar());				// "!"
+reader.Close();
 ```
 
-#### Append
+## Hex
+
+Use the `CF_HexStream` class to read and write to a string source as a hex output.
 
 ```csharp
-CF_StringStream stream = new CF_StringStream();
-stream.WriteString("Bye, World!");
-stream.File("$profile:test.txt", FileMode.APPEND);
+CF_HexStream stream = new CF_HexStream();
+
+CF_BinaryWriter writer = new CF_BinaryWriter(stream);
+writer.WriteFloat(5);
+writer.Close();
+
+Print(stream.ToStr());
 ```
 
-#### Passing data
+## Serializer
 
-To send raw data to another stream through an intermediatry source, such as an RPC, then `GetBytes` and `SetBytes` must be used for optimal performance.
-
-On the sender the following would be done
+Use the `CF_SerializerReadStream` class to read to from the DayZ serializer and `CF_SerializerWriteStream` to write to the DayZ serializer.
 
 ```csharp
-CF_BinaryReader stream = new CF_BinaryReader();
+ScriptReadWriteContext ctx = new ScriptReadWriteContext();
 
-// ... write data to the stream here
-array<CF_Byte> data = stream.GetBytes();
-```
+// Write to the context
+CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(ctx.GetWriteContext()));
+writer.WriteFloat(0.1);
+writer.Close();
 
-On the reciever the following would be done
-
-```csharp
-array<CF_Byte> data = new array<CF_Byte>();
-
-CF_BinaryReader stream = new CF_BinaryReader();
-stream.SetBytes(data);
-
-// ... read data from the stream here
-```
-
-### Getting raw data
-
-```csharp
-CF_BinaryReader stream = new CF_BinaryReader();
-if (stream.File("$profile:Test.png", FileMode.READ))
-{
-	array<CF_Byte> data = stream.GetBytes();
-}
-```
-
-### Setting raw data
-
-```csharp
-array<CF_Byte> data = new array<CF_Byte>();
-
-CF_BinaryReader stream = new CF_BinaryReader();
-if (stream.File("$profile:Test.png", FileMode.WRITE))
-{
-	stream.SetBytes(data);
-}
+// Read the context
+CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerReadStream(ctx.GetReadContext()));
+Print(reader.ReadFloat());	// 0.1
+reader.Close();
 ```
