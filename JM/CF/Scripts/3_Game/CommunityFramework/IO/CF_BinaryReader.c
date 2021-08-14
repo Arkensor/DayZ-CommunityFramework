@@ -1,52 +1,14 @@
 class CF_BinaryReader : CF_IO
 {
-	private ref array<CF_Byte> m_Data = new array<CF_Byte>();
-	private int m_Position = 0;
-
-	override bool File(string path, FileMode mode)
-	{		
-		FileHandle fileHandle = OpenFile(path, mode);
-		if (fileHandle == 0) return false;
-
-		int index;
-
-		switch (mode)
-		{
-			case FileMode.READ:
-			{
-				m_Data.Clear();
-
-				bool readData[1];
-				while (ReadFile(fileHandle, readData, 1) > 0)
-				{
-					m_Data.Insert(readData[0] & 0x000000FF);
-				}
-
-				CloseFile(fileHandle);
-				
-				break;
-			}
-			case FileMode.APPEND:
-			case FileMode.WRITE:
-			{
-				CloseFile(fileHandle);
-				Error("Invalid file mode");
-				return false;
-				break;
-			}
-		}
-		return true;
-	}
-
 	override CF_Byte ReadByte()
 	{
-		return m_Data[m_Position++];
+		return m_Stream.Next();
 	}
 
 	override string ReadChar()
 	{
-		int b = m_Data[m_Position++];
-		return b.AsciiToString();
+		int byte = m_Stream.Next();
+		return byte.AsciiToString();
 	}
 
 	override bool ReadBool()
@@ -102,49 +64,5 @@ class CF_BinaryReader : CF_IO
 		}
 
 		return str;
-	}
-
-	override bool EOF()
-	{
-		return m_Position >= m_Data.Count();
-	}
-
-	override int Position()
-	{
-		return m_Position;
-	}
-
-	override int Length()
-	{
-		return m_Data.Count();
-	}
-
-	override void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
-	{
-		switch (origin)
-		{
-			case CF_SeekOrigin.SET:
-				m_Position = num;
-				return;
-			case CF_SeekOrigin.CURRENT:
-				m_Position += num;
-				return;
-			case CF_SeekOrigin.END:
-				m_Position = Length() - num - 1;
-				return;
-		}
-	}
-
-	override void SetBytes(array<CF_Byte> bytes)
-	{
-		m_Data.Clear();
-		m_Data.Copy(bytes);
-	}
-
-	override array<CF_Byte> GetBytes()
-	{
-		array<CF_Byte> arr();
-		arr.Copy(m_Data);
-		return arr;
 	}
 };

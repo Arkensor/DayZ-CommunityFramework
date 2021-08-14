@@ -1,9 +1,22 @@
 class CF_IO : Managed
 {
-	bool File(string path, FileMode mode)
+	ref CF_Stream m_Stream;
+
+	void CF_IO(CF_Stream stream)
 	{
-		/*CF.Log.*/Error("Not implemented.");
-		return false;
+		stream = m_Stream;
+	}
+
+	void Dispose()
+	{
+		m_Stream = null;
+	}
+
+	bool IsValid()
+	{
+		if (!m_Stream) return false;
+
+		return m_Stream.IsValid();
 	}
 
 	/**
@@ -161,35 +174,29 @@ class CF_IO : Managed
 
 	bool EOF()
 	{
-		/*CF.Log.*/Error("Not implemented.");
-		return true;
+		if (!m_Stream) return true;
+		
+		return m_Stream.m_Position >= m_Stream.m_Size;
 	}
 
 	int Position()
 	{
-		/*CF.Log.*/Error("Not implemented.");
-		return 0;
+		if (!m_Stream) return 0;
+		
+		return m_Stream.m_Position;
 	}
 
 	int Length()
 	{
-		/*CF.Log.*/Error("Not implemented.");
-		return 0;
+		if (!m_Stream) return 0;
+		
+		return m_Stream.m_Size;
 	}
 
 	void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
-		/*CF.Log.*/Error("Not implemented.");
-	}
+		if (!m_Stream) return;
 
-	void SetBytes(array<CF_Byte> bytes)
-	{
-		/*CF.Log.*/Error("Not implemented.");
-	}
-
-	array<CF_Byte> GetBytes()
-	{
-		/*CF.Log.*/Error("Not implemented.");
-		return null;
+		m_Stream.Seek(num, origin);
 	}
 };
