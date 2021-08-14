@@ -1,6 +1,16 @@
 class CF_Encoding
 {
-	static const ref array<string> HEX = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
+	static const string BASE_16[16] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
+
+	static int Find(string[] data, int count, string match)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			if (data[i] == match) return i;
+		}
+
+		return -1;
+	}
 
 	static CF_Byte GetByte(string char)
 	{
@@ -39,8 +49,8 @@ class CF_Encoding
 
 		for (int i = 0; i < str.Length() / 2; i++)
 		{
-			int n0 = HEX.Find(str[i * 2 + 0]) * 16;
-			int n1 = HEX.Find(str[i * 2 + 1]) * 16;
+			int n0 = Find(BASE_16, 16, str[i * 2 + 0]) * 16;
+			int n1 = Find(BASE_16, 16, str[i * 2 + 1]) * 16;
 
 			if (n0 < 0 || n1 < 0)
 			{

@@ -1,17 +1,19 @@
-class CF_HexStream : CF_Stream
+typedef CF_Base16Stream CF_HexStream;
+
+class CF_Base16Stream : CF_Stream
 {
 	protected string m_String;
 
 	protected bool m_Dirty;
 
-	void CF_HexStream(string str = "")
+	void CF_Base16Stream(string str = "")
 	{
 		m_String = str;
 
 		for (int i = 0; i < m_String.Length() / 2; i++)
 		{
-			int n0 = CF_Encoding.HEX.Find(m_String[i * 2 + 0]) * 16;
-			int n1 = CF_Encoding.HEX.Find(m_String[i * 2 + 1]) * 16;
+			int n0 = CF_Encoding.Find(CF_Encoding.BASE_16, 16, m_String[i * 2 + 0]) * 16;
+			int n1 = CF_Encoding.Find(CF_Encoding.BASE_16, 16, m_String[i * 2 + 1]) * 16;
 
 			if (n0 < 0 || n1 < 0)
 			{

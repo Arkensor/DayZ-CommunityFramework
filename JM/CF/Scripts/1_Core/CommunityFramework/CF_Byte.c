@@ -54,7 +54,7 @@ class CF_Byte : CF_Uint
 		int n0 = Math.Floor(value / 16);
 		int n1 = value % 16;
 
-		return CF_Encoding.HEX[n0] + CF_Encoding.HEX[n1];
+		return CF_Encoding.BASE_16[n0] + CF_Encoding.BASE_16[n1];
 	}
 
 	override CF_Uint ^(CF_Uint y)
