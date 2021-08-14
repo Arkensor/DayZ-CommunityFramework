@@ -52,6 +52,15 @@ class CfgMods
 					"JM/CF/Scripts/1_Core"
 				};
 			};
+			class gameLibScriptModule
+			{
+				value = "";
+				files[] =
+				{
+				    "JM/CF/Defines",
+				    "JM/CF/Scripts/2_GameLib"
+				};
+			};
 			class gameScriptModule
 			{
 				value = "CF_CreateGame";

@@ -1,27 +1,25 @@
 /*
  * Private class
  */
-class ExpressionInstruction
+class CF_ExpressionInstruction
 {
 	string token;
-	float token_f;
-	int token_i;
-	int type;
+	float value;
+
+	int variableIndex;
+
+	ref CF_ExpressionInstruction next;
 	
 	float param1;
 	float param2;
 	float param3;
 	float param4;
 
-	void ExpressionInstruction( string _token, int _type, ref array< float > _parameters, int _token_i )
+	void SetFields(string _token, array< float > _parameters, int _variableIndex)
 	{
 		token = _token;
-		type = _type;
-		
-		if ( type == 0 )
-			token_f = token.ToFloat();
-		
-		token_i = _token_i;
+		if (_variableIndex == -2) value = _token.ToFloat();
+		variableIndex = _variableIndex;
 		
 		//! Setting the variables
 		//! This looks bad but the code runs a couple of CPU ticks faster with it like this
@@ -48,5 +46,12 @@ class ExpressionInstruction
 				param1 = _parameters[0];
 			}
 		}
+	}
+
+	void Call();
+
+	string ToStr()
+	{
+		return ToString();
 	}
 };
