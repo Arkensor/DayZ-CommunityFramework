@@ -1,10 +1,10 @@
 # Streams
 
-A stream is closed when the reference count for the stream instance reaches 0.
+A stream is a doubly linked list of bytes. It can be used for file input/output, DayZ serializers, hex conversion or string parsing. Once a stream is finished, it is recommended to close the stream either by letting the reference count equal zero or call the `Close` method.
 
 ## Files
 
-Use the `CF_FileStream` class to read and write files on the a file system. A file handle is permentantly open while the reference count for the stream has not reached 0.
+Use the `CF_FileStream` class to read and write files on the a file system. 
 
 ```csharp
 string path = "$profile:test.txt";
