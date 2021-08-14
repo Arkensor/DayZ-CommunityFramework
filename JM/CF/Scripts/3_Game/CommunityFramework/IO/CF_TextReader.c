@@ -1,4 +1,4 @@
-class CF_TextReader : CF_File
+class CF_TextReader : CF_IO
 {
 	private ref array<string> m_Data = new array<string>();
 	private int m_Position = 0;

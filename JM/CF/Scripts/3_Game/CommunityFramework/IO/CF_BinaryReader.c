@@ -1,4 +1,4 @@
-class CF_BinaryReader : CF_File
+class CF_BinaryReader : CF_IO
 {
 	private ref array<CF_Byte> m_Data = new array<CF_Byte>();
 	private int m_Position = 0;

@@ -1,4 +1,4 @@
-class CF_File : Managed
+class CF_IO : Managed
 {
 	bool File(string path, FileMode mode)
 	{
