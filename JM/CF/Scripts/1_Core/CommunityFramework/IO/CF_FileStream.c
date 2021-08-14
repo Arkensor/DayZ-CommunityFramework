@@ -82,6 +82,10 @@ class CF_FileStream : CF_Stream
 				
 		FileSerializer serializer = new FileSerializer();
 
+		int oldPosition = m_Position;
+		CF_PackedByte oldCurrent = m_Current;
+
+		m_Position = 0;
 		m_Current = m_Head;
 
 		CloseFile(m_FileHandle);
@@ -110,6 +114,9 @@ class CF_FileStream : CF_Stream
 		
 		serializer.Close();
 		m_FileHandle = OpenFile(m_Path, FileMode.APPEND);
+
+		m_Position = oldPosition;
+		m_Current = oldCurrent;
 	}
 
 	protected int Next_AsInt()
