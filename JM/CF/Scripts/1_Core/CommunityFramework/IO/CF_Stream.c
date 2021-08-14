@@ -1,4 +1,4 @@
-class CF_Stream
+class CF_Stream : Managed
 {
 	ref CF_PackedByte m_Head;
 	CF_PackedByte m_Tail;
@@ -66,6 +66,10 @@ class CF_Stream
 			
 			m_Position++;
 		}
+		else if (m_Tail == m_Head)
+		{
+			
+		}
 		else
 		{
 			pByte.m_Next = m_Head;
@@ -74,6 +78,8 @@ class CF_Stream
 
 			m_Position = 0;
 		}
+		
+		m_Size++;
 
 		m_Size++;
 
@@ -344,5 +350,10 @@ class CF_Stream
 		m_Current = oldCurrent;
 		
 		return str;
+	}
+
+	void Flush()
+	{
+
 	}
 };
