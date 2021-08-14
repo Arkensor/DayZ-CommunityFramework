@@ -174,12 +174,23 @@ class CF_Stream
 
 	CF_Byte Next()
 	{
-		CF_Byte value;
-		if (m_Current)
+		if (!m_Current)
 		{
-			value = m_Current.m_Value;
-			m_Current = m_Current.m_Next;
-			m_Position++;
+			m_Position = 0;
+			m_Current = m_Head;
+			
+			return 0;
+		}
+				
+		CF_Byte value = m_Current.m_Value;
+			
+		m_Current = m_Current.m_Next;
+		m_Position++;
+		
+		if (!m_Current)
+		{
+			m_Position = m_Size;
+			m_Current = null;
 		}
 
 		return value;
@@ -187,14 +198,25 @@ class CF_Stream
 
 	CF_Byte Previous()
 	{
-		CF_Byte value;
-		if (m_Current)
+		if (!m_Current)
 		{
-			value = m_Current.m_Value;
-			m_Current = m_Current.m_Prev;
-			m_Position--;
+			m_Position = m_Size - 1;
+			m_Current = m_Tail;
+			
+			return 0;
 		}
-
+		
+		CF_Byte value = m_Current.m_Value;
+			
+		m_Current = m_Current.m_Prev;
+		m_Position--;
+		
+		if (!m_Current)
+		{
+			m_Position = 0;
+			m_Current = m_Head;
+		}
+		
 		return value;
 	}
 

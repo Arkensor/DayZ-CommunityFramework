@@ -104,11 +104,11 @@ class CF_TextReader : CF_IO
 	{
 		string str;
 
-		int byte = ReadByte();
+		int byte = m_Stream.Next();
 		while (!CF_Encoding.IsWhitespace(byte) && CF_Encoding.IsAlphanumeric(byte) && !EOF())
 		{
 			str += byte.AsciiToString();
-			byte = ReadByte();
+			byte = m_Stream.Next();
 		}
 
 		m_Stream.Previous();
