@@ -2,14 +2,14 @@ class CF_IO : Managed
 {
 	ref CF_Stream m_Stream;
 
-	void CF_IO(CF_Stream stream)
+	void CF_IO(CF_Stream stream = null)
 	{
-		stream = m_Stream;
+		m_Stream = stream;
 	}
 
-	void Dispose()
+	void SetStream(CF_Stream stream)
 	{
-		m_Stream = null;
+		m_Stream = stream;
 	}
 
 	bool IsValid()

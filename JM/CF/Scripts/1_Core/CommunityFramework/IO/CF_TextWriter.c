@@ -9,12 +9,32 @@ class CF_TextWriter : CF_IO
 	{
 		WriteByte(value.Hash());
 	}
+	
+	override void WriteBool(bool value)
+	{
+		WriteString(value.ToString());
+	}
+
+	override void WriteInt(int value)
+	{
+		WriteString(value.ToString());
+	}
+
+	override void WriteFloat(float value)
+	{
+		WriteString(value.ToString());
+	}
+
+	override void WriteVector(vector value)
+	{
+		WriteString(value.ToString());
+	}
 
 	override void WriteLine(string value)
 	{
 		for (int i = 0; i < value.Length(); i++)
 		{
-			WriteChar(value);
+			WriteChar(value[i]);
 		}
 		WriteChar("\n");
 	}
@@ -23,7 +43,7 @@ class CF_TextWriter : CF_IO
 	{
 		for (int i = 0; i < value.Length(); i++)
 		{
-			WriteChar(value);
+			WriteChar(value[i]);
 		}
 	}
 };

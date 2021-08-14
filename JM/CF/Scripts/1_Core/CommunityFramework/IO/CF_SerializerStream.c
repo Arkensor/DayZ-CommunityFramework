@@ -7,6 +7,11 @@ class CF_SerializerStream : CF_Stream
 		m_Serializer = serializer;
 	}
 
+	override bool IsValid()
+	{
+		return m_Serializer != null;
+	}
+
 	void Write()
 	{
 		Write(m_Serializer);

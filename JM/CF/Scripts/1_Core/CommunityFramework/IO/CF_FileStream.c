@@ -5,9 +5,9 @@ class CF_FileStream : CF_Stream
 
 	FileHandle m_FileHandle;
 
-	private bool m_Dirty;
-	private int m_NonZeroCount;
-	private int m_NonZeroes[4];
+	protected bool m_Dirty;
+	protected int m_NonZeroCount;
+	protected int m_NonZeroes[4];
 
 	void CF_FileStream(string path, FileMode mode)
 	{
@@ -16,12 +16,12 @@ class CF_FileStream : CF_Stream
 
 		m_FileHandle = OpenFile(m_Path, m_Mode);
 
-		ReadData();
+		ReadData(false);
 	}
 
 	void ~CF_FileStream()
 	{
-		WriteData();
+		Flush();
 
 		CloseFile(m_FileHandle);
 	}
@@ -54,15 +54,22 @@ class CF_FileStream : CF_Stream
 
 	override bool IsValid()
 	{
-		return true;
+		return m_FileHandle != 0;
 	}
 
-	protected void ReadData()
+	void ReadData(bool reopen = true)
 	{
+		if (reopen)
+		{
+			if (m_FileHandle != 0) CloseFile(m_FileHandle);
+
+			m_FileHandle = OpenFile(m_Path, m_Mode);
+		}
+
 		if (m_FileHandle == 0) return;
 
 		if (m_Mode != FileMode.READ) return;
-
+		
 		Resize(0);
 
 		bool readData[1];
@@ -72,12 +79,12 @@ class CF_FileStream : CF_Stream
 		}
 	}
 
-	protected void WriteData()
+	override void Flush()
 	{
 		if (m_FileHandle == 0) return;
 
 		if (m_Mode == FileMode.READ) return;
-
+		
 		UpdateDirty();
 				
 		FileSerializer serializer = new FileSerializer();

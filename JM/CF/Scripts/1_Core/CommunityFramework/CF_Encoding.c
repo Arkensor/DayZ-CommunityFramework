@@ -54,4 +54,77 @@ class CF_Encoding
 
 		return bytes;
 	}
+
+	static bool IsWhitespace(string char)
+	{
+		return IsWhitespace(CF_Byte.Set(char));
+	}
+
+	static bool IsWhitespace(CF_Byte byte)
+	{
+		if (byte == 32) return true;
+		if (byte >= 10 && byte <= 15) return true;
+
+		return false;
+	}
+
+	static bool IsAlphanumeric(string char)
+	{
+		return IsAlphanumeric(CF_Byte.Set(char));
+	}
+
+	static bool IsAlphanumeric(CF_Byte byte)
+	{
+		if (byte >= 48 && byte <= 57) return true;
+		if (byte > 90) byte -= 32;
+		if (byte >= 65 && byte <= 90) return true;
+
+		return false;
+	}
+
+	static bool IsAlpha(string char)
+	{
+		return IsAlpha(CF_Byte.Set(char));
+	}
+
+	static bool IsAlpha(CF_Byte byte)
+	{
+		if (byte > 90) byte -= 32;
+		if (byte >= 65 && byte <= 90) return true;
+
+		return false;
+	}
+
+	static bool IsNumeric(string char)
+	{
+		return IsNumeric(CF_Byte.Set(char));
+	}
+
+	static bool IsNumeric(CF_Byte byte)
+	{
+		if (byte >= 48 && byte <= 57) return true;
+
+		return false;
+	}
+
+	static bool IsLine(string char)
+	{
+		return IsNumeric(CF_Byte.Set(char));
+	}
+
+	static bool IsLine(CF_Byte byte)
+	{
+		if (byte >= 10 && byte <= 15) return true;
+
+		return false;
+	}
+
+    static bool StringToBool(string str)
+    {
+        str.ToLower();
+        str.Trim();
+        if (str == "true") return true;
+        if (str == "false") return false;
+        return str.ToInt();
+    }
 };

@@ -1,39 +1,37 @@
-class CF_StringStream : CF_Stream
+class CF_HexStream : CF_Stream
 {
 	protected string m_String;
 
 	protected bool m_Dirty;
 
-	void CF_StringStream(string str = "")
+	void CF_HexStream(string str = "")
 	{
 		m_String = str;
-		for (int i = 0; i < str.Length(); i++)
+
+		for (int i = 0; i < m_String.Length() / 2; i++)
 		{
-			Append(str[i].Hash());
+			int n0 = CF_Encoding.HEX.Find(m_String[i * 2 + 0]) * 16;
+			int n1 = CF_Encoding.HEX.Find(m_String[i * 2 + 1]) * 16;
+
+			if (n0 < 0 || n1 < 0)
+			{
+				Error("Invalid character, expect valid base-16, got \"" + m_String[i * 2 + 0] + m_String[i * 2 + 1] + "\"");
+				return;
+			}
+
+			Append(n0 + n1);
 		}
 	}
 
 	override void Append(CF_Byte byte = 0)
 	{
-		if (byte == 0)
-		{
-			Error("Attempted writing null byte in CF_StringStream.");
-			return;
-		}
-
 		super.Append(byte);
 
 		m_Dirty = true;
 	}
 
 	override void AppendCurrent(CF_Byte byte = 0)
-	{
-		if (byte == 0)
-		{
-			Error("Attempted writing null byte in CF_StringStream.");
-			return;
-		}
-		
+	{		
 		super.AppendCurrent(byte);
 
 		m_Dirty = true;
@@ -60,8 +58,7 @@ class CF_StringStream : CF_Stream
 
 		while (m_Current)
 		{
-			int byte = m_Current.m_Value;
-			m_String += byte.AsciiToString();
+			m_String += m_Current.m_Value.ToHex();
 
 			m_Current = m_Current.m_Next;
 		}

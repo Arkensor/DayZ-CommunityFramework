@@ -1,4 +1,4 @@
-class CF_Stream
+class CF_Stream : Managed
 {
 	ref CF_PackedByte m_Head;
 	CF_PackedByte m_Tail;
@@ -31,6 +31,8 @@ class CF_Stream
 			m_Tail = pByte;
 			m_Position++;
 		}
+		
+		m_Size++;
 
 		m_Current = pByte;
 	}
@@ -46,26 +48,40 @@ class CF_Stream
 			m_Tail = pByte;
 			m_Position = 0;
 		}
+		else if (m_Tail == m_Head)
+		{
+			
+		}
 		else
 		{
 			if (!m_Current)
 			{
 				m_Current = m_Tail;
 			}
-
-			if (!m_Current.m_Prev)
+			
+			if (m_Current != m_Head)
 			{
-				pByte.m_Prev = null;
-				pByte.m_Next = m_Head;
-				m_Head.m_Prev = pByte;
-				m_Head = pByte;
-			}
-			else if (!m_Current.m_Prev.m_Next)
-			{
-				pByte.m_Next = null;
-				pByte.m_Prev = m_Tail;
-				m_Tail.m_Next = pByte;
-				m_Tail = pByte;
+				if (!m_Current.m_Prev)
+				{
+					pByte.m_Prev = null;
+					pByte.m_Next = m_Head;
+					m_Head.m_Prev = pByte;
+					m_Head = pByte;
+				}
+				else if (!m_Current.m_Prev.m_Next)
+				{
+					pByte.m_Next = null;
+					pByte.m_Prev = m_Tail;
+					m_Tail.m_Next = pByte;
+					m_Tail = pByte;
+				}
+				else
+				{
+					pByte.m_Prev = m_Current.m_Prev;
+					pByte.m_Next = pByte.m_Prev.m_Next;
+					pByte.m_Next.m_Prev = pByte;
+					pByte.m_Prev.m_Next = pByte;
+				}
 			}
 			else
 			{
@@ -77,6 +93,8 @@ class CF_Stream
 
 			m_Position++;
 		}
+		
+		m_Size++;
 
 		m_Current = pByte;
 	}
@@ -197,6 +215,22 @@ class CF_Stream
 		AppendCurrent(value);
 	}
 
+	Param2<CF_PackedByte, int> GetCurrent()
+	{
+		return new Param2<CF_PackedByte, int>(m_Current, m_Position);
+	}
+
+	void GetCurrent(inout Param2<CF_PackedByte, int> tuple)
+	{
+		tuple = new Param2<CF_PackedByte, int>(m_Current, m_Position);
+	}
+
+	void SetCurrent(Param2<CF_PackedByte, int> tuple)
+	{
+		m_Current = tuple.param1;
+		m_Position = tuple.param2;
+	}
+
 	void SetPosition(int newPosition)
 	{
 		if (newPosition == m_Position) return;
@@ -264,7 +298,7 @@ class CF_Stream
 		}
 	}
 
-	void Copy(CF_Stream dest)
+	void CopyTo(CF_Stream dest)
 	{
 		dest.m_Head = null;
 
@@ -274,5 +308,10 @@ class CF_Stream
 			dest.Append(byte.m_Value);
 			byte = byte.m_Next;
 		}
+	}
+
+	void Flush()
+	{
+
 	}
 };
