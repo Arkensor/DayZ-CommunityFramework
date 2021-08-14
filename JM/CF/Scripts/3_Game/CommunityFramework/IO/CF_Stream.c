@@ -1,4 +1,0 @@
-class CF_Stream
-{
-
-};
