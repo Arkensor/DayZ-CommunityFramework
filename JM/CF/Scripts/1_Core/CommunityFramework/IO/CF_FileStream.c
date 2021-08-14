@@ -97,7 +97,6 @@ class CF_FileStream : CF_Stream
 		if (m_FileHandle != 0)
 		{
 			CloseFile(m_FileHandle);
-			m_FileHandle = 0;
 		}
 		
 		if (!serializer.Open(m_Path, FileMode.APPEND)) return;
@@ -142,8 +141,6 @@ class CF_FileStream : CF_Stream
 		{
 			Flush();
 			CloseFile(m_FileHandle);
-			
-			m_FileHandle = 0;
 		}
 	}
 
