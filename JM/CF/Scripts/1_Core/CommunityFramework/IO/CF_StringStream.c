@@ -11,6 +11,8 @@ class CF_StringStream : CF_Stream
 		{
 			Append(str[i].Hash());
 		}
+		
+		Seek(0, CF_SeekOrigin.SET);
 	}
 
 	override void Append(CF_Byte byte = 0)
@@ -36,6 +38,26 @@ class CF_StringStream : CF_Stream
 		
 		super.AppendCurrent(byte);
 
+		m_Dirty = true;
+	}
+
+	override void Set(int index, CF_Byte value)
+	{
+		if (value == 0)
+		{
+			Error("Attempted writing null byte in CF_StringStream.");
+			return;
+		}
+		
+		super.Set(index, value);
+
+		m_Dirty = true;
+	}
+
+	override void Resize(int size)
+	{
+		super.Resize(size);
+		
 		m_Dirty = true;
 	}
 

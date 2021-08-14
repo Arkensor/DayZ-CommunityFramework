@@ -199,4 +199,10 @@ class CF_IO : Managed
 
 		m_Stream.Seek(num, origin);
 	}
+	
+	bool Close()
+	{
+		m_Stream.Close();
+		m_Stream = null;
+	}
 };

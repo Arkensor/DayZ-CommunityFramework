@@ -21,6 +21,8 @@ class CF_HexStream : CF_Stream
 
 			Append(n0 + n1);
 		}
+		
+		Seek(0, CF_SeekOrigin.SET);
 	}
 
 	override void Append(CF_Byte byte = 0)
@@ -34,6 +36,20 @@ class CF_HexStream : CF_Stream
 	{		
 		super.AppendCurrent(byte);
 
+		m_Dirty = true;
+	}
+
+	override void Set(int index, CF_Byte value)
+	{
+		super.Set(index, value);
+
+		m_Dirty = true;
+	}
+
+	override void Resize(int size)
+	{
+		super.Resize(size);
+		
 		m_Dirty = true;
 	}
 

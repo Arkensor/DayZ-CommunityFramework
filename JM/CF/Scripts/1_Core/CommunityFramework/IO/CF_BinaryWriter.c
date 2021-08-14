@@ -7,41 +7,70 @@ class CF_BinaryWriter : CF_IO
 
 	override void WriteChar(string value)
 	{
-		WriteByte(value.Hash());
+		m_Stream.AppendCurrent(value.Hash());
 	}
 
 	override void WriteBool(bool value)
 	{
-		if (value) WriteByte(0x00000001);
-		else WriteByte(0x00000000);
+		m_Stream.AppendCurrent(value);
 	}
 
 	override void WriteInt(int value)
 	{
-		WriteByte((value >> 24) & 0x000000FF);
-		WriteByte((value >> 16) & 0x000000FF);
-		WriteByte((value >> 8 ) & 0x000000FF);
-		WriteByte((value	  ) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 24) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((value      ) & 0x000000FF);
 	}
 
 	override void WriteFloat(float value)
 	{
-		WriteInt(CF_Cast<float, int>.Reinterpret(value));
+		float src[1] = { value };
+		int dst[1];
+		copyarray(dst, src);
+		
+		m_Stream.AppendCurrent((dst[0] >> 24) & 0x000000FF);
+		m_Stream.AppendCurrent((dst[0] >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((dst[0] >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((dst[0]      ) & 0x000000FF);
 	}
 
 	override void WriteVector(vector value)
 	{
-		WriteFloat(value[0]);
-		WriteFloat(value[1]);
-		WriteFloat(value[2]);
+		int dst[3];
+		copyarray(dst, value);
+
+		int a = dst[0];
+		int b = dst[1];
+		int c = dst[2];
+		
+		m_Stream.AppendCurrent((a >> 24) & 0x000000FF);
+		m_Stream.AppendCurrent((a >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((a >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((a      ) & 0x000000FF);
+		
+		m_Stream.AppendCurrent((b >> 24) & 0x000000FF);
+		m_Stream.AppendCurrent((b >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((b >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((b      ) & 0x000000FF);
+		
+		m_Stream.AppendCurrent((c >> 24) & 0x000000FF);
+		m_Stream.AppendCurrent((c >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((c >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((c      ) & 0x000000FF);
 	}
 
 	override void WriteString(string value)
 	{
-		WriteInt(value.Length());
+		int length = value.Length();
+		m_Stream.AppendCurrent((length >> 24) & 0x000000FF);
+		m_Stream.AppendCurrent((length >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((length >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((length      ) & 0x000000FF);
+		
 		for (int i = 0; i < value.Length(); i++)
 		{
-			WriteByte(value[i].Hash());
+			m_Stream.AppendCurrent(value.Substring(i, 1).Hash());
 		}
 	}
 
@@ -49,8 +78,8 @@ class CF_BinaryWriter : CF_IO
 	{
 		for (int i = 0; i < value.Length(); i++)
 		{
-			WriteByte(value[i].Hash());
+			m_Stream.AppendCurrent(value.Substring(i, 1).Hash());
 		}
-		WriteByte(0);
+		m_Stream.AppendCurrent(0);
 	}
 };

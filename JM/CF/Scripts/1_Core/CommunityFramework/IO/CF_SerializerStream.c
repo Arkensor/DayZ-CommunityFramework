@@ -20,6 +20,8 @@ class CF_SerializerStream : CF_Stream
 	void Read()
 	{
 		Read(m_Serializer);
+		
+		Seek(0, CF_SeekOrigin.SET);
 	}
 };
 

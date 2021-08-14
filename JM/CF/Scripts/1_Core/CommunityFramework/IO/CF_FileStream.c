@@ -21,9 +21,7 @@ class CF_FileStream : CF_Stream
 
 	void ~CF_FileStream()
 	{
-		Flush();
-
-		CloseFile(m_FileHandle);
+		Close();
 	}
 
 	void MarkDirty()
@@ -42,6 +40,13 @@ class CF_FileStream : CF_Stream
 	{
 		super.AppendCurrent(byte);
 		
+		m_Dirty = true;
+	}
+
+	override void Set(int index, CF_Byte value)
+	{
+		super.Set(index, value);
+
 		m_Dirty = true;
 	}
 
@@ -77,26 +82,31 @@ class CF_FileStream : CF_Stream
 		{
 			Append(readData[0] & 0x000000FF);
 		}
+		
+		Seek(0, CF_SeekOrigin.SET);
 	}
 
 	override void Flush()
 	{
-		if (m_FileHandle == 0) return;
-
 		if (m_Mode == FileMode.READ) return;
 		
 		UpdateDirty();
 				
 		FileSerializer serializer = new FileSerializer();
-
+		
+		if (m_FileHandle != 0)
+		{
+			CloseFile(m_FileHandle);
+			m_FileHandle = 0;
+		}
+		
+		if (!serializer.Open(m_Path, FileMode.APPEND)) return;
+		
 		int oldPosition = m_Position;
 		CF_PackedByte oldCurrent = m_Current;
 
 		m_Position = 0;
 		m_Current = m_Head;
-
-		CloseFile(m_FileHandle);
-		serializer.Open(m_Path, FileMode.APPEND);
 
 		int zero = 0;
 		while (m_Current)
@@ -124,6 +134,17 @@ class CF_FileStream : CF_Stream
 
 		m_Position = oldPosition;
 		m_Current = oldCurrent;
+	}
+	
+	override void Close()
+	{
+		if (m_FileHandle != 0)
+		{
+			Flush();
+			CloseFile(m_FileHandle);
+			
+			m_FileHandle = 0;
+		}
 	}
 
 	protected int Next_AsInt()

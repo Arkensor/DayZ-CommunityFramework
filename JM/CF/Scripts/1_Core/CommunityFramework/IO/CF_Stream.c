@@ -1,4 +1,4 @@
-class CF_Stream : Managed
+class CF_Stream
 {
 	ref CF_PackedByte m_Head;
 	CF_PackedByte m_Tail;
@@ -22,78 +22,52 @@ class CF_Stream : Managed
 		{
 			m_Head = pByte;
 			m_Tail = pByte;
-			m_Position = 0;
+			m_Size = 1;
 		}
 		else
 		{
 			pByte.m_Prev = m_Tail;
 			m_Tail.m_Next = pByte;
 			m_Tail = pByte;
-			m_Position++;
+			m_Size++;
 		}
 		
-		m_Size++;
+		m_Position = m_Size - 1;
 
 		m_Current = pByte;
 	}
 
 	void AppendCurrent(CF_Byte byte = 0)
 	{
+		if (!m_Tail || m_Tail == m_Head || (m_Tail && m_Tail == m_Current))
+		{
+			Append(byte);
+			return;
+		}
+
 		CF_PackedByte pByte = new CF_PackedByte();
 		pByte.m_Value = byte;
 
-		if (!m_Tail)
+		if (m_Current)
 		{
-			m_Head = pByte;
-			m_Tail = pByte;
-			m_Position = 0;
-		}
-		else if (m_Tail == m_Head)
-		{
+			pByte.m_Next = m_Current.m_Next;
+			m_Current.m_Next = pByte;
+ 
+			pByte.m_Prev = m_Current;
+ 
+			if (pByte.m_Next != null) pByte.m_Next.m_Prev = pByte;
 			
+			m_Position++;
 		}
 		else
 		{
-			if (!m_Current)
-			{
-				m_Current = m_Tail;
-			}
-			
-			if (m_Current != m_Head)
-			{
-				if (!m_Current.m_Prev)
-				{
-					pByte.m_Prev = null;
-					pByte.m_Next = m_Head;
-					m_Head.m_Prev = pByte;
-					m_Head = pByte;
-				}
-				else if (!m_Current.m_Prev.m_Next)
-				{
-					pByte.m_Next = null;
-					pByte.m_Prev = m_Tail;
-					m_Tail.m_Next = pByte;
-					m_Tail = pByte;
-				}
-				else
-				{
-					pByte.m_Prev = m_Current.m_Prev;
-					pByte.m_Next = pByte.m_Prev.m_Next;
-					pByte.m_Next.m_Prev = pByte;
-					pByte.m_Prev.m_Next = pByte;
-				}
-			}
-			else
-			{
-				pByte.m_Prev = m_Current.m_Prev;
-				pByte.m_Next = pByte.m_Prev.m_Next;
-				pByte.m_Next.m_Prev = pByte;
-				pByte.m_Prev.m_Next = pByte;
-			}
+			pByte.m_Next = m_Head;
+			m_Head.m_Prev = pByte;
+			m_Head = pByte;
 
-			m_Position++;
+			m_Position = 0;
 		}
-		
+
 		m_Size++;
 
 		m_Current = pByte;
@@ -170,6 +144,13 @@ class CF_Stream : Managed
 		return m_Size;
 	}
 
+	CF_Byte Get(int index, CF_SeekOrigin origin)
+	{
+		Seek(index, origin);
+		if (!m_Current) return 0;
+		return m_Current.m_Value;
+	}
+
 	CF_Byte Get(int index)
 	{
 		Seek(index, CF_SeekOrigin.SET);
@@ -177,10 +158,17 @@ class CF_Stream : Managed
 		return m_Current.m_Value;
 	}
 
+	void Set(int index, CF_Byte value, CF_SeekOrigin origin)
+	{
+		Seek(index, origin);
+		
+		m_Current.m_Value = value;
+	}
+
 	void Set(int index, CF_Byte value)
 	{
 		Seek(index, CF_SeekOrigin.SET);
-		if (!m_Current) return;
+		
 		m_Current.m_Value = value;
 	}
 
@@ -231,71 +219,63 @@ class CF_Stream : Managed
 		m_Position = tuple.param2;
 	}
 
-	void SetPosition(int newPosition)
-	{
-		if (newPosition == m_Position) return;
-
-		if (newPosition <= 0)
-		{
-			m_Current = m_Head;
-			m_Position = 0;
-			return;
-		}
-
-		if (newPosition >= m_Size - 1)
-		{
-			m_Current = m_Tail;
-			m_Position = m_Size - 1;
-			return;
-		}
-
-		int diff = newPosition - m_Position;
-
-		int aDiff = diff;
-		if (aDiff < 0) aDiff = -aDiff;
-
-		if (aDiff > m_Size / 2)
-		{
-			if (diff < 0)
-			{
-				Seek(newPosition, CF_SeekOrigin.SET);
-			}
-			else
-			{
-				Seek(newPosition - m_Size, CF_SeekOrigin.END);
-			}
-
-			return;
-		}
-
-		int i;
-
-		m_Position = newPosition;
-		if (diff > 0) for (i = 0; i < diff; i++) m_Current = m_Current.m_Next;
-		else if (diff < 0) for (i = 0; i < diff; i++) m_Current = m_Current.m_Prev;
-	}
-
 	void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
-		int i;
+		int newPosition;
+		
 		switch (origin)
 		{
 			case CF_SeekOrigin.SET:
-				m_Position = num;
+				newPosition = num;
+			
+				m_Position = 0;
 				m_Current = m_Head;
-				for (i = 0; i < num; i++) m_Current = m_Current.m_Next;
-				return;
+				break;
 			case CF_SeekOrigin.CURRENT:
-				m_Position = m_Position + num;
-				if (num > 0) for (i = 0; i < num; i++) m_Current = m_Current.m_Next;
-				else if (num < 0) for (i = 0; i < num; i++) m_Current = m_Current.m_Prev;
-				return;
+				newPosition = m_Position + num;
+				break;
 			case CF_SeekOrigin.END:
-				m_Position = m_Size - num - 1;
+				newPosition = m_Size - num;
+			
+				m_Position = m_Size - 1;
 				m_Current = m_Tail;
-				for (i = 0; i < num; i++) m_Current = m_Current.m_Prev;
-				return;
+				break;
 		}
+		
+		if (newPosition < 0)
+		{
+			m_Position = -1;
+			m_Current = null;
+			return;
+		}
+		else if (newPosition >= m_Size)
+		{
+			m_Position = m_Size - 1;
+			m_Current = m_Tail;
+			return;
+		}
+		
+		int i;
+		if (newPosition > m_Position)
+		{
+			i = m_Position;
+			while (i < newPosition)
+			{
+				m_Current = m_Current.m_Next;
+				i++;
+			}
+		}
+		else if (newPosition < m_Position)
+		{
+			i = m_Position;
+			while (i > newPosition)
+			{
+				m_Current = m_Current.m_Prev;
+				i--;
+			}
+		}
+		
+		m_Position = newPosition;
 	}
 
 	void CopyTo(CF_Stream dest)
@@ -313,5 +293,10 @@ class CF_Stream : Managed
 	void Flush()
 	{
 
+	}
+	
+	void Close()
+	{
+		
 	}
 };
