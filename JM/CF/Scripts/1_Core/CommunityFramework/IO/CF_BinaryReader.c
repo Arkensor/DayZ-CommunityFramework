@@ -22,7 +22,7 @@ class CF_BinaryReader : CF_IO
 		int b2 = m_Stream.Next();
 		int b1 = m_Stream.Next();
 		int b0 = m_Stream.Next();
-
+		
 		return ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
 	}
 

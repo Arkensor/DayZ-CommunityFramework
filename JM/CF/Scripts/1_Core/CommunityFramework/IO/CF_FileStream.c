@@ -19,11 +19,6 @@ class CF_FileStream : CF_Stream
 		ReadData(false);
 	}
 
-	void ~CF_FileStream()
-	{
-		Close();
-	}
-
 	void MarkDirty()
 	{
 		m_Dirty = true;
@@ -125,7 +120,7 @@ class CF_FileStream : CF_Stream
 				continue;
 			}
 
-			WriteSingle(serializer);
+			m_Current = m_Current.SerializerWrite(serializer, m_Size, m_Position);
 		}
 		
 		serializer.Close();
@@ -139,7 +134,8 @@ class CF_FileStream : CF_Stream
 	{
 		if (m_FileHandle != 0)
 		{
-			Flush();
+			super.Close();
+			
 			CloseFile(m_FileHandle);
 		}
 	}

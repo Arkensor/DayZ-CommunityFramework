@@ -7,6 +7,11 @@ class CF_Stream
 	
 	int m_Size;
 	int m_Position;
+	
+	void ~CF_Stream()
+	{
+		Close();
+	}
 
 	bool IsValid()
 	{
@@ -97,46 +102,6 @@ class CF_Stream
 		}
 
 		m_Size = size;
-	}
-
-	void Write(Serializer ctx)
-	{
-		ctx.Write(m_Size);
-
-		m_Position = 0;
-		while (m_Position < m_Size)
-		{
-			WriteSingle(ctx);
-		}
-	}
-
-	void Read(Serializer ctx)
-	{
-		ctx.Read(m_Size);
-
-		m_Position = 0;
-		while (m_Position < m_Size)
-		{
-			ReadSingle(ctx);
-		}
-	}
-
-	void WriteSingle(Serializer ctx)
-	{
-		if (!m_Current) return;
-
-		m_Current = m_Current.SerializerWrite(ctx, m_Size, m_Position);
-	}
-
-	void ReadSingle(Serializer ctx)
-	{
-		if (!m_Tail) Append();
-
-		if (!m_Current) m_Current = m_Tail;
-
-		m_Current = m_Current.SerializerRead(ctx, m_Size, m_Position);
-
-		if (!m_Current.m_Next) m_Tail = m_Current;
 	}
 
 	int Length()
@@ -319,6 +284,6 @@ class CF_Stream
 	
 	void Close()
 	{
-		
+		Flush();
 	}
 };

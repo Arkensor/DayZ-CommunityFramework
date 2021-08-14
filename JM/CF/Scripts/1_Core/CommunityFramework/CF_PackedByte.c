@@ -59,64 +59,56 @@ class CF_PackedByte
 
 		ctx.Read(value);
 
-		int b0 = (value >> 24) & 0x000000FF;
-		int b1 = (value >> 16) & 0x000000FF;
-		int b2 = (value >> 8 ) & 0x000000FF;
-		int b3 = (value		 ) & 0x000000FF;
-
-		if ((index++) < length)
+		int b3 = (value >> 24) & 0x000000FF;
+		int b2 = (value >> 16) & 0x000000FF;
+		int b1 = (value >> 8 ) & 0x000000FF;
+		int b0 = (value		 ) & 0x000000FF;
+		
+		if (index < length)
 		{
-			/*byte.*/m_Value = b0;
-			/*byte.*/m_Value.Clamp();
+			index++;
+			
+			byte.m_Value = b0;
+			byte.m_Value.Clamp();
 
-			if (!byte.m_Next)
-			{
-				byte.m_Next = new CF_PackedByte();
-				byte.m_Next.m_Prev = byte;
-			}
-
+			byte.m_Next = new CF_PackedByte();
+			byte.m_Next.m_Prev = byte;
 			byte = byte.m_Next;
 		}
 
-		if ((index++) < length)
+		if (index < length)
 		{
+			index++;
+			
 			byte.m_Value = b1;
 			byte.m_Value.Clamp();
-
-			if (!byte.m_Next)
-			{
-				byte.m_Next = new CF_PackedByte();
-				byte.m_Next.m_Prev = byte;
-			}
-
+			
+			byte.m_Next = new CF_PackedByte();
+			byte.m_Next.m_Prev = byte;
 			byte = byte.m_Next;
 		}
 
-		if ((index++) < length)
+		if (index < length)
 		{
+			index++;
+			
 			byte.m_Value = b2;
 			byte.m_Value.Clamp();
-
-			if (!byte.m_Next)
-			{
-				byte.m_Next = new CF_PackedByte();
-				byte.m_Next.m_Prev = byte;
-			}
-
+			
+			byte.m_Next = new CF_PackedByte();
+			byte.m_Next.m_Prev = byte;
 			byte = byte.m_Next;
 		}
 
-		if ((index++) < length)
+		if (index < length)
 		{
+			index++;
+			
 			byte.m_Value = b3;
 			byte.m_Value.Clamp();
-
-			if (!byte.m_Next)
-			{
-				byte.m_Next = new CF_PackedByte();
-				byte.m_Next.m_Prev = byte;
-			}
-
+			
+			byte.m_Next = new CF_PackedByte();
+			byte.m_Next.m_Prev = byte;
 			byte = byte.m_Next;
 		}
 

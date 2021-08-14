@@ -12,7 +12,7 @@ class CF_BinaryWriter : CF_IO
 
 	override void WriteBool(bool value)
 	{
-		m_Stream.AppendCurrent(value);
+		m_Stream.AppendCurrent(value != 0);
 	}
 
 	override void WriteInt(int value)
