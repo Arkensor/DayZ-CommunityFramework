@@ -26,27 +26,31 @@ class CF_Timer : CF_TimerBase
 	}
 
 	/**
-	 * @brief Create a timer for Managed instances 
+	 * @brief Create a timer 
 	 * 
 	 * @param instance The instance that owns the function
 	 * @param function The function that is called
 	 * @param interval The time between each function call, in seconds.
 	 * @param params The static parameters that are passed into the function
 	 * 
-	 * @note The function passed must have a signature that starts with 'CF_TimerBase,float` and then continues with the matching 'params'.
+	 * @note If the instance is 'Managed' then the timer does not have to be strongly referenced within the instance.
+	 * 
+	 * @note The function passed must have a signature that starts with 'CF_TimerBase,float' and then continues with the matching 'params'.
 	 */
-	static CF_ManagedTimer Create(Managed instance, string function, float interval = 0.0, CF_TimerParam params = null)
+	static CF_Timer Create(Class instance, string function, float interval = 0.0, CF_TimerParam params = null)
 	{
 		if (instance == null) return null;
 
-		CF_ManagedTimer timer = new CF_ManagedTimer();
-		timer.m_Instance = instance;
-		timer.m_Function = function;
+		CF_Timer timer;
+		
+		Managed managedInstance;
+		if (Class.CastTo(managedInstance, instance))
+		{
+			timer = new CF_ManagedTimer(managedInstance, function, interval, params);
+			return timer;
+		}
 
-		timer.SetParams(params);
-		timer.SetInterval(interval);
-		timer.Start();
-
+		timer = new CF_Timer(instance, function, interval, params);
 		return timer;
 	}
 

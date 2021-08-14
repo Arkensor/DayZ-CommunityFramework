@@ -1,34 +1,20 @@
-class CF_ManagedTimer : CF_TimerBase
+class CF_ManagedTimer : CF_Timer
 {
-	Managed m_Instance;
-	string m_Function;
-	ref CF_TimerParam m_Params;
+	Managed m_ManagedInstance;
 	
-	void CF_ManagedTimer()
+	void CF_ManagedTimer(Class instance, string function, float interval = 0.0, CF_TimerParam params = null)
 	{
-	}
-
-	void SetParams(CF_TimerParam params)
-	{
-		m_Params = params;
-		if (!m_Params) m_Params = new CF_TimerParam();
-		m_Params.m_Timer = this;
+		Class.CastTo(m_ManagedInstance, instance);
 	}
 	
 	protected override void OnUpdate(float dt)
 	{
-		if (!m_Instance)
+		if (!m_ManagedInstance)
 		{
 			Destroy();
 			return;
 		}
 		
 		super.OnUpdate(dt);
-	}
-
-	protected override void OnTick(float dt)
-	{
-		if (m_Params) m_Params.m_DeltaTime = dt;
-		g_Script.CallFunctionParams(m_Instance, m_Function, NULL, m_Params);
 	}
 };
