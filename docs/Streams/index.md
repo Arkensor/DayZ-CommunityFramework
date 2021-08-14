@@ -49,7 +49,7 @@ CF_BinaryWriter writer = new CF_BinaryWriter(stream);
 writer.WriteFloat(5);
 writer.Close();
 
-Print(stream.ToStr());
+Print(stream.ToStr());	// "40A00000"
 ```
 
 ## Serializer
@@ -66,6 +66,6 @@ writer.Close();
 
 // Read the context
 CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerReadStream(ctx.GetReadContext()));
-Print(reader.ReadFloat());	// 0.1
+Print(reader.ReadFloat());	// "0.1"
 reader.Close();
 ```
