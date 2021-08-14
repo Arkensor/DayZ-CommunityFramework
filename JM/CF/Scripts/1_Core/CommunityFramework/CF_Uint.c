@@ -51,6 +51,8 @@ class CF_Uint : int
 
 	CF_Uint ShiftRight(int amount)
 	{
+		if (amount <= 0) return value;
+
 		CF_Uint new_value = (value >> 1) & 0x7FFFFFFF; //strip the sign bit away (making it 0)
 		CF_Uint extra_shifts = amount - 1;
 		if (extra_shifts > 0) new_value = (new_value >> extra_shifts);
@@ -92,34 +94,32 @@ class CF_Uint : int
 		return a.^(b.^(c))); //a ^ b ^ c (left-right associativity)
 	}
 
-	CF_Uint EP0()
+	static CF_Uint EP0(CF_Uint x)
 	{
-		CF_Uint a = CF_Uint.RotateRight(value, 2);
-		CF_Uint b = CF_Uint.RotateRight(value, 13);
-		CF_Uint c = CF_Uint.RotateRight(value, 22);
+		CF_Uint a = CF_Uint.RotateRight(x, 2);
+		CF_Uint b = CF_Uint.RotateRight(x, 13);
+		CF_Uint c = CF_Uint.RotateRight(x, 22);
 		return a.^(b.^(c))); //a ^ b ^ c
 	}
 
-	CF_Uint EP1()
+	static CF_Uint EP1(CF_Uint x)
 	{
-		CF_Uint a = CF_Uint.RotateRight(value, 6);
-		CF_Uint b = CF_Uint.RotateRight(value, 11);
-		CF_Uint c = CF_Uint.RotateRight(value, 25);
+		CF_Uint a = CF_Uint.RotateRight(x, 6);
+		CF_Uint b = CF_Uint.RotateRight(x, 11);
+		CF_Uint c = CF_Uint.RotateRight(x, 25);
 		return a.^(b.^(c))); //a ^ b ^ c
 	}
 
-	CF_Uint SIG0()
+	static CF_Uint SIG0(CF_Uint x)
 	{
-		CF_Uint x = value;
 		CF_Uint a = CF_Uint.RotateRight(x, 7);
 		CF_Uint b = CF_Uint.RotateRight(x, 18);
 		CF_Uint c = x.ShiftRight(3);
 		return a.^(b.^(c))); //a ^ b ^ c
 	}
 
-	CF_Uint SIG1()
+	static CF_Uint SIG1(CF_Uint x)
 	{
-		CF_Uint x = value;
 		CF_Uint a = CF_Uint.RotateRight(x, 17);
 		CF_Uint b = CF_Uint.RotateRight(x, 19);
 		CF_Uint c = x.ShiftRight(10);

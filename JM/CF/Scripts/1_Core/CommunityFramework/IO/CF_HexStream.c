@@ -38,8 +38,15 @@ class CF_HexStream : CF_Stream
 
 		m_Dirty = true;
 	}
+	
+	override void SetOrigin(int index, int value, CF_SeekOrigin origin)
+	{
+		super.SetOrigin(index, value, origin);
 
-	override void Set(int index, CF_Byte value)
+		m_Dirty = true;
+	}
+	
+	override void Set(int index, int value)
 	{
 		super.Set(index, value);
 

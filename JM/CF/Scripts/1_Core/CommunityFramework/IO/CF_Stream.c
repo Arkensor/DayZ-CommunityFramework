@@ -123,14 +123,14 @@ class CF_Stream
 		return m_Current.m_Value;
 	}
 
-	void Set(int index, CF_Byte value, CF_SeekOrigin origin)
+	void SetOrigin(int index, int value, CF_SeekOrigin origin)
 	{
 		Seek(index, origin);
 		
 		m_Current.m_Value = value;
 	}
 
-	void Set(int index, CF_Byte value)
+	void Set(int index, int value)
 	{
 		Seek(index, CF_SeekOrigin.SET);
 		
