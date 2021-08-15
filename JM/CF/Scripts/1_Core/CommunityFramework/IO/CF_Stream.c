@@ -281,6 +281,19 @@ class CF_Stream
 		}
 	}
 
+	void CopyTo(CF_Stream dest, int size)
+	{
+		CF_PackedByte byte = m_Head;
+
+		int index = 0;
+		while (byte && index < size)
+		{
+			dest.Append(byte.m_Value);
+			byte = byte.m_Next;
+			index++;
+		}
+	}
+
 	void Flush()
 	{
 
