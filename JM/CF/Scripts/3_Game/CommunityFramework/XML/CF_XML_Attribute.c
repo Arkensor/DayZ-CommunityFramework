@@ -7,16 +7,16 @@ class CF_XML_Attribute : Managed
 
 	private CF_XML_Tag _parentTag;
 
-	void CF_XML_Attribute(ref CF_XML_Tag parent, string name)
+	void CF_XML_Attribute(CF_XML_Tag parent, string name)
 	{
 		_parentTag = parent;
 		_name = name;
 		_value = "";
 	}
 
-	ref CF_XML_Attribute Copy(ref CF_XML_Tag parent = NULL)
+	CF_XML_Attribute Copy(CF_XML_Tag parent = NULL)
 	{
-		ref CF_XML_Attribute element = new CF_XML_Attribute(parent, _name);
+		CF_XML_Attribute element = new CF_XML_Attribute(parent, _name);
 
 		element._value = _value;
 

@@ -4,7 +4,7 @@ class CF_XML
 	{
 	}
 
-	static ref CF_XML_Reader Open(string path)
+	static CF_XML_Reader Open(string path)
 	{
 		CF_XML_Reader reader = new CF_XML_Reader();
 
@@ -19,7 +19,7 @@ class CF_XML
 		return reader;
 	}
 
-	static bool ReadDocument(string file, out CF_XML_Document document )
+	static bool ReadDocument(string file, out CF_XML_Document document)
 	{
 		if (!document)
 			document = new CF_XML_Document();
@@ -27,17 +27,17 @@ class CF_XML
 		return document.Read(Open(file));
 	}
 
-	static void Read(string file, notnull ref CF_XML_Callback callback)
+	static void Read(string file, notnull CF_XML_Callback callback)
 	{
 		Process(Open(file), callback);
 	}
 
-	static void ReadAsync(string file, notnull ref CF_XML_Callback callback)
+	static void ReadAsync(string file, notnull CF_XML_Callback callback)
 	{
 		thread Process(Open(file), callback);
 	}
 
-	static void Process(ref CF_XML_Reader reader, ref CF_XML_Callback callback)
+	static void Process(CF_XML_Reader reader, CF_XML_Callback callback)
 	{
 		CF_XML_Document document = new CF_XML_Document();
 
@@ -60,7 +60,7 @@ class CF_XML
 	}
 };
 
-static ref CF_XML GetXMLApi()
+static CF_XML GetXMLApi()
 {
 	return CF.XML;
 }

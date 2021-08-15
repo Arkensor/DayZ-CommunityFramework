@@ -15,10 +15,6 @@ class CfgPatches
 			#ifdef CF_MODULE_PERMISSIONS
 			"JM_CF_Permissions",
 			#endif
-			#ifdef CF_MODULE_MODSTORAGE
-			"JM_CF_ModStorage",
-			#endif
-			"JM_CF_XML"
 		};
 	};
 };

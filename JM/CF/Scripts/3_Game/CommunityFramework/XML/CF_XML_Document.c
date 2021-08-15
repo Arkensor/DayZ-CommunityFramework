@@ -8,7 +8,7 @@ class CF_XML_Document : CF_XML_Element
 
 	private autoptr map<string, string> _entities = new map<string, string>();
 
-	void CF_XML_Document(ref CF_XML_Tag parent = NULL)
+	void CF_XML_Document(CF_XML_Tag parent = NULL)
 	{
 		_entities.Insert("&quot;", "\"");
 		_entities.Insert("&amp;", "&");
@@ -17,7 +17,7 @@ class CF_XML_Document : CF_XML_Element
 		_entities.Insert("&gt;", ">");
 	}
 
-	override ref CF_XML_Tag CreateTag(string name)
+	override CF_XML_Tag CreateTag(string name)
 	{
 		if (_currentTag)
 		{
@@ -31,9 +31,9 @@ class CF_XML_Document : CF_XML_Element
 		return _currentTag;
 	}
 
-	ref CF_XML_Document CopyDocument()
+	CF_XML_Document CopyDocument()
 	{
-		ref CF_XML_Document document = new CF_XML_Document(NULL);
+		CF_XML_Document document = new CF_XML_Document(NULL);
 
 		for (int i = 0; i < _tags.Count(); ++i)
 		{

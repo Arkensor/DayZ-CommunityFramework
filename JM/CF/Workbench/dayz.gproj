@@ -48,6 +48,8 @@ GameProjectClass {
      Name "gameLib"
      Paths {
       "scripts/2_GameLib"
+      "JM/CF/Defines"
+      "JM/CF/Scripts/2_GameLib"
      }
      EntryPoint ""
     }
