@@ -5,7 +5,7 @@ modded class ModLoader
 	private static ref array<ref ModStructure> m_CF_ModStorage_Mods;
 	private static ref map<string, ModStructure> m_CF_ModStorage_ModMap = new map<string, ModStructure>();
 
-	static ref ModStructure Get(string name)
+	static ModStructure Get(string name)
 	{
 		if (!m_Loaded) LoadMods();
 		return m_CF_ModStorage_ModMap[name];
