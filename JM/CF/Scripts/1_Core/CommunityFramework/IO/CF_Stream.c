@@ -88,17 +88,23 @@ class CF_Stream
 			byte = byte.m_Next;
 		}
 
-		if (size < m_Size)
+		if (m_Size < size)
 		{
-			for (i = size; i < m_Size; i++)
+			for (i = m_Size; i < size; i++)
 			{
-				AppendCurrent();
+				Append();
 			}
 		}
 		else
-		{
+		{			
 			byte.m_Next = null;
 			m_Tail = byte;
+			
+			if (m_Position >= size - 1)
+			{
+				m_Current = m_Tail;
+				m_Position = size - 1;
+			}
 		}
 
 		m_Size = size;
@@ -267,10 +273,8 @@ class CF_Stream
 
 	void CopyTo(CF_Stream dest)
 	{
-		dest.m_Head = null;
-
 		CF_PackedByte byte = m_Head;
-		while (!byte)
+		while (byte)
 		{
 			dest.Append(byte.m_Value);
 			byte = byte.m_Next;
@@ -285,5 +289,28 @@ class CF_Stream
 	void Close()
 	{
 		Flush();
+	}
+	
+	string ToStr()
+	{
+		string str = "[" + m_Size + "] 0x";
+		
+		int oldPosition = m_Position;
+		CF_PackedByte oldCurrent = m_Current;
+
+		m_Position = 0;
+		m_Current = m_Head;
+
+		while (m_Current)
+		{
+			str += m_Current.m_Value.ToHex();
+
+			m_Current = m_Current.m_Next;
+		}
+
+		m_Position = oldPosition;
+		m_Current = oldCurrent;
+		
+		return str;
 	}
 };

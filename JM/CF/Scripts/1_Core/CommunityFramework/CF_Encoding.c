@@ -1,6 +1,15 @@
 class CF_Encoding
 {
-	static const string BASE_16[16] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F" };
+	static const string BASE_16[16] = {
+		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"
+	};
+	
+	static const string BASE_64[64] = {
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
+		"Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f",
+		"g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+		"w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "/",
+	};
 
 	static int Find(string[] data, int count, string match)
 	{
@@ -10,6 +19,16 @@ class CF_Encoding
 		}
 
 		return -1;
+	}
+
+	static string FindGet(string[] data, int count, string match)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			if (data[i] == match) return data[i];
+		}
+
+		return data[0];
 	}
 
 	static CF_Byte GetByte(string char)
@@ -63,6 +82,16 @@ class CF_Encoding
 		}
 
 		return bytes;
+	}
+
+	static string ToBase64(array<CF_Byte> bytes)
+	{
+		string str = "";
+		for (int i = 0; i < bytes.Count(); i++)
+		{
+			str += bytes[i].ToHex();
+		}
+		return str;
 	}
 
 	static bool IsWhitespace(string char)

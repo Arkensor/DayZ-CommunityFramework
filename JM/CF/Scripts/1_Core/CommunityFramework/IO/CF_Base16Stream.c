@@ -8,23 +8,7 @@ class CF_Base16Stream : CF_Stream
 
 	void CF_Base16Stream(string str = "")
 	{
-		m_String = str;
-
-		for (int i = 0; i < m_String.Length() / 2; i++)
-		{
-			int n0 = CF_Encoding.Find(CF_Encoding.BASE_16, 16, m_String[i * 2 + 0]) * 16;
-			int n1 = CF_Encoding.Find(CF_Encoding.BASE_16, 16, m_String[i * 2 + 1]) * 16;
-
-			if (n0 < 0 || n1 < 0)
-			{
-				Error("Invalid character, expect valid base-16, got \"" + m_String[i * 2 + 0] + m_String[i * 2 + 1] + "\"");
-				return;
-			}
-
-			Append(n0 + n1);
-		}
-		
-		Seek(0, CF_SeekOrigin.SET);
+		Decode(str);
 	}
 
 	override void Append(CF_Byte byte = 0)
@@ -62,7 +46,31 @@ class CF_Base16Stream : CF_Stream
 		m_Dirty = true;
 	}
 
-	string ToStr()
+	void Decode(string str)
+	{
+		if (m_String != str)
+		{
+			m_String = str;
+
+			for (int i = 0; i < m_String.Length() / 2; i++)
+			{
+				int n0 = CF_Encoding.Find(CF_Encoding.BASE_16, 16, m_String[i * 2 + 0]) * 16;
+				int n1 = CF_Encoding.Find(CF_Encoding.BASE_16, 16, m_String[i * 2 + 1]) * 16;
+
+				if (n0 < 0 || n1 < 0)
+				{
+					Error("Invalid character, expect valid base-16, got \"" + m_String[i * 2 + 0] + m_String[i * 2 + 1] + "\"");
+					return;
+				}
+
+				Append(n0 + n1);
+			}
+		}
+		
+		Seek(0, CF_SeekOrigin.SET);
+	}
+
+	string Encode()
 	{
 		UpdateDirty();
 
@@ -92,5 +100,11 @@ class CF_Base16Stream : CF_Stream
 		m_Current = oldCurrent;
 
 		m_Dirty = false;
+	}
+
+	override string ToStr()
+	{
+		return super.ToStr();
+		//return Encode();
 	}
 };
