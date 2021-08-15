@@ -44,13 +44,6 @@ modded class ItemBase
 			{
 				storage.Write( "ThisVariableIsAddedWithVersion2" );
 			}
-
-			array<ref CF_ModStorage_Test_Class_B> arrayOfClassesExample = new array<ref CF_ModStorage_Test_Class_B>();
-			arrayOfClassesExample.Insert(new CF_ModStorage_Test_Class_B("arkensor", new CF_ModStorage_Test_Class_A(1768)));
-			arrayOfClassesExample.Insert(new CF_ModStorage_Test_Class_B("tyler", new CF_ModStorage_Test_Class_A(1278)));
-			arrayOfClassesExample.Insert(new CF_ModStorage_Test_Class_B("paul", new CF_ModStorage_Test_Class_A(278)));
-
-			CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Write(storage, arrayOfClassesExample);
 		}
 	}
 	 */
@@ -89,10 +82,7 @@ modded class ItemBase
 				if ( !storage.Read( strVar ) )
 					return false;
 			}
-
-			array<ref CF_ModStorage_Test_Class_B> arrayOfClassesExample = new array<ref CF_ModStorage_Test_Class_B>();
-			CF_ModStorage_Data_Array_Class<CF_ModStorage_Test_Class_B>.Read(storage, arrayOfClassesExample);
-
+			
 			return true;
 		}
 	}
