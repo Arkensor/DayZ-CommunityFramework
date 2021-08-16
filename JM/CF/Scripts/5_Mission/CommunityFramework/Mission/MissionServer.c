@@ -24,7 +24,7 @@ modded class MissionServer
 			
 			Class.CastTo( logoutCancelParams, params );
 
-			GetModuleManager().OnClientLogoutCancelled( PlayerBase.Cast( logoutCancelParams.param1 ) );
+			CF_Module_WorldManager.OnClientLogoutCancelled( PlayerBase.Cast( logoutCancelParams.param1 ) );
 
 			break;
 		}
@@ -39,20 +39,19 @@ modded class MissionServer
 	{
 		super.OnMissionStart();
 
-		GetModuleManager().OnSettingsUpdated();
-		GetModuleManager().OnMissionStart();
+		CF_Module_Manager.OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
 
-		GetModuleManager().OnMissionFinish();
+		CF_Module_Manager.OnMissionFinish();
 	}
 
 	void OnMissionLoaded()
 	{
-		GetModuleManager().OnMissionLoaded();
+		CF_Module_Manager.OnMissionLoaded();
 	}
 
 	override void OnUpdate( float timeslice )
@@ -64,55 +63,53 @@ modded class MissionServer
 		}
 		
 		super.OnUpdate( timeslice );
-
-		GetModuleManager().OnUpdate( timeslice );
 	}
 
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
 	{
 		super.InvokeOnConnect( player, identity );
 
-		GetModuleManager().OnInvokeConnect( player, identity );
+		CF_Module_WorldManager.OnInvokeConnect( player, identity );
 	}
 
 	override void InvokeOnDisconnect( PlayerBase player )
 	{
 		super.InvokeOnDisconnect( player );
 
-		GetModuleManager().OnInvokeDisconnect( player );
+		CF_Module_WorldManager.OnInvokeDisconnect( player );
 	}
 
 	override void OnClientReadyEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientReadyEvent( identity, player );
 
-		GetModuleManager().OnClientReady( player, identity );
+		CF_Module_WorldManager.OnClientReady( player, identity );
 	}
 	
 	override void OnClientReconnectEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientReconnectEvent( identity, player );
 
-		GetModuleManager().OnClientReconnect( player, identity );
+		CF_Module_WorldManager.OnClientReconnect( player, identity );
 	}
 	
 	override void OnClientRespawnEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientRespawnEvent( identity, player );
 
-		GetModuleManager().OnClientRespawn( player, identity );
+		CF_Module_WorldManager.OnClientRespawn( player, identity );
 	}
 	
 	override void OnClientDisconnectedEvent( PlayerIdentity identity, PlayerBase player, int logoutTime, bool authFailed )
 	{
 		super.OnClientDisconnectedEvent( identity, player, logoutTime, authFailed );
 
-		GetModuleManager().OnClientLogout( player, identity, logoutTime, authFailed );
+		CF_Module_WorldManager.OnClientLogout( player, identity, logoutTime, authFailed );
 	}
 
 	override void PlayerDisconnected( PlayerBase player, PlayerIdentity identity, string uid )
 	{
-		GetModuleManager().OnClientDisconnect( player, identity, uid );
+		CF_Module_WorldManager.OnClientDisconnect( player, identity, uid );
 
 		super.PlayerDisconnected( player, identity, uid );
 	}
@@ -121,14 +118,14 @@ modded class MissionServer
 	{
 		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
 
-		GetModuleManager().OnClientNew( player, identity, pos, ctx );
+		CF_Module_WorldManager.OnClientNew( player, identity, pos, ctx );
 
 		return player;
 	} 
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-		GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
+		CF_Module_WorldManager.OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
 		
 		super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
 	}
