@@ -12,12 +12,8 @@ class CF_Byte : CF_Uint
 {
 	CF_Byte Clamp()
 	{
-		CF_Byte old_byte = value;
+		CF_Byte oldByte = value;
 		value = value & 255;
-		if (value != old_byte)
-		{
-			Error("byte overflow");
-		}
 		return value;
 	}
 
