@@ -7,6 +7,8 @@ class CF_Module : Managed
 	int m_CF_RPC_Minimum;
 	int m_CF_RPC_Maximum;
 
+	int m_CF_GameFlag;
+
 	void Bind(string function, string input)
 	{
 		m_CF_Bindings.Bind(function, input);
@@ -36,6 +38,16 @@ class CF_Module : Managed
 	int GetRPCMax()
 	{
 		return -1;
+	}
+	
+	bool IsServer()
+	{
+		return true;
+	}
+
+	bool IsClient()
+	{
+		return true;
 	}
 
 	// Permanent Event
@@ -199,19 +211,5 @@ class CF_Module : Managed
 	void Error_Removed(string oldFunc)
 	{
 		Error(ClassName() + "::" + oldFunc + " is deprecated and has no replacement.");
-	}
-	
-	bool IsServer()
-	{
-		Error_Removed("IsServer");
-
-		return true;
-	}
-
-	bool IsClient()
-	{
-		Error_Removed("IsClient");
-
-		return true;
 	}
 };

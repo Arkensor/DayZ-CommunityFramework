@@ -15,7 +15,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientLogoutCancelled(player, identity);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientLogoutCancelled(player, identity);
 		}
 	}
 
@@ -24,7 +25,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnInvokeConnect(player, identity);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnInvokeConnect(player, identity);
 		}
 	}
 
@@ -33,7 +35,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnInvokeDisconnect(player);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnInvokeDisconnect(player);
 		}
 	}
 
@@ -42,7 +45,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientNew(player, identity, pos, ctx);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientNew(player, identity, pos, ctx);
 		}
 	}
 
@@ -51,7 +55,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientRespawn(player, identity);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientRespawn(player, identity);
 		}
 	}
 
@@ -60,7 +65,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientReady(player, identity);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientReady(player, identity);
 		}
 	}
 
@@ -69,7 +75,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientPrepare(identity, useDB, pos, yaw, preloadTimeout);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientPrepare(identity, useDB, pos, yaw, preloadTimeout);
 		}
 	}
 
@@ -78,7 +85,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientReconnect(player, identity);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientReconnect(player, identity);
 		}
 	}
 
@@ -87,7 +95,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientLogout(player, identity, logoutTime, authFailed);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientLogout(player, identity, logoutTime, authFailed);
 		}
 	}
 
@@ -96,7 +105,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientDisconnect(player, identity, uid);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientDisconnect(player, identity, uid);
 		}
 	}
 
@@ -105,7 +115,8 @@ class CF_Module_WorldEvent : CF_Module_Event
 		CF_Module_WorldEvent evt = this;
 		while (Class.CastTo(evt, evt.m_Next))
 		{
-			evt.m_WorldModule.OnClientLogoutCancelled(player);
+			CF_WorldModule module = evt.m_WorldModule;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnClientLogoutCancelled(player);
 		}
 	}
 };
