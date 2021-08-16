@@ -174,8 +174,12 @@ class JMModuleBase
 			
 			for (int j = 0; j < variable.AccessorIndices.Count() - 1; j++)
 			{
+				if (!cls) break;
+				
 				variable.AccessorTypes[j].GetVariableValue(cls, variable.AccessorIndices[j], cls);
 			}
+
+			if (!cls) break;
 
 			int idx = variable.AccessorIndices.Count() - 1;
 
