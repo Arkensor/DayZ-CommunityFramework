@@ -41,7 +41,7 @@ class CF_TypeConverterBool : CF_TypeConverterT<bool>
 
 	override void SetString(string value)
 	{
-		m_Value = CF.StringToBool(value);
+		m_Value = CF_Encoding.StringToBool(value);
 	}
 
 	override string GetString()
