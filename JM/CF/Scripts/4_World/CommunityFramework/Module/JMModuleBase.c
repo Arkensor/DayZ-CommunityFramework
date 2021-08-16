@@ -1,14 +1,10 @@
-enum CF_Module_VariableType
-{
-	INT, FLOAT, BOOL
-};
-
 class CF_Module_Variable
 {
-	string Name;
-	autoptr array<int> AccessorIndices();
-	autoptr array<typename> AccessorTypes();
-	CF_Module_VariableType Type;
+	string m_Name;
+	int m_Count; // max 4
+	int m_AccessorIndices[4];
+	typename m_AccessorTypes[4];
+	CF_TypeConverter m_Converter;
 };
 
 class JMModuleBase
@@ -16,14 +12,15 @@ class JMModuleBase
 	protected bool m_Enabled;
 	protected bool m_PreventInput;
 	protected ref set< ref JMModuleBinding > m_Bindings;
-	protected ref array<CF_Module_Variable> m_NetSynchVariables;
+
+	protected int m_NetSynchVariableCount;
+	protected ref CF_Module_Variable[256] m_NetSynchVariables;
 	
 	void JMModuleBase()
 	{
 		m_Enabled = true;
 		m_PreventInput = false;
 		m_Bindings = new set< ref JMModuleBinding >;
-		m_NetSynchVariables = new array<CF_Module_Variable>();
 	}
 	
 	void ~JMModuleBase()
@@ -87,79 +84,94 @@ class JMModuleBase
 	{
 	}
 	
+	/**
+	 * Only call in 'Init' and 'Constructor' on both client and server
+	 */
 	bool RegisterNetSyncVariable(string name)
 	{
-		// hard limit, max 1kb for synching.
-		if (m_NetSynchVariables.Count() > 256) return false;
+		// hard limit, no point attempting to sync more variables
+		if (m_NetSynchVariableCount >= 256)
+		{
+			Error("ERROR: " + GetModuleName() + "::RegisterNetSyncVariable('" + name + "') -> More than 256 variables registered, got '" + m_NetSynchVariableCount + "'");
+			return false;
+		}
 
 		CF_Module_Variable variable = new CF_Module_Variable();
 
-		typename cls = this.Type();
+		typename type = this.Type();
 		array<string> tokens();
 		name.Split(".", tokens);
 
-		// don't know how split works, this might not be needed
-		if (tokens.Count() == 0) tokens.Insert(name);
+		variable.m_Name = name;
 
-		// iterate over all tokens to get the sub class for the variable
-		for (int i = 0; i < tokens.Count() - 1; i++)
+		if (tokens.Count() != 0)
 		{
-			bool success = false;
-			for (int j = 0; j < cls.GetVariableCount(); j++)
+			// Maximum of 3 tokens (max - 1)
+			if (tokens.Count() >= 3)
 			{
-				if (cls.GetVariableName(j) == tokens[i])
-				{
-					variable.AccessorIndices.Insert(j);
-					variable.AccessorTypes.Insert(cls);
-
-					cls = cls.GetVariableType(j);
-
-					success = true;
-
-					break; // break bad
-				}
+				Error("ERROR: " + GetModuleName() + "::RegisterNetSyncVariable('" + name + "') -> Variable depth more than 3, got '" + tokens.Count() + "'");
+				return false;
 			}
 
-			// couldn't find sub variable
-			if (!success) return false;
-		}
+			variable.m_Name = tokens[tokens.Count() - 1];
 
-		variable.Name = tokens[tokens.Count() - 1];
+			int i, j;
 
-		for (int k = 0; k < cls.GetVariableCount(); k++)
-		{
-			if (cls.GetVariableName(k) == variable.Name)
+			// iterate over all tokens to get the sub class for the variable
+			for (i = 0; i < tokens.Count() - 1; i++)
 			{
-				variable.AccessorIndices.Insert(k);
-				variable.AccessorTypes.Insert(cls);
-
-				cls = cls.GetVariableType(k);
-
-				if (type == int)
+				bool success = false;
+				for (j = 0; j < type.GetVariableCount(); j++)
 				{
-					variable.Type = CF_Module_VariableType.INT;
-					m_NetSynchVariables.Insert(variable);
-					return true;
+					if (type.GetVariableName(j) == tokens[i])
+					{
+						type = type.GetVariableType(j);
+
+						variable.m_AccessorIndices[variable.m_Count] = j;
+						variable.m_AccessorTypes[variable.m_Count] = type;
+						variable.m_Count++;
+
+						success = true;
+
+						break;
+					}
 				}
 
-				if (type == float)
+				// couldn't find sub variable
+				if (!success)
 				{
-					variable.Type = CF_Module_VariableType.FLOAT;
-					m_NetSynchVariables.Insert(variable);
-					return true;
+					Error("ERROR: " + GetModuleName() + "::RegisterNetSyncVariable('" + name + "') -> Couldn't find sub variable '" + tokens[i] + "'");
+					return false;
 				}
-
-				if (type == bool)
-				{
-					variable.Type = CF_Module_VariableType.BOOL;
-					m_NetSynchVariables.Insert(variable);
-					return true;
-				}
-
-				break;
 			}
 		}
 
+		for (j = 0; j < type.GetVariableCount(); j++)
+		{
+			if (type.GetVariableName(j) == variable.m_Name)
+			{
+				type = type.GetVariableType(j);
+
+				variable.m_AccessorIndices[variable.m_Count] = j;
+				variable.m_AccessorTypes[variable.m_Count] = type;
+				variable.m_Count++;
+
+				variable.m_Converter = CF_TypeConverters.Create(type);
+
+				if (!variable.m_Converter)
+				{
+					Error("ERROR: " + GetModuleName() + "::RegisterNetSyncVariable('" + name + "') -> TypeConverter not found for type '" + type + "'");
+					return false;
+				}
+
+				m_NetSynchVariables[m_NetSynchVariableCount] = variable;
+				m_NetSynchVariableCount++;
+
+				return true;
+			}
+		}
+
+		Error("ERROR: " + GetModuleName() + "::RegisterNetSyncVariable('" + name + "') -> Couldn't find variable '" + variable.m_Name + "'");
 		return false;
 	}
 
@@ -167,76 +179,64 @@ class JMModuleBase
 	{
 		ScriptRPC rpc = new ScriptRPC();
 
-		for (int i = 0; i < m_NetSynchVariables.Count(); i++)
+		rpc.Write(GetModuleName());
+
+		CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(rpc));
+
+		for (int i = 0; i < m_NetSynchVariableCount; i++)
 		{
 			CF_Module_Variable variable = m_NetSynchVariables[i];
-			Class cls = this;
+			Class instance = this;
+
+			int index = variable.m_Count - 1;
 			
-			for (int j = 0; j < variable.AccessorIndices.Count() - 1; j++)
+			for (int j = 0; j < index; j++)
 			{
-				if (!cls) break;
+				if (!instance) break;
 				
-				variable.AccessorTypes[j].GetVariableValue(cls, variable.AccessorIndices[j], cls);
+				variable.m_AccessorTypes[j].GetVariableValue(instance, variable.m_AccessorIndices[j], instance);
 			}
 
-			if (!cls) break;
-
-			int idx = variable.AccessorIndices.Count() - 1;
-
-			switch (variable.Type)
+			if (instance)
 			{
-				case CF_Module_VariableType.BOOL:
-					bool val_Bool;
-					variable.AccessorTypes[idx].GetVariableValue(cls, variable.AccessorIndices[idx], val_Bool);
-					rpc.Write(val_Bool);
-					break;
-				case CF_Module_VariableType.INT:
-					int val_Int;
-					variable.AccessorTypes[idx].GetVariableValue(cls, variable.AccessorIndices[idx], val_Int);
-					rpc.Write(val_Int);
-					break;
-				case CF_Module_VariableType.FLOAT:
-					float val_Float;
-					variable.AccessorTypes[idx].GetVariableValue(cls, variable.AccessorIndices[idx], val_Float);
-					rpc.Write(val_Float);
-					break;
+				variable.m_Converter.FromTypename(instance, variable.m_AccessorIndices[index]);
 			}
+
+			variable.m_Converter.ToIO(writer);
 		}
+
+		writer.Close();
 
 		rpc.Send(null, JMModuleManager.JM_VARIABLE_UPDATE, true, null);
 	}
 
-	void HandleNetSync(ref ParamsReadContext ctx)
+	void HandleNetSync(ParamsReadContext ctx)
 	{
-		for (int i = 0; i < m_NetSynchVariables.Count(); i++)
+		CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerWriteStream(rpc));
+
+		for (int i = 0; i < m_NetSynchVariableCount; i++)
 		{
 			CF_Module_Variable variable = m_NetSynchVariables[i];
-			Class cls = this;
+			Class instance = this;
+
+			int index = variable.m_Count - 1;
 			
-			for (int j = 0; j < variable.AccessorIndices.Count() - 1; j++)
+			for (int j = 0; j < index; j++)
 			{
-				variable.AccessorTypes[j].GetVariableValue(cls, variable.AccessorIndices[j], cls);
+				if (!instance) break;
+
+				variable.m_AccessorTypes[j].GetVariableValue(instance, variable.m_AccessorIndices[j], instance);
 			}
 
-			switch (variable.Type)
+			variable.m_Converter.FromIO(reader);
+
+			if (instance)
 			{
-				case CF_Module_VariableType.BOOL:
-					bool val_Bool;
-					rpc.Read(val_Bool)
-					EnScript.SetClassVar(cls, variable.Name, 0, val_Bool);
-					break;
-				case CF_Module_VariableType.INT:
-					int val_Int;
-					rpc.Read(val_Int)
-					EnScript.SetClassVar(cls, variable.Name, 0, val_Int);
-					break;
-				case CF_Module_VariableType.FLOAT:
-					float val_Float;
-					rpc.Read(val_Float)
-					EnScript.SetClassVar(cls, variable.Name, 0, val_Float);
-					break;
+				variable.m_Converter.ToVariable(instance, variable.m_Name);
 			}
 		}
+
+		reader.Close();
 
 		OnVariablesSynchronized();
 	}
