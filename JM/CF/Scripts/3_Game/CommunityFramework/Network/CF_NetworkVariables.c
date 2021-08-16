@@ -12,8 +12,8 @@ class CF_NetworkVariable
 class CF_NetworkVariables
 {
 	int m_NetSynchVariableCount;
-	ref CF_Module_NetSynchVariable m_Head;
-	CF_Module_NetSynchVariable m_Tail;
+	ref CF_NetworkVariable m_Head;
+	CF_NetworkVariable m_Tail;
 
 	Class m_Instance;
 
@@ -36,7 +36,7 @@ class CF_NetworkVariables
 			return false;
 		}
 
-		CF_Module_NetSynchVariable variable = new CF_Module_NetSynchVariable();
+		CF_NetworkVariable variable = new CF_NetworkVariable();
 
 		typename type = m_Instance.Type();
 		array<string> tokens();
@@ -129,7 +129,7 @@ class CF_NetworkVariables
 	{
 		CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(ctx));
 
-		CF_Module_NetSynchVariable variable = m_Head;
+		CF_NetworkVariable variable = m_Head;
 		while (variable)
 		{
 			Class instance = m_Instance;
@@ -160,7 +160,7 @@ class CF_NetworkVariables
 	{
 		CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerReadStream(ctx));
 
-		CF_Module_NetSynchVariable variable = m_Head;
+		CF_NetworkVariable variable = m_Head;
 		while (variable)
 		{
 			Class instance = m_Instance;
