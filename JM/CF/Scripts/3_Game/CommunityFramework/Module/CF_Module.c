@@ -1,5 +1,7 @@
-class CF_Module : CF_TimerBase
+class CF_Module : Managed
 {
+	static bool s_PreventInput = false;
+
 	autoptr CF_InputBindings m_CF_Bindings = new CF_InputBindings(this);
 
 	int m_CF_RPC_Minimum;
@@ -26,11 +28,6 @@ class CF_Module : CF_TimerBase
 		EnableUpdate();
 	}
 
-	CF_InputBindings GetBindings() 
-	{
-		return m_CF_Bindings;
-	}
-
 	int GetRPCMin()
 	{
 		return -1;
@@ -52,7 +49,7 @@ class CF_Module : CF_TimerBase
 
 	void EnableUpdate()
 	{
-		Start();
+		CF_Module_Manager.s_Update.Add(this);
 	}
 
 	void EnableMissionStart()
@@ -78,6 +75,16 @@ class CF_Module : CF_TimerBase
 		if (m_CF_RPC_Minimum == -1 || m_CF_RPC_Maximum == -1) return;
 
 		CF_Module_Manager.s_RPC.Add(this);
+	}
+
+	void EnableSettingsChanged()
+	{
+		CF_Module_Manager.s_SettingsChanged.Add(this);
+	}
+
+	void EnablePermissionsChanged()
+	{
+		CF_Module_Manager.s_PermissionsChanged.Add(this);
 	}
 
 	void EnableWorldCleanup()
@@ -121,16 +128,6 @@ class CF_Module : CF_TimerBase
 	}
 
 	// Events
-
-	/**
-	 * @note Automatically registers when 'Bind' is called
-	 */
-	protected override void OnUpdate(float dt)
-	{
-		m_CF_Bindings.Update(dt);
-
-		super.OnUpdate(dt);
-	}
 	
 	void OnMissionStart();
 	
@@ -138,7 +135,19 @@ class CF_Module : CF_TimerBase
 	
 	void OnMissionLoaded();
 
-	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx);
+	/**
+	 * @note Automatically registers when 'Bind' is called
+	 */
+	void OnUpdate(float timeslice)
+	{
+		if (!s_PreventInput) m_CF_Bindings.Update(timeslice);
+	}
+
+	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx);
+
+	void OnSettingsChanged();
+
+	void OnPermissionsChanged();
 
 	/**
 	 * @brief See: WorldCleaupEventTypeID

@@ -7,11 +7,15 @@ class JMModuleBase : CF_WorldModule
 	{
 		super.OnInit();
 
+		RegisterKeyMouseBindings();
+
 		EnableUpdate();
 		EnableMissionStart();
 		EnableMissionFinish();
 		EnableMissionLoaded();
 		EnableRPC();
+		EnableSettingsChanged();
+		EnablePermissionsChanged();
 		EnableWorldCleanup();
 		EnableMPSessionStart();
 		EnableMPSessionPlayerReady();
@@ -30,6 +34,65 @@ class JMModuleBase : CF_WorldModule
 		EnableClientLogout();
 		EnableClientDisconnect();
 		EnableClientLogoutCancelled();
+
+		Init();
+	}
+	
+	void Init()
+	{
+		RegisterKeyMouseBindings();
+	}
+
+	void Toggle()
+	{
+	}
+
+	void PreventInput(bool prevent)
+	{
+	}
+
+	string GetModuleName()
+	{
+		return ClassName();
+	}
+
+	typename GetModuleType()
+	{
+		return Type();
+	}
+
+	bool IsEnabled()
+	{
+		return true;
+	}
+
+	bool IsPreventingInput()
+	{
+		return false;
+	}
+	
+	set<ref JMModuleBinding> GetBindings()
+	{
+		return new set<ref JMModuleBinding>();
+	}
+
+	void OnSettingsUpdated();
+
+	void OnClientPermissionsUpdated();
+
+	override void OnSettingsChanged()
+	{
+		OnSettingsUpdated();
+	}
+
+	override void OnPermissionsChanged()
+	{
+		OnClientPermissionsUpdated();
+	}
+
+	void RegisterKeyMouseBindings() 
+	{
+
 	}
 
 	void RegisterKeyMouseBinding(JMModuleBinding binding) 

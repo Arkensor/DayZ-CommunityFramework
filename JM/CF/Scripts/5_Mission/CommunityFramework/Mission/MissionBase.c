@@ -5,6 +5,14 @@ modded class MissionBase
 		CreateDiscordManager();
 		CreateSteamManager();
 
-		new JMModuleConstructor();
+		if ( !ModuleManagerExists() )
+		{
+			Print( "Creating ModuleManager" );
+
+			CreateModuleManager( new JMModuleConstructor );
+		} else
+		{
+			Print( "Ignoring creation of ModuleManager" );
+		}
 	}
 };

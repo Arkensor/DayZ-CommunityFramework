@@ -1,3 +1,5 @@
+static autoptr CF_Module_Manager g_CF_Module_Manager;
+
 class CF_Module_Manager
 {
 	static ref CF_Module_Manager s_Instance = new CF_Module_Manager();
@@ -7,7 +9,10 @@ class CF_Module_Manager
 	static ref CF_Module_Event s_MissionStart = new CF_Module_Event();
 	static ref CF_Module_Event s_MissionFinish = new CF_Module_Event();
 	static ref CF_Module_Event s_MissionLoaded = new CF_Module_Event();
+	static ref CF_Module_Event s_Update = new CF_Module_Event();
 	static ref CF_Module_Event s_RPC = new CF_Module_Event();
+	static ref CF_Module_Event s_SettingsChanged = new CF_Module_Event();
+	static ref CF_Module_Event s_PermissionsChanged = new CF_Module_Event();
 	static ref CF_Module_Event s_WorldCleanup = new CF_Module_Event();
 	static ref CF_Module_Event s_MPSessionStart = new CF_Module_Event();
 	static ref CF_Module_Event s_MPSessionPlayerReady = new CF_Module_Event();
@@ -16,6 +21,18 @@ class CF_Module_Manager
 	static ref CF_Module_Event s_MPConnectAbort = new CF_Module_Event();
 	static ref CF_Module_Event s_MPConnectionLost = new CF_Module_Event();
 	static ref CF_Module_Event s_Respawn = new CF_Module_Event();
+
+	static ref CF_Timer s_Timer;
+
+	private void CF_Module_Manager()
+	{
+		s_Timer = CF_Timer.Create(this, "Update");
+	}
+
+	void Update(CF_TimerBase timer, float timeslice)
+	{
+		s_Update.OnUpdate(timeslice);
+	}
 
 	/**
 	 * Load all modules on game start-up. Once registered a module can't be removed.
@@ -68,6 +85,16 @@ class CF_Module_Manager
 		s_RPC.OnRPC(sender, target, rpc_type, ctx);
 	}
 
+	static void OnSettingsChanged()
+	{
+		s_SettingsChanged.OnSettingsChanged();
+	}
+
+	static void OnPermissionsChanged()
+	{
+		s_PermissionsChanged.OnPermissionsChanged();
+	}
+
 	static void OnWorldCleanup()
 	{
 		s_WorldCleanup.OnWorldCleanup();
@@ -108,8 +135,3 @@ class CF_Module_Manager
 		s_Respawn.OnRespawn(time);
 	}
 };
-
-static CF_Module_Manager GetModuleManager()
-{
-	return CF_Module_Manager.s_Instance;
-}
