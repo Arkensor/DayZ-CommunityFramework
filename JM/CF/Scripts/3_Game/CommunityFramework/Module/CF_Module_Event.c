@@ -56,6 +56,16 @@ class CF_Module_Event
 		}
 	}
 
+	void OnUpdate(float timeslice)
+	{
+		CF_Module_Event evt = this.m_Next;
+		while (evt)
+		{
+			evt.m_Value.OnUpdate(timeslice);
+			evt = evt.m_Next;
+		}
+	}
+
 	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
 	{
 		CF_Module_Event evt = this.m_Next;
@@ -69,6 +79,26 @@ class CF_Module_Event
 				break;
 			}
 
+			evt = evt.m_Next;
+		}
+	}
+
+	void OnSettingsChanged()
+	{
+		CF_Module_Event evt = this.m_Next;
+		while (evt)
+		{
+			evt.m_Value.OnSettingsChanged();
+			evt = evt.m_Next;
+		}
+	}
+
+	void OnPermissionsChanged()
+	{
+		CF_Module_Event evt = this.m_Next;
+		while (evt)
+		{
+			evt.m_Value.OnPermissionsChanged();
 			evt = evt.m_Next;
 		}
 	}
