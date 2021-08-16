@@ -1,4 +1,6 @@
-class JMDate : Managed
+typedef CF_Date JMDate; // Compatability with a variety of mods.
+
+class CF_Date : Managed
 {
     // TODO: Stringtable
     static const string MONTHS_FULL_NAME[12] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
@@ -14,13 +16,13 @@ class JMDate : Managed
     private int m_Minute;
     private int m_Second;
 
-    private void JMDate()
+    private void CF_Date()
     {
     }
 
-    static JMDate Now( bool useUTC )
+    static CF_Date Now( bool useUTC = false )
     {
-        ref JMDate date = new JMDate();
+        CF_Date date = new CF_Date();
         date.m_UseUTC = useUTC;
 
         if ( date.m_UseUTC )
@@ -36,21 +38,25 @@ class JMDate : Managed
         return date;
     }
 
-	static JMDate Epoch( int timestamp )
+	static CF_Date Epoch( int timestamp )
 	{
-        ref JMDate date = new JMDate();
+        CF_Date date = new CF_Date();
         date.m_UseUTC = false;
 
-		int iTimestamp;
-        iTimestamp = TimestampCalculYear( timestamp, date.m_Year );
-        iTimestamp = TimestampCalculMonth( iTimestamp, timestamp, date.m_Year, date.m_Month );
-        iTimestamp = TimestampCalculDays( iTimestamp, timestamp, date.m_Day );
-        iTimestamp = TimestampCalculHours( iTimestamp, timestamp, date.m_Hour );
-        iTimestamp = TimestampCalculMinutes( iTimestamp, timestamp, date.m_Minute );
-        iTimestamp = TimestampCalculSeconds( iTimestamp, timestamp, date.m_Second );
+        date.EpochToDate( timestamp );
 
         return date;
 	}
+
+    static CF_Date FromString( string format, bool useUTC = false )
+    {
+        CF_Date date = new CF_Date();
+        date.m_UseUTC = useUTC;
+
+        date.StringToDate(format);
+
+        return date;
+    }
 
     /** Utils */
     static bool IsLeapYear( int year )
@@ -246,8 +252,29 @@ class JMDate : Managed
         return iTimestamp;
     }
 
+    void EpochToDate(int value)
+    {
+		int iTimestamp;
+        iTimestamp = TimestampCalculYear( value, m_Year );
+        iTimestamp = TimestampCalculMonth( iTimestamp, value, m_Year, m_Month );
+        iTimestamp = TimestampCalculDays( iTimestamp, value, m_Day );
+        iTimestamp = TimestampCalculHours( iTimestamp, value, m_Hour );
+        iTimestamp = TimestampCalculMinutes( iTimestamp, value, m_Minute );
+        iTimestamp = TimestampCalculSeconds( iTimestamp, value, m_Second );
+    }
+
+    int DateToEpoch()
+    {
+        return Timestamp(m_Year, m_Month, m_Day, m_Hour, m_Minute, m_Second);
+    }
+
+    void StringToDate(string value)
+    {
+
+    }
+
 	/**
-	*	@return {string} JMDate with format: "month day, year hours:minutes:seconds"
+	*	@return {string} CF_Date with format: "month day, year hours:minutes:seconds"
 	*
 	*	Note:
 	*		0 in front of numbers are not includes.
@@ -261,6 +288,11 @@ class JMDate : Managed
 		dateToString += " " + m_Hour + ":" + m_Minute + ":" + m_Second;
 		return dateToString;
 	}
+
+    string ToStr()
+    {
+        return DateToString();
+    }
 
     // Supply a format such as "YYYY-MM-DD hh:mm:ss"
     string ToString( string format )
