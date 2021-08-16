@@ -19,4 +19,14 @@ class CF_TypeConverterVector : CF_TypeConverterT<vector>
 	{
 		return "" + m_Value;
 	}
+
+	override void ToIO(CF_IO io)
+	{
+		io.WriteVector(m_Value);
+	}
+
+	override void FromIO(CF_IO io)
+	{
+		m_Value = io.ReadVector();
+	}
 };

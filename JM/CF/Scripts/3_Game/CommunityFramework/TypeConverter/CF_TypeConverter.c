@@ -78,6 +78,16 @@ class CF_TypeConverter : Managed
 		return "" + this;
 	}
 
+	void ToIO(CF_IO io)
+	{
+
+	}
+
+	void FromIO(CF_IO io)
+	{
+		
+	}
+
 	void FromVariable(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
