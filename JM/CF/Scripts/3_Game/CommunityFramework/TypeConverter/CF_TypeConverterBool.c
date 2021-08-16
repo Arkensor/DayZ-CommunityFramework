@@ -48,4 +48,14 @@ class CF_TypeConverterBool : CF_TypeConverterT<bool>
 	{
 		return "" + m_Value;
 	}
+
+	override void ToIO(CF_IO io)
+	{
+		io.WriteBool(m_Value);
+	}
+
+	override void FromIO(CF_IO io)
+	{
+		m_Value = io.ReadBool();
+	}
 };
