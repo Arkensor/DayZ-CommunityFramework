@@ -19,7 +19,9 @@ class CommunityFramework
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
 
+	#ifdef CF_MODULE_PERMISSIONS
 	static ref CF_Permission_ManagerBase Permission;
+	#endif
 
     /**
      * @brief [Internal] CommunityFramework initilization for 3_Game
@@ -37,7 +39,9 @@ class CommunityFramework
      */
 	static void _WorldInit()
 	{
+		#ifdef CF_MODULE_PERMISSIONS
 		CF_Permission_ManagerBase._Init( Permission );
+		#endif
 	}
 
     /**
@@ -60,7 +64,9 @@ class CommunityFramework
         ObjectManager._Cleanup();
 		XML._Cleanup();
 
+		#ifdef CF_MODULE_PERMISSIONS
 		Permission._Cleanup();
+		#endif
     }
 };
 

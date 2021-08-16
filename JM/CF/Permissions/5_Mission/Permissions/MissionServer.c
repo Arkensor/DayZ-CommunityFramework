@@ -1,3 +1,0 @@
-modded class MissionServer
-{
-};

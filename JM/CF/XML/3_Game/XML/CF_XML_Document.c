@@ -6,6 +6,17 @@ class CF_XML_Document : CF_XML_Element
 
 	private ref CF_XML_Reader _reader;
 
+	private autoptr map<string, string> _entities = new map<string, string>();
+
+	void CF_XML_Document(ref CF_XML_Tag parent = NULL)
+	{
+		_entities.Insert("&quot;", "\"");
+		_entities.Insert("&amp;", "&");
+		_entities.Insert("&apos;", "\'");
+		_entities.Insert("&lt;", "<");
+		_entities.Insert("&gt;", ">");
+	}
+
 	override ref CF_XML_Tag CreateTag(string name)
 	{
 		if (_currentTag)
@@ -36,7 +47,7 @@ class CF_XML_Document : CF_XML_Element
 	{
 		if (!_currentTag)
 		{
-			Error("Attempting to read attribute when not in tag!");
+			_reader.Err("Attempting to read attribute when not in tag!");
 			return false;
 		}
 
@@ -47,7 +58,7 @@ class CF_XML_Document : CF_XML_Element
 
 		if (eq != "=")
 		{
-			Error("Expected '=' for attribute, got: " + eq);
+			_reader.Err("Expected '=' for attribute, got: " + eq);
 			return false;
 		}
 
@@ -84,13 +95,13 @@ class CF_XML_Document : CF_XML_Element
 
 				if (_currentTag == NULL)
 				{
-					Error("Unexpected closing tag: " + tagName);
+					_reader.Err("Unexpected closing tag: " + tagName);
 				}
 
 				c = _reader.GetCharacter();
 				if (c != ">")
 				{
-					Error("Expected '>' for closing tag, got: " + c);
+					_reader.Err("Expected '>' for closing tag, got: " + c);
 				}
 
 				PopTag();
@@ -118,21 +129,72 @@ class CF_XML_Document : CF_XML_Element
 
 			if (c == "/" || c == "?")
 			{
-				string expected = c;
 				c = _reader.GetCharacter();
 				if (c != ">")
 				{
-					Error("Expected '" + expected + "' for inline closing tag, got: " + c);
+					_reader.Err("Expected '>' for inline closing tag, got: " + c);
 				}
 
 				PopTag();
 			}
 			else if (c == ">")
 			{
+				c = _reader.SkipWhitespace();
+				if (c == "<")
+				{
+					c = _reader.BackChar();
+					return true;
+				}
+
+				string content = c;
+
+				while (true)
+				{
+					bool wasNewLine = _reader.WasNewLine();
+					if (wasNewLine) c = _reader.SkipWhitespace();
+					else c = _reader.GetCharacter();
+
+					if (c != "<")
+					{
+						if (wasNewLine) content += "\n";
+						content += c;
+						continue;
+					}
+					
+					c = _reader.GetCharacter();
+					if (c != "/")
+					{
+						_reader.Err("Expected '/' for inline closing tag, got: " + c);
+					}
+
+					tagName = _reader.GetWord();
+					
+					if (tagName != _currentTag.GetName())
+					{
+						_reader.Err("Unexpected closing tag: " + tagName);
+					}
+				
+					break;
+				}
+
+				foreach (string ent_key, string ent_val : _entities)
+					content.Replace(ent_key, ent_val);
+
+				_currentTag.GetContent().SetContent(content);
+
+				c = _reader.GetCharacter();
+				if (c != ">")
+				{
+					_reader.Err("Expected '>' for closing tag, got: " + c);
+				}
+
+				PopTag();
+
+				return true;
 			}
 			else
 			{
-				Error("Expected '>' for opening element within tag, got: " + c);
+				_reader.Err("Expected '>' for opening element within tag, got: " + c);
 			}
 
 			return true;

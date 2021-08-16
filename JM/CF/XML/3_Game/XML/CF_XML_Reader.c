@@ -5,6 +5,8 @@ class CF_XML_Reader : Managed
 	private int _arrIdx = 0;
 	private int _bufIdx = -1;
 
+	private bool _wasNewLine;
+
 	private ref array<string> _lines;
 
 	void CF_XML_Reader()
@@ -16,6 +18,23 @@ class CF_XML_Reader : Managed
 	{
 		delete _lines;
 	}
+	
+	void GetPosition(out int arrIdx, out int bufIdx)
+	{
+		arrIdx = _arrIdx;
+		bufIdx = _bufIdx;
+	}
+	
+	void SetPosition(out int arrIdx, out int bufIdx)
+	{
+		_arrIdx = arrIdx;
+		_bufIdx = bufIdx;
+	}
+
+	void Err(string message)
+	{
+		Error("[" + (_arrIdx + 1 )+ ":" + _bufIdx + "] " + message);
+	}
 
 	void AddLine(string line)
 	{
@@ -23,8 +42,15 @@ class CF_XML_Reader : Managed
 			_lines.Insert(line);
 	}
 
+	bool WasNewLine()
+	{
+		return _wasNewLine;
+	}
+
 	string BackChar()
 	{
+		_wasNewLine = false;
+
 		_bufIdx--;
 		if (_bufIdx < 0)
 		{
@@ -38,11 +64,15 @@ class CF_XML_Reader : Managed
 			_bufIdx = _lines[_arrIdx].Length() - 1;
 		}
 
-		return _lines[_arrIdx].Substring(_bufIdx, 1);
+		if (_bufIdx == 0) _wasNewLine = true;
+
+		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
 	}
 
 	private string ReadChar()
 	{
+		_wasNewLine = false;
+
 		_bufIdx++;
 
 		if (_bufIdx >= _lines[_arrIdx].Length())
@@ -51,13 +81,15 @@ class CF_XML_Reader : Managed
 
 			_arrIdx++;
 
+			_wasNewLine = true;
+
 			if (_arrIdx >= _lines.Count())
 			{
 				return "";
 			}
 		}
 
-		return _lines[_arrIdx].Substring(_bufIdx, 1);
+		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
 	}
 
 	bool EOF()
@@ -173,6 +205,9 @@ class CF_XML_Reader : Managed
 	bool IsLetterOrDigit(string c, bool isQuoted)
 	{
 		int i = c.Hash();
+		if (i >= 255 || i < 0) //! To my dear @DaOne, please don't use UTF-8 characters :)
+			return true;
+
 		if (i < 32)
 			return false;
 
