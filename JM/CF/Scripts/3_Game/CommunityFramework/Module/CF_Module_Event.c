@@ -31,7 +31,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMissionStart();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMissionStart();
 			evt = evt.m_Next;
 		}
 	}
@@ -41,7 +42,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMissionFinish();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMissionFinish();
 			evt = evt.m_Next;
 		}
 	}
@@ -51,7 +53,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMissionLoaded();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMissionLoaded();
 			evt = evt.m_Next;
 		}
 	}
@@ -61,7 +64,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnUpdate(timeslice);
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnUpdate(timeslice);
 			evt = evt.m_Next;
 		}
 	}
@@ -73,7 +77,7 @@ class CF_Module_Event
 		{
 			CF_Module module = evt.m_Value;
 
-			if (rpc_type >= module.m_CF_RPC_Minimum && rpc_type < module.m_CF_RPC_Minimum)
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0 && rpc_type >= module.m_CF_RPC_Minimum && rpc_type < module.m_CF_RPC_Minimum)
 			{
 				module.OnRPC(sender, target, rpc_type, ctx);
 				break;
@@ -88,7 +92,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnSettingsChanged();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnSettingsChanged();
 			evt = evt.m_Next;
 		}
 	}
@@ -98,7 +103,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnPermissionsChanged();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnPermissionsChanged();
 			evt = evt.m_Next;
 		}
 	}
@@ -108,7 +114,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnWorldCleanup();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnWorldCleanup();
 			evt = evt.m_Next;
 		}
 	}
@@ -118,7 +125,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMPSessionStart();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionStart();
 			evt = evt.m_Next;
 		}
 	}
@@ -128,7 +136,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMPSessionPlayerReady();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionPlayerReady();
 			evt = evt.m_Next;
 		}
 	}
@@ -138,7 +147,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMPSessionFail();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionFail();
 			evt = evt.m_Next;
 		}
 	}
@@ -148,7 +158,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMPSessionEnd();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionEnd();
 			evt = evt.m_Next;
 		}
 	}
@@ -158,7 +169,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMPConnectAbort();
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPConnectAbort();
 			evt = evt.m_Next;
 		}
 	}
@@ -168,7 +180,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnMPConnectionLost(duration);
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPConnectionLost(duration);
 			evt = evt.m_Next;
 		}
 	}
@@ -178,7 +191,8 @@ class CF_Module_Event
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
-			evt.m_Value.OnRespawn(time);
+			CF_Module module = evt.m_Value;
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnRespawn(time);
 			evt = evt.m_Next;
 		}
 	}
