@@ -102,7 +102,7 @@ class JMModuleBase
 
 	void HandleNetSync(ParamsReadContext ctx)
 	{
-		m_NetworkVariables.Read(rpc);
+		m_NetworkVariables.Read(ctx);
 
 		OnVariablesSynchronized();
 	}
