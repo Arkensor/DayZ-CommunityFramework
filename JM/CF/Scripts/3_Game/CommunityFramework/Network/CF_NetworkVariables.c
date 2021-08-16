@@ -11,7 +11,10 @@ class CF_NetworkVariable
 
 class CF_NetworkVariables
 {
-	int m_NetSynchVariableCount;
+	static int MAX_COUNT = 256;
+
+	int m_Count;
+
 	ref CF_NetworkVariable m_Head;
 	CF_NetworkVariable m_Tail;
 
@@ -30,9 +33,9 @@ class CF_NetworkVariables
 	bool Register(string name)
 	{
 		// hard limit, no point attempting to sync more variables
-		if (m_NetSynchVariableCount >= 256)
+		if (m_Count >= MAX_COUNT)
 		{
-			Error(ErrorPrefix() + "Register('" + name + "') -> More than 256 variables registered, got '" + m_NetSynchVariableCount + "'");
+			Error(ErrorPrefix() + "Register('" + name + "') -> More than " + MAX_COUNT + " variables registered, got '" + m_Count + "'");
 			return false;
 		}
 
@@ -115,7 +118,7 @@ class CF_NetworkVariables
 					m_Tail = variable;
 				}
 
-				m_NetSynchVariableCount++;
+				m_Count++;
 
 				return true;
 			}
