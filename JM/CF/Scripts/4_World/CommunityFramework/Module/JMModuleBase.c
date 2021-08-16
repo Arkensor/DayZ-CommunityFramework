@@ -188,6 +188,11 @@ class JMModuleBase
 		return false;
 	}
 
+	/**
+	 * TODO: after module system rewrite to make use of Timers, SetSynchDirty will 
+	 * 		 set a flag and the synching will happen in 'OnUpdate' if the flag is
+	 * 		 true, then resetting the flag.
+	 */
 	void SetSynchDirty()
 	{
 		ScriptRPC rpc = new ScriptRPC();
