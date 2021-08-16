@@ -1,0 +1,11 @@
+enum CF_LogLevel
+{
+	ERROR	= 0x000001,
+	WARNING	= 0x000010,
+	INFO 	= 0x000100,
+	DEBUG	= 0x001000,
+	TRACE	= 0x010000,
+
+	NONE	= 0,
+	ALL		= 0x011111,
+};
