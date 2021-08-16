@@ -139,13 +139,10 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 
 		if (variableType.IsInherited(Class))
 		{
-			string variableTypeStr = variableType.ToString();
-			int idx = variableTypeStr.IndexOf("<");
-			if (idx != -1) return false;
-
+			//string variableTypeStr = variableType.ToString();
+			//int idx = variableTypeStr.IndexOf("<");
+			//if (idx != -1) return false;
 			return false;
-			
-			//FromVariable(instance, variableName);
 		}
 		else
 		{
