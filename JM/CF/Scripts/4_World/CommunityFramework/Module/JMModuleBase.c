@@ -1,5 +1,7 @@
-class CF_Module_Variable
+class CF_Module_NetSynchVariable
 {
+	ref CF_Module_NetSynchVariable m_Next;
+
 	string m_Name;
 	int m_Count; // max 4
 	int m_AccessorIndices[4];
@@ -14,7 +16,8 @@ class JMModuleBase
 	protected ref set< ref JMModuleBinding > m_Bindings;
 
 	protected int m_NetSynchVariableCount;
-	protected ref CF_Module_Variable[256] m_NetSynchVariables;
+	protected ref CF_Module_NetSynchVariable m_NetSynchVariables;
+	protected CF_Module_NetSynchVariable m_NetSynchVariablesTail;
 	
 	void JMModuleBase()
 	{
@@ -96,7 +99,7 @@ class JMModuleBase
 			return false;
 		}
 
-		CF_Module_Variable variable = new CF_Module_Variable();
+		CF_Module_NetSynchVariable variable = new CF_Module_NetSynchVariable();
 
 		typename type = this.Type();
 		array<string> tokens();
@@ -164,7 +167,17 @@ class JMModuleBase
 					return false;
 				}
 
-				m_NetSynchVariables[m_NetSynchVariableCount] = variable;
+				if (m_NetSynchVariablesTail)
+				{
+					m_NetSynchVariablesTail.m_Next = variable;
+					m_NetSynchVariablesTail = variable;
+				}
+				else
+				{
+					m_NetSynchVariables = variable;
+					m_NetSynchVariablesTail = variable;
+				}
+
 				m_NetSynchVariableCount++;
 
 				return true;
@@ -183,9 +196,9 @@ class JMModuleBase
 
 		CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(rpc));
 
-		for (int i = 0; i < m_NetSynchVariableCount; i++)
+		CF_Module_NetSynchVariable variable = m_NetSynchVariables;
+		while (variable)
 		{
-			CF_Module_Variable variable = m_NetSynchVariables[i];
 			Class instance = this;
 
 			int index = variable.m_Count - 1;
@@ -203,6 +216,8 @@ class JMModuleBase
 			}
 
 			variable.m_Converter.ToIO(writer);
+
+			variable = variable.m_Next;
 		}
 
 		writer.Close();
@@ -214,14 +229,12 @@ class JMModuleBase
 	{
 		CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerWriteStream(rpc));
 
-		for (int i = 0; i < m_NetSynchVariableCount; i++)
+		CF_Module_NetSynchVariable variable = m_NetSynchVariables;
+		while (variable)
 		{
-			CF_Module_Variable variable = m_NetSynchVariables[i];
 			Class instance = this;
-
-			int index = variable.m_Count - 1;
 			
-			for (int j = 0; j < index; j++)
+			for (int j = 0; j < variable.m_Count - 1; j++)
 			{
 				if (!instance) break;
 
@@ -234,6 +247,8 @@ class JMModuleBase
 			{
 				variable.m_Converter.ToVariable(instance, variable.m_Name);
 			}
+
+			variable = variable.m_Next;
 		}
 
 		reader.Close();
