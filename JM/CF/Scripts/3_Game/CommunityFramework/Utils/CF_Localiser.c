@@ -24,7 +24,7 @@ class CF_Localiser
 		Set(8, param9);
 	}
 
-	static bool Write(ParamsWriteContext ctx, CF_Localiser localiser)
+	static void Write(ParamsWriteContext ctx, CF_Localiser localiser)
 	{
 		ctx.Write(localiser.m_Count);
 
