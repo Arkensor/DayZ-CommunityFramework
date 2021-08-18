@@ -16,6 +16,14 @@ class CF_BinaryReader : CF_IO
 		return m_Stream.Next() != 0;
 	}
 
+	override int ReadShort()
+	{
+		int b1 = m_Stream.Next();
+		int b0 = m_Stream.Next();
+		
+		return ((b1 & 0x000000FF) << 8) + (b0);
+	}
+
 	override int ReadInt()
 	{
 		int b3 = m_Stream.Next();

@@ -44,6 +44,14 @@ class CF_IO : Managed
 	}
 
 	/**
+	 * Write a short int
+	 */
+	void WriteShort(int value)
+	{
+		/*CF.Log.*/Error("Not implemented.");
+	}
+
+	/**
 	 * Write an int
 	 */
 	void WriteInt(int value)
@@ -116,6 +124,15 @@ class CF_IO : Managed
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return false;
+	}
+
+	/**
+	 * Read a short int
+	 */
+	int ReadShort()
+	{
+		/*CF.Log.*/Error("Not implemented.");
+		return 0;
 	}
 
 	/**

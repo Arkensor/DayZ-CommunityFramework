@@ -15,12 +15,18 @@ class CF_BinaryWriter : CF_IO
 		m_Stream.AppendCurrent(value != 0);
 	}
 
+	override void WriteShort(int value)
+	{
+		m_Stream.AppendCurrent((value      ) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 8 ) & 0x000000FF);
+	}
+
 	override void WriteInt(int value)
 	{
-		m_Stream.AppendCurrent((value >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((value >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((value >> 8 ) & 0x000000FF);
 		m_Stream.AppendCurrent((value      ) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((value >> 24) & 0x000000FF);
 	}
 
 	override void WriteFloat(float value)
@@ -29,10 +35,10 @@ class CF_BinaryWriter : CF_IO
 		int dst[1];
 		copyarray(dst, src);
 		
-		m_Stream.AppendCurrent((dst[0] >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((dst[0] >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((dst[0] >> 8 ) & 0x000000FF);
 		m_Stream.AppendCurrent((dst[0]      ) & 0x000000FF);
+		m_Stream.AppendCurrent((dst[0] >> 8 ) & 0x000000FF);
+		m_Stream.AppendCurrent((dst[0] >> 16) & 0x000000FF);
+		m_Stream.AppendCurrent((dst[0] >> 24) & 0x000000FF);
 	}
 
 	override void WriteVector(vector value)
