@@ -212,6 +212,18 @@ class CF_Stream
 		m_Position = tuple.param2;
 	}
 
+	void SetPositionAtStart()
+	{
+		m_Current = null;
+		m_Position = -1;
+	}
+
+	void SetPositionAtEnd()
+	{
+		m_Current = m_Tail;
+		m_Position = m_Size - 1;
+	}
+
 	void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
 		int newPosition;

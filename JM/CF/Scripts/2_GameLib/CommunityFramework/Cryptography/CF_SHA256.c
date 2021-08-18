@@ -25,6 +25,11 @@ class CF_SHA256
 	
 	static void Process(CF_IO input, CF_Stream output)
 	{
+		if (!input) return;
+		if (!input.m_Stream) return;
+
+		input.m_Stream.SetPositionAtStart();
+
 		s_DataLength = 0;
 		s_BitLen[0] = 0;
 		s_BitLen[1] = 0;

@@ -1,3 +1,7 @@
+/**
+ * Storing bytes in a forward doubly linked list.
+ * This gives both fast reading and an unlimited size of bytes
+ */
 class CF_PackedByte
 {
 	ref CF_PackedByte m_Next;
