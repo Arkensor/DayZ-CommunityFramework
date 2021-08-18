@@ -28,6 +28,14 @@ class CF_Trace
 		return "" + instance;
 	}
 
+	static string FormatStack(string instance, string stack)
+	{
+		string res;
+		res = instance;
+		if (stack != string.Empty) res = instance + "::" + stack;
+		return res;
+	}
+
 	void CF_Trace(string instanceName, string stackName, int count)
 	{
 		m_InstanceName = instanceName;
@@ -44,7 +52,7 @@ class CF_Trace
 
 		m_Ticks = TickCount(m_Ticks);
 
-		CF_Log.Trace("%1-%2::%3 Time: %4ms", Depth(), m_InstanceName, m_StackName, (m_Ticks / 10000.0).ToString());
+		CF_Log.Trace("%1-%2 Time: %3ms", Depth(), FormatStack(m_InstanceName, m_StackName), (m_Ticks / 10000.0).ToString());
 	}
 
 	CF_Trace Output()
@@ -60,7 +68,7 @@ class CF_Trace
 
 		if (m_Count > 0) params += m_Strings[m_Count - 1];
 
-		CF_Log.Trace("%1+%2::%3 (%4)", Depth(), m_InstanceName, m_StackName, params);
+		CF_Log.Trace("%1+%2 (%3)", Depth(), FormatStack(m_InstanceName, m_StackName), params);
 
 		s_TraceDepth += " ";
 		
@@ -151,9 +159,9 @@ class CF_Trace
 	}
 };
 
-static CF_Trace CF_Trace(Class instance, string stackName)
+static CF_Trace CF_Trace_Instance(Class instance)
 {
-	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, -1);
+	return new CF_Trace(CF_Trace.FormatInstance(instance), string.Empty, 0);
 }
 
 static CF_Trace CF_Trace_0(Class instance, string stackName)
@@ -206,11 +214,6 @@ static CF_Trace CF_Trace_9(Class instance, string stackName)
 	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 9);
 }
 
-static CF_Trace CF_Trace(string instance, string stackName)
-{
-	return new CF_Trace(instance, stackName, -1);
-}
-
 static CF_Trace CF_Trace_0(string instance, string stackName)
 {
 	return new CF_Trace(instance, stackName, 0);
@@ -261,11 +264,6 @@ static CF_Trace CF_Trace_9(string instance, string stackName)
 	return new CF_Trace(instance, stackName, 9);
 }
 
-static CF_Trace CF_Trace(string stackName)
-{
-	return new CF_Trace("", stackName, -1);
-}
-
 static CF_Trace CF_Trace_0(string stackName)
 {
 	return new CF_Trace("", stackName, 0);
@@ -314,4 +312,41 @@ static CF_Trace CF_Trace_8(string stackName)
 static CF_Trace CF_Trace_9(string stackName)
 {
 	return new CF_Trace("", stackName, 9);
+}
+
+void FunctionOne()
+{
+	auto trace = CF_Trace_0("FunctionOne");
+	
+	SomeClass someClass = new SomeClass();
+	someClass.MethodOne(0.5);
+}
+
+class SomeClass
+{
+	ref CF_Trace m_InstanceTrace = CF_Trace_Instance(this);
+	
+	void SomeClass()
+	{
+		auto trace = CF_Trace_0(this, "SomeClass");
+	}
+	
+	void MethodOne(float pDt)
+	{
+		auto trace = CF_Trace_1(this, "SomeFunction").Add(pDt);
+
+		Human player = GetGame().GetPlayer();
+		MethodTwo(player, player.GetParent());
+	}
+
+	void MethodTwo(Human player, IEntity parent)
+	{
+		auto trace = CF_Trace_2(this, "SomeFunction").Add(player).Add(parent);
+		MethodThree();
+	}
+
+	void MethodThree()
+	{
+		auto trace = CF_Trace_0(this, "MethodThree");
+	}
 }
