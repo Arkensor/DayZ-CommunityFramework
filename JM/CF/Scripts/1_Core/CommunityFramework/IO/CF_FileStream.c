@@ -16,6 +16,8 @@ class CF_FileStream : CF_Stream
 
 		m_FileHandle = OpenFile(m_Path, m_Mode);
 
+		m_IsOpen = m_FileHandle != 0;
+
 		ReadData(false);
 	}
 
@@ -139,12 +141,12 @@ class CF_FileStream : CF_Stream
 	
 	override void Close()
 	{
-		if (m_FileHandle != 0)
-		{
-			super.Close();
+		super.Close();
+
+		if (!IsValid())
+			return;
 			
-			CloseFile(m_FileHandle);
-		}
+		CloseFile(m_FileHandle);
 	}
 
 	protected int Next_AsInt()

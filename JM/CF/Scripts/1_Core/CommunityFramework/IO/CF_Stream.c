@@ -7,6 +7,8 @@ class CF_Stream
 	
 	int m_Size;
 	int m_Position;
+
+	bool m_IsOpen;
 	
 	void ~CF_Stream()
 	{
@@ -15,7 +17,7 @@ class CF_Stream
 
 	bool IsValid()
 	{
-		return true;
+		return m_IsOpen;
 	}
 
 	void Append(CF_Byte byte = 0)
@@ -313,7 +315,12 @@ class CF_Stream
 	
 	void Close()
 	{
+		if (!m_IsOpen)
+			return;
+
 		Flush();
+
+		m_IsOpen = true;
 	}
 	
 	#ifdef DAYZ_1_14
