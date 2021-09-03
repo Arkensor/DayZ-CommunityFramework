@@ -316,7 +316,11 @@ class CF_Stream
 		Flush();
 	}
 	
-	string ToStr()
+	#ifdef DAYZ_1_14
+	override string GetDebugName()
+	#else
+	string GetDebugName()
+	#endif
 	{
 		string str = "[" + m_Size + "] 0x";
 		

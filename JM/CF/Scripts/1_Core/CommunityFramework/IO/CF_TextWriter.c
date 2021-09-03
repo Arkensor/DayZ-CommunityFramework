@@ -1,5 +1,15 @@
 class CF_TextWriter : CF_IO
 {
+	override bool IsRead()
+	{
+		return false;
+	}
+
+	override bool IsWrite()
+	{
+		return true;
+	}
+
 	override void WriteByte(CF_Byte value)
 	{
 		m_Stream.AppendCurrent(value);

@@ -74,7 +74,11 @@ class CF_StringStream : CF_Stream
 		m_Dirty = true;
 	}
 
-	string ToStr()
+	#ifdef DAYZ_1_14
+	override string GetDebugName()
+	#else
+	string GetDebugName()
+	#endif
 	{
 		UpdateDirty();
 

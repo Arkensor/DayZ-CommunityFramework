@@ -1,6 +1,6 @@
 # Cryptography
 
-A variety of cryptography functions may be added to Community Framework in the future.
+A variety of cryptography functions will be added to Community Framework in the future. 
 
 ## SHA-256
 

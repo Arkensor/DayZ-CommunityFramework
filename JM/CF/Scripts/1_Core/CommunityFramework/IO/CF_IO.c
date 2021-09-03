@@ -19,6 +19,16 @@ class CF_IO : Managed
 		return m_Stream.IsValid();
 	}
 
+	bool IsRead()
+	{
+		return false;
+	}
+
+	bool IsWrite()
+	{
+		return false;
+	}
+
 	/**
 	 * Write a byte
 	 */
