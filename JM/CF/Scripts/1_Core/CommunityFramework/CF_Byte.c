@@ -12,12 +12,8 @@ class CF_Byte : CF_Uint
 {
 	CF_Byte Clamp()
 	{
-		CF_Byte old_byte = value;
+		CF_Byte oldByte = value;
 		value = value & 255;
-		if (value != old_byte)
-		{
-			Error("byte overflow");
-		}
 		return value;
 	}
 
@@ -55,13 +51,6 @@ class CF_Byte : CF_Uint
 		int n1 = value % 16;
 
 		return CF_Encoding.BASE_16[n0] + CF_Encoding.BASE_16[n1];
-	}
-
-	override CF_Uint ^(CF_Uint y)
-	{
-		CF_Byte b = super.^(y);
-		b.Clamp();
-		return b;
 	}
 
 	override CF_Uint XOR(CF_Uint y)

@@ -19,6 +19,16 @@ class CF_IO : Managed
 		return m_Stream.IsValid();
 	}
 
+	bool IsRead()
+	{
+		return false;
+	}
+
+	bool IsWrite()
+	{
+		return false;
+	}
+
 	/**
 	 * Write a byte
 	 */
@@ -39,6 +49,14 @@ class CF_IO : Managed
 	 * Write a bool
 	 */
 	void WriteBool(bool value)
+	{
+		/*CF.Log.*/Error("Not implemented.");
+	}
+
+	/**
+	 * Write a short int
+	 */
+	void WriteShort(int value)
 	{
 		/*CF.Log.*/Error("Not implemented.");
 	}
@@ -116,6 +134,15 @@ class CF_IO : Managed
 	{
 		/*CF.Log.*/Error("Not implemented.");
 		return false;
+	}
+
+	/**
+	 * Read a short int
+	 */
+	int ReadShort()
+	{
+		/*CF.Log.*/Error("Not implemented.");
+		return 0;
 	}
 
 	/**
