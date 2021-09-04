@@ -1,4 +1,5 @@
 //WARNING: DO NOT RUN IN-GAME, THIS WILL BREAK ALL CURRENTLY RUNNING TIMERS
+/*
 class CF_TimerBenchmark
 {
 	ref array<ref TimerBase> m_VanillaTimers;
@@ -100,3 +101,4 @@ class CF_VM_VanillaTimer : TimerBase
 		m_running = false;
 	}
 };
+*/

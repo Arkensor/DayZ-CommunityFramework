@@ -1,8 +1,6 @@
 class CF_TimerBase : CF_Model
 {
-	protected static ref CF_TimerBase s_Head = new CF_TimerBaseRoot();
-	protected static CF_TimerBase s_Tail;
-
+	private static ref CF_TimerBase s_Head;
 	private ref CF_TimerBase m_Next;
 	private CF_TimerBase m_Prev;
 	private bool m_IsActive;
@@ -16,14 +14,12 @@ class CF_TimerBase : CF_Model
 
 	protected void CF_TimerBase()
 	{
-		DumpStack();
-		
 		OnCreate();
 	}
 
 	void ~CF_TimerBase()
 	{
-		//Stop();
+		Stop();
 
 		OnDestroy();
 	}
@@ -34,10 +30,16 @@ class CF_TimerBase : CF_Model
 
 		m_IsActive = true;
 
-		m_Prev = s_Tail;
-		m_Prev.m_Next = this;
-
-		s_Tail = this;
+		if (s_Head == null)
+		{
+			s_Head = this;
+		}
+		else
+		{
+			m_Next = s_Head;
+			s_Head.m_Prev = this;
+			s_Head = this;
+		}
 
 		OnStart();
 	}
@@ -51,18 +53,15 @@ class CF_TimerBase : CF_Model
 
 		m_IsActive = false;
 
-		if (this == s_Tail)
+		if (s_Head == this)
 		{
-			s_Tail = m_Prev;
-			if (s_Tail) s_Tail.m_Next = null;
+			s_Head = m_Next;
+			if (s_Head) s_Head.m_Prev = null;
 		}
 		else
 		{
-			if (m_Prev) m_Prev.m_Next = m_Next;
+			m_Prev.m_Next = m_Next;
 			if (m_Next) m_Next.m_Prev = m_Prev;
-
-			m_Next = null;
-			m_Prev = null;
 		}
 
 		OnStop();
@@ -141,42 +140,30 @@ class CF_TimerBase : CF_Model
 		
 		m_DeltaTime += dt;
 
-		if (m_DeltaTime < m_Interval)
-			return;
-
-		OnTick(m_DeltaTime);
-		m_DeltaTime = 0;
+		if (m_DeltaTime >= m_Interval)
+		{
+			OnTick(m_DeltaTime);
+			m_DeltaTime = 0;
+		}
 	}
 
 	static void _UpdateAll(float dt)
 	{
 		CF_TimerBase current = s_Head;
+		CF_TimerBase next = null;
 		while (current)
 		{
+			next = current.m_Next;
+
 			current.OnUpdate(dt);
+
 			if (current.m_Destroy)
-				current.Stop();
+			{
+				// Destructor will remove the timer from the linked list, joining the adjacent variables.
+				delete current;
+			}
 			
-			current = current.m_Next;
+			current = next;
 		}
-	}
-
-	static void _Init()
-	{
-		s_Tail = s_Head;
-		s_Head.m_Next = null;
-	}
-};
-
-class CF_TimerBaseRoot : CF_TimerBase
-{
-	void CF_TimerBaseRoot()
-	{
-		CF_TimerBase.s_Head = this;
-		CF_TimerBase.s_Tail = this;
-	}
-
-	override void OnUpdate(float dt)
-	{
 	}
 };

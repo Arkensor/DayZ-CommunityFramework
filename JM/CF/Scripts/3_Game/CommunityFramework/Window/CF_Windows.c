@@ -59,11 +59,12 @@ class CF_Windows
 
 	static void _MissionInit()
 	{
-		#ifndef NO_GUI
-		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
-
-		s_ToggleInput = GetUApi().GetInputByName("UACFToggleWindowMode");
+		#ifdef SERVER
+		return;
 		#endif
+
+		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
+		s_ToggleInput = GetUApi().GetInputByName("UACFToggleWindowMode");
 	}
 
 	static void _MissionCleanup()
@@ -126,7 +127,11 @@ class CF_Windows
 
 	void Update(CF_TimerBase timer, float dt)
 	{
-		#ifndef NO_GUI
+		#ifdef SERVER
+		timer.Stop();
+		return;
+		#endif
+
 		s_Count = 0;
 
 		CF_Window window = s_Tail;
@@ -141,7 +146,7 @@ class CF_Windows
 			window = window.GetPrev();
 		}
 
-		if (s_ToggleInput.LocalPress()) // Flip the state when the key is pressed
+		if (s_ToggleInput && s_ToggleInput.LocalPress()) // Flip the state when the key is pressed
 		{
 			FlipState();
 		}
@@ -200,7 +205,6 @@ class CF_Windows
 		int w, h;
 		GetScreenSize(w, h);
 		s_Container.SetSize(w, h);
-		#endif
 	}
 
 	void OnInputStateChanged()

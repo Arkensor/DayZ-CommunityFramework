@@ -5,10 +5,10 @@ typedef CF_Localiser StringLocaliser;
  **/
 class CF_Localiser
 {
-	private	int m_Count;
+	protected int m_Count;
 
-	private	string m_Strings[10];
-	private	bool m_Translates[10];
+	protected string m_Strings[10];
+	protected bool m_Translates[10];
 
 	void CF_Localiser(string text = "", string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
 	{
@@ -22,6 +22,37 @@ class CF_Localiser
 		Set(6, param7);
 		Set(7, param8);
 		Set(8, param9);
+	}
+
+	static void Write(ParamsWriteContext ctx, CF_Localiser localiser)
+	{
+		ctx.Write(localiser.m_Count);
+
+		for (int i = 0; i < localiser.m_Count; i++)
+		{
+			ctx.Write(localiser.m_Strings[i]);
+			ctx.Write(localiser.m_Translates[i]);
+		}
+	}
+
+	static bool Read(ParamsReadContext ctx, inout CF_Localiser localiser)
+	{
+		if (!localiser) localiser = new CF_Localiser();
+
+		if (!ctx.Read(localiser.m_Count)) return false;
+
+		for (int i = 0; i < localiser.m_Count; i++)
+		{
+			string str;
+			bool translates;
+
+			if (!ctx.Read(str) || !ctx.Read(translates)) return false;
+
+			localiser.m_Strings[i] = str;
+			localiser.m_Translates[i] = translates;
+		}
+
+		return true;
 	}
 
 	void SetTranslates(bool translates)
