@@ -5,7 +5,7 @@ class CF_ProgressBarWidget : CF_SimpleProgressBarWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);

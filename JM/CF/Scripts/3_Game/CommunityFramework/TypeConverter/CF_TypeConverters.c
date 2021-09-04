@@ -13,7 +13,7 @@ class CF_TypeConverters
 	protected void RegisterType(typename type, typename converter)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_TypeConverters, "RegisterTypes", "" + type, "" + converter);
+		auto trace = CF_Trace_2(g_CF_TypeConverters, "RegisterTypes").Add("" + type).Add("" + converter);
 		#endif
 		
 		m_TypeConvertersMap.Insert(type, converter);
@@ -23,7 +23,7 @@ class CF_TypeConverters
 	protected void RegisterTypes()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_TypeConverters, "RegisterTypes");
+		auto trace = CF_Trace_0(g_CF_TypeConverters, "RegisterTypes");
 		#endif
 		
 		RegisterType(bool, CF_TypeConverterBool);
@@ -62,7 +62,7 @@ class CF_TypeConverters
 	static CF_TypeConverter Create(typename type)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_TypeConverters, "Create", "" + type);
+		auto trace = CF_Trace_1(g_CF_TypeConverters, "Create").Add("" + type);
 		#endif
 				
 		typename baseType = type;

@@ -10,7 +10,7 @@ class CF_DebugUI : CF_DebugOutput
 	void CF_DebugUI(CF_Debug parent, string name)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_DebugUI");
+		auto trace = CF_Trace_0(this, "CF_DebugUI");
 		#endif
 
 		m_Parent = parent;
@@ -27,7 +27,7 @@ class CF_DebugUI : CF_DebugOutput
 	void ~CF_DebugUI()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "~CF_DebugUI");
+		auto trace = CF_Trace_0(this, "~CF_DebugUI");
 		#endif
 	}
 

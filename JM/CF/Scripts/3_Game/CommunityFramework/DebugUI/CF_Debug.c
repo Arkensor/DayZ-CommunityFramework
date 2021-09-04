@@ -8,7 +8,7 @@ class CF_Debug : CF_TimerBase
 	static void _Init()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_Debug::_Init");
+		auto trace = CF_Trace_0("CF_Debug", "_Init");
 		#endif
 
 		s_Types = new CF_DebugUI_Type();
@@ -21,7 +21,7 @@ class CF_Debug : CF_TimerBase
 	static void _Cleanup()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_Debug::_Cleanup");
+		auto trace = CF_Trace_0("CF_Debug", "_Cleanup");
 		#endif
 
 		s_Types = null;
@@ -32,7 +32,7 @@ class CF_Debug : CF_TimerBase
 	static void _MissionCleanup()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(null, "CF_Debug::_MissionCleanup");
+		auto trace = CF_Trace_0("CF_Debug", "_MissionCleanup");
 		#endif
 
 		SetAllowed(false);
@@ -78,7 +78,7 @@ class CF_Debug : CF_TimerBase
 	/*private*/ void CF_Debug(Class instance, string name)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_Debug");
+		auto trace = CF_Trace_0(this, "CF_Debug");
 		#endif
 
 		m_Instance = instance;
@@ -88,7 +88,7 @@ class CF_Debug : CF_TimerBase
 	void ~CF_Debug()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "~CF_Debug");
+		auto trace = CF_Trace_0(this, "~CF_Debug");
 		#endif
 	}
 
@@ -252,7 +252,7 @@ class CF_Debug : CF_TimerBase
 	protected override void OnStart()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnStart");
+		auto trace = CF_Trace_0(this, "OnStart");
 		#endif
 
 		super.OnStart();
@@ -263,7 +263,7 @@ class CF_Debug : CF_TimerBase
 	protected override void OnStop()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnStop");
+		auto trace = CF_Trace_0(this, "OnStop");
 		#endif
 
 		super.OnStop();
@@ -279,7 +279,7 @@ class CF_Debug : CF_TimerBase
 	void ShowWindow()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "ShowWindow");
+		auto trace = CF_Trace_0(this, "ShowWindow");
 		#endif
 
 		if (m_UI) return;
@@ -296,7 +296,7 @@ class CF_Debug : CF_TimerBase
 	void CloseWindow()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CloseWindow");
+		auto trace = CF_Trace_0(this, "CloseWindow");
 		#endif
 
 		m_Outputs.RemoveItemUnOrdered(m_UI);
@@ -313,7 +313,7 @@ class CF_Debug : CF_TimerBase
 	void Event_ToggleWindow(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Event_ToggleWindow", "" + sender, args.ToStr());
+		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.ToStr());
 		#endif
 
 		if (m_UI)
@@ -329,7 +329,7 @@ class CF_Debug : CF_TimerBase
 	void Event_CloseWindow(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Event_ToggleWindow", "" + sender, args.ToStr());
+		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.ToStr());
 		#endif
 
 		CloseWindow();

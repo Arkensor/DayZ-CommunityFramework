@@ -69,7 +69,7 @@ class CF_Window : CF_Model
 	void CF_Window(string title = "Window", int width = 400, int height = 400)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_Window", title, "" + width, "" + height);
+		auto trace = CF_Trace_3(this, "CF_Window").Add(title).Add(width).Add(height);
 		#endif
 
 		m_MinimumWidth = 100;
@@ -96,7 +96,7 @@ class CF_Window : CF_Model
 	void ~CF_Window()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "~CF_Window");
+		auto trace = CF_Trace_0(this, "~CF_Window");
 		#endif
 
 		OnClose.Invoke(this);
@@ -132,7 +132,7 @@ class CF_Window : CF_Model
 	Widget CreateWidgets(string layoutFile)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CreateWidgets", "" + layoutFile);
+		auto trace = CF_Trace_1(this, "CreateWidgets").Add(layoutFile);
 		#endif
 
 		Widget child = content.GetChildren();
@@ -166,7 +166,7 @@ class CF_Window : CF_Model
 	Widget CreateWidgets(CF_ModelBase model, string layoutFile)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CreateWidgets", "" + model, "" + layoutFile);
+		auto trace = CF_Trace_2(this, "CreateWidgets").Add(model).Add(layoutFile);
 		#endif
 
 		Widget child = content.GetChildren();
@@ -191,7 +191,7 @@ class CF_Window : CF_Model
 	void SetTitle(string title)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetTitle", "" + title);
+		auto trace = CF_Trace_1(this, "SetTitle").Add(title);
 		#endif
 		
 		m_Title = title;
@@ -217,7 +217,7 @@ class CF_Window : CF_Model
 	void SetModel(CF_ModelBase model)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetModel", "" + model);
+		auto trace = CF_Trace_1(this, "SetModel").Add(model);
 		#endif
 		
 		if (model != m_Model)
@@ -288,7 +288,7 @@ class CF_Window : CF_Model
 	void SetPosition(float x, float y)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetPosition", "" + x, "" + y);
+		auto trace = CF_Trace_1(this, "SetPosition").Add(x).Add(y);
 		#endif
 		
 		m_PositionX = x;
@@ -301,7 +301,7 @@ class CF_Window : CF_Model
 	void SetSize(float x, float y)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetSize", "" + x, "" + y);
+		auto trace = CF_Trace_1(this, "SetSize").Add(x).Add(y);
 		#endif
 		
 		m_Width = x;
@@ -324,7 +324,7 @@ class CF_Window : CF_Model
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnCloseButtonClicked", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.ToStr());
 		#endif
 
 		SetMinimized(true);
@@ -333,7 +333,7 @@ class CF_Window : CF_Model
 	void OnExpandButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnCloseButtonClicked", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.ToStr());
 		#endif
 
 		SetMinimized(false);
@@ -342,7 +342,7 @@ class CF_Window : CF_Model
 	void OnWindowButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnCloseButtonClicked", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.ToStr());
 		#endif
 
 		SetFullscreen(false);
@@ -351,7 +351,7 @@ class CF_Window : CF_Model
 	void OnFullscreenButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnCloseButtonClicked", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.ToStr());
 		#endif
 
 		SetFullscreen(true);
@@ -360,7 +360,7 @@ class CF_Window : CF_Model
 	void OnCloseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnCloseButtonClicked", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.ToStr());
 		#endif
 		
 		delete this;
@@ -369,7 +369,7 @@ class CF_Window : CF_Model
 	void OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnMouseButtonDown", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnMouseButtonDown").Add(args.ToStr());
 		#endif
 
 		BringTop();
@@ -378,7 +378,7 @@ class CF_Window : CF_Model
 	void OnDrag(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnDrag", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnDrag").Add(args.ToStr());
 		#endif
 		
 		if (m_FullScreen)
@@ -399,7 +399,7 @@ class CF_Window : CF_Model
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnDragging", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnDragging").Add(args.ToStr());
 		#endif
 		
 		SetPosition(args.X - m_DragOffsetX, args.Y - m_DragOffsetY);
@@ -408,7 +408,7 @@ class CF_Window : CF_Model
 	void OnStartResizing(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnStartResizing", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnStartResizing").Add(args.ToStr());
 		#endif
 
 		m_ResizeStartX = args.X;
@@ -424,7 +424,7 @@ class CF_Window : CF_Model
 	void OnStopResizing(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnStartResizing", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnStartResizing").Add(args.ToStr());
 		#endif
 
 		SetFocus(null);
@@ -433,7 +433,7 @@ class CF_Window : CF_Model
 	void OnResizingUp(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
@@ -450,7 +450,7 @@ class CF_Window : CF_Model
 	void OnResizingDown(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
@@ -464,7 +464,7 @@ class CF_Window : CF_Model
 	void OnResizingLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
@@ -480,7 +480,7 @@ class CF_Window : CF_Model
 	void OnResizingRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
@@ -494,7 +494,7 @@ class CF_Window : CF_Model
 	void OnResizingUpLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
@@ -513,7 +513,7 @@ class CF_Window : CF_Model
 	void OnResizingUpRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
@@ -531,7 +531,7 @@ class CF_Window : CF_Model
 	void OnResizingDownLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
@@ -549,7 +549,7 @@ class CF_Window : CF_Model
 	void OnResizingDownRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnResizingUp", args.ToStr());
+		auto trace = CF_Trace_1(this, "OnResizingUp").Add(args.ToStr());
 		#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);

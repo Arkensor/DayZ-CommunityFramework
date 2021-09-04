@@ -12,7 +12,7 @@ class CF_MVVM
 	private void CF_MVVM()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_MVVM");
+		auto trace = CF_Trace_0(this, "CF_MVVM");
 		#endif
 	}
 
@@ -41,7 +41,7 @@ class CF_MVVM
 	static CF_MVVM_Linker GetPropertyCollection(CF_ModelBase model)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "GetPropertyCollection", "" + model);
+		auto trace = CF_Trace_1(g_CF_MVVM, "GetPropertyCollection").Add(model);
 		#endif
 
 		return s_ModelMap[model];
@@ -53,7 +53,7 @@ class CF_MVVM
 	static CF_MVVM_Linker Create(CF_ModelBase model, string layout)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "Create", "" + model, "" + layout);
+		auto trace = CF_Trace_2(g_CF_MVVM, "Create").Add(model).Add(layout);
 		#endif
 
     	#ifdef COMPONENT_SYSTEM
@@ -104,7 +104,7 @@ class CF_MVVM
 	static CF_MVVM_Linker Create(CF_ModelBase model, string layout, Widget parent)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "Create", "" + model, "" + layout, "" + parent);
+		auto trace = CF_Trace_3(g_CF_MVVM, "Create").Add(model).Add(layout).Add(parent);
 		#endif
 
     	#ifdef COMPONENT_SYSTEM
@@ -162,7 +162,7 @@ class CF_MVVM
 	static CF_MVVM_Linker Connect(CF_ModelBase model, Widget widget)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "Connect", "" + model, "" + widget);
+		auto trace = CF_Trace_2(g_CF_MVVM, "Connect").Add(model).Add(widget);
 		#endif
 
     	#ifdef COMPONENT_SYSTEM
@@ -202,7 +202,7 @@ class CF_MVVM
 	static CF_MVVM_Linker Connect(CF_ModelBase model, CF_ViewModel view)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "Connect", "" + model, "" + view);
+		auto trace = CF_Trace_2(g_CF_MVVM, "Connect").Add(model).Add(view);
 		#endif
 
     	#ifdef COMPONENT_SYSTEM
@@ -276,7 +276,7 @@ class CF_MVVM
 	static void Destroy(CF_ModelBase model)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "Destroy", "" + model);
+		auto trace = CF_Trace_1(g_CF_MVVM, "Destroy").Add(model);
 		#endif
 
     	#ifdef COMPONENT_SYSTEM
@@ -313,7 +313,7 @@ class CF_MVVM
 		if (temp == null) temp = new CF_EventArgs();
 
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "NotifyPropertyChanged", "" + model, "" + propertyName, temp.ToStr());
+		auto trace = CF_Trace_2(g_CF_MVVM, "NotifyPropertyChanged").Add(model).Add(propertyName).Add(temp.ToStr());
 		#endif
 		
     	#ifdef COMPONENT_SYSTEM
@@ -334,7 +334,7 @@ class CF_MVVM
 		CF_EventArgs temp = new CF_EventArgs();
 
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(g_CF_MVVM, "NotifyPropertyChanged", "" + model);
+		auto trace = CF_Trace_1(g_CF_MVVM, "NotifyPropertyChanged").Add(model);
 		#endif
 
     	#ifdef COMPONENT_SYSTEM

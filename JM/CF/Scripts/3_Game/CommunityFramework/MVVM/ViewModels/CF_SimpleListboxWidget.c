@@ -5,7 +5,7 @@ class CF_SimpleListboxWidget : CF_BaseListboxWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);

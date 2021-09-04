@@ -18,7 +18,7 @@ class CF_CanvasWidget : CF_Widget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -29,7 +29,7 @@ class CF_CanvasWidget : CF_Widget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);
@@ -39,7 +39,7 @@ class CF_CanvasWidget : CF_Widget
 	void OnView_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Lines", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Lines").Add(sender).Add(args.ToStr());
 		#endif
 	}
 
@@ -47,7 +47,7 @@ class CF_CanvasWidget : CF_Widget
 	void OnModel_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Lines", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Lines").Add(sender).Add(args.ToStr());
 		#endif
 
 		_CanvasWidget.Clear();

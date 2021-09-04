@@ -20,7 +20,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_MVVM_Property", "" + handler, name);
+		auto trace = CF_Trace_2(this, "CF_MVVM_Property").Add(handler).Add(name);
 		#endif
 
 		m_ViewModel = handler;
@@ -30,7 +30,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	string SetVariableName(string variableName)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetVariableName", "" + variableName);
+		auto trace = CF_Trace_1(this, "SetVariableName").Add(variableName);
 		#endif
 
 		m_IndexCount = -1;
@@ -85,7 +85,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void Link(CF_ModelBase model, typename variableType, CF_TypeConverter typeConverter)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Assign", "" + model);
+		auto trace = CF_Trace_1(this, "Assign").Add(model);
 		#endif
 
 		m_Model = model;
@@ -121,7 +121,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void OnView(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView", evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnView").Add(evt.ToStr());
 		#endif
 
 		if (m_IndexCount == -1) AcquireIndices();
@@ -133,7 +133,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel", evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnModel").Add(evt.ToStr());
 		#endif
 
 		if (m_IndexCount == -1) AcquireIndices();

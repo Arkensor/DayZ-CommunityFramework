@@ -5,7 +5,7 @@ class CF_WrapSpacerWidget : CF_SpacerWidget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -14,7 +14,7 @@ class CF_WrapSpacerWidget : CF_SpacerWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);

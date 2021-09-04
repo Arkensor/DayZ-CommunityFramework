@@ -18,7 +18,7 @@ class CF_VideoWidget : CF_Widget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -31,7 +31,7 @@ class CF_VideoWidget : CF_Widget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);
@@ -41,7 +41,7 @@ class CF_VideoWidget : CF_Widget
 	void OnView_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Path", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Path").Add(sender).Add(args.ToStr());
 		#endif
 
 		EnScript.SetClassVar(m_Model, Path, 0, _Path);
@@ -50,7 +50,7 @@ class CF_VideoWidget : CF_Widget
 	void OnModel_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Path", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Path").Add(sender).Add(args.ToStr());
 		#endif
 
 		EnScript.GetClassVar(m_Model, Path, 0, _Path);
@@ -60,7 +60,7 @@ class CF_VideoWidget : CF_Widget
 	void OnView_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Command", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Command").Add(sender).Add(args.ToStr());
 		#endif
 
 		EnScript.SetClassVar(m_Model, Command, 0, _Command);
@@ -69,7 +69,7 @@ class CF_VideoWidget : CF_Widget
 	void OnModel_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Command", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Command").Add(sender).Add(args.ToStr());
 		#endif
 
 		EnScript.GetClassVar(m_Model, Command, 0, _Command);
@@ -79,7 +79,7 @@ class CF_VideoWidget : CF_Widget
 	void OnView_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Subtitles", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Subtitles").Add(sender).Add(args.ToStr());
 		#endif
 
 		EnScript.SetClassVar(m_Model, Subtitles, 0, _Subtitles);
@@ -88,7 +88,7 @@ class CF_VideoWidget : CF_Widget
 	void OnModel_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Subtitles", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Subtitles").Add(sender).Add(args.ToStr());
 		#endif
 
 		EnScript.GetClassVar(m_Model, Subtitles, 0, _Subtitles);

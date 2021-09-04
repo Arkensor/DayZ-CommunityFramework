@@ -5,14 +5,14 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 	void CF_MVVM_SubProperty(CF_ViewModel handler, string name)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_MVVM_SubProperty", "" + handler);
+		auto trace = CF_Trace_1(this, "CF_MVVM_SubProperty").Add(handler);
 		#endif
 	}
 
 	void SetSubModel(CF_ModelBase subModel)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "SetSubModel", "" + subModel);
+		auto trace = CF_Trace_1(this, "SetSubModel").Add(subModel);
 		#endif
 
 		m_SubModel = subModel;
@@ -21,7 +21,7 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 	override void OnView(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView", evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnView").Add(evt.ToStr());
 		#endif
 
 		g_Script.CallFunctionParams(m_SubModel, "OnView_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));
@@ -30,7 +30,7 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 	override void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel", evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnModel").Add(evt.ToStr());
 		#endif
 
 		g_Script.CallFunctionParams(m_SubModel, "OnModel_" + m_Name, null, new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt));

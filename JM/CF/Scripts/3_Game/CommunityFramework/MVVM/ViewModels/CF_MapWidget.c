@@ -20,7 +20,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -33,7 +33,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);
@@ -43,7 +43,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnView_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_UserMarks", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_UserMarks").Add(sender).Add(args.ToStr());
 		#endif
 
 		OnModel_UserMarks(sender, args);
@@ -52,7 +52,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnModel_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_UserMarks", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_UserMarks").Add(sender).Add(args.ToStr());
 		#endif
 
 		_MapWidget.ClearUserMarks();
@@ -68,7 +68,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnView_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_CenterPosition", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_CenterPosition").Add(sender).Add(args.ToStr());
 		#endif
 
 		_CenterPosition.SetVector(_MapWidget.GetMapPos());
@@ -77,7 +77,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnModel_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_CenterPosition", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_CenterPosition").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_MapWidget.SetMapPos(_CenterPosition.GetVector());
@@ -86,7 +86,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnView_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Scale", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Scale").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_Scale.SetFloat(_MapWidget.GetScale());
@@ -95,7 +95,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnModel_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Scale", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Scale").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_MapWidget.SetScale(_Scale.GetFloat());

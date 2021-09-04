@@ -19,7 +19,7 @@ class CF_Model : Managed
 	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "NotifyPropertyChanged", "" + property);
+		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(property);
 		#endif
 		
 		CF_MVVM.NotifyPropertyChanged(this, property, evt);

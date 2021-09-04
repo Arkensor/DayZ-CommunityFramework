@@ -3,7 +3,7 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 	void CF_MVVM_WidgetProperty(CF_ViewModel handler, string name)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "CF_MVVM_WidgetProperty", "" + handler);
+		auto trace = CF_Trace_1(this, "CF_MVVM_WidgetProperty").Add(handler);
 		#endif
 
 		SetVariableName(name);
@@ -12,7 +12,7 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 	override void Link(CF_ModelBase model, typename variableType, CF_TypeConverter typeConverter)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Assign", "" + model);
+		auto trace = CF_Trace_1(this, "Assign").Add(model);
 		#endif
 
 		Widget widget = m_ViewModel.GetWidget();
@@ -31,14 +31,14 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 	override void OnView(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView", evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnView").Add(evt.ToStr());
 		#endif
 	}
 
 	override void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel", evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnModel").Add(evt.ToStr());
 		#endif
 	}
 };

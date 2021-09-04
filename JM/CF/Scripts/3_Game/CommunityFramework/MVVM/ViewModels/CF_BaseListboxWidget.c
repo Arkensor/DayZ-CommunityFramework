@@ -10,7 +10,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -22,7 +22,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);
@@ -32,7 +32,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnView_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_NumberItems", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_NumberItems").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
@@ -41,7 +41,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnModel_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_NumberItems", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_NumberItems").Add(sender).Add(args.ToStr());
 		#endif
 		
 		OnView_NumberItems(m_Model, args);
@@ -50,7 +50,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnView_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Selected", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Selected").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
@@ -59,7 +59,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Selected", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Selected").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());

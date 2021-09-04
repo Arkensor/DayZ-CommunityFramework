@@ -91,7 +91,7 @@ class CF_TypeConverter : Managed
 	void FromVariable(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, variable);
+		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(variable);
 		#endif
 		CF_Log.Error("Override FromVariable!");
 	}
@@ -99,7 +99,7 @@ class CF_TypeConverter : Managed
 	bool FromTypename(Class instance, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, "" + index);
+		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(index);
 		#endif
 		CF_Log.Error("Override FromVariable!");
 		return false;
@@ -108,7 +108,7 @@ class CF_TypeConverter : Managed
 	void ToVariable(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "ToVariable", "" + instance, variable);
+		auto trace = CF_Trace_2(this, "ToVariable").Add(instance).Add(variable);
 		#endif
 		CF_Log.Error("Override ToVariable!");
 	}
@@ -131,7 +131,7 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 	override void FromVariable(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, variable);
+		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(variable);
 		#endif
 		EnScript.GetClassVar(instance, variable, 0, m_Value);
 	}
@@ -139,7 +139,7 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 	override bool FromTypename(Class instance, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, "" + index);
+		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(index);
 		#endif
 
 		typename type = instance.Type();
@@ -165,7 +165,7 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 	override void ToVariable(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "ToVariable", "" + instance, variable);
+		auto trace = CF_Trace_2(this, "ToVariable").Add(instance).Add(variable);
 		#endif
 		EnScript.SetClassVar(instance, variable, 0, m_Value);
 	}

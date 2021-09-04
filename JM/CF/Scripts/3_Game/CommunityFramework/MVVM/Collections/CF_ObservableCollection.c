@@ -10,7 +10,7 @@ class CF_ObservableCollection : CF_Collection
 		#endif
 
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "Init", "" + model, prop);
+		auto trace = CF_Trace_2(this, "Init").Add(model).Add(prop);
 		#endif
 
 		m_Links[m_LinkCount] = new Param2<CF_ModelBase, string>(model, prop);
@@ -20,7 +20,7 @@ class CF_ObservableCollection : CF_Collection
 	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "NotifyCollectionChanged", evt.ToStr());
+		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(evt.ToStr());
 		#endif
 
 		for (int i = 0; i < m_LinkCount; i++)

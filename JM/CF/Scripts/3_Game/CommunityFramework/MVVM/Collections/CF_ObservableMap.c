@@ -30,7 +30,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 	override CF_TypeConverter GetConverter(int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetConverter", "" + index);
+		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
 		#endif
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Values[index]);
@@ -40,7 +40,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 	override void OverrideConverter(CF_TypeConverter converter = null)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OverrideConverter", "" + converter);
+		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
 		#endif
 
 		if (!converter)

@@ -10,7 +10,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -22,7 +22,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);
@@ -32,7 +32,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	override void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args.ToStr());
 		#endif
 
 		string value;
@@ -43,7 +43,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnView_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_CarriageLine", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_CarriageLine").Add(sender).Add(args.ToStr());
 		#endif
 
 		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
@@ -52,7 +52,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnModel_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_CarriageLine", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_CarriageLine").Add(sender).Add(args.ToStr());
 		#endif
 
 		OnView_CarriageLine(m_Model, args);
@@ -61,7 +61,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnView_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_CarriagePosition", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_CarriagePosition").Add(sender).Add(args.ToStr());
 		#endif
 
 		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
@@ -70,7 +70,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnModel_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_CarriagePosition", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_CarriagePosition").Add(sender).Add(args.ToStr());
 		#endif
 
 		OnView_CarriagePosition(m_Model, args);

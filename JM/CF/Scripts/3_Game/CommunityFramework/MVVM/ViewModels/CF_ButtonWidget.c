@@ -20,7 +20,7 @@ class CF_ButtonWidget : CF_UIWidget
 	override void GetProperties()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "GetProperties");
+		auto trace = CF_Trace_0(this, "GetProperties");
 		#endif
 
 		super.GetProperties();
@@ -37,7 +37,7 @@ class CF_ButtonWidget : CF_UIWidget
 	override void OnWidgetScriptInit(Widget w)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnWidgetScriptInit", "" + w);
+		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 		#endif
 
 		super.OnWidgetScriptInit(w);
@@ -47,7 +47,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_State(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_State", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_State").Add(sender).Add(args.ToStr());
 		#endif
 
 		_State.SetBool(_ButtonWidget.GetState());
@@ -56,7 +56,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_State(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_State", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_State").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetState(_State.GetBool());
@@ -65,7 +65,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_Text", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args.ToStr());
 		#endif
 		
 	}
@@ -73,7 +73,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_Text", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetText(_Text.GetString());
@@ -82,7 +82,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_TextOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_TextOffsetX", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_TextOffsetX").Add(sender).Add(args.ToStr());
 		#endif
 		
 	}
@@ -90,7 +90,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_TextOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_TextOffsetX", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_TextOffsetX").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetTextOffset(_TextOffsetX.GetFloat(), _TextOffsetY.GetFloat());
@@ -99,7 +99,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_TextOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_TextOffsetY", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_TextOffsetY").Add(sender).Add(args.ToStr());
 		#endif
 		
 	}
@@ -107,7 +107,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_TextOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_TextOffsetY", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_TextOffsetY").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetTextOffset(_TextOffsetX.GetFloat(), _TextOffsetY.GetFloat());
@@ -116,7 +116,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_TextHorizontalAlignment(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_TextHorizontalAlignment", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_TextHorizontalAlignment").Add(sender).Add(args.ToStr());
 		#endif
 		
 	}
@@ -124,7 +124,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_TextHorizontalAlignment(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_TextHorizontalAlignment", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_TextHorizontalAlignment").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetTextHorizontalAlignment(_TextHorizontalAlignment.GetInt());
@@ -133,7 +133,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_TextVerticalAlignment(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_TextVerticalAlignment", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_TextVerticalAlignment").Add(sender).Add(args.ToStr());
 		#endif
 		
 	}
@@ -141,7 +141,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_TextVerticalAlignment(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_TextVerticalAlignment", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_TextVerticalAlignment").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetTextVerticalAlignment(_TextVerticalAlignment.GetInt());
@@ -150,7 +150,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnView_TextProportion(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnView_TextProportion", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_TextProportion").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_TextProportion.SetInt(_ButtonWidget.GetTextProportion());
@@ -159,7 +159,7 @@ class CF_ButtonWidget : CF_UIWidget
 	void OnModel_TextProportion(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "OnModel_TextProportion", "" + sender, args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_TextProportion").Add(sender).Add(args.ToStr());
 		#endif
 		
 		_ButtonWidget.SetTextProportion(_TextProportion.GetInt());
