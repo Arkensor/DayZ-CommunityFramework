@@ -1,6 +1,8 @@
 class CF_TimerBase : Managed
 {
-	private static ref CF_TimerBase s_Head;
+	protected static ref CF_TimerBase s_Head = new CF_TimerBaseRoot();
+	protected static CF_TimerBase s_Tail;
+
 	private ref CF_TimerBase m_Next;
 	private CF_TimerBase m_Prev;
 	private bool m_IsActive;
@@ -14,12 +16,14 @@ class CF_TimerBase : Managed
 
 	protected void CF_TimerBase()
 	{
+		DumpStack();
+		
 		OnCreate();
 	}
 
 	void ~CF_TimerBase()
 	{
-		Stop();
+		//Stop();
 
 		OnDestroy();
 	}
@@ -30,16 +34,10 @@ class CF_TimerBase : Managed
 
 		m_IsActive = true;
 
-		if (s_Head == null)
-		{
-			s_Head = this;
-		}
-		else
-		{
-			m_Next = s_Head;
-			s_Head.m_Prev = this;
-			s_Head = this;
-		}
+		m_Prev = s_Tail;
+		m_Prev.m_Next = this;
+
+		s_Tail = this;
 
 		OnStart();
 	}
@@ -53,15 +51,18 @@ class CF_TimerBase : Managed
 
 		m_IsActive = false;
 
-		if (s_Head == this)
+		if (this == s_Tail)
 		{
-			s_Head = m_Next;
-			if (s_Head) s_Head.m_Prev = null;
+			s_Tail = m_Prev;
+			if (s_Tail) s_Tail.m_Next = null;
 		}
 		else
 		{
-			m_Prev.m_Next = m_Next;
+			if (m_Prev) m_Prev.m_Next = m_Next;
 			if (m_Next) m_Next.m_Prev = m_Prev;
+
+			m_Next = null;
+			m_Prev = null;
 		}
 
 		OnStop();
@@ -140,30 +141,42 @@ class CF_TimerBase : Managed
 		
 		m_DeltaTime += dt;
 
-		if (m_DeltaTime >= m_Interval)
+		if (m_DeltaTime < m_Interval)
+			return;
+
+		OnTick(m_DeltaTime);
+		m_DeltaTime = 0;
+	}
+
+	static void _UpdateAll(float dt)
+	{
+		CF_TimerBase current = s_Head;
+		while (current)
 		{
-			OnTick(m_DeltaTime);
-			m_DeltaTime = 0;
+			current.OnUpdate(dt);
+			if (current.m_Destroy)
+				current.Stop();
+			
+			current = current.m_Next;
 		}
 	}
 
-	static void _Update(float dt)
+	static void _Init()
 	{
-		CF_TimerBase current = s_Head;
-		CF_TimerBase next = null;
-		while (current)
-		{
-			next = current.m_Next;
+		s_Tail = s_Head;
+		s_Head.m_Next = null;
+	}
+};
 
-			current.OnUpdate(dt);
+class CF_TimerBaseRoot : CF_TimerBase
+{
+	void CF_TimerBaseRoot()
+	{
+		CF_TimerBase.s_Head = this;
+		CF_TimerBase.s_Tail = this;
+	}
 
-			if (current.m_Destroy)
-			{
-				// Destructor will remove the timer from the linked list, joining the adjacent variables.
-				delete current;
-			}
-			
-			current = next;
-		}
+	override void OnUpdate(float dt)
+	{
 	}
 };
