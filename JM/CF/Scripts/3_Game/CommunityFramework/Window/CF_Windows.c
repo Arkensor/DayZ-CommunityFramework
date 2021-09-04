@@ -59,12 +59,18 @@ class CF_Windows
 
 	static void _MissionInit()
 	{
+		Print("_MissionInit");
+
 		#ifdef SERVER
 		return;
 		#endif
 
-		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
 		s_ToggleInput = GetUApi().GetInputByName("UACFToggleWindowMode");
+
+		if (s_Container)
+			return;
+
+		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
 	}
 
 	static void _MissionCleanup()
@@ -131,6 +137,16 @@ class CF_Windows
 		timer.Stop();
 		return;
 		#endif
+
+		if (!s_Container)
+		{
+			if (GetDayZGame() && !GetDayZGame().IsLoading())
+			{
+				_MissionInit();
+			}
+			
+			return;
+		}
 
 		s_Count = 0;
 

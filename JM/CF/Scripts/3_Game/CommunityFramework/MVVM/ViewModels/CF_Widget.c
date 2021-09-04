@@ -560,13 +560,13 @@ class CF_Widget : CF_ViewModel
 		auto trace = CF_Trace_2(this, "OnResize").Add(sender).Add(args.ToStr());
 		#endif
 		
-		NotifyPropertyChanged(Size, "Size");
+		//NotifyPropertyChanged(Size, "Size");
 		
-		NotifyPropertyChanged(Width, "Width");
-		NotifyPropertyChanged(Height, "Height");
+		//NotifyPropertyChanged(Width, "Width");
+		//NotifyPropertyChanged(Height, "Height");
 
-		NotifyPropertyChanged(ScreenWidth, "ScreenWidth");
-		NotifyPropertyChanged(ScreenHeight, "ScreenHeight");
+		//NotifyPropertyChanged(ScreenWidth, "ScreenWidth");
+		//NotifyPropertyChanged(ScreenHeight, "ScreenHeight");
 
 		return super.OnResize(sender, args);
 	}
@@ -577,12 +577,12 @@ class CF_Widget : CF_ViewModel
 		auto trace = CF_Trace_2(this, "OnUpdate").Add(sender).Add(args.ToStr());
 		#endif
 		
-		NotifyPropertyChanged(Position, "Position");
-		NotifyPropertyChanged(PositionX, "PositionX");
-		NotifyPropertyChanged(PositionY, "PositionY");
+		//NotifyPropertyChanged(Position, "Position");
+		//NotifyPropertyChanged(PositionX, "PositionX");
+		//NotifyPropertyChanged(PositionY, "PositionY");
 		
-		NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
-		NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
+		//NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
+		//NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
 
 		bool visible = _Widget.IsVisible();
 		if (!_Visible.IsDefault() && _Visible.GetBool() != visible)

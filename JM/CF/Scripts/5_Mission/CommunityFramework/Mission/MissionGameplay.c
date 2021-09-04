@@ -4,8 +4,6 @@ modded class MissionGameplay
 
 	void MissionGameplay()
 	{
-        CF._MissionInit();
-
 		m_bLoaded = false;
 
 		if (GetGame().IsServer())
