@@ -53,13 +53,6 @@ class CF_Byte : CF_Uint
 		return CF_Encoding.BASE_16[n0] + CF_Encoding.BASE_16[n1];
 	}
 
-	override CF_Uint ^(CF_Uint y)
-	{
-		CF_Byte b = super.^(y);
-		b.Clamp();
-		return b;
-	}
-
 	override CF_Uint XOR(CF_Uint y)
 	{
 		CF_Byte b = super.XOR(y);
