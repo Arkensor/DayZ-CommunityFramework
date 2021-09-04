@@ -1,7 +1,24 @@
-class CF_TimerParam
+//TODO: Add `CF_Param` as a base Param class, will return a `CF_TypeConverter` for each possible param
+class CF_Param
+{
+	void SetTimer(CF_TimerBase timer);
+	void SetDelta(float dt);
+};
+
+class CF_TimerParam : CF_Param
 {
 	CF_TimerBase m_Timer;
 	float m_DeltaTime;
+
+	override void SetTimer(CF_TimerBase timer)
+	{
+		m_Timer = timer;
+	}
+
+	override void SetDelta(float dt)
+	{
+		m_DeltaTime = dt;
+	}
 };
 
 class CF_TimerParam1<Class T1> : CF_TimerParam

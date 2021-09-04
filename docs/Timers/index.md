@@ -5,28 +5,28 @@ Why should you use these timers over the countless options avaliable in vanilla?
 There are three issues with vanilla timers, they are:
 
 - The param function arguments are nulled after the first call
-- Timer running and iteration is based soley on function calls and dynamic arrays, these are expensive instructions in Enforce Script
+- Timer running and iteration is based soley on function calls and dynamic arrays, these are expensive instructions in Enforce Script. 
 - The creation and management of timers can be convuluted. They were designed for UI and delayed calls. 
-
-There is one major issue with `ScriptCallQueue`, after a server has been up for a prolonged time there will be a dramatic loss of server performance, as evident from [Game Labs](). This is not just from modders forgetting to clean up their timers.
 
 The timers Community Framework is providing will offer improved performance by removing unneccessary function calls and removing the use dynamic arrays. As testing has shown with [Expression's](../ExpressionVM/index.md) there is a huge performance gain when using dual Linked Lists over even static arrays. 
 
-All timers have safeguards built in, such as with [Instance Timers](#Instance-Timers) only allowing to be ran in `Managed` classes. 
+An interval of `0` seconds means the timer will tick for every frame. 
 
 ## Instance Timers
 
 Instance Timers can only be ran in `Managed` classes. This benefit provides safe memory management and allows for timers to be deleted when they are no longer required.
 
-### Basic Example
+### Basic Example - Managed
+
+Memory management is handled all for you when using `Managed`. To create a timer you run `CF_Timer.Create` with the arguments you specify. 
 
 ```csharp
 class SomeClass : Managed
 {
     void SomeClass()
     {
-        float interval = 0.5; // The timer will tick every 0.5 seconds.
-        CF_Timer.Create(this, "OnTick", interval);
+        // The timer will tick every 0.5 seconds.
+        CF_Timer.Create(this, "OnTick", 0.5);
     }
 
     void OnTick(CF_TimerBase timer, float deltaTime)
@@ -36,7 +36,28 @@ class SomeClass : Managed
 };
 ```
 
-Memory management is handled all for you. To create a timer you run `CF_Timer.Create` with the arguments you specify. Note that an interval of `0.0` means the timer will tick every frame. 
+### Basic Example - Unmanaged
+
+Make sure to keep the `CF_Timer` alive when the owning class is not `Managed`. The variable must be marked as `autoptr`.
+
+```csharp
+class SomeClass
+{
+    autoptr CF_Timer m_Timer;
+
+    void SomeClass()
+    {
+        // The timer will tick every 0.5 seconds.
+        m_Timer = CF_Timer.Create(this, "OnTick", 0.5);
+    }
+
+    void OnTick(CF_TimerBase timer, float deltaTime)
+    {
+        Print("Timer has ran for " + timer.m_TimerElapsed + " seconds.");
+    }
+};
+```
+
 
 ### Advanced Example
 
@@ -70,7 +91,7 @@ Generic Timers are used in places where you want to use the same code for the ti
 ### Basic Example
 
 ```csharp
-class SomeClass : Managed
+class SomeClass
 {
     void SomeClass()
     {
@@ -96,7 +117,6 @@ class SomeTimer : CF_TimerBase
     {
         Print("Timer has ran for " + m_TimerElapsed + " seconds and the owner is " + m_SomeClass + ".");
 
-        // Experiment removing the `Managed` class from `SomeClass` inheritance.
         if (m_SomeClass == null)
         {
             Destroy();
@@ -107,7 +127,7 @@ class SomeTimer : CF_TimerBase
 
 ### Advanced Example
 
-Comparing to the advanced example from `Instance Timers`, this is how the new code will be created and ran.
+Comparing to the advanced example from `Instance Timers`, this is how the new code will be created and ran. Notice how the code in the menu has shrunk but the overall lines of code has increased. You would use `Generic Timers` when the logic within the timer would be useful in many classes. For most circumstances an `Instance Timer` would be enough.
 
 ```csharp
 class Menu : UIScriptedMenu
