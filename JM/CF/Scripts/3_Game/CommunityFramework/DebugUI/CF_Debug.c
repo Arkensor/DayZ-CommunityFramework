@@ -189,6 +189,19 @@ class CF_Debug : CF_TimerBase
 		}
 	}
 
+	void Add(string name, int value, typename type)
+	{
+		Add(name, typename.EnumToString(type, value));
+	}
+
+	void Add(string name, int value, array<string> values)
+	{
+		string vName = "INVALID";
+		if (value >= 0 && value < values.Count())
+			vName = values[value];
+		Add(name, vName);
+	}
+
 	void Add(string name, Class value)
 	{
 		string _value = "" + value;
