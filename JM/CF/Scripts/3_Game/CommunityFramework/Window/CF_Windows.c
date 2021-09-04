@@ -36,7 +36,9 @@ class CF_Windows
 
 	private void CF_Windows()
 	{
+		#ifndef NO_GUI
 		CF_Timer.Create(this, "Update");
+		#endif
 	}
 
 	static void _Init()
@@ -57,9 +59,11 @@ class CF_Windows
 
 	static void _MissionInit()
 	{
+		#ifndef NO_GUI
 		s_Container = GetGame().GetWorkspace().CreateWidgets("JM/CF/GUI/layouts/windows/container.layout", null);
 
 		s_ToggleInput = GetUApi().GetInputByName("UACFToggleWindowMode");
+		#endif
 	}
 
 	static void _MissionCleanup()
@@ -122,6 +126,7 @@ class CF_Windows
 
 	void Update(CF_TimerBase timer, float dt)
 	{
+		#ifndef NO_GUI
 		s_Count = 0;
 
 		CF_Window window = s_Tail;
@@ -195,6 +200,7 @@ class CF_Windows
 		int w, h;
 		GetScreenSize(w, h);
 		s_Container.SetSize(w, h);
+		#endif
 	}
 
 	void OnInputStateChanged()
