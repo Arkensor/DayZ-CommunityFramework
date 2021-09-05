@@ -4,9 +4,9 @@ class CF_CollectionClearEventArgs : CF_CollectionEventArgs
 	{
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		return str;
 	}
 };

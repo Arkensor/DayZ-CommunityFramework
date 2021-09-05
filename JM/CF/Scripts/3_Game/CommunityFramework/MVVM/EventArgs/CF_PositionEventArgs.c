@@ -3,9 +3,9 @@ class CF_PositionEventArgs : CF_ViewEventArgs
 	int X;
 	int Y;
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += " X=" + X;
 		str += " Y=" + Y;
 		return str;

@@ -32,7 +32,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	void OnView_ContentAlignmentHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ContentAlignmentHorizontal").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ContentAlignmentHorizontal").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		int _contentAlignmentH = _SpacerWidget.GetContentAlignmentH();
@@ -42,7 +42,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	void OnModel_ContentAlignmentHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ContentAlignmentHorizontal").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ContentAlignmentHorizontal").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		int _contentAlignmentH;
@@ -53,7 +53,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	void OnView_ContentAlignmentVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ContentAlignmentVertical").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ContentAlignmentVertical").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		int _contentAlignmentV = _SpacerWidget.GetContentAlignmentV();
@@ -63,7 +63,7 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	void OnModel_ContentAlignmentVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ContentAlignmentVertical").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ContentAlignmentVertical").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		int _contentAlignmentV;

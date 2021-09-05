@@ -47,7 +47,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_ScrollbarWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ScrollbarWidth").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ScrollbarWidth").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, ScrollbarWidth, 0, _ScrollWidget.GetScrollbarWidth());
@@ -56,7 +56,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_ScrollbarWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ScrollbarWidth").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ScrollbarWidth").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnView_ScrollbarWidth(m_Model, args);
@@ -65,7 +65,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_ContentWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ContentWidth").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ContentWidth").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, ContentWidth, 0, _ScrollWidget.GetContentWidth());
@@ -74,7 +74,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_ContentWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ContentWidth").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ContentWidth").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnView_ContentWidth(m_Model, args);
@@ -83,7 +83,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ContentHeight").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ContentHeight").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, ContentHeight, 0, _ScrollWidget.GetContentHeight());
@@ -92,7 +92,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ContentHeight").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ContentHeight").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnView_ContentHeight(m_Model, args);
@@ -101,7 +101,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_HorizontalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_HorizontalScrollPosition").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_HorizontalScrollPosition").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _value = _ScrollWidget.GetHScrollPos();
@@ -111,7 +111,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_HorizontalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_HorizontalScrollPosition").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_HorizontalScrollPosition").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _value;
@@ -122,7 +122,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_VerticalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_VerticalScrollPosition").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_VerticalScrollPosition").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _value = _ScrollWidget.GetVScrollPos();
@@ -132,7 +132,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_VerticalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_VerticalScrollPosition").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_VerticalScrollPosition").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _value;
@@ -143,7 +143,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_HorizontalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_HorizontalScrollStep").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_HorizontalScrollStep").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, HorizontalScrollStep, 0, _HorizontalScrollStep);
@@ -152,7 +152,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_HorizontalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_HorizontalScrollStep").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_HorizontalScrollStep").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.GetClassVar(m_Model, HorizontalScrollStep, 0, _HorizontalScrollStep);
@@ -162,7 +162,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnView_VerticalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_VerticalScrollStep").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_VerticalScrollStep").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, VerticalScrollStep, 0, _VerticalScrollStep);
@@ -171,7 +171,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 	void OnModel_VerticalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_VerticalScrollStep").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_VerticalScrollStep").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.GetClassVar(m_Model, VerticalScrollStep, 0, _VerticalScrollStep);

@@ -29,7 +29,7 @@ class CF_EditBoxWidget : CF_UIWidget
 	void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Text.SetString(_EditBoxWidget.GetText());
@@ -38,7 +38,7 @@ class CF_EditBoxWidget : CF_UIWidget
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_EditBoxWidget.SetText(_Text.GetString());

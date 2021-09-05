@@ -9,9 +9,9 @@ class CF_PriorityQueue<Class T> : CF_Collection
 		m_Converter = CF_TypeConverters.Create(t);
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += "Count: " + m_Count;
 		for (int i = 0; i < m_Count; i++)
 		{

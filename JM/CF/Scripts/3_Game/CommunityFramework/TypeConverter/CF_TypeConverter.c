@@ -73,7 +73,7 @@ class CF_TypeConverter : Managed
 		return null;
 	}
 
-	string ToStr()
+	string GetDebugName()
 	{
 		return "" + this;
 	}

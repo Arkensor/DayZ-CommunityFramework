@@ -3,9 +3,9 @@ class CF_ViewEventArgs : CF_EventArgs
 	Widget Target;
 	bool Continue = true;
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += " Target=" + Target;
 		str += " Continue=" + Continue;
 		return str;

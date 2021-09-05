@@ -2,9 +2,9 @@ class CF_DragEventArgs : CF_PositionEventArgs
 {
 	Widget Reciever;
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += " Reciever=" + Reciever;
 		return str;
 	}

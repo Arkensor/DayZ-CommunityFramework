@@ -88,7 +88,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Name(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Name").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Name").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Name.SetString(_Widget.GetName());
@@ -97,7 +97,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Name(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Name").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Name").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Widget.SetName(_Name.GetString());
@@ -106,7 +106,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Visible(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Visible").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Visible").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Visible.SetBool(_Widget.IsVisible());
@@ -115,7 +115,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Visible(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Visible").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Visible").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Widget.Show(_Visible.GetBool());
@@ -124,7 +124,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Enabled(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Enabled").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Enabled").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnView_Enabled(sender, args);
@@ -133,7 +133,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Enabled(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Enabled").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Enabled").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.Enable(_Enabled.GetBool());
@@ -142,7 +142,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Flags(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Flags").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Flags").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Flags.SetInt(_Widget.GetFlags());
@@ -151,7 +151,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Flags(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Flags").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Flags").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.ClearFlags(_Widget.GetFlags(), false);
@@ -161,7 +161,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Sort(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Sort").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Sort").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Sort.SetInt(_Widget.GetSort());
@@ -170,7 +170,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Sort(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Sort").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Sort").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.SetSort(_Sort.GetInt());
@@ -179,7 +179,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Position").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Position").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _positionX;
@@ -192,7 +192,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Position(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Position").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Position").Add(sender).Add(args.GetDebugName());
 		#endif
 				
 		vector position = _Position.GetVector();
@@ -206,7 +206,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_PositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_PositionX").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_PositionX").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _positionX;
@@ -219,7 +219,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_PositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_PositionX").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_PositionX").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _positionX;
@@ -232,7 +232,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_PositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_PositionY").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_PositionY").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _positionX;
@@ -245,7 +245,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_PositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_PositionY").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_PositionY").Add(sender).Add(args.GetDebugName());
 		#endif
 				
 		float _positionX;
@@ -258,7 +258,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Size(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Size").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Size").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _width;
@@ -271,7 +271,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Size(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Size").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Size").Add(sender).Add(args.GetDebugName());
 		#endif
 				
 		vector size = _Size.GetVector();
@@ -285,7 +285,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Width(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Width").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Width").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _width;
@@ -298,7 +298,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Width(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Width").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Width").Add(sender).Add(args.GetDebugName());
 		#endif
 				
 		float _width;
@@ -311,7 +311,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Height(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Height").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Height").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _width;
@@ -324,7 +324,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Height(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Height").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Height").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _width;
@@ -337,7 +337,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_ScreenPositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ScreenPositionX").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ScreenPositionX").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _positionX;
@@ -350,7 +350,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_ScreenPositionX(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ScreenPositionX").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ScreenPositionX").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		float _positionX;
@@ -380,7 +380,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_ScreenPositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ScreenPositionY").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ScreenPositionY").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _positionX;
@@ -393,7 +393,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_ScreenPositionY(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ScreenPositionY").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ScreenPositionY").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _positionX;
@@ -423,7 +423,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_ScreenWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ScreenWidth").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ScreenWidth").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _width;
@@ -436,7 +436,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_ScreenWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ScreenWidth").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ScreenWidth").Add(sender).Add(args.GetDebugName());
 		#endif
 				
 		OnView_ScreenWidth(m_Model, args);
@@ -445,7 +445,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_ScreenHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_ScreenHeight").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_ScreenHeight").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _width;
@@ -458,7 +458,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_ScreenHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_ScreenHeight").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_ScreenHeight").Add(sender).Add(args.GetDebugName());
 		#endif
 				
 		OnView_ScreenHeight(m_Model, args);
@@ -467,7 +467,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Color(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Color").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Color").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Color.SetInt(_Widget.GetColor());
@@ -476,7 +476,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Color(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Color").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Color").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.SetColor(_Color.GetInt());
@@ -485,7 +485,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Roll(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Roll").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Roll").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnModel_Roll(sender, args);
@@ -494,7 +494,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Roll(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Roll").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Roll").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
@@ -503,7 +503,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Pitch(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Pitch").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Pitch").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnModel_Pitch(sender, args);
@@ -512,7 +512,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Pitch(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Pitch").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Pitch").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
@@ -521,7 +521,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Yaw(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Yaw").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Yaw").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnModel_Yaw(sender, args);
@@ -530,7 +530,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Yaw(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Yaw").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Yaw").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.SetRotation(_Roll.GetFloat(), _Pitch.GetFloat(), _Yaw.GetFloat());
@@ -539,7 +539,7 @@ class CF_Widget : CF_ViewModel
 	void OnView_Alpha(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Alpha").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Alpha").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		_Alpha.SetInt(_Widget.GetAlpha());
@@ -548,7 +548,7 @@ class CF_Widget : CF_ViewModel
 	void OnModel_Alpha(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Alpha").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Alpha").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		_Widget.SetAlpha(_Alpha.GetInt());
@@ -557,7 +557,7 @@ class CF_Widget : CF_ViewModel
 	override bool OnResize(CF_ModelBase sender, CF_ResizeEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnResize").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnResize").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		//NotifyPropertyChanged(Size, "Size");
@@ -574,7 +574,7 @@ class CF_Widget : CF_ViewModel
 	override bool OnUpdate(CF_ModelBase sender, CF_ViewEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnUpdate").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnUpdate").Add(sender).Add(args.GetDebugName());
 		#endif
 		
 		//NotifyPropertyChanged(Position, "Position");

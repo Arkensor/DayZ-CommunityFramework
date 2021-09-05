@@ -31,14 +31,14 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 	override void OnView(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnView").Add(evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnView").Add(evt.GetDebugName());
 		#endif
 	}
 
 	override void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnModel").Add(evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnModel").Add(evt.GetDebugName());
 		#endif
 	}
 };

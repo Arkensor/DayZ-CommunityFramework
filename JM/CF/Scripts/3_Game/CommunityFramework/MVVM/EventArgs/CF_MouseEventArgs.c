@@ -20,9 +20,9 @@ class CF_MouseEventArgs : CF_PositionEventArgs
 	 */
 	int Type;
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += " Button=" + Button;
 		str += " Enter=" + Enter;
 		str += " Wheel=" + Wheel;

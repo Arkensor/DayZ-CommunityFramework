@@ -7,7 +7,7 @@ class CF_Collection : Managed
 	{
 	}
 
-	string ToStr()
+	string GetDebugName()
 	{
 		return "[" + this + "]";
 	}

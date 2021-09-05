@@ -33,7 +33,7 @@ class CF_TestModel : CF_Model
 	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(evt.ToStr());
+		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(evt.GetDebugName());
 		#endif
 
 		evt.Continue = true;
@@ -42,7 +42,7 @@ class CF_TestModel : CF_Model
 	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(evt.ToStr());
+		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(evt.GetDebugName());
 		#endif
 		
 		evt.Continue = BlockInput;
@@ -54,7 +54,7 @@ class CF_TestModel : CF_Model
 	void OnClick(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(evt.ToStr());
+		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(evt.GetDebugName());
 		#endif
 
 		Index++;
@@ -85,7 +85,7 @@ class CF_TestColour : CF_Model
 		Name = _name;
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
 		return Name;
 	}
@@ -111,7 +111,7 @@ class CF_TestItemModel : CF_Model
 	void Remove(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(evt.ToStr());
+		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(evt.GetDebugName());
 		#endif
 
 		int index = m_Parent.Test.Find(this);

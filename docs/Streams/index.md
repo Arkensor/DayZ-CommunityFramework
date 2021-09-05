@@ -51,7 +51,7 @@ CF_BinaryWriter writer = new CF_BinaryWriter(stream);
 writer.WriteFloat(5);
 writer.Close();
 
-Print(stream.ToStr());	// "40A00000"
+Print(stream.GetDebugName());	// "40A00000"
 ```
 
 ## Serializer

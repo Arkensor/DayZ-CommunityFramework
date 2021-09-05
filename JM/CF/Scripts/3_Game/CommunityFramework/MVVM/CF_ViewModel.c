@@ -135,7 +135,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		if (temp == null) temp = new CF_EventArgs();
 
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(temp.ToStr());
+		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(temp.GetDebugName());
 		#endif
 
 		m_Properties._ViewChanged(temp);
@@ -346,7 +346,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_Insert(CF_ObservableCollection sender, CF_CollectionInsertEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Insert").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Insert").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		CF_TypeConverter conv = sender.GetConverter(args.Index);
@@ -368,7 +368,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_InsertAt(CF_ObservableCollection sender, CF_CollectionInsertAtEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		CF_Log.Error("Function not implemented");
@@ -377,7 +377,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_Clear(CF_ObservableCollection sender, CF_CollectionClearEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Clear").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Clear").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		Widget child = m_Widget.GetChildren();
@@ -398,7 +398,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_Set(CF_ObservableCollection sender, CF_CollectionSetEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		CF_Log.Error("Function not implemented");
@@ -407,7 +407,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_Remove(CF_ObservableCollection sender, CF_CollectionRemoveEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Remove").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Remove").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		Widget widget = GetChildWidgetAt(args.Index);
@@ -419,7 +419,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_Swap(CF_ObservableCollection sender, CF_CollectionSwapEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Swap").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Swap").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		CF_Log.Error("Function not implemented");

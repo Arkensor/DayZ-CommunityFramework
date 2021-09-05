@@ -35,7 +35,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	void OnView_Min(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Min").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Min").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, Min, 0, _SimpleProgressBarWidget.GetMin());
@@ -44,7 +44,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	void OnModel_Min(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Min").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Min").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnView_Min(m_Model, args);
@@ -53,7 +53,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	void OnView_Max(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Max").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Max").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		EnScript.SetClassVar(m_Model, Max, 0, _SimpleProgressBarWidget.GetMax());
@@ -62,7 +62,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	void OnModel_Max(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Max").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Max").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		OnView_Max(m_Model, args);
@@ -71,7 +71,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	void OnView_Current(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Current").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnView_Current").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _value = _SimpleProgressBarWidget.GetCurrent();
@@ -81,7 +81,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 	void OnModel_Current(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Current").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_2(this, "OnModel_Current").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		float _value;

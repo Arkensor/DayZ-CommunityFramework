@@ -16,9 +16,9 @@ class CF_CollectionSwapEventArgs : CF_CollectionEventArgs
 		}
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += " IndexA=" + IndexA;
 		str += " IndexB=" + IndexB;
 		return str;

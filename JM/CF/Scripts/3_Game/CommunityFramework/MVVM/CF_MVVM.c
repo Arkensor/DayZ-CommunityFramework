@@ -313,7 +313,7 @@ class CF_MVVM
 		if (temp == null) temp = new CF_EventArgs();
 
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(g_CF_MVVM, "NotifyPropertyChanged").Add(model).Add(propertyName).Add(temp.ToStr());
+		auto trace = CF_Trace_2(g_CF_MVVM, "NotifyPropertyChanged").Add(model).Add(propertyName).Add(temp.GetDebugName());
 		#endif
 		
     	#ifdef COMPONENT_SYSTEM

@@ -62,10 +62,10 @@ class CF_Localiser
 
 	string Format()
 	{
-		return ToStr();
+		return GetDebugName();
 	}
 
-	string ToStr()
+	string GetDebugName()
 	{
 		string text = GetTranslated(-1);
 		string p1 = GetTranslated(0);

@@ -63,7 +63,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		return m_Name;
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
 		string str = "[" + ClassName() + "] ";
 		str += "Name=" + m_Name;
@@ -109,7 +109,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 			}
 			else
 			{
-				CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", typeConverterOverride.ToStr(), m_TypeConverter.ToStr());
+				CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", typeConverterOverride.GetDebugName(), m_TypeConverter.GetDebugName());
 			}
 		}
 
@@ -121,7 +121,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void OnView(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnView").Add(evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnView").Add(evt.GetDebugName());
 		#endif
 
 		if (m_IndexCount == -1) AcquireIndices();
@@ -133,7 +133,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnModel").Add(evt.ToStr());
+		auto trace = CF_Trace_1(this, "OnModel").Add(evt.GetDebugName());
 		#endif
 
 		if (m_IndexCount == -1) AcquireIndices();
@@ -177,7 +177,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 						}
 						else
 						{
-							CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", replacingTypeConverter.ToStr(), typeConverter.ToStr());
+							CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", replacingTypeConverter.GetDebugName(), typeConverter.GetDebugName());
 						}
 					}
 				}

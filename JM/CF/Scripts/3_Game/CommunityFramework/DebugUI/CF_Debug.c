@@ -326,7 +326,7 @@ class CF_Debug : CF_TimerBase
 	void Event_ToggleWindow(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		if (m_UI)
@@ -342,7 +342,7 @@ class CF_Debug : CF_TimerBase
 	void Event_CloseWindow(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.ToStr());
+		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.GetDebugName());
 		#endif
 
 		CloseWindow();

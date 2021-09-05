@@ -30,7 +30,7 @@ class CF_Model : Managed
 		return "";
 	}
 	
-	string ToStr()
+	string GetDebugName()
 	{
 		return "";
 	}

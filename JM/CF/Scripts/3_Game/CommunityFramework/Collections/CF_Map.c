@@ -21,9 +21,9 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += "Count: " + Count();
 		for (int i = 0; i < Count(); i++)
 		{

@@ -5,7 +5,7 @@ class CF_TypeConverterLocaliser : CF_TypeConverterClass
 		CF_Localiser localiser = GetLocaliser();
 		if (!localiser) return "";
 
-		return localiser.ToStr();
+		return localiser.GetDebugName();
 	}
 
 	override void SetString(string value)

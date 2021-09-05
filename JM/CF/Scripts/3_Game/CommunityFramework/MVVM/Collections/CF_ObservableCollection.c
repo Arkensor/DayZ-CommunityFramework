@@ -20,7 +20,7 @@ class CF_ObservableCollection : CF_Collection
 	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(evt.ToStr());
+		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(evt.GetDebugName());
 		#endif
 
 		for (int i = 0; i < m_LinkCount; i++)

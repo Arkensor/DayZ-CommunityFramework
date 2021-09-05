@@ -7,9 +7,9 @@ class CF_CollectionSetEventArgs : CF_CollectionEventArgs
 		Index = index;
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
-		string str = super.ToStr();
+		string str = super.GetDebugName();
 		str += " Index=" + Index;
 		return str;
 	}
