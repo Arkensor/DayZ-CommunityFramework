@@ -229,6 +229,8 @@ class CF_Debug : CF_TimerBase
 
 		if (value)
 		{
+			IncrementTab();
+
 			bool functionCallSuccess = false;
 			GetGame().GameScript.CallFunctionParams(value, "CF_OnDebugUpdate", functionCallSuccess, new Param2<CF_Debug, CF_DebugUI_Type>(this, CF_Debug.s_Types));
 
@@ -248,6 +250,8 @@ class CF_Debug : CF_TimerBase
 					}
 				}
 			}
+
+			DecrementTab();
 		}
 
 		DecrementTab();
