@@ -41,6 +41,13 @@ class CF_Trace
 		m_InstanceName = instanceName;
 		m_StackName = stackName;
 
+		string dump = "";
+		DumpStackString(dump);
+		array<string> outputs = new array<string>();
+		dump.Split("\n", outputs);
+		m_StackName = outputs[2];
+		m_StackName = m_StackName.Substring(0, m_StackName.IndexOf("("));
+
 		m_Count = count;
 
 		if (m_Count == 0) Output();
