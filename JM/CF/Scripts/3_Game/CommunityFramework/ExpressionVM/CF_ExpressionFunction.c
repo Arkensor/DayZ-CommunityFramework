@@ -184,7 +184,7 @@ class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Interpolate(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param1, param2, 0.0, 1.0);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = (Math.Clamp(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param1, param2) - param1) / (param2 - param1);
 	}
 
 	override string ToStr()
