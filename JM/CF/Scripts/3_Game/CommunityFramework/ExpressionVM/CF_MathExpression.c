@@ -70,13 +70,11 @@ class CF_MathExpression : CF_Expression
 				}
 
 				//! factor function optimization
-				if ( compileToken.token == "factor" )
+				if (compileToken.token == CF_ExpressionFunctionFactor.CF_NAME)
 				{
-					if ( compileToken.parameters[1] < compileToken.parameters[0] )
+					if (compileToken.parameters[1] < compileToken.parameters[0])
 					{
-						float temp = compileToken.parameters[1];
-						compileToken.parameters[1] = compileToken.parameters[0];
-						compileToken.parameters[0] = temp;
+						compileToken.token = CF_ExpressionFunctionReverseFactor.CF_NAME;
 					}
 				}
 
