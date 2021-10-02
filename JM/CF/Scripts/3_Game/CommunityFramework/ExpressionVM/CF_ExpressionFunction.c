@@ -208,7 +208,7 @@ class CF_ExpressionFunctionReverseFactor : CF_ExpressionFunction
 		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = 1.0 - (Math.Clamp(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param2, param1) - param2) / (param1 - param2);
 	}
 
-	override string ToStr()
+	override string GetDebugName()
 	{
 		return CF_NAME;
 	}
