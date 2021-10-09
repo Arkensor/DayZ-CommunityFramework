@@ -19,10 +19,19 @@ class CF_Model : Managed
 	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(property);
+		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(property).Add(evt);
 		#endif
 		
 		CF_MVVM.NotifyPropertyChanged(this, property, evt);
+	}
+
+	void NotifyPropertyChanged()
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "NotifyPropertyChanged");
+		#endif
+		
+		CF_MVVM.NotifyPropertyChanged(this);
 	}
 
 	string GetLayoutFile()
