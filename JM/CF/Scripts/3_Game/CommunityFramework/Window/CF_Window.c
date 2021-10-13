@@ -332,6 +332,9 @@ class CF_Window : CF_Model
 		if (m_Height < m_MinimumHeight) m_Height = m_MinimumHeight;
 		else if (m_Height > m_MaximumHeight) m_Height = m_MaximumHeight;
 
+		m_ContentWidth = m_Width;
+		m_ContentHeight = m_Height - 29;
+
 		NotifyPropertyChanged("m_Width");
 		NotifyPropertyChanged("m_Height");
 		NotifyPropertyChanged("m_ContentWidth");
@@ -456,7 +459,7 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight) newPosY = m_PreviousPositionY + m_PreviousHeight;
-		SetSize(m_PreviousWidth, newSizeY);
+		SetSize(m_PreviousWidth, newSizeY - 29);
 		SetPosition(m_PreviousPositionX, newPosY);
 
 		ResetBorder();
@@ -471,7 +474,7 @@ class CF_Window : CF_Model
 		#endif
 
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
-		SetSize(m_PreviousWidth, newSizeY);
+		SetSize(m_PreviousWidth, newSizeY - 29);
 
 		ResetBorder();
 		m_BorderDColor = m_BorderDragColor;
@@ -486,7 +489,7 @@ class CF_Window : CF_Model
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
-		SetSize(newSizeX, m_PreviousHeight);
+		SetSize(newSizeX, m_PreviousHeight - 29);
 		SetPosition(newPosX, m_PreviousPositionY);
 
 		ResetBorder();
@@ -501,7 +504,7 @@ class CF_Window : CF_Model
 		#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
-		SetSize(newSizeX, m_PreviousHeight);
+		SetSize(newSizeX, m_PreviousHeight - 29);
 
 		ResetBorder();
 		m_BorderRColor = m_BorderDragColor;
@@ -519,7 +522,7 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY);
+		SetSize(newSizeX, newSizeY - 29);
 		SetPosition(newPosX, newPosY);
 
 		ResetBorder();
@@ -537,7 +540,7 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY);
+		SetSize(newSizeX, newSizeY - 29);
 		SetPosition(m_PreviousPositionX, newPosY);
 
 		ResetBorder();
@@ -555,7 +558,7 @@ class CF_Window : CF_Model
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY);
+		SetSize(newSizeX, newSizeY - 29);
 		SetPosition(newPosX, m_PreviousPositionY);
 
 		ResetBorder();
@@ -572,7 +575,7 @@ class CF_Window : CF_Model
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY);
+		SetSize(newSizeX, newSizeY - 29);
 
 		ResetBorder();
 		m_BorderDRColor = m_BorderDragColor;
