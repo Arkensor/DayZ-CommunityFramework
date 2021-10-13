@@ -7,9 +7,9 @@ class CF_Debug : CF_TimerBase
 	[CF_EventSubscriber(CF_Debug._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("CF_Debug", "_Init");
-		#endif
+#endif
 
 		s_Types = new CF_DebugUI_Type();
 		s_Manager = new CF_DebugManager();
@@ -20,9 +20,9 @@ class CF_Debug : CF_TimerBase
 	[CF_EventSubscriber(CF_Debug._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("CF_Debug", "_Cleanup");
-		#endif
+#endif
 
 		s_Types = null;
 		s_Manager = null;
@@ -31,9 +31,9 @@ class CF_Debug : CF_TimerBase
 	[CF_EventSubscriber(CF_Debug._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
 	static void _MissionCleanup()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("CF_Debug", "_MissionCleanup");
-		#endif
+#endif
 
 		SetAllowed(false);
 	}
@@ -72,14 +72,17 @@ class CF_Debug : CF_TimerBase
 
 	protected Class m_Instance;
 	protected string m_Name;
+	protected vector m_Position;
+
+	protected Class m_CurrentInstance;
 
 	protected CF_DebugUI m_UI;
 
 	/*private*/ void CF_Debug(Class instance, string name)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "CF_Debug");
-		#endif
+#endif
 
 		m_Instance = instance;
 		SetName(name);
@@ -87,9 +90,9 @@ class CF_Debug : CF_TimerBase
 
 	void ~CF_Debug()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_Debug");
-		#endif
+#endif
 	}
 
 	void SetName(string name)
@@ -109,6 +112,27 @@ class CF_Debug : CF_TimerBase
 		return m_Name;
 	}
 
+	/**
+	 * @brief If attached root instance is an Entity, the position is in model space. Otherwise it is in world space.
+	 */
+	void SetPosition(vector value)
+	{
+		if (m_CurrentInstance != m_Instance)
+			return;
+
+		m_Position = value;
+	}
+
+	vector GetPosition()
+	{
+		return m_Position;
+	}
+
+	Class GetInstance()
+	{
+		return m_Instance;
+	}
+
 	void Add(string value)
 	{
 		foreach (auto output : m_Outputs)
@@ -116,7 +140,7 @@ class CF_Debug : CF_TimerBase
 			output.Add(value);
 		}
 	}
-	
+
 	void Add(string name, int value)
 	{
 		foreach (auto output : m_Outputs)
@@ -124,7 +148,7 @@ class CF_Debug : CF_TimerBase
 			output.Add(name, value);
 		}
 	}
-	
+
 	void Add(string name, bool value)
 	{
 		foreach (auto output : m_Outputs)
@@ -132,7 +156,7 @@ class CF_Debug : CF_TimerBase
 			output.Add(name, value);
 		}
 	}
-	
+
 	void Add(string name, float value)
 	{
 		foreach (auto output : m_Outputs)
@@ -140,7 +164,7 @@ class CF_Debug : CF_TimerBase
 			output.Add(name, value);
 		}
 	}
-	
+
 	void Add(string name, vector value)
 	{
 		foreach (auto output : m_Outputs)
@@ -148,7 +172,7 @@ class CF_Debug : CF_TimerBase
 			output.Add(name, value);
 		}
 	}
-	
+
 	void Add(string name, string value)
 	{
 		foreach (auto output : m_Outputs)
@@ -156,7 +180,7 @@ class CF_Debug : CF_TimerBase
 			output.Add(name, value);
 		}
 	}
-	
+
 	void ResetBuffer()
 	{
 		foreach (auto output : m_Outputs)
@@ -198,7 +222,10 @@ class CF_Debug : CF_TimerBase
 	{
 		string vName = "INVALID";
 		if (value >= 0 && value < values.Count())
+		{
 			vName = values[value];
+		}
+
 		Add(name, vName);
 	}
 
@@ -220,10 +247,15 @@ class CF_Debug : CF_TimerBase
 	 */
 	void Add(Class value)
 	{
-		IncrementTab();
+		bool incremented;
+
+		Class previous = m_CurrentInstance;
+		m_CurrentInstance = value;
 
 		if (value != m_Instance)
 		{
+			incremented = true;
+			IncrementTab();
 			Add("this", value);
 		}
 
@@ -254,7 +286,12 @@ class CF_Debug : CF_TimerBase
 			DecrementTab();
 		}
 
-		DecrementTab();
+		if (incremented)
+		{
+			DecrementTab();
+		}
+		
+		m_CurrentInstance = previous;
 	}
 
 	protected override void OnTick(float dt)
@@ -268,9 +305,9 @@ class CF_Debug : CF_TimerBase
 
 	protected override void OnStart()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "OnStart");
-		#endif
+#endif
 
 		super.OnStart();
 
@@ -279,12 +316,12 @@ class CF_Debug : CF_TimerBase
 
 	protected override void OnStop()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "OnStop");
-		#endif
+#endif
 
 		super.OnStop();
-		
+
 		CF_MVVM.NotifyPropertyChanged(this, "m_IsActive");
 	}
 
@@ -295,14 +332,17 @@ class CF_Debug : CF_TimerBase
 
 	void ShowWindow()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "ShowWindow");
-		#endif
+#endif
 
-		if (m_UI) return;
+		if (m_UI)
+		{
+			return;
+		}
 
 		Start();
-		
+
 		CF_DebugUI ui = new CF_DebugUI(this, GetName());
 		m_UI = ui;
 		m_Outputs.Insert(ui);
@@ -312,9 +352,9 @@ class CF_Debug : CF_TimerBase
 
 	void CloseWindow()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "CloseWindow");
-		#endif
+#endif
 
 		m_Outputs.RemoveItemUnOrdered(m_UI);
 		m_UI = null;
@@ -329,9 +369,9 @@ class CF_Debug : CF_TimerBase
 
 	void Event_ToggleWindow(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.GetDebugName());
-		#endif
+#endif
 
 		if (m_UI)
 		{
@@ -345,9 +385,9 @@ class CF_Debug : CF_TimerBase
 
 	void Event_CloseWindow(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args.GetDebugName());
-		#endif
+#endif
 
 		CloseWindow();
 	}

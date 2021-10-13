@@ -680,6 +680,7 @@ PanelWidgetClass base_window {
   ScriptParamsClass {
    Model "CF_Window"
    Event_MouseButtonDown "OnMouseButtonDown"
+   Visible "m_Visible"
    Event_Update "OnUpdate"
    Sort "m_Sort"
    PositionX "m_PositionX"

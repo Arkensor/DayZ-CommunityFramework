@@ -7,7 +7,7 @@ class CF_Collection : Managed
 	{
 	}
 
-	string GetDebugName()
+	override string GetDebugName()
 	{
 		return "[" + this + "]";
 	}

@@ -22,6 +22,7 @@ WrapSpacerWidgetClass BlockSpacer {
    style blank
    "Scrollbar V" 1
    "Scrollbar V Left" 0
+   scriptclass "CF_ScrollWidget"
    {
     MultilineTextWidgetClass TextField {
      ignorepointer 1
@@ -42,6 +43,32 @@ WrapSpacerWidgetClass BlockSpacer {
        Text "m_Data"
       }
      }
+    }
+   }
+   {
+    ScriptParamsClass {
+     Visible "m_LockPosition:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  MultilineTextWidgetClass TextFieldLocked {
+   ignorepointer 1
+   position 0 0
+   size 1 1
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   scriptclass "CF_MultilineTextWidget"
+   text "AAA"
+   font "gui/fonts/system"
+   "exact text" 1
+   "size to text h" 1
+   "size to text v" 1
+   {
+    ScriptParamsClass {
+     Visible "m_LockPosition"
+     Text "m_Data"
     }
    }
   }

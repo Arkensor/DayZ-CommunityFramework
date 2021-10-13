@@ -5,6 +5,9 @@ class CF_DebugUI : CF_DebugOutput
 	private string m_Data;
 	private int m_TabDepth;
 
+	private bool m_LockPosition;
+	private Widget TextFieldLocked;
+
 	private autoptr CF_Window m_Window;
 
 	void CF_DebugUI(CF_Debug parent, string name)
@@ -108,6 +111,37 @@ class CF_DebugUI : CF_DebugOutput
 	override void PushBuffer()
 	{
 		CF_MVVM.NotifyPropertyChanged(this, "m_Data");
+		
+		m_LockPosition = true;
+		CF_MVVM.NotifyPropertyChanged(this, "m_LockPosition");
+
+		if (m_LockPosition)
+		{
+			vector position = m_Parent.GetPosition();
+
+			Object obj;
+			if (Class.CastTo(obj, m_Parent.GetInstance()))
+			{
+				position = obj.ModelToWorld(position);
+			}
+
+			position = GetGame().GetScreenPos(position);
+			if (position[2] <= 0.0)
+			{
+				m_Window.SetVisible(false);
+			}
+			else
+			{
+				m_Window.SetVisible(true);
+			}
+
+			m_Window.SetPosition(position[0], position[1]);
+
+			float sizeX, sizeY;
+			TextFieldLocked.GetScreenSize(sizeX, sizeY);
+
+			m_Window.SetSize(sizeX, sizeY);
+		}
 	}
 
 	private string Tab()
@@ -119,6 +153,9 @@ class CF_DebugUI : CF_DebugOutput
 	
 	private string NewLine()
 	{
+		if (m_Data == string.Empty)
+			return Tab();
+			
 		return "\n" + Tab();
 	}
 };

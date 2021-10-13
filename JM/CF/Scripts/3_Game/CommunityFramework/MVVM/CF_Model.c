@@ -39,7 +39,7 @@ class CF_Model : Managed
 		return "";
 	}
 	
-	string GetDebugName()
+	override string GetDebugName()
 	{
 		return "";
 	}

@@ -65,7 +65,7 @@ class CF_Localiser
 		return GetDebugName();
 	}
 
-	string GetDebugName()
+	override string GetDebugName()
 	{
 		string text = GetTranslated(-1);
 		string p1 = GetTranslated(0);

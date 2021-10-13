@@ -18,6 +18,8 @@ class CF_Window : CF_Model
 	private Widget content;
 
 	// Properties
+	private bool m_Visible;
+
 	private float m_PositionX;
 	private float m_PositionY;
 
@@ -71,6 +73,8 @@ class CF_Window : CF_Model
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_3(this, "CF_Window").Add(title).Add(width).Add(height);
 		#endif
+
+		m_Visible = true;
 
 		m_MinimumWidth = 100;
 		m_MinimumHeight = 25;
@@ -204,6 +208,22 @@ class CF_Window : CF_Model
 		return m_Title;
 	}
 
+	void SetVisible(bool visible)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetVisible").Add(visible);
+		#endif
+		
+		m_Visible = visible;
+
+		NotifyPropertyChanged("m_Visible");
+	}
+
+	bool IsVisible()
+	{
+		return m_Visible;
+	}
+
 	void SetTakesGameFocus(bool takes)
 	{
 		m_TakesGameFocus = takes;
@@ -305,15 +325,12 @@ class CF_Window : CF_Model
 		#endif
 		
 		m_Width = x;
-		m_Height = y;
+		m_Height = y + 29;
 
 		if (m_Width < m_MinimumWidth) m_Width = m_MinimumWidth;
 		else if (m_Width > m_MaximumWidth) m_Width = m_MaximumWidth;
 		if (m_Height < m_MinimumHeight) m_Height = m_MinimumHeight;
 		else if (m_Height > m_MaximumHeight) m_Height = m_MaximumHeight;
-
-		m_ContentWidth = m_Width - 4;
-		m_ContentHeight = m_Height - 29;
 
 		NotifyPropertyChanged("m_Width");
 		NotifyPropertyChanged("m_Height");
