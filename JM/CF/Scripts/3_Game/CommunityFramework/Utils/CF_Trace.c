@@ -141,12 +141,7 @@ class CF_Trace
 	{
 		string val = "" + value;
 
-		if (value)
-		{
-			string toStr;
-			g_Script.CallFunction(value, "ToStr", toStr, null);
-			if (toStr != string.Empty) val = "\"" + toStr + "\"";
-		}
+		if (value) val = "\"" + value.GetDebugName() + "\"";
 
 		m_Strings[m_Index] = val;
 		m_Index++;
