@@ -289,7 +289,7 @@ class CF_Date : Managed
 		return dateToString;
 	}
 
-	string ToStr()
+	override string GetDebugName()
 	{
 		return DateToString();
 	}
