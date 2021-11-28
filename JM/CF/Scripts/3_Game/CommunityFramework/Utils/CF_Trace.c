@@ -1,5 +1,6 @@
 class CF_Trace
 {
+	// Global counter for the trace depth
 	static string s_TraceDepth;
 
 	protected string m_InstanceName;
@@ -48,6 +49,8 @@ class CF_Trace
 
 	void ~CF_Trace()
 	{
+		if (!m_Flushed) return;
+		
 		s_TraceDepth = s_TraceDepth.Substring(0, s_TraceDepth.Length() - 1);
 
 		m_Ticks = TickCount(m_Ticks);
@@ -55,9 +58,9 @@ class CF_Trace
 		CF_Log.Trace("%1-%2 Time: %3ms", Depth(), FormatStack(m_InstanceName, m_StackName), (m_Ticks / 10000.0).ToString());
 	}
 
-	CF_Trace Output()
+	void Output()
 	{
-		if (m_Flushed) return this;
+		if (m_Flushed) return;
 		m_Flushed = true;
 
 		string params;
@@ -73,8 +76,6 @@ class CF_Trace
 		s_TraceDepth += " ";
 		
 		m_Ticks = TickCount(0);
-
-		return this;
 	}
 
 	CF_Trace Add(bool value)
@@ -86,7 +87,7 @@ class CF_Trace
 
 		Output();
 
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(int value)
@@ -98,7 +99,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(float value)
@@ -110,7 +111,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(vector value)
@@ -122,7 +123,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(string value)
@@ -134,7 +135,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(Class value)
@@ -150,7 +151,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 };
 
@@ -307,41 +308,4 @@ static CF_Trace CF_Trace_8(string stackName)
 static CF_Trace CF_Trace_9(string stackName)
 {
 	return new CF_Trace("", stackName, 9);
-}
-
-void FunctionOne()
-{
-	auto trace = CF_Trace_0("FunctionOne");
-	
-	SomeClass someClass = new SomeClass();
-	someClass.MethodOne(0.5);
-}
-
-class SomeClass
-{
-	ref CF_Trace m_InstanceTrace = CF_Trace_Instance(this);
-	
-	void SomeClass()
-	{
-		auto trace = CF_Trace_0(this, "SomeClass");
-	}
-	
-	void MethodOne(float pDt)
-	{
-		auto trace = CF_Trace_1(this, "SomeFunction").Add(pDt);
-
-		Human player = GetGame().GetPlayer();
-		MethodTwo(player, player.GetParent());
-	}
-
-	void MethodTwo(Human player, IEntity parent)
-	{
-		auto trace = CF_Trace_2(this, "SomeFunction").Add(player).Add(parent);
-		MethodThree();
-	}
-
-	void MethodThree()
-	{
-		auto trace = CF_Trace_0(this, "MethodThree");
-	}
 }
