@@ -1,5 +1,6 @@
 class CF_Trace
 {
+	// Global counter for the trace depth
 	static string s_TraceDepth;
 
 	protected string m_InstanceName;
@@ -28,6 +29,14 @@ class CF_Trace
 		return "" + instance;
 	}
 
+	static string FormatStack(string instance, string stack)
+	{
+		string res;
+		res = instance;
+		if (stack != string.Empty) res = instance + "::" + stack;
+		return res;
+	}
+
 	void CF_Trace(string instanceName, string stackName, int count)
 	{
 		m_InstanceName = instanceName;
@@ -40,16 +49,18 @@ class CF_Trace
 
 	void ~CF_Trace()
 	{
+		if (!m_Flushed) return;
+		
 		s_TraceDepth = s_TraceDepth.Substring(0, s_TraceDepth.Length() - 1);
 
 		m_Ticks = TickCount(m_Ticks);
 
-		CF_Log.Trace("%1-%2::%3 Time: %4ms", Depth(), m_InstanceName, m_StackName, (m_Ticks / 10000.0).ToString());
+		CF_Log.Trace("%1-%2 Time: %3ms", Depth(), FormatStack(m_InstanceName, m_StackName), (m_Ticks / 10000.0).ToString());
 	}
 
-	CF_Trace Output()
+	void Output()
 	{
-		if (m_Flushed) return this;
+		if (m_Flushed) return;
 		m_Flushed = true;
 
 		string params;
@@ -60,13 +71,11 @@ class CF_Trace
 
 		if (m_Count > 0) params += m_Strings[m_Count - 1];
 
-		CF_Log.Trace("%1+%2::%3 (%4)", Depth(), m_InstanceName, m_StackName, params);
+		CF_Log.Trace("%1+%2 (%3)", Depth(), FormatStack(m_InstanceName, m_StackName), params);
 
 		s_TraceDepth += " ";
 		
 		m_Ticks = TickCount(0);
-
-		return this;
 	}
 
 	CF_Trace Add(bool value)
@@ -78,7 +87,7 @@ class CF_Trace
 
 		Output();
 
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(int value)
@@ -90,7 +99,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(float value)
@@ -102,7 +111,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(vector value)
@@ -114,7 +123,7 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(string value)
@@ -126,19 +135,14 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 
 	CF_Trace Add(Class value)
 	{
 		string val = "" + value;
 
-		if (value)
-		{
-			string toStr;
-			g_Script.CallFunction(value, "ToStr", toStr, null);
-			if (toStr != string.Empty) val = "\"" + toStr + "\"";
-		}
+		if (value) val = "\"" + value.GetDebugName() + "\"";
 
 		m_Strings[m_Index] = val;
 		m_Index++;
@@ -147,13 +151,13 @@ class CF_Trace
 
 		Output();
 		
-		return this;
+		return null;
 	}
 };
 
-static CF_Trace CF_Trace(Class instance, string stackName)
+static CF_Trace CF_Trace_Instance(Class instance)
 {
-	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, -1);
+	return new CF_Trace(CF_Trace.FormatInstance(instance), string.Empty, 0);
 }
 
 static CF_Trace CF_Trace_0(Class instance, string stackName)
@@ -206,11 +210,6 @@ static CF_Trace CF_Trace_9(Class instance, string stackName)
 	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 9);
 }
 
-static CF_Trace CF_Trace(string instance, string stackName)
-{
-	return new CF_Trace(instance, stackName, -1);
-}
-
 static CF_Trace CF_Trace_0(string instance, string stackName)
 {
 	return new CF_Trace(instance, stackName, 0);
@@ -259,11 +258,6 @@ static CF_Trace CF_Trace_8(string instance, string stackName)
 static CF_Trace CF_Trace_9(string instance, string stackName)
 {
 	return new CF_Trace(instance, stackName, 9);
-}
-
-static CF_Trace CF_Trace(string stackName)
-{
-	return new CF_Trace("", stackName, -1);
 }
 
 static CF_Trace CF_Trace_0(string stackName)
