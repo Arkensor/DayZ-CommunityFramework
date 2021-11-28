@@ -298,10 +298,10 @@ class CF_Expression
 			
 			first = false;
 
-			rpn = rpn + instruction.ToStr();
+			rpn = rpn + instruction.GetDebugName();
 			
 			CF_ExpressionFunctionDef function;
-			if (CF_ExpressionVM.Find(instruction.ToStr(), function))
+			if (CF_ExpressionVM.Find(instruction.GetDebugName(), function))
 			{
 				//! instruction doesn't store parameters in an array for memory reasons
 				if ( function.params != 0 )
