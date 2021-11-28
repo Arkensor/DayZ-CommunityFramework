@@ -184,7 +184,28 @@ class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Interpolate(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param1, param2, 0.0, 1.0);
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = (Math.Clamp(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param1, param2) - param1) / (param2 - param1);
+	}
+
+	override string ToStr()
+	{
+		return CF_NAME;
+	}
+};
+
+class CF_ExpressionFunctionReverseFactor : CF_ExpressionFunction
+{
+	static string CF_NAME = "#factor_reverse";
+	
+	[CF_EventSubscriber(CF_ExpressionFunctionReverseFactor.Init, CF_LifecycleEvents.OnGameCreate)]
+	static void Init()
+	{
+		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionReverseFactor, 2));
+	}
+
+	override void Call()
+	{
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = 1.0 - (Math.Clamp(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], param2, param1) - param2) / (param1 - param2);
 	}
 
 	override string ToStr()
