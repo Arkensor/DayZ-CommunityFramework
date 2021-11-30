@@ -40,6 +40,10 @@ Print("ReadChar: " + reader.ReadChar());				// "!"
 reader.Close();
 ```
 
+`ReadWhitespace` will read from the current position uptill it finds a character that isn't a whitespace character. A whitespace character is a character that is below decimal 32 in this helpful table: https://commons.wikimedia.org/wiki/File:ASCII-Table-wide.svg 
+
+`ReadWord` will read from the current position uptill it finds a character that isn't alphanumeric and isn't whitespace.
+
 ## Hex
 
 Use the `CF_HexStream` class to read and write to a string source as a hex output.
@@ -56,18 +60,21 @@ Print(stream.GetDebugName());	// "40A00000"
 
 ## Serializer
 
-Use the `CF_SerializerReadStream` class to read to from the DayZ serializer and `CF_SerializerWriteStream` to write to the DayZ serializer.
+Use `CF_SerializerReadStream`/`CF_SerializerWriteStream` for read and write interaction with anything inherited from the DayZ `Serializer` class.
 
 ```csharp
+Serializer serializer; // could be ScriptRPC, FileSerializer, ScriptInputUserData, anything that inherits from Serializer
 ScriptReadWriteContext ctx = new ScriptReadWriteContext();
 
 // Write to the context
-CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(ctx.GetWriteContext()));
+serializer = ctx.GetWriteContext();
+CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(serializer));
 writer.WriteFloat(0.1);
 writer.Close();
 
-// Read the context
-CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerReadStream(ctx.GetReadContext()));
+// Read from the context
+serializer = ctx.GetReadContext();
+CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerReadStream(serializer));
 Print(reader.ReadFloat());	// "0.1"
 reader.Close();
 ```

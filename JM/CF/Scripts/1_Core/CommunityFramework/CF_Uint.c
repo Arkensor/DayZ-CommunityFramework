@@ -15,7 +15,7 @@ class CF_Uint : int
 		CF_Uint a = value;
 		CF_Uint carry = a & b;
 		CF_Uint result = a.XOR(b);
-		while (carry != 0)
+		while (carry)
 		{
 			CF_Uint shiftedcarry = carry << 1;
 			carry = result & shiftedcarry;
