@@ -13,11 +13,11 @@ class CF_MVVM_PropertyBase : CF_TypeConverter
 		return true;
 	}
 
-	override void FromVariable(Class instance, string variable)
+	override void Read(Class instance, string variable)
 	{
 	}
 
-	override void ToVariable(Class instance, string variable)
+	override void Write(Class instance, string variable)
 	{
 	}
 };

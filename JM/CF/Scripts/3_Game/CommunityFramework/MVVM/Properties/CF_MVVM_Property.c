@@ -231,7 +231,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		m_ActualVariableName = tokens[m_IndexCount];
 	}
 
-	void ToVariable()
+	void Write()
 	{
 		typename type = m_Model.Type();
 		Class cls = m_Model;
@@ -243,10 +243,10 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 			type = type.GetVariableType(idx);
 		}
 
-		m_TypeConverter.ToVariable(cls, m_ActualVariableName);
+		m_TypeConverter.Write(cls, m_ActualVariableName);
 	}
 
-	void FromVariable()
+	void Read()
 	{
 		typename type = m_Model.Type();
 		Class cls = m_Model;
@@ -258,90 +258,90 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 			type = type.GetVariableType(idx);
 		}
 
-		m_TypeConverter.FromVariable(cls, m_ActualVariableName);
+		m_TypeConverter.Read(cls, m_ActualVariableName);
 	}
 
 	override void SetInt(int value)
 	{
 		m_TypeConverter.SetInt(value);
-		ToVariable();
+		Write();
 	}
 
 	override int GetInt()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetInt();
 	}
 
 	override void SetBool(bool value)
 	{
 		m_TypeConverter.SetBool(value);
-		ToVariable();
+		Write();
 	}
 
 	override bool GetBool()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetBool();
 	}
 
 	override void SetFloat(float value)
 	{
 		m_TypeConverter.SetFloat(value);
-		ToVariable();
+		Write();
 	}
 
 	override float GetFloat()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetFloat();
 	}
 
 	override void SetVector(vector value)
 	{
 		m_TypeConverter.SetVector(value);
-		ToVariable();
+		Write();
 	}
 
 	override vector GetVector()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetVector();
 	}
 	
 	override void SetString(string value)
 	{
 		m_TypeConverter.SetString(value);
-		ToVariable();
+		Write();
 	}
 
 	override string GetString()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetString();
 	}
 
 	override void SetClass(Class value)
 	{
 		m_TypeConverter.SetClass(value);
-		ToVariable();
+		Write();
 	}
 
 	override Class GetClass()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetClass();
 	}
 
 	override void SetManaged(Managed value)
 	{
 		m_TypeConverter.SetManaged(value);
-		ToVariable();
+		Write();
 	}
 
 	override Managed GetManaged()
 	{
-		FromVariable();
+		Read();
 		return m_TypeConverter.GetManaged();
 	}
 };
