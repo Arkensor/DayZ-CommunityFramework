@@ -6,6 +6,8 @@ Streams can be manipulated with `CF_TextWriter`, and `CF_BinaryWriter`. Streams 
 
 In binary format, all values are in little-endian format.
 
+In text format, only ASCII characters are supported.
+
 ## Files
 
 Use the `CF_FileStream` class to read and write files on the a file system. 
