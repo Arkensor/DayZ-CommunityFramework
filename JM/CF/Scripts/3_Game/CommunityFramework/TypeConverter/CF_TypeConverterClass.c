@@ -17,9 +17,8 @@ class CF_TypeConverterClass : CF_TypeConverterT<Class>
 
 	override string GetString()
 	{
-		string toStr = "";
-		g_Script.CallFunction(m_Value, "ToStr", toStr, null);
-		return toStr;
+		if (!m_Value) return "NULL";
+		return m_Value.GetDebugName();
 	}
 	
 	override void SetClass(Class value)

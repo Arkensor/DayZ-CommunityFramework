@@ -109,7 +109,7 @@ class CF_Localiser
 	CF_Localiser Set(int index, Class value)
 	{
 		string toStr = "";
-		g_Script.CallFunction(value, "ToStr", toStr, null);
+		if (value) toStr = value.GetDebugName();
 		return Set(index, toStr, false);
 	}
 

@@ -1,8 +1,5 @@
 class CF_TypeConverterExpression : CF_TypeConverterClass
 {
-	//TODO: store as 'CF_Map' within 'CF_Expression'
-	private ref CF_Map<string, float> m_Variables = new CF_Map<string, float>();
-
 	override void SetBool(bool value)
 	{
 	}
@@ -29,7 +26,7 @@ class CF_TypeConverterExpression : CF_TypeConverterClass
 	{
 		CF_Expression expr = GetExpression();
 		if (!expr) return 0;
-		return expr.Evaluate(m_Variables.GetValueArray());
+		return expr.Evaluate(new array<float>);
 	}
 
 	override string GetString()
@@ -46,7 +43,7 @@ class CF_TypeConverterExpression : CF_TypeConverterClass
 		if (!expr) return;
 
 		expr.SetSource(value);
-		expr.Compile(m_Variables.GetKeyArray());
+		expr.Compile(new array<string>);
 	}
 	
 	CF_Expression GetExpression()

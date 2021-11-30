@@ -17,7 +17,7 @@ class CF_TypeConverterString : CF_TypeConverterT<string>
 
 	override bool GetBool()
 	{
-		return CF.StringToBool(m_Value);
+		return CF_Encoding.StringToBool(m_Value);
 	}
 
 	override void SetFloat(float value)

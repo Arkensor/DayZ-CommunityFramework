@@ -75,7 +75,7 @@ class CF_TypeConverter : Managed
 
 	override string GetDebugName()
 	{
-		return "" + this;
+		return "[" + this + "] " + GetString();
 	}
 
 	void ToIO(CF_IO io)
@@ -88,29 +88,33 @@ class CF_TypeConverter : Managed
 		
 	}
 
-	void FromVariable(Class instance, string variable)
+	void Read(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variable);
 		#endif
-		CF_Log.Error("Override FromVariable!");
+
+		CF_Log.Error("" + ClassName() + "::Read not implemented");
 	}
 
-	bool FromTypename(Class instance, int index)
+	bool Read(Class instance, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(index);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(index);
 		#endif
-		CF_Log.Error("Override FromVariable!");
+
+		CF_Log.Error("" + ClassName() + "::Read not implemented");
+
 		return false;
 	}
 
-	void ToVariable(Class instance, string variable)
+	void Write(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "ToVariable").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variable);
 		#endif
-		CF_Log.Error("Override ToVariable!");
+
+		CF_Log.Error("" + ClassName() + "::Write not implemented");
 	}
 };
 
@@ -128,18 +132,19 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 		return m_Value;
 	}
 
-	override void FromVariable(Class instance, string variable)
+	override void Read(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variable);
 		#endif
+
 		EnScript.GetClassVar(instance, variable, 0, m_Value);
 	}
 
-	override bool FromTypename(Class instance, int index)
+	override bool Read(Class instance, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "FromVariable").Add(instance).Add(index);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(index);
 		#endif
 
 		typename type = instance.Type();
@@ -147,26 +152,20 @@ class CF_TypeConverterT<Class T> : CF_TypeConverter
 		typename variableType = type.GetVariableType(index);
 		string variableName = type.GetVariableName(index);
 
-		if (variableType.IsInherited(Class))
-		{
-			//string variableTypeStr = variableType.ToString();
-			//int idx = variableTypeStr.IndexOf("<");
-			//if (idx != -1) return false;
-			return false;
-		}
-		else
-		{
-			type.GetVariableValue(instance, index, m_Value);
-		}
+		// Unfortunately 'Class' type variables results in a hard crash with no discernible pattern to lock them out
+		if (variableType.IsInherited(Class)) return false;
+
+		type.GetVariableValue(instance, index, m_Value);
 
 		return true;
 	}
 
-	override void ToVariable(Class instance, string variable)
+	override void Write(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "ToVariable").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variable);
 		#endif
+
 		EnScript.SetClassVar(instance, variable, 0, m_Value);
 	}
 };

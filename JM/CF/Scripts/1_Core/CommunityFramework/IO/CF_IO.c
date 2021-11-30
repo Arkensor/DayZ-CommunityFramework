@@ -232,4 +232,14 @@ class CF_IO : Managed
 		m_Stream.Close();
 		m_Stream = null;
 	}
+
+	override string GetDebugName()
+	{
+		string str = "[" + ClassName() + "] ";
+
+		if (m_Stream) str += m_Stream.GetDebugName();
+		else str += "NULL";
+
+		return str;
+	}
 };

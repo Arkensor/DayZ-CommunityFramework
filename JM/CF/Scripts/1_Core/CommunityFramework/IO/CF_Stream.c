@@ -323,11 +323,7 @@ class CF_Stream
 		m_IsOpen = true;
 	}
 	
-	#ifdef DAYZ_1_14
 	override string GetDebugName()
-	#else
-	string GetDebugName()
-	#endif
 	{
 		string str = "[" + m_Size + "] 0x";
 		
