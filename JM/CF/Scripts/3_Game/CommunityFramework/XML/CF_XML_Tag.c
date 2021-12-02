@@ -32,13 +32,13 @@ class CF_XML_Tag : Managed
 		delete _element;
 	}
 
-	ref CF_XML_Tag Copy(ref CF_XML_Element parent = NULL)
+	CF_XML_Tag Copy(CF_XML_Element parent = NULL)
 	{
-		ref CF_XML_Tag tag = new CF_XML_Tag(parent, _name);
+		CF_XML_Tag tag = new CF_XML_Tag(parent, _name);
 
 		for (int i = 0; i < _attributes.Count(); ++i)
 		{
-			ref CF_XML_Attribute attrib = _attributes.GetElement(i).Copy(tag);
+			CF_XML_Attribute attrib = _attributes.GetElement(i).Copy(tag);
 			tag._attributes.Insert(attrib.GetName(), attrib);
 		}
 
@@ -52,7 +52,7 @@ class CF_XML_Tag : Managed
 		return _name;
 	}
 
-	ref CF_XML_Tag CreateTag(string name)
+	CF_XML_Tag CreateTag(string name)
 	{
 		return _element.CreateTag(name);
 	}
@@ -62,7 +62,7 @@ class CF_XML_Tag : Managed
 		return _element.Get(type);
 	}
 
-	ref CF_XML_Attribute CreateAttribute(string name)
+	CF_XML_Attribute CreateAttribute(string name)
 	{
 		CF_XML_Attribute attrb = new CF_XML_Attribute(this, name);
 
@@ -71,7 +71,7 @@ class CF_XML_Tag : Managed
 		return attrb;
 	}
 
-	ref CF_XML_Attribute GetAttribute(string name)
+	CF_XML_Attribute GetAttribute(string name)
 	{
 		return _attributes.Get(name);
 	}
