@@ -2,7 +2,7 @@ CGame CF_CreateGame()
 {
 	Print("CF_CreateGame()");
 
-	CF_Log.Set(CF_LogLevel.ALL);
+	CF_Log.Level = CF_LogLevel.TRACE;
 
 	g_Game = new DayZGame;
 	CF._GameInit(true);

@@ -24,7 +24,7 @@ class CF_MVVM
 		s_ModelMap = new map<CF_ModelBase, ref CF_MVVM_Linker>();
 
     	#ifdef COMPONENT_SYSTEM
-		CF_Log.Set(CF_LogLevel.ALL);
+		CF_Log.Level = CF_LogLevel.TRACE;
 		#endif
 
 		g_CF_MVVM = new CF_MVVM();

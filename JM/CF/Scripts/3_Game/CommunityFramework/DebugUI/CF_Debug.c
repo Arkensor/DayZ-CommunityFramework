@@ -276,7 +276,7 @@ class CF_Debug : CF_TimerBase
 					typename variableType = type.GetVariableType(i);
 
 					CF_TypeConverter converter = CF_TypeConverters.Create(variableType);
-					if (converter.FromTypename(value, i))
+					if (converter.Read(value, i))
 					{
 						Add(variableName, converter.GetString());
 					}
