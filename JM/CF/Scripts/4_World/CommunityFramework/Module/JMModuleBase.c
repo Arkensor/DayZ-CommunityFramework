@@ -55,8 +55,8 @@ class JMModuleBase
 	}
 
 	/**
-	 * Can't change dynamically, only used on module init, if false 
-	 * and is mission host, the module is destroyed and forgotten.
+	 * @note	Can't change dynamically, only used on module init, if false 
+	 *			and is mission host, the module is destroyed and forgotten.
 	 */
 	bool IsServer()
 	{
@@ -64,8 +64,8 @@ class JMModuleBase
 	}
 
 	/**
-	 * Can't change dynamically, only used on module init, if false 
-	 * and is mission client, the module is destroyed and forgotten.
+	 * @note	Can't change dynamically, only used on module init, if false 
+	 *			and is mission client, the module is destroyed and forgotten.
 	 */
 	bool IsClient()
 	{
@@ -85,9 +85,9 @@ class JMModuleBase
 	}
 
 	/**
-	 * TODO: after module system rewrite to make use of Timers, SetSynchDirty will 
-	 * 		 set a flag and the synching will happen in 'OnUpdate' if the flag is
-	 * 		 true, then resetting the flag.
+	 * TODO:	After the module system rewrite to make use of Timers, SetSynchDirty will 
+	 * 			set a flag and the synching will be postponed to happen in 'OnUpdate' if
+	 * 			the flag is true, then reset the flag.
 	 */
 	void SetSynchDirty()
 	{
@@ -129,9 +129,9 @@ class JMModuleBase
 	// Events 
 
 	/**
-	 * Is called every mission frame
+	 * @note Is called every mission frame
 	 * 
-	 * @timeslice time of previous update
+	 * @param timeslice time of previous update
 	 */
 	void OnUpdate( float timeslice ) 
 	{
