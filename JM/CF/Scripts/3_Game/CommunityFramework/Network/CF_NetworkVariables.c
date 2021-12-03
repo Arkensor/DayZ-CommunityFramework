@@ -1,14 +1,3 @@
-class CF_NetworkVariable
-{
-	ref CF_NetworkVariable m_Next;
-
-	string m_Name;
-	int m_Count; // max 4
-	int m_AccessorIndices[4];
-	typename m_AccessorTypes[4];
-	CF_TypeConverterBase m_Converter;
-};
-
 class CF_NetworkVariables
 {
 	static int MAX_COUNT = 256;
@@ -49,10 +38,9 @@ class CF_NetworkVariables
 
 		if (tokens.Count() != 0)
 		{
-			// Maximum of 3 tokens (max - 1)
-			if (tokens.Count() >= 3)
+			if (tokens.Count() >= CF_NetworkVariable.MAX_DEPTH - 1)
 			{
-				Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> Variable depth more than 3, got '" + tokens.Count() + "'");
+				Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> Variable depth more than " + (CF_NetworkVariable.MAX_DEPTH - 1) + ", got '" + tokens.Count() + "'");
 				return false;
 			}
 
