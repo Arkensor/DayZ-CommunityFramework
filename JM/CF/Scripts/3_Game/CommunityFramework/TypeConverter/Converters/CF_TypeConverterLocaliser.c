@@ -4,8 +4,8 @@ class CF_TypeConverterLocaliser : CF_TypeConverterClass
 	{
 		CF_Localiser localiser = GetLocaliser();
 		if (!localiser) return "";
-
-		return localiser.GetDebugName();
+		
+		return localiser.Format();
 	}
 
 	override void SetString(string value)
