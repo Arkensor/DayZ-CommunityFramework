@@ -9,7 +9,7 @@ class CF_MVVM_WidgetProperty : CF_MVVM_Property
 		SetVariableName(name);
 	}
 
-	override void Link(CF_ModelBase model, typename variableType, CF_TypeConverter typeConverter)
+	override void Link(CF_ModelBase model, typename variableType, CF_TypeConverterBase typeConverter)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Assign").Add(model);

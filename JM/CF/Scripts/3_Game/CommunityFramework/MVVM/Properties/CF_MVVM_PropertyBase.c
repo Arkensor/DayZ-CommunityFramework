@@ -6,7 +6,7 @@ static CF_MVVM_PropertyBase CF_MVVM_GetDefaultProperty()
 	return g_CF_MVVM_DefaultProperty;
 }
 
-class CF_MVVM_PropertyBase : CF_TypeConverter
+class CF_MVVM_PropertyBase : CF_TypeConverterBase
 {
 	bool IsDefault()
 	{

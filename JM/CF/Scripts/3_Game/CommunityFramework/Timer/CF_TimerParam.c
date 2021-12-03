@@ -1,4 +1,4 @@
-//TODO: Add `CF_Param` as a base Param class, will return a `CF_TypeConverter` for each possible param
+//TODO: Add `CF_Param` as a base Param class, will return a `CF_TypeConverterBase` for each possible param
 class CF_Param
 {
 	void SetTimer(CF_TimerBase timer);

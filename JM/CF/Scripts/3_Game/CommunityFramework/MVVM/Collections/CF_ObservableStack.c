@@ -26,7 +26,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 		return str;
 	}
 
-	override CF_TypeConverter GetConverter(int index)
+	override CF_TypeConverterBase GetConverter(int index)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
@@ -36,7 +36,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 		return m_Converter;
 	}
 
-	override void OverrideConverter(CF_TypeConverter converter = null)
+	override void OverrideConverter(CF_TypeConverterBase converter = null)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
@@ -45,7 +45,7 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 		if (!converter)
 		{
 			typename t = T;
-			m_Converter = CF_TypeConverters.Create(t);
+			m_Converter = CF_TypeConverter.Create(t);
 			return;
 		}
 

@@ -6,7 +6,7 @@ class CF_PriorityQueue<Class T> : CF_Collection
 	void CF_PriorityQueue()
 	{
 		typename t = T;
-		m_Converter = CF_TypeConverters.Create(t);
+		m_Converter = CF_TypeConverter.Create(t);
 	}
 
 	override string GetDebugName()
@@ -20,7 +20,7 @@ class CF_PriorityQueue<Class T> : CF_Collection
 		return str;
 	}
 
-	override CF_TypeConverter GetConverter(int index)
+	override CF_TypeConverterBase GetConverter(int index)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);

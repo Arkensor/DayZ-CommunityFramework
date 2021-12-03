@@ -18,7 +18,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args.GetDebugName());
 		#endif
 
-		CF_TypeConverter conv = sender.GetConverter(args.Index);
+		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
 		CF_ModelBase model = conv.GetManaged();
@@ -42,7 +42,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args.GetDebugName());
 		#endif
 
-		CF_TypeConverter conv = sender.GetConverter(args.Index);
+		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
 		CF_ModelBase model = conv.GetManaged();

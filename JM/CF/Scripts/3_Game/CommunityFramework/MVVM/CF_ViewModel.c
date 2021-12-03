@@ -326,7 +326,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		for (int i = 0; i < sender.Count(); i++)
 		{
-			CF_TypeConverter conv = sender.GetConverter(i);
+			CF_TypeConverterBase conv = sender.GetConverter(i);
 			if (!conv) return;
 
 			CF_ModelBase model = conv.GetManaged();
@@ -349,7 +349,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_2(this, "OnModel_Children_Insert").Add(sender).Add(args.GetDebugName());
 		#endif
 
-		CF_TypeConverter conv = sender.GetConverter(args.Index);
+		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
 		CF_ModelBase model = conv.GetManaged();

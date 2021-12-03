@@ -131,7 +131,7 @@ class CF_MVVM_Linker
 			CF_TArrayProperties properties;
 			if (!m_PropertyVariableMap.Find(variableName, properties)) continue;
 			
-			auto typeConverter = CF_TypeConverters.Create(variableType);
+			auto typeConverter = CF_TypeConverter.Create(variableType);
 
 			foreach (auto property : properties)
 			{

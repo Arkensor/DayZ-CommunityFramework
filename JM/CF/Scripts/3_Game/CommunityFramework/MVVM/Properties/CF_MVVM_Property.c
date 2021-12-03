@@ -15,7 +15,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	protected int m_IndexCount;
 
 	protected string m_TypeConverterType;
-	protected ref CF_TypeConverter m_TypeConverter;
+	protected ref CF_TypeConverterBase m_TypeConverter;
 
 	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
@@ -82,7 +82,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		return str;
 	}
 
-	void Link(CF_ModelBase model, typename variableType, CF_TypeConverter typeConverter)
+	void Link(CF_ModelBase model, typename variableType, CF_TypeConverterBase typeConverter)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Assign").Add(model);
@@ -100,7 +100,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 		m_TypeConverter = typeConverter;
 
-		CF_TypeConverter typeConverterOverride;
+		CF_TypeConverterBase typeConverterOverride;
 		if (m_TypeConverterType != string.Empty && Class.CastTo(typeConverterOverride, m_TypeConverterType.ToType().Spawn()))
 		{
 			if (typeConverterOverride.IsInherited(m_TypeConverter.Type()))
@@ -161,14 +161,14 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 				{
 					_collection.Init(m_Model, m_VariableName);
 
-					CF_TypeConverter typeConverter = _collection.GetConverter();
+					CF_TypeConverterBase typeConverter = _collection.GetConverter();
 					if (!typeConverter)
 					{
 						CF_Log.Error("Collection '%1.%2' has no assigned type converter!", "" + m_Model, m_VariableName);
 						return;
 					}
 
-					CF_TypeConverter replacingTypeConverter;
+					CF_TypeConverterBase replacingTypeConverter;
 					if (m_TypeConverterType != string.Empty && Class.CastTo(replacingTypeConverter, m_TypeConverterType.ToType().Spawn()))
 					{
 						if (replacingTypeConverter.IsInherited(typeConverter.Type()))
