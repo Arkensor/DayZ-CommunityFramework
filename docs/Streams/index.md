@@ -6,6 +6,8 @@ Streams can be manipulated with `CF_TextWriter`, and `CF_BinaryWriter`. Streams 
 
 In binary format, all values are in little-endian format.
 
+In text format, only ASCII characters are supported.
+
 ## Files
 
 Use the `CF_FileStream` class to read and write files on the a file system. 
@@ -40,9 +42,7 @@ Print("ReadChar: " + reader.ReadChar());				// "!"
 reader.Close();
 ```
 
-`ReadWhitespace` will read from the current position uptill it finds a character that isn't a whitespace character. A whitespace character is a character that is below decimal 32 in this helpful table: https://commons.wikimedia.org/wiki/File:ASCII-Table-wide.svg 
-
-`ReadWord` will read from the current position uptill it finds a character that isn't alphanumeric and isn't whitespace.
+Note: `ReadWord` will read continously from the current position till it finds a character that isn't alphanumeric.
 
 ## Hex
 

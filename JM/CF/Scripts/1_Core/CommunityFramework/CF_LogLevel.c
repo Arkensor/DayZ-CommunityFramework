@@ -5,5 +5,6 @@ enum CF_LogLevel
 	INFO,
 	WARNING,
 	ERROR,
+	CRITICAL,
 	NONE,
 };

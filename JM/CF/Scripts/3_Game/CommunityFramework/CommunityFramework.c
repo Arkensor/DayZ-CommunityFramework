@@ -282,7 +282,7 @@ static void CF_DumpWidgets( Widget root, int tabs = 0 )
 static void Assert_Log( string str )
 {
 	Print( "==============================================WARNING=======================================================" );
-	string time = JMDate.Now( false ).ToString( "YYYY-MM-DD hh:mm:ss" );
+	string time = CF_Date.Now( false ).Format( CF_Date.DATETIME );
 	Print( "[WARNING " + time + "] " + str );
 	Print( "Do you see this message? Unless the time is within a second of the crash than this was not the cause." );
 
