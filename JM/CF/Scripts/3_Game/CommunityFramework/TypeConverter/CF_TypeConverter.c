@@ -1,172 +1,76 @@
-/**
- * Super implementation to handle all possible conversions. 
- */
-class CF_TypeConverter : Managed
+static autoptr CF_TypeConverter g_CF_TypeConverter = null;
+	
+class CF_TypeConverter
 {
-	void SetInt(int value)
-	{
-		
-	}
+	private static ref map<typename, typename> m_TypeConvertersMap;
+	private static ref array<typename> m_TypeConverters;
 
-	int GetInt()
-	{
-		return 0;		
-	}
-
-	void SetBool(bool value)
-	{
-		
-	}
-
-	bool GetBool()
-	{
-		return false;
-	}
-
-	void SetFloat(float value)
-	{
-		
-	}
-
-	float GetFloat()
-	{
-		return 0;
-	}
-
-	void SetVector(vector value)
-	{
-		
-	}
-
-	vector GetVector()
-	{
-		return "0 0 0";
-	}
-	
-	void SetString(string value)
-	{
-
-	}
-
-	string GetString()
-	{
-		return "";
-	}
-
-	void SetClass(Class value)
-	{
-		
-	}
-
-	Class GetClass()
-	{
-		return null;
-	}
-
-	void SetManaged(Managed value)
-	{
-		
-	}
-
-	Managed GetManaged()
-	{
-		return null;
-	}
-
-	string ToStr()
-	{
-		return "" + this;
-	}
-
-	void ToIO(CF_IO io)
-	{
-
-	}
-
-	void FromIO(CF_IO io)
-	{
-		
-	}
-
-	void FromVariable(Class instance, string variable)
+	private void CF_TypeConverter()
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, variable);
+		auto trace = CF_Trace_0(this, "CF_TypeConverter");
 		#endif
-		CF_Log.Error("Override FromVariable!");
+
+		CF_TypeConverterConstructor constructor = new CF_TypeConverterConstructor();
+		constructor.Register();
 	}
 
-	bool FromTypename(Class instance, int index)
+	void Insert(typename type, typename converter)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, "" + index);
+		auto trace = CF_Trace_2(this, "Register").Add(type).Add(converter);
 		#endif
-		CF_Log.Error("Override FromVariable!");
-		return false;
+		
+		m_TypeConvertersMap.Insert(type, converter);
+		m_TypeConverters.Insert(type);
+	}
+		
+	[CF_EventSubscriber(CF_TypeConverter._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
+	{
+		if (g_CF_TypeConverter) return;
+
+		m_TypeConvertersMap = new map<typename, typename>();
+		m_TypeConverters = new array<typename>();
+		
+		g_CF_TypeConverter = new CF_TypeConverter();
 	}
 
-	void ToVariable(Class instance, string variable)
+	[CF_EventSubscriber(CF_TypeConverter._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	static void _Cleanup()
+	{
+		g_CF_TypeConverter = null;
+
+		m_TypeConverters = null;
+		m_TypeConvertersMap = null;
+	}
+
+	static CF_TypeConverterBase Create(typename type)
 	{
 		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "ToVariable", "" + instance, variable);
+		auto trace = CF_Trace_1(this, "Create").Add(type);
 		#endif
-		CF_Log.Error("Override ToVariable!");
-	}
-};
-
-class CF_TypeConverterT<Class T> : CF_TypeConverter
-{
-	protected T m_Value;
-	
-	void Set(T value)
-	{
-		m_Value = value;
-	}
-	
-	T Get()
-	{
-		return m_Value;
-	}
-
-	override void FromVariable(Class instance, string variable)
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, variable);
-		#endif
-		EnScript.GetClassVar(instance, variable, 0, m_Value);
-	}
-
-	override bool FromTypename(Class instance, int index)
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "FromVariable", "" + instance, "" + index);
-		#endif
-
-		typename type = instance.Type();
-
-		typename variableType = type.GetVariableType(index);
-		string variableName = type.GetVariableName(index);
-
-		if (variableType.IsInherited(Class))
+				
+		typename baseType = type;
+		typename convType;
+		if (!m_TypeConvertersMap.Find(baseType, convType))
 		{
-			//string variableTypeStr = variableType.ToString();
-			//int idx = variableTypeStr.IndexOf("<");
-			//if (idx != -1) return false;
-			return false;
-		}
-		else
-		{
-			type.GetVariableValue(instance, index, m_Value);
-		}
+			int idx = -1;
+			for (int i = m_TypeConverters.Count() - 1; i >= 0; i--)
+			{
+				if (baseType.IsInherited(m_TypeConverters[i]))
+				{
+					idx = i;
+					break;
+				}
+			}
 
-		return true;
-	}
-
-	override void ToVariable(Class instance, string variable)
-	{
-		#ifdef CF_TRACE_ENABLED
-		CF_Trace trace(this, "ToVariable", "" + instance, variable);
-		#endif
-		EnScript.SetClassVar(instance, variable, 0, m_Value);
+			baseType = m_TypeConverters[idx];
+			m_TypeConvertersMap.Find(baseType, convType);
+		}
+		
+		CF_TypeConverterBase res = CF_TypeConverterBase.Cast(convType.Spawn());		
+		
+		return res;
 	}
 };

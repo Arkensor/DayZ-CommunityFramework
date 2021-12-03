@@ -50,7 +50,7 @@ class CF_ExpressionInstruction
 
 	void Call();
 
-	string ToStr()
+	override string GetDebugName()
 	{
 		return ToString();
 	}

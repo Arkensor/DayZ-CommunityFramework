@@ -1,5 +1,15 @@
 class CF_TextReader : CF_IO
 {
+	override bool IsRead()
+	{
+		return true;
+	}
+
+	override bool IsWrite()
+	{
+		return false;
+	}
+
 	override CF_Byte ReadByte()
 	{
 		return m_Stream.Next();

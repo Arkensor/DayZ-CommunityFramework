@@ -99,10 +99,13 @@ class CF_Encoding
 		return IsWhitespace(CF_Byte.Set(char));
 	}
 
+	/**
+	 * @brief	Returns true if the input byte as in any character below decimal 32.
+	 * 			Helpful table https://commons.wikimedia.org/wiki/File:ASCII-Table-wide.svg
+	 */
 	static bool IsWhitespace(CF_Byte byte)
 	{
-		if (byte == 32) return true;
-		if (byte >= 10 && byte <= 15) return true;
+		if (byte <= 32) return true;
 
 		return false;
 	}

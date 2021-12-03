@@ -62,10 +62,10 @@ class CF_Localiser
 
 	string Format()
 	{
-		return ToStr();
+		return GetDebugName();
 	}
 
-	string ToStr()
+	override string GetDebugName()
 	{
 		string text = GetTranslated(-1);
 		string p1 = GetTranslated(0);
@@ -84,6 +84,38 @@ class CF_Localiser
 	string GetText()
 	{
 		return Get(-1);
+	}
+
+	CF_Localiser Add(bool value)
+	{
+		return Set(m_Count - 1, value.ToString(), false);
+	}
+
+	CF_Localiser Add(int value)
+	{
+		return Set(m_Count - 1, value.ToString(), false);
+	}
+
+	CF_Localiser Add(float value)
+	{
+		return Set(m_Count - 1, value.ToString(), false);
+	}
+
+	CF_Localiser Add(vector value)
+	{
+		return Set(m_Count - 1, value.ToString(false), false);
+	}
+
+	CF_Localiser Add(Class value)
+	{
+		string toStr = "";
+		if (value) toStr = value.GetDebugName();
+		return Set(m_Count - 1, toStr, false);
+	}
+
+	CF_Localiser Add(string value, bool translates = true)
+	{
+		return Set(m_Count - 1, value, translates);
 	}
 
 	CF_Localiser Set(int index, bool value)
@@ -109,7 +141,7 @@ class CF_Localiser
 	CF_Localiser Set(int index, Class value)
 	{
 		string toStr = "";
-		g_Script.CallFunction(value, "ToStr", toStr, null);
+		if (value) toStr = value.GetDebugName();
 		return Set(index, toStr, false);
 	}
 

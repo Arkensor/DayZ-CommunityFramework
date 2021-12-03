@@ -7,15 +7,20 @@ class CF_Date : Managed
 	static const string MONTHS_SHORT_NAME[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 	static const int DAYS_IN_MONTH[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-	private bool m_UseUTC;
+	static const string TIME = "hh:mm:ss";
+	static const string DATE = "YYYY-MM-DD";
+	static const string DATETIME = "YYYY-MM-DD hh:mm:ss";
 
-	private int m_Year;
-	private int m_Month;
-	private int m_Day;
-	private int m_Hour;
-	private int m_Minute;
-	private int m_Second;
+	protected bool m_UseUTC;
 
+	protected int m_Year;
+	protected int m_Month;
+	protected int m_Day;
+	protected int m_Hour;
+	protected int m_Minute;
+	protected int m_Second;
+
+	//! Compile error if protected
 	private void CF_Date()
 	{
 	}
@@ -49,17 +54,42 @@ class CF_Date : Managed
 		return date;
 	}
 
-	static CF_Date FromString(string format, bool useUTC = false)
+	static CF_Date CreateDate(int year, int month, int day)
 	{
 		CF_Date date = new CF_Date();
-		date.m_UseUTC = useUTC;
-
-		date.StringToDate(format);
-
+		date.m_UseUTC = false;
+		date.m_Year = year;
+		date.m_Month = month;
+		date.m_Day = day;
+		GetHourMinuteSecond(date.m_Hour, date.m_Minute, date.m_Second);
 		return date;
 	}
 
-	/** Utils */
+	static CF_Date CreateTime(int hour, int minute, int second)
+	{
+		CF_Date date = new CF_Date();
+		date.m_UseUTC = false;
+		GetYearMonthDay(date.m_Year, date.m_Month, date.m_Day);
+		date.m_Hour = hour;
+		date.m_Minute = minute;
+		date.m_Second = second;
+		return date;
+	}
+
+	static CF_Date CreateDateTime(int year, int month, int day, int hour, int minute, int second)
+	{
+		CF_Date date = new CF_Date();
+		date.m_UseUTC = false;
+		date.m_Year = year;
+		date.m_Month = month;
+		date.m_Day = day;
+		date.m_Hour = hour;
+		date.m_Minute = minute;
+		date.m_Second = second;
+		return date;
+	}
+
+	//! UTILS
 	static bool IsLeapYear(int year)
 	{
 		if (year % 400 == 0)
@@ -82,12 +112,12 @@ class CF_Date : Managed
 	*	to Timestamp, be aware of using any date at least starting at this
 	*	year.
 	*
-	* @param {int} m_Year
+	* @param {int} year
 	* @param {int} month
-	* @param {int} m_Day
-	* @param {int} m_Hour
-	* @param {int} m_Minute
-	* @param {int} m_Second
+	* @param {int} day
+	* @param {int} hour
+	* @param {int} minute
+	* @param {int} second
 	*
 	* @return Timestamp in m_Second
 	*/
@@ -253,6 +283,15 @@ class CF_Date : Managed
 		return iTimestamp;
 	}
 
+	CF_Date Compare(CF_Date other)
+	{
+		int a = DateToEpoch();
+		int b = other.DateToEpoch();
+		auto newDate = CF_Date();
+		newDate.EpochToDate(b - a);
+		return newDate;
+	}
+
 	void EpochToDate(int value)
 	{
 		int iTimestamp;
@@ -269,204 +308,62 @@ class CF_Date : Managed
 		return Timestamp(m_Year, m_Month, m_Day, m_Hour, m_Minute, m_Second);
 	}
 
-	void StringToDate(string value)
-	{
-	}
-
 	/**
-	*	@return {string} CF_Date with format: "month day, year hours:minutes:seconds"
-	*
-	*	Note:
-	*		0 in front of numbers are not includes.
-	*/
+	 * @return string with format: "month day, year hours:minutes:seconds"
+	 */
 	string DateToString()
 	{
 		string dateToString = GetFullMonthString();
 
-		dateToString += " " + m_Day;
+		dateToString += " " + m_Day.ToStringLen(2);
 		dateToString += ", " + m_Year;
-		dateToString += " " + m_Hour + ":" + m_Minute + ":" + m_Second;
+		dateToString += " " + m_Hour.ToStringLen(2) + ":" + m_Minute.ToStringLen(2) + ":" + m_Second.ToStringLen(2);
 		return dateToString;
 	}
 
-	string ToStr()
+	override string GetDebugName()
 	{
 		return DateToString();
 	}
 
-	// Supply a format such as "YYYY-MM-DD hh:mm:ss"
+	/** 
+	 * @param format Supply a format such as "YYYY-MM-DD hh:mm:ss"
+	 */
+	string Format(string format)
+	{
+		FormatField(format, m_Year.ToString(), "Y");
+		FormatField(format, m_Month.ToString(), "M");
+		FormatField(format, m_Day.ToString(), "D");
+		FormatField(format, m_Hour.ToString(), "h");
+		FormatField(format, m_Minute.ToString(), "m");
+		FormatField(format, m_Second.ToString(), "s");
+
+		return format;
+	}
+
 	string ToString(string format)
 	{
-		format = FormatYear(format);
-		format = FormatMonth(format);
-		format = FormatDay(format);
-		format = FormatHour(format);
-		format = FormatMinute(format);
-		format = FormatSecond(format);
-		return format;
+		return Format(format);
 	}
-
-	private string FormatYear(string format)
-	{
-		string year = "" + m_Year;
-		int i = year.Length();
-		if (format.IndexOf("YYYY") != -1)
+	
+	protected void FormatField(inout CF_String format, CF_String field, CF_String char)
+	{		
+		int index;
+		int count = format.CountCharacter(char, index);
+		
+		int length = field.Length();
+		
+		if (length < count)
 		{
-			if (i > 4)
-			{
-				year = year.Substring(i - 4, 4);
-			}
-			else if (i < 4)
-			{
-				for (i; i < 4; i++)
-				{
-					year = "0" + year;
-				}
-			}
-
-			format.Replace("YYYY", year);
-		}
-		else if (format.IndexOf("YY") != -1)
-		{
-			if (i > 2)
-			{
-				year = year.Substring(i - 2, 2);
-			}
-			else if (i < 2)
-			{
-				for (i; i < 2; i++)
-				{
-					year = "0" + year;
-				}
-			}
-
-			format.Replace("YY", year);
+			field = field.PadString(count, "0");
 		}
 
-		return format;
+		field = field.Substring(0, count);
+		
+		format = format.SpliceString(index, field);
 	}
 
-	private string FormatMonth(string format)
-	{
-		string month = "" + m_Month;
-		int i = month.Length();
-		if (format.IndexOf("MM") != -1)
-		{
-			if (i > 2)
-			{
-				month = month.Substring(i - 2, 2);
-			}
-			else if (i < 2)
-			{
-				for (i; i < 2; i++)
-				{
-					month = "0" + month;
-				}
-			}
-
-			format.Replace("MM", month);
-		}
-
-		return format;
-	}
-
-	private string FormatDay(string format)
-	{
-		string day = "" + m_Day;
-		int i = day.Length();
-		if (format.IndexOf("DD") != -1)
-		{
-			if (i > 2)
-			{
-				day = day.Substring(i - 2, 2);
-			}
-			else if (i < 2)
-			{
-				for (i; i < 2; i++)
-				{
-					day = "0" + day;
-				}
-			}
-
-			format.Replace("DD", day);
-		}
-
-		return format;
-	}
-
-	private string FormatHour(string format)
-	{
-		string hour = "" + m_Hour;
-		int i = hour.Length();
-		if (format.IndexOf("hh") != -1)
-		{
-			if (i > 2)
-			{
-				hour = hour.Substring(i - 2, 2);
-			}
-			else if (i < 2)
-			{
-				for (i; i < 2; i++)
-				{
-					hour = "0" + hour;
-				}
-			}
-
-			format.Replace("hh", hour);
-		}
-
-		return format;
-	}
-
-	private string FormatMinute(string format)
-	{
-		string minute = "" + m_Minute;
-		int i = minute.Length();
-		if (format.IndexOf("mm") != -1)
-		{
-			if (i > 2)
-			{
-				minute = minute.Substring(i - 2, 2);
-			}
-			else if (i < 2)
-			{
-				for (i; i < 2; i++)
-				{
-					minute = "0" + minute;
-				}
-			}
-
-			format.Replace("mm", minute);
-		}
-
-		return format;
-	}
-
-	private string FormatSecond(string format)
-	{
-		string second = "" + m_Second;
-		int i = second.Length();
-		if (format.IndexOf("ss") != -1)
-		{
-			if (i > 2)
-			{
-				second = second.Substring(i - 2, 2);
-			}
-			else if (i < 2)
-			{
-				for (i; i < 2; i++)
-				{
-					second = "0" + second;
-				}
-			}
-
-			format.Replace("ss", second);
-		}
-
-		return format;
-	}
-
-	/** Getters */
+	//! GETTERS
 	bool IsUsingUTC()
 	{
 		return m_UseUTC;
@@ -527,7 +424,7 @@ class CF_Date : Managed
 		return Timestamp(m_Year, m_Month, m_Day, m_Hour, m_Minute, m_Second);
 	}
 
-	/** Setters */
+	//! SETTERS
 	void SetDate(int year, int month, int day, int hours, int minutes, int seconds)
 	{
 		SetYear(year);

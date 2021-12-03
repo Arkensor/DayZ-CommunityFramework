@@ -309,7 +309,7 @@ class CF_ObjectManager
 
         // Added via p3d in TB with no config.
         // Inherits from House in Cfg class -> Building, House, Wreck, Well, Tree, Bush, etc.
-        return ((object.GetType() == string.Empty) && (object.Type() == Object)) || object.IsKindOf("House") || object.IsTree() || object.IsBush() || object.IsRock();
+        return ((object.GetType() == string.Empty) && (object.Type() == Object)) || object.IsKindOf("House") || object.IsTree() || object.IsBush() || object.IsRock() || object.IsInherited(Static);
     }
 
     /**
