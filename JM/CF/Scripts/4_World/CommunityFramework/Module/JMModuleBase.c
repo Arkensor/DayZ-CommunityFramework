@@ -81,7 +81,7 @@ class JMModuleBase
 	 */
 	bool RegisterNetSyncVariable(string name)
 	{
-		m_NetworkVariables.Register(name);
+		return m_NetworkVariables.Register(name);
 	}
 
 	/**

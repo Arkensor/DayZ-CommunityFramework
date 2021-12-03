@@ -6,7 +6,7 @@ class CF_NetworkVariable
 	int m_Count; // max 4
 	int m_AccessorIndices[4];
 	typename m_AccessorTypes[4];
-	CF_TypeConverter m_Converter;
+	CF_TypeConverterBase m_Converter;
 };
 
 class CF_NetworkVariables
@@ -99,7 +99,7 @@ class CF_NetworkVariables
 				variable.m_AccessorTypes[variable.m_Count] = type;
 				variable.m_Count++;
 
-				variable.m_Converter = CF_TypeConverters.Create(type);
+				variable.m_Converter = CF_TypeConverter.Create(type);
 
 				if (!variable.m_Converter)
 				{
@@ -148,7 +148,7 @@ class CF_NetworkVariables
 
 			if (instance)
 			{
-				variable.m_Converter.FromTypename(instance, variable.m_AccessorIndices[index]);
+				variable.m_Converter.Read(instance, variable.m_AccessorIndices[index]);
 			}
 
 			variable.m_Converter.ToIO(writer);
@@ -179,7 +179,7 @@ class CF_NetworkVariables
 
 			if (instance)
 			{
-				variable.m_Converter.ToVariable(instance, variable.m_Name);
+				variable.m_Converter.Write(instance, variable.m_Name);
 			}
 
 			variable = variable.m_Next;
