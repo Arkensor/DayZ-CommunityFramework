@@ -106,6 +106,12 @@ class CF_NetworkVariables
 					Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> TypeConverter not found for type '" + type + "'");
 					return false;
 				}
+				
+				if (!variable.m_Converter.IsIOSupported())
+				{
+					Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> TypeConverter for '" + type + "' does not support IO operations");
+					return false;
+				}
 
 				if (!m_Tail)
 				{
@@ -151,7 +157,8 @@ class CF_NetworkVariables
 				variable.m_Converter.Read(instance, variable.m_AccessorIndices[index]);
 			}
 
-			variable.m_Converter.ToIO(writer);
+			// attempt writing even if instance is null
+			variable.m_Converter.Write(writer);
 
 			variable = variable.m_Next;
 		}
@@ -175,7 +182,8 @@ class CF_NetworkVariables
 				variable.m_AccessorTypes[j].GetVariableValue(instance, variable.m_AccessorIndices[j], instance);
 			}
 
-			variable.m_Converter.FromIO(reader);
+			// attempt reading even if instance is null
+			variable.m_Converter.Read(reader);
 
 			if (instance)
 			{
