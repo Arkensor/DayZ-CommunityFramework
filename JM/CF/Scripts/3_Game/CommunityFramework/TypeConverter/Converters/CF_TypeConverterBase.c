@@ -78,20 +78,33 @@ class CF_TypeConverterBase : Managed
 		return "[" + this + "] " + GetString();
 	}
 
-	void ToIO(CF_IO io)
+	bool IsIOSupported()
 	{
-
+		return false;
 	}
 
-	void FromIO(CF_IO io)
+	void Read(CF_IO io)
 	{
-		
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Read").Add(io);
+		#endif
+
+		CF_Log.Error("" + ClassName() + "::Read not implemented");
+	}
+
+	void Write(CF_IO io)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Write").Add(io);
+		#endif
+
+		CF_Log.Error("" + ClassName() + "::Write not implemented");
 	}
 
 	void Read(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Read").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variable);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Read not implemented");
@@ -100,7 +113,7 @@ class CF_TypeConverterBase : Managed
 	bool Read(Class instance, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Read").Add(instance).Add(index);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(index);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Read not implemented");
@@ -111,7 +124,7 @@ class CF_TypeConverterBase : Managed
 	void Write(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Write").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variable);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Write not implemented");
