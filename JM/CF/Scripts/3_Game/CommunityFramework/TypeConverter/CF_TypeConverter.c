@@ -1,4 +1,4 @@
-static autoptr CF_TypeConverter g_CF_TypeConverters = null;
+static autoptr CF_TypeConverter g_CF_TypeConverter = null;
 	
 class CF_TypeConverter
 {
@@ -28,18 +28,18 @@ class CF_TypeConverter
 	[CF_EventSubscriber(CF_TypeConverter._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
-		if (g_CF_TypeConverters) return;
+		if (g_CF_TypeConverter) return;
 
 		m_TypeConvertersMap = new map<typename, typename>();
 		m_TypeConverters = new array<typename>();
 		
-		g_CF_TypeConverters = new CF_TypeConverter();
+		g_CF_TypeConverter = new CF_TypeConverter();
 	}
 
 	[CF_EventSubscriber(CF_TypeConverter._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
-		g_CF_TypeConverters = null;
+		g_CF_TypeConverter = null;
 
 		m_TypeConverters = null;
 		m_TypeConvertersMap = null;

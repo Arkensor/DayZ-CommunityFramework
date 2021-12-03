@@ -6,7 +6,7 @@ class CF_TypeConverterConstructor
 		auto trace = CF_Trace_2(this, "Insert").Add(type).Add(converter);
 		#endif
 		
-		g_CF_TypeConverters.Insert(type, converter);
+		g_CF_TypeConverter.Insert(type, converter);
 	}
 
 	void Register()
