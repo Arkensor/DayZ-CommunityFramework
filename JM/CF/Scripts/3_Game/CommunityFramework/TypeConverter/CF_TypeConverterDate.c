@@ -31,7 +31,7 @@ class CF_TypeConverterDate : CF_TypeConverterManaged
 		CF_Date date = GetDate();
 		if (!date) return;
 
-		date.StringToDate(value);
+		//date.StringToDate(value);
 	}
 	
 	CF_Date GetDate()
