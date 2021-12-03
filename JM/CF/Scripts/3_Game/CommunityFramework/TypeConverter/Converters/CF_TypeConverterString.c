@@ -50,12 +50,17 @@ class CF_TypeConverterString : CF_TypeConverterT<string>
 		return m_Value;
 	}
 
-	override void ToIO(CF_IO io)
+	override bool IsIOSupported()
+	{
+		return true;
+	}
+
+	override void Write(CF_IO io)
 	{
 		io.WriteString(m_Value);
 	}
 
-	override void FromIO(CF_IO io)
+	override void Read(CF_IO io)
 	{
 		m_Value = io.ReadString();
 	}

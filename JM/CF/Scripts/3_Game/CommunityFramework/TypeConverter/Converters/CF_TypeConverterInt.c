@@ -49,13 +49,18 @@ class CF_TypeConverterInt : CF_TypeConverterT<int>
 		return "" + m_Value;
 	}
 
-	override void ToIO(CF_IO io)
+	override bool IsIOSupported()
 	{
-		io.WriteInt(m_Value);
+		return true;
 	}
 
-	override void FromIO(CF_IO io)
+	override void Read(CF_IO io)
 	{
 		m_Value = io.ReadInt();
+	}
+
+	override void Write(CF_IO io)
+	{
+		io.WriteInt(m_Value);
 	}
 };
