@@ -21,17 +21,14 @@ class SomeClass
 
 	void SomeClass()
 	{
-		RegisterNetSyncVariable("m_SomeIntVariable");
-		RegisterNetSyncVariable("m_DataHolder.m_SomeVariable");
-	}
+		GetDayZGame().Event_OnRPC.Insert(OnRPC);
 
-	bool RegisterNetSyncVariable(string name)
-	{
-		return m_NetworkVariables.Register(name);
+		m_NetworkVariables.Register("m_SomeIntVariable");
+		m_NetworkVariables.Register("m_DataHolder.m_SomeVariable");
 	}
 
 	void OnVariablesSynchronized()
-	{		
+	{
 		Print(m_SomeIntVariable);
 		Print(m_DataHolder.m_SomeVariable);
 	}
@@ -47,7 +44,7 @@ class SomeClass
 		rpc.Send(null, RPC_ID, true, null);
 	}
 
-	void OnRPC(int id, ParamsReadContext ctx)
+	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
 	{
 		if (id != RPC_ID) return;
 

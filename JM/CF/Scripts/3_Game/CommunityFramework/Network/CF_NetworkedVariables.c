@@ -1,4 +1,4 @@
-class CF_NetworkVariables
+class CF_NetworkedVariables
 {
 	static int MAX_COUNT = 256;
 
@@ -9,7 +9,7 @@ class CF_NetworkVariables
 
 	Class m_Instance;
 
-	void CF_NetworkVariables(Class instance)
+	void CF_NetworkedVariables(Class instance)
 	{
 		m_Instance = instance;
 	}

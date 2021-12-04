@@ -4,7 +4,7 @@ class JMModuleBase
 	protected bool m_PreventInput;
 	protected ref set< ref JMModuleBinding > m_Bindings;
 
-	protected ref CF_NetworkVariables m_NetworkVariables;
+	protected ref CF_NetworkedVariables m_NetworkVariables;
 	
 	void JMModuleBase()
 	{
@@ -12,7 +12,7 @@ class JMModuleBase
 		m_PreventInput = false;
 		m_Bindings = new set< ref JMModuleBinding >;
 
-		m_NetworkVariables = new CF_NetworkVariables(this);
+		m_NetworkVariables = new CF_NetworkedVariables(this);
 	}
 	
 	void ~JMModuleBase()
