@@ -15,6 +15,24 @@ class CF_TypeConverterT<Class T> : CF_TypeConverterBase
 		return m_Value;
 	}
 
+	override void Read(Serializer ctx)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Read").Add(ctx);
+		#endif
+
+		ctx.Read(m_Value);
+	}
+
+	override void Write(Serializer ctx)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Write").Add(ctx);
+		#endif
+
+		ctx.Write(m_Value);
+	}
+
 	override void Read(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
