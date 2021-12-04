@@ -4,7 +4,7 @@ A wrapper for serialization of variables that are to be transmitted over the net
 
 ## Registering Variables
 
-Variables are registered using the `Register` method. Pass in the name of the variable for the first parameter. Variables within variables can also be registered, delimited by a period (`.`) with a maximum depth of 3. Do not Register a `Class` as the behaviour may lead to unexpected results. Instead make use of individually registering variables.
+Variables are registered using the `Register` method. Pass in the name of the variable for the first parameter. Variables within variables can also be registered, delimited by a period (`.`) with a maximum depth of 3. Do not register a variable of `Class` type as that will result in a error. Instead make use of individually registering variables.
 
 ## Sending and Recieving Changes
 
