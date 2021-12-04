@@ -4,7 +4,11 @@ A wrapper for serialization of variables that are to be transmitted over the net
 
 ## Registering Variables
 
-## Handling Change
+Variables are registered using the `Register` method. Pass in the name of the variable for the first parameter. Variables within variables can also be registered, delimited by a period (`.`) with a maximum depth of 3. Do not Register a `Class` as the behaviour may lead to unexpected results. Instead make use of individually registering variables.
+
+## Sending and Recieving Changes
+
+Using `ScriptRPC`, call `Write` on sending the RPC and `Read` on recieving the RPC.
 
 ## Custom Types
 
@@ -45,21 +49,15 @@ class SomeClass
 
 	void SetSynchDirty()
 	{
-		ScriptRPC rpc = new ScriptRPC();
-
-		rpc.Write(GetModuleName());
-
-		m_NetworkVariables.Write(rpc);
-
-		rpc.Send(null, RPC_ID, true, null);
+		ScriptRPC ctx = new ScriptRPC();
+		m_NetworkVariables.Write(ctx);
+		ctx.Send(null, RPC_ID, true, null);
 	}
 
 	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
 	{
 		if (id != RPC_ID) return;
-
 		m_NetworkVariables.Read(ctx);
-
 		OnVariablesSynchronized();
 	}
 	
