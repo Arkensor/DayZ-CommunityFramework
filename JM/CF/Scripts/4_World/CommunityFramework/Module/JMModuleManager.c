@@ -158,6 +158,7 @@ class JMModuleManager: JMModuleManagerBase
 
 		if (rpc_type == JM_VARIABLE_UPDATE)
 		{
+			// The server can't accept this RPC
 			if (GetGame().IsServer())
 			{
 				return;
@@ -169,6 +170,7 @@ class JMModuleManager: JMModuleManagerBase
 				return;
 			}
 
+			// Check to see if the module can be found
 			module = GetModule(moduleName);
 			if (!module)
 			{

@@ -94,12 +94,6 @@ class CF_NetworkedVariables
 					Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> TypeConverter not found for type '" + type + "'");
 					return false;
 				}
-				
-				if (!variable.m_Converter.IsIOSupported())
-				{
-					Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> TypeConverter for '" + type + "' does not support IO operations");
-					return false;
-				}
 
 				if (!m_Tail)
 				{
@@ -124,19 +118,20 @@ class CF_NetworkedVariables
 
 	void Write(ParamsWriteContext ctx)
 	{
-		CF_BinaryWriter writer = new CF_BinaryWriter(new CF_SerializerWriteStream(ctx));
-
 		CF_NetworkVariable variable = m_Head;
 		while (variable)
 		{
 			Class instance = m_Instance;
 
 			int index = variable.m_Count - 1;
-			
+
 			for (int j = 0; j < index; j++)
 			{
-				if (!instance) break;
-				
+				if (!instance)
+				{
+					break;
+				}
+
 				variable.m_AccessorTypes[j].GetVariableValue(instance, variable.m_AccessorIndices[j], instance);
 			}
 
@@ -145,33 +140,32 @@ class CF_NetworkedVariables
 				variable.m_Converter.Read(instance, variable.m_AccessorIndices[index]);
 			}
 
-			// attempt writing even if instance is null
-			variable.m_Converter.Write(writer);
+			// attempt writing even if instance is null so the count remains the same in sync
+			variable.m_Converter.Write(ctx);
 
 			variable = variable.m_Next;
 		}
-
-		writer.Close();
 	}
 
 	void Read(ParamsReadContext ctx)
 	{
-		CF_BinaryReader reader = new CF_BinaryReader(new CF_SerializerReadStream(ctx));
-
 		CF_NetworkVariable variable = m_Head;
 		while (variable)
 		{
 			Class instance = m_Instance;
-			
+
 			for (int j = 0; j < variable.m_Count - 1; j++)
 			{
-				if (!instance) break;
+				if (!instance)
+				{
+					break;
+				}
 
 				variable.m_AccessorTypes[j].GetVariableValue(instance, variable.m_AccessorIndices[j], instance);
 			}
 
-			// attempt reading even if instance is null
-			variable.m_Converter.Read(reader);
+			// attempt reading even if instance is null so the count remains the same in sync
+			variable.m_Converter.Read(ctx);
 
 			if (instance)
 			{
@@ -180,7 +174,5 @@ class CF_NetworkedVariables
 
 			variable = variable.m_Next;
 		}
-
-		reader.Close();
 	}
 };

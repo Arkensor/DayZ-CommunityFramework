@@ -1,4 +1,14 @@
-# Network Variables
+# Networked Variables
+
+A wrapper for serialization of variables that are to be transmitted over the network stack. 
+
+## Registering Variables
+
+## Handling Change
+
+## Custom Types
+
+Register a [Type Converter](../TypeConverters/index.md) to create a custom variable type that can be synchronized. Make sure to override the `Read(Serializer)` and `Write(Serializer)` methods so only your custom fields are sent, and not the class. Make sure to not set Class types to be synchronized as that will have undefined side effects.
 
 ## Example
 
@@ -17,7 +27,7 @@ class SomeClass
 	private ref DataClass m_DataHolder = new DataClass();
 	private int m_SomeIntVariable;
 
-	private ref CF_NetworkVariables m_NetworkVariables = new CF_NetworkVariables(this);
+	private ref CF_NetworkedVariables m_NetworkVariables = new CF_NetworkedVariables(this);
 
 	void SomeClass()
 	{

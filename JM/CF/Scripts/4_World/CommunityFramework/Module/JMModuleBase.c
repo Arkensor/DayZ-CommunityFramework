@@ -4,7 +4,7 @@ class JMModuleBase
 	protected bool m_PreventInput;
 	protected ref set< ref JMModuleBinding > m_Bindings;
 
-	protected ref CF_NetworkedVariables m_NetworkVariables;
+	protected ref CF_NetworkedVariables m_NetworkedVariables;
 	
 	void JMModuleBase()
 	{
@@ -12,7 +12,7 @@ class JMModuleBase
 		m_PreventInput = false;
 		m_Bindings = new set< ref JMModuleBinding >;
 
-		m_NetworkVariables = new CF_NetworkedVariables(this);
+		m_NetworkedVariables = new CF_NetworkedVariables(this);
 	}
 	
 	void ~JMModuleBase()
@@ -81,7 +81,7 @@ class JMModuleBase
 	 */
 	bool RegisterNetSyncVariable(string name)
 	{
-		return m_NetworkVariables.Register(name);
+		return m_NetworkedVariables.Register(name);
 	}
 
 	/**
@@ -91,18 +91,30 @@ class JMModuleBase
 	 */
 	void SetSynchDirty()
 	{
+		// Only the server can send data
+		if (!GetGame().IsDedicatedServer())
+		{
+			// No need to serialize in offline mode, just directly call 'OnVariablesSynchronized'
+			if (GetGame().IsServer())
+			{
+				OnVariablesSynchronized();
+			}
+
+			return;
+		}
+
 		ScriptRPC rpc = new ScriptRPC();
 
 		rpc.Write(GetModuleName());
 
-		m_NetworkVariables.Write(rpc);
+		m_NetworkedVariables.Write(rpc);
 
 		rpc.Send(null, JMModuleManager.JM_VARIABLE_UPDATE, true, null);
 	}
 
 	void HandleNetSync(ParamsReadContext ctx)
 	{
-		m_NetworkVariables.Read(ctx);
+		m_NetworkedVariables.Read(ctx);
 
 		OnVariablesSynchronized();
 	}
