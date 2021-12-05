@@ -55,13 +55,17 @@ class CF_TypeConverterFloat : CF_TypeConverterT<float>
 		return true;
 	}
 
-	override void Write(CF_IO io)
+	override bool Write(CF_IO io)
 	{
 		io.WriteFloat(m_Value);
+
+		return true;
 	}
 
-	override void Read(CF_IO io)
+	override bool Read(CF_IO io)
 	{
 		m_Value = io.ReadFloat();
+
+		return true;
 	}
 };

@@ -4,8 +4,11 @@ class CF_TypeConverterLocaliser : CF_TypeConverterClass
 	override string GetString()
 	{
 		CF_Localiser localiser = GetLocaliser();
-		if (!localiser) return "";
-
+		if (!localiser)
+		{
+			return "";
+		}
+		
 		return localiser.Format();
 	}
 

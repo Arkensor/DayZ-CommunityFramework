@@ -21,58 +21,62 @@ class CF_TypeConverterT<Class T> : CF_TypeConverterBase
 		return type;
 	}
 
-	override void Read(Serializer ctx)
+	override bool Read(Serializer ctx)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Read").Add(ctx);
 		#endif
 
-		ctx.Read(m_Value);
+		return ctx.Read(m_Value);
 	}
 
-	override void Write(Serializer ctx)
+	override bool Write(Serializer ctx)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Write").Add(ctx);
 		#endif
 
-		ctx.Write(m_Value);
+		return ctx.Write(m_Value);
 	}
 
-	override void Read(Class instance, string variable)
+	override bool Read(Class instance, string variableName)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variableName);
 		#endif
 
-		EnScript.GetClassVar(instance, variable, 0, m_Value);
-	}
-
-	override bool Read(Class instance, int index)
-	{
-		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(index);
-		#endif
-
-		typename type = instance.Type();
-
-		typename variableType = type.GetVariableType(index);
-		string variableName = type.GetVariableName(index);
-
-		// Unfortunately 'Class' type variables results in a hard crash with no discernible pattern to lock them out
-		if (variableType.IsInherited(Class)) return false;
-
-		type.GetVariableValue(instance, index, m_Value);
+		EnScript.GetClassVar(instance, variableName, 0, m_Value);
 
 		return true;
 	}
 
-	override void Write(Class instance, string variable)
+	override bool Write(Class instance, string variableName)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variableName);
 		#endif
 
-		EnScript.SetClassVar(instance, variable, 0, m_Value);
+		EnScript.SetClassVar(instance, variableName, 0, m_Value);
+
+		return true;
+	}
+
+	override bool Read(Class instance, int variableIndex)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variableIndex);
+		#endif
+
+		typename instanceType = instance.Type();
+
+		typename variableType = instanceType.GetVariableType(variableIndex);
+		string variableName = instanceType.GetVariableName(variableIndex);
+
+		// Unfortunately 'Class' type variables results in a hard crash with no discernible pattern to lock them out
+		if (variableType.IsInherited(Class)) return false;
+
+		instanceType.GetVariableValue(instance, variableIndex, m_Value);
+
+		return true;
 	}
 };

@@ -116,16 +116,20 @@ class CF_TypeConverterPlayerStatBase : CF_TypeConverterClass
 {
     // Insert above example code here.
 
-	override void Read(Serializer ctx)
+	override bool Read(Serializer ctx)
 	{
 		float value;
-		ctx.Read(value);
+		if (!ctx.Read(value))
+			return false;
+
 		SetFloat(value);
+		
+		return true;
 	}
 
-	override void Write(Serializer ctx)
+	override bool Write(Serializer ctx)
 	{
-		ctx.Write(GetFloat());
+		return ctx.Write(GetFloat());
 	}
 }
 ```
