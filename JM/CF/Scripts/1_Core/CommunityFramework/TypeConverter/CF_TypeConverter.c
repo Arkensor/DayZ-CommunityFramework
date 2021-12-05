@@ -69,6 +69,11 @@ class CF_TypeConverter
 			return;
 		}
 
+		if (m_TypeConvertersMap.Contains(converter.GetType()))
+		{
+			return;
+		}
+
 		m_TypeConvertersMap.Insert(converter.GetType(), converter);
 		m_TypeConverters.Insert(converter);
 	}
