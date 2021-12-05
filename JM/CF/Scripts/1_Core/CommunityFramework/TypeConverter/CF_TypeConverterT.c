@@ -15,10 +15,34 @@ class CF_TypeConverterT<Class T> : CF_TypeConverterBase
 		return m_Value;
 	}
 
+	override typename GetType()
+	{
+		typename type = T;
+		return type;
+	}
+
+	override void Read(Serializer ctx)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Read").Add(ctx);
+		#endif
+
+		ctx.Read(m_Value);
+	}
+
+	override void Write(Serializer ctx)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Write").Add(ctx);
+		#endif
+
+		ctx.Write(m_Value);
+	}
+
 	override void Read(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Read").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variable);
 		#endif
 
 		EnScript.GetClassVar(instance, variable, 0, m_Value);
@@ -27,7 +51,7 @@ class CF_TypeConverterT<Class T> : CF_TypeConverterBase
 	override bool Read(Class instance, int index)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Read").Add(instance).Add(index);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(index);
 		#endif
 
 		typename type = instance.Type();
@@ -46,7 +70,7 @@ class CF_TypeConverterT<Class T> : CF_TypeConverterBase
 	override void Write(Class instance, string variable)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Write").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variable);
 		#endif
 
 		EnScript.SetClassVar(instance, variable, 0, m_Value);
