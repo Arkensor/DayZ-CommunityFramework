@@ -36,6 +36,28 @@ class CF_TypeConverterPlayerStatBase : CF_TypeConverterClass
 	{
 		return GetFloat().ToString();
 	}
+
+	override void Read(Serializer ctx)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Read").Add(ctx);
+		#endif
+
+		float value;
+		ctx.Read(value);
+		SetFloat(value);
+	}
+
+	override void Write(Serializer ctx)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Write").Add(ctx);
+		#endif
+
+		float value;
+		value = GetFloat();
+		ctx.Write(value);
+	}
 };
 ```
 

@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterLocaliser)]
 class CF_TypeConverterLocaliser : CF_TypeConverterClass
 {
 	override string GetString()
@@ -10,6 +11,12 @@ class CF_TypeConverterLocaliser : CF_TypeConverterClass
 
 	override void SetString(string value)
 	{
+	}
+
+	override typename GetType()
+	{
+		typename type = CF_Localiser;
+		return type;
 	}
 	
 	CF_Localiser GetLocaliser()

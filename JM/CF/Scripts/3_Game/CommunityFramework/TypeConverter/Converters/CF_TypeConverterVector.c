@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterVector)]
 class CF_TypeConverterVector : CF_TypeConverterT<vector>
 {
 	override void SetVector(vector value)

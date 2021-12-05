@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterExpression)]
 class CF_TypeConverterExpression : CF_TypeConverterClass
 {
 	override void SetBool(bool value)
@@ -44,6 +45,12 @@ class CF_TypeConverterExpression : CF_TypeConverterClass
 
 		expr.SetSource(value);
 		expr.Compile(new array<string>);
+	}
+
+	override typename GetType()
+	{
+		typename type = CF_Expression;
+		return type;
 	}
 	
 	CF_Expression GetExpression()

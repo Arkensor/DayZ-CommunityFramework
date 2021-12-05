@@ -73,6 +73,12 @@ class CF_TypeConverterBase : Managed
 		return null;
 	}
 
+	typename GetType()
+	{
+		typename type;
+		return type;
+	}
+
 	override string GetDebugName()
 	{
 		return "[" + this + "] " + GetString();

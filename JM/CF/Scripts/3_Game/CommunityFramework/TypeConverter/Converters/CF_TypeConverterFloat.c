@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterFloat)]
 class CF_TypeConverterFloat : CF_TypeConverterT<float>
 {
 	override void SetInt(int value)

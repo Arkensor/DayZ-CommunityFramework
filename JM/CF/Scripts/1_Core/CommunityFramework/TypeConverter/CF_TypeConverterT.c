@@ -15,6 +15,12 @@ class CF_TypeConverterT<Class T> : CF_TypeConverterBase
 		return m_Value;
 	}
 
+	override typename GetType()
+	{
+		typename type = T;
+		return type;
+	}
+
 	override void Read(Serializer ctx)
 	{
 		#ifdef CF_TRACE_ENABLED
