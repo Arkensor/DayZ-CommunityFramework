@@ -48,7 +48,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 		if (!converter)
 		{
 			typename t = T;
-			m_Converter = CF_TypeConverter.Create(t);
+			m_Converter = CF_TypeConverter.Get(t);
 			return;
 		}
 

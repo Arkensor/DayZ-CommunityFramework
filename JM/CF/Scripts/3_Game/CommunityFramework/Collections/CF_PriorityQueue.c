@@ -6,7 +6,7 @@ class CF_PriorityQueue<Class T> : CF_Collection
 	void CF_PriorityQueue()
 	{
 		typename t = T;
-		m_Converter = CF_TypeConverter.Create(t);
+		m_Converter = CF_TypeConverter.Get(t);
 	}
 
 	override string GetDebugName()

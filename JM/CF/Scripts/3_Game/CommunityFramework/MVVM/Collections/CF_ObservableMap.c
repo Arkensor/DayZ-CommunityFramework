@@ -46,7 +46,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		if (!converter)
 		{
 			typename t = TValue;
-			m_Converter = CF_TypeConverter.Create(t);
+			m_Converter = CF_TypeConverter.Get(t);
 			return;
 		}
 

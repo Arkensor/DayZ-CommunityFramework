@@ -35,7 +35,6 @@ class CommunityFramework
         #ifdef COMPONENT_SYSTEM 
         if (!g_Game)
         {
-            CF_TypeConverter._Init();
             CF_MVVM._Init();
             
             #ifdef CF_WINDOWS

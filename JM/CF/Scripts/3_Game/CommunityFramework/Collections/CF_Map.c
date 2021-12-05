@@ -16,7 +16,7 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 		auto trace = CF_Trace_0(this, string.Format("CF_Map<%1>", t));
 		#endif
 
-		m_Converter = CF_TypeConverter.Create(t);
+		m_Converter = CF_TypeConverter.Get(t);
 
 		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
