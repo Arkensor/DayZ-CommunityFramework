@@ -11,7 +11,7 @@ The localiser class has overloaded the array assignment operator to allow settin
 CF_Localiser localiser = new CF_Localiser("STR_DATE_FORMAT"); // "%a, %b %d"
 localiser.Add(5);
 localiser[1] = "Hello";
-localiser[2] = "STR_NOVEMBER"; // "Dec"
+localiser[2] = "STR_NOVEMBER"; // "Nov"
 
 Print(localiser.Format());
 // English: "5, Hello Nov"
