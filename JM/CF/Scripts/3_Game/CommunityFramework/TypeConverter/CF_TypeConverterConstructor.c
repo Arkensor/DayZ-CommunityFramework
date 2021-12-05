@@ -4,18 +4,25 @@ class CF_TypeConverterConstructor
 {
 	private void CF_TypeConverterConstructor()
 	{
-		CF_TypeConverter.OnCreate();
+		CF_TypeConverter._OnCreate();
 	}
 
+	/**
+	 * @note	We can safely guarantee the destructor is called on script reload, 
+	 * 			we can't do the same for 'OnGameDestroy'.
+	 */
 	void ~CF_TypeConverterConstructor()
 	{
-		CF_TypeConverter.OnDestroy();
+		CF_TypeConverter._OnDestroy();
 	}
 		
 	[CF_EventSubscriber(CF_TypeConverterConstructor._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
-		if (g_CF_TypeConverterConstructor) return;
+		if (g_CF_TypeConverterConstructor)
+		{
+			return;
+		}
 		
 		g_CF_TypeConverterConstructor = new CF_TypeConverterConstructor();
 	}

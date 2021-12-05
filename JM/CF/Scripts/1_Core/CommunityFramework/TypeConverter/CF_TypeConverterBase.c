@@ -89,68 +89,80 @@ class CF_TypeConverterBase : Managed
 		return false;
 	}
 
-	void Read(Serializer ctx)
+	bool Read(Serializer ctx)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Read").Add(ctx);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Read(Serializer) not implemented");
+
+		return false;
 	}
 
-	void Write(Serializer ctx)
+	bool Write(Serializer ctx)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Write").Add(ctx);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Write(Serializer) not implemented");
+
+		return false;
 	}
 
-	void Read(CF_IO io)
+	bool Read(CF_IO io)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Read").Add(io);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Read(CF_IO) not implemented");
+
+		return false;
 	}
 
-	void Write(CF_IO io)
+	bool Write(CF_IO io)
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Write").Add(io);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Write(CF_IO) not implemented");
+
+		return false;
 	}
 
-	void Read(Class instance, string variable)
+	bool Read(Class instance, string variableName)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variable);
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variableName);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Read(Class, string) not implemented");
+
+		return false;
 	}
 
-	bool Read(Class instance, int index)
+	bool Write(Class instance, string variableName)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(index);
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variableName);
+		#endif
+
+		CF_Log.Error("" + ClassName() + "::Write(Class, string) not implemented");
+
+		return false;
+	}
+
+	bool Read(Class instance, int variableIndex)
+	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variableIndex);
 		#endif
 
 		CF_Log.Error("" + ClassName() + "::Read(Class, int) not implemented");
 
 		return false;
-	}
-
-	void Write(Class instance, string variable)
-	{
-		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variable);
-		#endif
-
-		CF_Log.Error("" + ClassName() + "::Write(Class, string) not implemented");
 	}
 };

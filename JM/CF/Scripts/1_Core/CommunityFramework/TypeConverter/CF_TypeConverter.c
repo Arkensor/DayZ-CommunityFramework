@@ -14,23 +14,23 @@ class CF_TypeConverter
 #endif
 	}
 
-	static void OnCreate()
+	static void _OnCreate()
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("Create");
 #endif
 
-		OnDestroy();
+		_OnDestroy();
 
 		m_IsCreated = true;
 
 		for (int i = 0; i < m_TypeConverterNames.Count(); i++)
 		{
-			Create(m_TypeConverterNames[i]);
+			_Create(m_TypeConverterNames[i]);
 		}
 	}
 
-	static void OnDestroy()
+	static void _OnDestroy()
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("Create");
@@ -42,7 +42,10 @@ class CF_TypeConverter
 		m_IsCreated = false;
 	}
 
-	static void Insert(typename type)
+	/**
+	 * @brief Inserts the typeconverter typename into the list of typeconverters to create, creates if already instantiated
+	 */
+	static void _Insert(typename type)
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1("Insert").Add(type);
@@ -53,11 +56,14 @@ class CF_TypeConverter
 
 		if (m_IsCreated)
 		{
-			Create(className);
+			_Create(className);
 		}
 	}
 
-	static void Create(string className)
+	/**
+	 * @brief Creates the typeconverter from the name of the class
+	 */
+	static void _Create(string className)
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1("Create").Add(type);

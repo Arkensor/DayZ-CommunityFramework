@@ -26,13 +26,17 @@ class CF_TypeConverterVector : CF_TypeConverterT<vector>
 		return true;
 	}
 
-	override void Write(CF_IO io)
+	override bool Write(CF_IO io)
 	{
 		io.WriteVector(m_Value);
+
+		return true;
 	}
 
-	override void Read(CF_IO io)
+	override bool Read(CF_IO io)
 	{
 		m_Value = io.ReadVector();
+
+		return true;
 	}
 };
