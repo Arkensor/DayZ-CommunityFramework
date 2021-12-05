@@ -21,12 +21,19 @@ class CF_Trace
 
 	static string FormatInstance(Class instance)
 	{
-		if (!instance) return "null";
+		if (!instance)
+		{
+			return "null";
+		}
+		
+		string instanceName;
+		g_Script.CallFunction(instance, "GetDebugNameNative", instanceName, null);
+		if (instanceName == string.Empty)
+		{
+			instanceName = "" + instance;
+		}
 
-		Object obj;
-		if (Class.CastTo(obj, instance)) return "(" + Object.GetDebugName(obj) + ")";
-
-		return "" + instance;
+		return instanceName;
 	}
 
 	static string FormatStack(string instance, string stack)
