@@ -9,16 +9,16 @@ class CF_TypeConverter
 
 	private void CF_TypeConverter()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "CF_TypeConverter");
-		#endif
+#endif
 	}
 
 	static void OnCreate()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("Create");
-		#endif
+#endif
 
 		OnDestroy();
 
@@ -32,9 +32,9 @@ class CF_TypeConverter
 
 	static void OnDestroy()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("Create");
-		#endif
+#endif
 
 		m_TypeConvertersMap.Clear();
 		m_TypeConverters.Clear();
@@ -44,9 +44,9 @@ class CF_TypeConverter
 
 	static void Insert(typename type)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1("Insert").Add(type);
-		#endif
+#endif
 
 		string className = type.ToString();
 		m_TypeConverterNames.Insert(className);
@@ -59,9 +59,9 @@ class CF_TypeConverter
 
 	static void Create(string className)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1("Create").Add(type);
-		#endif
+#endif
 
 		CF_TypeConverterBase converter;
 		if (!Class.CastTo(converter, className.ToType().Spawn()))
@@ -75,29 +75,34 @@ class CF_TypeConverter
 
 	static CF_TypeConverterBase Get(typename type)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1("Get").Add(type);
-		#endif
-				
-		typename baseType = type;
+#endif
+
 		CF_TypeConverterBase converter;
-		if (!m_TypeConvertersMap.Find(baseType, converter))
+		if (!m_TypeConvertersMap.Find(type, converter))
 		{
 			// if the type converter wasn't found, iterate over the list to find the inherited type and add it
-			int idx = -1;
+
+			typename inputType = type;
 			for (int i = m_TypeConverters.Count() - 1; i >= 0; i--)
 			{
-				if (baseType.IsInherited(m_TypeConverters[i].Type()))
+				if (type.IsInherited(m_TypeConverters[i].GetType()))
 				{
-					idx = i;
+					type = m_TypeConverters[i].GetType();
 					break;
 				}
 			}
 
-			baseType = m_TypeConverters[idx].Type();
-			m_TypeConvertersMap.Find(baseType, converter);
+			if (type == inputType)
+			{
+				CF_Log.Error("Type Converter not found for type=" + type);
+				return null;
+			}
+
+			m_TypeConvertersMap.Find(type, converter);
 		}
-		
+
 		return converter;
 	}
 };
