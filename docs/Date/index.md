@@ -30,7 +30,7 @@ A date object can be converted to a string using `ToString`. It only supports th
 ### Example
 
 ```csharp
-CF_Date date = CF_Date.CreateDateTime(2021, 12, 2, 10, 24, 3);
+CF_Date date = CF_Date.CreateDateTime(2021, 12, 2, 10, 24, 3); // year, month, day, hour, minute, second
 Print(date.ToString(CF_Date.DATETIME));
 // "2021-12-02 10:24:03"
 ```
