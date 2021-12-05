@@ -60,7 +60,7 @@ class SomeClass
 
 ## Custom Type Converters
 
-The following code example shows how to create and register an instance of a type converter. Do not create member variables as the instance of the type converter is a singleton and will be the same instance everytime it is used.
+The following code example shows how to create and register an instance of a type converter. Do not create member variables as the instance of the type converter is a singleton and will be the same instance everytime it is used. Only one type converter can be registered per distinct type. 
 
 ```csharp
 [CF_RegisterTypeConverter(CF_TypeConverterPlayerStatBase)]
