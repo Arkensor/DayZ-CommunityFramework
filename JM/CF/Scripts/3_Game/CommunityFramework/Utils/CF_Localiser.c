@@ -108,6 +108,8 @@ class CF_Localiser
 
 	CF_Localiser Add(Class value)
 	{
+		//TODO: use CF_TypeConverter here instead afer the PR is merged.
+
 		string toStr = "";
 		if (value) toStr = value.GetDebugName();
 		return Set(m_Count - 1, toStr, false);
