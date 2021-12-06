@@ -2,6 +2,8 @@
 
 Provides a unified way of converting values between different variable types and working with values of unknown types for the purposes of serialization.
 
+The following documentation is inspired by the [MSDN C# TypeConverter documentation](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverter?view=net-6.0).
+
 Each type converter is a singleton instance per variable type. Do not use the type converter as storage. 
 
 ## Using Type Converters
