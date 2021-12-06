@@ -6,7 +6,7 @@ Each type converter is a singleton instance per variable type. Do not use the ty
 
 ## Using Type Converters
 
-This example shows how the type converter is used to represent an integer value as a string for internal storage
+The following example shows how the type converter can be used to represent an integer value as a string for internal storage.
 
 ```csharp
 class SomeClass
