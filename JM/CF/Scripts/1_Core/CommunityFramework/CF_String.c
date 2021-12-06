@@ -172,4 +172,54 @@ class CF_String : string
 		string c = value.Substring(middle, end - middle);
 		return a + b + c;
 	}
+
+	/**
+	 * @brief	Checks to see if the two string matches
+	 * 
+	 * @param a The first string to be checked
+	 * @param b The second string to be checked
+	 * 
+	 * @code
+	 * 	CF_String a = "How are you?";
+	 * 	CF_String b = "how are you?";
+	 * 
+	 * 	Print(CF_String.Equals(a, b));
+	 * 	>> false
+	 * 
+	 * 	b = "How are you?";
+	 * 	Print(CF_String.Equals(a, b));
+	 * 	>> true
+	 * @endcode
+	 */
+	static bool Equals(string a, string b)
+	{
+		return a == b;
+	}
+
+
+	/**
+	 * @brief	Checks to see if the two string matches, ignoring their case
+	 * 
+	 * @param a The first string to be checked
+	 * @param b The second string to be checked
+	 * 
+	 * @code
+	 * 	CF_String a = "How are you?";
+	 * 	CF_String b = "how are you?";
+	 * 
+	 * 	Print(CF_String.EqualsIgnoreCase(a, b));
+	 * 	>> true
+	 * 
+	 * 	b = "How are you?";
+	 * 	Print(CF_String.EqualsIgnoreCase(a, b));
+	 * 	>> true
+	 * @endcode
+	 */
+	static bool EqualsIgnoreCase(string a, string b)
+	{
+		a.ToLower();
+		b.ToLower();
+
+		return a == b;
+	}
 };
