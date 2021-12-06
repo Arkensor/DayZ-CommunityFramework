@@ -349,7 +349,10 @@ class CF_Date : Managed
 			field = field.PadStringFront(count, "0");
 		}
 
-		field = field.Substring(0, count);
+		if (field.Length() > count)
+		{
+			field = field.Substring(0, count);
+		}
 		
 		format = format.SpliceString(index, field);
 	}
