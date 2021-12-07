@@ -116,4 +116,25 @@ class CF_TypeConverter
 
 		return converter;
 	}
+
+	static CF_TypeConverterBase Get(Class instance, string variableName)
+	{
+		if (!instance)
+		{
+			return null;
+		}
+
+		typename instanceType = instance.Type();
+		int count = instanceType.GetVariableCount();
+		for (int index = 0; index < count; index++)
+		{
+			if (CF_String.EqualsIgnoreCase(variableName, instanceType.GetVariableName(index)))
+			{
+				typename variableType = instanceType.GetVariableType(index);
+				return Get(variableType);
+			}
+		}
+
+		return null;
+	}
 };

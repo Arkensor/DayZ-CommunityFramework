@@ -1,10 +1,14 @@
 # Type Converters
 
-Provides a unified way of converting types of values to other types, as well as for accessing values and supporting custom serialzation.
+Provides a unified way of converting values between different variable types and working with values of unknown types for the purposes of serialization.
+
+The following documentation is inspired by the [MSDN C# TypeConverter documentation](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.typeconverter?view=net-6.0).
+
+Each type converter is a singleton instance per variable type. Do not use the type converter as storage. 
 
 ## Using Type Converters
 
-Accessing a type converter retrieves the same instance always. 
+The following example shows how the type converter can be used to represent an integer value as a string for internal storage.
 
 ```csharp
 class SomeClass
@@ -78,27 +82,32 @@ class CF_TypeConverterPlayerStatBase : CF_TypeConverterClass
 {
 	override void SetInt(int value)
 	{
-		m_Value.SetByFloat(value);
+		auto stat = PlayerStatBase.Cast(Get());
+		stat.SetByFloat(value);
 	}
 	
 	override int GetInt()
 	{
-		return m_Value.Get();
+		auto stat = PlayerStatBase.Cast(Get());
+		return stat.Get();
 	}
 
 	override void SetFloat(float value)
 	{
-		m_Value.SetByFloat(value);
+		auto stat = PlayerStatBase.Cast(Get());
+		stat.SetByFloat(value);
 	}
 	
 	override float GetFloat()
 	{
-		return m_Value.Get();
+		auto stat = PlayerStatBase.Cast(Get());
+		return stat.Get();
 	}
 
 	override void SetString(string value)
 	{
-		m_Value.SetByFloat(value.ToFloat());
+		auto stat = PlayerStatBase.Cast(Get());
+		stat.SetByFloat(value.ToFloat());
 	}
 
 	override string GetString()
