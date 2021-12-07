@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterDate)]
 class CF_TypeConverterDate : CF_TypeConverterManaged
 {
 	private string m_Format = "YYYY-MM-DD hh:mm:ss";
@@ -32,6 +33,12 @@ class CF_TypeConverterDate : CF_TypeConverterManaged
 		if (!date) return;
 
 		//date.StringToDate(value);
+	}
+
+	override typename GetType()
+	{
+		typename type = CF_Date;
+		return type;
 	}
 	
 	CF_Date GetDate()

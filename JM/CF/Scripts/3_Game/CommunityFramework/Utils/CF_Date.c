@@ -283,15 +283,6 @@ class CF_Date : Managed
 		return iTimestamp;
 	}
 
-	CF_Date Compare(CF_Date other)
-	{
-		int a = DateToEpoch();
-		int b = other.DateToEpoch();
-		auto newDate = CF_Date();
-		newDate.EpochToDate(b - a);
-		return newDate;
-	}
-
 	void EpochToDate(int value)
 	{
 		int iTimestamp;
@@ -355,10 +346,13 @@ class CF_Date : Managed
 		
 		if (length < count)
 		{
-			field = field.PadString(count, "0");
+			field = field.PadStringFront(count, "0");
 		}
 
-		field = field.Substring(0, count);
+		if (field.Length() > count)
+		{
+			field = field.Substring(0, count);
+		}
 		
 		format = format.SpliceString(index, field);
 	}

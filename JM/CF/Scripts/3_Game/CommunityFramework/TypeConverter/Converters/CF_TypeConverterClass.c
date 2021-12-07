@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterClass)]
 class CF_TypeConverterClass : CF_TypeConverterT<Class>
 {
 	override int GetInt()

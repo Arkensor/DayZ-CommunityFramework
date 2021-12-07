@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterManaged)]
 class CF_TypeConverterManaged : CF_TypeConverterT<Managed>
 {
 	override string GetString()

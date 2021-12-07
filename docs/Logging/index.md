@@ -10,13 +10,59 @@ The following table lists the possible log level values and it's corresponding f
 | WARNING   | 3     | CF_Log.Warn     | Logs that highlight an abnormal action, but does cause the user to notice anything different.                                                                                                 |
 | ERROR     | 4     | CF_Log.Error    | Logs that highlight when the current flow of execution is stopped due to a failure. This should indicate if the current activity has a failure and will not result in the game shutting down. |
 | CRITICAL  | 5     | CF_Log.Critical | Logs that describe an unrecoverable event and will most likely lead to the shutdown of the game.                                                                                              |
-| NONE      | 6     |                 |                                                                                                                                                                                               |
+| NONE      | 6     |                 | Disables all logging.                                                                                                                                                                         |
 
 # Context Tracing
 
 Useful for when you have a crash and you just aren't sure where or what is causing it. Add these trace methods in every method. As a precautionary reminder, all outputs heavily impact performance. It is also recommended to place these trace function calls behind preprocessor defines and disabling them in production to improve performance, preventing filling up players drives and so if you ever need to find a new possible cause for crashing you can enable the define.
 
-## Example
+Make sure to assign the return output of the CF_Trace to a variable that is referenced counted for only the lifetime of the particular scope (function/method/instance). 
+
+The trace method will output when the scope has been entered, and when the scope has been exitted. 
+
+The following is an example of a global function with no parameters. When the function/method has no parameters you use the function ending in `_0`. 
+
+```csharp
+void FunctionOne()
+{
+	auto trace = CF_Trace_0("FunctionOne");
+}
+```
+
+The number of parameters in the function call determines which trace function should be used. For example two parameters means `CF_Trace_2` should be used. Upon calling the trace function, chain call the `Add` method for every parameter. Once `Add` has been called for the number of parameters the trace method will output to the log.
+
+```csharp
+void FunctionTwo(int variable)
+{
+	auto trace = CF_Trace_1("FunctionTwo").Add(variable);
+}
+```
+
+When working with methods, the first parameter of the `CF_Trace` function call is the object instance of the class. Pass `this` as the variable.
+
+```csharp
+class ClassOne
+{
+	void MethodThree(string variableOne, int variableTwo)
+	{
+		auto trace = CF_Trace_2(this, "MethodThree").Add(variableOne).Add(variableTwo);
+	}
+}
+```
+
+It may be useful to document the class the static method belongs to, in this case instead of passing `this` the name of the class as a string can be passed instead.
+
+```csharp
+class ClassTwo
+{
+	static void MethodFour(string variableOne, int variableTwo)
+	{
+		auto trace = CF_Trace_2("ClassTwo", "MethodFour").Add(variableOne).Add(variableTwo);
+	}
+}
+```
+
+Below is a full example of context tracing.
 
 ```csharp
 void SomeGlobalFunction()

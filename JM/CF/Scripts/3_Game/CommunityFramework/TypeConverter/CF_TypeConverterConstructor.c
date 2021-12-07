@@ -1,30 +1,35 @@
+static autoptr CF_TypeConverterConstructor g_CF_TypeConverterConstructor = null;
+	
 class CF_TypeConverterConstructor
 {
-	void Insert(typename type, typename converter)
+	private void CF_TypeConverterConstructor()
 	{
-		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Insert").Add(type).Add(converter);
-		#endif
-		
-		g_CF_TypeConverter.Insert(type, converter);
+		CF_TypeConverter._OnCreate();
 	}
 
-	void Register()
+	/**
+	 * @note	We can safely guarantee the destructor is called on script reload, 
+	 * 			we can't do the same for 'OnGameDestroy'.
+	 */
+	void ~CF_TypeConverterConstructor()
 	{
-		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "Register");
-		#endif
+		CF_TypeConverter._OnDestroy();
+	}
+		
+	[CF_EventSubscriber(CF_TypeConverterConstructor._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
+	{
+		if (g_CF_TypeConverterConstructor)
+		{
+			return;
+		}
+		
+		g_CF_TypeConverterConstructor = new CF_TypeConverterConstructor();
+	}
 
-		Insert(bool, CF_TypeConverterBool);
-		Insert(int, CF_TypeConverterInt);
-		Insert(float, CF_TypeConverterFloat);
-		Insert(vector, CF_TypeConverterVector);
-		Insert(string, CF_TypeConverterString);
-		Insert(Class, CF_TypeConverterClass);
-		Insert(Managed, CF_TypeConverterManaged);
-		Insert(EntityAI, CF_TypeConverterManaged);
-		Insert(CF_Expression, CF_TypeConverterExpression);
-		Insert(CF_Date, CF_TypeConverterDate);
-		Insert(CF_Localiser, CF_TypeConverterLocaliser);
+	[CF_EventSubscriber(CF_TypeConverterConstructor._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	static void _Cleanup()
+	{
+		g_CF_TypeConverterConstructor = null;
 	}
 };

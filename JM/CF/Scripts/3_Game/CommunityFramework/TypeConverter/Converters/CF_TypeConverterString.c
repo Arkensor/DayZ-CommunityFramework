@@ -1,3 +1,4 @@
+[CF_RegisterTypeConverter(CF_TypeConverterString)]
 class CF_TypeConverterString : CF_TypeConverterT<string>
 {
 	override void SetInt(int value)
@@ -55,13 +56,17 @@ class CF_TypeConverterString : CF_TypeConverterT<string>
 		return true;
 	}
 
-	override void Write(CF_IO io)
+	override bool Write(CF_IO io)
 	{
 		io.WriteString(m_Value);
+
+		return true;
 	}
 
-	override void Read(CF_IO io)
+	override bool Read(CF_IO io)
 	{
 		m_Value = io.ReadString();
+
+		return true;
 	}
 };

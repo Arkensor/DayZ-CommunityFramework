@@ -29,7 +29,7 @@ class CF_String : string
 	 * @brief	Returns the number of times the specified character exists in the string
 	 * 
 	 * @param char The character that will be matched
-	 * @param firstIndex The index of the first character
+	 * @param[out] firstOccurrence  The index of the first character
 	 * 
 	 * @code
 	 * 	CF_String str = "Hello, World!";
@@ -41,19 +41,19 @@ class CF_String : string
 	 * 	>> '2'
 	 * @endcode
 	 */
-	int CountCharacter(CF_String char, out int firstIndex)
+	int CountCharacter(CF_String char, out int firstOccurrence )
 	{
 		int count = 0;
-		firstIndex = -1;
+		firstOccurrence  = -1;
 
 		int length = value.Length();
 		for (int index = 0; index < length; index++)
 		{
 			count += value.Substring(index, 1) == char;
 
-			if (count == 1 && firstIndex == -1)
+			if (count == 1 && firstOccurrence  == -1)
 			{
-				firstIndex = index;
+				firstOccurrence  = index;
 			}
 		}
 
@@ -69,11 +69,11 @@ class CF_String : string
 	 * 
 	 * @code
 	 * 	CF_String str = "55";
-	 * 	Print(str.PadStringEnd(4, "0"));
+	 * 	Print(str.PadStringFront(4, "0"));
 	 * 	>> '0055'
 	 * @endcode
 	 */
-	string PadString(int length, CF_String padChar)
+	string PadStringFront(int length, CF_String padChar)
 	{
 		string newString = value;
 		length = newString.Length() - length;
@@ -98,11 +98,11 @@ class CF_String : string
 	 * 
 	 * @code
 	 * 	CF_String str = "55";
-	 * 	Print(str.PadStringEnd(4, "0"));
+	 * 	Print(str.PadStringBack(4, "0"));
 	 * 	>> '5500'
 	 * @endcode
 	 */
-	string PadStringEnd(int length, CF_String padChar)
+	string PadStringBack(int length, CF_String padChar)
 	{
 		string newString = value;
 		length = newString.Length() - length;
@@ -121,8 +121,8 @@ class CF_String : string
 	/**
 	 * @brief	Replaces the string of length at the index with the splice. 
 	 * 
-	 * @param start The first character to be removed
-	 * @param padChar The string that will replace those characters
+	 * @param start The index at which to start changing the string
+	 * @param padChar The string the content will be replaced with
 	 * 
 	 * @code
 	 * 	CF_String str = "How is you?";
@@ -136,6 +136,11 @@ class CF_String : string
 		int end = value.Length();
 		string a = value.Substring(0, start);
 		string b = splice;
+		if (middle >= end)
+		{
+			return a + b;
+		}
+
 		string c = value.Substring(middle, end - middle);
 		return a + b + c;
 	}
@@ -143,9 +148,9 @@ class CF_String : string
 	/**
 	 * @brief	Replaces the string of length at the index with the splice. New string does not have to match the length.
 	 * 
-	 * @param start The first character to be removed
+	 * @param start The index at which to start changing the string
 	 * @param length The length of characters to be removed
-	 * @param padChar The string that will replace those characters
+	 * @param padChar The string the content will be replaced with
 	 * 
 	 * @code
 	 * 	CF_String str = "How are you?";
@@ -159,7 +164,62 @@ class CF_String : string
 		int end = value.Length();
 		string a = value.Substring(0, start);
 		string b = splice;
+		if (middle >= end)
+		{
+			return a + b;
+		}
+
 		string c = value.Substring(middle, end - middle);
 		return a + b + c;
+	}
+
+	/**
+	 * @brief	Checks to see if the two string matches
+	 * 
+	 * @param a The first string to be checked
+	 * @param b The second string to be checked
+	 * 
+	 * @code
+	 * 	CF_String a = "How are you?";
+	 * 	CF_String b = "how are you?";
+	 * 
+	 * 	Print(CF_String.Equals(a, b));
+	 * 	>> false
+	 * 
+	 * 	b = "How are you?";
+	 * 	Print(CF_String.Equals(a, b));
+	 * 	>> true
+	 * @endcode
+	 */
+	static bool Equals(string a, string b)
+	{
+		return a == b;
+	}
+
+
+	/**
+	 * @brief	Checks to see if the two string matches, ignoring their case
+	 * 
+	 * @param a The first string to be checked
+	 * @param b The second string to be checked
+	 * 
+	 * @code
+	 * 	CF_String a = "How are you?";
+	 * 	CF_String b = "how are you?";
+	 * 
+	 * 	Print(CF_String.EqualsIgnoreCase(a, b));
+	 * 	>> true
+	 * 
+	 * 	b = "How are you?";
+	 * 	Print(CF_String.EqualsIgnoreCase(a, b));
+	 * 	>> true
+	 * @endcode
+	 */
+	static bool EqualsIgnoreCase(string a, string b)
+	{
+		a.ToLower();
+		b.ToLower();
+
+		return a == b;
 	}
 };

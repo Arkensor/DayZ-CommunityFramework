@@ -1,47 +1,46 @@
 # Localiser
-A localising system for networked messages. 
+A utility to construct multi-part localised strings which can also be sent across the network
 
 ## Creating and Using
 
 The following example is using strings found in the DayZ stringtable. 
 
-The localiser class has overloaded the array assignment operator to allow setting of the string table keys and placing in other variables at the desired format.
+The localiser class has overloaded the array assignment operator to allow setting of the string table keys and placing in other variables at the desired format. There are 10 possible slots for text replacement starting at 0. To override the main text use -1 as the index.
 
 ```csharp
-CF_Localiser localiser = new CF_Localiser("STR_DATE_FORMAT");
-localiser.Add(5);
-localiser[1] = "Hello";
-localiser[2] = "STR_NOVEMBER";
+CF_Localiser localiser = new CF_Localiser("console_log_in"); // "Press %1 to log in."
+localiser[0] = "STR_NOVEMBER"; // "Nov"
 
 Print(localiser.Format());
-// English: "5, Hello Nov"
+// English: "Press Nov to log in."
 ```
 
-## Working with RPCs
-
-Currently not supported with RPCManager.
-
-### Sending
+Otherwise the `Add` method can be used instead. It increments from the last used index, starting at 0 if none used.
 
 ```csharp
-CF_Localiser localiser = new CF_Localiser("STR_DATE_FORMAT");
-localiser[0] = "STR_FRIDAY";
-localiser[1] = "STR_DECEMBER";
-localiser[2] = 2021;
+CF_Localiser localiser = new CF_Localiser("console_log_in"); // "Press %1 to log in."
+localiser.Add("STR_NOVEMBER");
 
-ScriptRPC rpc = new ScriptRPC();
-CF_Localiser.Write(rpc, localiser);
-rpc.Send(null, 1024, false, null);
+Print(localiser.Format());
+// English: "Press Nov to log in."
 ```
 
-### Reading
+The strings don't have to be localised to be used.
 
 ```csharp
-void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
-{
-	CF_Localiser localiser;
-	CF_Localiser.Read(rpc, localiser);
-	Print(localiser.Format());
-	// English: "Fri, Dec 2021"
-}
+CF_Localiser localiser = new CF_Localiser("Press %1 to log in.");
+localiser[0] = "Nov";
+
+Print(localiser.Format());
+// English: "Press Nov to log in."
+```
+
+And the parameters don't have to be strings.
+
+```csharp
+CF_Localiser localiser = new CF_Localiser("Press %1 to log in.");
+localiser[0] = 5;
+
+Print(localiser.Format());
+// English: "Press 5 to log in."
 ```
