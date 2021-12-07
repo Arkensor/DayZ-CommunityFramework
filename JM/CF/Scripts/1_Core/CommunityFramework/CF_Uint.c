@@ -14,12 +14,12 @@ class CF_Uint : int
 	{
 		CF_Uint a = value;
 		CF_Uint carry = a & b;
-		CF_Uint result = a.^(b);
-		while (carry != 0)
+		CF_Uint result = a.XOR(b);
+		while (carry)
 		{
 			CF_Uint shiftedcarry = carry << 1;
 			carry = result & shiftedcarry;
-			result = result.^(shiftedcarry);
+			result = result.XOR(shiftedcarry);
 		}
 		return result;
 	}
@@ -83,7 +83,7 @@ class CF_Uint : int
 		CF_Uint a = (x & y);
 		CF_Uint b = ~x;
 		CF_Uint c = (b & z);
-		return a.^(c); // a ^ c
+		return a.XOR(c); // a XOR c
 	}
 
 	static CF_Uint MAJ(CF_Uint x, CF_Uint y, CF_Uint z)
@@ -91,7 +91,7 @@ class CF_Uint : int
 		CF_Uint a = x & y;
 		CF_Uint b = x & z;
 		CF_Uint c = y & z;
-		return a.^(b.^(c))); //a ^ b ^ c (left-right associativity)
+		return a.XOR(b.XOR(c))); //a XOR b XOR c (left-right associativity)
 	}
 
 	static CF_Uint EP0(CF_Uint x)
@@ -99,7 +99,7 @@ class CF_Uint : int
 		CF_Uint a = CF_Uint.RotateRight(x, 2);
 		CF_Uint b = CF_Uint.RotateRight(x, 13);
 		CF_Uint c = CF_Uint.RotateRight(x, 22);
-		return a.^(b.^(c))); //a ^ b ^ c
+		return a.XOR(b.XOR(c))); //a XOR b XOR c
 	}
 
 	static CF_Uint EP1(CF_Uint x)
@@ -107,7 +107,7 @@ class CF_Uint : int
 		CF_Uint a = CF_Uint.RotateRight(x, 6);
 		CF_Uint b = CF_Uint.RotateRight(x, 11);
 		CF_Uint c = CF_Uint.RotateRight(x, 25);
-		return a.^(b.^(c))); //a ^ b ^ c
+		return a.XOR(b.XOR(c))); //a XOR b XOR c
 	}
 
 	static CF_Uint SIG0(CF_Uint x)
@@ -115,7 +115,7 @@ class CF_Uint : int
 		CF_Uint a = CF_Uint.RotateRight(x, 7);
 		CF_Uint b = CF_Uint.RotateRight(x, 18);
 		CF_Uint c = x.ShiftRight(3);
-		return a.^(b.^(c))); //a ^ b ^ c
+		return a.XOR(b.XOR(c))); //a XOR b XOR c
 	}
 
 	static CF_Uint SIG1(CF_Uint x)
@@ -123,17 +123,7 @@ class CF_Uint : int
 		CF_Uint a = CF_Uint.RotateRight(x, 17);
 		CF_Uint b = CF_Uint.RotateRight(x, 19);
 		CF_Uint c = x.ShiftRight(10);
-		return a.^(b.^(c))); //a ^ b ^ c
-	}
-
-	CF_Uint ^(CF_Uint y)
-	{
-		CF_Uint x = value;
-		int a = (x | y);
-		int b = ~x;
-		int c = ~y;
-		int d = (b | c);
-		return (a & d);
+		return a.XOR(b.XOR(c))); //a XOR b XOR c
 	}
 
 	CF_Uint XOR(CF_Uint y)

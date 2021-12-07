@@ -7,6 +7,8 @@ class CF_Stream
 	
 	int m_Size;
 	int m_Position;
+
+	bool m_IsOpen;
 	
 	void ~CF_Stream()
 	{
@@ -15,7 +17,7 @@ class CF_Stream
 
 	bool IsValid()
 	{
-		return true;
+		return m_IsOpen;
 	}
 
 	void Append(CF_Byte byte = 0)
@@ -212,6 +214,18 @@ class CF_Stream
 		m_Position = tuple.param2;
 	}
 
+	void SetPositionAtStart()
+	{
+		m_Current = null;
+		m_Position = -1;
+	}
+
+	void SetPositionAtEnd()
+	{
+		m_Current = m_Tail;
+		m_Position = m_Size - 1;
+	}
+
 	void Seek(int num, CF_SeekOrigin origin = CF_SeekOrigin.CURRENT)
 	{
 		int newPosition;
@@ -325,10 +339,15 @@ class CF_Stream
 	
 	void Close()
 	{
+		if (!m_IsOpen)
+			return;
+
 		Flush();
+
+		m_IsOpen = true;
 	}
 	
-	string ToStr()
+	override string GetDebugName()
 	{
 		string str = "[" + m_Size + "] 0x";
 		

@@ -74,7 +74,7 @@ class CF_StringStream : CF_Stream
 		m_Dirty = true;
 	}
 
-	string ToStr()
+	override string GetDebugName()
 	{
 		UpdateDirty();
 

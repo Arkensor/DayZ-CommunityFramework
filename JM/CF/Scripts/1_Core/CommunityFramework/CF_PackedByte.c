@@ -1,3 +1,7 @@
+/**
+ * Storing bytes in a forward doubly linked list.
+ * This gives both fast reading and an unlimited size of bytes
+ */
 class CF_PackedByte
 {
 	ref CF_PackedByte m_Next;
@@ -68,8 +72,8 @@ class CF_PackedByte
 		{
 			index++;
 			
-			byte.m_Value = b0;
-			byte.m_Value.Clamp();
+			// set and clamp
+			byte.m_Value = b0 & 255;
 
 			byte.m_Next = new CF_PackedByte();
 			byte.m_Next.m_Prev = byte;
@@ -80,8 +84,8 @@ class CF_PackedByte
 		{
 			index++;
 			
-			byte.m_Value = b1;
-			byte.m_Value.Clamp();
+			// set and clamp
+			byte.m_Value = b1 & 255;
 			
 			byte.m_Next = new CF_PackedByte();
 			byte.m_Next.m_Prev = byte;
@@ -92,8 +96,7 @@ class CF_PackedByte
 		{
 			index++;
 			
-			byte.m_Value = b2;
-			byte.m_Value.Clamp();
+			byte.m_Value = b2 & 255;
 			
 			byte.m_Next = new CF_PackedByte();
 			byte.m_Next.m_Prev = byte;
@@ -104,8 +107,7 @@ class CF_PackedByte
 		{
 			index++;
 			
-			byte.m_Value = b3;
-			byte.m_Value.Clamp();
+			byte.m_Value = b3 & 255;
 			
 			byte.m_Next = new CF_PackedByte();
 			byte.m_Next.m_Prev = byte;

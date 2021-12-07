@@ -101,10 +101,4 @@ class CF_Base16Stream : CF_Stream
 
 		m_Dirty = false;
 	}
-
-	override string ToStr()
-	{
-		return super.ToStr();
-		//return Encode();
-	}
 };
