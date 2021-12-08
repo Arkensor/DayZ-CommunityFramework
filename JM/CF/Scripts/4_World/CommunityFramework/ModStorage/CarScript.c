@@ -1,6 +1,6 @@
 modded class CarScript
 {
-	autoptr CF_ModStorage_Object<CarScript> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void CarScript()
 	{

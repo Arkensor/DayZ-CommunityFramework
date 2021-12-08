@@ -1,6 +1,6 @@
 modded class DayZPlayerImplement
 {
-	autoptr CF_ModStorage_Object<DayZPlayerImplement> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void DayZPlayerImplement()
 	{

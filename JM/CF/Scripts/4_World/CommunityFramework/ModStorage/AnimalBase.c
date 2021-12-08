@@ -1,6 +1,6 @@
 modded class AnimalBase
 {
-	autoptr CF_ModStorage_Object<AnimalBase> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void AnimalBase()
 	{

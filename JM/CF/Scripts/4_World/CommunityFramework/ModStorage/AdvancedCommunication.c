@@ -1,6 +1,6 @@
 modded class AdvancedCommunication
 {
-	autoptr CF_ModStorage_Object<AdvancedCommunication> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void AdvancedCommunication()
 	{
@@ -16,7 +16,10 @@ modded class AdvancedCommunication
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-		if ( !super.OnStoreLoad(ctx, version)) return false;
+		if (!super.OnStoreLoad(ctx, version))
+		{
+			return false;
+		}
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
@@ -29,7 +32,6 @@ modded class AdvancedCommunication
 	 */
 	void CF_OnStoreSave(CF_ModStorage storage, string modName)
 	{
-
 	}
 
 	/**

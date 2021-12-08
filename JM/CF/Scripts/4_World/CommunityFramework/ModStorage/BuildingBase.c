@@ -1,6 +1,6 @@
 modded class BuildingBase
 {
-	autoptr CF_ModStorage_Object<BuildingBase> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void BuildingBase()
 	{

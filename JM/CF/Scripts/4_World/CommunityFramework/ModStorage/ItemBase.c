@@ -1,6 +1,6 @@
 modded class ItemBase
 {
-	autoptr CF_ModStorage_Object<ItemBase> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void ItemBase()
 	{

@@ -1,6 +1,6 @@
 modded class HelicopterScript
 {
-	autoptr CF_ModStorage_Object<HelicopterScript> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void HelicopterScript()
 	{

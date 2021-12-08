@@ -1,4 +1,4 @@
-class CF_ModStorage_Object<Class T>
+class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 {
 	T m_Entity;
 
@@ -9,12 +9,15 @@ class CF_ModStorage_Object<Class T>
 		m_Entity = entity;
 	}
 
-	void OnStoreSave(ParamsWriteContext ctx)
+	override void OnStoreSave(ParamsWriteContext ctx)
 	{
-		if (GetGame().SaveVersion() < 116) return;
+		if (GetGame().SaveVersion() < 116)
+		{
+			return;
+		}
 
 		ctx.Write(CF_ModStorage.VERSION);
-		
+
 		CF_Stream stream = new CF_SerializerWriteStream(ctx);
 
 		array<ref ModStructure> mods = ModLoader.Get_ModStorage_Mods();
@@ -35,26 +38,34 @@ class CF_ModStorage_Object<Class T>
 		m_UnloadedMods.CopyTo(stream);
 	}
 
-	bool OnStoreLoad(ParamsReadContext ctx, int version)
+	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
 		//! Clearing the unloaded mods data
 		m_UnloadedMods.Resize(0);
 
 		//! Persistence version is prior to 1.10
-		if (version < 116) return true;
+		if (version < 116)
+		{
+			return true;
+		}
 
 		int cf_version;
-		if (!ctx.Read(cf_version)) return false;
+		if (!ctx.Read(cf_version))
+		{
+			return false;
+		}
 
 		//! CF version is prior to ModStorage implementation
-		if (cf_version < 2) return true;
-		
+		if (cf_version < 2)
+		{
+			return true;
+		}
+
 		CF_Stream stream = new CF_SerializerReadStream(ctx);
 
 		CF_BinaryReader reader = new CF_BinaryReader(stream);
 
 		Param2<CF_PackedByte, int> position;
-
 		while (!reader.EOF())
 		{
 			stream.GetCurrent(position);
@@ -78,15 +89,5 @@ class CF_ModStorage_Object<Class T>
 		}
 
 		return true;
-	}
-
-	static string GetDebugName(Class cls)
-	{
-		if (!cls) return "[Object] null";
-
-		Object obj;
-		if (Class.CastTo(obj, cls)) return "[Object] " + obj.GetType() + ":" + obj.GetNetworkIDString();
-
-		return "[Class] " + cls;
 	}
 };

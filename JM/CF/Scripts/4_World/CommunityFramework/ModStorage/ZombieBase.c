@@ -1,6 +1,6 @@
 modded class ZombieBase
 {
-	autoptr CF_ModStorage_Object<ZombieBase> m_CF_ModStorage;
+	autoptr CF_ModStorage_Base m_CF_ModStorage;
 
 	void ZombieBase()
 	{
