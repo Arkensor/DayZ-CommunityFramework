@@ -53,7 +53,7 @@ modded class ModLoader
 			string mod_name;
 			GetGame().ConfigGetChildName("CfgMods", i, mod_name);
 
-			ref ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
+			ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
 
 			m_Mods.Insert(mod);
 
