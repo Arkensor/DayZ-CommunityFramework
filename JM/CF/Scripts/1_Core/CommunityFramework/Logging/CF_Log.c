@@ -63,7 +63,7 @@ class CF_Log
 
 		for (int i = 1; i < outputs.Count(); i++)
 		{
-			Print("  " + outputs[i]);
+			Print("\t" + outputs[i]);
 		}
 	}
 
@@ -83,7 +83,7 @@ class CF_Log
 
 		for (int i = 1; i < outputs.Count(); i++)
 		{
-			Print("  " + outputs[i]);
+			Print("\t" + outputs[i]);
 		}
 	}
 };
