@@ -49,6 +49,13 @@ class CF_Trace : Managed
 		m_InstanceName = instanceName;
 		m_StackName = stackName;
 
+		string dump = "";
+		DumpStackString(dump);
+		array<string> outputs = new array<string>();
+		dump.Split("\n", outputs);
+		m_StackName = outputs[2];
+		m_StackName = m_StackName.Substring(0, m_StackName.IndexOf("("));
+
 		m_Count = count;
 
 		if (m_Count == 0) Output();
@@ -94,7 +101,7 @@ class CF_Trace : Managed
 
 		Output();
 
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(int value)
@@ -106,7 +113,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(float value)
@@ -118,7 +125,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(vector value)
@@ -130,7 +137,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(string value)
@@ -142,7 +149,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(typename value)
@@ -154,7 +161,7 @@ class CF_Trace : Managed
 
 		Output();
 
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(Class value)
@@ -170,7 +177,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(int value, typename type)
