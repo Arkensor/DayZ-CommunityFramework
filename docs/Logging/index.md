@@ -2,15 +2,15 @@
 
 The following table lists the possible log level values and it's corresponding function. Only information with a level equal to or higher than `CF_Log.Level` will be outputted to the `script.log` file.
 
-| Name      | Level | Function        | Description                                                                                                                                                                                   |
-| --------- | -----:| ------------    | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| TRACE     | 0     | CF_Log.Trace    | Logs that contain the most detailed messages. These messages should never be enabled in a production environment.                                                                             |
-| DEBUG     | 1     | CF_Log.Debug    | Logs that should primarily contain information useful for debugging.                                                                                                                          |
-| INFO      | 2     | CF_Log.Info     | Logs that output information that may be relevant to the user.                                                                                                                                |
-| WARNING   | 3     | CF_Log.Warn     | Logs that highlight an abnormal action, but does cause the user to notice anything different.                                                                                                 |
-| ERROR     | 4     | CF_Log.Error    | Logs that highlight when the current flow of execution is stopped due to a failure. This should indicate if the current activity has a failure and will not result in the game shutting down. |
-| CRITICAL  | 5     | CF_Log.Critical | Logs that describe an unrecoverable event and will most likely lead to the shutdown of the game.                                                                                              |
-| NONE      | 6     |                 | Disables all logging.                                                                                                                                                                         |
+| Name      | Level | Function        | Description                                                                                                                                                                                                           |
+| --------- | -----:| ------------    | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TRACE     | 0     | CF_Log.Trace    | Logs that contain the most detailed messages. These messages should never be enabled in a production environment.                                                                                                     |
+| DEBUG     | 1     | CF_Log.Debug    | Logs that should primarily contain information useful for debugging.                                                                                                                                                  |
+| INFO      | 2     | CF_Log.Info     | Logs that output information that may be relevant to the user.                                                                                                                                                        |
+| WARNING   | 3     | CF_Log.Warn     | Logs that highlight an abnormal action, but does not cause the user to notice anything different.                                                                                                                     |
+| ERROR     | 4     | CF_Log.Error    | Logs that highlight when the current flow of execution is stopped due to a failure. This should indicate if the current activity has a failure and will not result in the game shutting down. Produces a stack trace. |
+| CRITICAL  | 5     | CF_Log.Critical | Logs that describe an unrecoverable event and will most likely lead to the shutdown of the game. Produces a stack trace.                                                                                              |
+| NONE      | 6     |                 | Disables all logging.                                                                                                                                                                                                 |
 
 # Context Tracing
 
