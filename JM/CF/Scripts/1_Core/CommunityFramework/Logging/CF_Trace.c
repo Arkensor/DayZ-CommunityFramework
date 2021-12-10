@@ -101,7 +101,7 @@ class CF_Trace : Managed
 
 		Output();
 
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(int value)
@@ -113,7 +113,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(float value)
@@ -125,7 +125,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(vector value)
@@ -137,7 +137,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(string value)
@@ -149,7 +149,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(typename value)
@@ -161,7 +161,7 @@ class CF_Trace : Managed
 
 		Output();
 
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(Class value)
@@ -177,7 +177,7 @@ class CF_Trace : Managed
 
 		Output();
 		
-		return null;
+		return this;
 	}
 
 	CF_Trace Add(int value, typename type)
