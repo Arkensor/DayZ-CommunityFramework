@@ -30,31 +30,31 @@ class CF_TestModel : CF_Model
 	{
 	}
 
-	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
+	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(evt.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(args.GetDebugName());
 #endif
 
-		evt.Continue = true;
+		args.Continue = true;
 	}
 
-	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
+	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(evt.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(args.GetDebugName());
 #endif
 
-		evt.Continue = BlockInput;
+		args.Continue = BlockInput;
 
 		ButtonText = TextInput;
 		NotifyPropertyChanged("ButtonText");
 	}
 
-	void OnClick(CF_ModelBase sender, CF_MouseEventArgs evt)
+	void OnClick(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(evt.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(args.GetDebugName());
 #endif
 
 		Index++;
@@ -108,10 +108,10 @@ class CF_TestItemModel : CF_Model
 		ButtonText = "Press To Remove (" + index + ")";
 	}
 
-	void Remove(CF_ModelBase sender, CF_MouseEventArgs evt)
+	void Remove(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(evt.GetDebugName());
+		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(args.GetDebugName());
 #endif
 
 		int index = m_Parent.Test.Find(this);

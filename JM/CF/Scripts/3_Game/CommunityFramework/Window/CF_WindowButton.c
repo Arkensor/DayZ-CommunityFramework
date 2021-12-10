@@ -44,4 +44,9 @@ class CF_WindowButton : CF_Model
 
 		NotifyPropertyChanged("m_Image");
 	}
+
+	override string GetLayoutFile()
+	{
+		return "JM/CF/GUI/layouts/windows/button.layout";
+	}
 };

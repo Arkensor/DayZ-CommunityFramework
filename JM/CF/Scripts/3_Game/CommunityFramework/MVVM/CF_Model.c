@@ -16,13 +16,13 @@ class CF_Model : Managed
 #endif
 	}
 
-	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
+	void NotifyPropertyChanged(string property, CF_EventArgs args = null)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(property).Add(evt);
+		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(property).Add(args);
 #endif
 
-		CF_MVVM.NotifyPropertyChanged(this, property, evt);
+		CF_MVVM.NotifyPropertyChanged(this, property, args);
 	}
 
 	void NotifyPropertyChanged()

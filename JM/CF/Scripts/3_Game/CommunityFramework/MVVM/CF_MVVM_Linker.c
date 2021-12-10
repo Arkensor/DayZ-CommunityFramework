@@ -10,12 +10,20 @@ class CF_MVVM_Linker
 
 	void CF_MVVM_Linker()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_MVVM_Linker");
+#endif
+
 		m_PropertyVariableMap = new CF_Map<string, ref CF_TArrayProperties>();
 		m_Properties = new CF_TArrayProperties();
 	}
 
 	void ~CF_MVVM_Linker()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_MVVM_Linker");
+#endif
+
 		OnDestroy.Invoke(this);
 	}
 
@@ -101,6 +109,10 @@ class CF_MVVM_Linker
 
 	void Insert(CF_MVVM_Property property)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "Insert").Add(property);
+#endif
+
 		string variableName = property.GetVariableName();
 		if (variableName == string.Empty)
 			return;
@@ -155,6 +167,10 @@ class CF_MVVM_Linker
 
 	void Unlink()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "Unlink");
+#endif
+
 		m_PropertyVariableMap.Clear();
 		m_Properties.Clear();
 
@@ -167,6 +183,10 @@ class CF_MVVM_Linker
 
 	bool ChangeParent(Widget newParent)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "ChangeParent").Add(newParent);
+#endif
+
 		if (!m_Root)
 			return false;
 
@@ -193,6 +213,10 @@ class CF_MVVM_Linker
 
 	Widget GetWidget()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetWidget");
+#endif
+
 		if (!m_Root)
 			return null;
 		return m_Root.GetWidget();

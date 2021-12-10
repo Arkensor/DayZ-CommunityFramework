@@ -17,15 +17,15 @@ class CF_ObservableCollection : CF_Collection
 		m_LinkCount++;
 	}
 
-	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
+	void NotifyCollectionChanged(CF_CollectionEventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(evt.GetDebugName());
+		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(args.GetDebugName());
 #endif
 
 		for (int i = 0; i < m_LinkCount; i++)
 		{
-			CF_MVVM.NotifyPropertyChanged(m_Links[i].param1, m_Links[i].param2, evt);
+			CF_MVVM.NotifyPropertyChanged(m_Links[i].param1, m_Links[i].param2, args);
 		}
 	}
 

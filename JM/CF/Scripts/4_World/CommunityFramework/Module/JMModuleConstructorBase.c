@@ -3,7 +3,7 @@ class JMModuleConstructorBase
 	void Generate( out map< typename, ref JMModuleBase > moduleMap, out array< JMModuleBase > moduleArr )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Generate").Add(moduleMap).Add(moduleArr);
+		// auto trace = CF_Trace_2(this, "Generate").Add(moduleMap).Add(moduleArr);
 		#endif
 
 		array< typename > moduleArrayNames = new array< typename >;
@@ -53,7 +53,7 @@ class JMModuleConstructorBase
 	void RegisterModules( out array< typename > modules )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "RegisterModules").Add(modules);
+		// auto trace = CF_Trace_1(this, "RegisterModules").Add(modules);
 		#endif
 
 	}

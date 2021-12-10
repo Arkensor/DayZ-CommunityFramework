@@ -85,10 +85,11 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void Link(CF_ModelBase model, typename variableType, CF_TypeConverterBase typeConverter)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "Assign").Add(model);
+		auto trace = CF_Trace_3(this, "Link").Add(model).Add(variableType).Add(typeConverter);
 #endif
 
 		m_Model = model;
+		m_TypeConverter = typeConverter;
 
 		m_IsCollection = variableType.IsInherited(CF_ObservableCollection);
 		if (m_IsCollection)
@@ -97,8 +98,6 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 			return;
 		}
-
-		m_TypeConverter = typeConverter;
 
 		CF_TypeConverterBase typeConverterOverride;
 		if (m_TypeConverterType != string.Empty && Class.CastTo(typeConverterOverride, m_TypeConverterType.ToType().Spawn()))
@@ -118,29 +117,29 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		OnModel(new CF_EventArgs());
 	}
 
-	void OnView(/*notnull*/ CF_EventArgs evt)
+	void OnView(/*notnull*/ CF_EventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnView").Add(evt.GetDebugName());
+		auto trace = CF_Trace_1(this, "OnView").Add(args);
 #endif
 
 		if (m_IndexCount == -1)
 			AcquireIndices();
 
-		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt);
+		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, args);
 		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, param);
 	}
 
-	void OnModel(/*notnull*/ CF_EventArgs evt)
+	void OnModel(/*notnull*/ CF_EventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnModel").Add(evt.GetDebugName());
+		auto trace = CF_Trace_1(this, "OnModel").Add(args);
 #endif
 
 		if (m_IndexCount == -1)
 			AcquireIndices();
 
-		CF_EventArgs eventOverride = evt;
+		CF_EventArgs eventOverride = args;
 
 		if (m_IsCollection)
 		{
@@ -148,7 +147,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 			EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, _collection);
 
-			if (!evt.Type().IsInherited(CF_CollectionEventArgs))
+			if (!args.Type().IsInherited(CF_CollectionEventArgs))
 			{
 				if (_collection == m_Collection)
 					return;
@@ -204,6 +203,10 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void AcquireIndices()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "AcquireIndices");
+#endif
+
 		array<string> tokens();
 		m_VariableName.Split(".", tokens);
 
@@ -238,6 +241,10 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void Write()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "Write");
+#endif
+
 		typename type = m_Model.Type();
 		Class cls = m_Model;
 
@@ -253,6 +260,10 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void Read()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "Read");
+#endif
+
 		typename type = m_Model.Type();
 		Class cls = m_Model;
 
@@ -268,84 +279,140 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetInt(int value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetInt").Add(value);
+#endif
+
 		m_TypeConverter.SetInt(value);
 		Write();
 	}
 
 	override int GetInt()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetInt");
+#endif
+
 		Read();
 		return m_TypeConverter.GetInt();
 	}
 
 	override void SetBool(bool value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetBool").Add(value);
+#endif
+
 		m_TypeConverter.SetBool(value);
 		Write();
 	}
 
 	override bool GetBool()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetBool");
+#endif
+
 		Read();
 		return m_TypeConverter.GetBool();
 	}
 
 	override void SetFloat(float value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetFloat").Add(value);
+#endif
+
 		m_TypeConverter.SetFloat(value);
 		Write();
 	}
 
 	override float GetFloat()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetFloat");
+#endif
+
 		Read();
 		return m_TypeConverter.GetFloat();
 	}
 
 	override void SetVector(vector value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetVector").Add(value);
+#endif
+
 		m_TypeConverter.SetVector(value);
 		Write();
 	}
 
 	override vector GetVector()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetVector");
+#endif
+
 		Read();
 		return m_TypeConverter.GetVector();
 	}
 
 	override void SetString(string value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetString").Add(value);
+#endif
+
 		m_TypeConverter.SetString(value);
 		Write();
 	}
 
 	override string GetString()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetString");
+#endif
+
 		Read();
 		return m_TypeConverter.GetString();
 	}
 
 	override void SetClass(Class value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetClass").Add(value);
+#endif
+
 		m_TypeConverter.SetClass(value);
 		Write();
 	}
 
 	override Class GetClass()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetClass");
+#endif
+
 		Read();
 		return m_TypeConverter.GetClass();
 	}
 
 	override void SetManaged(Managed value)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetManaged").Add(value);
+#endif
+
 		m_TypeConverter.SetManaged(value);
 		Write();
 	}
 
 	override Managed GetManaged()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "GetManaged");
+#endif
+
 		Read();
 		return m_TypeConverter.GetManaged();
 	}

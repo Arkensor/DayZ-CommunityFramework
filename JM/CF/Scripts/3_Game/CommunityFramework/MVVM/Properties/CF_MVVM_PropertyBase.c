@@ -20,9 +20,19 @@ class CF_MVVM_PropertyBase : CF_TypeConverterBase
 
 	override bool Read(Class instance, string variableName)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variableName);
+#endif
+
+		return false;
 	}
 
 	override bool Write(Class instance, string variableName)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variableName);
+#endif
+
+		return false;
 	}
 };

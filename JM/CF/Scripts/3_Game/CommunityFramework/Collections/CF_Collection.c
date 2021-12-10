@@ -1,6 +1,6 @@
 class CF_Collection : Managed
 {
-	protected ref CF_TypeConverterBase m_Converter;
+	protected CF_TypeConverterBase m_Converter;
 	protected int m_Count;
 
 	void CF_Collection()

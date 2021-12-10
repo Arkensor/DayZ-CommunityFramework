@@ -4,7 +4,8 @@ class CF_Debug : CF_TimerBase
 
 	private static ref CF_DebugManager s_Manager;
 
-	[CF_EventSubscriber(CF_Debug._Init, CF_LifecycleEvents.OnGameCreate)] static void _Init()
+	[CF_EventSubscriber(CF_Debug._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("CF_Debug", "_Init");
@@ -16,7 +17,8 @@ class CF_Debug : CF_TimerBase
 		SetAllowed(false);
 	}
 
-	[CF_EventSubscriber(CF_Debug._Cleanup, CF_LifecycleEvents.OnGameDestroy)] static void _Cleanup()
+	[CF_EventSubscriber(CF_Debug._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	static void _Cleanup()
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("CF_Debug", "_Cleanup");
@@ -26,7 +28,8 @@ class CF_Debug : CF_TimerBase
 		s_Manager = null;
 	}
 
-	[CF_EventSubscriber(CF_Debug._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)] static void _MissionCleanup()
+	[CF_EventSubscriber(CF_Debug._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
+	static void _MissionCleanup()
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("CF_Debug", "_MissionCleanup");

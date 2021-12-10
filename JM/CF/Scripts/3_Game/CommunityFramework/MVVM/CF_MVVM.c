@@ -16,8 +16,13 @@ class CF_MVVM
 #endif
 	}
 
-	[CF_EventSubscriber(CF_MVVM._Init, CF_LifecycleEvents.OnGameCreate)] static void _Init()
+	[CF_EventSubscriber(CF_MVVM._Init, CF_LifecycleEvents.OnGameCreate)]
+	static void _Init()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(g_CF_MVVM, "_Init");
+#endif
+
 		if (g_CF_MVVM)
 			return;
 
@@ -30,8 +35,13 @@ class CF_MVVM
 		g_CF_MVVM = new CF_MVVM();
 	}
 
-	[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)] static void _Cleanup()
+	[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	static void _Cleanup()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(g_CF_MVVM, "_Cleanup");
+#endif
+
 		s_ModelMap = null;
 
 		g_CF_MVVM = null;
@@ -243,6 +253,10 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(string modelName)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(g_CF_MVVM, "OpenMenu").Add(modelName);
+#endif
+
 		CF_ModelBase model = CF_ModelBase.Cast(modelName.ToType().Spawn());
 		if (!model)
 			return null;
@@ -252,6 +266,10 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(typename modelType)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(g_CF_MVVM, "OpenMenu").Add(modelType);
+#endif
+
 		CF_ModelBase model = CF_ModelBase.Cast(modelType.Spawn());
 		if (!model)
 			return null;
@@ -261,6 +279,10 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(CF_ModelBase model)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(g_CF_MVVM, "OpenMenu").Add(model);
+#endif
+
 		if (!model)
 			return null;
 
@@ -274,6 +296,10 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(CF_ModelBase model, string layoutFile)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(g_CF_MVVM, "OpenMenu").Add(model).Add(layoutFile);
+#endif
+
 		if (!GetGame() || !model)
 			return null;
 
@@ -314,6 +340,10 @@ class CF_MVVM
 #ifdef COMPONENT_SYSTEM
 	static void _CheckInit()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(g_CF_MVVM, "_CheckInit");
+#endif
+
 		if (s_ModelMap == null)
 		{
 			CF._GameInit();
@@ -321,14 +351,10 @@ class CF_MVVM
 	}
 #endif
 
-	static void NotifyPropertyChanged(CF_ModelBase model, string propertyName, CF_EventArgs evt = null)
+	static void NotifyPropertyChanged(CF_ModelBase model, string propertyName, CF_EventArgs args = null)
 	{
-		CF_EventArgs temp = evt;
-		if (temp == null)
-			temp = new CF_EventArgs();
-
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(g_CF_MVVM, "NotifyPropertyChanged").Add(model).Add(propertyName).Add(temp.GetDebugName());
+		auto trace = CF_Trace_2(g_CF_MVVM, "NotifyPropertyChanged").Add(model).Add(propertyName).Add(args);
 #endif
 
 #ifdef COMPONENT_SYSTEM
@@ -342,13 +368,14 @@ class CF_MVVM
 		if (!s_ModelMap.Find(model, pc))
 			return;
 
-		pc.NotifyPropertyChanged(propertyName, temp);
+		if (args == null)
+			args = new CF_EventArgs();
+
+		pc.NotifyPropertyChanged(propertyName, args);
 	}
 
 	static void NotifyPropertyChanged(CF_ModelBase model)
 	{
-		CF_EventArgs temp = new CF_EventArgs();
-
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(g_CF_MVVM, "NotifyPropertyChanged").Add(model);
 #endif
@@ -364,6 +391,6 @@ class CF_MVVM
 		if (!s_ModelMap.Find(model, pc))
 			return;
 
-		pc.NotifyPropertyChanged(temp);
+		pc.NotifyPropertyChanged(new CF_EventArgs());
 	}
 };

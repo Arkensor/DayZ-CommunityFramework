@@ -7,7 +7,7 @@ class JMModuleBase : CF_Module
 	void JMModuleBase()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "JMModuleBase");
+		// auto trace = CF_Trace_0(this, "JMModuleBase");
 		#endif
 
 		m_Enabled = true;
@@ -18,7 +18,7 @@ class JMModuleBase : CF_Module
 	void ~JMModuleBase()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~JMModuleBase");
+		// auto trace = CF_Trace_0(this, "~JMModuleBase");
 		#endif
 
 	}
@@ -26,7 +26,7 @@ class JMModuleBase : CF_Module
 	void Init()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "Init");
+		// auto trace = CF_Trace_0(this, "Init");
 		#endif
 
 		RegisterKeyMouseBindings();
@@ -35,7 +35,7 @@ class JMModuleBase : CF_Module
 	void Toggle()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "Toggle");
+		// auto trace = CF_Trace_0(this, "Toggle");
 		#endif
 
 		m_Enabled = !m_Enabled;
@@ -44,7 +44,7 @@ class JMModuleBase : CF_Module
 	void PreventInput(bool prevent)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "PreventInput").Add(prevent);
+		// auto trace = CF_Trace_1(this, "PreventInput").Add(prevent);
 		#endif
 
 		m_PreventInput = prevent;
@@ -53,7 +53,7 @@ class JMModuleBase : CF_Module
 	string GetModuleName()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "GetModuleName");
+		// auto trace = CF_Trace_0(this, "GetModuleName");
 		#endif
 
 		return ClassName();
@@ -62,7 +62,7 @@ class JMModuleBase : CF_Module
 	typename GetModuleType()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "GetModuleType");
+		// auto trace = CF_Trace_0(this, "GetModuleType");
 		#endif
 
 		return GetModuleName().ToType();
@@ -71,7 +71,7 @@ class JMModuleBase : CF_Module
 	bool IsEnabled()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "IsEnabled");
+		// auto trace = CF_Trace_0(this, "IsEnabled");
 		#endif
 
 		return m_Enabled;
@@ -80,7 +80,7 @@ class JMModuleBase : CF_Module
 	bool IsPreventingInput()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "IsPreventingInput");
+		// auto trace = CF_Trace_0(this, "IsPreventingInput");
 		#endif
 
 		return m_PreventInput;
@@ -93,7 +93,7 @@ class JMModuleBase : CF_Module
 	bool IsServer()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "IsServer");
+		// auto trace = CF_Trace_0(this, "IsServer");
 		#endif
 
 		return true;
@@ -106,7 +106,7 @@ class JMModuleBase : CF_Module
 	bool IsClient()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "IsClient");
+		// auto trace = CF_Trace_0(this, "IsClient");
 		#endif
 
 		return true;
@@ -115,7 +115,7 @@ class JMModuleBase : CF_Module
 	void RegisterKeyMouseBindings() 
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "RegisterKeyMouseBindings");
+		// auto trace = CF_Trace_0(this, "RegisterKeyMouseBindings");
 		#endif
 
 	}
@@ -126,7 +126,7 @@ class JMModuleBase : CF_Module
 	void RegisterKeyMouseBinding( JMModuleBinding binding ) 
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "RegisterKeyMouseBinding").Add(binding);
+		// auto trace = CF_Trace_1(this, "RegisterKeyMouseBinding").Add(binding);
 		#endif
 
 		RegisterBinding( binding );
@@ -136,7 +136,7 @@ class JMModuleBase : CF_Module
 	void RegisterBinding( JMModuleBinding binding ) 
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "RegisterBinding").Add(binding);
+		// auto trace = CF_Trace_1(this, "RegisterBinding").Add(binding);
 		#endif
 
 		m_Bindings.Insert( binding );
@@ -145,7 +145,7 @@ class JMModuleBase : CF_Module
 	set< ref JMModuleBinding > GetBindings()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "GetBindings");
+		// auto trace = CF_Trace_0(this, "GetBindings");
 		#endif
 
 		return m_Bindings;
@@ -161,7 +161,7 @@ class JMModuleBase : CF_Module
 	void OnUpdate( float timeslice ) 
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnUpdate").Add(timeslice);
+		// auto trace = CF_Trace_1(this, "OnUpdate").Add(timeslice);
 		#endif
 
 	}
@@ -169,7 +169,7 @@ class JMModuleBase : CF_Module
 	void OnSettingsUpdated()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnSettingsUpdated");
+		// auto trace = CF_Trace_0(this, "OnSettingsUpdated");
 		#endif
 
 	}
@@ -177,7 +177,7 @@ class JMModuleBase : CF_Module
 	void OnClientPermissionsUpdated()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnClientPermissionsUpdated");
+		// auto trace = CF_Trace_0(this, "OnClientPermissionsUpdated");
 		#endif
 
 	}
@@ -185,7 +185,7 @@ class JMModuleBase : CF_Module
 	void OnInit()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnInit");
+		// auto trace = CF_Trace_0(this, "OnInit");
 		#endif
 
 	}
@@ -193,7 +193,7 @@ class JMModuleBase : CF_Module
 	void OnMissionStart()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMissionStart");
+		// auto trace = CF_Trace_0(this, "OnMissionStart");
 		#endif
 
 	}
@@ -201,7 +201,7 @@ class JMModuleBase : CF_Module
 	void OnMissionFinish()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMissionFinish");
+		// auto trace = CF_Trace_0(this, "OnMissionFinish");
 		#endif
 
 	}
@@ -209,7 +209,7 @@ class JMModuleBase : CF_Module
 	void OnMissionLoaded()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMissionLoaded");
+		// auto trace = CF_Trace_0(this, "OnMissionLoaded");
 		#endif
 
 	}
@@ -217,7 +217,7 @@ class JMModuleBase : CF_Module
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		// auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
 		#endif
 
 	}
@@ -225,7 +225,7 @@ class JMModuleBase : CF_Module
 	int GetRPCMin()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "GetRPCMin");
+		// auto trace = CF_Trace_0(this, "GetRPCMin");
 		#endif
 
 		return -1;
@@ -234,7 +234,7 @@ class JMModuleBase : CF_Module
 	int GetRPCMax()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "GetRPCMax");
+		// auto trace = CF_Trace_0(this, "GetRPCMax");
 		#endif
 
 		return -1;
@@ -246,7 +246,7 @@ class JMModuleBase : CF_Module
 	void OnWorldCleanup()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnWorldCleanup");
+		// auto trace = CF_Trace_0(this, "OnWorldCleanup");
 		#endif
 
 	}
@@ -257,7 +257,7 @@ class JMModuleBase : CF_Module
 	void OnMPSessionStart()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionStart");
+		// auto trace = CF_Trace_0(this, "OnMPSessionStart");
 		#endif
 
 	}
@@ -268,7 +268,7 @@ class JMModuleBase : CF_Module
 	void OnMPSessionPlayerReady()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionPlayerReady");
+		// auto trace = CF_Trace_0(this, "OnMPSessionPlayerReady");
 		#endif
 
 	}
@@ -279,7 +279,7 @@ class JMModuleBase : CF_Module
 	void OnMPSessionFail()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionFail");
+		// auto trace = CF_Trace_0(this, "OnMPSessionFail");
 		#endif
 
 	}
@@ -290,7 +290,7 @@ class JMModuleBase : CF_Module
 	void OnMPSessionEnd()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionEnd");
+		// auto trace = CF_Trace_0(this, "OnMPSessionEnd");
 		#endif
 
 	}
@@ -301,7 +301,7 @@ class JMModuleBase : CF_Module
 	void OnMPConnectAbort()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPConnectAbort");
+		// auto trace = CF_Trace_0(this, "OnMPConnectAbort");
 		#endif
 
 	}
@@ -312,7 +312,7 @@ class JMModuleBase : CF_Module
 	void OnMPConnectionLost( int duration )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnMPConnectionLost").Add(duration);
+		// auto trace = CF_Trace_1(this, "OnMPConnectionLost").Add(duration);
 		#endif
 
 	}
@@ -323,7 +323,7 @@ class JMModuleBase : CF_Module
 	void OnRespawn( int time )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnRespawn").Add(time);
+		// auto trace = CF_Trace_1(this, "OnRespawn").Add(time);
 		#endif
 
 	}
@@ -334,7 +334,7 @@ class JMModuleBase : CF_Module
 	void OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnClientLogoutCancelled").Add(player).Add(identity);
+		// auto trace = CF_Trace_2(this, "OnClientLogoutCancelled").Add(player).Add(identity);
 		#endif
 
 	}
@@ -345,7 +345,7 @@ class JMModuleBase : CF_Module
 	void OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnInvokeConnect").Add(player).Add(identity);
+		// auto trace = CF_Trace_2(this, "OnInvokeConnect").Add(player).Add(identity);
 		#endif
 
 	}
@@ -356,7 +356,7 @@ class JMModuleBase : CF_Module
 	void OnInvokeDisconnect( PlayerBase player )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnInvokeDisconnect").Add(player);
+		// auto trace = CF_Trace_1(this, "OnInvokeDisconnect").Add(player);
 		#endif
 
 	}
@@ -367,7 +367,7 @@ class JMModuleBase : CF_Module
 	void OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_4(this, "OnClientNew").Add(player).Add(identity).Add(pos).Add(ctx);
+		// auto trace = CF_Trace_4(this, "OnClientNew").Add(player).Add(identity).Add(pos).Add(ctx);
 		#endif
 
 	}
@@ -378,7 +378,7 @@ class JMModuleBase : CF_Module
 	void OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnClientRespawn").Add(player).Add(identity);
+		// auto trace = CF_Trace_1(this, "OnClientRespawn").Add(player).Add(identity);
 		#endif
 
 	}
@@ -389,7 +389,7 @@ class JMModuleBase : CF_Module
 	void OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnClientReady").Add(player).Add(identity);
+		// auto trace = CF_Trace_2(this, "OnClientReady").Add(player).Add(identity);
 		#endif
 
 	}
@@ -400,7 +400,7 @@ class JMModuleBase : CF_Module
 	void OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnClientPrepare").Add(identity).Add(useDB).Add(pos).Add(yaw).Add(preloadTimeout);
+		// auto trace = CF_Trace_1(this, "OnClientPrepare").Add(identity).Add(useDB).Add(pos).Add(yaw).Add(preloadTimeout);
 		#endif
 
 	}
@@ -411,7 +411,7 @@ class JMModuleBase : CF_Module
 	void OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnClientReconnect").Add(player).Add(identity);
+		// auto trace = CF_Trace_1(this, "OnClientReconnect").Add(player).Add(identity);
 		#endif
 
 	}
@@ -422,7 +422,7 @@ class JMModuleBase : CF_Module
 	void OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnClientLogout").Add(player).Add(identity).Add(logoutTime).Add(authFailed);
+		// auto trace = CF_Trace_1(this, "OnClientLogout").Add(player).Add(identity).Add(logoutTime).Add(authFailed);
 		#endif
 
 	}
@@ -433,7 +433,7 @@ class JMModuleBase : CF_Module
 	void OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnClientDisconnect").Add(player).Add(identity).Add(uid);
+		// auto trace = CF_Trace_1(this, "OnClientDisconnect").Add(player).Add(identity).Add(uid);
 		#endif
 
 	}
@@ -444,7 +444,7 @@ class JMModuleBase : CF_Module
 	void OnClientLogoutCancelled( PlayerBase player )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnClientLogoutCancelled").Add(player);
+		// auto trace = CF_Trace_1(this, "OnClientLogoutCancelled").Add(player);
 		#endif
 
 	}
