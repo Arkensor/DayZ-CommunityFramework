@@ -66,7 +66,7 @@ class CF_TypeConverter
 	static void _Create(string className)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("Create").Add(type);
+		auto trace = CF_Trace_1("Create").Add(className);
 #endif
 
 		CF_TypeConverterBase converter;
