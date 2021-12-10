@@ -79,6 +79,10 @@ class RPCManager
 
 	void RPCManager()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "RPCManager");
+		#endif
+
 		m_RPCActions = new map< string, ref map< string, ref RPCMetaWrapper > >;
 
 		m_UpdateChecker = "JM_CF_RPC";
@@ -89,12 +93,20 @@ class RPCManager
 
 	void ~RPCManager()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~RPCManager");
+		#endif
+
 		GetDayZGame().Event_OnRPC.Remove( OnRPC );
 		delete m_RPCActions;
 	}
 	
 	void OnUpdate( float timeSlice )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnUpdate").Add(timeSlice);
+		#endif
+
 		string str = "";
 		bool anyChanged = false;
 
@@ -174,6 +186,10 @@ class RPCManager
 
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		#endif
+
 		if ( rpc_type != FRAMEWORK_RPC_ID )
 		{
 			return;
@@ -244,6 +260,10 @@ class RPCManager
 
 	void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_6(this, "SendRPC").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
+		#endif
+
 		m_AmountSent++;
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
@@ -290,6 +310,10 @@ class RPCManager
 	 */
 	void SendRPCs( string modName, string funcName, ref array< ref Param > params, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_6(this, "SendRPCs").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
+		#endif
+
 		m_AmountSent++;
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
@@ -330,6 +354,10 @@ class RPCManager
 
 	bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingleplayerExecutionType.Server )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "AddRPC").Add(modName).Add(funcName).Add(instance).Add(singlePlayerExecType);
+		#endif
+
 		if ( !m_RPCActions.Contains( modName ) )
 		{
 			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );

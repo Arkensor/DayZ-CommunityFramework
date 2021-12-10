@@ -10,24 +10,44 @@ class JMModuleManager: JMModuleManagerBase
 
 	void JMModuleManager()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "JMModuleManager");
+		#endif
+
 	}
 
 	void ~JMModuleManager()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~JMModuleManager");
+		#endif
+
 	}
 
 	void ConstructModules( JMModuleConstructorBase construct )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "ConstructModules").Add(construct);
+		#endif
+
 		construct.Generate( m_Modules, m_ModuleList );
 	}
 
 	ref JMModuleBase GetModule( typename type )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "GetModule").Add(type);
+		#endif
+
 		return m_Modules.Get( type );
 	}
 
 	override void Print_DumpModules()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "Print_DumpModules");
+		#endif
+
 		super.Print_DumpModules();
 
 		Print( "Modules Loaded" );
@@ -39,11 +59,19 @@ class JMModuleManager: JMModuleManagerBase
 
 	protected void InitModule( ref JMModuleBase module )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "InitModule").Add(module);
+		#endif
+
 		module.Init();
 	}
 
 	override void InitModules()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "InitModules");
+		#endif
+
 		super.InitModules();
 		
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -58,6 +86,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnSettingsUpdated()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnSettingsUpdated");
+		#endif
+
 		super.OnSettingsUpdated();
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -71,6 +103,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnClientPermissionsUpdated()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnClientPermissionsUpdated");
+		#endif
+
 		super.OnClientPermissionsUpdated();
 		
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -81,6 +117,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnInit()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnInit");
+		#endif
+
 		super.OnInit();
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -94,6 +134,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMissionStart()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMissionStart");
+		#endif
+
 		super.OnMissionStart();
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -107,6 +151,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMissionFinish()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMissionFinish");
+		#endif
+
 		super.OnMissionFinish();
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -120,6 +168,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMissionLoaded()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMissionLoaded");
+		#endif
+
 		super.OnMissionLoaded();
 
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
@@ -133,6 +185,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			JMModuleBase module = m_ModuleList[i];
@@ -157,6 +213,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnUpdate( float timeslice )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnUpdate").Add(timeslice);
+		#endif
+
 		super.OnUpdate( timeslice );
 		
 		bool inputIsFocused = false;
@@ -245,6 +305,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnWorldCleanup()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnWorldCleanup");
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -256,6 +320,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMPSessionStart()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionStart");
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -267,6 +335,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMPSessionPlayerReady()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionPlayerReady");
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -278,6 +350,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMPSessionFail()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionFail");
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -289,6 +365,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMPSessionEnd()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionEnd");
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -300,6 +380,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMPConnectAbort()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPConnectAbort");
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -311,6 +395,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnMPConnectionLost( int duration )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnMPConnectionLost").Add(duration);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -322,6 +410,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	override void OnRespawn( int time )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnRespawn").Add(time);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -333,6 +425,10 @@ class JMModuleManager: JMModuleManagerBase
 	
 	void OnClientLogoutCancelled( PlayerBase player, PlayerIdentity identity )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "OnClientLogoutCancelled").Add(player).Add(identity);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -344,6 +440,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnInvokeConnect( PlayerBase player, PlayerIdentity identity )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "OnInvokeConnect").Add(player).Add(identity);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -355,6 +455,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnInvokeDisconnect( PlayerBase player )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnInvokeDisconnect").Add(player);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -366,6 +470,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientNew( out PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "OnClientNew").Add(player).Add(identity).Add(pos).Add(ctx);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -377,6 +485,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientReady( PlayerBase player, PlayerIdentity identity )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "OnClientReady").Add(player).Add(identity);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -388,6 +500,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientPrepare( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnClientPrepare").Add(identity).Add(useDB).Add(pos).Add(yaw).Add(preloadTimeout);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -399,6 +515,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientReconnect( PlayerBase player, PlayerIdentity identity )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnClientReconnect").Add(player).Add(identity);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -410,6 +530,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientRespawn( PlayerBase player, PlayerIdentity identity )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnClientRespawn").Add(player).Add(identity);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -421,6 +545,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientLogout( PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnClientLogout").Add(player).Add(identity).Add(logoutTime).Add(authFailed);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -432,6 +560,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientDisconnect( PlayerBase player, PlayerIdentity identity, string uid )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnClientDisconnect").Add(player).Add(identity).Add(uid);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -443,6 +575,10 @@ class JMModuleManager: JMModuleManagerBase
 
 	void OnClientLogoutCancelled( PlayerBase player )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnClientLogoutCancelled").Add(player);
+		#endif
+
 		for ( int i = 0; i < m_ModuleList.Count(); i++ )
 		{
 			if ( m_ModuleList[i].IsEnabled() )
@@ -455,11 +591,19 @@ class JMModuleManager: JMModuleManagerBase
 
 static ref JMModuleManager GetModuleManager()
 {
+	#ifdef CF_TRACE_ENABLED
+	auto trace = CF_Trace_0("GetModuleManager");
+	#endif
+
 	return JMModuleManager.Cast( g_cf_ModuleManager );
 }
 
 static void CreateModuleManager( JMModuleConstructorBase construct )
 {
+	#ifdef CF_TRACE_ENABLED
+	auto trace = CF_Trace_1("CreateModuleManager").Add(construct);
+	#endif
+
 	//! Temporary
 	CF_CreateWorld();
 
