@@ -4,110 +4,159 @@ class JMModuleManagerBase
 
 	void JMModuleManagerBase()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::JMModuleManagerBase()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "JMModuleManagerBase");
+		#endif
 	}
 
 	void ~JMModuleManagerBase()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::~JMModuleManagerBase()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~JMModuleManagerBase");
+		#endif
 	}
 
 	bool IsPreventingModuleBindings()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "IsPreventingModuleBindings");
+		#endif
 		return m_PreventModuleBindings;
 	}
 
 	void SetPreventModuleBindings( bool prevent )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "SetPreventModuleBindings").Add(prevent);
+		#endif
+
 		m_PreventModuleBindings = prevent;
 	}
 
 	void InitModules()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::InitModules()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "InitModules");
+		#endif
 	}
 
 	void Print_DumpModules()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::Print_DumpModules()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "Print_DumpModules");
+		#endif
 	}
 
 	void OnSettingsUpdated()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnSettingsUpdated()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnSettingsUpdated");
+		#endif
 	}
 	
 	void OnClientPermissionsUpdated()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnClientPermissionsUpdated");
+		#endif
 	}
 
 	void OnInit()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnInit()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnInit");
+		#endif
 	}
 
 	void OnMissionStart()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMissionStart()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMissionStart");
+		#endif
 	}
 
 	void OnMissionFinish()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMissionFinish()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMissionFinish");
+		#endif
 	}
 
 	void OnMissionLoaded()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMissionLoaded()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMissionLoaded");
+		#endif
 	}
 	
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		#endif
 	}
 
 	void OnUpdate( float timeslice )
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnUpdate()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnUpdate").Add(timeslice);
+		#endif
 	}
 
 	void OnWorldCleanup()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnWorldCleanup()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnWorldCleanup");
+		#endif
 	}
 
 	void OnMPSessionStart()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionStart()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionStart");
+		#endif
 	}
 
 	void OnMPSessionPlayerReady()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionPlayerReady()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionPlayerReady");
+		#endif
 	}
 
 	void OnMPSessionFail()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionFail()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionFail");
+		#endif
 	}
 
 	void OnMPSessionEnd()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMPSessionEnd()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPSessionEnd");
+		#endif
 	}
 
 	void OnMPConnectAbort()
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMPConnectAbort()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "OnMPConnectAbort");
+		#endif
 	}
 
 	void OnMPConnectionLost( int duration )
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnMPConnectionLost()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnMPConnectionLost").Add(duration);
+		#endif
 	}
 
 	void OnRespawn( int time )
 	{
-		//GetLogger().Log( "JMModuleManagerBase::OnRespawn()", "JM_COT_ModuleFramework" );
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnRespawn").Add(time);
+		#endif
 	}
 }
 

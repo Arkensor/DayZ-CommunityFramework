@@ -25,6 +25,10 @@ modded class CreditsLoader
 {
 	override static JsonDataCredits GetData()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0("JsonDataCredits", "GetData");
+		#endif
+
 		JsonDataCredits data = new JsonDataCredits;
 		data.Departments = new array<ref JsonDataCreditsDepartment>;
 
@@ -34,7 +38,6 @@ modded class CreditsLoader
 		{
 			if ( mod.GetCredits() == NULL ) 
 			{
-				//GetLogger().Log( "Mod Credits is null for " + mod.GetModName(), "JM_CF_Credits" );
 				continue;
 			}
 
