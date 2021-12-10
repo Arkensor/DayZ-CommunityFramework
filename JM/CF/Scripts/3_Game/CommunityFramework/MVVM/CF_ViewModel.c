@@ -329,8 +329,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			CF_TypeConverterBase conv = sender.GetConverter(i);
 			if (!conv) return;
 
-			CF_ModelBase model = conv.GetManaged();
-			
+			CF_ModelBase model = CF_ModelBase.Cast(conv.GetClass());
+
 			string layout;
 			g_Script.CallFunction(model, "GetLayoutFile", layout, null);
 			if (layout == string.Empty)
@@ -352,8 +352,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
-		CF_ModelBase model = conv.GetManaged();
-		
+		CF_ModelBase model = CF_ModelBase.Cast(conv.GetClass());
+
 		string layout;
 		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
 		if (layout == string.Empty)

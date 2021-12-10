@@ -21,7 +21,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
-		CF_ModelBase model = conv.GetManaged();
+		CF_ModelBase model = CF_ModelBase.Cast(conv.GetClass());
 
 		string layout;
 		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
@@ -45,7 +45,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
 		if (!conv) return;
 
-		CF_ModelBase model = conv.GetManaged();
+		CF_ModelBase model = CF_ModelBase.Cast(conv.GetClass());
 
 		string layout;
 		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
