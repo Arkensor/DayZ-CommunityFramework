@@ -3,7 +3,7 @@ typedef array<ref CF_MVVM_Property> CF_TArrayProperties;
 class CF_MVVM_Linker
 {
 	ref CF_EventHandler OnDestroy = new CF_EventHandler();
-	
+
 	autoptr CF_Map<string, ref CF_TArrayProperties> m_PropertyVariableMap;
 	autoptr CF_TArrayProperties m_Properties;
 	CF_ViewModel m_Root;
@@ -24,18 +24,21 @@ class CF_MVVM_Linker
 	 */
 	void _ViewChanged(string name, CF_MVVM_Property srcProperty, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_3(this, "_ViewChanged").Add(name).Add(srcProperty).Add(args);
-		#endif
+#endif
 
-		if (name == string.Empty) return;
+		if (name == string.Empty)
+			return;
 
 		CF_TArrayProperties properties;
-		if (!m_PropertyVariableMap.Find(name, properties)) return;
+		if (!m_PropertyVariableMap.Find(name, properties))
+			return;
 
 		foreach (auto property : properties)
 		{
-			if (property == srcProperty) continue;
+			if (property == srcProperty)
+				continue;
 			property.OnModel(args);
 		}
 	}
@@ -45,9 +48,9 @@ class CF_MVVM_Linker
 	 */
 	void _ViewChanged(CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "_ViewChanged").Add(args);
-		#endif
+#endif
 
 		for (int j = 0; j < m_PropertyVariableMap.Count(); j++)
 		{
@@ -62,14 +65,16 @@ class CF_MVVM_Linker
 
 	void NotifyPropertyChanged(string name, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(args);
-		#endif
+#endif
 
-		if (name == string.Empty) return;
+		if (name == string.Empty)
+			return;
 
 		CF_TArrayProperties properties;
-		if (!m_PropertyVariableMap.Find(name, properties)) return;
+		if (!m_PropertyVariableMap.Find(name, properties))
+			return;
 
 		foreach (auto property : properties)
 		{
@@ -79,9 +84,9 @@ class CF_MVVM_Linker
 
 	void NotifyPropertyChanged(CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(args);
-		#endif
+#endif
 
 		for (int j = 0; j < m_PropertyVariableMap.Count(); j++)
 		{
@@ -97,10 +102,12 @@ class CF_MVVM_Linker
 	void Insert(CF_MVVM_Property property)
 	{
 		string variableName = property.GetVariableName();
-		if (variableName == string.Empty) return;
-		
+		if (variableName == string.Empty)
+			return;
+
 		CF_TArrayProperties properties = m_PropertyVariableMap[variableName];
-		if (!properties) properties = new CF_TArrayProperties();
+		if (!properties)
+			properties = new CF_TArrayProperties();
 		m_PropertyVariableMap[variableName] = properties;
 
 		properties.Insert(property);
@@ -109,9 +116,9 @@ class CF_MVVM_Linker
 
 	void Link(CF_ViewModel viewModel, CF_ModelBase model)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "Link").Add(viewModel).Add(model);
-		#endif
+#endif
 
 		m_Root = viewModel;
 		m_Root._RecursiveSetModel(model, this);
@@ -129,8 +136,9 @@ class CF_MVVM_Linker
 			}
 
 			CF_TArrayProperties properties;
-			if (!m_PropertyVariableMap.Find(variableName, properties)) continue;
-			
+			if (!m_PropertyVariableMap.Find(variableName, properties))
+				continue;
+
 			auto typeConverter = CF_TypeConverter.Get(variableType);
 
 			foreach (auto property : properties)
@@ -150,7 +158,8 @@ class CF_MVVM_Linker
 		m_PropertyVariableMap.Clear();
 		m_Properties.Clear();
 
-		if (!m_Root) return;
+		if (!m_Root)
+			return;
 
 		m_Root.GetWidget().Unlink();
 		m_Root = null;
@@ -158,15 +167,17 @@ class CF_MVVM_Linker
 
 	bool ChangeParent(Widget newParent)
 	{
-		if (!m_Root) return false;
+		if (!m_Root)
+			return false;
 
 		Widget widget = m_Root.GetWidget();
 		Widget oldParent = widget.GetParent();
 
-		if (newParent == oldParent) return true;
+		if (newParent == oldParent)
+			return true;
 
 		OnDestroy.Invoke(this);
-		
+
 		if (oldParent && oldParent != newParent)
 		{
 			oldParent.RemoveChild(widget);
@@ -182,7 +193,8 @@ class CF_MVVM_Linker
 
 	Widget GetWidget()
 	{
-		if (!m_Root) return null;
+		if (!m_Root)
+			return null;
 		return m_Root.GetWidget();
 	}
 };

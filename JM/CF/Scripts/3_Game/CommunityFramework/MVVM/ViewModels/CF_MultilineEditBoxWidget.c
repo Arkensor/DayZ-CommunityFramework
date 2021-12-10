@@ -9,21 +9,21 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(CarriageLine, "CarriageLine");
 		AddProperty(CarriagePosition, "CarriagePosition");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_MultilineEditBoxWidget, w);
@@ -31,9 +31,9 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	override void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args);
-		#endif
+#endif
 
 		string value;
 		_MultilineEditBoxWidget.GetText(value);
@@ -42,36 +42,36 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 
 	void OnView_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_CarriageLine").Add(sender).Add(args);
-		#endif
+#endif
 
 		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
 	}
 
 	void OnModel_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_CarriageLine").Add(sender).Add(args);
-		#endif
+#endif
 
 		OnView_CarriageLine(m_Model, args);
 	}
 
 	void OnView_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_CarriagePosition").Add(sender).Add(args);
-		#endif
+#endif
 
 		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
 	}
 
 	void OnModel_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_CarriagePosition").Add(sender).Add(args);
-		#endif
+#endif
 
 		OnView_CarriagePosition(m_Model, args);
 	}

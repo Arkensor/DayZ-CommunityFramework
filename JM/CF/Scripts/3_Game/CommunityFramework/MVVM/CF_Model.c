@@ -11,26 +11,26 @@ class CF_Model : Managed
 {
 	void ~CF_Model()
 	{
-		#ifndef SERVER
+#ifndef SERVER
 		CF_MVVM.Destroy(this);
-		#endif
+#endif
 	}
 
 	void NotifyPropertyChanged(string property, CF_EventArgs evt = null)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(property).Add(evt);
-		#endif
-		
+#endif
+
 		CF_MVVM.NotifyPropertyChanged(this, property, evt);
 	}
 
 	void NotifyPropertyChanged()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "NotifyPropertyChanged");
-		#endif
-		
+#endif
+
 		CF_MVVM.NotifyPropertyChanged(this);
 	}
 
@@ -38,7 +38,7 @@ class CF_Model : Managed
 	{
 		return "";
 	}
-	
+
 	override string GetDebugName()
 	{
 		return "";

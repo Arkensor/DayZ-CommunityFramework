@@ -21,7 +21,7 @@ class CF_MVVM_Menu : UIScriptedMenu
 	void RemoveModel()
 	{
 		m_Linker.OnDestroy.RemoveSubscriber(RemoveModel);
-		
+
 		Close();
 	}
 };

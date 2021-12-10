@@ -17,20 +17,20 @@ class CF_CanvasWidget : CF_Widget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(Lines, "Lines");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_CanvasWidget, w);
@@ -38,23 +38,24 @@ class CF_CanvasWidget : CF_Widget
 
 	void OnView_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Lines").Add(sender).Add(args);
-		#endif
+#endif
 	}
 
 	//! Automatically updated from Collection events so 'NotifyProperty' isn't needed to be called.
 	void OnModel_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Lines").Add(sender).Add(args);
-		#endif
+#endif
 
 		_CanvasWidget.Clear();
 		for (int i = 0; i < _Lines.Count(); i++)
 		{
 			CF_CanvasLine line;
-			if (!Class.CastTo(line, _Lines.GetClass(i))) break;
+			if (!Class.CastTo(line, _Lines.GetClass(i)))
+				break;
 			_CanvasWidget.DrawLine(line.x1, line.y1, line.x2, line.y2, line.width, line.color);
 		}
 	}

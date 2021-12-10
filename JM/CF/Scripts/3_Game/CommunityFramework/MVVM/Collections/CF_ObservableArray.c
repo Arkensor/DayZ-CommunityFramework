@@ -4,14 +4,14 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 
 	void CF_ObservableArray()
 	{
-		#ifdef COMPONENT_SYSTEM
+#ifdef COMPONENT_SYSTEM
 		CF_MVVM._CheckInit();
-		#endif
+#endif
 
 		typename t = T;
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, string.Format("CF_ObservableArray<%1>", t));
-		#endif
+#endif
 
 		OverrideConverter();
 
@@ -31,19 +31,19 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 
 	override CF_TypeConverterBase GetConverter(int index)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
-		#endif
-		
+#endif
+
 		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
 		return m_Converter;
 	}
 
 	override void OverrideConverter(CF_TypeConverterBase converter = null)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
-		#endif
+#endif
 
 		if (!converter)
 		{
@@ -183,11 +183,13 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	void Remove(int index)
 	{
-		if (m_Data.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
+		if (m_Data.Count() <= 1)
+			NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
 
 		m_Data.Remove(index);
 
-		if (m_Data.Count() > 0 && index < m_Data.Count()) NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
+		if (m_Data.Count() > 0 && index < m_Data.Count())
+			NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 	}
 
 	/*!
@@ -245,12 +247,12 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	*/
 	int Copy(notnull array<T> from)
 	{
-		return 0;//m_Data.Copy(from);
+		return 0; //m_Data.Copy(from);
 	}
 
 	int Copy(notnull CF_ObservableArray<T> from)
 	{
-		return 0;//m_Data.Copy(from.m_Data);
+		return 0; //m_Data.Copy(from.m_Data);
 	}
 
 	int Init(T init[])
@@ -262,13 +264,13 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	{
 		m_Data.RemoveItem(value);
 	}
-	
+
 	void RemoveItemUnOrdered(T value)
 	{
 		m_Data.RemoveItemUnOrdered(value);
 	}
-	
-	bool IsValidIndex( int index )
+
+	bool IsValidIndex(int index)
 	{
 		return m_Data.IsValidIndex(index);
 	}
@@ -323,22 +325,22 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 
 		m_Data.SwapItems(item1_index, item2_index);
 	}
-	
+
 	void InsertArray(array<T> other)
 	{
 		m_Data.InsertArray(other);
 	}
-	
+
 	void InsertArray(CF_ObservableArray<T> other)
 	{
 		//m_Data.InsertArray(other.m_Data);
 	}
-	
+
 	void Invert()
 	{
 		m_Data.Invert();
 	}
-	
+
 	/**
 	\brief Returns a index in array moved by specific number
 		\return \p int Moved index in this array

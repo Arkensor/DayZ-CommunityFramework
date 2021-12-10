@@ -73,9 +73,9 @@ class CF_Window : CF_Model
 
 	void CF_Window(string title = "Window", int width = 400, int height = 400)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_3(this, "CF_Window").Add(title).Add(width).Add(height);
-		#endif
+#endif
 
 		m_Visible = true;
 
@@ -107,9 +107,9 @@ class CF_Window : CF_Model
 
 	void ~CF_Window()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_Window");
-		#endif
+#endif
 
 		OnClose.Invoke(this);
 
@@ -143,9 +143,9 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(string layoutFile)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "CreateWidgets").Add(layoutFile);
-		#endif
+#endif
 
 		Widget child = content.GetChildren();
 		while (child != null)
@@ -154,21 +154,25 @@ class CF_Window : CF_Model
 			child = child.GetSibling();
 			temp.Unlink();
 		}
-		
+
 		WorkspaceWidget wSpace = GetGame().GetWorkspace();
 		// A mess to fix an issue in Workbench, can also substitute for loading screen support
 		if (wSpace == null)
 		{
 			wSpace = GetGame().GetLoadingWorkspace();
-			if (!wSpace) wSpace = CF.Game().GetWorkspace();
-			if (!wSpace) wSpace = CF.Game().GetLoadingWorkspace();
+			if (!wSpace)
+				wSpace = CF.Game().GetWorkspace();
+			if (!wSpace)
+				wSpace = CF.Game().GetLoadingWorkspace();
 
-			if (!wSpace) return null;
+			if (!wSpace)
+				return null;
 		}
 
 		Widget newContent = wSpace.CreateWidgets(layoutFile, content);
-		if (!newContent) return null;
-		
+		if (!newContent)
+			return null;
+
 		newContent.ClearFlags(WidgetFlags.HEXACTSIZE | WidgetFlags.VEXACTSIZE);
 		newContent.SetPos(0, 0);
 		newContent.SetSize(1, 1);
@@ -177,9 +181,9 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(CF_ModelBase model, string layoutFile)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "CreateWidgets").Add(model).Add(layoutFile);
-		#endif
+#endif
 
 		Widget child = content.GetChildren();
 		while (child != null)
@@ -192,7 +196,8 @@ class CF_Window : CF_Model
 		m_Model = model;
 
 		Widget newContent = CF_MVVM.Create(m_Model, layoutFile, content).GetWidget();
-		if (!newContent) return null;
+		if (!newContent)
+			return null;
 
 		newContent.ClearFlags(WidgetFlags.HEXACTSIZE | WidgetFlags.VEXACTSIZE);
 		newContent.SetPos(0, 0);
@@ -202,10 +207,10 @@ class CF_Window : CF_Model
 
 	void SetTitle(string title)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "SetTitle").Add(title);
-		#endif
-		
+#endif
+
 		m_Title = title;
 
 		NotifyPropertyChanged("m_Title");
@@ -218,10 +223,10 @@ class CF_Window : CF_Model
 
 	void SetVisible(bool visible)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "SetVisible").Add(visible);
-		#endif
-		
+#endif
+
 		m_Visible = visible;
 
 		NotifyPropertyChanged("m_Visible");
@@ -244,10 +249,10 @@ class CF_Window : CF_Model
 
 	void SetModel(CF_ModelBase model)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "SetModel").Add(model);
-		#endif
-		
+#endif
+
 		if (model != m_Model)
 		{
 			m_Model = model;
@@ -263,7 +268,8 @@ class CF_Window : CF_Model
 
 	void SetFullscreen(bool fullscreen, bool wasDrag = false)
 	{
-		if (m_FullScreen == fullscreen) return;
+		if (m_FullScreen == fullscreen)
+			return;
 
 		m_FullScreen = fullscreen;
 		NotifyPropertyChanged("m_FullScreen");
@@ -275,7 +281,7 @@ class CF_Window : CF_Model
 
 			m_PreviousPositionX = m_PositionX;
 			m_PreviousPositionY = m_PositionY;
-			
+
 			int w, h;
 			GetScreenSize(w, h);
 
@@ -285,7 +291,8 @@ class CF_Window : CF_Model
 		else
 		{
 			SetSize(m_PreviousWidth, m_PreviousHeight);
-			if (!wasDrag) SetPosition(m_PreviousPositionX, m_PreviousPositionY);
+			if (!wasDrag)
+				SetPosition(m_PreviousPositionX, m_PreviousPositionY);
 		}
 	}
 
@@ -298,7 +305,8 @@ class CF_Window : CF_Model
 	void UpdateFocus(bool focused)
 	{
 		m_IsFocused = focused;
-		if (m_IsFocused == m_WasFocused) return;
+		if (m_IsFocused == m_WasFocused)
+			return;
 		m_WasFocused = m_IsFocused;
 
 		if (m_IsFocused)
@@ -315,10 +323,10 @@ class CF_Window : CF_Model
 
 	void SetPosition(float x, float y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "SetPosition").Add(x).Add(y);
-		#endif
-		
+#endif
+
 		m_PositionX = x;
 		m_PositionY = y;
 
@@ -328,17 +336,21 @@ class CF_Window : CF_Model
 
 	void SetSize(float x, float y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "SetSize").Add(x).Add(y);
-		#endif
-		
+#endif
+
 		m_Width = x;
 		m_Height = y + 29;
 
-		if (m_Width < m_MinimumWidth) m_Width = m_MinimumWidth;
-		else if (m_Width > m_MaximumWidth) m_Width = m_MaximumWidth;
-		if (m_Height < m_MinimumHeight) m_Height = m_MinimumHeight;
-		else if (m_Height > m_MaximumHeight) m_Height = m_MaximumHeight;
+		if (m_Width < m_MinimumWidth)
+			m_Width = m_MinimumWidth;
+		else if (m_Width > m_MaximumWidth)
+			m_Width = m_MaximumWidth;
+		if (m_Height < m_MinimumHeight)
+			m_Height = m_MinimumHeight;
+		else if (m_Height > m_MaximumHeight)
+			m_Height = m_MaximumHeight;
 
 		m_ContentWidth = m_Width;
 		m_ContentHeight = m_Height - 29;
@@ -365,84 +377,86 @@ class CF_Window : CF_Model
 
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnMinimizeButtonClicked").Add(sender).Add(args);
-		#endif
+#endif
 
 		SetMinimized(true);
 	}
 
 	void OnExpandButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnExpandButtonClicked").Add(sender).Add(args);
-		#endif
+#endif
 
 		SetMinimized(false);
 	}
 
 	void OnWindowButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnWindowButtonClicked").Add(sender).Add(args);
-		#endif
+#endif
 
 		SetFullscreen(args.State);
 	}
 
 	void OnCloseButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnCloseButtonClicked").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		delete this;
 	}
 
 	void OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnMouseButtonDown").Add(sender).Add(args);
-		#endif
+#endif
 
 		BringTop();
 	}
 
 	void OnDrag(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnDrag").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		if (m_FullScreen)
 		{
 			float newX = args.X - (m_PreviousWidth * 0.5);
-			if (newX < 0) newX = 0;
-			else if (newX > m_Width) newX = m_Width - m_PreviousWidth;
+			if (newX < 0)
+				newX = 0;
+			else if (newX > m_Width)
+				newX = m_Width - m_PreviousWidth;
 
 			SetPosition(newX, 0.0);
 		}
-		
+
 		m_DragOffsetX = args.X - m_PositionX;
 		m_DragOffsetY = args.Y - m_PositionY;
-		
+
 		SetFullscreen(false, true);
 	}
 
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnDragging").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		SetPosition(args.X - m_DragOffsetX, args.Y - m_DragOffsetY);
 	}
 
 	void OnStartResizing(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnStartResizing").Add(sender).Add(args);
-		#endif
+#endif
 
 		m_ResizeStartX = args.X;
 		m_ResizeStartY = args.Y;
@@ -456,22 +470,23 @@ class CF_Window : CF_Model
 
 	void OnStopResizing(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnStartResizing").Add(sender).Add(args);
-		#endif
+#endif
 
 		SetFocus(null);
 	}
 
 	void OnResizingUp(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
-		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight) newPosY = m_PreviousPositionY + m_PreviousHeight;
+		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight)
+			newPosY = m_PreviousPositionY + m_PreviousHeight;
 		SetSize(m_PreviousWidth, newSizeY - 29);
 		SetPosition(m_PreviousPositionX, newPosY);
 
@@ -482,9 +497,9 @@ class CF_Window : CF_Model
 
 	void OnResizingDown(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
 		SetSize(m_PreviousWidth, newSizeY - 29);
@@ -496,9 +511,9 @@ class CF_Window : CF_Model
 
 	void OnResizingLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
@@ -512,9 +527,9 @@ class CF_Window : CF_Model
 
 	void OnResizingRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
 		SetSize(newSizeX, m_PreviousHeight - 29);
@@ -526,9 +541,9 @@ class CF_Window : CF_Model
 
 	void OnResizingUpLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
@@ -545,9 +560,9 @@ class CF_Window : CF_Model
 
 	void OnResizingUpRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
@@ -563,9 +578,9 @@ class CF_Window : CF_Model
 
 	void OnResizingDownLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
@@ -581,9 +596,9 @@ class CF_Window : CF_Model
 
 	void OnResizingDownRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
-		#endif
+#endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
@@ -791,13 +806,16 @@ class CF_Window : CF_Model
 		CF_Window _this = this;
 
 		CF_Window prev = null;
-		if (m_Prev) prev = m_Prev.m_Prev;
+		if (m_Prev)
+			prev = m_Prev.m_Prev;
 
 		if (m_Prev || m_Next)
 		{
 			// Incrementing the reference count, so this window doesn't get destroyed.
 			_this = Remove();
-		} else return;
+		}
+		else
+			return;
 
 		Insert(prev);
 
@@ -814,7 +832,9 @@ class CF_Window : CF_Model
 		{
 			// Incrementing the reference count, so this window doesn't get destroyed.
 			_this = Remove();
-		} else return;
+		}
+		else
+			return;
 
 		Insert(prev);
 
@@ -825,13 +845,16 @@ class CF_Window : CF_Model
 	{
 		CF_Window _this = this;
 
-		if (CF_Windows.s_Head == _this) return;
+		if (CF_Windows.s_Head == _this)
+			return;
 
 		if (m_Prev || m_Next)
 		{
 			// Incrementing the reference count, so this window doesn't get destroyed.
 			_this = Remove();
-		} else return;
+		}
+		else
+			return;
 
 		Add();
 	}

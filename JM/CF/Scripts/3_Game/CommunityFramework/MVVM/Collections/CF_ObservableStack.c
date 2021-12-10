@@ -1,14 +1,14 @@
 class CF_ObservableStack<Class T> : CF_ObservableCollection
 {
-	private	T m_Data[256];
+	private T m_Data[256];
 	private int m_Count;
 
 	void CF_ObservableStack()
 	{
 		typename t = T;
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, string.Format("CF_ObservableStack<%1>", t));
-		#endif
+#endif
 
 		OverrideConverter();
 
@@ -28,9 +28,9 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 
 	override CF_TypeConverterBase GetConverter(int index)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
-		#endif
+#endif
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Data[index]);
 		return m_Converter;
@@ -38,9 +38,9 @@ class CF_ObservableStack<Class T> : CF_ObservableCollection
 
 	override void OverrideConverter(CF_TypeConverterBase converter = null)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
-		#endif
+#endif
 
 		if (!converter)
 		{

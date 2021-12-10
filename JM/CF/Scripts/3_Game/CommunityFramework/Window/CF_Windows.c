@@ -36,24 +36,25 @@ class CF_Windows
 
 	private void CF_Windows()
 	{
-		#ifndef NO_GUI
+#ifndef NO_GUI
 		CF_Timer.Create(this, "Update");
-		#endif
+#endif
 	}
 
 	static void _Init()
 	{
-		if (g_CF_Windows) return;
+		if (g_CF_Windows)
+			return;
 
 		g_CF_Windows = new CF_Windows();
 	}
 
 	static void _Cleanup()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(g_CF_Windows, "_Cleanup");
-		#endif
-		
+#endif
+
 		g_CF_Windows = null;
 	}
 
@@ -61,9 +62,9 @@ class CF_Windows
 	{
 		Print("_MissionInit");
 
-		#ifdef SERVER
+#ifdef SERVER
 		return;
-		#endif
+#endif
 
 		s_ToggleInput = GetUApi().GetInputByName("UACFToggleWindowMode");
 
@@ -84,7 +85,7 @@ class CF_Windows
 	}
 
 	static bool IsWidgetWindowRoot(Widget widget)
-	{  
+	{
 		CF_Window window = s_Tail;
 		while (window != null)
 		{
@@ -92,7 +93,7 @@ class CF_Windows
 			{
 				return true;
 			}
-			
+
 			window = window.GetPrev();
 		}
 
@@ -133,10 +134,10 @@ class CF_Windows
 
 	void Update(CF_TimerBase timer, float dt)
 	{
-		#ifdef SERVER
+#ifdef SERVER
 		timer.Stop();
 		return;
-		#endif
+#endif
 
 		if (!s_Container)
 		{
@@ -144,7 +145,7 @@ class CF_Windows
 			{
 				_MissionInit();
 			}
-			
+
 			return;
 		}
 
@@ -209,14 +210,16 @@ class CF_Windows
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
 		switch (s_InputState)
 		{
-			case CF_WindowsInputState.PRESS:
-				if (!isMouseDown) s_InputState = CF_WindowsInputState.RELEASE;
-				break;
-			case CF_WindowsInputState.RELEASE:
-				if (isMouseDown) s_InputState = CF_WindowsInputState.PRESS;
-				break;
+		case CF_WindowsInputState.PRESS:
+			if (!isMouseDown)
+				s_InputState = CF_WindowsInputState.RELEASE;
+			break;
+		case CF_WindowsInputState.RELEASE:
+			if (isMouseDown)
+				s_InputState = CF_WindowsInputState.PRESS;
+			break;
 		}
-		
+
 		s_Container.SetFlags(WidgetFlags.VEXACTSIZE | WidgetFlags.HEXACTSIZE);
 		int w, h;
 		GetScreenSize(w, h);
@@ -246,18 +249,20 @@ class CF_Windows
 		{
 			GetGame().GetInput().ChangeGameFocus(-1);
 		}
-		
+
 		GetGame().GetUIManager().ShowUICursor(!GetGame().GetInput().HasGameFocus());
 	}
 
 	bool KeepMouseFocused()
 	{
-		if (CheckForFocus()) return true;
+		if (CheckForFocus())
+			return true;
 
 		Widget widget = GetWidgetUnderCursor();
 		while (widget != null)
 		{
-			if (CheckWidgetForFocus(widget)) return true;
+			if (CheckWidgetForFocus(widget))
+				return true;
 
 			widget = widget.GetParent();
 		}
@@ -267,9 +272,11 @@ class CF_Windows
 
 	bool CheckForFocus()
 	{
-		if (GetGame().GetUIManager().GetMenu()) return true;
+		if (GetGame().GetUIManager().GetMenu())
+			return true;
 
-		if (CF_Popup.IsOpen()) return true;
+		if (CF_Popup.IsOpen())
+			return true;
 
 		return false;
 	}
@@ -279,7 +286,8 @@ class CF_Windows
 	 */
 	bool CheckWidgetForFocus(Widget widget)
 	{
-		if (IsWidgetWindowRoot(widget)) return true;
+		if (IsWidgetWindowRoot(widget))
+			return true;
 
 		return false;
 	}

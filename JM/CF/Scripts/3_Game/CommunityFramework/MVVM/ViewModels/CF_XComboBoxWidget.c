@@ -9,21 +9,21 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(Selected, "Selected");
 		AddProperty(Items, "Items");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_XComboBoxWidget, w);
@@ -31,36 +31,36 @@ class CF_XComboBoxWidget : CF_UIWidget
 
 	void OnView_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Selected").Add(sender).Add(args);
-		#endif
+#endif
 
 		_Selected.SetFloat(_XComboBoxWidget.GetCurrentItem());
 	}
 
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Selected").Add(sender).Add(args);
-		#endif
+#endif
 
 		_XComboBoxWidget.SetCurrentItem(_Selected.GetFloat());
 	}
 
 	void OnView_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Items").Add(sender).Add(args);
-		#endif
+#endif
 
 		OnModel_Items(sender, args);
 	}
 
 	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Items").Add(sender).Add(args);
-		#endif
+#endif
 
 		int selected = _XComboBoxWidget.GetCurrentItem();
 

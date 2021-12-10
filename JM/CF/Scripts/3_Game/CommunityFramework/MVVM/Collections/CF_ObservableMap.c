@@ -6,9 +6,9 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 	void CF_ObservableMap()
 	{
-		#ifdef COMPONENT_SYSTEM
+#ifdef COMPONENT_SYSTEM
 		CF_MVVM._CheckInit();
-		#endif
+#endif
 
 		OverrideConverter();
 
@@ -29,9 +29,9 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 	override CF_TypeConverterBase GetConverter(int index)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
-		#endif
+#endif
 
 		g_Script.CallFunction(m_Converter, "Set", null, m_Values[index]);
 		return m_Converter;
@@ -39,9 +39,9 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 	override void OverrideConverter(CF_TypeConverterBase converter = null)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
-		#endif
+#endif
 
 		if (!converter)
 		{
@@ -100,7 +100,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 			m_DataMap.Insert(key, idx);
 			NotifyCollectionChanged(new CF_CollectionInsertEventArgs(m_DataMap[key]));
 		}
-		
+
 		m_Count = m_Keys.Count();
 	}
 
@@ -108,13 +108,14 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 	{
 		int index = m_DataMap[key];
 
-		if (m_Keys.Count() <= 1) NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
-		
+		if (m_Keys.Count() <= 1)
+			NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(index));
+
 		TKey replaced = m_Keys[m_Keys.Count() - 1];
 
 		m_Keys.Remove(index);
 		m_Values.Remove(index);
-		
+
 		m_DataMap.Remove(key);
 
 		if (m_Keys.Count() > 0 && index < m_Keys.Count())
@@ -122,7 +123,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 			m_DataMap[replaced] = index;
 			NotifyCollectionChanged(new CF_CollectionSetEventArgs(index));
 		}
-		
+
 		m_Count = m_Keys.Count();
 	}
 
@@ -148,7 +149,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 		m_Values.Clear();
 		m_Keys.Clear();
 		m_DataMap.Clear();
-		
+
 		m_Count = 0;
 	}
 };

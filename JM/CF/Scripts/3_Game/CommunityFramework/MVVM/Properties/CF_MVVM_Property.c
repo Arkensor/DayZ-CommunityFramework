@@ -19,9 +19,9 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "CF_MVVM_Property").Add(handler).Add(name);
-		#endif
+#endif
 
 		m_ViewModel = handler;
 		m_Name = name;
@@ -29,9 +29,9 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	string SetVariableName(string variableName)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "SetVariableName").Add(variableName);
-		#endif
+#endif
 
 		m_IndexCount = -1;
 		m_VariableName = variableName;
@@ -84,9 +84,9 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void Link(CF_ModelBase model, typename variableType, CF_TypeConverterBase typeConverter)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "Assign").Add(model);
-		#endif
+#endif
 
 		m_Model = model;
 
@@ -117,14 +117,15 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 		OnModel(new CF_EventArgs());
 	}
-	
+
 	void OnView(/*notnull*/ CF_EventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnView").Add(evt.GetDebugName());
-		#endif
+#endif
 
-		if (m_IndexCount == -1) AcquireIndices();
+		if (m_IndexCount == -1)
+			AcquireIndices();
 
 		Param param = new Param2<CF_ModelBase, CF_EventArgs>(m_Model, evt);
 		g_Script.CallFunctionParams(m_ViewModel, "OnView_" + m_Name, null, param);
@@ -132,11 +133,12 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void OnModel(/*notnull*/ CF_EventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnModel").Add(evt.GetDebugName());
-		#endif
+#endif
 
-		if (m_IndexCount == -1) AcquireIndices();
+		if (m_IndexCount == -1)
+			AcquireIndices();
 
 		CF_EventArgs eventOverride = evt;
 
@@ -148,7 +150,8 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 			if (!evt.Type().IsInherited(CF_CollectionEventArgs))
 			{
-				if (_collection == m_Collection) return;
+				if (_collection == m_Collection)
+					return;
 
 				//UPDATE: will continue to notify, even if unlinked
 				// the previous instance may still be alive, if so, make sure it doesn't notify from now on
@@ -183,7 +186,8 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 				}
 
 				// The variable is no longer set to an instance, override event to reset UI
-				if (!_collection) eventOverride = new CF_CollectionClearEventArgs();
+				if (!_collection)
+					eventOverride = new CF_CollectionClearEventArgs();
 			}
 
 			m_Collection = _collection;
@@ -225,7 +229,8 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 			}
 
 			// couldn't find sub variable
-			if (!success) return;
+			if (!success)
+				return;
 		}
 
 		m_ActualVariableName = tokens[m_IndexCount];
@@ -308,7 +313,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		Read();
 		return m_TypeConverter.GetVector();
 	}
-	
+
 	override void SetString(string value)
 	{
 		m_TypeConverter.SetString(value);

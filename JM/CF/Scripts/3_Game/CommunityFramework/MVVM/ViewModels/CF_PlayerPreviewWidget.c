@@ -13,12 +13,12 @@ class CF_PlayerPreviewWidget : CF_Widget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(Player, "Player");
 		AddProperty(HandItem, "HandItem");
 		AddProperty(ModelOrientation, "ModelOrientation");
@@ -27,9 +27,9 @@ class CF_PlayerPreviewWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_PlayerPreviewWidget, w);
@@ -37,72 +37,71 @@ class CF_PlayerPreviewWidget : CF_Widget
 
 	void OnView_Player(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Player").Add(sender).Add(args);
-		#endif
+#endif
 
 		_Player.SetClass(_PlayerPreviewWidget.GetDummyPlayer());
 	}
 
 	void OnModel_Player(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Player").Add(sender).Add(args);
-		#endif
+#endif
 
 		_PlayerPreviewWidget.SetPlayer(DayZPlayer.Cast(_Player.GetClass()));
 	}
 
 	void OnView_HandItem(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_HandItem").Add(sender).Add(args);
-		#endif
-
+#endif
 	}
 
 	void OnModel_HandItem(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_HandItem").Add(sender).Add(args);
-		#endif
+#endif
 
 		_PlayerPreviewWidget.UpdateItemInHands(EntityAI.Cast(_HandItem.GetClass()));
 	}
 
 	void OnView_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_ModelOrientation").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_ModelOrientation.SetVector(_PlayerPreviewWidget.GetModelOrientation());
 	}
 
 	void OnModel_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_ModelOrientation").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_PlayerPreviewWidget.SetModelOrientation(_ModelOrientation.GetVector());
 	}
 
 	void OnView_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_ModelPosition").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_ModelPosition.SetVector(_PlayerPreviewWidget.GetModelPosition());
 	}
 
 	void OnModel_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_ModelPosition").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_PlayerPreviewWidget.SetModelPosition(_ModelPosition.GetVector());
 	}
 };

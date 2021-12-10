@@ -36,7 +36,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	protected Widget m_Widget;
 
-    //#ifdef COMPONENT_SYSTEM 
+	//#ifdef COMPONENT_SYSTEM
 	private ref CF_ModelBase m_WB_Model;
 	//#endif
 
@@ -51,15 +51,15 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	protected ref CF_MVVM_Linker m_Properties;
 
 	protected bool m_ChangeEventFiring;
-	
+
 	void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		m_Widget = w;
-		
+
 		m_Widget.SetHandler(this);
 
 		if (Model != string.Empty)
@@ -67,11 +67,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			typename modelType = Model.ToType();
 			if (modelType)
 			{
-    			#ifdef COMPONENT_SYSTEM //! Workbench editing
+#ifdef COMPONENT_SYSTEM //! Workbench editing
 				if (!CF_MVVM.WB_NEXT_IN_SCRIPT)
-				#else
+#else
 				if (CreateModel)
-				#endif
+#endif
 				{
 					Class.CastTo(m_WB_Model, modelType.Spawn());
 					CF_MVVM.Connect(m_WB_Model, this);
@@ -103,9 +103,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void ~CF_ViewModel()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_ViewModel");
-		#endif
+#endif
 
 		if (!m_Parent)
 		{
@@ -116,14 +116,16 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void NotifyPropertyChanged(string name, string source, CF_EventArgs args = null)
 	{
 		CF_EventArgs temp = args;
-		if (temp == null) temp = new CF_EventArgs();
+		if (temp == null)
+			temp = new CF_EventArgs();
 
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(temp);
-		#endif
-		
+#endif
+
 		auto property = m_PropertiesSourceMap[source];
-		if (!property) return;
+		if (!property)
+			return;
 		property.OnView(temp);
 
 		m_Properties._ViewChanged(name, property, temp);
@@ -132,20 +134,21 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void NotifyPropertyChanged(CF_EventArgs args = null)
 	{
 		CF_EventArgs temp = args;
-		if (temp == null) temp = new CF_EventArgs();
+		if (temp == null)
+			temp = new CF_EventArgs();
 
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(temp.GetDebugName());
-		#endif
+#endif
 
 		m_Properties._ViewChanged(temp);
 	}
 
 	void _RecursiveSetModel(CF_ModelBase model, CF_MVVM_Linker properties)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "_RecursiveSetModel").Add(model);
-		#endif
+#endif
 
 		m_Model = model;
 		m_Properties = properties;
@@ -166,41 +169,44 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	protected void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		AddProperty(Children, "Children");
 	}
-	
+
 	protected void AddProperty(inout string actual, string name)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "AddProperty").Add("Actual=" + actual + " Name=" + name);
-		#endif
-		
-		if (actual == string.Empty) return;
+#endif
+
+		if (actual == string.Empty)
+			return;
 
 		CF_MVVM_Property property = new CF_MVVM_Property(this, name);
 		actual = property.SetVariableName(actual);
-		
+
 		m_PropertiesSourceMap.Insert(name, property);
 		m_Properties.Insert(property);
 	}
 
 	Widget GetChildWidgetAt(int index)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "GetChildWidgetAt").Add(index);
-		#endif
+#endif
 
-		if (index == 0) return null;
+		if (index == 0)
+			return null;
 
 		Widget widget = m_Widget.GetChildren();
 		for (int i = 1; i < index; i++)
 		{
 			widget = widget.GetSibling();
-			if (!widget) return null;
+			if (!widget)
+				return null;
 		}
 		return widget;
 	}
@@ -217,25 +223,27 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void AddChild(CF_ViewModel child, bool modifyParent = true)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "AddChild").Add(child).Add(modifyParent);
-		#endif
+#endif
 
 		m_Children.Insert(child);
-		if (modifyParent) child.SetParent(this, false);
+		if (modifyParent)
+			child.SetParent(this, false);
 	}
 
 	void RemoveChild(CF_ViewModel child, bool modifyParent = true)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "RemoveChild").Add(child).Add(modifyParent);
-		#endif
+#endif
 
 		for (int i = 0; i < m_Children.Count(); i++)
 		{
 			if (m_Children[i] == child)
 			{
-				if (modifyParent) child.SetParent(null, false);
+				if (modifyParent)
+					child.SetParent(null, false);
 				m_Children.Remove(i);
 				return;
 			}
@@ -244,21 +252,24 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void SetParent(CF_ViewModel parent, bool modifyParent = true)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "SetParent").Add(parent).Add(modifyParent);
-		#endif
+#endif
 
 		//! if the parent remains unchanged, don't continue execution
-		if (m_Parent == parent) return;
+		if (m_Parent == parent)
+			return;
 
 		//! remove us from the old parent if it exists
-		if (m_Parent) m_Parent.RemoveChild(this, false);
+		if (m_Parent)
+			m_Parent.RemoveChild(this, false);
 
 		//! update the parent
 		m_Parent = parent;
-		
+
 		//! add us to the new parent. only called if the new parent didn't call this
-		if (m_Parent && modifyParent) m_Parent.AddChild(this, false);
+		if (m_Parent && modifyParent)
+			m_Parent.AddChild(this, false);
 	}
 
 	/**
@@ -273,46 +284,47 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void OnModel_Children(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children").Add(sender).Add(args.ClassName());
-		#endif
+#endif
 
 		CF_ObservableCollection _collection;
 		EnScript.GetClassVar(m_Model, Children, 0, _collection);
-		if (!_collection) return;
+		if (!_collection)
+			return;
 
 		switch (args.Type())
 		{
-			case CF_CollectionInsertEventArgs:
-			{
-				OnModel_Children_Insert(_collection, CF_CollectionInsertEventArgs.Cast(args));
-				return;
-			}
-			case CF_CollectionInsertAtEventArgs:
-			{
-				OnModel_Children_InsertAt(_collection, CF_CollectionInsertAtEventArgs.Cast(args));
-				return;
-			}
-			case CF_CollectionClearEventArgs:
-			{
-				OnModel_Children_Clear(_collection, CF_CollectionClearEventArgs.Cast(args));
-				return;
-			}
-			case CF_CollectionSetEventArgs:
-			{
-				OnModel_Children_Set(_collection, CF_CollectionSetEventArgs.Cast(args));
-				return;
-			}
-			case CF_CollectionRemoveEventArgs:
-			{
-				OnModel_Children_Remove(_collection, CF_CollectionRemoveEventArgs.Cast(args));
-				return;
-			}
-			case CF_CollectionSwapEventArgs:
-			{
-				OnModel_Children_Swap(_collection, CF_CollectionSwapEventArgs.Cast(args));
-				return;
-			}
+		case CF_CollectionInsertEventArgs:
+		{
+			OnModel_Children_Insert(_collection, CF_CollectionInsertEventArgs.Cast(args));
+			return;
+		}
+		case CF_CollectionInsertAtEventArgs:
+		{
+			OnModel_Children_InsertAt(_collection, CF_CollectionInsertAtEventArgs.Cast(args));
+			return;
+		}
+		case CF_CollectionClearEventArgs:
+		{
+			OnModel_Children_Clear(_collection, CF_CollectionClearEventArgs.Cast(args));
+			return;
+		}
+		case CF_CollectionSetEventArgs:
+		{
+			OnModel_Children_Set(_collection, CF_CollectionSetEventArgs.Cast(args));
+			return;
+		}
+		case CF_CollectionRemoveEventArgs:
+		{
+			OnModel_Children_Remove(_collection, CF_CollectionRemoveEventArgs.Cast(args));
+			return;
+		}
+		case CF_CollectionSwapEventArgs:
+		{
+			OnModel_Children_Swap(_collection, CF_CollectionSwapEventArgs.Cast(args));
+			return;
+		}
 		}
 
 		OnModel_Children_InsertAll(_collection, args);
@@ -320,14 +332,15 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void OnModel_Children_InsertAll(CF_ObservableCollection sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAll").Add(sender).Add(args);
-		#endif
+#endif
 
 		for (int i = 0; i < sender.Count(); i++)
 		{
 			CF_TypeConverterBase conv = sender.GetConverter(i);
-			if (!conv) return;
+			if (!conv)
+				return;
 
 			CF_ModelBase model = CF_ModelBase.Cast(conv.GetClass());
 
@@ -345,12 +358,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void OnModel_Children_Insert(CF_ObservableCollection sender, CF_CollectionInsertEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_Insert").Add(sender).Add(args);
-		#endif
+#endif
 
 		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
-		if (!conv) return;
+		if (!conv)
+			return;
 
 		CF_ModelBase model = CF_ModelBase.Cast(conv.GetClass());
 
@@ -361,24 +375,24 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			CF_Log.Error("Empty layout file provided.");
 			return;
 		}
-		
+
 		CF_MVVM.Create(model, layout, m_Widget);
 	}
 
 	void OnModel_Children_InsertAt(CF_ObservableCollection sender, CF_CollectionInsertAtEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args);
-		#endif
+#endif
 
 		CF_Log.Error("Function not implemented");
 	}
 
 	void OnModel_Children_Clear(CF_ObservableCollection sender, CF_CollectionClearEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_Clear").Add(sender).Add(args);
-		#endif
+#endif
 
 		Widget child = m_Widget.GetChildren();
 		while (child != null)
@@ -397,30 +411,31 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void OnModel_Children_Set(CF_ObservableCollection sender, CF_CollectionSetEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args);
-		#endif
+#endif
 
 		CF_Log.Error("Function not implemented");
 	}
 
 	void OnModel_Children_Remove(CF_ObservableCollection sender, CF_CollectionRemoveEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_Remove").Add(sender).Add(args);
-		#endif
+#endif
 
 		Widget widget = GetChildWidgetAt(args.Index);
-		if (!widget) return;
+		if (!widget)
+			return;
 
 		m_Widget.RemoveChild(widget);
 	}
 
 	void OnModel_Children_Swap(CF_ObservableCollection sender, CF_CollectionSwapEventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Children_Swap").Add(sender).Add(args);
-		#endif
+#endif
 
 		CF_Log.Error("Function not implemented");
 	}
@@ -466,9 +481,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnClick").Add(w);
-		#endif
+#endif
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -487,9 +502,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	override bool OnModalResult(Widget w, int x, int y, int code, int result)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnModalResult").Add(w);
-		#endif
+#endif
 
 		CF_ModalEventArgs args = new CF_ModalEventArgs();
 		args.Target = w;
@@ -509,10 +524,10 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	override bool OnDoubleClick(Widget w, int x, int y, int button)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDoubleClick").Add(w);
-		#endif
-		
+#endif
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -527,12 +542,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnDoubleClick(this, args);
 	}
-	
+
 	override bool OnSelect(Widget w, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnSelect").Add(w);
-		#endif
+#endif
 
 		CF_SelectEventArgs args = new CF_SelectEventArgs();
 		args.Target = w;
@@ -547,12 +562,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnSelect(this, args);
 	}
-	
+
 	override bool OnItemSelected(Widget w, int x, int y, int row, int column, int oldRow, int oldColumn)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnItemSelected").Add(w);
-		#endif
+#endif
 
 		CF_ItemSelectEventArgs args = new CF_ItemSelectEventArgs();
 		args.Target = w;
@@ -571,12 +586,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnItemSelected(this, args);
 	}
-	
+
 	override bool OnFocus(Widget w, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnFocus").Add(w);
-		#endif
+#endif
 
 		CF_PositionEventArgs args = new CF_PositionEventArgs();
 		args.Target = w;
@@ -591,13 +606,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnFocus(this, args);
 	}
-	
+
 	override bool OnFocusLost(Widget w, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnFocusLost").Add(w);
-		#endif
-		
+#endif
+
 		CF_PositionEventArgs args = new CF_PositionEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -611,12 +626,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnFocusLost(this, args);
 	}
-	
+
 	override bool OnMouseEnter(Widget w, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseEnter").Add(w);
-		#endif
+#endif
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -633,12 +648,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnMouseEnter(this, args);
 	}
-	
+
 	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseLeave").Add(w);
-		#endif
+#endif
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -656,12 +671,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnMouseLeave(this, args);
 	}
-	
+
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseWheel").Add(w);
-		#endif
+#endif
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -678,13 +693,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnMouseWheel(this, args);
 	}
-	
+
 	override bool OnMouseButtonDown(Widget w, int x, int y, int button)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseButtonDown").Add(w);
-		#endif
-		
+#endif
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -699,13 +714,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnMouseButtonDown(this, args);
 	}
-	
+
 	override bool OnMouseButtonUp(Widget w, int x, int y, int button)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseButtonUp").Add(w);
-		#endif
-		
+#endif
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -723,9 +738,9 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	override bool OnController(Widget w, int control, int value)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnController").Add(w);
-		#endif
+#endif
 
 		CF_ControllerEventArgs args = new CF_ControllerEventArgs();
 		args.Target = w;
@@ -740,13 +755,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnController(this, args);
 	}
-	
+
 	override bool OnKeyDown(Widget w, int x, int y, int key)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnKeyDown").Add(w);
-		#endif
-		
+#endif
+
 		CF_KeyEventArgs args = new CF_KeyEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -762,12 +777,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnKeyDown(this, args);
 	}
-	
+
 	override bool OnKeyUp(Widget w, int x, int y, int key)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnKeyUp").Add(w);
-		#endif
+#endif
 
 		CF_KeyEventArgs args = new CF_KeyEventArgs();
 		args.Target = w;
@@ -784,12 +799,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnKeyUp(this, args);
 	}
-	
+
 	override bool OnKeyPress(Widget w, int x, int y, int key)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnKeyPress").Add(w);
-		#endif
+#endif
 
 		CF_KeyEventArgs args = new CF_KeyEventArgs();
 		args.Target = w;
@@ -806,17 +821,18 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnKeyPress(this, args);
 	}
-	
+
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnChange").Add(w);
-		#endif
+#endif
 
-		if (w != m_Widget || m_ChangeEventFiring) return false;
+		if (w != m_Widget || m_ChangeEventFiring)
+			return false;
 
 		m_ChangeEventFiring = true;
-		
+
 		CF_ChangeEventArgs args = new CF_ChangeEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -839,13 +855,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnChange(this, args);
 	}
-	
+
 	override bool OnDrag(Widget w, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDrag").Add(w);
-		#endif
-		
+#endif
+
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -860,13 +876,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnDrag(this, args);
 	}
-	
+
 	override bool OnDragging(Widget w, int x, int y, Widget reciever)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDragging").Add(w);
-		#endif
-		
+#endif
+
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -881,13 +897,13 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnDragging(this, args);
 	}
-	
+
 	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDraggingOver").Add(w);
-		#endif
-		
+#endif
+
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -902,12 +918,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnDraggingOver(this, args);
 	}
-	
+
 	override bool OnDrop(Widget w, int x, int y, Widget reciever)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDrop").Add(w);
-		#endif
+#endif
 
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
@@ -923,12 +939,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnDrop(this, args);
 	}
-	
+
 	override bool OnDropReceived(Widget w, int x, int y, Widget reciever)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDropReceived").Add(w);
-		#endif
+#endif
 
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
@@ -944,12 +960,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnDropReceived(this, args);
 	}
-	
+
 	override bool OnResize(Widget w, int x, int y)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnResize").Add(w);
-		#endif
+#endif
 
 		CF_ResizeEventArgs args = new CF_ResizeEventArgs();
 		args.Target = w;
@@ -964,12 +980,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnResize(this, args);
 	}
-	
+
 	override bool OnChildAdd(Widget w, Widget child)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnChildAdd").Add(w);
-		#endif
+#endif
 
 		CF_ChildEventArgs args = new CF_ChildEventArgs();
 		args.Target = w;
@@ -984,12 +1000,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnChildAdd(this, args);
 	}
-	
+
 	override bool OnChildRemove(Widget w, Widget child)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnChildRemove").Add(w);
-		#endif
+#endif
 
 		CF_ChildEventArgs args = new CF_ChildEventArgs();
 		args.Target = w;
@@ -1004,12 +1020,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnChildRemove(this, args);
 	}
-	
+
 	override bool OnUpdate(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnUpdate").Add(w);
-		#endif
+#endif
 
 		CF_ViewEventArgs args = new CF_ViewEventArgs();
 		args.Target = w;
@@ -1022,12 +1038,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return OnUpdate(this, args);
 	}
-	
+
 	bool OnShow(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnShow").Add(w);
-		#endif
+#endif
 
 		CF_ViewEventArgs args = new CF_ViewEventArgs();
 		args.Target = w;
@@ -1040,12 +1056,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		return true;
 	}
-	
+
 	bool OnHide(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnHide").Add(w);
-		#endif
+#endif
 
 		CF_ViewEventArgs args = new CF_ViewEventArgs();
 		args.Target = w;

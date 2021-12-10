@@ -6,12 +6,12 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 	protected SpacerWidget _SpacerWidget;
 	protected CF_MVVM_PropertyBase _ContentAlignmentHorizontal = CF_MVVM_GetDefaultProperty();
 	protected CF_MVVM_PropertyBase _ContentAlignmentVertical = CF_MVVM_GetDefaultProperty();
-	
+
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
 
@@ -21,9 +21,9 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_SpacerWidget, w);
@@ -31,9 +31,9 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 
 	void OnView_ContentAlignmentHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_ContentAlignmentHorizontal").Add(sender).Add(args);
-		#endif
+#endif
 
 		int _contentAlignmentH = _SpacerWidget.GetContentAlignmentH();
 		EnScript.SetClassVar(m_Model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
@@ -41,9 +41,9 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 
 	void OnModel_ContentAlignmentHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_ContentAlignmentHorizontal").Add(sender).Add(args);
-		#endif
+#endif
 
 		int _contentAlignmentH;
 		EnScript.GetClassVar(m_Model, ContentAlignmentHorizontal, 0, _contentAlignmentH);
@@ -52,9 +52,9 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 
 	void OnView_ContentAlignmentVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_ContentAlignmentVertical").Add(sender).Add(args);
-		#endif
+#endif
 
 		int _contentAlignmentV = _SpacerWidget.GetContentAlignmentV();
 		EnScript.SetClassVar(m_Model, ContentAlignmentVertical, 0, _contentAlignmentV);
@@ -62,9 +62,9 @@ class CF_SpacerWidget : CF_SpacerBaseWidget
 
 	void OnModel_ContentAlignmentVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_ContentAlignmentVertical").Add(sender).Add(args);
-		#endif
+#endif
 
 		int _contentAlignmentV;
 		EnScript.GetClassVar(m_Model, ContentAlignmentVertical, 0, _contentAlignmentV);

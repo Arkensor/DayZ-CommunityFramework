@@ -7,8 +7,9 @@ class CF_TypeConverter_BoolInvert : CF_TypeConverterBool
 
 	override int GetInt()
 	{
-		if (m_Value) return 0;
-		return 1;	
+		if (m_Value)
+			return 0;
+		return 1;
 	}
 
 	override void SetBool(bool value)

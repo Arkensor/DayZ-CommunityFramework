@@ -41,7 +41,8 @@ class CF_DebugManager : CF_Model
 
 	void Create(Class instance, string title = "##")
 	{
-		if (!m_Allowed || !instance) return;
+		if (!m_Allowed || !instance)
+			return;
 
 		title = ConvertTitle(instance, title);
 
@@ -63,7 +64,8 @@ class CF_DebugManager : CF_Model
 
 	string ConvertTitle(Class instance, string title)
 	{
-		if (title != "##") return title;
+		if (title != "##")
+			return title;
 
 		string hex = "" + instance;
 		int previousIndex = hex.IndexOf("<");
@@ -77,7 +79,7 @@ class CF_DebugManager : CF_Model
 		hex = hex.Substring(0, hex.Length() - 1);
 
 		title = instance.ClassName();
-	
+
 		Object object;
 		if (Class.CastTo(object, instance))
 		{
@@ -108,7 +110,8 @@ class CF_DebugManager : CF_Model
 		for (int i = 0; i < count; i++)
 		{
 			m_InputCombo += GetUApi().GetButtonName(input.GetBindKey(i));
-			if (i < count - 1) m_InputCombo += " + ";
+			if (i < count - 1)
+				m_InputCombo += " + ";
 		}
 
 		NotifyPropertyChanged("m_InputCombo");

@@ -14,20 +14,20 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(Items, "Items");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_TextListboxWidget, w);
@@ -35,18 +35,18 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	void OnView_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Items").Add(sender).Add(args);
-		#endif
+#endif
 
 		EnScript.SetClassVar(m_Model, Items, 0, _Items);
 	}
 
 	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Items").Add(sender).Add(args);
-		#endif
+#endif
 
 		EnScript.GetClassVar(m_Model, Items, 0, _Items);
 
@@ -64,7 +64,8 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 		for (int i = 0; i < _Items.Count(); i++)
 		{
 			CF_TextListboxItem item;
-			if (!Class.CastTo(item, _Items.GetConverter(i).GetClass())) break;
+			if (!Class.CastTo(item, _Items.GetConverter(i).GetClass()))
+				break;
 
 			_TextListboxWidget.AddItem(item.Text, item, 0);
 			_TextListboxWidget.SetItemColor(i, 0, item.Color);

@@ -12,13 +12,13 @@ class CF_DebugUI : CF_DebugOutput
 
 	void CF_DebugUI(CF_Debug parent, string name)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "CF_DebugUI");
-		#endif
+#endif
 
 		m_Parent = parent;
 
-#ifndef COMPONENT_SYSTEM 
+#ifndef COMPONENT_SYSTEM
 		m_Window = new CF_Window(name);
 		m_Window.SetTakesGameFocus(false);
 		m_Window.CreateWidgets(this, GetLayoutFile());
@@ -28,7 +28,7 @@ class CF_DebugUI : CF_DebugOutput
 
 		ResetBuffer();
 
-#ifdef COMPONENT_SYSTEM 
+#ifdef COMPONENT_SYSTEM
 		Add("Hello", "World");
 		Add("Item", "Apple");
 		Add("X", 5.1);
@@ -47,9 +47,9 @@ class CF_DebugUI : CF_DebugOutput
 
 	void ~CF_DebugUI()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_DebugUI");
-		#endif
+#endif
 	}
 
 	override string GetLayoutFile()
@@ -133,7 +133,7 @@ class CF_DebugUI : CF_DebugOutput
 		CF_MVVM.NotifyPropertyChanged(this, "m_Data");
 		CF_MVVM.NotifyPropertyChanged(this, "m_ViewInWorld");
 
-#ifndef COMPONENT_SYSTEM 
+#ifndef COMPONENT_SYSTEM
 		if (m_ViewInWorld)
 		{
 			vector position = m_Parent.GetPosition();
@@ -173,12 +173,12 @@ class CF_DebugUI : CF_DebugOutput
 		}
 		return tab;
 	}
-	
+
 	private string NewLine()
 	{
 		if (m_Data == string.Empty)
 			return Tab();
-			
+
 		return "\n" + Tab();
 	}
 };

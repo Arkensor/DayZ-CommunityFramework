@@ -10,11 +10,11 @@ class CF_TestModel : CF_Model
 	bool BlockInput = false;
 
 	string ButtonText = "Press??";
-	
+
 	//ref CF_Dropdown<ref CF_TestColour> Dropdown = new CF_Dropdown<ref CF_TestColour>();
 
 	ref CF_ObservableArray<CF_TestItemModel> Test = new CF_ObservableArray<CF_TestItemModel>();
-	
+
 	void CF_TestModel()
 	{
 		//Dropdown.Insert(new CF_TestColour(0xFFFF0000, "Red"));
@@ -32,19 +32,19 @@ class CF_TestModel : CF_Model
 
 	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(evt.GetDebugName());
-		#endif
+#endif
 
 		evt.Continue = true;
 	}
 
 	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(evt.GetDebugName());
-		#endif
-		
+#endif
+
 		evt.Continue = BlockInput;
 
 		ButtonText = TextInput;
@@ -53,9 +53,9 @@ class CF_TestModel : CF_Model
 
 	void OnClick(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(evt.GetDebugName());
-		#endif
+#endif
 
 		Index++;
 
@@ -110,9 +110,9 @@ class CF_TestItemModel : CF_Model
 
 	void Remove(CF_ModelBase sender, CF_MouseEventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(evt.GetDebugName());
-		#endif
+#endif
 
 		int index = m_Parent.Test.Find(this);
 		m_Parent.Test.RemoveOrdered(index);
@@ -146,7 +146,6 @@ class CF_TestModelTester
 	{
 		if (GetGame().GetUIManager().GetMenu())
 		{
-
 		}
-	}	
+	}
 };

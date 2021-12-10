@@ -7,20 +7,20 @@ class CF_EditBoxWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(Text, "Text");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_EditBoxWidget, w);
@@ -28,19 +28,19 @@ class CF_EditBoxWidget : CF_UIWidget
 
 	void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_Text.SetString(_EditBoxWidget.GetText());
 	}
 
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_EditBoxWidget.SetText(_Text.GetString());
 	}
 

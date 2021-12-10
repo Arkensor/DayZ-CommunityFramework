@@ -9,59 +9,59 @@ class CF_BaseListboxWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(NumberItems, "NumberItems");
 		AddProperty(Selected, "Selected");
 	}
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_BaseListboxWidget, w);
 	}
-	
+
 	void OnView_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_NumberItems").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
 	}
 
 	void OnModel_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_NumberItems").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		OnView_NumberItems(m_Model, args);
 	}
 
 	void OnView_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Selected").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
 	}
 
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Selected").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());
 	}
 };

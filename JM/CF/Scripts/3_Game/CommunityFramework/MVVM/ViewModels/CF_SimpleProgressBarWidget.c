@@ -11,12 +11,12 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(Min, "Min");
 		AddProperty(Max, "Max");
 		AddProperty(Current, "Current");
@@ -24,55 +24,55 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_SimpleProgressBarWidget, w);
 	}
-	
+
 	void OnView_Min(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Min").Add(sender).Add(args);
-		#endif
+#endif
 
 		EnScript.SetClassVar(m_Model, Min, 0, _SimpleProgressBarWidget.GetMin());
 	}
 
 	void OnModel_Min(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Min").Add(sender).Add(args);
-		#endif
+#endif
 
 		OnView_Min(m_Model, args);
 	}
 
 	void OnView_Max(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Max").Add(sender).Add(args);
-		#endif
+#endif
 
 		EnScript.SetClassVar(m_Model, Max, 0, _SimpleProgressBarWidget.GetMax());
 	}
 
 	void OnModel_Max(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Max").Add(sender).Add(args);
-		#endif
+#endif
 
 		OnView_Max(m_Model, args);
 	}
 
 	void OnView_Current(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Current").Add(sender).Add(args);
-		#endif
+#endif
 
 		float _value = _SimpleProgressBarWidget.GetCurrent();
 		EnScript.SetClassVar(m_Model, Current, 0, _value);
@@ -80,9 +80,9 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnModel_Current(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Current").Add(sender).Add(args);
-		#endif
+#endif
 
 		float _value;
 		EnScript.GetClassVar(m_Model, Current, 0, _value);

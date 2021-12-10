@@ -5,13 +5,13 @@ class CF_ObservableCollection : CF_Collection
 
 	void Init(CF_ModelBase model, string prop)
 	{
-		#ifdef COMPONENT_SYSTEM
+#ifdef COMPONENT_SYSTEM
 		CF_MVVM._CheckInit();
-		#endif
+#endif
 
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "Init").Add(model).Add(prop);
-		#endif
+#endif
 
 		m_Links[m_LinkCount] = new Param2<CF_ModelBase, string>(model, prop);
 		m_LinkCount++;
@@ -19,9 +19,9 @@ class CF_ObservableCollection : CF_Collection
 
 	void NotifyCollectionChanged(CF_CollectionEventArgs evt)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(evt.GetDebugName());
-		#endif
+#endif
 
 		for (int i = 0; i < m_LinkCount; i++)
 		{
@@ -31,7 +31,6 @@ class CF_ObservableCollection : CF_Collection
 
 	void Clear()
 	{
-		
 	}
 
 	void SetInt(int index, int value)
@@ -97,7 +96,7 @@ class CF_ObservableCollection : CF_Collection
 	{
 		return GetConverter(index).GetVector();
 	}
-	
+
 	void SetString(int index, string value)
 	{
 		Param params = new Param2<int, string>(index, value);

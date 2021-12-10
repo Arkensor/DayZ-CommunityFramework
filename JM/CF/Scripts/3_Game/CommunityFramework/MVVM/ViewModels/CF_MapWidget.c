@@ -19,12 +19,12 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	override void GetProperties()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "GetProperties");
-		#endif
+#endif
 
 		super.GetProperties();
-		
+
 		AddProperty(UserMarks, "UserMarks");
 		AddProperty(CenterPosition, "CenterPosition");
 		AddProperty(Scale, "Scale");
@@ -32,9 +32,9 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
-		#endif
+#endif
 
 		super.OnWidgetScriptInit(w);
 		Class.CastTo(_MapWidget, w);
@@ -42,62 +42,63 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnView_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_UserMarks").Add(sender).Add(args);
-		#endif
+#endif
 
 		OnModel_UserMarks(sender, args);
 	}
 
 	void OnModel_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_UserMarks").Add(sender).Add(args);
-		#endif
+#endif
 
 		_MapWidget.ClearUserMarks();
 		for (int i = 0; i < _UserMarks.Count(); i++)
 		{
 			CF_MapUserMark userMark;
-			if (!Class.CastTo(userMark, _UserMarks.GetClass(i))) break;
+			if (!Class.CastTo(userMark, _UserMarks.GetClass(i)))
+				break;
 
 			_MapWidget.AddUserMark(userMark.Position, userMark.Text, userMark.Color, userMark.TexturePath);
 		}
 	}
-	
+
 	void OnView_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_CenterPosition").Add(sender).Add(args);
-		#endif
+#endif
 
 		_CenterPosition.SetVector(_MapWidget.GetMapPos());
 	}
 
 	void OnModel_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_CenterPosition").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_MapWidget.SetMapPos(_CenterPosition.GetVector());
 	}
-	
+
 	void OnView_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnView_Scale").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_Scale.SetFloat(_MapWidget.GetScale());
 	}
 
 	void OnModel_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnModel_Scale").Add(sender).Add(args);
-		#endif
-		
+#endif
+
 		_MapWidget.SetScale(_Scale.GetFloat());
 	}
 };
