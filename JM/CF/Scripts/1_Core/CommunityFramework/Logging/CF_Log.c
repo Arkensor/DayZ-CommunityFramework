@@ -55,6 +55,16 @@ class CF_Log
 		if (Level > CF_LogLevel.ERROR) return;
 
 		PrintFormat("[ERROR] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+
+		string dump = "";
+		DumpStackString(dump);
+		array<string> outputs = new array<string>();
+		dump.Split("\n", outputs);
+
+		for (int i = 1; i < outputs.Count(); i++)
+		{
+			Print("  " + outputs[i]);
+		}
 	}
 
 	/**
@@ -65,5 +75,15 @@ class CF_Log
 		if (Level > CF_LogLevel.CRITICAL) return;
 
 		PrintFormat("[CRITICAL] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+
+		string dump = "";
+		DumpStackString(dump);
+		array<string> outputs = new array<string>();
+		dump.Split("\n", outputs);
+
+		for (int i = 1; i < outputs.Count(); i++)
+		{
+			Print("  " + outputs[i]);
+		}
 	}
 };
