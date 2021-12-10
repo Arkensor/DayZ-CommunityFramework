@@ -5,7 +5,7 @@ class CF_DebugUI : CF_DebugOutput
 	private string m_Data;
 	private int m_TabDepth;
 
-	private bool m_LockPosition;
+	private bool m_ViewInWorld;
 	private Widget TextFieldLocked;
 
 	private autoptr CF_Window m_Window;
@@ -18,13 +18,31 @@ class CF_DebugUI : CF_DebugOutput
 
 		m_Parent = parent;
 
+#ifndef COMPONENT_SYSTEM 
 		m_Window = new CF_Window(name);
 		m_Window.SetTakesGameFocus(false);
 		m_Window.CreateWidgets(this, GetLayoutFile());
 
 		m_Window.OnClose.AddSubscriber(parent.Event_CloseWindow);
+#endif
 
 		ResetBuffer();
+
+#ifdef COMPONENT_SYSTEM 
+		Add("Hello", "World");
+		Add("Item", "Apple");
+		Add("X", 5.1);
+		Add("Y", 2);
+		Add("Orientation", Vector(0, 5.0, 20.0));
+		IncrementTab();
+		Add("Items", "START");
+		IncrementTab();
+		Add("Item", "Orange");
+		DecrementTab();
+		Add("Items", "END");
+		DecrementTab();
+		PushBuffer();
+#endif
 	}
 
 	void ~CF_DebugUI()
@@ -105,17 +123,18 @@ class CF_DebugUI : CF_DebugOutput
 	override void ResetBuffer()
 	{
 		m_Data = string.Empty;
-		m_TabDepth = -1;
+		m_TabDepth = 0;
 	}
 
 	override void PushBuffer()
 	{
-		CF_MVVM.NotifyPropertyChanged(this, "m_Data");
-		
-		m_LockPosition = true;
-		CF_MVVM.NotifyPropertyChanged(this, "m_LockPosition");
+		m_ViewInWorld = m_Parent.CanViewInWorld();
 
-		if (m_LockPosition)
+		CF_MVVM.NotifyPropertyChanged(this, "m_Data");
+		CF_MVVM.NotifyPropertyChanged(this, "m_ViewInWorld");
+
+#ifndef COMPONENT_SYSTEM 
+		if (m_ViewInWorld)
 		{
 			vector position = m_Parent.GetPosition();
 
@@ -142,12 +161,16 @@ class CF_DebugUI : CF_DebugOutput
 
 			m_Window.SetSize(sizeX, sizeY);
 		}
+#endif
 	}
 
 	private string Tab()
 	{
 		string tab = "";
-		for (int i = 0; i < m_TabDepth; i++) tab += " ";
+		for (int i = 0; i < m_TabDepth; i++)
+		{
+			tab += " ";
+		}
 		return tab;
 	}
 	

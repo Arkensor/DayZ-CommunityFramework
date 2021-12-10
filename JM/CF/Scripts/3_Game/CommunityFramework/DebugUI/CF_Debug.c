@@ -73,6 +73,8 @@ class CF_Debug : CF_TimerBase
 	protected Class m_Instance;
 	protected string m_Name;
 	protected vector m_Position;
+	protected bool m_ViewInWorld;
+	protected bool m_CanViewInWorld;
 
 	protected Class m_CurrentInstance;
 
@@ -113,12 +115,16 @@ class CF_Debug : CF_TimerBase
 	}
 
 	/**
-	 * @brief If attached root instance is an Entity, the position is in model space. Otherwise it is in world space.
+	 * @brief Sets the position within the world - always rotated to face the screen
+	 * 
+	 * @note If attached root instance is an Entity, the position is in model space. Otherwise it is in world space.
 	 */
 	void SetPosition(vector value)
 	{
 		if (m_CurrentInstance != m_Instance)
 			return;
+		
+		m_CanViewInWorld = true;
 
 		m_Position = value;
 	}
@@ -127,7 +133,34 @@ class CF_Debug : CF_TimerBase
 	{
 		return m_Position;
 	}
+	
+	/**
+	 * @brief Sets if the window should be viewed within the world
+	 */
+	void SetViewInWorld(bool viewInWorld)
+	{
+		m_ViewInWorld = viewInWorld;
+	}
+	
+	/**
+	 * @brief Sets if the window can be viewed within the world
+	 */
+	void SetCanViewInWorld(bool canViewInWorld)
+	{
+		m_CanViewInWorld = canViewInWorld;
+	}
+	
+	/**
+	 * @brief Return if the window can be viewed within the world
+	 */
+	void CanViewInWorld()
+	{
+		return m_CanViewInWorld && m_ViewInWorld;
+	}
 
+	/**
+	 * @brief Return the owning instance of the debug
+	 */
 	Class GetInstance()
 	{
 		return m_Instance;
@@ -264,7 +297,7 @@ class CF_Debug : CF_TimerBase
 			IncrementTab();
 
 			bool functionCallSuccess = false;
-			GetGame().GameScript.CallFunctionParams(value, "CF_OnDebugUpdate", functionCallSuccess, new Param2<CF_Debug, CF_DebugUI_Type>(this, CF_Debug.s_Types));
+			functionCallSuccess = GetGame().GameScript.CallFunctionParams(value, "CF_OnDebugUpdate", functionCallSuccess, new Param2<CF_Debug, CF_DebugUI_Type>(this, CF_Debug.s_Types));
 
 			if (!functionCallSuccess)
 			{

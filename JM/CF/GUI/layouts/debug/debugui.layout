@@ -6,9 +6,9 @@ WrapSpacerWidgetClass BlockSpacer {
  vexactpos 0
  hexactsize 0
  vexactsize 0
+ scriptclass "CF_WrapSpacerWidget"
  Padding 0
  Margin 0
- scriptclass "CF_WrapSpacerWidget"
  {
   ScrollWidgetClass scroller {
    ignorepointer 0
@@ -19,10 +19,10 @@ WrapSpacerWidgetClass BlockSpacer {
    vexactpos 0
    hexactsize 0
    vexactsize 0
+   scriptclass "CF_ScrollWidget"
    style blank
    "Scrollbar V" 1
    "Scrollbar V Left" 0
-   scriptclass "CF_ScrollWidget"
    {
     MultilineTextWidgetClass TextField {
      ignorepointer 1
@@ -47,7 +47,7 @@ WrapSpacerWidgetClass BlockSpacer {
    }
    {
     ScriptParamsClass {
-     Visible "m_LockPosition:CF_TypeConverter_BoolInvert"
+     Visible "m_ViewInWorld:CF_TypeConverter_BoolInvert"
     }
    }
   }
@@ -67,7 +67,7 @@ WrapSpacerWidgetClass BlockSpacer {
    "size to text v" 1
    {
     ScriptParamsClass {
-     Visible "m_LockPosition"
+     Visible "m_ViewInWorld"
      Text "m_Data"
     }
    }
