@@ -36,7 +36,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 	void OnView_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Items").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Items").Add(sender).Add(args);
 		#endif
 
 		EnScript.SetClassVar(m_Model, Items, 0, _Items);
@@ -45,7 +45,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Items").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Items").Add(sender).Add(args);
 		#endif
 
 		EnScript.GetClassVar(m_Model, Items, 0, _Items);

@@ -39,7 +39,7 @@ class CF_CanvasWidget : CF_Widget
 	void OnView_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Lines").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Lines").Add(sender).Add(args);
 		#endif
 	}
 
@@ -47,7 +47,7 @@ class CF_CanvasWidget : CF_Widget
 	void OnModel_Lines(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Lines").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Lines").Add(sender).Add(args);
 		#endif
 
 		_CanvasWidget.Clear();

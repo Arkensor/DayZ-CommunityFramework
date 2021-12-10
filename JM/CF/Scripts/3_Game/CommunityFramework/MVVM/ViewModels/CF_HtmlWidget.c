@@ -29,7 +29,7 @@ class CF_HtmlWidget : CF_TextWidget
 	void OnView_File(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_File").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_File").Add(sender).Add(args);
 		#endif
 		
 	}
@@ -37,7 +37,7 @@ class CF_HtmlWidget : CF_TextWidget
 	void OnModel_File(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_File").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_File").Add(sender).Add(args);
 		#endif
 		
 		_HtmlWidget.LoadFile(_File.GetString());

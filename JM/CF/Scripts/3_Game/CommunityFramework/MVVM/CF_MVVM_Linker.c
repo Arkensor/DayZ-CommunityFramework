@@ -25,7 +25,7 @@ class CF_MVVM_Linker
 	void _ViewChanged(string name, CF_MVVM_Property srcProperty, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_3(this, "_ViewChanged").Add(name).Add(srcProperty).Add(args.GetDebugName());
+		auto trace = CF_Trace_3(this, "_ViewChanged").Add(name).Add(srcProperty).Add(args);
 		#endif
 
 		if (name == string.Empty) return;
@@ -46,7 +46,7 @@ class CF_MVVM_Linker
 	void _ViewChanged(CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "_ViewChanged").Add(args.GetDebugName());
+		auto trace = CF_Trace_1(this, "_ViewChanged").Add(args);
 		#endif
 
 		for (int j = 0; j < m_PropertyVariableMap.Count(); j++)
@@ -63,7 +63,7 @@ class CF_MVVM_Linker
 	void NotifyPropertyChanged(string name, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(args);
 		#endif
 
 		if (name == string.Empty) return;
@@ -80,7 +80,7 @@ class CF_MVVM_Linker
 	void NotifyPropertyChanged(CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(args.GetDebugName());
+		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(args);
 		#endif
 
 		for (int j = 0; j < m_PropertyVariableMap.Count(); j++)

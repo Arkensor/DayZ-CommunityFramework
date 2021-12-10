@@ -32,7 +32,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	override void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args);
 		#endif
 
 		string value;
@@ -43,7 +43,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnView_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_CarriageLine").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_CarriageLine").Add(sender).Add(args);
 		#endif
 
 		_CarriageLine.SetInt(_MultilineEditBoxWidget.GetCarriageLine());
@@ -52,7 +52,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnModel_CarriageLine(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_CarriageLine").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_CarriageLine").Add(sender).Add(args);
 		#endif
 
 		OnView_CarriageLine(m_Model, args);
@@ -61,7 +61,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnView_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_CarriagePosition").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_CarriagePosition").Add(sender).Add(args);
 		#endif
 
 		_CarriagePosition.SetInt(_MultilineEditBoxWidget.GetCarriagePos());
@@ -70,7 +70,7 @@ class CF_MultilineEditBoxWidget : CF_TextWidget
 	void OnModel_CarriagePosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_CarriagePosition").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_CarriagePosition").Add(sender).Add(args);
 		#endif
 
 		OnView_CarriagePosition(m_Model, args);

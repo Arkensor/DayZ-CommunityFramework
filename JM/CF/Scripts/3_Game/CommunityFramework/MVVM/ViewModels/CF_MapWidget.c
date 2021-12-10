@@ -43,7 +43,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnView_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_UserMarks").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_UserMarks").Add(sender).Add(args);
 		#endif
 
 		OnModel_UserMarks(sender, args);
@@ -52,7 +52,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnModel_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_UserMarks").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_UserMarks").Add(sender).Add(args);
 		#endif
 
 		_MapWidget.ClearUserMarks();
@@ -68,7 +68,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnView_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_CenterPosition").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_CenterPosition").Add(sender).Add(args);
 		#endif
 
 		_CenterPosition.SetVector(_MapWidget.GetMapPos());
@@ -77,7 +77,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnModel_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_CenterPosition").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_CenterPosition").Add(sender).Add(args);
 		#endif
 		
 		_MapWidget.SetMapPos(_CenterPosition.GetVector());
@@ -86,7 +86,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnView_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Scale").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Scale").Add(sender).Add(args);
 		#endif
 		
 		_Scale.SetFloat(_MapWidget.GetScale());
@@ -95,7 +95,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 	void OnModel_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Scale").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Scale").Add(sender).Add(args);
 		#endif
 		
 		_MapWidget.SetScale(_Scale.GetFloat());

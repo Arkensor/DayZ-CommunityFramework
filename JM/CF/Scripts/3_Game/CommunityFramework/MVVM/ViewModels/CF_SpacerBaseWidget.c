@@ -15,7 +15,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 	override void OnModel_Children_InsertAt(CF_ObservableCollection sender, CF_CollectionInsertAtEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args);
 		#endif
 
 		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
@@ -39,7 +39,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 	override void OnModel_Children_Set(CF_ObservableCollection sender, CF_CollectionSetEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args);
 		#endif
 
 		CF_TypeConverterBase conv = sender.GetConverter(args.Index);
@@ -63,7 +63,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 	override void OnModel_Children_Swap(CF_ObservableCollection sender, CF_CollectionSwapEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_Swap").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Children_Swap").Add(sender).Add(args);
 		#endif
 
 		if (args.IndexA == args.IndexB) return;

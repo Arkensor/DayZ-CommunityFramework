@@ -19,7 +19,7 @@ class CF_FrameWidget : CF_Widget
 	void OnView_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_SubModel").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_SubModel").Add(sender).Add(args);
 		#endif
 		
 		// Never called.
@@ -28,7 +28,7 @@ class CF_FrameWidget : CF_Widget
 	void OnModel_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_SubModel").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_SubModel").Add(sender).Add(args);
 		#endif
 		
 		CF_ModelBase _model;

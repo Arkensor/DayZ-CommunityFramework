@@ -32,7 +32,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnView_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_NumberItems").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_NumberItems").Add(sender).Add(args);
 		#endif
 		
 		_NumberItems.SetInt(_BaseListboxWidget.GetNumItems());
@@ -41,7 +41,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnModel_NumberItems(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_NumberItems").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_NumberItems").Add(sender).Add(args);
 		#endif
 		
 		OnView_NumberItems(m_Model, args);
@@ -50,7 +50,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnView_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Selected").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Selected").Add(sender).Add(args);
 		#endif
 		
 		_Selected.SetInt(_BaseListboxWidget.GetSelectedRow());
@@ -59,7 +59,7 @@ class CF_BaseListboxWidget : CF_UIWidget
 	void OnModel_Selected(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Selected").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Selected").Add(sender).Add(args);
 		#endif
 		
 		_BaseListboxWidget.SelectRow(_Selected.GetInt());

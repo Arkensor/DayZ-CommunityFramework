@@ -41,7 +41,7 @@ class CF_ImageWidget : CF_Widget
 	void OnView_Index(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Index").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Index").Add(sender).Add(args);
 		#endif
 		
 		_Index.SetInt(_ImageWidget.GetImage());
@@ -50,7 +50,7 @@ class CF_ImageWidget : CF_Widget
 	void OnModel_Index(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Index").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Index").Add(sender).Add(args);
 		#endif
 		
 		_ImageWidget.SetImage(_Index.GetInt());
@@ -59,7 +59,7 @@ class CF_ImageWidget : CF_Widget
 	void OnView_File(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_File").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_File").Add(sender).Add(args);
 		#endif
 		
 	}
@@ -67,7 +67,7 @@ class CF_ImageWidget : CF_Widget
 	void OnModel_File(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_File").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_File").Add(sender).Add(args);
 		#endif
 		
 		_ImageWidget.LoadImageFile(_Index.GetInt(), _File.GetString());
@@ -76,7 +76,7 @@ class CF_ImageWidget : CF_Widget
 	void OnView_MaskFile(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_MaskFile").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_MaskFile").Add(sender).Add(args);
 		#endif
 		
 	}
@@ -84,7 +84,7 @@ class CF_ImageWidget : CF_Widget
 	void OnModel_MaskFile(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_MaskFile").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_MaskFile").Add(sender).Add(args);
 		#endif
 		
 		_ImageWidget.LoadMaskTexture(_MaskFile.GetString());
@@ -93,7 +93,7 @@ class CF_ImageWidget : CF_Widget
 	void OnView_MaskProgress(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_MaskProgress").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_MaskProgress").Add(sender).Add(args);
 		#endif
 		
 		_MaskProgress.SetFloat(_ImageWidget.GetMaskProgress());
@@ -102,7 +102,7 @@ class CF_ImageWidget : CF_Widget
 	void OnModel_MaskProgress(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_MaskProgress").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_MaskProgress").Add(sender).Add(args);
 		#endif
 		
 		_ImageWidget.SetMaskProgress(_MaskProgress.GetFloat());
@@ -111,7 +111,7 @@ class CF_ImageWidget : CF_Widget
 	void OnView_MaskTransitionWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_MaskTransitionWidth").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_MaskTransitionWidth").Add(sender).Add(args);
 		#endif
 		
 		_MaskTransitionWidth.SetFloat(_ImageWidget.GetMaskTransitionWidth());
@@ -120,7 +120,7 @@ class CF_ImageWidget : CF_Widget
 	void OnModel_MaskTransitionWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_MaskTransitionWidth").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_MaskTransitionWidth").Add(sender).Add(args);
 		#endif
 		
 		_ImageWidget.SetMaskTransitionWidth(_MaskTransitionWidth.GetFloat());

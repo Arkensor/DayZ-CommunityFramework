@@ -32,7 +32,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 	void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args);
 		#endif
 		
 	}
@@ -40,7 +40,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args);
 		#endif
 		
 		_CheckBoxWidget.SetText(_Text.GetString());
@@ -49,7 +49,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 	void OnView_Checked(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnView_Checked").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnView_Checked").Add(sender).Add(args);
 		#endif
 		
 		_Checked.SetBool(_CheckBoxWidget.IsChecked());
@@ -58,7 +58,7 @@ class CF_CheckBoxWidget : CF_UIWidget
 	void OnModel_Checked(CF_ModelBase sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Checked").Add(sender).Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnModel_Checked").Add(sender).Add(args);
 		#endif
 		
 		_CheckBoxWidget.SetChecked(_Checked.GetBool());
