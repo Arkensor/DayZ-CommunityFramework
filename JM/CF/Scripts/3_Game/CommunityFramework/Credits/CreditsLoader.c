@@ -34,7 +34,6 @@ modded class CreditsLoader
 		{
 			if ( mod.GetCredits() == NULL ) 
 			{
-				//GetLogger().Log( "Mod Credits is null for " + mod.GetModName(), "JM_CF_Credits" );
 				continue;
 			}
 

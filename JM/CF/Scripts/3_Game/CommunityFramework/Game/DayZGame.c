@@ -9,7 +9,6 @@ modded class DayZGame
 		super.DeferredInit();
 
 		GetRPCManager();
-		//GetLogger();
 	}
 
 	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
