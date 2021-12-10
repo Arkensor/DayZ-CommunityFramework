@@ -79,37 +79,34 @@ class RPCManager
 
 	void RPCManager()
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "RPCManager");
+		#endif
+
 		m_RPCActions = new map< string, ref map< string, ref RPCMetaWrapper > >;
-		//GetLogger().OnUpdate.Insert( OnLogger );
 
 		m_UpdateChecker = "JM_CF_RPC";
 
 		if ( GetGame().IsClient() )
 			m_UpdateChecker = "JM_CF_RPC_Client";
-
-		//OnLogger();
 	}
 
 	void ~RPCManager()
 	{
-		GetDayZGame().Event_OnRPC.Remove( OnRPC );
-		//GetLogger().OnUpdate.Remove( OnLogger );
-		delete m_RPCActions;
-	}
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~RPCManager");
+		#endif
 
-	void OnLogger()
-	{
-		//if ( GetLogger().IsOn( m_UpdateChecker ) )
-		//{
-		//	GetDayZGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Insert( OnUpdate );
-		//} else
-		//{
-		//	GetDayZGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Remove( OnUpdate );
-		//}
+		GetDayZGame().Event_OnRPC.Remove( OnRPC );
+		delete m_RPCActions;
 	}
 	
 	void OnUpdate( float timeSlice )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnUpdate").Add(timeSlice);
+		#endif
+
 		string str = "";
 		bool anyChanged = false;
 
@@ -161,9 +158,6 @@ class RPCManager
 			str = str + "S R " + timeSlice + "s: " + m_AmountSuccessRecievedInUpdate;
 		}
 
-		//if ( anyChanged )
-			//GetLogger().Log( str, m_UpdateChecker );
-
 		m_AmountSentInUpdate = 0;
 		m_AmountRecievedInUpdate = 0;
 		m_AmountSuccessRecievedInUpdate = 0;
@@ -192,6 +186,10 @@ class RPCManager
 
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		#endif
+
 		if ( rpc_type != FRAMEWORK_RPC_ID )
 		{
 			return;
@@ -223,8 +221,6 @@ class RPCManager
 				recievedFrom = sender.GetPlainId();
 			}
 		}
-
-		//GetLogger().Log( "Recieved RPC " + modName + "::" + funcName + " from " + recievedFrom + ", target " + target, m_UpdateChecker );
 		
 		map< string, ref RPCMetaWrapper > functions;
 		if ( m_RPCActions.Find( modName, functions ) )
@@ -264,6 +260,10 @@ class RPCManager
 
 	void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_6(this, "SendRPC").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
+		#endif
+
 		m_AmountSent++;
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
@@ -280,8 +280,6 @@ class RPCManager
 				sendTo = sendToIdentity.GetPlainId();
 			}
 		}
-
-		//GetLogger().Log( "Sending RPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
 		auto sendData = new ref array< ref Param >;
 		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
@@ -312,6 +310,10 @@ class RPCManager
 	 */
 	void SendRPCs( string modName, string funcName, ref array< ref Param > params, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_6(this, "SendRPCs").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
+		#endif
+
 		m_AmountSent++;
 		m_AmountSentInUpdate++;
 		m_AmountSentInSecond++;
@@ -328,8 +330,6 @@ class RPCManager
 				sendTo = sendToIdentity.GetPlainId();
 			}
 		}
-
-		//GetLogger().Log( "Sending MRPC function " + modName + "::" + funcName + " to " + sendTo + ", target " + sendToTarget, m_UpdateChecker );
 
 		params.InsertAt( new ref Param2< string, string >( modName, funcName ), 0 );
 
@@ -354,13 +354,15 @@ class RPCManager
 
 	bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingleplayerExecutionType.Server )
 	{
+		#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_4(this, "AddRPC").Add(modName).Add(funcName).Add(instance).Add(singlePlayerExecType);
+		#endif
+
 		if ( !m_RPCActions.Contains( modName ) )
 		{
-			//GetLogger().Log( "Creating RPC mod " + modName, m_UpdateChecker );
 			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );
 		}
 		
-		//GetLogger().Log( "Creating RPC function " + modName + "::" + funcName, m_UpdateChecker );
 		auto wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
 		
 		m_RPCActions[ modName ].Set( funcName, wrapper );

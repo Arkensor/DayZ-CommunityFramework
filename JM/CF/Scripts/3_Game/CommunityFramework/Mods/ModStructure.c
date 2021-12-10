@@ -54,10 +54,8 @@ modded class ModStructure
 				//Print( "(Community-Framework) Notice: The mod '" + m_ModName + "' either does not override ModStructure::OnLoad or failed to load." );
 			}
 
-			//GetLogger().Log( "Checking mod: " + m_ModName, "JM_CF_Mods" );
 			/*if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
 			{
-				//GetLogger().Log( "	Found JSON Credits", "JM_CF_Mods" );
 				
 				string creditsPath;
 				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
@@ -67,9 +65,7 @@ modded class ModStructure
 				JsonFileLoader<ref JsonDataCredits>.JsonLoadFile( creditsPath, m_Credits );
 			} else */
 			if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
-			{
-				//GetLogger().Log( "	Using Raw Credits", "JM_CF_Mods" );
-				
+			{				
 				string credits = "";
 
 				m_Credits = new ref JsonDataCredits;
@@ -83,8 +79,6 @@ modded class ModStructure
 				bool hasAuthor = GetGame().ConfigIsExisting( m_ModPath + " author" );
 				GetGame().ConfigGetText( m_ModPath + " author", author );
 
-				//GetLogger().Log( "	Has author: " + hasAuthor, "JM_CF_Mods" );
-				//GetLogger().Log( "	Author: " + author, "JM_CF_Mods" );
 				if ( hasAuthor && author != "" )
 				{
 					ref JsonDataCreditsSection mod_section_modheader_author = new JsonDataCreditsSection;
@@ -97,7 +91,6 @@ modded class ModStructure
 				}
 				
 				GetGame().ConfigGetText( m_ModPath + " credits", credits );
-				//GetLogger().Log( "	Credits: " + credits, "JM_CF_Mods" );
 				if ( credits != "" )
 				{
 					ref JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
@@ -136,8 +129,6 @@ modded class ModStructure
 				GetGame().ConfigGetText( m_ModPath + " version", m_Version );
 			}
 			
-			//GetLogger().Log( "	Mod version is " + m_Version, "JM_CF_Mods" );
-
 			if ( GetGame().ConfigIsExisting( m_ModPath + " inputs" ) )
 			{
 				string inputPath;
