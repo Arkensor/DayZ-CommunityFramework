@@ -584,13 +584,16 @@ class CF_Widget : CF_ViewModel
 		//NotifyPropertyChanged(ScreenPositionX, "ScreenPositionX");
 		//NotifyPropertyChanged(ScreenPositionY, "ScreenPositionY");
 
-		bool visible = _Widget.IsVisible();
-		if (!_Visible.IsDefault() && _Visible.GetBool() != visible)
+		if (_Widget)
 		{
-			_Visible.SetBool(visible);
-			
-			if (visible) OnShow(m_Widget);
-			else OnHide(m_Widget);
+			bool visible = _Widget.IsVisible();
+			if (!_Visible.IsDefault() && _Visible.GetBool() != visible)
+			{
+				_Visible.SetBool(visible);
+				
+				if (visible) OnShow(m_Widget);
+				else OnHide(m_Widget);
+			}
 		}
 
 		return super.OnUpdate(sender, args);

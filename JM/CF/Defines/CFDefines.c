@@ -4,7 +4,7 @@
 #define CF_EXPRESSION
 //#define CF_EXPRESSION_TEST
 
-//#define CF_TRACE_ENABLED
+#define CF_TRACE_ENABLED
 
 #define CF_GHOSTICONS
 

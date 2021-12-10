@@ -1,0 +1,40 @@
+ButtonWidgetClass window_button {
+ visible 1
+ ignorepointer 0
+ color 1 0 0 1
+ position 30 1
+ size 25 25
+ halign right_ref
+ valign center_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ scriptclass "CF_ButtonWidget"
+ style Default
+ {
+  ImageWidgetClass window_button_image {
+   ignorepointer 1
+   position 0 0
+   size 0.8 0.8
+   halign center_ref
+   valign center_ref
+   hexactsize 0
+   vexactsize 0
+   image0 "set:cf_imageset image:fullscreen_white"
+   mode additive
+   "src alpha" 1
+   {
+    ScriptParamsClass {
+     File "m_Image"
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Model "CF_WindowButton"
+   Event_Click "Toggle"
+  }
+ }
+}

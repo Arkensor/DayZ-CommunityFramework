@@ -17,6 +17,9 @@ class CF_Window : CF_Model
 	private Widget base_window;
 	private Widget content;
 
+	// Buttons
+	private ref CF_ObservableArray<ref CF_WindowButton> m_Buttons;
+
 	// Properties
 	private bool m_Visible;
 
@@ -75,6 +78,11 @@ class CF_Window : CF_Model
 		#endif
 
 		m_Visible = true;
+
+		m_Buttons = new CF_ObservableArray<ref CF_WindowButton>();
+
+		AddButton("set:cf_imageset image:close_white").AddSubscriber(this.OnCloseButtonClicked);
+		AddButton("set:cf_imageset image:fullscreen_white", "set:cf_imageset image:window_white").AddSubscriber(this.OnWindowButtonClicked);
 
 		m_MinimumWidth = 100;
 		m_MinimumHeight = 25;
@@ -341,10 +349,24 @@ class CF_Window : CF_Model
 		NotifyPropertyChanged("m_ContentHeight");
 	}
 
+	CF_EventHandler AddButton(string onImage, string offImage, int index = 0)
+	{
+		auto button = new CF_WindowButton(onImage, offImage);
+		m_Buttons.InsertAt(button, index);
+		return button.OnClick;
+	}
+
+	CF_EventHandler AddButton(string image, int index = 0)
+	{
+		auto button = new CF_WindowButton(image, image);
+		m_Buttons.InsertAt(button, index);
+		return button.OnClick;
+	}
+
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.GetDebugName());
+		auto trace = CF_Trace_1(this, "OnMinimizeButtonClicked").Add(args.GetDebugName());
 		#endif
 
 		SetMinimized(true);
@@ -353,34 +375,25 @@ class CF_Window : CF_Model
 	void OnExpandButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.GetDebugName());
+		auto trace = CF_Trace_1(this, "OnExpandButtonClicked").Add(args.GetDebugName());
 		#endif
 
 		SetMinimized(false);
 	}
 
-	void OnWindowButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
+	void OnWindowButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnWindowButtonClicked").Add(sender).Add(args);
 		#endif
 
-		SetFullscreen(false);
+		SetFullscreen(args.State);
 	}
 
-	void OnFullscreenButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
+	void OnCloseButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.GetDebugName());
-		#endif
-
-		SetFullscreen(true);
-	}
-
-	void OnCloseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
-	{
-		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnCloseButtonClicked").Add(args.GetDebugName());
+		auto trace = CF_Trace_2(this, "OnCloseButtonClicked").Add(sender).Add(args);
 		#endif
 		
 		delete this;

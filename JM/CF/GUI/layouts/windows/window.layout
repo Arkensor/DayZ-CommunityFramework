@@ -76,107 +76,24 @@ PanelWidgetClass base_window {
    scriptclass "CF_Widget"
    style rover_sim_colorable
    {
-    ButtonWidgetClass window_button {
-     visible 1
-     ignorepointer 0
-     color 1 0 0 1
-     position 30 1
-     size 25 25
+    WrapSpacerWidgetClass title_buttons {
+     ignorepointer 1
+     size 1 1
      halign right_ref
      valign center_ref
-     hexactpos 1
-     vexactpos 1
-     hexactsize 1
-     vexactsize 1
-     scriptclass "CF_ButtonWidget"
-     style Default
-     {
-      ImageWidgetClass window_button_image {
-       ignorepointer 1
-       position 0 0
-       size 0.8 0.8
-       halign center_ref
-       valign center_ref
-       hexactsize 0
-       vexactsize 0
-       image0 "set:cf_imageset image:window_white"
-       mode additive
-       "src alpha" 1
-      }
-     }
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     scriptclass "CF_PanelWidget"
+     Padding 0
+     Margin 0
+     "Size To Content H" 1
+     content_halign right
+     content_valign center
      {
       ScriptParamsClass {
-       Event_Click "OnWindowButtonClicked"
-       Visible "m_FullScreen"
-      }
-     }
-    }
-    ButtonWidgetClass fullscreen_button {
-     visible 1
-     ignorepointer 0
-     color 1 0 0 1
-     position 30 1
-     size 25 25
-     halign right_ref
-     valign center_ref
-     hexactpos 1
-     vexactpos 1
-     hexactsize 1
-     vexactsize 1
-     scriptclass "CF_ButtonWidget"
-     style Default
-     {
-      ImageWidgetClass fullscreen_button_image {
-       ignorepointer 1
-       position 0 0
-       size 0.8 0.8
-       halign center_ref
-       valign center_ref
-       hexactsize 0
-       vexactsize 0
-       image0 "set:cf_imageset image:fullscreen_white"
-       mode additive
-       "src alpha" 1
-      }
-     }
-     {
-      ScriptParamsClass {
-       Event_Click "OnFullscreenButtonClicked"
-       Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
-      }
-     }
-    }
-    ButtonWidgetClass close_button {
-     visible 1
-     ignorepointer 0
-     color 1 0 0 1
-     position 2 1
-     size 25 25
-     halign right_ref
-     valign center_ref
-     hexactpos 1
-     vexactpos 1
-     hexactsize 1
-     vexactsize 1
-     scriptclass "CF_ButtonWidget"
-     style Default
-     {
-      ImageWidgetClass close_button_image {
-       ignorepointer 1
-       position 0 0
-       size 0.8 0.8
-       halign center_ref
-       valign center_ref
-       hexactsize 0
-       vexactsize 0
-       image0 "set:cf_imageset image:close_white"
-       mode additive
-       "src alpha" 1
-      }
-     }
-     {
-      ScriptParamsClass {
-       Event_Click "OnCloseButtonClicked"
+       Children "m_Buttons"
       }
      }
     }
@@ -680,8 +597,8 @@ PanelWidgetClass base_window {
   ScriptParamsClass {
    Model "CF_Window"
    Event_MouseButtonDown "OnMouseButtonDown"
-   Visible "m_Visible"
    Event_Update "OnUpdate"
+   Visible "m_Visible"
    Sort "m_Sort"
    PositionX "m_PositionX"
    PositionY "m_PositionY"

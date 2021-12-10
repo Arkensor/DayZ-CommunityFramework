@@ -153,7 +153,7 @@ class CF_Debug : CF_TimerBase
 	/**
 	 * @brief Return if the window can be viewed within the world
 	 */
-	void CanViewInWorld()
+	bool CanViewInWorld()
 	{
 		return m_CanViewInWorld && m_ViewInWorld;
 	}

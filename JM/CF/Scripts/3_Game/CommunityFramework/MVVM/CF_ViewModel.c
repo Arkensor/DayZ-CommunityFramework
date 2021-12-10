@@ -321,7 +321,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	void OnModel_Children_InsertAll(CF_ObservableCollection sender, CF_EventArgs args)
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAll").Add(sender);
+		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAll").Add(sender).Add(args);
 		#endif
 
 		for (int i = 0; i < sender.Count(); i++)
