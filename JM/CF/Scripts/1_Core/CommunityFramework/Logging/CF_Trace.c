@@ -1,4 +1,4 @@
-class CF_Trace
+class CF_Trace : Managed
 {
 	// Global counter for the trace depth
 	static string s_TraceDepth;
@@ -145,6 +145,18 @@ class CF_Trace
 		return null;
 	}
 
+	CF_Trace Add(typename value)
+	{
+		m_Strings[m_Index] = value.ToString();
+		m_Index++;
+
+		if (m_Index < m_Count || m_Count == -1) return this;
+
+		Output();
+
+		return null;
+	}
+
 	CF_Trace Add(Class value)
 	{
 		string val = "" + value;
@@ -159,6 +171,22 @@ class CF_Trace
 		Output();
 		
 		return null;
+	}
+
+	CF_Trace Add(int value, typename type)
+	{
+		return Add(typename.EnumToString(type, value));
+	}
+
+	CF_Trace Add(int value, array<string> values)
+	{
+		string vName = "INVALID";
+		if (value >= 0 && value < values.Count())
+		{
+			vName = values[value];
+		}
+
+		return Add(vName);
 	}
 };
 
