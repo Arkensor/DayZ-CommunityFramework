@@ -85,7 +85,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 	void Link(CF_ModelBase model, typename variableType, CF_TypeConverterBase typeConverter)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_3(this, "Link").Add(model).Add(variableType).Add(typeConverter);
+		auto trace = CF_Trace_0(this, "Link");//.Add(model).Add(variableType).Add(typeConverter);
 #endif
 
 		m_Model = model;
