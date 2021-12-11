@@ -497,6 +497,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			g_Script.CallFunctionParams(m_Model, Event_Click, null, param);
 		}
 
+		if (!this)
+		{
+			return false;
+		}
+
 		return OnClick(this, args);
 	}
 

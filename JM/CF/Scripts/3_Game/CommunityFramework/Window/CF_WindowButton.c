@@ -18,15 +18,17 @@ class CF_WindowButton : CF_Model
 	{
 		m_OnImage = onImage;
 		m_OffImage = offImage;
+
+		SetOn(false, false);
 	}
 
-	void Toggle(CF_ModelBase sender, CF_MouseEventArgs args)
+	void SetOn(bool value, bool sendEvent = true)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "Toggle").Add(sender).Add(args);
+		auto trace = CF_Trace_1(this, "Toggle").Add(value);
 #endif
 
-		m_Toggled = !m_Toggled;
+		m_Toggled = value;
 
 		if (m_Toggled)
 		{
@@ -37,12 +39,29 @@ class CF_WindowButton : CF_Model
 			m_Image = m_OnImage;
 		}
 
-		CF_WindowButtonArgs eventArgs = new CF_WindowButtonArgs();
-		eventArgs.Button = this;
-		eventArgs.State = m_Toggled;
-		OnClick.Invoke(this, eventArgs);
+		if (sendEvent)
+		{
+			CF_WindowButtonArgs eventArgs = new CF_WindowButtonArgs();
+			eventArgs.Button = this;
+			eventArgs.State = m_Toggled;
+			OnClick.Invoke(this, eventArgs);
+		}
 
 		NotifyPropertyChanged("m_Image");
+	}
+
+	bool IsToggled()
+	{
+		return m_Toggled;
+	}
+
+	void Toggle(CF_ModelBase sender, CF_MouseEventArgs args)
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "Toggle").Add(sender).Add(args);
+#endif
+
+		SetOn(m_Toggled);
 	}
 
 	override string GetLayoutFile()

@@ -175,9 +175,15 @@ class CF_MVVM_Linker
 		m_Properties.Clear();
 
 		if (!m_Root)
+		{
 			return;
+		}
+		
+		if (m_Root.GetWidget())
+		{
+			m_Root.GetWidget().Unlink();
+		}
 
-		m_Root.GetWidget().Unlink();
 		m_Root = null;
 	}
 
