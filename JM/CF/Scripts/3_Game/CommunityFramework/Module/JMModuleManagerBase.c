@@ -5,21 +5,21 @@ class JMModuleManagerBase
 	void JMModuleManagerBase()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "JMModuleManagerBase");
+		//auto trace = CF_Trace_0(this, "JMModuleManagerBase");
 		#endif
 	}
 
 	void ~JMModuleManagerBase()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~JMModuleManagerBase");
+		//auto trace = CF_Trace_0(this, "~JMModuleManagerBase");
 		#endif
 	}
 
 	bool IsPreventingModuleBindings()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "IsPreventingModuleBindings");
+		//auto trace = CF_Trace_0(this, "IsPreventingModuleBindings");
 		#endif
 		return m_PreventModuleBindings;
 	}
@@ -27,7 +27,7 @@ class JMModuleManagerBase
 	void SetPreventModuleBindings( bool prevent )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "SetPreventModuleBindings").Add(prevent);
+		//auto trace = CF_Trace_1(this, "SetPreventModuleBindings").Add(prevent);
 		#endif
 
 		m_PreventModuleBindings = prevent;
@@ -36,126 +36,126 @@ class JMModuleManagerBase
 	void InitModules()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "InitModules");
+		//auto trace = CF_Trace_0(this, "InitModules");
 		#endif
 	}
 
 	void Print_DumpModules()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "Print_DumpModules");
+		//auto trace = CF_Trace_0(this, "Print_DumpModules");
 		#endif
 	}
 
 	void OnSettingsUpdated()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnSettingsUpdated");
+		//auto trace = CF_Trace_0(this, "OnSettingsUpdated");
 		#endif
 	}
 	
 	void OnClientPermissionsUpdated()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnClientPermissionsUpdated");
+		//auto trace = CF_Trace_0(this, "OnClientPermissionsUpdated");
 		#endif
 	}
 
 	void OnInit()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnInit");
+		//auto trace = CF_Trace_0(this, "OnInit");
 		#endif
 	}
 
 	void OnMissionStart()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMissionStart");
+		//auto trace = CF_Trace_0(this, "OnMissionStart");
 		#endif
 	}
 
 	void OnMissionFinish()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMissionFinish");
+		//auto trace = CF_Trace_0(this, "OnMissionFinish");
 		#endif
 	}
 
 	void OnMissionLoaded()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMissionLoaded");
+		//auto trace = CF_Trace_0(this, "OnMissionLoaded");
 		#endif
 	}
 	
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		//auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
 		#endif
 	}
 
 	void OnUpdate( float timeslice )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnUpdate").Add(timeslice);
+		//auto trace = CF_Trace_1(this, "OnUpdate").Add(timeslice);
 		#endif
 	}
 
 	void OnWorldCleanup()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnWorldCleanup");
+		//auto trace = CF_Trace_0(this, "OnWorldCleanup");
 		#endif
 	}
 
 	void OnMPSessionStart()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionStart");
+		//auto trace = CF_Trace_0(this, "OnMPSessionStart");
 		#endif
 	}
 
 	void OnMPSessionPlayerReady()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionPlayerReady");
+		//auto trace = CF_Trace_0(this, "OnMPSessionPlayerReady");
 		#endif
 	}
 
 	void OnMPSessionFail()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionFail");
+		//auto trace = CF_Trace_0(this, "OnMPSessionFail");
 		#endif
 	}
 
 	void OnMPSessionEnd()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPSessionEnd");
+		//auto trace = CF_Trace_0(this, "OnMPSessionEnd");
 		#endif
 	}
 
 	void OnMPConnectAbort()
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "OnMPConnectAbort");
+		//auto trace = CF_Trace_0(this, "OnMPConnectAbort");
 		#endif
 	}
 
 	void OnMPConnectionLost( int duration )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnMPConnectionLost").Add(duration);
+		//auto trace = CF_Trace_1(this, "OnMPConnectionLost").Add(duration);
 		#endif
 	}
 
 	void OnRespawn( int time )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "OnRespawn").Add(time);
+		//auto trace = CF_Trace_1(this, "OnRespawn").Add(time);
 		#endif
 	}
 }
