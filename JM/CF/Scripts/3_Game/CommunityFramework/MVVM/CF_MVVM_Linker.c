@@ -8,6 +8,12 @@ class CF_MVVM_Linker
 	autoptr CF_TArrayProperties m_Properties;
 	CF_ViewModel m_Root;
 
+	CF_MVVM_Linker m_Parent;
+	autoptr array<CF_MVVM_Linker> m_Children = new array<CF_MVVM_Linker>();
+
+	int m_DestroyLockCount;
+	bool m_IsBeingDestroyed;
+
 	void CF_MVVM_Linker()
 	{
 #ifdef CF_TRACE_ENABLED
@@ -23,6 +29,11 @@ class CF_MVVM_Linker
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_MVVM_Linker");
 #endif
+
+		if (m_Parent)
+		{
+			m_Parent.RemoveChild(this);
+		}
 
 		OnDestroy.Invoke(this);
 	}
@@ -126,6 +137,11 @@ class CF_MVVM_Linker
 		m_Properties.Insert(property);
 	}
 
+	void Relink()
+	{
+		m_Root._SetRootLink(this);
+	}
+
 	void Link(CF_ViewModel viewModel, CF_ModelBase model)
 	{
 #ifdef CF_TRACE_ENABLED
@@ -134,6 +150,7 @@ class CF_MVVM_Linker
 
 		m_Root = viewModel;
 		m_Root._RecursiveSetModel(model, this);
+		m_Root._SetRootLink(this);
 
 		typename modelType = model.Type();
 		int count = modelType.GetVariableCount();
@@ -171,6 +188,22 @@ class CF_MVVM_Linker
 		auto trace = CF_Trace_0(this, "Unlink");
 #endif
 
+		m_IsBeingDestroyed = true;
+
+		if (_IsLockedForDestroy())
+		{
+			return;
+		}
+
+		_Destroy();
+	}
+
+	void _Destroy()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "_Destroy");
+#endif
+
 		m_PropertyVariableMap.Clear();
 		m_Properties.Clear();
 
@@ -178,7 +211,7 @@ class CF_MVVM_Linker
 		{
 			return;
 		}
-		
+
 		if (m_Root.GetWidget())
 		{
 			m_Root.GetWidget().Unlink();
@@ -224,7 +257,99 @@ class CF_MVVM_Linker
 #endif
 
 		if (!m_Root)
+		{
 			return null;
+		}
+		
 		return m_Root.GetWidget();
+	}
+
+	bool _IsLockedForDestroy()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "_IsLockedForDestroy");
+#endif
+
+		foreach (auto child : m_Children)
+		{
+			if (child._IsLockedForDestroy())
+			{
+				return true;
+			}
+		}
+
+		return m_DestroyLockCount > 0;
+	}
+
+	void _LockForDestroy()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "_LockForDestroy");
+#endif
+
+		m_DestroyLockCount++;
+	}
+
+	void _UnlockForDestroy()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "_UnlockForDestroy");
+#endif
+
+		m_DestroyLockCount--;
+
+		if (m_DestroyLockCount < 0)
+		{
+			string className = "null";
+			string debugName = "";
+			if (m_Root.GetModel())
+			{
+				className = m_Root.GetModel().ClassName();
+				debugName = m_Root.GetModel().GetDebugName();
+			}
+
+			CF_Log.Warn("Destroy lock count reached below zero for %1 \"%2\"", className, debugName);
+
+			m_DestroyLockCount = 0;
+		}
+		else if (!m_DestroyLockCount && m_IsBeingDestroyed)
+		{
+			_Destroy();
+		}
+	}
+
+	void AddChild(CF_MVVM_Linker child)
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "AddChild").Add(child);
+#endif
+
+		if (child.m_Parent)
+			child.m_Parent.RemoveChild(child);
+
+		m_Children.Insert(child);
+		child.m_Parent = this;
+	}
+
+	void RemoveChild(CF_MVVM_Linker child)
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "RemoveChild").Add(child);
+#endif
+
+		if (child.m_Parent != this)
+		{
+			return;
+		}
+
+		for (int i = 0; i < m_Children.Count(); i++)
+		{
+			if (m_Children[i] == child)
+			{
+				child.m_Parent = null;
+				m_Children.Remove(i);
+				return;
+			}
+		}
 	}
 };

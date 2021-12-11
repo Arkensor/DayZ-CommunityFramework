@@ -41,14 +41,14 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 	//#endif
 
 	//! In-game, the ref count shouldn't be incremented. When the ref count == 0, then this view should be destroyed.
-	protected CF_ModelBase m_Model;
+	CF_ModelBase m_Model;
+	ref CF_MVVM_Linker m_Linker;
 
 	//! Lifetimes are managed by the enfusion widgets
 	protected CF_ViewModel m_Parent = null;
 	protected ref set<CF_ViewModel> m_Children = new set<CF_ViewModel>();
 
 	protected autoptr map<string, ref CF_MVVM_Property> m_PropertiesSourceMap = new map<string, ref CF_MVVM_Property>();
-	protected ref CF_MVVM_Linker m_Properties;
 
 	protected bool m_ChangeEventFiring;
 
@@ -115,43 +115,66 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void NotifyPropertyChanged(string name, string source, CF_EventArgs args = null)
 	{
-		CF_EventArgs temp = args;
-		if (temp == null)
-			temp = new CF_EventArgs();
-
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(temp);
+		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(args);
 #endif
+
+		if (!args)
+		{
+			args = new CF_EventArgs();
+		}
 
 		auto property = m_PropertiesSourceMap[source];
 		if (!property)
+		{
 			return;
-		property.OnView(temp);
+		}
 
-		m_Properties._ViewChanged(name, property, temp);
+		property.OnView(args);
+
+		m_Linker._ViewChanged(name, property, args);
 	}
 
 	void NotifyPropertyChanged(CF_EventArgs args = null)
 	{
-		CF_EventArgs temp = args;
-		if (temp == null)
-			temp = new CF_EventArgs();
-
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(temp.GetDebugName());
+		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(args);
 #endif
 
-		m_Properties._ViewChanged(temp);
+		if (!args)
+		{
+			args = new CF_EventArgs();
+		}
+
+		m_Linker._ViewChanged(args);
 	}
 
-	void _RecursiveSetModel(CF_ModelBase model, CF_MVVM_Linker properties)
+	void _SetRootLink(CF_MVVM_Linker linker)
+	{
+		Widget parent = m_Widget.GetParent();
+		while (parent != null)
+		{
+			CF_ViewModel view = null;
+			parent.GetScript(view);
+			if (view)
+			{
+				view.m_Linker.AddChild(linker);
+
+				break;
+			}
+
+			parent = parent.GetParent();
+		}
+	}
+
+	void _RecursiveSetModel(CF_ModelBase model, CF_MVVM_Linker linker)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "_RecursiveSetModel").Add(model);
+		auto trace = CF_Trace_2(this, "_RecursiveSetModel").Add(model).Add(linker);
 #endif
 
 		m_Model = model;
-		m_Properties = properties;
+		m_Linker = linker;
 
 		if (m_Model)
 		{
@@ -162,7 +185,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 			set<CF_ViewModel> children = GetChildren();
 			for (int i = 0; i < children.Count(); i++)
 			{
-				children[i]._RecursiveSetModel(m_Model, m_Properties);
+				children[i]._RecursiveSetModel(m_Model, m_Linker);
 			}
 		}
 	}
@@ -189,7 +212,7 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		actual = property.SetVariableName(actual);
 
 		m_PropertiesSourceMap.Insert(name, property);
-		m_Properties.Insert(property);
+		m_Linker.Insert(property);
 	}
 
 	Widget GetChildWidgetAt(int index)
@@ -209,6 +232,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 				return null;
 		}
 		return widget;
+	}
+
+	CF_ModelBase GetModel()
+	{
+		return m_Model;
 	}
 
 	Widget GetWidget()
@@ -493,8 +521,12 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Click != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Click, null, param);
+
+			m_Linker._UnlockForDestroy();
 		}
 
 		if (!this)
@@ -520,8 +552,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ModalResult != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ModalEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ModalResult, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnModalResult(this, args);
@@ -541,8 +582,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_DoubleClick != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_DoubleClick, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnDoubleClick(this, args);
@@ -561,8 +611,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Select != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_SelectEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Select, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnSelect(this, args);
@@ -585,8 +644,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ItemSelected != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ItemSelectEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ItemSelected, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnItemSelected(this, args);
@@ -605,8 +673,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Focus != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_PositionEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Focus, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnFocus(this, args);
@@ -625,8 +702,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_FocusLost != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_PositionEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_FocusLost, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnFocusLost(this, args);
@@ -647,8 +733,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseEnter != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseEnter, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnMouseEnter(this, args);
@@ -670,8 +765,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseLeave != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseLeave, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnMouseLeave(this, args);
@@ -692,8 +796,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseWheel != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseWheel, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnMouseWheel(this, args);
@@ -713,8 +826,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseButtonDown != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseButtonDown, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnMouseButtonDown(this, args);
@@ -734,8 +856,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_MouseButtonUp != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_MouseEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_MouseButtonUp, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnMouseButtonUp(this, args);
@@ -754,8 +885,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Controller == string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ControllerEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Controller, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnController(this, args);
@@ -776,8 +916,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_KeyDown != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_KeyEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyDown, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnKeyDown(this, args);
@@ -798,8 +947,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_KeyUp != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_KeyEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyUp, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnKeyUp(this, args);
@@ -820,8 +978,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_KeyPress != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_KeyEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_KeyPress, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnKeyPress(this, args);
@@ -852,8 +1019,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Change != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ChangeEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Change, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		m_ChangeEventFiring = false;
@@ -875,8 +1051,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Drag != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Drag, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnDrag(this, args);
@@ -896,8 +1081,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Dragging != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Dragging, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnDragging(this, args);
@@ -917,8 +1111,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_DraggingOver != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_DraggingOver, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnDraggingOver(this, args);
@@ -938,8 +1141,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Drop != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Drop, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnDrop(this, args);
@@ -959,8 +1171,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_DropReceived != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_DragEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_DropReceived, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnDropReceived(this, args);
@@ -979,8 +1200,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Resize != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ResizeEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Resize, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnResize(this, args);
@@ -999,8 +1229,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ChildAdd != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ChildEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ChildAdd, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnChildAdd(this, args);
@@ -1019,8 +1258,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_ChildRemove != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ChildEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_ChildRemove, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnChildRemove(this, args);
@@ -1037,8 +1285,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Update != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ViewEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Update, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return OnUpdate(this, args);
@@ -1055,8 +1312,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Show != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ViewEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Show, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return true;
@@ -1073,8 +1339,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 		if (Event_Hide != string.Empty)
 		{
+			m_Linker._LockForDestroy();
+
 			Param param = new Param2<CF_ModelBase, CF_ViewEventArgs>(null, args);
 			g_Script.CallFunctionParams(m_Model, Event_Hide, null, param);
+
+			m_Linker._UnlockForDestroy();
+		}
+
+		if (!this)
+		{
+			return false;
 		}
 
 		return true;

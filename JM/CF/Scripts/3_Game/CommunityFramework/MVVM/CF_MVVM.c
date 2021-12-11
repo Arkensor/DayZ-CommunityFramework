@@ -5,6 +5,8 @@ class CF_MVVM
 	//! Do not directly use this variable, interface with the functions..
 	/*private*/ static ref map<CF_ModelBase, ref CF_MVVM_Linker> s_ModelMap;
 
+	static ref array<ref CF_MVVM_Linker> s_Destroying;
+
 #ifdef COMPONENT_SYSTEM
 	static bool WB_NEXT_IN_SCRIPT = false;
 #endif
@@ -27,6 +29,7 @@ class CF_MVVM
 			return;
 
 		s_ModelMap = new map<CF_ModelBase, ref CF_MVVM_Linker>();
+		s_Destroying = new array<ref CF_MVVM_Linker>();
 
 #ifdef COMPONENT_SYSTEM
 		CF_Log.Level = CF_LogLevel.TRACE;
@@ -43,6 +46,7 @@ class CF_MVVM
 #endif
 
 		s_ModelMap = null;
+		s_Destroying = null;
 
 		g_CF_MVVM = null;
 	}
@@ -80,6 +84,7 @@ class CF_MVVM
 		}
 		else if (link.IsValid())
 		{
+			link.Relink();
 			return link;
 		}
 		else
@@ -132,6 +137,7 @@ class CF_MVVM
 		}
 		else if (link.ChangeParent(parent))
 		{
+			link.Relink();
 			return link;
 		}
 		else
@@ -330,6 +336,31 @@ class CF_MVVM
 			return;
 
 		link.Unlink();
+	}
+
+	/**
+	 * @note Make sure to call '_UnlockForDestroy' in return Linker
+	 */
+	static CF_MVVM_Linker _LockForDestroy(CF_ModelBase model)
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(g_CF_MVVM, "Destroy").Add(model);
+#endif
+
+#ifdef COMPONENT_SYSTEM
+		if (s_ModelMap == null)
+		{
+			CF._GameInit();
+		}
+#endif
+
+		CF_MVVM_Linker link;
+		if (!s_ModelMap.Find(model, link))
+			return null;
+
+		link._LockForDestroy();
+
+		return link;
 	}
 
 /**
