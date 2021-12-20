@@ -6,7 +6,7 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 	void CF_ObservablePriorityQueue()
 	{
 		typename t = T;
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, string.Format("CF_ObservablePriorityQueue<%1>", t));
 #endif
 
@@ -28,7 +28,7 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 
 	override CF_TypeConverterBase GetConverter(int index)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
 #endif
 
@@ -38,7 +38,7 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 
 	override void OverrideConverter(CF_TypeConverterBase converter = null)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
 #endif
 

@@ -19,7 +19,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void CF_MVVM_Property(CF_ViewModel handler, string name)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "CF_MVVM_Property").Add(handler).Add(name);
 #endif
 
@@ -29,7 +29,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	string SetVariableName(string variableName)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetVariableName").Add(variableName);
 #endif
 
@@ -84,7 +84,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void Link(CF_ModelBase model, typename variableType, CF_TypeConverterBase typeConverter)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_3(this, "Link").Add(/*model*/"").Add(/*variableType*/"").Add(/*typeConverter*/"");
 #endif
 
@@ -119,7 +119,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void OnView(/*notnull*/ CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnView").Add(args);
 #endif
 
@@ -132,7 +132,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void OnModel(/*notnull*/ CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnModel").Add(args);
 #endif
 
@@ -203,7 +203,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void AcquireIndices()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "AcquireIndices");
 #endif
 
@@ -241,7 +241,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void Write()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "Write");
 #endif
 
@@ -260,7 +260,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	void Read()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "Read");
 #endif
 
@@ -279,7 +279,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetInt(int value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetInt").Add(value);
 #endif
 
@@ -289,7 +289,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override int GetInt()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetInt");
 #endif
 
@@ -299,7 +299,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetBool(bool value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetBool").Add(value);
 #endif
 
@@ -309,7 +309,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override bool GetBool()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetBool");
 #endif
 
@@ -319,7 +319,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetFloat(float value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetFloat").Add(value);
 #endif
 
@@ -329,7 +329,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override float GetFloat()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetFloat");
 #endif
 
@@ -339,7 +339,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetVector(vector value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetVector").Add(value);
 #endif
 
@@ -349,7 +349,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override vector GetVector()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetVector");
 #endif
 
@@ -359,7 +359,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetString(string value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetString").Add(value);
 #endif
 
@@ -369,7 +369,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override string GetString()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetString");
 #endif
 
@@ -379,7 +379,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetClass(Class value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetClass").Add(value);
 #endif
 
@@ -389,7 +389,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override Class GetClass()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetClass");
 #endif
 
@@ -399,7 +399,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override void SetManaged(Managed value)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetManaged").Add(value);
 #endif
 
@@ -409,7 +409,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 
 	override Managed GetManaged()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetManaged");
 #endif
 

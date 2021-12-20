@@ -17,7 +17,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -33,7 +33,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -43,7 +43,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_Item(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Item").Add(sender).Add(args);
 #endif
 
@@ -52,7 +52,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_Item(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Item").Add(sender).Add(args);
 #endif
 
@@ -61,7 +61,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_View(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_View").Add(sender).Add(args);
 #endif
 
@@ -70,7 +70,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_View(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_View").Add(sender).Add(args);
 #endif
 
@@ -79,7 +79,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnViewModel_Orientation").Add(sender).Add(args);
 #endif
 
@@ -88,7 +88,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_ModelOrientation(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ModelOrientation").Add(sender).Add(args);
 #endif
 
@@ -97,7 +97,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ModelPosition").Add(sender).Add(args);
 #endif
 
@@ -106,7 +106,7 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnModel_ModelPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ModelPosition").Add(sender).Add(args);
 #endif
 
@@ -115,14 +115,14 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ForceFlipEnable").Add(sender).Add(args);
 #endif
 	}
 
 	void OnModel_ForceFlipEnable(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ForceFlipEnable").Add(sender).Add(args);
 #endif
 
@@ -131,14 +131,14 @@ class CF_ItemPreviewWidget : CF_Widget
 
 	void OnView_ForceFlip(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ForceFlip").Add(sender).Add(args);
 #endif
 	}
 
 	void OnModel_ForceFlip(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ForceFlip").Add(sender).Add(args);
 #endif
 

@@ -4,7 +4,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -14,7 +14,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 
 	override void OnModel_Children_InsertAt(CF_ObservableCollection sender, CF_CollectionInsertAtEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Children_InsertAt").Add(sender).Add(args);
 #endif
 
@@ -41,7 +41,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 
 	override void OnModel_Children_Set(CF_ObservableCollection sender, CF_CollectionSetEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Children_Set").Add(sender).Add(args);
 #endif
 
@@ -67,7 +67,7 @@ class CF_SpacerBaseWidget : CF_UIWidget
 
 	override void OnModel_Children_Swap(CF_ObservableCollection sender, CF_CollectionSwapEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Children_Swap").Add(sender).Add(args);
 #endif
 

@@ -32,7 +32,7 @@ class CF_TestModel : CF_Model
 
 	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(args.GetDebugName());
 #endif
 
@@ -41,7 +41,7 @@ class CF_TestModel : CF_Model
 
 	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(args.GetDebugName());
 #endif
 
@@ -53,7 +53,7 @@ class CF_TestModel : CF_Model
 
 	void OnClick(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(args.GetDebugName());
 #endif
 
@@ -110,7 +110,7 @@ class CF_TestItemModel : CF_Model
 
 	void Remove(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(args.GetDebugName());
 #endif
 

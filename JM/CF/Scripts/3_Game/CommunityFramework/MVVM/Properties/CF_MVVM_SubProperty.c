@@ -4,14 +4,14 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 
 	void CF_MVVM_SubProperty(CF_ViewModel handler, string name)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "CF_MVVM_SubProperty").Add(handler).Add(name);
 #endif
 	}
 
 	void SetSubModel(CF_ModelBase subModel)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "SetSubModel").Add(subModel);
 #endif
 
@@ -20,7 +20,7 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 
 	override void OnView(/*notnull*/ CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnView").Add(args);
 #endif
 
@@ -29,7 +29,7 @@ class CF_MVVM_SubProperty : CF_MVVM_Property
 
 	override void OnModel(/*notnull*/ CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnModel").Add(args);
 #endif
 

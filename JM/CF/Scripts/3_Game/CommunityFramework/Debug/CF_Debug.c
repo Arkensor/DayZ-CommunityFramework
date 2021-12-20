@@ -7,7 +7,7 @@ class CF_Debug : CF_TimerBase
 	[CF_EventSubscriber(CF_Debug._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0("CF_Debug", "_Init");
 #endif
 
@@ -20,7 +20,7 @@ class CF_Debug : CF_TimerBase
 	[CF_EventSubscriber(CF_Debug._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0("CF_Debug", "_Cleanup");
 #endif
 
@@ -31,7 +31,7 @@ class CF_Debug : CF_TimerBase
 	[CF_EventSubscriber(CF_Debug._MissionCleanup, CF_LifecycleEvents.OnMissionDestroy)]
 	static void _MissionCleanup()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0("CF_Debug", "_MissionCleanup");
 #endif
 
@@ -82,7 +82,7 @@ class CF_Debug : CF_TimerBase
 
 	/*private*/ void CF_Debug(Class instance, string name)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "CF_Debug");
 #endif
 
@@ -92,7 +92,7 @@ class CF_Debug : CF_TimerBase
 
 	void ~CF_Debug()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "~CF_Debug");
 #endif
 	}
@@ -338,7 +338,7 @@ class CF_Debug : CF_TimerBase
 
 	protected override void OnStart()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "OnStart");
 #endif
 
@@ -349,7 +349,7 @@ class CF_Debug : CF_TimerBase
 
 	protected override void OnStop()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "OnStop");
 #endif
 
@@ -365,7 +365,7 @@ class CF_Debug : CF_TimerBase
 
 	void ShowWindow()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "ShowWindow");
 #endif
 
@@ -385,7 +385,7 @@ class CF_Debug : CF_TimerBase
 
 	void CloseWindow()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "CloseWindow");
 #endif
 
@@ -402,7 +402,7 @@ class CF_Debug : CF_TimerBase
 
 	void Event_ToggleWindow(CF_ModelBase sender, CF_ChangeEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args);
 #endif
 
@@ -418,7 +418,7 @@ class CF_Debug : CF_TimerBase
 
 	void Event_CloseWindow(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "Event_ToggleWindow").Add(sender).Add(args);
 #endif
 

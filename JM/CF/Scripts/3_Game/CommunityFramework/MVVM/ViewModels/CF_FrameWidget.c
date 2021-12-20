@@ -7,7 +7,7 @@ class CF_FrameWidget : CF_Widget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -18,7 +18,7 @@ class CF_FrameWidget : CF_Widget
 
 	void OnView_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_SubModel").Add(sender).Add(args);
 #endif
 
@@ -27,7 +27,7 @@ class CF_FrameWidget : CF_Widget
 
 	void OnModel_SubModel(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_SubModel").Add(sender).Add(args);
 #endif
 

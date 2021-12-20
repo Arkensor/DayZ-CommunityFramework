@@ -11,7 +11,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -24,7 +24,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -34,7 +34,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnView_Min(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Min").Add(sender).Add(args);
 #endif
 
@@ -43,7 +43,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnModel_Min(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Min").Add(sender).Add(args);
 #endif
 
@@ -52,7 +52,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnView_Max(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Max").Add(sender).Add(args);
 #endif
 
@@ -61,7 +61,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnModel_Max(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Max").Add(sender).Add(args);
 #endif
 
@@ -70,7 +70,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnView_Current(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Current").Add(sender).Add(args);
 #endif
 
@@ -80,7 +80,7 @@ class CF_SimpleProgressBarWidget : CF_UIWidget
 
 	void OnModel_Current(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Current").Add(sender).Add(args);
 #endif
 

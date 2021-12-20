@@ -19,7 +19,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -36,7 +36,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -46,7 +46,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_ScrollbarWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ScrollbarWidth").Add(sender).Add(args);
 #endif
 
@@ -55,7 +55,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_ScrollbarWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ScrollbarWidth").Add(sender).Add(args);
 #endif
 
@@ -64,7 +64,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_ContentWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ContentWidth").Add(sender).Add(args);
 #endif
 
@@ -73,7 +73,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_ContentWidth(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ContentWidth").Add(sender).Add(args);
 #endif
 
@@ -82,7 +82,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ContentHeight").Add(sender).Add(args);
 #endif
 
@@ -91,7 +91,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ContentHeight").Add(sender).Add(args);
 #endif
 
@@ -100,7 +100,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_HorizontalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_HorizontalScrollPosition").Add(sender).Add(args);
 #endif
 
@@ -110,7 +110,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_HorizontalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_HorizontalScrollPosition").Add(sender).Add(args);
 #endif
 
@@ -121,7 +121,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_VerticalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_VerticalScrollPosition").Add(sender).Add(args);
 #endif
 
@@ -131,7 +131,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_VerticalScrollPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_VerticalScrollPosition").Add(sender).Add(args);
 #endif
 
@@ -142,7 +142,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_HorizontalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_HorizontalScrollStep").Add(sender).Add(args);
 #endif
 
@@ -151,7 +151,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_HorizontalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_HorizontalScrollStep").Add(sender).Add(args);
 #endif
 
@@ -161,7 +161,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnView_VerticalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_VerticalScrollStep").Add(sender).Add(args);
 #endif
 
@@ -170,7 +170,7 @@ class CF_ScrollWidget : CF_SpacerBaseWidget
 
 	void OnModel_VerticalScrollStep(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_VerticalScrollStep").Add(sender).Add(args);
 #endif
 

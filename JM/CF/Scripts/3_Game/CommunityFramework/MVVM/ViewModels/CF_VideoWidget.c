@@ -17,7 +17,7 @@ class CF_VideoWidget : CF_Widget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -30,7 +30,7 @@ class CF_VideoWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -40,7 +40,7 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Path").Add(sender).Add(args);
 #endif
 
@@ -49,7 +49,7 @@ class CF_VideoWidget : CF_Widget
 
 	void OnModel_Path(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Path").Add(sender).Add(args);
 #endif
 
@@ -59,7 +59,7 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Command").Add(sender).Add(args);
 #endif
 
@@ -68,7 +68,7 @@ class CF_VideoWidget : CF_Widget
 
 	void OnModel_Command(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Command").Add(sender).Add(args);
 #endif
 
@@ -78,7 +78,7 @@ class CF_VideoWidget : CF_Widget
 
 	void OnView_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Subtitles").Add(sender).Add(args);
 #endif
 
@@ -87,7 +87,7 @@ class CF_VideoWidget : CF_Widget
 
 	void OnModel_Subtitles(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Subtitles").Add(sender).Add(args);
 #endif
 

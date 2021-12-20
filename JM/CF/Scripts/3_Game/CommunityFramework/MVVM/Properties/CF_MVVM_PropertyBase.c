@@ -2,7 +2,7 @@ static ref CF_MVVM_PropertyBase g_CF_MVVM_DefaultProperty = new CF_MVVM_Property
 
 static CF_MVVM_PropertyBase CF_MVVM_GetDefaultProperty()
 {
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 	auto trace = CF_Trace_0("CF_MVVM_GetDefaultProperty");
 #endif
 
@@ -20,7 +20,7 @@ class CF_MVVM_PropertyBase : CF_TypeConverterBase
 
 	override bool Read(Class instance, string variableName)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "Read").Add(instance).Add(variableName);
 #endif
 
@@ -29,7 +29,7 @@ class CF_MVVM_PropertyBase : CF_TypeConverterBase
 
 	override bool Write(Class instance, string variableName)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "Write").Add(instance).Add(variableName);
 #endif
 

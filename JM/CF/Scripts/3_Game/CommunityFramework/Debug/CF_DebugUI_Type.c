@@ -4,7 +4,7 @@ class CF_DebugUI_Type
 
 	void CF_DebugUI_Type()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "CF_DebugUI_Type");
 #endif
 
@@ -13,7 +13,7 @@ class CF_DebugUI_Type
 
 	void Register(string type, bool enabled = false)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_1(this, "Get").Add(type).Add(enabled);
 #endif
 
@@ -22,7 +22,7 @@ class CF_DebugUI_Type
 
 	void Set(string type, bool enabled)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_1(this, "Get").Add(type).Add(enabled);
 #endif
 
@@ -37,7 +37,7 @@ class CF_DebugUI_Type
 
 	bool Get(string type)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_1(this, "Get").Add(type);
 #endif
 
@@ -49,7 +49,7 @@ class CF_DebugUI_Type
 
 	void OnRegisterTypes()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_DEBUG_TRACE
 		auto trace = CF_Trace_0(this, "OnRegisterTypes");
 #endif
 	}

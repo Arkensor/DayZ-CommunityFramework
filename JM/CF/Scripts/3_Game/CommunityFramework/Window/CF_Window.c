@@ -74,7 +74,7 @@ class CF_Window : CF_Model
 
 	void CF_Window(string title = "Window", int width = 400, int height = 400)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_3(this, "CF_Window").Add(title).Add(width).Add(height);
 #endif
 
@@ -108,7 +108,7 @@ class CF_Window : CF_Model
 
 	void ~CF_Window()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_0(this, "~CF_Window");
 #endif
 
@@ -144,7 +144,7 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(string layoutFile)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "CreateWidgets").Add(layoutFile);
 #endif
 
@@ -182,7 +182,7 @@ class CF_Window : CF_Model
 
 	Widget CreateWidgets(CF_ModelBase model, string layoutFile)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "CreateWidgets").Add(model).Add(layoutFile);
 #endif
 
@@ -208,7 +208,7 @@ class CF_Window : CF_Model
 
 	void SetTitle(string title)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "SetTitle").Add(title);
 #endif
 
@@ -224,7 +224,7 @@ class CF_Window : CF_Model
 
 	void SetVisible(bool visible)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "SetVisible").Add(visible);
 #endif
 
@@ -250,7 +250,7 @@ class CF_Window : CF_Model
 
 	void SetModel(CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "SetModel").Add(model);
 #endif
 
@@ -324,7 +324,7 @@ class CF_Window : CF_Model
 
 	void SetPosition(float x, float y)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "SetPosition").Add(x).Add(y);
 #endif
 
@@ -337,7 +337,7 @@ class CF_Window : CF_Model
 
 	void SetSize(float x, float y)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "SetSize").Add(x).Add(y);
 #endif
 
@@ -388,7 +388,7 @@ class CF_Window : CF_Model
 
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnMinimizeButtonClicked").Add(sender).Add(args);
 #endif
 
@@ -397,7 +397,7 @@ class CF_Window : CF_Model
 
 	void OnExpandButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnExpandButtonClicked").Add(sender).Add(args);
 #endif
 
@@ -406,7 +406,7 @@ class CF_Window : CF_Model
 
 	void OnWindowButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnWindowButtonClicked").Add(sender).Add(args);
 #endif
 
@@ -415,7 +415,7 @@ class CF_Window : CF_Model
 
 	void OnCloseButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnCloseButtonClicked").Add(sender).Add(args);
 #endif
 
@@ -424,7 +424,7 @@ class CF_Window : CF_Model
 
 	void OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnMouseButtonDown").Add(sender).Add(args);
 #endif
 
@@ -433,7 +433,7 @@ class CF_Window : CF_Model
 
 	void OnDrag(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnDrag").Add(sender).Add(args);
 #endif
 
@@ -456,7 +456,7 @@ class CF_Window : CF_Model
 
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnDragging").Add(sender).Add(args);
 #endif
 
@@ -465,7 +465,7 @@ class CF_Window : CF_Model
 
 	void OnStartResizing(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnStartResizing").Add(sender).Add(args);
 #endif
 
@@ -481,7 +481,7 @@ class CF_Window : CF_Model
 
 	void OnStopResizing(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnStartResizing").Add(sender).Add(args);
 #endif
 
@@ -490,7 +490,7 @@ class CF_Window : CF_Model
 
 	void OnResizingUp(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -508,7 +508,7 @@ class CF_Window : CF_Model
 
 	void OnResizingDown(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -522,7 +522,7 @@ class CF_Window : CF_Model
 
 	void OnResizingLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -538,7 +538,7 @@ class CF_Window : CF_Model
 
 	void OnResizingRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -552,7 +552,7 @@ class CF_Window : CF_Model
 
 	void OnResizingUpLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -571,7 +571,7 @@ class CF_Window : CF_Model
 
 	void OnResizingUpRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -589,7 +589,7 @@ class CF_Window : CF_Model
 
 	void OnResizingDownLeft(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 
@@ -607,7 +607,7 @@ class CF_Window : CF_Model
 
 	void OnResizingDownRight(CF_ModelBase sender, CF_DragEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnResizingUp").Add(sender).Add(args);
 #endif
 

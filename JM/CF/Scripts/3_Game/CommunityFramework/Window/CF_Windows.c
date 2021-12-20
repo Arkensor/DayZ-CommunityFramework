@@ -51,7 +51,7 @@ class CF_Windows
 
 	static void _Cleanup()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_0(g_CF_Windows, "_Cleanup");
 #endif
 

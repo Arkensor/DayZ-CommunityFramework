@@ -29,7 +29,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 	override CF_TypeConverterBase GetConverter(int index)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "GetConverter").Add(index);
 #endif
 
@@ -39,7 +39,7 @@ class CF_ObservableMap<Class TKey, Class TValue> : CF_ObservableCollection
 
 	override void OverrideConverter(CF_TypeConverterBase converter = null)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OverrideConverter").Add(converter);
 #endif
 

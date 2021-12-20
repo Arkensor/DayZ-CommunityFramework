@@ -13,7 +13,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -27,7 +27,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -37,7 +37,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	override void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args);
 #endif
 
@@ -48,7 +48,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnView_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ContentHeight").Add(sender).Add(args);
 #endif
 
@@ -57,7 +57,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnModel_ContentHeight(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ContentHeight").Add(sender).Add(args);
 #endif
 
@@ -66,7 +66,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnView_ContentOffset(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ContentOffset").Add(sender).Add(args);
 #endif
 
@@ -75,7 +75,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnModel_ContentOffset(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ContentOffset").Add(sender).Add(args);
 #endif
 
@@ -84,7 +84,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnView_ContentSnapToLine(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_ContentSnapToLine").Add(sender).Add(args);
 #endif
 
@@ -93,7 +93,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnModel_ContentSnapToLine(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_ContentSnapToLine").Add(sender).Add(args);
 #endif
 
@@ -102,7 +102,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnView_LineWidths(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_LineWidths").Add(sender).Add(args);
 #endif
 
@@ -115,7 +115,7 @@ class CF_RichTextWidget : CF_TextWidget
 
 	void OnModel_LineWidths(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_LineWidths").Add(sender).Add(args);
 #endif
 

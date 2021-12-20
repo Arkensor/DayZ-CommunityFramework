@@ -14,7 +14,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -25,7 +25,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -35,7 +35,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	void OnView_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Items").Add(sender).Add(args);
 #endif
 
@@ -44,7 +44,7 @@ class CF_TextListboxWidget : CF_BaseListboxWidget
 
 	void OnModel_Items(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Items").Add(sender).Add(args);
 #endif
 

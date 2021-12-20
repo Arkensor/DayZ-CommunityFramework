@@ -6,7 +6,7 @@ class CF_MVVM_Menu : UIScriptedMenu
 
 	override Widget Init()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "Init");
 #endif
 
@@ -16,7 +16,7 @@ class CF_MVVM_Menu : UIScriptedMenu
 
 	void SetModel(CF_ModelBase model, string layoutFile)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "SetModel").Add(model).Add(layoutFile);
 #endif
 
@@ -28,7 +28,7 @@ class CF_MVVM_Menu : UIScriptedMenu
 
 	void RemoveModel()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "RemoveModel");
 #endif
 

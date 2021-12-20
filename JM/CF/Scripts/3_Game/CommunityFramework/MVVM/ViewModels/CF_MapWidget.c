@@ -19,7 +19,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -32,7 +32,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -42,7 +42,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnView_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_UserMarks").Add(sender).Add(args);
 #endif
 
@@ -51,7 +51,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_UserMarks(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_UserMarks").Add(sender).Add(args);
 #endif
 
@@ -68,7 +68,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnView_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_CenterPosition").Add(sender).Add(args);
 #endif
 
@@ -77,7 +77,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_CenterPosition(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_CenterPosition").Add(sender).Add(args);
 #endif
 
@@ -86,7 +86,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnView_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Scale").Add(sender).Add(args);
 #endif
 
@@ -95,7 +95,7 @@ class CF_MapWidget : CF_BaseListboxWidget
 
 	void OnModel_Scale(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Scale").Add(sender).Add(args);
 #endif
 

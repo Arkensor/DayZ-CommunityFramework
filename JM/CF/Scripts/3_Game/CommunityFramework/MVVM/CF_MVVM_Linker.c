@@ -16,7 +16,7 @@ class CF_MVVM_Linker
 
 	void CF_MVVM_Linker()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "CF_MVVM_Linker");
 #endif
 
@@ -26,7 +26,7 @@ class CF_MVVM_Linker
 
 	void ~CF_MVVM_Linker()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "~CF_MVVM_Linker");
 #endif
 
@@ -43,7 +43,7 @@ class CF_MVVM_Linker
 	 */
 	void _ViewChanged(string name, CF_MVVM_Property srcProperty, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_3(this, "_ViewChanged").Add(name).Add(srcProperty).Add(args);
 #endif
 
@@ -67,7 +67,7 @@ class CF_MVVM_Linker
 	 */
 	void _ViewChanged(CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "_ViewChanged").Add(args);
 #endif
 
@@ -84,7 +84,7 @@ class CF_MVVM_Linker
 
 	void NotifyPropertyChanged(string name, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(name).Add(args);
 #endif
 
@@ -103,7 +103,7 @@ class CF_MVVM_Linker
 
 	void NotifyPropertyChanged(CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "NotifyPropertyChanged").Add(args);
 #endif
 
@@ -120,7 +120,7 @@ class CF_MVVM_Linker
 
 	void Insert(CF_MVVM_Property property)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "Insert").Add(property);
 #endif
 
@@ -144,7 +144,7 @@ class CF_MVVM_Linker
 
 	void Link(CF_ViewModel viewModel, CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "Link").Add(viewModel).Add(model);
 #endif
 
@@ -186,7 +186,7 @@ class CF_MVVM_Linker
 
 	void Unlink()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "Unlink");
 #endif
 
@@ -202,7 +202,7 @@ class CF_MVVM_Linker
 
 	void _Destroy()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "_Destroy");
 #endif
 
@@ -224,7 +224,7 @@ class CF_MVVM_Linker
 
 	bool ChangeParent(Widget newParent)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "ChangeParent").Add(newParent);
 #endif
 
@@ -254,7 +254,7 @@ class CF_MVVM_Linker
 
 	Widget GetWidget()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetWidget");
 #endif
 
@@ -268,7 +268,7 @@ class CF_MVVM_Linker
 
 	bool _IsLockedForDestroy()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "_IsLockedForDestroy");
 #endif
 
@@ -285,7 +285,7 @@ class CF_MVVM_Linker
 
 	void _LockForDestroy()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "_LockForDestroy");
 #endif
 
@@ -294,7 +294,7 @@ class CF_MVVM_Linker
 
 	void _UnlockForDestroy()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "_UnlockForDestroy");
 #endif
 
@@ -322,7 +322,7 @@ class CF_MVVM_Linker
 
 	void AddChild(CF_MVVM_Linker child)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "AddChild").Add(child);
 #endif
 
@@ -335,7 +335,7 @@ class CF_MVVM_Linker
 
 	void RemoveChild(CF_MVVM_Linker child)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "RemoveChild").Add(child);
 #endif
 

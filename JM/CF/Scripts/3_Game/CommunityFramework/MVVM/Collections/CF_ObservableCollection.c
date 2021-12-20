@@ -9,7 +9,7 @@ class CF_ObservableCollection : CF_Collection
 		CF_MVVM._CheckInit();
 #endif
 
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "Init").Add(model).Add(prop);
 #endif
 
@@ -19,7 +19,7 @@ class CF_ObservableCollection : CF_Collection
 
 	void NotifyCollectionChanged(CF_CollectionEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "NotifyCollectionChanged").Add(args.GetDebugName());
 #endif
 

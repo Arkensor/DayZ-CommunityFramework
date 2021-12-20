@@ -24,7 +24,7 @@ class CF_WindowButton : CF_Model
 
 	void SetOn(bool value, bool sendEvent = true)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "Toggle").Add(value);
 #endif
 
@@ -57,7 +57,7 @@ class CF_WindowButton : CF_Model
 
 	void Toggle(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "Toggle").Add(sender).Add(args);
 #endif
 

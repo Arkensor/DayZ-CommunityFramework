@@ -13,7 +13,7 @@ class CF_MVVM
 
 	private void CF_MVVM()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "CF_MVVM");
 #endif
 	}
@@ -21,7 +21,7 @@ class CF_MVVM
 	[CF_EventSubscriber(CF_MVVM._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(g_CF_MVVM, "_Init");
 #endif
 
@@ -41,7 +41,7 @@ class CF_MVVM
 	[CF_EventSubscriber(CF_Windows._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(g_CF_MVVM, "_Cleanup");
 #endif
 
@@ -53,7 +53,7 @@ class CF_MVVM
 
 	static CF_MVVM_Linker GetPropertyCollection(CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "GetPropertyCollection").Add(model);
 #endif
 
@@ -65,7 +65,7 @@ class CF_MVVM
 	 */
 	static CF_MVVM_Linker Create(CF_ModelBase model, string layout)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(g_CF_MVVM, "Create").Add(model).Add(layout);
 #endif
 
@@ -118,7 +118,7 @@ class CF_MVVM
 	 */
 	static CF_MVVM_Linker Create(CF_ModelBase model, string layout, Widget parent)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_3(g_CF_MVVM, "Create").Add(model).Add(layout).Add(parent);
 #endif
 
@@ -181,7 +181,7 @@ class CF_MVVM
 
 	static CF_MVVM_Linker Connect(CF_ModelBase model, Widget widget)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(g_CF_MVVM, "Connect").Add(model).Add(widget);
 #endif
 
@@ -223,7 +223,7 @@ class CF_MVVM
 
 	static CF_MVVM_Linker Connect(CF_ModelBase model, CF_ViewModel view)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(g_CF_MVVM, "Connect").Add(model).Add(view);
 #endif
 
@@ -259,7 +259,7 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(string modelName)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "OpenMenu").Add(modelName);
 #endif
 
@@ -272,7 +272,7 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(typename modelType)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "OpenMenu").Add(modelType);
 #endif
 
@@ -285,7 +285,7 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "OpenMenu").Add(model);
 #endif
 
@@ -302,7 +302,7 @@ class CF_MVVM
 
 	static CF_ModelBase OpenMenu(CF_ModelBase model, string layoutFile)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(g_CF_MVVM, "OpenMenu").Add(model).Add(layoutFile);
 #endif
 
@@ -320,7 +320,7 @@ class CF_MVVM
 
 	static void Destroy(CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "Destroy").Add(model);
 #endif
 
@@ -343,7 +343,7 @@ class CF_MVVM
 	 */
 	static CF_MVVM_Linker _LockForDestroy(CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "Destroy").Add(model);
 #endif
 
@@ -371,7 +371,7 @@ class CF_MVVM
 #ifdef COMPONENT_SYSTEM
 	static void _CheckInit()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(g_CF_MVVM, "_CheckInit");
 #endif
 
@@ -384,7 +384,7 @@ class CF_MVVM
 
 	static void NotifyPropertyChanged(CF_ModelBase model, string propertyName, CF_EventArgs args = null)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(g_CF_MVVM, "NotifyPropertyChanged").Add(model).Add(propertyName).Add(args);
 #endif
 
@@ -407,7 +407,7 @@ class CF_MVVM
 
 	static void NotifyPropertyChanged(CF_ModelBase model)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(g_CF_MVVM, "NotifyPropertyChanged").Add(model);
 #endif
 

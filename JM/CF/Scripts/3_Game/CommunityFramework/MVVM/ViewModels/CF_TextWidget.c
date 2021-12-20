@@ -41,7 +41,7 @@ class CF_TextWidget : CF_Widget
 
 	override void GetProperties()
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_0(this, "GetProperties");
 #endif
 
@@ -69,7 +69,7 @@ class CF_TextWidget : CF_Widget
 
 	override void OnWidgetScriptInit(Widget w)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_1(this, "OnWidgetScriptInit").Add(w);
 #endif
 
@@ -79,7 +79,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_Text").Add(sender).Add(args);
 #endif
 
@@ -88,7 +88,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_Text(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_Text").Add(sender).Add(args);
 #endif
 
@@ -97,7 +97,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextSpacingHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextSpacingHorizontal").Add(sender).Add(args);
 #endif
 
@@ -106,7 +106,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextSpacingHorizontal(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextSpacingHorizontal").Add(sender).Add(args);
 #endif
 
@@ -115,7 +115,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextSpacingVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextSpacingVertical").Add(sender).Add(args);
 #endif
 
@@ -124,7 +124,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextSpacingVertical(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextSpacingVertical").Add(sender).Add(args);
 #endif
 
@@ -133,7 +133,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextExactSize(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextExactSize").Add(sender).Add(args);
 #endif
 
@@ -142,7 +142,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextExactSize(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextExactSize").Add(sender).Add(args);
 #endif
 
@@ -151,7 +151,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextOffsetX").Add(sender).Add(args);
 #endif
 
@@ -160,7 +160,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextOffsetX").Add(sender).Add(args);
 #endif
 
@@ -169,7 +169,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextOffsetY").Add(sender).Add(args);
 #endif
 
@@ -178,7 +178,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextOffsetY").Add(sender).Add(args);
 #endif
 
@@ -187,7 +187,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextOutlineSize(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextOutlineSize").Add(sender).Add(args);
 #endif
 
@@ -196,7 +196,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextOutlineSize(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextOutlineSize").Add(sender).Add(args);
 #endif
 
@@ -205,7 +205,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextOutlineColor(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextOutlineColor").Add(sender).Add(args);
 #endif
 
@@ -214,7 +214,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextOutlineColor(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextOutlineColor").Add(sender).Add(args);
 #endif
 
@@ -223,7 +223,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextShadowSize(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextShadowSize").Add(sender).Add(args);
 #endif
 
@@ -232,7 +232,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextShadowSize(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextShadowSize").Add(sender).Add(args);
 #endif
 
@@ -244,7 +244,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextShadowColor(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextShadowColor").Add(sender).Add(args);
 #endif
 
@@ -253,7 +253,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextShadowColor(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextShadowColor").Add(sender).Add(args);
 #endif
 
@@ -265,7 +265,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextShadowOpacity(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextShadowOpacity").Add(sender).Add(args);
 #endif
 
@@ -274,7 +274,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextShadowOpacity(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextShadowOpacity").Add(sender).Add(args);
 #endif
 
@@ -286,7 +286,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextShadowOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextShadowOffsetX").Add(sender).Add(args);
 #endif
 
@@ -298,7 +298,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextShadowOffsetX(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextShadowOffsetX").Add(sender).Add(args);
 #endif
 
@@ -310,7 +310,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextShadowOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextShadowOffsetY").Add(sender).Add(args);
 #endif
 
@@ -322,7 +322,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextShadowOffsetY(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextShadowOffsetY").Add(sender).Add(args);
 #endif
 
@@ -334,7 +334,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextItalic(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextItalic").Add(sender).Add(args);
 #endif
 
@@ -343,7 +343,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextItalic(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextItalic").Add(sender).Add(args);
 #endif
 
@@ -352,7 +352,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextBold(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextBold").Add(sender).Add(args);
 #endif
 
@@ -361,7 +361,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextBold(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextBold").Add(sender).Add(args);
 #endif
 
@@ -370,7 +370,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextSizeX(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextSizeX").Add(sender).Add(args);
 #endif
 
@@ -381,7 +381,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextSizeX(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextSizeX").Add(sender).Add(args);
 #endif
 
@@ -390,7 +390,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextSizeY(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextSizeY").Add(sender).Add(args);
 #endif
 
@@ -401,7 +401,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextSizeY(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextSizeY").Add(sender).Add(args);
 #endif
 
@@ -410,7 +410,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnView_TextProportion(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnView_TextProportion").Add(sender).Add(args);
 #endif
 
@@ -419,7 +419,7 @@ class CF_TextWidget : CF_Widget
 
 	void OnModel_TextProportion(CF_ModelBase sender, CF_EventArgs args)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MVVM_TRACE
 		auto trace = CF_Trace_2(this, "OnModel_TextProportion").Add(sender).Add(args);
 #endif
 
