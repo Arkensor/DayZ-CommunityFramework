@@ -166,7 +166,9 @@ class CF_MVVM_Linker
 
 			CF_TArrayProperties properties;
 			if (!m_PropertyVariableMap.Find(variableName, properties))
+			{
 				continue;
+			}
 
 			auto typeConverter = CF_TypeConverter.Get(variableType);
 
