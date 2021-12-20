@@ -151,6 +151,8 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 
 	void _SetRootLink(CF_MVVM_Linker linker)
 	{
+		m_Linker = linker;
+
 		Widget parent = m_Widget.GetParent();
 		while (parent != null)
 		{
@@ -513,6 +515,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnClick").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -542,6 +549,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnModalResult").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_ModalEventArgs args = new CF_ModalEventArgs();
 		args.Target = w;
@@ -574,6 +586,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnDoubleClick").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -604,6 +621,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnSelect").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_SelectEventArgs args = new CF_SelectEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -632,6 +654,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnItemSelected").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_ItemSelectEventArgs args = new CF_ItemSelectEventArgs();
 		args.Target = w;
@@ -666,6 +693,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnFocus").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_PositionEventArgs args = new CF_PositionEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -695,6 +727,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnFocusLost").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_PositionEventArgs args = new CF_PositionEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -723,6 +760,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseEnter").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -754,6 +796,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseLeave").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -787,6 +834,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnMouseWheel").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -818,6 +870,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnMouseButtonDown").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -847,6 +904,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnMouseButtonUp").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_MouseEventArgs args = new CF_MouseEventArgs();
 		args.Target = w;
@@ -878,12 +940,17 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnController").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_ControllerEventArgs args = new CF_ControllerEventArgs();
 		args.Target = w;
 		args.Control = control;
 		args.Value = value;
 
-		if (Event_Controller == string.Empty)
+		if (Event_Controller != string.Empty)
 		{
 			m_Linker._LockForDestroy();
 
@@ -906,6 +973,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnKeyDown").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_KeyEventArgs args = new CF_KeyEventArgs();
 		args.Target = w;
@@ -938,6 +1010,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnKeyUp").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_KeyEventArgs args = new CF_KeyEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -969,6 +1046,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnKeyPress").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_KeyEventArgs args = new CF_KeyEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -999,6 +1081,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnChange").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		if (w != m_Widget || m_ChangeEventFiring)
 			return false;
@@ -1043,6 +1130,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnDrag").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -1072,6 +1164,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDragging").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
@@ -1103,6 +1200,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnDraggingOver").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -1132,6 +1234,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnDrop").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
@@ -1163,6 +1270,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnDropReceived").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_DragEventArgs args = new CF_DragEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -1193,6 +1305,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnResize").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_ResizeEventArgs args = new CF_ResizeEventArgs();
 		args.Target = w;
 		args.X = x;
@@ -1221,6 +1338,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnChildAdd").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_ChildEventArgs args = new CF_ChildEventArgs();
 		args.Target = w;
@@ -1251,6 +1373,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnChildRemove").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_ChildEventArgs args = new CF_ChildEventArgs();
 		args.Target = w;
 		args.Child = child;
@@ -1280,6 +1407,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnUpdate").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_ViewEventArgs args = new CF_ViewEventArgs();
 		args.Target = w;
 
@@ -1307,6 +1439,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		auto trace = CF_Trace_1(this, "OnShow").Add(w);
 #endif
 
+		if (!m_Linker)
+		{
+			return false;
+		}
+
 		CF_ViewEventArgs args = new CF_ViewEventArgs();
 		args.Target = w;
 
@@ -1333,6 +1470,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnHide").Add(w);
 #endif
+
+		if (!m_Linker)
+		{
+			return false;
+		}
 
 		CF_ViewEventArgs args = new CF_ViewEventArgs();
 		args.Target = w;
