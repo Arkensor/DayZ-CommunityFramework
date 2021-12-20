@@ -22,6 +22,7 @@ class CF_Window : CF_Model
 
 	// Properties
 	private bool m_Visible;
+	private bool m_Destroy;
 
 	private float m_PositionX;
 	private float m_PositionY;
@@ -375,6 +376,16 @@ class CF_Window : CF_Model
 		return button.OnClick;
 	}
 
+	void Destroy()
+	{
+		m_Destroy = true;
+	}
+
+	bool IsDestroying()
+	{
+		return m_Destroy;
+	}
+
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_TRACE_ENABLED
@@ -408,7 +419,7 @@ class CF_Window : CF_Model
 		auto trace = CF_Trace_2(this, "OnCloseButtonClicked").Add(sender).Add(args);
 #endif
 
-		delete this;
+		Destroy();
 	}
 
 	void OnMouseButtonDown(CF_ModelBase sender, CF_MouseEventArgs args)

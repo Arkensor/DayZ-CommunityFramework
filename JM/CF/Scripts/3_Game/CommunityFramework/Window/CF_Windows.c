@@ -159,8 +159,17 @@ class CF_Windows
 				window.UpdateFocus(false);
 			}
 
-			window._SetSort(s_Count++);
-			window = window.GetPrev();
+			auto prev = window.GetPrev();
+			if (window.IsDestroying())
+			{
+				delete window;
+			}
+			else
+			{
+				window._SetSort(s_Count++);
+			}
+
+			window = prev;
 		}
 
 		if (s_ToggleInput && s_ToggleInput.LocalPress()) // Flip the state when the key is pressed
