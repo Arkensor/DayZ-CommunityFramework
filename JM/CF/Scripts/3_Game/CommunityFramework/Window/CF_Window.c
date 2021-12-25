@@ -206,6 +206,20 @@ class CF_Window : CF_Model
 		return newContent;
 	}
 
+	Widget CreateWidgets(CF_ModelBase model)
+	{
+#ifdef CF_WINDOWS_TRACE
+		auto trace = CF_Trace_1(this, "CreateWidgets").Add(model);
+#endif
+
+		if (!model)
+			return null;
+
+		string layout;
+		g_Script.CallFunction(model, "GetLayoutFile", layout, null);
+		return CreateWidgets(model, layout);
+	}
+
 	void SetTitle(string title)
 	{
 #ifdef CF_WINDOWS_TRACE
@@ -257,6 +271,8 @@ class CF_Window : CF_Model
 		if (model != m_Model)
 		{
 			m_Model = model;
+
+			CreateWidgets(m_Model);
 
 			//NotifyPropertyChanged("m_Model");
 		}
