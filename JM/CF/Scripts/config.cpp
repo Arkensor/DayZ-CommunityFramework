@@ -10,9 +10,6 @@ class CfgPatches
 		requiredAddons[]=
 		{
 			"DZ_Data",
-
-			//! Community Framework
-			"JM_CF_XML"
 		};
 	};
 };
