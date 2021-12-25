@@ -39,7 +39,7 @@ class CF_Module : Managed
 	{
 		return -1;
 	}
-	
+
 	bool IsServer()
 	{
 		return true;
@@ -54,7 +54,6 @@ class CF_Module : Managed
 
 	void OnInit()
 	{
-
 	}
 
 	// Event Registration
@@ -84,7 +83,10 @@ class CF_Module : Managed
 		m_CF_RPC_Minimum = GetRPCMin();
 		m_CF_RPC_Maximum = GetRPCMax();
 
-		if (m_CF_RPC_Minimum == -1 || m_CF_RPC_Maximum == -1) return;
+		if (m_CF_RPC_Minimum == -1 || m_CF_RPC_Maximum == -1)
+		{
+			return;
+		}
 
 		CF_Module_Manager.s_RPC.Add(this);
 	}
@@ -140,11 +142,11 @@ class CF_Module : Managed
 	}
 
 	// Events
-	
+
 	void OnMissionStart();
-	
+
 	void OnMissionFinish();
-	
+
 	void OnMissionLoaded();
 
 	/**
@@ -152,7 +154,10 @@ class CF_Module : Managed
 	 */
 	void OnUpdate(float timeslice)
 	{
-		if (!s_PreventInput) m_CF_Bindings.Update(timeslice);
+		if (!s_PreventInput)
+		{
+			m_CF_Bindings.Update(timeslice);
+		}
 	}
 
 	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx);

@@ -17,7 +17,10 @@ class CF_Module_Event
 		CF_Module_Event next = m_Next;
 		while (current && next)
 		{
-			if (current == module) return;
+			if (current == module)
+			{
+				return;
+			}
 
 			current = next;
 			next = next.m_Next;
@@ -32,7 +35,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMissionStart();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMissionStart();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -43,7 +49,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMissionFinish();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMissionFinish();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -54,7 +63,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMissionLoaded();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMissionLoaded();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -65,7 +77,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnUpdate(timeslice);
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnUpdate(timeslice);
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -93,7 +108,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnSettingsChanged();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnSettingsChanged();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -104,18 +122,24 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnPermissionsChanged();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnPermissionsChanged();
+			}
 			evt = evt.m_Next;
 		}
 	}
-	
+
 	void OnWorldCleanup()
 	{
 		CF_Module_Event evt = this.m_Next;
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnWorldCleanup();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnWorldCleanup();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -126,7 +150,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionStart();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMPSessionStart();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -137,7 +164,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionPlayerReady();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMPSessionPlayerReady();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -148,7 +178,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionFail();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMPSessionFail();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -159,7 +192,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPSessionEnd();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMPSessionEnd();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -170,7 +206,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPConnectAbort();
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMPConnectAbort();
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -181,7 +220,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnMPConnectionLost(duration);
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnMPConnectionLost(duration);
+			}
 			evt = evt.m_Next;
 		}
 	}
@@ -192,7 +234,10 @@ class CF_Module_Event
 		while (evt)
 		{
 			CF_Module module = evt.m_Value;
-			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0) module.OnRespawn(time);
+			if ((module.m_CF_GameFlag & CF_Module_Manager.s_GameFlag) != 0)
+			{
+				module.OnRespawn(time);
+			}
 			evt = evt.m_Next;
 		}
 	}

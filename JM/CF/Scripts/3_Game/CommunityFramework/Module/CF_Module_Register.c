@@ -6,7 +6,10 @@ class CF_Module_Register
 
 		array<typename> modules = new array<typename>();
 		RegisterModules(modules);
-		for (int i = 0; i < modules.Count(); i++) CF_Module_Manager.RegisterModule(modules[i]);
+		for (int i = 0; i < modules.Count(); i++)
+		{
+			CF_Module_Manager.RegisterModule(modules[i]);
+		}
 	}
 
 	void Register();

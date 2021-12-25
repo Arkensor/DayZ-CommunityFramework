@@ -19,16 +19,16 @@ class CF_Module_Manager
 	static ref CF_Module_Event s_MPConnectAbort = new CF_Module_Event();
 	static ref CF_Module_Event s_MPConnectionLost = new CF_Module_Event();
 	static ref CF_Module_Event s_Respawn = new CF_Module_Event();
-	
+
 	static int s_GameFlag;
 
 	ref CF_Timer m_Timer;
-	
-	private void CF_Module_Manager()
+
+	private	void CF_Module_Manager()
 	{
 		m_Timer = CF_Timer.Create(this, "Update");
 	}
-	
+
 	[CF_EventSubscriber(CF_Module_Manager._Init, CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
@@ -41,7 +41,10 @@ class CF_Module_Manager
 		if (GetGame().IsMultiplayer())
 		{
 			s_GameFlag = 0x0F;
-			if (GetGame().IsServer()) s_GameFlag = 0xF0;
+			if (GetGame().IsServer())
+			{
+				s_GameFlag = 0xF0;
+			}
 		}
 
 		s_Update.OnUpdate(timeslice);
@@ -52,14 +55,24 @@ class CF_Module_Manager
 	 */
 	static void RegisterModule(typename type)
 	{
-		if (s_ModuleMap.Contains(type)) return;
+		if (s_ModuleMap.Contains(type))
+		{
+			return;
+		}
 
 		CF_Module module = CF_Module.Cast(type.Spawn());
 		s_ModuleMap.Insert(type, module);
 
 		module.m_CF_GameFlag = 0;
-		if (module.IsClient()) module.m_CF_GameFlag |= 0x0F;
-		if (module.IsServer()) module.m_CF_GameFlag |= 0xF0;
+		if (module.IsClient())
+		{
+			module.m_CF_GameFlag |= 0x0F;
+		}
+
+		if (module.IsServer())
+		{
+			module.m_CF_GameFlag |= 0xF0;
+		}
 
 		module.OnInit();
 	}
