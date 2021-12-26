@@ -4,13 +4,13 @@ class CF_Modules<Class T>
 	{
 		typename type = T;
 		T module;
-		Class.CastTo(module, CF_Module_Manager.s_ModuleMap[type]);
+		Class.CastTo(module, CF_ModuleCoreManager.s_ModulesMap[type]);
 		return module;
 	}
 
 	static bool Get(T module)
 	{
 		typename type = T;
-		return Class.CastTo(module, CF_Module_Manager.s_ModuleMap[type]);
+		return Class.CastTo(module, CF_ModuleCoreManager.s_ModulesMap[type]);
 	}
 };

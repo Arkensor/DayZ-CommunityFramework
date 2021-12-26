@@ -34,7 +34,11 @@ class CF_InputBindings
 	 */
 	void Bind(CF_InputBinding binding)
 	{
-		if (m_Head) binding.m_Next = m_Head;
+		if (m_Head)
+		{
+			binding.m_Next = m_Head;
+		}
+		
 		m_Head = binding;
 	}
 

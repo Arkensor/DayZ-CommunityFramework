@@ -1,15 +1,15 @@
-class CF_Module_WorldManager
+class CF_ModuleWorldManager
 {
-	static ref CF_Module_WorldEvent s_InvokeConnect = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_InvokeDisconnect = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientNew = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientRespawn = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientReady = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientPrepare = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientReconnect = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientLogout = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientDisconnect = new CF_Module_WorldEvent();
-	static ref CF_Module_WorldEvent s_ClientLogoutCancelled = new CF_Module_WorldEvent();
+	static ref CF_ModuleWorldEvent s_InvokeConnect = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_InvokeDisconnect = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientNew = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientRespawn = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientReady = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientPrepare = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientReconnect = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientLogout = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientDisconnect = new CF_ModuleWorldEvent();
+	static ref CF_ModuleWorldEvent s_ClientLogoutCancelled = new CF_ModuleWorldEvent();
 
 	static void OnInvokeConnect(PlayerBase player, PlayerIdentity identity)
 	{

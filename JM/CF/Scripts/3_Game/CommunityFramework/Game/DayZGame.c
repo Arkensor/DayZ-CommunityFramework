@@ -14,6 +14,13 @@ modded class DayZGame
 
 		GetRPCManager();
 	}
+	
+	override void OnUpdate(bool doSim, float timeslice)
+	{
+		super.OnUpdate(doSim, timeslice);
+
+		CF_ModuleGameManager._Update(timeslice);
+	}
 
 	override void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
@@ -28,7 +35,7 @@ modded class DayZGame
 			return;
 		}
 
-		CF_Module_Manager.OnRPC(sender, target, rpc_type, ctx);
+		CF_ModuleGameManager.OnRPC(sender, target, rpc_type, ctx);
 
 		super.OnRPC(sender, target, rpc_type, ctx);
 	}

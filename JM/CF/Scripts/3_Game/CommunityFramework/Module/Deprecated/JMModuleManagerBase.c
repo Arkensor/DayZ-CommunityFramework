@@ -4,17 +4,17 @@ class JMModuleManagerBase
 
 	bool IsPreventingModuleBindings()
 	{
-		m_PreventModuleBindings = CF_Module.s_PreventInput;
-		return CF_Module.s_PreventInput;
+		m_PreventModuleBindings = CF_ModuleGame.s_PreventInput;
+		return CF_ModuleGame.s_PreventInput;
 	}
 
 	void SetPreventModuleBindings(bool prevent)
 	{
-		CF_Module.s_PreventInput = prevent;
-		m_PreventModuleBindings = CF_Module.s_PreventInput;
+		CF_ModuleGame.s_PreventInput = prevent;
+		m_PreventModuleBindings = CF_ModuleGame.s_PreventInput;
 	}
 
-	void _InitModule(CF_Module module)
+	void _InitModule(CF_ModuleGame module)
 	{
 	}
 

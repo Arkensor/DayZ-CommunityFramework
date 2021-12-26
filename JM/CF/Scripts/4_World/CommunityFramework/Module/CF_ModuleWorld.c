@@ -1,53 +1,53 @@
-class CF_WorldModule : CF_Module
+class CF_ModuleWorld : CF_ModuleGame
 {
 	void EnableInvokeConnect()
 	{
-		CF_Module_WorldManager.s_InvokeConnect.Add(this);
+		CF_ModuleWorldManager.s_InvokeConnect.Add(this);
 	}
 
 	void EnableInvokeDisconnect()
 	{
-		CF_Module_WorldManager.s_InvokeDisconnect.Add(this);
+		CF_ModuleWorldManager.s_InvokeDisconnect.Add(this);
 	}
 
 	void EnableClientNew()
 	{
-		CF_Module_WorldManager.s_ClientNew.Add(this);
+		CF_ModuleWorldManager.s_ClientNew.Add(this);
 	}
 
 	void EnableClientRespawn()
 	{
-		CF_Module_WorldManager.s_ClientRespawn.Add(this);
+		CF_ModuleWorldManager.s_ClientRespawn.Add(this);
 	}
 
 	void EnableClientReady()
 	{
-		CF_Module_WorldManager.s_ClientReady.Add(this);
+		CF_ModuleWorldManager.s_ClientReady.Add(this);
 	}
 
 	void EnableClientPrepare()
 	{
-		CF_Module_WorldManager.s_ClientPrepare.Add(this);
+		CF_ModuleWorldManager.s_ClientPrepare.Add(this);
 	}
 
 	void EnableClientLogoutReconnect()
 	{
-		CF_Module_WorldManager.s_ClientReconnect.Add(this);
+		CF_ModuleWorldManager.s_ClientReconnect.Add(this);
 	}
 
 	void EnableClientLogout()
 	{
-		CF_Module_WorldManager.s_ClientLogout.Add(this);
+		CF_ModuleWorldManager.s_ClientLogout.Add(this);
 	}
 
 	void EnableClientDisconnect()
 	{
-		CF_Module_WorldManager.s_ClientDisconnect.Add(this);
+		CF_ModuleWorldManager.s_ClientDisconnect.Add(this);
 	}
 
 	void EnableClientLogoutCancelled()
 	{
-		CF_Module_WorldManager.s_ClientLogoutCancelled.Add(this);
+		CF_ModuleWorldManager.s_ClientLogoutCancelled.Add(this);
 	}
 
 	/**

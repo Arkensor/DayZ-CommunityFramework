@@ -1,4 +1,4 @@
-class JMModuleBase : CF_WorldModule
+class JMModuleBase : CF_ModuleWorld
 {
 	/**
 	 * Any module that inherits from 'JMModuleBase' probably expects all events to be enabled
@@ -88,6 +88,17 @@ class JMModuleBase : CF_WorldModule
 	override void OnPermissionsChanged()
 	{
 		OnClientPermissionsUpdated();
+	}
+
+	override void OnRPC(CF_ModuleRPC rpc, Serializer ctx)
+	{
+		super.OnRPC(rpc, ctx);
+
+		OnRPC(rpc.Sender, rpc.Target, rpc.Type, ctx);
+	}
+
+	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx)
+	{
 	}
 
 	void RegisterKeyMouseBindings() 

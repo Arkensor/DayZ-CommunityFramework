@@ -20,19 +20,19 @@ modded class MissionGameplay
 	{
 		super.OnMissionStart();
 
-		CF_Module_Manager.OnMissionStart();
+		CF_ModuleCoreManager.OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
 
-		CF_Module_Manager.OnMissionFinish();
+		CF_ModuleCoreManager.OnMissionFinish();
 	}
 
 	void OnMissionLoaded()
 	{
-		CF_Module_Manager.OnMissionLoaded();
+		CF_ModuleCoreManager.OnMissionLoaded();
 	}
 
 	override void OnUpdate( float timeslice )

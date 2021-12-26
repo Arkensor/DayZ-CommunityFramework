@@ -1,44 +1,8 @@
-class CF_Module : Managed
+class CF_ModuleCore : Managed
 {
 	static bool s_PreventInput = false;
 
-	autoptr CF_InputBindings m_CF_Bindings = new CF_InputBindings(this);
-
-	int m_CF_RPC_Minimum;
-	int m_CF_RPC_Maximum;
-
 	int m_CF_GameFlag;
-
-	void Bind(string function, string input)
-	{
-		m_CF_Bindings.Bind(function, input);
-
-		EnableUpdate();
-	}
-
-	void Bind(string function, UAInput input)
-	{
-		m_CF_Bindings.Bind(function, input);
-
-		EnableUpdate();
-	}
-
-	void Bind(CF_InputBinding binding)
-	{
-		m_CF_Bindings.Bind(binding);
-
-		EnableUpdate();
-	}
-
-	int GetRPCMin()
-	{
-		return -1;
-	}
-
-	int GetRPCMax()
-	{
-		return -1;
-	}
 
 	bool IsServer()
 	{
@@ -48,6 +12,11 @@ class CF_Module : Managed
 	bool IsClient()
 	{
 		return true;
+	}
+
+	typename GetType()
+	{
+		return Type();
 	}
 
 	// Permanent Event
@@ -60,85 +29,72 @@ class CF_Module : Managed
 
 	void EnableUpdate()
 	{
-		CF_Module_Manager.s_Update.Add(this);
+		CF_ModuleCoreManager.s_Update.Add(this);
 	}
 
 	void EnableMissionStart()
 	{
-		CF_Module_Manager.s_MissionStart.Add(this);
+		CF_ModuleCoreManager.s_MissionStart.Add(this);
 	}
 
 	void EnableMissionFinish()
 	{
-		CF_Module_Manager.s_MissionFinish.Add(this);
+		CF_ModuleCoreManager.s_MissionFinish.Add(this);
 	}
 
 	void EnableMissionLoaded()
 	{
-		CF_Module_Manager.s_MissionLoaded.Add(this);
-	}
-
-	void EnableRPC()
-	{
-		m_CF_RPC_Minimum = GetRPCMin();
-		m_CF_RPC_Maximum = GetRPCMax();
-
-		if (m_CF_RPC_Minimum == -1 || m_CF_RPC_Maximum == -1)
-		{
-			return;
-		}
-
-		CF_Module_Manager.s_RPC.Add(this);
+		CF_ModuleCoreManager.s_MissionLoaded.Add(this);
 	}
 
 	void EnableSettingsChanged()
 	{
-		CF_Module_Manager.s_SettingsChanged.Add(this);
+		CF_ModuleCoreManager.s_SettingsChanged.Add(this);
 	}
 
 	void EnablePermissionsChanged()
 	{
-		CF_Module_Manager.s_PermissionsChanged.Add(this);
+		CF_ModuleCoreManager.s_PermissionsChanged.Add(this);
 	}
 
 	void EnableWorldCleanup()
 	{
-		CF_Module_Manager.s_WorldCleanup.Add(this);
+		CF_ModuleCoreManager.s_WorldCleanup.Add(this);
 	}
 
 	void EnableMPSessionStart()
 	{
-		CF_Module_Manager.s_MPSessionStart.Add(this);
+		CF_ModuleCoreManager.s_MPSessionStart.Add(this);
 	}
 
 	void EnableMPSessionPlayerReady()
 	{
-		CF_Module_Manager.s_MPSessionPlayerReady.Add(this);
+		CF_ModuleCoreManager.s_MPSessionPlayerReady.Add(this);
 	}
 
 	void EnableMPSessionFail()
 	{
-		CF_Module_Manager.s_MPSessionFail.Add(this);
+		CF_ModuleCoreManager.s_MPSessionFail.Add(this);
 	}
 
 	void EnableMPSessionEnd()
 	{
-		CF_Module_Manager.s_MPSessionEnd.Add(this);
+		CF_ModuleCoreManager.s_MPSessionEnd.Add(this);
 	}
 
 	void EnableMPConnectAbort()
 	{
-		CF_Module_Manager.s_MPConnectAbort.Add(this);
+		CF_ModuleCoreManager.s_MPConnectAbort.Add(this);
 	}
 
 	void EnableMPConnectionLost()
 	{
-		CF_Module_Manager.s_MPConnectionLost.Add(this);
+		CF_ModuleCoreManager.s_MPConnectionLost.Add(this);
 	}
 
 	void EnableRespawn()
 	{
-		CF_Module_Manager.s_Respawn.Add(this);
+		CF_ModuleCoreManager.s_Respawn.Add(this);
 	}
 
 	// Events
@@ -149,18 +105,7 @@ class CF_Module : Managed
 
 	void OnMissionLoaded();
 
-	/**
-	 * @note Automatically registers when 'Bind' is called
-	 */
-	void OnUpdate(float timeslice)
-	{
-		if (!s_PreventInput)
-		{
-			m_CF_Bindings.Update(timeslice);
-		}
-	}
-
-	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx);
+	void OnUpdate(float timeslice);
 
 	void OnSettingsChanged();
 
