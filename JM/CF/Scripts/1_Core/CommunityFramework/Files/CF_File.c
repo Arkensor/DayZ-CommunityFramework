@@ -84,6 +84,13 @@ class CF_File : Managed
 		return m_FileName;
 	}
 
+	/**
+	 * @brief Sets the folder the file is in
+	 *
+	 * @param folder The folder the file is in
+	 * 
+	 * @return true if the file does exist in the designated folder
+	 */
 	bool SetFolder(string folder)
 	{
 #ifdef CF_TRACE_ENABLED
@@ -105,6 +112,15 @@ class CF_File : Managed
 		return m_Folder;
 	}
 
+	/**
+	 * @brief Creates and opens a new instance of a FileStream for the current file
+	 * 
+	 * @note 'SetFolder' must be called on this instance beforehand
+	 * 
+	 * @param mode Sets the file mode the stream will be opened in
+	 * 
+	 * @return new instance of CF_FileStream
+	 */
 	CF_Stream CreateStream(FileMode mode)
 	{
 #ifdef CF_TRACE_ENABLED
@@ -119,6 +135,13 @@ class CF_File : Managed
 		return new CF_FileStream(m_Folder + m_FileName, mode);
 	}
 
+	/**
+	 * @brief Deletes the current file
+	 * 
+	 * @param folder Updates the current folder name if not already set
+	 * 
+	 * @return true if the operation was successful
+	 */
 	bool Delete(string folder = "")
 	{
 #ifdef CF_TRACE_ENABLED
@@ -133,6 +156,14 @@ class CF_File : Managed
 		return DeleteFile(m_Folder + m_FileName);
 	}
 
+	/**
+	 * @brief Renames the current file
+	 * 
+	 * @param name The new name of the file
+	 * @param folder Updates the current folder name if not already set
+	 * 
+	 * @return true if the operation was successful
+	 */
 	bool Rename(string name, string folder = "")
 	{
 #ifdef CF_TRACE_ENABLED
