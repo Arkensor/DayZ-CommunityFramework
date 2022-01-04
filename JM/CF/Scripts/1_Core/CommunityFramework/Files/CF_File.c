@@ -34,10 +34,7 @@ class CF_File : Managed
 		}
 
 		CF_File file;
-
-		// Scuffed do while
-		bool more = true;
-		while (more)
+		while (true)
 		{
 			file = new CF_File();
 			file.m_FileName = fileName;
@@ -47,7 +44,10 @@ class CF_File : Managed
 			file.m_IsValid = !(fileAttr & FileAttr.INVALID);
 			files.Insert(file);
 
-			more = FindNextFile(handle, fileName, fileAttr);
+			if (!FindNextFile(handle, fileName, fileAttr))
+			{
+				break;
+			}
 		}
 
 		CloseFindFile(handle);
