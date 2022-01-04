@@ -68,6 +68,51 @@ class CF_Path
 	}
 
 	/**
+	 * @brief Returns the file name of the specified path string.
+	 * 
+	 * @param path The path string from which to obtain the file name.
+	 * 
+	 * @return The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns an empty string.
+	 */
+	static string GetFileNameWithoutExtension(string path)
+	{
+		return GetFileNameWithoutExtensionEx(path, GetDirectoryName(path));
+	}
+
+	/**
+	 * @brief Returns the file name of the specified path string.
+	 * 
+	 * @param path The path string from which to obtain the file name.
+	 * 
+	 * @return The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns an empty string.
+	 */
+	static string GetFileNameWithoutExtensionEx(string path, string folder)
+	{
+		int start = folder.Length();
+		int end = path.Length() - folder.Length();
+		if (end <= 0)
+		{
+			return string.Empty;
+		}
+
+		string finalChar = path[end];
+		if (finalChar == CF_Path.DIRECTORY_SEPARATOR || finalChar == CF_Path.FILESYSTEM_IDENTIFIER || finalChar == CF_Path.ALT_DIRECTORY_SEPARATOR)
+		{
+			return string.Empty;
+		}
+
+		string fileName = path.Substring(start, end);
+
+		int index = fileName.CF_LastIndexOf(".");
+		if (index != -1)
+		{
+			fileName = fileName.Substring(0, fileName.Length() - fileName.Length() - index);
+		}
+	
+		return fileName;
+	}
+
+	/**
 	 * @brief Returns the extension (including the period ".") of the specified path string.
 	 * 
 	 * @param path The path string from which to get the extension.
