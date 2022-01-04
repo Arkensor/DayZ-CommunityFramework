@@ -10,60 +10,6 @@ class CF_File : Managed
 	protected bool m_IsValid;
 
 	/**
-	 * @param pattern The search pattern
-	 * @param [inout] files An array where the list of files will be written to
-	 * @param flags If it should be looked in directories or .pak files, or both
-	 * 
-	 * @return If the pattern was valid
-	 */
-	static bool Find(string pattern, inout array<ref CF_File> files, FindFileFlags flags = 2)
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_3("CF_File", "Find").Add(pattern).Add(files).Add(flags);
-#endif
-
-		if (!files)
-		{
-			files = new array<ref CF_File>();
-		}
-
-		pattern.Replace("\\", CF_Path.DIRECTORY_SEPARATOR);
-
-		string fileName;
-		FileAttr fileAttr;
-		FindFileHandle handle = FindFile(pattern, fileName, fileAttr, flags);
-		if (!handle)
-		{
-			return false;
-		}
-
-		string folder = CF_Path.GetDirectoryName(pattern);
-
-		CF_File file;
-		while (true)
-		{
-			file = new CF_File();
-
-			file.SetFileName(fileName);
-			file.SetFolder(folder);
-
-			file.m_IsDirectory = (fileAttr & FileAttr.DIRECTORY) != 0;
-			file.m_IsHidden = (fileAttr & FileAttr.HIDDEN) != 0;
-			file.m_IsReadOnly = (fileAttr & FileAttr.READONLY) != 0;
-			file.m_IsValid = (fileAttr & FileAttr.INVALID) != 0;
-			files.Insert(file);
-
-			if (!FindNextFile(handle, fileName, fileAttr))
-			{
-				break;
-			}
-		}
-
-		CloseFindFile(handle);
-		return true;
-	}
-
-	/**
 	 * @brief Constructor
 	 * 
 	 * @param path No operation perform if path is empty string
@@ -86,13 +32,11 @@ class CF_File : Managed
 			return;
 		}
 		
-		SetFolder(CF_Path.GetDirectoryName(path));
-		SetFileName(fileName);
-
-		m_IsDirectory = (fileAttr & FileAttr.DIRECTORY) != 0;
-		m_IsHidden = (fileAttr & FileAttr.HIDDEN) != 0;
-		m_IsReadOnly = (fileAttr & FileAttr.READONLY) != 0;
-		m_IsValid = (fileAttr & FileAttr.INVALID) != 0;
+		_SetFolder(CF_Path.GetDirectoryName(path));
+		_SetFileName(fileName);
+		_SetAttributes(fileAttr);
+		
+		CloseFindFile(handle);
 	}
 
 	bool IsDirectory()
@@ -232,7 +176,7 @@ class CF_File : Managed
 			CF_Log.Warn("Failed to delete original file in rename for file \"%1\"", GetFullPath());
 		}
 
-		SetFileName(name);
+		_SetFileName(name);
 
 		return true;
 	}
@@ -282,8 +226,8 @@ class CF_File : Managed
 			CF_Log.Warn("Failed to delete original file in move for file \"%1\"", GetFullPath());
 		}
 
-		SetFolder(folder);
-		SetFileName(name);
+		_SetFolder(folder);
+		_SetFileName(name);
 
 		return true;
 	}
@@ -382,12 +326,12 @@ class CF_File : Managed
 		return "{path=\"" + GetFullPath() + "\", filename=\"" + GetFileName() + "\", directory=" + m_IsDirectory.ToString() + ", hidden=" + m_IsHidden.ToString() + ", readonly=" + m_IsReadOnly.ToString() + ", valid=" + m_IsValid.ToString() + "}";
 	}
 
-	protected void SetFolder(string folder)
+	void _SetFolder(string folder)
 	{
 		m_Directory = folder;
 	}
 
-	protected void SetFileName(CF_String fileName)
+	void _SetFileName(CF_String fileName)
 	{
 		int index = fileName.CF_LastIndexOf(".");
 		if (index == -1)
@@ -399,5 +343,13 @@ class CF_File : Managed
 
 		m_Extension = fileName.Substring(index, fileName.Length() - index);
 		m_FileName = fileName.Substring(0, fileName.Length() - m_Extension.Length());
+	}
+
+	void _SetAttributes(FileAttr fileAttr)
+	{
+		m_IsDirectory = (fileAttr & FileAttr.DIRECTORY) != 0;
+		m_IsHidden = (fileAttr & FileAttr.HIDDEN) != 0;
+		m_IsReadOnly = (fileAttr & FileAttr.READONLY) != 0;
+		m_IsValid = (fileAttr & FileAttr.INVALID) != 0;
 	}
 };

@@ -101,7 +101,7 @@ class CF_Path
 			return string.Empty;
 		}
 
-		string fileName = path.Substring(start, end);
+		CF_String fileName = path.Substring(start, end);
 
 		int index = fileName.CF_LastIndexOf(".");
 		if (index != -1)
