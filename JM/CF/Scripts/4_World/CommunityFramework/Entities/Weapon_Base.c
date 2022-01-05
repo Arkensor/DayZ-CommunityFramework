@@ -59,7 +59,10 @@ modded class Weapon_Base
 
 		magazine.SetHealth01("", "", health);
 
-		CF_AttachMagazine(magazine);
+		if (CF_AttachMagazine(magazine))
+		{
+			return false;
+		}
 
 		if (quantity == -1 && magazine)
 		{
@@ -83,17 +86,35 @@ modded class Weapon_Base
 	 * @brief Attaches a magazine to the weapon, fills up the internal magazine and chamber for all muzzle points
 	 * 
 	 * @param magazine The magazine to be attached
+	 * 
+	 * @return true if operation successful
 	 */
-	void CF_AttachMagazine(Magazine_Base magazine)
+	bool CF_AttachMagazine(Magazine_Base magazine)
 	{
 		if (!GetGame().IsServer())
-			return;
+			return false;
 
 		bool isMagazine = !magazine.IsInherited(Ammunition_Base);
 
 		// Delete the entities from clients
 		GetGame().RemoteObjectDelete(this);
 		GetGame().RemoteObjectDelete(magazine);
+
+		// Magazine has to attach into the attachment slot
+		if (isMagazine)
+		{
+			InventoryLocation srcLocation();
+			magazine.GetInventory().GetCurrentInventoryLocation(srcLocation);
+
+			InventoryLocation dstLocation();
+			dstLocation.SetAttachment(this, magazine, InventorySlots.MAGAZINE);
+
+			// If false, then the magazine is already properly attached to the desired slot
+			if (!dstLocation.CompareLocationOnly(srcLocation) && !GameInventory.LocationMoveEntity(srcLocation, dstLocation))
+			{
+				return false;
+			}
+		}
 
 		float damage;
 		string ammoType;
@@ -134,5 +155,7 @@ modded class Weapon_Base
 		{
 			GetGame().RemoteObjectCreate(magazine);
 		}
+
+		return true;
 	}
 };
