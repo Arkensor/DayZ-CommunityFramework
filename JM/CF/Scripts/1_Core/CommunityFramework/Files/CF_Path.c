@@ -4,6 +4,8 @@ class CF_Path
 	static string ALT_DIRECTORY_SEPARATOR = "\\";
 	static string FILESYSTEM_IDENTIFIER = ":";
 
+	static ref array<string> DIRECTORY_CHECKS = { DIRECTORY_SEPARATOR, ALT_DIRECTORY_SEPARATOR, FILESYSTEM_IDENTIFIER };
+
 	/**
 	 * @brief Returns the directory information for the specified path.
 	 * 
@@ -58,8 +60,7 @@ class CF_Path
 			return string.Empty;
 		}
 
-		string finalChar = path[end];
-		if (finalChar == CF_Path.DIRECTORY_SEPARATOR || finalChar == CF_Path.FILESYSTEM_IDENTIFIER || finalChar == CF_Path.ALT_DIRECTORY_SEPARATOR)
+		if (DIRECTORY_CHECKS.Find(path[end]) != -1)
 		{
 			return string.Empty;
 		}
@@ -95,8 +96,7 @@ class CF_Path
 			return string.Empty;
 		}
 
-		string finalChar = path[end];
-		if (finalChar == CF_Path.DIRECTORY_SEPARATOR || finalChar == CF_Path.FILESYSTEM_IDENTIFIER || finalChar == CF_Path.ALT_DIRECTORY_SEPARATOR)
+		if (DIRECTORY_CHECKS.Find(path[end]) != -1)
 		{
 			return string.Empty;
 		}

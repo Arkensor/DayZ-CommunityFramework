@@ -51,4 +51,56 @@ class CF_Directory
 		
 		return true;
 	}
+
+	/**
+	 * @brief Creates all directories and subdirectories in the specified path unless they already exist. 
+	 * 
+	 * @param directory The directory to create.
+	 * 
+	 * @return If the directories could be created
+	 */
+	static bool CreateDirectory(string directory)
+	{
+		array<string> directories();
+		string path = directory;
+
+		string previousPath = "";
+		while (true)
+		{
+			previousPath = path;
+			if (FileExist(previousPath))
+			{
+				break;
+			}
+			
+			path = CF_Path.GetDirectoryName(path);
+			if (previousPath == path)
+			{
+				path = previousPath;
+				break;
+			}
+			
+			if (previousPath[previousPath.Length() - 1] == CF_Path.FILESYSTEM_IDENTIFIER)
+			{
+				return false;
+			}
+			
+			directory = CF_Path.GetFileNameEx(previousPath, path);
+			directory = directory.Substring(0, directory.Length() - 1);
+
+			directories.Insert(directory);
+		}
+
+		for (int i = directories.Count() - 1; i >= 0; i--)
+		{
+			path = path + directories[i] + CF_Path.DIRECTORY_SEPARATOR;
+			
+			if (!MakeDirectory(path))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 };
