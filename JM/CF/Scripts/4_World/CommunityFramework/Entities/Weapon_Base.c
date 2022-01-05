@@ -1,0 +1,138 @@
+modded class Weapon_Base
+{
+	/**
+	 * @brief Spawns a magazine into the weapon as an attachment or into the internal magazine
+	 * 
+	 * @param magazineType The class type of the magazine, must inherit from Magazine_Base
+	 * @param quantity The amount of ammunition in the stack/magazine, -1 for max
+	 * @param health The normalized health value, 0 is ruined, 1 is max health 
+	 * 
+	 * @return True if the magazine was spawned succesfully 
+	 */
+	bool CF_SpawnMagazine(string magazineType, int quantity = -1, float health = 1)
+	{
+		if (!GetGame().IsKindOf(magazineType, "Magazine_Base"))
+		{
+			return false;
+		}
+
+		InventoryLocation location();
+
+		Magazine_Base magazine;
+
+		bool isMagazine = !GetGame().IsKindOf(magazineType, "Ammunition_Base");
+		bool success;
+
+		if (isMagazine)
+		{
+			location.SetAttachment(this, NULL, InventorySlots.MAGAZINE);
+			success = Class.CastTo(magazine, SpawnEntity(magazineType, location, ECE_IN_INVENTORY, RF_DEFAULT));
+		}
+		else
+		{
+			InventoryLocation weaponLocation();
+			success = GetInventory().GetCurrentInventoryLocation(weaponLocation);
+			if (success)
+			{
+				EntityAI parent = weaponLocation.GetParent();
+
+				if (parent && parent.GetInventory().FindFirstFreeLocationForNewEntity(magazineType, FindInventoryLocationType.CARGO, location))
+				{
+					success = Class.CastTo(magazine, SpawnEntity(magazineType, location, ECE_IN_INVENTORY, RF_DEFAULT));
+				}
+				else
+				{
+					success = Class.CastTo(magazine, GetGame().CreateObjectEx(magazineType, GetWorldPosition(), ECE_PLACE_ON_SURFACE));
+				}
+			}
+		}
+
+		if (!success)
+		{
+			return false;
+		}
+
+		if (quantity != -1)
+		{
+			magazine.ServerSetAmmoCount(quantity);
+		}
+
+		magazine.SetHealth01("", "", health);
+
+		CF_AttachMagazine(magazine);
+
+		if (quantity == -1 && magazine)
+		{
+			if (isMagazine)
+			{
+				// make sure the magazine is full
+				magazine.ServerSetAmmoMax();
+			}
+			else
+			{
+				// delete overfill
+				GetGame().ObjectDelete(magazine);
+				magazine = null; // may be delayed
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @brief Attaches a magazine to the weapon, fills up the internal magazine and chamber for all muzzle points
+	 * 
+	 * @param magazine The magazine to be attached
+	 */
+	void CF_AttachMagazine(Magazine_Base magazine)
+	{
+		if (!GetGame().IsServer())
+			return;
+
+		bool isMagazine = !magazine.IsInherited(Ammunition_Base);
+
+		// Delete the entities from clients
+		GetGame().RemoteObjectDelete(this);
+		GetGame().RemoteObjectDelete(magazine);
+
+		float damage;
+		string ammoType;
+
+		int ammoCount = magazine.GetAmmoCount();
+		int muzzleCount = GetMuzzleCount();
+
+		for (int muzzle = 0; muzzle < muzzleCount; muzzle++)
+		{
+			int internalMagazineMax = GetInternalMagazineMaxCartridgeCount(muzzle);
+			while (GetInternalMagazineCartridgeCount(muzzle) < internalMagazineMax && ammoCount > 0)
+			{
+				ammoCount--;
+				if (magazine.ServerAcquireCartridge(damage, ammoType))
+				{
+					PushCartridgeToInternalMagazine(muzzle, damage, ammoType);
+				}
+			}
+
+			if (ammoCount > 0)
+			{
+				ammoCount--;
+
+				if (magazine.ServerAcquireCartridge(damage, ammoType))
+				{
+					PushCartridgeToChamber(muzzle, damage, ammoType);
+					ShowBullet(muzzle);
+				}
+			}
+		}
+
+		ValidateAndRepair();
+
+		GetGame().RemoteObjectCreate(this);
+
+		// When ammoCount reaches zero the magazine is deleted
+		if (magazine)
+		{
+			GetGame().RemoteObjectCreate(magazine);
+		}
+	}
+};
