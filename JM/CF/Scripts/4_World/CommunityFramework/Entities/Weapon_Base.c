@@ -91,14 +91,14 @@ modded class Weapon_Base
 	 */
 	bool CF_AttachMagazine(Magazine_Base magazine)
 	{
-		if (!GetGame().IsServer())
-			return false;
-
 		bool isMagazine = !magazine.IsInherited(Ammunition_Base);
 
-		// Delete the entities from clients
-		GetGame().RemoteObjectDelete(this);
-		GetGame().RemoteObjectDelete(magazine);
+		if (GetGame().IsDedicatedServer())
+		{
+			// Delete the entities from clients
+			GetGame().RemoteObjectDelete(this);
+			GetGame().RemoteObjectDelete(magazine);
+		}
 
 		// Magazine has to attach into the attachment slot
 		if (isMagazine)
@@ -148,12 +148,15 @@ modded class Weapon_Base
 
 		ValidateAndRepair();
 
-		GetGame().RemoteObjectCreate(this);
-
-		// When ammoCount reaches zero the magazine is deleted
-		if (magazine)
+		if (GetGame().IsDedicatedServer())
 		{
-			GetGame().RemoteObjectCreate(magazine);
+			GetGame().RemoteObjectCreate(this);
+
+			// When ammoCount reaches zero the magazine is deleted
+			if (magazine)
+			{
+				GetGame().RemoteObjectCreate(magazine);
+			}
 		}
 
 		return true;
