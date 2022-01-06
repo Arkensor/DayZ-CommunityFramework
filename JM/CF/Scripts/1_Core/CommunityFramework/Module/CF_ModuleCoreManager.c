@@ -141,68 +141,68 @@ class CF_ModuleCoreManager
 
 	// EVENTS
 
-	static void OnMissionStart()
+	static void OnMissionStart(Class sender, CF_EventArgs args)
 	{
-		s_MissionStart.OnMissionStart();
+		s_MissionStart.OnMissionStart(sender, args);
 	}
 
-	static void OnMissionFinish()
+	static void OnMissionFinish(Class sender, CF_EventArgs args)
 	{
-		s_MissionFinish.OnMissionFinish();
+		s_MissionFinish.OnMissionFinish(sender, args);
 	}
 
-	static void OnMissionLoaded()
+	static void OnMissionLoaded(Class sender, CF_EventArgs args)
 	{
-		s_MissionLoaded.OnMissionLoaded();
+		s_MissionLoaded.OnMissionLoaded(sender, args);
 	}
 
-	static void OnSettingsChanged()
+	static void OnSettingsChanged(Class sender, CF_EventArgs args)
 	{
-		s_SettingsChanged.OnSettingsChanged();
+		s_SettingsChanged.OnSettingsChanged(sender, args);
 	}
 
-	static void OnPermissionsChanged()
+	static void OnPermissionsChanged(Class sender, CF_EventArgs args)
 	{
-		s_PermissionsChanged.OnPermissionsChanged();
+		s_PermissionsChanged.OnPermissionsChanged(sender, args);
 	}
 
-	static void OnWorldCleanup()
+	static void OnWorldCleanup(Class sender, CF_EventArgs args)
 	{
-		s_WorldCleanup.OnWorldCleanup();
+		s_WorldCleanup.OnWorldCleanup(sender, args);
 	}
 
-	static void OnMPSessionStart()
+	static void OnMPSessionStart(Class sender, CF_EventArgs args)
 	{
-		s_MPSessionStart.OnMPSessionStart();
+		s_MPSessionStart.OnMPSessionStart(sender, args);
 	}
 
-	static void OnMPSessionPlayerReady()
+	static void OnMPSessionPlayerReady(Class sender, CF_EventArgs args)
 	{
-		s_MPSessionPlayerReady.OnMPSessionPlayerReady();
+		s_MPSessionPlayerReady.OnMPSessionPlayerReady(sender, args);
 	}
 
-	static void OnMPSessionFail()
+	static void OnMPSessionFail(Class sender, CF_EventArgs args)
 	{
-		s_MPSessionFail.OnMPSessionFail();
+		s_MPSessionFail.OnMPSessionFail(sender, args);
 	}
 
-	static void OnMPSessionEnd()
+	static void OnMPSessionEnd(Class sender, CF_EventArgs args)
 	{
-		s_MPSessionEnd.OnMPSessionEnd();
+		s_MPSessionEnd.OnMPSessionEnd(sender, args);
 	}
 
-	static void OnMPConnectAbort()
+	static void OnMPConnectAbort(Class sender, CF_EventArgs args)
 	{
-		s_MPConnectAbort.OnMPConnectAbort();
+		s_MPConnectAbort.OnMPConnectAbort(sender, args);
 	}
 
-	static void OnMPConnectionLost(int duration)
+	static void OnMPConnectionLost(Class sender, CF_EventArgs args)
 	{
-		s_MPConnectionLost.OnMPConnectionLost(duration);
+		s_MPConnectionLost.OnMPConnectionLost(sender, args);
 	}
 
-	static void OnRespawn(int time)
+	static void OnRespawn(Class sender, CF_EventArgs args)
 	{
-		s_Respawn.OnRespawn(time);
+		s_Respawn.OnRespawn(sender, args);
 	}
 };

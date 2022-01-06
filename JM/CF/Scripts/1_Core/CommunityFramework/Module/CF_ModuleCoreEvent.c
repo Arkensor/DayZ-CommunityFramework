@@ -29,7 +29,7 @@ class CF_ModuleCoreEvent
 		current.m_Next = newEvent;
 	}
 
-	void OnMissionStart()
+	void OnMissionStart(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -38,14 +38,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMissionStart();
+				module.OnMissionStart(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMissionFinish()
+	void OnMissionFinish(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -54,14 +54,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMissionFinish();
+				module.OnMissionFinish(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMissionLoaded()
+	void OnMissionLoaded(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -70,14 +70,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMissionLoaded();
+				module.OnMissionLoaded(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnUpdate(float timeslice)
+	void OnUpdate(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -86,14 +86,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnUpdate(timeslice);
+				module.OnUpdate(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnSettingsChanged()
+	void OnSettingsChanged(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -102,14 +102,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnSettingsChanged();
+				module.OnSettingsChanged(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnPermissionsChanged()
+	void OnPermissionsChanged(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -118,14 +118,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnPermissionsChanged();
+				module.OnPermissionsChanged(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnWorldCleanup()
+	void OnWorldCleanup(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -134,14 +134,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnWorldCleanup();
+				module.OnWorldCleanup(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMPSessionStart()
+	void OnMPSessionStart(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -150,14 +150,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMPSessionStart();
+				module.OnMPSessionStart(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMPSessionPlayerReady()
+	void OnMPSessionPlayerReady(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -166,14 +166,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMPSessionPlayerReady();
+				module.OnMPSessionPlayerReady(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMPSessionFail()
+	void OnMPSessionFail(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -182,14 +182,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMPSessionFail();
+				module.OnMPSessionFail(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMPSessionEnd()
+	void OnMPSessionEnd(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -198,14 +198,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMPSessionEnd();
+				module.OnMPSessionEnd(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMPConnectAbort()
+	void OnMPConnectAbort(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -214,14 +214,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMPConnectAbort();
+				module.OnMPConnectAbort(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnMPConnectionLost(int duration)
+	void OnMPConnectionLost(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -230,14 +230,14 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnMPConnectionLost(duration);
+				module.OnMPConnectionLost(sender, args);
 			}
 
 			evt = evt.m_Next;
 		}
 	}
 
-	void OnRespawn(int time)
+	void OnRespawn(Class sender, CF_EventArgs args)
 	{
 		CF_ModuleCoreEvent evt = this.m_Next;
 		while (evt)
@@ -246,7 +246,7 @@ class CF_ModuleCoreEvent
 
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
 			{
-				module.OnRespawn(time);
+				module.OnRespawn(sender, args);
 			}
 
 			evt = evt.m_Next;

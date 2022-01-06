@@ -1,20 +1,21 @@
 class CF_ModuleGameEvent : CF_ModuleCoreEvent
 {
-	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, Serializer ctx)
+	void OnRPC(Class sender, CF_EventArgs args)
 	{
-		auto rpc = new CF_ModuleRPC();
-		rpc.Sender = sender;
-		rpc.Target = target;
-		rpc.Type = rpc_type;
+		CF_EventRPCArgs rpc;
+		if (!Class.CastTo(rpc, args))
+		{
+			return;
+		}
 
 		auto evt = this.m_Next;
 		while (evt)
 		{
 			auto module = CF_ModuleGame.Cast(evt.m_Value);
 
-			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0 && (module.m_CF_RPC_Minimum <= rpc_type && rpc_type < module.m_CF_RPC_Maximum))
+			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0 && (module.m_CF_RPC_Minimum <= rpc.ID && rpc.ID < module.m_CF_RPC_Maximum))
 			{
-				module.OnRPC(rpc, ctx);
+				module.OnRPC(sender, rpc);
 				break;
 			}
 
@@ -22,7 +23,7 @@ class CF_ModuleGameEvent : CF_ModuleCoreEvent
 		}
 	}
 
-	void OnUpdateInput(float dt)
+	void UpdateGameEventInputs(float dt)
 	{
 		auto evt = this.m_Next;
 		while (evt)
@@ -37,11 +38,4 @@ class CF_ModuleGameEvent : CF_ModuleCoreEvent
 			evt = evt.m_Next;
 		}
 	}
-};
-
-class CF_ModuleRPC
-{
-	PlayerIdentity Sender;
-	Object Target;
-	int Type;
 };

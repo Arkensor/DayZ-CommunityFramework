@@ -21,21 +21,21 @@ class CF_ModuleGameManager
 		}
 	}
 
-	static void OnRPC(PlayerIdentity sender, Object target, int rpc_type, Serializer ctx)
+	static void OnRPC(Class sender, CF_EventArgs args)
 	{
-		s_RPC.OnRPC(sender, target, rpc_type, ctx);
+		s_RPC.OnRPC(sender, args);
 	}
 
-	static void OnUpdate(float dt)
+	static void OnUpdate(Class sender, CF_EventArgs args)
 	{
 		UpdateGameFlag();
 
-		CF_ModuleCoreManager.s_Update.OnUpdate(dt);
+		CF_ModuleCoreManager.s_Update.OnUpdate(sender, args);
 
 		// Don't allow input if we are editing an edit box or we are the server
 		if (!GetGame().IsDedicatedServer() && !GetDayZGame().CF_IsInputInEditbox())
 		{
-			s_UpdateInput.OnUpdateInput(dt);
+			s_UpdateInput.UpdateGameEventInputs(CF_EventUpdateArgs.Cast(args).DeltaTime);
 		}
 	}
 };

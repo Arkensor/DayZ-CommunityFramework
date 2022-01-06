@@ -11,53 +11,53 @@ class CF_ModuleWorldManager
 	static ref CF_ModuleWorldEvent s_ClientDisconnect = new CF_ModuleWorldEvent();
 	static ref CF_ModuleWorldEvent s_ClientLogoutCancelled = new CF_ModuleWorldEvent();
 
-	static void OnInvokeConnect(PlayerBase player, PlayerIdentity identity)
+	static void OnInvokeConnect(Class sender, CF_EventArgs args)
 	{
-		s_InvokeConnect.OnInvokeConnect(player, identity);
+		s_InvokeConnect.OnInvokeConnect(sender, args);
 	}
 
-	static void OnInvokeDisconnect(PlayerBase player)
+	static void OnInvokeDisconnect(Class sender, CF_EventArgs args)
 	{
-		s_InvokeDisconnect.OnInvokeDisconnect(player);
+		s_InvokeDisconnect.OnInvokeDisconnect(sender, args);
 	}
 
-	static void OnClientNew(inout PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx)
+	static void OnClientNew(Class sender, CF_EventArgs args)
 	{
-		s_ClientNew.OnClientNew(player, identity, pos, ctx);
+		s_ClientNew.OnClientNew(sender, args);
 	}
 
-	static void OnClientRespawn(PlayerBase player, PlayerIdentity identity)
+	static void OnClientRespawn(Class sender, CF_EventArgs args)
 	{
-		s_ClientRespawn.OnClientRespawn(player, identity);
+		s_ClientRespawn.OnClientRespawn(sender, args);
 	}
 
-	static void OnClientReady(PlayerBase player, PlayerIdentity identity)
+	static void OnClientReady(Class sender, CF_EventArgs args)
 	{
-		s_ClientReady.OnClientReady(player, identity);
+		s_ClientReady.OnClientReady(sender, args);
 	}
 
-	static void OnClientPrepare(PlayerIdentity identity, inout bool useDB, inout vector pos, inout float yaw, inout int preloadTimeout)
+	static void OnClientPrepare(Class sender, CF_EventArgs args)
 	{
-		s_ClientPrepare.OnClientPrepare(identity, useDB, pos, yaw, preloadTimeout);
+		s_ClientPrepare.OnClientPrepare(sender, args);
 	}
 
-	static void OnClientReconnect(PlayerBase player, PlayerIdentity identity)
+	static void OnClientReconnect(Class sender, CF_EventArgs args)
 	{
-		s_ClientReconnect.OnClientReconnect(player, identity);
+		s_ClientReconnect.OnClientReconnect(sender, args);
 	}
 
-	static void OnClientLogout(PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed)
+	static void OnClientLogout(Class sender, CF_EventArgs args)
 	{
-		s_ClientLogout.OnClientLogout(player, identity, logoutTime, authFailed);
+		s_ClientLogout.OnClientLogout(sender, args);
 	}
 
-	static void OnClientDisconnect(PlayerBase player, PlayerIdentity identity, string uid)
+	static void OnClientDisconnect(Class sender, CF_EventArgs args)
 	{
-		s_ClientDisconnect.OnClientDisconnect(player, identity, uid);
+		s_ClientDisconnect.OnClientDisconnect(sender, args);
 	}
 
-	static void OnClientLogoutCancelled(PlayerBase player)
+	static void OnClientLogoutCancelled(Class sender, CF_EventArgs args)
 	{
-		s_ClientLogoutCancelled.OnClientLogoutCancelled(player);
+		s_ClientLogoutCancelled.OnClientLogoutCancelled(sender, args);
 	}
 };

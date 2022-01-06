@@ -53,50 +53,50 @@ class CF_ModuleWorld : CF_ModuleGame
 	/**
 	 * @brief See: MissionServer::InvokeOnConnect
 	 */
-	void OnInvokeConnect(PlayerBase player, PlayerIdentity identity);
+	void OnInvokeConnect(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MissionServer::InvokeOnDisconnect
 	 */
-	void OnInvokeDisconnect(PlayerBase player);
+	void OnInvokeDisconnect(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ClientNewEventTypeID
 	 */
-	void OnClientNew(inout PlayerBase player, PlayerIdentity identity, vector pos, ParamsReadContext ctx);
+	void OnClientNew(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ClientRespawnEventTypeID
 	 */
-	void OnClientRespawn(PlayerBase player, PlayerIdentity identity);
+	void OnClientRespawn(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ClientReadyEventTypeID
 	 */
-	void OnClientReady(PlayerBase player, PlayerIdentity identity);
+	void OnClientReady(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ClientPrepareEventTypeID
 	 */
-	void OnClientPrepare(PlayerIdentity identity, inout bool useDB, inout vector pos, inout float yaw, inout int preloadTimeout);
+	void OnClientPrepare(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ClientReconnectEventTypeID
 	 */
-	void OnClientReconnect(PlayerBase player, PlayerIdentity identity);
+	void OnClientReconnect(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ClientDisconnectedEventTypeID
 	 */
-	void OnClientLogout(PlayerBase player, PlayerIdentity identity, int logoutTime, bool authFailed);
+	void OnClientLogout(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MissionServer::PlayerDisconnected - Fires when the player has disconnected from the server (OnClientReconnect won't fire)
 	 */
-	void OnClientDisconnect(PlayerBase player, PlayerIdentity identity, string uid);
+	void OnClientDisconnect(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: LogoutCancelEventTypeID
 	 */
-	void OnClientLogoutCancelled(PlayerBase player);
+	void OnClientLogoutCancelled(Class sender, CF_EventArgs args);
 };

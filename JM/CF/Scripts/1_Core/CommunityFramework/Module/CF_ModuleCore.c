@@ -108,57 +108,57 @@ class CF_ModuleCore : Managed
 
 	// Events
 
-	void OnMissionStart();
+	void OnMissionStart(Class sender, CF_EventArgs args);
 
-	void OnMissionFinish();
+	void OnMissionFinish(Class sender, CF_EventArgs args);
 
-	void OnMissionLoaded();
+	void OnMissionLoaded(Class sender, CF_EventArgs args);
 
-	void OnUpdate(float timeslice);
+	void OnUpdate(Class sender, CF_EventArgs args);
 
-	void OnSettingsChanged();
+	void OnSettingsChanged(Class sender, CF_EventArgs args);
 
-	void OnPermissionsChanged();
+	void OnPermissionsChanged(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: WorldCleaupEventTypeID
 	 */
-	void OnWorldCleanup();
+	void OnWorldCleanup(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MPSessionStartEventTypeID
 	 */
-	void OnMPSessionStart();
+	void OnMPSessionStart(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MPSessionPlayerReadyEventTypeID
 	 */
-	void OnMPSessionPlayerReady();
+	void OnMPSessionPlayerReady(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MPSessionFailEventTypeID
 	 */
-	void OnMPSessionFail();
+	void OnMPSessionFail(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MPSessionEndEventTypeID
 	 */
-	void OnMPSessionEnd();
+	void OnMPSessionEnd(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: ConnectingAbortEventTypeID
 	 */
-	void OnMPConnectAbort();
+	void OnMPConnectAbort(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: MPConnectionLostEventTypeID
 	 */
-	void OnMPConnectionLost(int duration);
+	void OnMPConnectionLost(Class sender, CF_EventArgs args);
 
 	/**
 	 * @brief See: RespawnEventTypeID
 	 */
-	void OnRespawn(int time);
+	void OnRespawn(Class sender, CF_EventArgs args);
 
 	// FALLBACKS
 

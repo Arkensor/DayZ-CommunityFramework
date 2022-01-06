@@ -29,7 +29,13 @@ modded class DayZGame
 			return;
 		}
 
-		CF_ModuleGameManager.OnRPC( sender, target, rpc_type, ctx );
+		auto rpcArgs = new CF_EventRPCArgs();
+		rpcArgs.Sender = sender;
+		rpcArgs.Target = target;
+		rpcArgs.ID = rpc_type;
+		rpcArgs.Context = ctx;
+		
+		CF_ModuleGameManager.OnRPC(this, rpcArgs);
 
 		super.OnRPC( sender, target, rpc_type, ctx );
 	}

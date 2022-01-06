@@ -54,7 +54,7 @@ class CF_ModuleGame : CF_ModuleCore
 		CF_ModuleGameManager.s_UpdateInput.Add(this);
 	}
 
-	void OnRPC(CF_ModuleRPC rpc, Serializer ctx);
+	void OnRPC(Class sender, CF_EventArgs args);
 };
 
 typedef CF_ModuleGame CF_Module;
