@@ -30,6 +30,10 @@ All events within the modules are by default disabled. Once enabled the event ca
 | `CF_ModuleCore::OnMPConnectAbort`         | `EnableMPConnectAbort`        | See: ConnectingAbortEventTypeID                    |
 | `CF_ModuleCore::OnMPConnectionLost`       | `EnableMPConnectionLost`      | See: MPConnectionLostEventTypeID                   |
 | `CF_ModuleCore::OnRespawn`                | `EnableRespawn`               | See: RespawnEventTypeID                            |
+| `CF_ModuleCore::OnLoginTime`              | `EnableLoginTime`             | See: LoginTimeEventTypeID                          |
+| `CF_ModuleCore::OnLoginStatus`            | `EnableLoginStatus`           | See: LoginStatusEventTypeID                        |
+| `CF_ModuleCore::OnLogout`                 | `EnableLogout`                | See: LogoutEventTypeID                             |
+| `CF_ModuleCore::OnChat`                   | `EnableChat`                  | See: ChatMessageEventTypeID                        |
 | `CF_ModuleGame::OnRPC`                    | `EnableRPC`                   | Called when `DayZGame::OnRPC` is ran               |
 | `CF_ModuleWorld::OnInvokeConnect`         | `EnableInvokeConnect`         | See: MissionServer::InvokeOnConnect                |
 | `CF_ModuleWorld::OnInvokeDisconnect`      | `EnableInvokeDisconnect`      | See: MissionServer::InvokeOnDisconnect             |

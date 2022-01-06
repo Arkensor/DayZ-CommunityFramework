@@ -106,6 +106,26 @@ class CF_ModuleCore : Managed
 		CF_ModuleCoreManager.s_Respawn.Add(this);
 	}
 
+	void EnableLoginTime()
+	{
+		CF_ModuleCoreManager.s_LoginTime.Add(this);
+	}
+
+	void EnableLoginStatus()
+	{
+		CF_ModuleCoreManager.s_LoginStatus.Add(this);
+	}
+
+	void EnableLogout()
+	{
+		CF_ModuleCoreManager.s_Logout.Add(this);
+	}
+
+	void EnableChat()
+	{
+		CF_ModuleCoreManager.s_Chat.Add(this);
+	}
+
 	// Events
 
 	void OnMissionStart(Class sender, CF_EventArgs args);
@@ -159,6 +179,26 @@ class CF_ModuleCore : Managed
 	 * @brief See: RespawnEventTypeID
 	 */
 	void OnRespawn(Class sender, CF_EventArgs args);
+
+	/**
+	 * @brief See: LoginTimeEventTypeID
+	 */
+	void OnLoginTime(Class sender, CF_EventArgs args);
+	
+	/**
+	 * @brief See: LoginStatusEventTypeID
+	 */
+	void OnLoginStatus(Class sender, CF_EventArgs args);
+	
+	/**
+	 * @brief See: LogoutEventTypeID
+	 */
+	void OnLogout(Class sender, CF_EventArgs args);
+	
+	/**
+	 * @brief See: ChatMessageEventTypeID
+	 */
+	void OnChat(Class sender, CF_EventArgs args);
 
 	// FALLBACKS
 

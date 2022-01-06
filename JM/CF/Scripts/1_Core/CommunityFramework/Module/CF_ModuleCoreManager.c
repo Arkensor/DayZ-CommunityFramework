@@ -23,6 +23,10 @@ class CF_ModuleCoreManager
 	static ref CF_ModuleCoreEvent s_MPConnectAbort = new CF_ModuleCoreEvent();
 	static ref CF_ModuleCoreEvent s_MPConnectionLost = new CF_ModuleCoreEvent();
 	static ref CF_ModuleCoreEvent s_Respawn = new CF_ModuleCoreEvent();
+	static ref CF_ModuleCoreEvent s_LoginTime = new CF_ModuleCoreEvent();
+	static ref CF_ModuleCoreEvent s_LoginStatus = new CF_ModuleCoreEvent();
+	static ref CF_ModuleCoreEvent s_Logout = new CF_ModuleCoreEvent();
+	static ref CF_ModuleCoreEvent s_Chat = new CF_ModuleCoreEvent();
 
 	static int s_GameFlag;
 
@@ -204,5 +208,25 @@ class CF_ModuleCoreManager
 	static void OnRespawn(Class sender, CF_EventArgs args)
 	{
 		s_Respawn.OnRespawn(sender, args);
+	}
+
+	static void OnLoginTime(Class sender, CF_EventArgs args)
+	{
+		s_LoginTime.OnLoginTime(sender, args);
+	}
+
+	static void OnLoginStatus(Class sender, CF_EventArgs args)
+	{
+		s_LoginStatus.OnLoginStatus(sender, args);
+	}
+
+	static void OnLogout(Class sender, CF_EventArgs args)
+	{
+		s_Logout.OnLogout(sender, args);
+	}
+
+	static void OnChat(Class sender, CF_EventArgs args)
+	{
+		s_Chat.OnChat(sender, args);
 	}
 };

@@ -252,4 +252,68 @@ class CF_ModuleCoreEvent
 			evt = evt.m_Next;
 		}
 	}
+
+	void OnLoginTime(Class sender, CF_EventArgs args)
+	{
+		CF_ModuleCoreEvent evt = this.m_Next;
+		while (evt)
+		{
+			CF_ModuleCore module = evt.m_Value;
+
+			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
+			{
+				module.OnLoginTime(sender, args);
+			}
+
+			evt = evt.m_Next;
+		}
+	}
+
+	void OnLoginStatus(Class sender, CF_EventArgs args)
+	{
+		CF_ModuleCoreEvent evt = this.m_Next;
+		while (evt)
+		{
+			CF_ModuleCore module = evt.m_Value;
+
+			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
+			{
+				module.OnLoginStatus(sender, args);
+			}
+
+			evt = evt.m_Next;
+		}
+	}
+
+	void OnLogout(Class sender, CF_EventArgs args)
+	{
+		CF_ModuleCoreEvent evt = this.m_Next;
+		while (evt)
+		{
+			CF_ModuleCore module = evt.m_Value;
+
+			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
+			{
+				module.OnLogout(sender, args);
+			}
+
+			evt = evt.m_Next;
+		}
+	}
+
+	void OnChat(Class sender, CF_EventArgs args)
+	{
+		CF_ModuleCoreEvent evt = this.m_Next;
+		while (evt)
+		{
+			CF_ModuleCore module = evt.m_Value;
+
+			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0)
+			{
+				module.OnChat(sender, args);
+			}
+
+			evt = evt.m_Next;
+		}
+	}
 };
