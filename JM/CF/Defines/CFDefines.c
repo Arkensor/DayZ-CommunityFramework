@@ -5,3 +5,5 @@
 //#define CF_EXPRESSION_TEST
 
 #define CF_GHOSTICONS
+
+#define CF_MODULES

@@ -2,6 +2,7 @@ modded class DayZGame
 {
 	void DayZGame()
 	{
+		CF_ModuleGameManager.UpdateGameFlag(this);
 	}
 
 	override void DeferredInit()
@@ -28,10 +29,7 @@ modded class DayZGame
 			return;
 		}
 
-		if ( g_cf_ModuleManager )
-		{
-			g_cf_ModuleManager.OnRPC( sender, target, rpc_type, ctx );
-		}
+		CF_ModuleGameManager.OnRPC( sender, target, rpc_type, ctx );
 
 		super.OnRPC( sender, target, rpc_type, ctx );
 	}
