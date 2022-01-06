@@ -4,4 +4,7 @@
 #define CF_EXPRESSION
 //#define CF_EXPRESSION_TEST
 
+#define CF_SPLINE
+//#define CF_SPLINE_TEST
+
 #define CF_GHOSTICONS
