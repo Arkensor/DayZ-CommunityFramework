@@ -146,7 +146,7 @@ modded class Weapon_Base
 			}
 		}
 
-		ValidateAndRepair();
+		m_fsm.CF_FindBestStableState();
 
 		if (GetGame().IsDedicatedServer())
 		{
@@ -160,5 +160,30 @@ modded class Weapon_Base
 		}
 
 		return true;
+	}
+
+	void CF_SyncSelectionState(WeaponStableState state)
+	{
+		int muzzleCount = state.m_muzzleHasBullet.Count();
+		for (int muzzle = 0; muzzle < muzzleCount; muzzle++)
+		{
+			if (state.m_muzzleHasBullet[muzzle] != MuzzleState.E)
+			{
+				ShowBullet(muzzle);
+			}
+			else
+			{
+				HideBullet(muzzle);
+			}
+		}
+
+		if (state.HasMagazine())
+		{
+			ShowMagazine();
+		}
+		else
+		{
+			HideMagazine();
+		}
 	}
 };
