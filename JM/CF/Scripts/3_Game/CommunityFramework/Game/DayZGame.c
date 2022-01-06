@@ -40,7 +40,10 @@ modded class DayZGame
 		super.OnRPC( sender, target, rpc_type, ctx );
 	}
 
-	bool CF_IsInputInEditbox()
+	/**
+	 * @brief An overrideable function that determines if the UI input of the player is being blocked by an editbox widget.
+	 */
+	bool CF_UIInputBlocked()
 	{
 		if (GetGame().IsDedicatedServer())
 		{
