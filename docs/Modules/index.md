@@ -35,16 +35,18 @@ All events within the modules are by default disabled. Once enabled the event ca
 | `CF_ModuleCore::OnLogout`                 | `EnableLogout`                | See: LogoutEventTypeID                             |
 | `CF_ModuleCore::OnChat`                   | `EnableChat`                  | See: ChatMessageEventTypeID                        |
 | `CF_ModuleGame::OnRPC`                    | `EnableRPC`                   | Called when `DayZGame::OnRPC` is ran               |
-| `CF_ModuleWorld::OnInvokeConnect`         | `EnableInvokeConnect`         | See: MissionServer::InvokeOnConnect                |
-| `CF_ModuleWorld::OnInvokeDisconnect`      | `EnableInvokeDisconnect`      | See: MissionServer::InvokeOnDisconnect             |
+| `CF_ModuleWorld::OnInvokeConnect`         | `EnableInvokeConnect`         | Called from `MissionServer::InvokeOnConnect`       |
+| `CF_ModuleWorld::OnInvokeDisconnect`      | `EnableInvokeDisconnect`      | Called from `MissionServer::InvokeOnDisconnect`    |
 | `CF_ModuleWorld::OnClientNew`             | `EnableClientNew`             | See: ClientNewEventTypeID                          |
 | `CF_ModuleWorld::OnClientRespawn`         | `EnableClientRespawn`         | See: ClientRespawnEventTypeID                      |
 | `CF_ModuleWorld::OnClientReady`           | `EnableClientReady`           | See: ClientReadyEventTypeID                        |
 | `CF_ModuleWorld::OnClientPrepare`         | `EnableClientPrepare`         | See: ClientPrepareEventTypeID                      |
 | `CF_ModuleWorld::OnClientReconnect`       | `EnableClientReconnect`       | See: ClientReconnectEventTypeID                    |
 | `CF_ModuleWorld::OnClientLogout`          | `EnableClientLogout`          | See: ClientDisconnectedEventTypeID                 |
-| `CF_ModuleWorld::OnClientDisconnect`      | `EnableClientDisconnect`      | See: MissionServer::PlayerDisconnected             |
+| `CF_ModuleWorld::OnClientDisconnect`      | `EnableClientDisconnect`      | Called from `MissionServer::PlayerDisconnected`    |
 | `CF_ModuleWorld::OnClientLogoutCancelled` | `EnableClientLogoutCancelled` | See: LogoutCancelEventTypeID                       |
+
+`See: X` refer to all events originating from `DayZGame::OnEvent`
 
 ## Example Module
 
