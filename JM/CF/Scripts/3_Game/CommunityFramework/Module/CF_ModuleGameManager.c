@@ -32,7 +32,8 @@ class CF_ModuleGameManager
 
 		CF_ModuleCoreManager.s_Update.OnUpdate(dt);
 
-		if (!CF_ModuleCore.s_PreventInput)
+		// Don't allow input if we are editing an edit box or we are the server
+		if (!GetGame().IsDedicatedServer() && !GetDayZGame().CF_IsInputInEditbox())
 		{
 			s_UpdateInput.OnUpdateInput(dt);
 		}

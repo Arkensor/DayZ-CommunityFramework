@@ -33,4 +33,20 @@ modded class DayZGame
 
 		super.OnRPC( sender, target, rpc_type, ctx );
 	}
+
+	bool CF_IsInputInEditbox()
+	{
+		if (GetGame().IsDedicatedServer())
+		{
+			return false;
+		}
+
+		Widget focusedWidget = GetFocus();
+		if (!focusedWidget)
+		{
+			return false;
+		}
+
+		return focusedWidget.ClassName().Contains("EditBoxWidget");
+	}
 };

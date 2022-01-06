@@ -9,6 +9,6 @@ class JMModuleBinding : CF_InputBinding
 	{
 		m_Function = callback;
 		m_Input = GetUApi().GetInputByName(input);
-		m_LimitMenu = menu;
+		m_LimitMenu = !menu;
 	}
 };
