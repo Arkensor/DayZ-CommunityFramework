@@ -58,9 +58,11 @@ class SomeModule : CF_ModuleWorld
 		EnableInvokeConnect();
 	}
 
-	override void OnInvokeConnect(PlayerBase player, PlayerIdentity identity)
+	override void OnInvokeConnect(Class sender, CF_EventArgs args)
 	{
-		super.OnInvokeConnect(player, identity);
+		super.OnInvokeConnect(sender, args);
+
+		auto player = CF_EventPlayerArgs.Cast(args).Player;
 
 		// Send the messsage 5 seconds later, this event can fire before the HUD is loaded and so the message won't be seen
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.SendMessage, 5000, false, player, "Welcome to the server!");
