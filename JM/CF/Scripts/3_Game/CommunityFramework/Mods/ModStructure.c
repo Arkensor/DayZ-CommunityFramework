@@ -1,14 +1,12 @@
 modded class ModStructure
 {
-	protected ref array<ref ModInput> m_ModInputs;
+	protected string m_CF_Name;
 
-	protected ref JsonDataCredits m_Credits;
+	protected ref array<ref ModInput> m_CF_ModInputs;
+	protected ref JsonDataCredits m_CF_Credits;
 
-	protected string m_Version;
-
-	protected int m_StorageVersion;
-
-	protected string m_Name;
+	protected string m_CF_ModVersion;
+	protected int m_CF_StorageVersion;
 
 	/**
 	 * Set the mod specific data in here
@@ -16,10 +14,10 @@ modded class ModStructure
 	 * @param modName	The name of the loaded mod, retrieved from the CfgMods params array
 	 * 
 	 * @code
-	 *	override bool OnLoad( string modName )
+	 *	override bool CF_OnLoad( string modName )
 	 *	{
 	 *		if ( modName != "JM_CommunityFramework" )
-	 *			return super.OnLoad( modName );
+	 *			return super.CF_OnLoad( modName );
 	 *
 	 *		//! Set the storage version for this mod
 	 *		SetStorageVersion( 1 );
@@ -28,7 +26,17 @@ modded class ModStructure
 	 *	}
 	 * @endcode
 	 */
-	bool OnLoad(CF_String modName)
+	bool CF_OnLoad(CF_String modName)
+	{
+		return false;
+	}
+
+	/**
+	 * @brief Backwards compatibility
+	 * 
+	 * @deprecated
+	 */
+	bool OnLoad(string modName)
 	{
 		return false;
 	}
@@ -37,32 +45,37 @@ modded class ModStructure
 	{
 		super.LoadData();
 
-		m_ModInputs = new ref array<ref ModInput>;
+		m_CF_ModInputs = new ref array<ref ModInput>;
 
-		m_StorageVersion = 0;
+		m_CF_StorageVersion = 0;
 
 		if (GetGame().ConfigIsExisting(m_ModPath))
 		{
-			GetGame().ConfigGetChildName("CfgMods", m_ModIndex, m_Name);
+			GetGame().ConfigGetChildName("CfgMods", m_ModIndex, m_CF_Name);
 
-			OnLoad(m_ModName);
-
-			if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
+			if (GetGame().ConfigIsExisting(m_ModPath + " storageVersion"))
 			{
-				
-				string creditsPath;
-				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
-				
-				Print(creditsPath);
+				SetStorageVersion(GetGame().ConfigGetInt(m_ModPath + " storageVersion"));
+			}
 
-				JsonFileLoader<ref JsonDataCredits>.JsonLoadFile( creditsPath, m_Credits );
+			if (!CF_OnLoad(m_CF_Name))
+			{
+				OnLoad(m_CF_Name);
+			}
+
+			if (GetGame().ConfigIsExisting(m_ModPath + " creditsJson"))
+			{
+				string creditsPath;
+				GetGame().ConfigGetText(m_ModPath + " creditsJson", creditsPath);
+
+				JsonFileLoader<JsonDataCredits>.JsonLoadFile(creditsPath, m_CF_Credits);
 			}
 			else if (GetGame().ConfigIsExisting(m_ModPath + " credits"))
 			{
 				string credits = "";
 
-				m_Credits = new JsonDataCredits;
-				m_Credits.Departments = new array<ref JsonDataCreditsDepartment>;
+				m_CF_Credits = new JsonDataCredits;
+				m_CF_Credits.Departments = new array<ref JsonDataCreditsDepartment>;
 
 				JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
 				mod_department_header.Sections = new array<ref JsonDataCreditsSection>;
@@ -101,11 +114,11 @@ modded class ModStructure
 					mod_department_header.Sections.Insert(mod_section_modheader);
 				}
 
-				m_Credits.Departments.Insert(mod_department_header);
+				m_CF_Credits.Departments.Insert(mod_department_header);
 			}
 			else
 			{
-				m_Credits = new JsonDataCredits;
+				m_CF_Credits = new JsonDataCredits;
 			}
 
 			if (GetGame().ConfigIsExisting(m_ModPath + " versionPath"))
@@ -115,22 +128,17 @@ modded class ModStructure
 
 				FileHandle file_handle = OpenFile(versionPath, FileMode.READ);
 
-				while (FGets(file_handle, m_Version) > 0)
+				while (FGets(file_handle, m_CF_ModVersion) > 0)
 					break;
 
 				CloseFile(file_handle);
 			}
 			else if (GetGame().ConfigIsExisting(m_ModPath + " version"))
 			{
-				GetGame().ConfigGetText(m_ModPath + " version", m_Version);
+				GetGame().ConfigGetText(m_ModPath + " version", m_CF_ModVersion);
 			}
-<<<<<<< HEAD
 
 			if (GetGame().ConfigIsExisting(m_ModPath + " inputs"))
-=======
-			
-			if ( GetGame().ConfigIsExisting( m_ModPath + " inputs" ) )
->>>>>>> development
 			{
 				string inputPath;
 				GetGame().ConfigGetText(m_ModPath + " inputs", inputPath);
@@ -170,7 +178,7 @@ modded class ModStructure
 						else
 							modInput.Visible = true;
 
-						m_ModInputs.Insert(modInput);
+						m_CF_ModInputs.Insert(modInput);
 					}
 				}
 			}
@@ -179,17 +187,17 @@ modded class ModStructure
 
 	array<ref ModInput> GetModInputs()
 	{
-		return m_ModInputs;
+		return m_CF_ModInputs;
 	}
 
 	JsonDataCredits GetCredits()
 	{
-		return m_Credits;
+		return m_CF_Credits;
 	}
 
 	string GetName()
 	{
-		return m_Name;
+		return m_CF_Name;
 	}
 
 	string GetModPath()
@@ -234,16 +242,21 @@ modded class ModStructure
 
 	string GetModVersion()
 	{
-		return m_Version;
+		return m_CF_ModVersion;
 	}
 
 	int GetStorageVersion()
 	{
-		return m_StorageVersion;
+		return m_CF_StorageVersion;
 	}
 
 	protected void SetStorageVersion(int version)
 	{
-		m_StorageVersion = version;
+		m_CF_StorageVersion = version;
+	}
+
+	bool HasModStorage()
+	{
+		return m_CF_StorageVersion > 0;
 	}
 };

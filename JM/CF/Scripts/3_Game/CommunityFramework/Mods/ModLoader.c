@@ -2,13 +2,37 @@ modded class ModLoader
 {
 	private static ref map<string, ModStructure> m_ModMap = new map<string, ModStructure>();
 
-	private static ref array<ref ModStructure> m_CF_ModStorage_Mods;
-	private static ref map<string, ModStructure> m_CF_ModStorage_ModMap = new map<string, ModStructure>();
+	static ref array<ref CF_ModStorage> s_CF_Mods = new array<ref CF_ModStorage>();
+	static ref map<string, CF_ModStorage> s_CF_ModMap = new map<string, CF_ModStorage>();
+
+	static CF_ModStorage CF_GetStorage(string name)
+	{
+		if (!m_Loaded) LoadMods();
+		return s_CF_ModMap[name];
+	}
+
+	static bool CF_IsModStorage(string name)
+	{
+		if (!m_Loaded) LoadMods();
+		return s_CF_ModMap.Contains(name);
+	}
+
+	static bool _CF_UpdateModStorage(string name, CF_Stream stream, int size)
+	{
+		if (!m_Loaded) LoadMods();
+
+		CF_ModStorage storage;
+		if (!s_CF_ModMap.Find(name, storage)) return false;
+
+		storage._CopyStreamFrom(stream, size);
+
+		return true;
+	}
 
 	static ModStructure Get(string name)
 	{
 		if (!m_Loaded) LoadMods();
-		return m_CF_ModStorage_ModMap[name];
+		return m_ModMap[name];
 	}
 
 	static bool Contains(string name)
@@ -23,28 +47,15 @@ modded class ModLoader
 		return m_ModMap.Find(name, mod);
 	}
 
-	static bool Find_ModStorage_Mod(string name, out ModStructure mod)
-	{
-		if (!m_Loaded) LoadMods();
-		return m_CF_ModStorage_ModMap.Find(name, mod);
-	}
-
 	override static array<ref ModStructure> GetMods()
 	{
 		if (!m_Loaded) LoadMods();
 		return m_Mods;
 	}
 
-	static array<ref ModStructure> Get_ModStorage_Mods()
-	{
-		if (!m_Loaded) LoadMods();
-		return m_CF_ModStorage_Mods;
-	}
-
 	override static void LoadMods()
 	{
 		m_Mods = new array<ref ModStructure>;
-		m_CF_ModStorage_Mods = new array<ref ModStructure>;
 
 		int mod_count = GetGame().ConfigGetChildrenCount("CfgMods");
 
@@ -56,26 +67,14 @@ modded class ModLoader
 			ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
 
 			m_Mods.Insert(mod);
-
 			m_ModMap.Insert(mod_name, mod);
 
-			if (!GetGame().ConfigIsExisting("CfgMods " + mod_name + " CF_ModStorage"))
+			if (mod.HasModStorage())
 			{
-				Print("Ignoring " + mod_name + " for CF_ModStorage");
-				continue;
+				CF_ModStorage storage = new CF_ModStorage(mod);
+				s_CF_Mods.Insert(storage);
+				s_CF_ModMap.Insert(mod_name, storage);
 			}
-
-			if (!GetGame().ConfigGetInt("CfgMods " + mod_name + " CF_ModStorage"))
-			{
-				Print("Ignoring " + mod_name + " for CF_ModStorage");
-				continue;
-			}
-
-			Print("Adding " + mod_name + " for CF_ModStorage");
-
-			m_CF_ModStorage_Mods.Insert(mod);
-
-			m_CF_ModStorage_ModMap.Insert(mod_name, mod);
 		}
 
 		m_Loaded = true;
