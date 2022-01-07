@@ -17,14 +17,14 @@ modded class ModLoader
 		return s_CF_ModMap.Contains(name);
 	}
 
-	static bool _CF_UpdateModStorage(string name, CF_Stream stream, int size)
+	static bool _CF_UpdateModStorage(string name, int version, CF_Stream stream, int size)
 	{
 		if (!m_Loaded) LoadMods();
 
 		CF_ModStorage storage;
 		if (!s_CF_ModMap.Find(name, storage)) return false;
 
-		storage._CopyStreamFrom(stream, size);
+		storage._CopyStreamFrom(stream, size, version);
 
 		return true;
 	}

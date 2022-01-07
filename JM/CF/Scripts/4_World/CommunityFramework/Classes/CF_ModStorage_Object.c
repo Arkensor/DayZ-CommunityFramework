@@ -69,10 +69,12 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 
 			int size = reader.ReadInt();
 			string modName = reader.ReadString();
+			int modVersion = reader.ReadInt();
 
-			int lengthCopy = size - (modName.Length() + 1);
+			// size + string length (+1) + mod version 
+			int lengthCopy = size - (modName.Length() + 1) - 1;
 
-			if (ModLoader._CF_UpdateModStorage(modName, stream, lengthCopy))
+			if (ModLoader._CF_UpdateModStorage(modName, modVersion, stream, lengthCopy))
 			{
 				// Mod is loaded, we have copied the stream to the storage
 				continue;

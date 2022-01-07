@@ -185,20 +185,24 @@ class CF_ModStorage
 		m_Stream.m_Current = m_Stream.m_Head;
 		m_Stream.m_Position = 0;
 
-		Write(m_Stream.m_Size + m_ModName.Length() + 4);
+		// size + string length (+1) + mod version 
+		Write(m_Stream.m_Size + m_ModName.Length() + 4 + 4);
 		Write(m_ModName);
+		Write(m_Version);
 
 		m_Stream.m_Current = m_Stream.m_Tail;
 		m_Stream.m_Position = m_Stream.m_Size - 1;
 	}
 
-	void _CopyStreamFrom(CF_Stream stream, int size)
+	void _CopyStreamFrom(CF_Stream stream, int size, int version)
 	{
 		m_Stream = null;
 		if (!stream) return;
 
 		m_Stream = new CF_Stream();
 		stream.CopyTo(m_Stream, size);
+
+		m_Version = version;
 	}
 
 	void _CopyStreamTo(CF_Stream stream)
@@ -211,5 +215,7 @@ class CF_ModStorage
 	void _ResetStream()
 	{
 		m_Stream = null;
+
+		m_Version = m_Mod.GetStorageVersion();
 	}
 };
