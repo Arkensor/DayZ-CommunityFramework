@@ -31,19 +31,19 @@ modded class ItemBase
 	 *		override void CF_OnStoreSave(map<string, CF_ModStorage> storage)
 	 *		{
 	 *			//! Always call super at the start.
-	 *			super.CF_OnStoreSave( storage, modName );
+	 *			super.CF_OnStoreSave(storage);
 	 *	
 	 *			auto ctx = storage["JM_CommunityFramework"];
 	 *			
-	 *			ctx.Write( GetOrientation() );
-	 *			ctx.Write( 6 );
+	 *			ctx.Write(GetOrientation());
+	 *			ctx.Write(6);
 	 *	
 	 *			//! The version of the mod is set in config 'storageVersion' for 'CfgMods' class
 	 *	
 	 *			//! redundant check for checking if the writing version matches
 	 *			if (ctx.GetVersion() > 1)
 	 *			{
-	 *				ctx.Write( "ThisVariableIsAddedWithVersion2" );
+	 *				ctx.Write("ThisVariableIsAddedWithVersion2");
 	 *			}
 	 *		}
 	 *	}
@@ -60,28 +60,29 @@ modded class ItemBase
 	 * @code
 	 * 	modded class KitBase // extends from ItemBase
 	 * 	{
-	 * 		override bool CF_OnStoreLoad(CF_ModStorage storage, string modName)
+	 * 		override bool CF_OnStoreLoad(map<string, CF_ModStorage> storage)
 	 * 		{
-	 * 			if ( !super.CF_OnStoreLoad( storage, modName ) )
+	 * 			if (!super.CF_OnStoreLoad(storage))
 	 * 				return false;
 	 * 	
-	 * 			if ( modName != "JM_CommunityFramework" )
-	 * 				return true; //! Early exit, we aren't loading our mod
+	 *			auto ctx = storage["JM_CommunityFramework"];
 	 * 	
 	 * 			vector orientation;
-	 * 			if ( !storage.Read( orientation ) )
-	 * 				return false;
+	 * 			if (!ctx.Read(orientation)) return false;
 	 * 	
 	 * 			string intVar;
-	 * 			if ( !storage.Read( intVar ) )
-	 * 				return false;
+	 * 			if (!ctx.Read(intVar)) return false;
 	 * 	
-	 * 			//! The version of the mod is set in 'ModStructure::OnLoad', using 'SetStorageVersion'
-	 * 			if ( storage.GetVersion() > 1 )
+	 *			//! The version of the mod is set in config 'storageVersion' for 'CfgMods' class
+	 * 
+	 * 			string strVar;
+	 * 			if (ctx.GetVersion() > 1)
 	 * 			{
-	 * 				string strVar;
-	 * 				if ( !storage.Read( strVar ) )
-	 * 					return false;
+	 * 				if (!ctx.Read(strVar)) return false;
+	 * 			}
+	 * 			else
+	 * 			{
+	 * 				strVar = "Default Value";
 	 * 			}
 	 * 			
 	 * 			return true;

@@ -13,16 +13,16 @@ class CfgMods
 
 In script, mod the `ModStructure` class and override `OnLoad` as follows. Replace 'NameOfMod' with the name you noted down earlier. Make sure to call super and return it's value if `modName` does not equal the name of your mod.
 
-Currently `OnLoad` is only used for setting the mods current storage version for [Mod Storage](../ModStorage/index.md) by calling `SetStorageVersion`.
+Currently `CF_OnLoad` is only used for setting the mods current storage version for [ModStorage](../ModStorage/index.md) by calling `SetStorageVersion`.
 
 ```csharp
 modded class ModStructure
 {
-	override bool OnLoad(CF_String modName)
+	override bool CF_OnLoad(CF_String modName)
 	{
-		if (!modName.Equals("NameOfMod"))
+		if (!CF_String.EqualsIgnoreCase(modName, "NameOfMod"))
 		{
-			return super.OnLoad(modName);
+			return super.CF_OnLoad(modName);
 		}
 
 		return true;
