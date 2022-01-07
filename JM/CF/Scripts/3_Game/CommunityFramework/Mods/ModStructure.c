@@ -259,4 +259,24 @@ modded class ModStructure
 	{
 		return m_CF_StorageVersion > 0;
 	}
+
+	override string GetDebugName()
+	{
+		string str = super.GetDebugName();
+
+		str += ", GetName=" + GetName();
+		str += ", GetModPath=" + GetModPath();
+		str += ", GetModName=" + GetModName();
+		str += ", GetModLogo=" + GetModLogo();
+		str += ", GetModLogoSmall=" + GetModLogoSmall();
+		str += ", GetModLogoOver=" + GetModLogoOver();
+		str += ", GetModActionURL=" + GetModActionURL();
+		str += ", GetModToltip=" + GetModToltip();
+		str += ", GetModOverview=" + GetModOverview();
+		str += ", GetModVersion=" + GetModVersion();
+		str += ", GetStorageVersion=" + GetStorageVersion();
+		str += ", HasModStorage=" + HasModStorage();
+
+		return str;
+	}
 };

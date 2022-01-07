@@ -2,20 +2,27 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 {
 	T m_Entity;
 
-	ref CF_Stream m_UnloadedMods = new CF_Stream();
+	autoptr array<ref CF_ModStorageStream> m_UnloadedMods;
 
 	void CF_ModStorage_Object(T entity)
 	{
 		m_Entity = entity;
+		m_UnloadedMods = new array<ref CF_ModStorageStream>();
+
+		ModLoader.LoadMods();
+		
+		// Reset the stream for 'OnStoreSave'
+		foreach (auto mod : ModLoader.s_CF_ModStorages)
+		{
+			mod._ResetStream();
+		}
 	}
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
-		//#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1(this, "OnStoreSave").Add(ctx);
-		//#endif
-
-		Print(m_Entity);
+#endif
 
 		if (GetGame().SaveVersion() < 116)
 		{
@@ -25,34 +32,40 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 		ctx.Write(CF_ModStorage.VERSION);
 
 		CF_Stream stream = new CF_SerializerWriteStream(ctx);
-		
+
 		// 'OnStoreLoad' and 'OnStoreSave' both reset the stream after their operation, we can assume it has been interacted with since
 
-		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModMap);
+		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModStoragestorageMap);
 
-		foreach (auto mod : ModLoader.s_CF_Mods)
+		ctx.Write(ModLoader.s_CF_ModStorages.Count());
+
+		foreach (auto mod : ModLoader.s_CF_ModStorages)
 		{
-			mod._WriteHeader();
+			ctx.Write(mod.GetMod().GetName());
+			ctx.Write(mod.GetVersion());
 
 			// also resets the stream for next 'OnStoreSave'
-			mod._CopyStreamTo(stream);
+			mod._CopyStreamTo(ctx);
 		}
 
-		m_UnloadedMods.CopyTo(stream);
+		foreach (auto unloadedMod : m_UnloadedMods)
+		{
+			ctx.Write(unloadedMod.m_Name);
+			ctx.Write(unloadedMod.m_Version);
+			unloadedMod.WriteToStream(ctx);
+		}
 	}
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-		//#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
-		//#endif
+#endif
 
-		Print(m_Entity);
+		// Clearing the unloaded mods data
+		m_UnloadedMods.Clear();
 
-		//! Clearing the unloaded mods data
-		m_UnloadedMods.Resize(0);
-
-		//! Persistence version is prior to 1.10
+		// Persistence version is prior to 1.10
 		if (version < 116)
 		{
 			return true;
@@ -64,44 +77,43 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 			return false;
 		}
 
-		//! CF version is prior to ModStorage implementation
+		// CF version is prior to ModStorage implementation
 		if (cf_version < 2)
 		{
 			return true;
 		}
 
-		CF_Stream stream = new CF_SerializerReadStream(ctx);
-
-		CF_BinaryReader reader = new CF_BinaryReader(stream);
-
-		Param2<CF_PackedByte, int> position;
-		while (!reader.EOF())
+		int numMods;
+		if (!ctx.Read(numMods))
 		{
-			stream.GetCurrent(position);
+			return false;
+		}
 
-			int size = reader.ReadInt();
-			string modName = reader.ReadString();
-			int modVersion = reader.ReadInt();
+		m_UnloadedMods.Resize(numMods);
 
-			// size + string length (+1) + mod version 
-			int lengthCopy = size - (modName.Length() + 1) - 1;
+		int modsRead;
+		int unloadedModsRead;
+		while (modsRead < numMods)
+		{
+			modsRead++;
 
-			if (ModLoader._CF_UpdateModStorage(modName, modVersion, stream, lengthCopy))
+			CF_ModStorageStream stream;
+			if (ModLoader._CF_ReadModStorage(ctx, stream))
 			{
 				// Mod is loaded, we have copied the stream to the storage
 				continue;
 			}
-
-			// Adding data to unloaded list
-			stream.SetCurrent(position);
-			stream.CopyCurrentTo(m_UnloadedMods, size);
-			stream.Seek(size);
+			
+			m_UnloadedMods[unloadedModsRead] = stream;
+			unloadedModsRead++;
 		}
+		
+		m_UnloadedMods.Resize(unloadedModsRead);
 
-		m_Entity.CF_OnStoreLoad(ModLoader.s_CF_ModMap);
+		m_Entity.CF_OnStoreLoad(ModLoader.s_CF_ModStoragestorageMap);
 
 		// Reset the stream for 'OnStoreSave'
-		foreach (auto mod : ModLoader.s_CF_Mods)
+		foreach (auto mod : ModLoader.s_CF_ModStorages)
 		{
 			mod._ResetStream();
 		}

@@ -23,7 +23,8 @@ class CF_ModStorage_Test
 
 	protected void Setup(inout array<string> tests)
 	{
-		tests.Insert("TestFloat");
+		tests.Insert("CreateEntity");
+		tests.Insert("TestEntity");
 	}
 
 	private void _Perform()
@@ -92,8 +93,29 @@ class CF_ModStorage_Test
 		Print("");
 	}
 	
-	void TestFloat()
+	EntityAI object;
+	
+	void CreateEntity()
 	{
+		string objectType = "Apple";
+		object = EntityAI.Cast(GetGame().CreateObject(objectType, "0 0 0"));
+	}
+	
+	void TestEntity()
+	{
+		object.SetPosition("5 5 0");
+		string prev = object.GetDebugName();
+
+		ScriptReadWriteContext ctx = new ScriptReadWriteContext;
+		
+		object.OnStoreSave(ctx.GetWriteContext());
+		object.SetPosition("0 0 0");
+		
+		Print(object.GetDebugName());
+
+		object.OnStoreLoad(ctx.GetReadContext(), GetGame().SaveVersion());
+
+		_assert(prev, object.GetDebugName());
 	}
 	
 };
