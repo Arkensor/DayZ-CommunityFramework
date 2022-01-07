@@ -49,7 +49,6 @@ modded class ModStructure
 
 			if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
 			{
-				//GetLogger().Log( "	Found JSON Credits", "JM_CF_Mods" );
 				
 				string creditsPath;
 				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
@@ -125,8 +124,13 @@ modded class ModStructure
 			{
 				GetGame().ConfigGetText(m_ModPath + " version", m_Version);
 			}
+<<<<<<< HEAD
 
 			if (GetGame().ConfigIsExisting(m_ModPath + " inputs"))
+=======
+			
+			if ( GetGame().ConfigIsExisting( m_ModPath + " inputs" ) )
+>>>>>>> development
 			{
 				string inputPath;
 				GetGame().ConfigGetText(m_ModPath + " inputs", inputPath);
