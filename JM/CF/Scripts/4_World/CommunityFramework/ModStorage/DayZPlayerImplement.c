@@ -1,10 +1,10 @@
 modded class DayZPlayerImplement
 {
-	autoptr CF_ModStorage_Base m_CF_ModStorage;
+	autoptr CF_ModStorageBase m_CF_ModStorage;
 
 	void DayZPlayerImplement()
 	{
-		m_CF_ModStorage = new CF_ModStorage_Object<DayZPlayerImplement>(this);
+		m_CF_ModStorage = new CF_ModStorageObject<DayZPlayerImplement>(this);
 	}
 	
 	override void OnStoreSave(ParamsWriteContext ctx)

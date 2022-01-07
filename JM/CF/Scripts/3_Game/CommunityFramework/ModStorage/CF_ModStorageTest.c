@@ -1,23 +1,23 @@
 //TODO: Automate into a framework for other modders to use for their own testing
-class CF_ModStorage_Test
+class CF_ModStorageTest
 {
 	private string _current;
 	private int _cpu;
 	private int _failed;
 
-	private void CF_ModStorage_Test()
+	private void CF_ModStorageTest()
 	{
 	}
 
 	static void Perform()
 	{
-		CF_ModStorage_Test tests = new CF_ModStorage_Test();
+		CF_ModStorageTest tests = new CF_ModStorageTest();
 		tests._Perform();
 	}
 
 	static void PerformSingle(string test)
 	{
-		CF_ModStorage_Test tests = new CF_ModStorage_Test();
+		CF_ModStorageTest tests = new CF_ModStorageTest();
 		tests.PerformTest(test);
 	}
 

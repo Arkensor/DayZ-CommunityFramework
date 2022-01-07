@@ -1,4 +1,4 @@
-class CF_ModStorage_Base
+class CF_ModStorageBase
 {
 	void OnStoreSave(ParamsWriteContext ctx)
 	{

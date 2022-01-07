@@ -1,10 +1,10 @@
-class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
+class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
 
 	autoptr array<ref CF_ModStorageStream> m_UnloadedMods;
 
-	void CF_ModStorage_Object(T entity)
+	void CF_ModStorageObject(T entity)
 	{
 		m_Entity = entity;
 		m_UnloadedMods = new array<ref CF_ModStorageStream>();

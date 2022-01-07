@@ -1,10 +1,10 @@
 modded class ZombieBase
 {
-	autoptr CF_ModStorage_Base m_CF_ModStorage;
+	autoptr CF_ModStorageBase m_CF_ModStorage;
 
 	void ZombieBase()
 	{
-		m_CF_ModStorage = new CF_ModStorage_Object<ZombieBase>(this);
+		m_CF_ModStorage = new CF_ModStorageObject<ZombieBase>(this);
 	}
 	
 	override void OnStoreSave(ParamsWriteContext ctx)
