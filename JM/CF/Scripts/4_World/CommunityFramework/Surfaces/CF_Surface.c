@@ -24,9 +24,9 @@ class CF_Surface
 	float ChanceForCatch;
 	float WindModifier;
 
-	ref CF_VehicleSurface VehicleSurface;
+	CF_VehicleSurface VehicleSurface;
 
-	void CF_Surface(string name)
+	private void CF_Surface(string name)
 	{
 		Name = name;
 
@@ -79,6 +79,13 @@ class CF_Surface
 
 		path = rootPath + "vpSurface";
 		if (GetGame().ConfigIsExisting(path)) VehicleSurface = CF_VehicleSurface.Get(GetGame().ConfigGetTextOut(path));
+	}
+	
+	/**
+	 * @brief Private constructor to prevent from marking as ref
+	 */
+	private void ~CF_Surface()
+	{
 	}
 
 	/**

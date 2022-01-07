@@ -12,7 +12,7 @@ class CF_VehicleSurface
 	float RollResistance;
 	float RollDrag;
 
-	void CF_VehicleSurface(string name)
+	private void CF_VehicleSurface(string name)
 	{
 		Name = name;
 
@@ -41,6 +41,13 @@ class CF_VehicleSurface
 
 		path = rootPath + "rollDrag";
 		if (GetGame().ConfigIsExisting(path)) RollDrag = GetGame().ConfigGetFloat(path);
+	}
+	
+	/**
+	 * @brief Private constructor to prevent from marking as ref
+	 */
+	private void ~CF_VehicleSurface()
+	{
 	}
 
 	/**
