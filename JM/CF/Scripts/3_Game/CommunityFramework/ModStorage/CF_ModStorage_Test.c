@@ -23,7 +23,7 @@ class CF_ModStorage_Test
 
 	protected void Setup(inout array<string> tests)
 	{
-		//tests.Insert("TestFloat");
+		tests.Insert("TestFloat");
 	}
 
 	private void _Perform()
@@ -90,6 +90,10 @@ class CF_ModStorage_Test
 
 		Print("" + info);
 		Print("");
+	}
+	
+	void TestFloat()
+	{
 	}
 	
 };

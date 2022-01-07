@@ -11,6 +11,12 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
+		//#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "OnStoreSave").Add(ctx);
+		//#endif
+
+		Print(m_Entity);
+
 		if (GetGame().SaveVersion() < 116)
 		{
 			return;
@@ -37,6 +43,12 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
+		//#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
+		//#endif
+
+		Print(m_Entity);
+
 		//! Clearing the unloaded mods data
 		m_UnloadedMods.Resize(0);
 
@@ -83,6 +95,7 @@ class CF_ModStorage_Object<Class T> : CF_ModStorage_Base
 			// Adding data to unloaded list
 			stream.SetCurrent(position);
 			stream.CopyCurrentTo(m_UnloadedMods, size);
+			stream.Seek(size);
 		}
 
 		m_Entity.CF_OnStoreLoad(ModLoader.s_CF_ModMap);
