@@ -110,12 +110,9 @@ class CF_ModStorageTest
 		
 		object.OnStoreSave(ctx.GetWriteContext());
 		object.SetPosition("0 0 0");
-		
-		Print(object.GetDebugName());
 
 		object.OnStoreLoad(ctx.GetReadContext(), GetGame().SaveVersion());
 
 		_assert(prev, object.GetDebugName());
 	}
-	
 };

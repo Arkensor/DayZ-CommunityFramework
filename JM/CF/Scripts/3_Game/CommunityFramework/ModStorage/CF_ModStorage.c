@@ -6,16 +6,19 @@ class CF_ModStorage
 {
 	static const int VERSION = 3;
 
-	protected ModStructure m_Mod;
+	ModStructure m_Mod;
 
-	protected int m_Version;
-	protected ref CF_ModStorageStream m_Stream;
+	int m_Version;
+	string m_Name;
+
+	string m_Data;
+	string m_Value;
 
 	void CF_ModStorage(ModStructure mod)
 	{
 		m_Mod = mod;
-		m_Version = m_Mod.GetStorageVersion();
-		m_Stream = new CF_ModStorageStream(null);
+		
+		_ResetStream();
 	}
 
 	int GetVersion()
@@ -30,53 +33,45 @@ class CF_ModStorage
 
 	bool Read(out bool value)
 	{
-		string token;
-		int result;
+		m_Data.ParseStringEx(m_Value);
 
-		result = m_Stream.Eat(token);
-		value = token == "1";
+		value = m_Value == "1";
 
 		return true;
 	}
 
 	bool Read(out int value)
 	{
-		string token;
-		int result;
+		m_Data.ParseStringEx(m_Value);
 
-		result = m_Stream.Eat(token);
-		value = token.ToInt();
+		value = m_Value.ToInt();
 
 		return true;
 	}
 
 	bool Read(out float value)
 	{
-		string token;
-		int result;
+		m_Data.ParseStringEx(m_Value);
 
-		result = m_Stream.Eat(token);
-		value = token.ToFloat();
+		value = m_Value.ToFloat();
 
 		return true;
 	}
 
 	bool Read(out vector value)
 	{
-		string token;
-		int result;
+		m_Data.ParseStringEx(m_Value);
 
-		result = m_Stream.Eat(token);
-		value = token.ToVector();
+		value = m_Value.ToVector();
 
 		return true;
 	}
 
 	bool Read(out string value)
 	{
-		int result;
+		m_Data.ParseStringEx(m_Value);
 
-		result = m_Stream.Eat(value);
+		value = m_Value;
 
 		return true;
 	}
@@ -85,59 +80,55 @@ class CF_ModStorage
 	{
 		if (value)
 		{
-			m_Stream.m_Data += " 1";
+			m_Data += " 1";
 		}
 		else
 		{
-			m_Stream.m_Data += " 0";
+			m_Data += " 0";
 		}
 	}
 
 	void Write(int value)
 	{
-		m_Stream.m_Data += " " + value.ToString();
+		m_Data += " " + value.ToString();
 	}
 
 	void Write(float value)
 	{
-		m_Stream.m_Data += " " + value.ToString();
+		m_Data += " " + value.ToString();
 	}
 
 	void Write(vector value)
 	{
-		m_Stream.m_Data += " \"" + value.ToString(false) + "\"";
+		m_Data += " \"" + value.ToString(false) + "\"";
 	}
 
 	void Write(string value)
 	{
-		m_Stream.m_Data += " \"" + value + "\"";
-	}
-	
-	CF_ModStorageStream GetStream()
-	{
-		return m_Stream;
+		m_Data += " \"" + value + "\"";
 	}
 
 	void _CopyStreamTo(Serializer ctx)
 	{
-		m_Stream.WriteToStream(ctx);
+		if (m_Data.Length() > 0)
+		{
+			m_Data = m_Data.Substring(1, m_Data.Length() - 1);
+		}
+		
+		ctx.Write(m_Data);
 
 		_ResetStream();
 	}
 
+	// Read and Write functions can't be called, so we can't reset the stream
 	void _ResetStream()
 	{
-		m_Stream.Reset();
+		if (!m_Mod)
+		{
+			return;
+		}
+
+		m_Data = string.Empty;
 		m_Version = m_Mod.GetStorageVersion();
-	}
-	
-	override string GetDebugName()
-	{
-		string str = super.GetDebugName();
-		
-		if (m_Stream) str += ", Stream=" + m_Stream.GetDebugName();
-		else str += ", Stream=null";
-		
-		return str;
 	}
 };

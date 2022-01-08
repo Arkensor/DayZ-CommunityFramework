@@ -2,12 +2,12 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
 
-	autoptr array<ref CF_ModStorageStream> m_UnloadedMods;
+	autoptr array<ref CF_ModStorage> m_UnloadedMods;
 
 	void CF_ModStorageObject(T entity)
 	{
 		m_Entity = entity;
-		m_UnloadedMods = new array<ref CF_ModStorageStream>();
+		m_UnloadedMods = new array<ref CF_ModStorage>();
 
 		ModLoader.LoadMods();
 		
@@ -31,13 +31,11 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		ctx.Write(CF_ModStorage.VERSION);
 
-		CF_Stream stream = new CF_SerializerWriteStream(ctx);
-
 		// 'OnStoreLoad' and 'OnStoreSave' both reset the stream after their operation, we can assume it has been interacted with since
 
-		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModStoragestorageMap);
+		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModStorageMap);
 
-		ctx.Write(ModLoader.s_CF_ModStorages.Count());
+		ctx.Write(ModLoader.s_CF_ModStorages.Count() + m_UnloadedMods.Count());
 
 		foreach (auto mod : ModLoader.s_CF_ModStorages)
 		{
@@ -52,7 +50,9 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			ctx.Write(unloadedMod.m_Name);
 			ctx.Write(unloadedMod.m_Version);
-			unloadedMod.WriteToStream(ctx);
+
+			// Since mod is unloaded, the stream is not reset
+			unloadedMod._CopyStreamTo(ctx);
 		}
 	}
 
@@ -97,20 +97,20 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			modsRead++;
 
-			CF_ModStorageStream stream;
-			if (ModLoader._CF_ReadModStorage(ctx, stream))
+			CF_ModStorage storage;
+			if (ModLoader._CF_ReadModStorage(ctx, storage))
 			{
 				// Mod is loaded, we have copied the stream to the storage
 				continue;
 			}
 			
-			m_UnloadedMods[unloadedModsRead] = stream;
+			m_UnloadedMods[unloadedModsRead] = storage;
 			unloadedModsRead++;
 		}
 		
 		m_UnloadedMods.Resize(unloadedModsRead);
 
-		m_Entity.CF_OnStoreLoad(ModLoader.s_CF_ModStoragestorageMap);
+		m_Entity.CF_OnStoreLoad(ModLoader.s_CF_ModStorageMap);
 
 		// Reset the stream for 'OnStoreSave'
 		foreach (auto mod : ModLoader.s_CF_ModStorages)

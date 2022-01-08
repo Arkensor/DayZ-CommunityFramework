@@ -1,9 +1,10 @@
 modded class ModLoader
 {
-	private static ref map<string, ModStructure> s_CF_ModMap = new map<string, ModStructure>();
+	static ref array<ref ModStructure> s_CF_Mods = new array<ref ModStructure>();
+	static ref map<string, ModStructure> s_CF_ModMap = new map<string, ModStructure>();
 
 	static ref array<ref CF_ModStorage> s_CF_ModStorages = new array<ref CF_ModStorage>();
-	static ref map<string, CF_ModStorage> s_CF_ModStoragestorageMap = new map<string, CF_ModStorage>();
+	static ref map<string, CF_ModStorage> s_CF_ModStorageMap = new map<string, CF_ModStorage>();
 
 	static CF_ModStorage CF_GetStorage(string name)
 	{
@@ -13,7 +14,7 @@ modded class ModLoader
 
 		LoadMods();
 
-		return s_CF_ModStoragestorageMap[name];
+		return s_CF_ModStorageMap[name];
 	}
 
 	static bool CF_IsModStorage(string name)
@@ -24,10 +25,10 @@ modded class ModLoader
 
 		LoadMods();
 
-		return s_CF_ModStoragestorageMap.Contains(name);
+		return s_CF_ModStorageMap.Contains(name);
 	}
 
-	static bool _CF_ReadModStorage(Serializer ctx, out CF_ModStorageStream stream)
+	static bool _CF_ReadModStorage(Serializer ctx, out CF_ModStorage storage)
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_1("ModLoader", "_CF_ReadModStorage").Add(ctx);
@@ -41,21 +42,17 @@ modded class ModLoader
 		int modVersion;
 		ctx.Read(modVersion);
 
-		CF_ModStorage storage;
-		if (s_CF_ModStoragestorageMap.Find(modName, storage))
+		bool exists = s_CF_ModStorageMap.Find(modName, storage);
+		if (!exists)
 		{
-			stream = storage.GetStream();
-		}
-		else
-		{
-			stream = new CF_ModStorageStream(ctx);
+			storage = new CF_ModStorage(null);
 		}
 
-		stream.m_Name = modName;
-		stream.m_Version = modVersion;
-		stream.ReadFromStream(ctx);
+		storage.m_Name = modName;
+		storage.m_Version = modVersion;
+		ctx.Read(storage.m_Data);
 
-		return storage != null;
+		return exists;
 	}
 
 	static ModStructure Get(string name)
@@ -125,13 +122,15 @@ modded class ModLoader
 			ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
 
 			m_Mods.Insert(mod);
+
+			s_CF_Mods.Insert(mod);
 			s_CF_ModMap.Insert(mod_name, mod);
 
 			if (mod.HasModStorage())
 			{
 				CF_ModStorage storage = new CF_ModStorage(mod);
 				s_CF_ModStorages.Insert(storage);
-				s_CF_ModStoragestorageMap.Insert(mod_name, storage);
+				s_CF_ModStorageMap.Insert(mod_name, storage);
 			}
 		}
 
