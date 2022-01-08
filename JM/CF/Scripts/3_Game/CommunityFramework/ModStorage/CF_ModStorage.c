@@ -30,152 +30,87 @@ class CF_ModStorage
 
 	bool Read(out bool value)
 	{
-		value = m_Stream.Next() != 0;
+		string token;
+		int result;
+
+		result = m_Stream.Eat(token);
+		value = token == "1";
 
 		return true;
 	}
 
 	bool Read(out int value)
 	{
-		int b3 = m_Stream.Next();
-		int b2 = m_Stream.Next();
-		int b1 = m_Stream.Next();
-		int b0 = m_Stream.Next();
+		string token;
+		int result;
 
-		value = ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
+		result = m_Stream.Eat(token);
+		value = token.ToInt();
 
 		return true;
 	}
 
 	bool Read(out float value)
 	{
-		int b3 = m_Stream.Next();
-		int b2 = m_Stream.Next();
-		int b1 = m_Stream.Next();
-		int b0 = m_Stream.Next();
+		string token;
+		int result;
 
-		int src[1];
-		src[0] = ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
-		float dst[1];
-
-		copyarray(dst, src);
-
-		value = dst[0];
+		result = m_Stream.Eat(token);
+		value = token.ToFloat();
 
 		return true;
 	}
 
 	bool Read(out vector value)
 	{
-		int b3;
-		int b2;
-		int b1;
-		int b0;
+		string token;
+		int result;
 
-		int src[3];
-
-		b3 = m_Stream.Next();
-		b2 = m_Stream.Next();
-		b1 = m_Stream.Next();
-		b0 = m_Stream.Next();
-		src[0] = ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
-
-		b3 = m_Stream.Next();
-		b2 = m_Stream.Next();
-		b1 = m_Stream.Next();
-		b0 = m_Stream.Next();
-		src[1] = ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
-
-		b3 = m_Stream.Next();
-		b2 = m_Stream.Next();
-		b1 = m_Stream.Next();
-		b0 = m_Stream.Next();
-		src[2] = ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
-
-		copyarray(value, src);
+		result = m_Stream.Eat(token);
+		value = token.ToVector();
 
 		return true;
 	}
 
 	bool Read(out string value)
 	{
-		int b3 = m_Stream.Next();
-		int b2 = m_Stream.Next();
-		int b1 = m_Stream.Next();
-		int b0 = m_Stream.Next();
+		int result;
 
-		int length = ((b3 & 0x000000FF) << 24) + ((b2 & 0x000000FF) << 16) + ((b1 & 0x000000FF) << 8) + (b0);
-
-		for (int index = 0; index < length; index++)
-		{
-			value += m_Stream.Next().AsciiToString();
-		}
+		result = m_Stream.Eat(value);
 
 		return true;
 	}
 
 	void Write(bool value)
 	{
-		m_Stream.AppendCurrent(value != 0);
+		if (value)
+		{
+			m_Stream.m_Data += " 1";
+		}
+		else
+		{
+			m_Stream.m_Data += " 0";
+		}
 	}
 
 	void Write(int value)
 	{
-		m_Stream.AppendCurrent((value >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((value >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((value >> 8) & 0x000000FF);
-		m_Stream.AppendCurrent((value)&0x000000FF);
+		m_Stream.m_Data += " " + value.ToString();
 	}
 
 	void Write(float value)
 	{
-		float src[1] = {value};
-		int dst[1];
-		copyarray(dst, src);
-
-		m_Stream.AppendCurrent((dst[0] >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((dst[0] >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((dst[0] >> 8) & 0x000000FF);
-		m_Stream.AppendCurrent((dst[0]) & 0x000000FF);
+		m_Stream.m_Data += " " + value.ToString();
 	}
 
 	void Write(vector value)
 	{
-		int dst[3];
-		copyarray(dst, value);
-
-		int a = dst[0];
-		int b = dst[1];
-		int c = dst[2];
-
-		m_Stream.AppendCurrent((a >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((a >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((a >> 8) & 0x000000FF);
-		m_Stream.AppendCurrent((a)&0x000000FF);
-
-		m_Stream.AppendCurrent((b >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((b >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((b >> 8) & 0x000000FF);
-		m_Stream.AppendCurrent((b)&0x000000FF);
-
-		m_Stream.AppendCurrent((c >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((c >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((c >> 8) & 0x000000FF);
-		m_Stream.AppendCurrent((c)&0x000000FF);
+		m_Stream.m_Data += " \"" + value.ToString(false) + "\"";
 	}
 
 	void Write(string value)
 	{
-		int length = value.Length();
-		m_Stream.AppendCurrent((length >> 24) & 0x000000FF);
-		m_Stream.AppendCurrent((length >> 16) & 0x000000FF);
-		m_Stream.AppendCurrent((length >> 8) & 0x000000FF);
-		m_Stream.AppendCurrent((length)&0x000000FF);
-
-		for (int i = 0; i < length; i++)
-		{
-			m_Stream.AppendCurrent(value.Substring(i, 1).Hash());
-		}
+		m_Stream.m_Data += " \"" + value + "\"";
 	}
 	
 	CF_ModStorageStream GetStream()
