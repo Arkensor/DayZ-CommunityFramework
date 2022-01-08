@@ -91,6 +91,8 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		m_UnloadedMods.Resize(numMods);
 
+		map<string, CF_ModStorage> loadedMods();
+
 		int modsRead;
 		int unloadedModsRead;
 		while (modsRead < numMods)
@@ -100,6 +102,8 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			CF_ModStorage storage;
 			if (ModLoader._CF_ReadModStorage(ctx, storage))
 			{
+				loadedMods.Insert(storage.m_Name, storage);
+
 				// Mod is loaded, we have copied the stream to the storage
 				continue;
 			}
@@ -110,7 +114,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		
 		m_UnloadedMods.Resize(unloadedModsRead);
 
-		m_Entity.CF_OnStoreLoad(ModLoader.s_CF_ModStorageMap);
+		m_Entity.CF_OnStoreLoad(loadedMods);
 
 		// Reset the stream for 'OnStoreSave'
 		foreach (auto mod : ModLoader.s_CF_ModStorages)

@@ -109,8 +109,6 @@ class CF_ModStorageTest
 		ScriptReadWriteContext ctx = new ScriptReadWriteContext;
 		
 		object.OnStoreSave(ctx.GetWriteContext());
-		object.SetPosition("0 0 0");
-
 		object.OnStoreLoad(ctx.GetReadContext(), GetGame().SaveVersion());
 
 		_assert(prev, object.GetDebugName());
