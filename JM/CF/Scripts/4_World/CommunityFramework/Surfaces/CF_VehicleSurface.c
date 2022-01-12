@@ -103,6 +103,22 @@ class CF_VehicleSurface
 		return true;
 	}
 #endif
+	
+	override string GetDebugName()
+	{
+		string str = this.ToString();
+
+		str += ",\n\tName=\"" + Name + "\""; 
+		str += ",\n\tNoiseSteer=\"" + NoiseSteer + "\""; 
+		str += ",\n\tNoiseFrequency=\"" + NoiseFrequency + "\""; 
+		str += ",\n\tRoughness=\"" + Roughness + "\""; 
+		str += ",\n\tFrictionOffroad=\"" + FrictionOffroad + "\""; 
+		str += ",\n\tFrictionSlick=\"" + FrictionSlick + "\""; 
+		str += ",\n\tRollResistance=\"" + RollResistance + "\""; 
+		str += ",\n\tRollDrag=\"" + RollDrag + "\""; 
+
+		return str;
+	}
 
 	[CF_EventSubscriber(CF_VehicleSurface._GetAllSurfaces, CF_LifecycleEvents.OnMissionCreate)]
 	static void _GetAllSurfaces()

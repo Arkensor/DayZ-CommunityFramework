@@ -11,9 +11,11 @@ class CF_Surface
 	float Friction = GetValueFloat("friction");
 	float Restitution = GetValueFloat("restitution");
 
-	string SoundEnvironent = GetValueString("soundEnviron");
+	string SoundEnvironment = GetValueString("soundEnviron");
 	string SoundHit = GetValueString("soundHit");
 	string Character = GetValueString("character");
+
+	string Files = GetValueString("files");
 
 	float FootDamage = GetValueFloat("footDamage");
 	float Audibility = GetValueFloat("audibility");
@@ -22,6 +24,10 @@ class CF_Surface
 
 	bool IsDigable = GetValueInt("isDigable");
 	bool IsFertile = GetValueInt("isFertile");
+	bool IsLiquid = GetValueInt("liquidType");
+	bool IsStairs = GetValueInt("isStairs");
+
+	int Liquid = GetValueInt("liquidType");
 
 	float ChanceForCatch = GetValueFloat("chanceForCatch");
 	float WindModifier = GetValueFloat("windModifier");
@@ -114,14 +120,18 @@ class CF_Surface
 		instance.Add("Deflection", Deflection);
 		instance.Add("Friction", Friction);
 		instance.Add("Restitution", Restitution);
-		instance.Add("Sound Environent", SoundEnvironent);
+		instance.Add("Sound Environent", SoundEnvironment);
 		instance.Add("Sound Hit", SoundHit);
 		instance.Add("Character", Character);
+		instance.Add("Files", Files);
 		instance.Add("Foot Damage", FootDamage);
 		instance.Add("Audibility", Audibility);
 		instance.Add("Impact", Impact);
 		instance.Add("Is Digable", IsDigable);
 		instance.Add("Is Fertile", IsFertile);
+		instance.Add("Is Liquid", IsLiquid);
+		instance.Add("Is Stairs", IsStairs);
+		instance.Add("Liquid", Liquid);
 		instance.Add("Chance For Catch", ChanceForCatch);
 		instance.Add("Wind Modifier", WindModifier);
 		instance.Add(VehicleSurface);
@@ -139,16 +149,20 @@ class CF_Surface
 		str += ",\n\tDeflection=\"" + Deflection + "\""; 
 		str += ",\n\tFriction=\"" + Friction + "\""; 
 		str += ",\n\tRestitution=\"" + Restitution + "\""; 
-		str += ",\n\tSound Environent=\"" + SoundEnvironent + "\""; 
-		str += ",\n\tSound Hit=\"" + SoundHit + "\""; 
+		str += ",\n\tSoundEnvironent=\"" + SoundEnvironment + "\""; 
+		str += ",\n\tSoundHit=\"" + SoundHit + "\""; 
 		str += ",\n\tCharacter=\"" + Character + "\""; 
-		str += ",\n\tFoot Damage=\"" + FootDamage + "\""; ;
+		str += ",\n\tFiles=\"" + Files + "\""; 
+		str += ",\n\tFootDamage=\"" + FootDamage + "\""; ;
 		str += ",\n\tAudibility=\"" + Audibility + "\""; 
 		str += ",\n\tImpact=\"" + Impact + "\""; 
-		str += ",\n\tIs Digable=\"" + IsDigable + "\""; 
-		str += ",\n\tIs Fertile=\"" + IsFertile + "\""; 
-		str += ",\n\tChance For Catch=\"" + ChanceForCatch + "\""; 
-		str += ",\n\tWind Modifier=\"" + WindModifier + "\""; 
+		str += ",\n\tIsDigable=\"" + IsDigable + "\""; 
+		str += ",\n\tIsFertile=\"" + IsFertile + "\""; 
+		str += ",\n\tIsLiquid=\"" + IsLiquid + "\""; 
+		str += ",\n\tIsStairs=\"" + IsStairs + "\""; 
+		str += ",\n\tLiquid=\"" + Liquid + "\""; 
+		str += ",\n\tChanceForCatch=\"" + ChanceForCatch + "\""; 
+		str += ",\n\tWindModifier=\"" + WindModifier + "\""; 
 		str += ",\n\tVehicleSurface=\"" + VehicleSurface.GetDebugName() + "\""; 		
 		
 		return str;
