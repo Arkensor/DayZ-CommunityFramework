@@ -4,4 +4,6 @@
 #define CF_EXPRESSION
 //#define CF_EXPRESSION_TEST
 
+#define CF_SURFACES
+
 #define CF_GHOSTICONS
