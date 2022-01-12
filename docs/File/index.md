@@ -141,7 +141,7 @@ static string GetExtension(CF_String path)
 
 The path string from which to get the extension. If path does not have extension information, this method returns an empty string.
 
-## CF_File
+# CF_File
 
 ## GetFullPath
 
