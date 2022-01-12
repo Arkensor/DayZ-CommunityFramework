@@ -1,6 +1,6 @@
 class CF_NetworkedVariables
 {
-	static int MAX_COUNT = 256;
+	const static int MAX_COUNT = 256;
 
 	int m_Count;
 
@@ -87,7 +87,7 @@ class CF_NetworkedVariables
 				variable.m_AccessorTypes[variable.m_Count] = type;
 				variable.m_Count++;
 
-				variable.m_Converter = CF_TypeConverter.Create(type);
+				variable.m_Converter = CF_TypeConverter.Get(type);
 
 				if (!variable.m_Converter)
 				{

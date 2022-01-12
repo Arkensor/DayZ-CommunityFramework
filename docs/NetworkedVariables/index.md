@@ -26,7 +26,7 @@ class DataClass
 
 class SomeClass
 {
-	static int RPC_ID = 1000000;
+	const static int RPC_ID = 1000000;
 
 	private ref DataClass m_DataHolder = new DataClass();
 	private int m_SomeIntVariable;
