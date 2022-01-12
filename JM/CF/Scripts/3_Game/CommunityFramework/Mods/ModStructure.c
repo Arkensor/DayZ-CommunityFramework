@@ -1,19 +1,12 @@
 modded class ModStructure
 {
-	protected ref array< ref ModInput > m_ModInputs;
+	protected string m_CF_Name;
 
-	protected ref JsonDataCredits m_Credits;
-	
-	protected string m_Version;
+	protected ref array<ref ModInput> m_CF_ModInputs;
+	protected ref JsonDataCredits m_CF_Credits;
 
-	protected int m_StorageVersion;
-
-	protected string m_Name;
-
-	void ~ModStructure()
-	{
-		delete m_ModInputs;
-	}
+	protected string m_CF_ModVersion;
+	protected int m_CF_StorageVersion;
 
 	/**
 	 * Set the mod specific data in here
@@ -21,211 +14,227 @@ modded class ModStructure
 	 * @param modName	The name of the loaded mod, retrieved from the CfgMods params array
 	 * 
 	 * @code
-	override bool OnLoad( string modName )
-	{
-		if ( modName != "JM_CommunityFramework" )
-			return super.OnLoad( modName );
-
-		//! Set the storage version for this mod
-		SetStorageVersion( 1 );
-
-		return true;
-	}
+	 *	override bool CF_OnLoad( string modName )
+	 *	{
+	 *		if ( modName != "JM_CommunityFramework" )
+	 *			return super.CF_OnLoad( modName );
+	 *
+	 *		//! Set the storage version for this mod
+	 *		SetStorageVersion( 1 );
+	 *
+	 *		return true;
+	 *	}
+	 * @endcode
 	 */
-	bool OnLoad( string modName )
+	bool CF_OnLoad(CF_String modName)
 	{
 		return false;
 	}
-	
+
+	/**
+	 * @brief Backwards compatibility
+	 * 
+	 * @deprecated
+	 */
+	bool OnLoad(string modName)
+	{
+		return false;
+	}
+
 	override void LoadData()
 	{
 		super.LoadData();
 
-		m_ModInputs = new ref array< ref ModInput >;
+		m_CF_ModInputs = new ref array<ref ModInput>;
 
-		m_StorageVersion = 0;
+		m_CF_StorageVersion = 0;
 
-		if ( GetGame().ConfigIsExisting( m_ModPath ) )
-		{			
-			GetGame().ConfigGetChildName( "CfgMods", m_ModIndex, m_Name );
+		if (GetGame().ConfigIsExisting(m_ModPath))
+		{
+			GetGame().ConfigGetChildName("CfgMods", m_ModIndex, m_CF_Name);
 
-			if ( !OnLoad( m_ModName ) )
+			if (GetGame().ConfigIsExisting(m_ModPath + " storageVersion"))
 			{
-				//Print( "(Community-Framework) Notice: The mod '" + m_ModName + "' either does not override ModStructure::OnLoad or failed to load." );
+				SetStorageVersion(GetGame().ConfigGetInt(m_ModPath + " storageVersion"));
 			}
 
-			/*if ( GetGame().ConfigIsExisting( m_ModPath + " creditsJson" ) )
+			if (!CF_OnLoad(m_CF_Name))
 			{
-				
-				string creditsPath;
-				GetGame().ConfigGetText( m_ModPath + " creditsJson", creditsPath );
-				
-				Print(creditsPath);
+				OnLoad(m_CF_Name);
+			}
 
-				JsonFileLoader<ref JsonDataCredits>.JsonLoadFile( creditsPath, m_Credits );
-			} else */
-			if ( GetGame().ConfigIsExisting( m_ModPath + " credits" ) )
-			{				
+			if (GetGame().ConfigIsExisting(m_ModPath + " creditsJson"))
+			{
+				string creditsPath;
+				GetGame().ConfigGetText(m_ModPath + " creditsJson", creditsPath);
+
+				JsonFileLoader<JsonDataCredits>.JsonLoadFile(creditsPath, m_CF_Credits);
+			}
+			else if (GetGame().ConfigIsExisting(m_ModPath + " credits"))
+			{
 				string credits = "";
 
-				m_Credits = new ref JsonDataCredits;
-				m_Credits.Departments = new array< ref JsonDataCreditsDepartment >;
+				m_CF_Credits = new JsonDataCredits;
+				m_CF_Credits.Departments = new array<ref JsonDataCreditsDepartment>;
 
-				ref JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
+				JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
 				mod_department_header.Sections = new array<ref JsonDataCreditsSection>;
 				mod_department_header.DepartmentName = "				" + m_ModName;
 
 				string author = "";
-				bool hasAuthor = GetGame().ConfigIsExisting( m_ModPath + " author" );
-				GetGame().ConfigGetText( m_ModPath + " author", author );
+				bool hasAuthor = GetGame().ConfigIsExisting(m_ModPath + " author");
+				GetGame().ConfigGetText(m_ModPath + " author", author);
 
-				if ( hasAuthor && author != "" )
+				if (hasAuthor && author != "")
 				{
-					ref JsonDataCreditsSection mod_section_modheader_author = new JsonDataCreditsSection;
+					JsonDataCreditsSection mod_section_modheader_author = new JsonDataCreditsSection;
 					mod_section_modheader_author.SectionLines = new array<string>;
-					mod_section_modheader_author.SectionName = ( "Author" );
-					
-					mod_section_modheader_author.SectionLines.Insert( author );
-					
-					mod_department_header.Sections.Insert( mod_section_modheader_author );
+					mod_section_modheader_author.SectionName = ("Author");
+
+					mod_section_modheader_author.SectionLines.Insert(author);
+
+					mod_department_header.Sections.Insert(mod_section_modheader_author);
 				}
-				
-				GetGame().ConfigGetText( m_ModPath + " credits", credits );
-				if ( credits != "" )
+
+				GetGame().ConfigGetText(m_ModPath + " credits", credits);
+
+				if (credits != "")
 				{
-					ref JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
+					JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
 					mod_section_modheader.SectionLines = new array<string>;
-					mod_section_modheader.SectionName = ( "Credits" );
-					
+					mod_section_modheader.SectionName = ("Credits");
+
 					array<string> creditsArray = new array<string>;
 					credits.Split(", ", creditsArray);
-					foreach ( string credit: creditsArray )
+					foreach (string credit : creditsArray)
 					{
-						mod_section_modheader.SectionLines.Insert( credit );
+						mod_section_modheader.SectionLines.Insert(credit);
 					}
-					
-					mod_department_header.Sections.Insert( mod_section_modheader );
+
+					mod_department_header.Sections.Insert(mod_section_modheader);
 				}
 
-				m_Credits.Departments.Insert( mod_department_header );
-			} else
-			{
-				m_Credits = new ref JsonDataCredits;
+				m_CF_Credits.Departments.Insert(mod_department_header);
 			}
-			
-			if ( GetGame().ConfigIsExisting( m_ModPath + " versionPath" ) )
+			else
+			{
+				m_CF_Credits = new JsonDataCredits;
+			}
+
+			if (GetGame().ConfigIsExisting(m_ModPath + " versionPath"))
 			{
 				string versionPath;
-				GetGame().ConfigGetText( m_ModPath + " versionPath", versionPath );
-				
-				FileHandle file_handle = OpenFile( versionPath, FileMode.READ );
-		
-				while ( FGets( file_handle, m_Version ) > 0 )
+				GetGame().ConfigGetText(m_ModPath + " versionPath", versionPath);
+
+				FileHandle file_handle = OpenFile(versionPath, FileMode.READ);
+
+				while (FGets(file_handle, m_CF_ModVersion) > 0)
 					break;
-		
-				CloseFile( file_handle );
-			} else if ( GetGame().ConfigIsExisting( m_ModPath + " version" ) )
-			{
-				GetGame().ConfigGetText( m_ModPath + " version", m_Version );
+
+				CloseFile(file_handle);
 			}
-			
-			if ( GetGame().ConfigIsExisting( m_ModPath + " inputs" ) )
+			else if (GetGame().ConfigIsExisting(m_ModPath + " version"))
+			{
+				GetGame().ConfigGetText(m_ModPath + " version", m_CF_ModVersion);
+			}
+
+			if (GetGame().ConfigIsExisting(m_ModPath + " inputs"))
 			{
 				string inputPath;
-				GetGame().ConfigGetText( m_ModPath + " inputs", inputPath );
-				
+				GetGame().ConfigGetText(m_ModPath + " inputs", inputPath);
+
 				CF_XML_Document document;
-				if ( inputPath != "" && CF.XML.ReadDocument( inputPath, document ) )
+				if (inputPath != "" && CF.XML.ReadDocument(inputPath, document))
 				{
-					auto parent_tag = document.Get( "modded_inputs" )[0];
-					if ( parent_tag )
-						parent_tag = parent_tag.GetTag( "inputs" )[0];
-					if ( parent_tag )
-						parent_tag = parent_tag.GetTag( "actions" )[0];
+					auto parent_tag = document.Get("modded_inputs")[0];
+					if (parent_tag)
+						parent_tag = parent_tag.GetTag("inputs")[0];
+					if (parent_tag)
+						parent_tag = parent_tag.GetTag("actions")[0];
 
-					array< CF_XML_Tag > inputs = null;
-					if ( !parent_tag )
-						inputs = new array< CF_XML_Tag >();
+					array<CF_XML_Tag> inputs = null;
+					if (!parent_tag)
+						inputs = new array<CF_XML_Tag>();
 					else
-						inputs = parent_tag.GetTag( "input" );
+						inputs = parent_tag.GetTag("input");
 
-					for ( int i = 0; i < inputs.Count(); i++ )
+					for (int i = 0; i < inputs.Count(); i++)
 					{
-						ref ModInput modInput = new ref ModInput;
+						ModInput modInput = new ModInput;
 
 						CF_XML_Attribute attrib = null;
 
-						attrib = inputs[i].GetAttribute( "name" );
-						if ( attrib )
+						attrib = inputs[i].GetAttribute("name");
+						if (attrib)
 							modInput.Name = attrib.ValueAsString();
 
-						attrib = inputs[i].GetAttribute( "loc" );
-						if ( attrib )
+						attrib = inputs[i].GetAttribute("loc");
+						if (attrib)
 							modInput.Localization = attrib.ValueAsString();
 
-						attrib = inputs[i].GetAttribute( "visible" );
-						if ( attrib )
+						attrib = inputs[i].GetAttribute("visible");
+						if (attrib)
 							modInput.Visible = attrib.ValueAsBool();
-						else 
+						else
 							modInput.Visible = true;
 
-						m_ModInputs.Insert( modInput );
+						m_CF_ModInputs.Insert(modInput);
 					}
 				}
 			}
 		}
 	}
-	
-	ref array< ref ModInput > GetModInputs()
+
+	array<ref ModInput> GetModInputs()
 	{
-		return m_ModInputs;
+		return m_CF_ModInputs;
 	}
 
-	ref JsonDataCredits GetCredits()
+	JsonDataCredits GetCredits()
 	{
-		return m_Credits;
+		return m_CF_Credits;
 	}
 
 	string GetName()
 	{
-		return m_Name;
+		return m_CF_Name;
 	}
 
 	string GetModPath()
 	{
 		return m_ModPath;
 	}
-	
+
 	override string GetModName()
 	{
 		return m_ModName;
 	}
-	
+
 	override string GetModLogo()
 	{
 		return m_ModLogo;
 	}
-	
+
 	override string GetModLogoSmall()
 	{
 		return m_ModLogoSmall;
 	}
-	
+
 	override string GetModLogoOver()
 	{
 		return m_ModLogoOver;
 	}
-	
+
 	override string GetModActionURL()
 	{
 		return m_ModActionURL;
 	}
-	
+
 	override string GetModToltip()
 	{
 		return m_ModTooltip;
 	}
-	
+
 	override string GetModOverview()
 	{
 		return m_ModOverview;
@@ -233,16 +242,41 @@ modded class ModStructure
 
 	string GetModVersion()
 	{
-		return m_Version;
+		return m_CF_ModVersion;
 	}
 
 	int GetStorageVersion()
 	{
-		return m_StorageVersion;
+		return m_CF_StorageVersion;
 	}
 
-	protected void SetStorageVersion( int version )
+	protected void SetStorageVersion(int version)
 	{
-		m_StorageVersion = version;
+		m_CF_StorageVersion = version;
+	}
+
+	bool HasModStorage()
+	{
+		return m_CF_StorageVersion > 0;
+	}
+
+	override string GetDebugName()
+	{
+		string str = super.GetDebugName();
+
+		str += ", GetName=" + GetName();
+		str += ", GetModPath=" + GetModPath();
+		str += ", GetModName=" + GetModName();
+		str += ", GetModLogo=" + GetModLogo();
+		str += ", GetModLogoSmall=" + GetModLogoSmall();
+		str += ", GetModLogoOver=" + GetModLogoOver();
+		str += ", GetModActionURL=" + GetModActionURL();
+		str += ", GetModToltip=" + GetModToltip();
+		str += ", GetModOverview=" + GetModOverview();
+		str += ", GetModVersion=" + GetModVersion();
+		str += ", GetStorageVersion=" + GetStorageVersion();
+		str += ", HasModStorage=" + HasModStorage();
+
+		return str;
 	}
 };

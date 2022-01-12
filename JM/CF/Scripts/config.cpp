@@ -48,7 +48,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/1_Core",
 					"JM/CF/Scripts/1_Core"
 				};
 			};
@@ -67,7 +66,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/3_Game",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
@@ -77,7 +75,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/4_World",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -87,7 +84,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/5_Mission",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};
