@@ -19,7 +19,7 @@ class CF_VehicleSurface
 	 */
 	private void CF_VehicleSurface()
 	{
-		s_VehicleSurfaces[Name] = this;
+		s_VehicleSurfaces[s_LastSurface] = this;
 	}
 	
 	/**

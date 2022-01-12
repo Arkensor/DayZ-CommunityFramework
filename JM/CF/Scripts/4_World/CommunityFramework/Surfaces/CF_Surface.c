@@ -27,7 +27,7 @@ class CF_Surface
 	bool IsLiquid = GetValueInt("liquidType");
 	bool IsStairs = GetValueInt("isStairs");
 
-	int Liquid = GetValueInt("liquidType");
+	int LiquidType = GetValueInt("liquidType");
 
 	float ChanceForCatch = GetValueFloat("chanceForCatch");
 	float WindModifier = GetValueFloat("windModifier");
@@ -39,7 +39,7 @@ class CF_Surface
 	 */
 	private void CF_Surface()
 	{
-		s_Surfaces[Name] = this;
+		s_Surfaces[s_LastSurface] = this;
 	}
 	
 	/**
@@ -131,7 +131,7 @@ class CF_Surface
 		instance.Add("Is Fertile", IsFertile);
 		instance.Add("Is Liquid", IsLiquid);
 		instance.Add("Is Stairs", IsStairs);
-		instance.Add("Liquid", Liquid);
+		instance.Add("LiquidType", LiquidType);
 		instance.Add("Chance For Catch", ChanceForCatch);
 		instance.Add("Wind Modifier", WindModifier);
 		instance.Add(VehicleSurface);
@@ -160,7 +160,7 @@ class CF_Surface
 		str += ",\n\tIsFertile=\"" + IsFertile + "\""; 
 		str += ",\n\tIsLiquid=\"" + IsLiquid + "\""; 
 		str += ",\n\tIsStairs=\"" + IsStairs + "\""; 
-		str += ",\n\tLiquid=\"" + Liquid + "\""; 
+		str += ",\n\tLiquidType=\"" + LiquidType + "\""; 
 		str += ",\n\tChanceForCatch=\"" + ChanceForCatch + "\""; 
 		str += ",\n\tWindModifier=\"" + WindModifier + "\""; 
 		str += ",\n\tVehicleSurface=\"" + VehicleSurface.GetDebugName() + "\""; 		
