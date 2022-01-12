@@ -1,6 +1,22 @@
-# File
+# CF_Directory
 
-Using `CF_File` you can get and iterate over all the script.log files within the dayz profile directory.
+## GetFiles
+
+```csharp
+static bool GetFiles(string pattern, inout array<ref CF_File> files, FindFileFlags flags = 2)
+```
+
+### Parameters
+
+`pattern` The search pattern  
+`files` [inout]  An array where the list of files will be written to  
+`flags` If it should be looked in directories or .pak files, or both  
+
+### Return
+
+If any files were found that matched the pattern
+
+### Example
 
 ```csharp
 array<ref CF_File> files();
@@ -11,27 +27,7 @@ foreach (auto file : files)
 }
 ```
 
-There are also helper file functions that allow you to `Delete`, `Rename`, `Copy` and `Move`.
-
-## CF_Directory
-
-### GetFiles
-
-```csharp
-static bool GetFiles(string pattern, inout array<ref CF_File> files, FindFileFlags flags = 2)
-```
-
-#### Parameters
-
-`pattern` The search pattern
-`files` [inout]  An array where the list of files will be written to
-`flags` If it should be looked in directories or .pak files, or both
-
-#### Return
-
-If any files were found that matched the pattern
-
-### CreateDirectory
+## CreateDirectory
 
 Creates all directories and subdirectories in the specified path unless they already exist. 
 
@@ -39,17 +35,17 @@ Creates all directories and subdirectories in the specified path unless they alr
 static bool CreateDirectory(string directory)
 ```
 
-#### Parameters
+### Parameters
 
-`directory` The directory to create.
+`directory` The directory to create.  
 
-#### Return
+### Return
 
 If the directories could be created
 
-## CF_Path
+# CF_Path
 
-### GetDirectoryName
+## GetDirectoryName
 
 Returns the directory information for the specified path.
 
@@ -57,15 +53,15 @@ Returns the directory information for the specified path.
 static string GetDirectoryName(CF_String path)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The path of a file or directory.
+`path` The path of a file or directory.  
 
-#### Return
+### Return
 
 Directory information for path. Returns an empty string if path does not contain directory information.
 
-### GetFileName
+## GetFileName
 
 Returns the file name and extension of the specified path string.
 
@@ -73,15 +69,15 @@ Returns the file name and extension of the specified path string.
 static string GetFileName(string path)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The path string from which to obtain the file name and extension.
+`path` The path string from which to obtain the file name and extension.  
 
-#### Return
+### Return
 
 The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns an empty string.
 
-### GetFileNameEx
+## GetFileNameEx
 
 Returns the file name and extension of the specified path string.
 
@@ -89,15 +85,15 @@ Returns the file name and extension of the specified path string.
 static string GetFileNameEx(string path, string folder)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The path string from which to obtain the file name and extension.
+`path` The path string from which to obtain the file name and extension.  
 
-#### Return
+### Return
 
 The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns an empty string.
 
-### GetFileNameWithoutExtension
+## GetFileNameWithoutExtension
 
 Returns the file name of the specified path string.
 
@@ -105,15 +101,15 @@ Returns the file name of the specified path string.
 static string GetFileNameWithoutExtension(string path)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The path string from which to obtain the file name.
+`path` The path string from which to obtain the file name.  
 
-#### Return
+### Return
 
 The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns an empty string.
 
-### GetFileNameWithoutExtensionEx
+## GetFileNameWithoutExtensionEx
 
 Returns the file name of the specified path string.
 
@@ -121,15 +117,15 @@ Returns the file name of the specified path string.
 static string GetFileNameWithoutExtensionEx(string path, string folder)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The path string from which to obtain the file name.
+`path` The path string from which to obtain the file name.  
 
-#### Return
+### Return
 
 The characters after the last directory separator character in path. If the last character of path is a directory or volume separator character, this method returns an empty string.
 
-### GetExtension
+## GetExtension
 
 Returns the extension (including the period ".") of the specified path string.
 
@@ -137,17 +133,17 @@ Returns the extension (including the period ".") of the specified path string.
 static string GetExtension(CF_String path)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The path string from which to get the extension.
+`path` The path string from which to get the extension.  
 
-#### Return
+### Return
 
 The path string from which to get the extension. If path does not have extension information, this method returns an empty string.
 
-### CF_File
+## CF_File
 
-### GetFullPath
+## GetFullPath
 
 Returns the path, including file name and extension if they exist
 
@@ -155,11 +151,11 @@ Returns the path, including file name and extension if they exist
 string GetFullPath()
 ```
 
-#### Return
+### Return
 
 Returns the path, including file name and extension if they exist
 
-### GetFileName
+## GetFileName
 
 Returns the file name and extension
 
@@ -167,11 +163,11 @@ Returns the file name and extension
 string GetFileName()
 ```
 
-#### Return
+### Return
 
 Returns the file name and extension
 
-### GetFileNameWithoutExtension
+## GetFileNameWithoutExtension
 
 Returns the file name without the extension 
 
@@ -179,11 +175,11 @@ Returns the file name without the extension
 string GetFileNameWithoutExtension()
 ```
 
-#### Return
+### Return
 
 Returns the file name without the extension 
 
-### GetExtension
+## GetExtension
 
 Returns the extension (including the period ".")
 
@@ -191,11 +187,11 @@ Returns the extension (including the period ".")
 string GetExtension()
 ```
 
-#### Return
+### Return
 
 Returns the extension (including the period ".")
 
-### GetDirectory
+## GetDirectory
 
 Returns the full path of the parent folder
 
@@ -203,11 +199,11 @@ Returns the full path of the parent folder
 string GetDirectory()
 ```
 
-#### Return
+### Return
 
 Returns the full path of the parent folder
 
-### CreateStream
+## CreateStream
 
 Creates and opens a new instance of a FileStream for the current file
 
@@ -215,15 +211,15 @@ Creates and opens a new instance of a FileStream for the current file
 CF_Stream CreateStream(FileMode mode)
 ```
 
-#### Parameters
+### Parameters
 
-`mode` Sets the file mode the stream will be opened in
+`mode` Sets the file mode the stream will be opened in  
 
-#### Return
+### Return
 
 new instance of CF_FileStream
 
-### Delete
+## Delete
 
 Deletes the current file
 
@@ -231,11 +227,11 @@ Deletes the current file
 bool Delete()
 ```
 
-#### Return
+### Return
 
 true if the operation was successful
 
-### Rename
+## Rename
 
 Renames the current file (copy to new name, then delete original)
 
@@ -243,15 +239,15 @@ Renames the current file (copy to new name, then delete original)
 bool Rename(string name)
 ```
 
-#### Parameters
+### Parameters
 
-`name` The new name of the file
+`name` The new name of the file  
 
-#### Return
+### Return
 
 true if the operation was successful
 
-### Move
+## Move
 
 Moves the file to the new path (copy to folder, then delete original)
 
@@ -259,15 +255,15 @@ Moves the file to the new path (copy to folder, then delete original)
 bool Move(string name)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The new path
+`path` The new path  
 
-#### Return
+### Return
 
 true if the operation was successful
 
-### Copy
+## Copy
 
 Copies the file to the new path
 
@@ -275,15 +271,15 @@ Copies the file to the new path
 bool Copy(string name)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The new path
+`path` The new path  
 
-#### Return
+### Return
 
 true if the operation was successful
 
-### Copy
+## Copy
 
 Copies the file to the new path, returning the instance of the file
 
@@ -291,11 +287,11 @@ Copies the file to the new path, returning the instance of the file
 bool Copy(string path, out CF_File newFile)
 ```
 
-#### Parameters
+### Parameters
 
-`path` The new path
-`newFile` [out] Outputs the new instance of the file
+`path` The new path  
+`newFile` [out] Outputs the new instance of the file  
 
-#### Return
+### Return
 
 true if the operation was successful
