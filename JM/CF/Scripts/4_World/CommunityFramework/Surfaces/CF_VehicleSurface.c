@@ -1,46 +1,25 @@
 class CF_VehicleSurface
 {
-	protected static ref map<string, ref CF_VehicleSurface> s_VehicleSurfaces = new map<string, ref CF_VehicleSurface>();
+	private static ref map<string, ref CF_VehicleSurface> s_VehicleSurfaces = new map<string, ref CF_VehicleSurface>();
 
-	string Name;
+	private static string s_LastSurface;
 
-	float NoiseSteer;
-	float NoiseFrequency;
-	float Roughness;
-	float FrictionOffroad;
-	float FrictionSlick;
-	float RollResistance;
-	float RollDrag;
+	string Name = s_LastSurface;
 
-	private void CF_VehicleSurface(string name)
+	float NoiseSteer = GetValueFloat("noiseSteer");
+	float NoiseFrequency = GetValueFloat("noiseFrequency");
+	float Roughness = GetValueFloat("roughness");
+	float FrictionOffroad = GetValueFloat("frictionOffroad");
+	float FrictionSlick = GetValueFloat("frictionSlick");
+	float RollResistance = GetValueFloat("rollResistance");
+	float RollDrag = GetValueFloat("rollDrag");
+
+	/**
+	 * @brief Private constructor to prevent outside creation of the class
+	 */
+	private void CF_VehicleSurface()
 	{
-		Name = name;
-
 		s_VehicleSurfaces[Name] = this;
-
-		string path;
-		string rootPath = "CfgVehicleSurfaces " + Name + " ";
-
-		path = rootPath + "noiseSteer";
-		if (GetGame().ConfigIsExisting(path)) NoiseSteer = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "noiseFrequency";
-		if (GetGame().ConfigIsExisting(path)) NoiseFrequency = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "roughness";
-		if (GetGame().ConfigIsExisting(path)) Roughness = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "frictionOffroad";
-		if (GetGame().ConfigIsExisting(path)) FrictionOffroad = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "frictionSlick";
-		if (GetGame().ConfigIsExisting(path)) FrictionSlick = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "rollResistance";
-		if (GetGame().ConfigIsExisting(path)) RollResistance = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "rollDrag";
-		if (GetGame().ConfigIsExisting(path)) RollDrag = GetGame().ConfigGetFloat(path);
 	}
 	
 	/**
@@ -62,7 +41,8 @@ class CF_VehicleSurface
 		auto surf = s_VehicleSurfaces[name];
 		if (!surf)
 		{
-			return new CF_VehicleSurface(name);
+			s_LastSurface = name;
+			return new CF_VehicleSurface();
 		}
 
 		return surf;
@@ -93,6 +73,21 @@ class CF_VehicleSurface
 		return CF_Surface.At(x, z).VehicleSurface;
 	}
 
+	/**
+	 * @brief Get the surface at the position in the world at it's maximum height
+	 * 
+	 * @param object The object above the surface of the object 
+	 * 
+	 * @return Global instance of the surface class
+	 */
+	static CF_VehicleSurface At(Object object)
+	{
+		string name;
+		int liquidType;
+		GetGame().SurfaceUnderObject(object, name, liquidType);
+		return CF_Surface.Get(name).VehicleSurface;
+	}
+
 #ifdef CF_DebugUI
 	bool CF_OnDebugUpdate(CF_Debug instance, CF_DebugUI_Type type)
 	{
@@ -108,4 +103,40 @@ class CF_VehicleSurface
 		return true;
 	}
 #endif
+
+	[CF_EventSubscriber(CF_VehicleSurface._GetAllSurfaces, CF_LifecycleEvents.OnMissionCreate)]
+	static void _GetAllSurfaces()
+	{
+		string path = "CfgVehicleSurfaces";
+		string name;
+		int count = GetGame().ConfigGetChildrenCount(path);
+
+		for (int index = 0; index < count; index++)
+		{
+			GetGame().ConfigGetChildName(path, index, name);
+
+			CF_VehicleSurface.Get(name);
+		}
+	}
+
+	private static int GetValueInt(string param)
+	{
+		string path = "CfgVehicleSurfaces" + " " + s_LastSurface + " " + param;
+		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetInt(path);
+		return 0;
+	}
+
+	private static float GetValueFloat(string param)
+	{
+		string path = "CfgVehicleSurfaces" + " " + s_LastSurface + " " + param;
+		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetFloat(path);
+		return 0;
+	}
+
+	private static string GetValueString(string param)
+	{
+		string path = "CfgVehicleSurfaces" + " " + s_LastSurface + " " + param;
+		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetTextOut(path);
+		return string.Empty;
+	}
 };

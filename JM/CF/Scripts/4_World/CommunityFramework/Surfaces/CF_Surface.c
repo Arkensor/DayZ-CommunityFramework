@@ -1,84 +1,39 @@
 class CF_Surface
 {
-	protected static ref map<string, ref CF_Surface> s_Surfaces = new map<string, ref CF_Surface>();
+	private static ref map<string, ref CF_Surface> s_Surfaces = new map<string, ref CF_Surface>();
 
-	string Name;
+	private static string s_LastSurface;
 
-	float Interior;
-	float Deflection;
-	float Friction;
-	float Restitution;
+	string Name = s_LastSurface;
 
-	string SoundEnvironent;
-	string SoundHit;
-	string Character;
+	float Interior = GetValueFloat("interior");
+	float Deflection = GetValueFloat("deflection");
+	float Friction = GetValueFloat("friction");
+	float Restitution = GetValueFloat("restitution");
 
-	float FootDamage;
-	float Audibility;
+	string SoundEnvironent = GetValueString("soundEnviron");
+	string SoundHit = GetValueString("soundHit");
+	string Character = GetValueString("character");
 
-	string Impact;
+	float FootDamage = GetValueFloat("footDamage");
+	float Audibility = GetValueFloat("audibility");
 
-	bool IsDigable;
-	bool IsFertile;
+	string Impact = GetValueString("impact");
 
-	float ChanceForCatch;
-	float WindModifier;
+	bool IsDigable = GetValueInt("isDigable");
+	bool IsFertile = GetValueInt("isFertile");
 
-	CF_VehicleSurface VehicleSurface;
+	float ChanceForCatch = GetValueFloat("chanceForCatch");
+	float WindModifier = GetValueFloat("windModifier");
 
-	private void CF_Surface(string name)
+	CF_VehicleSurface VehicleSurface = GetValueVehicleSurface("vpSurface");
+
+	/**
+	 * @brief Private constructor to prevent outside creation of the class
+	 */
+	private void CF_Surface()
 	{
-		Name = name;
-
 		s_Surfaces[Name] = this;
-
-		string path;
-		string rootPath = "CfgSurfaces " + Name + " ";
-
-		path = rootPath + "interior";
-		if (GetGame().ConfigIsExisting(path)) Interior = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "deflection";
-		if (GetGame().ConfigIsExisting(path)) Deflection = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "friction";
-		if (GetGame().ConfigIsExisting(path)) Friction = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "restitution";
-		if (GetGame().ConfigIsExisting(path)) Restitution = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "soundEnviron";
-		if (GetGame().ConfigIsExisting(path)) SoundEnvironent = GetGame().ConfigGetTextOut(path);
-
-		path = rootPath + "soundHit";
-		if (GetGame().ConfigIsExisting(path)) SoundHit = GetGame().ConfigGetTextOut(path);
-
-		path = rootPath + "character";
-		if (GetGame().ConfigIsExisting(path)) Character = GetGame().ConfigGetTextOut(path);
-
-		path = rootPath + "footDamage";
-		if (GetGame().ConfigIsExisting(path)) FootDamage = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "audibility";
-		if (GetGame().ConfigIsExisting(path)) Audibility = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "impact";
-		if (GetGame().ConfigIsExisting(path)) Impact = GetGame().ConfigGetTextOut(path);
-
-		path = rootPath + "isDigable";
-		if (GetGame().ConfigIsExisting(path)) IsDigable = GetGame().ConfigGetInt(path);
-
-		path = rootPath + "isFertile";
-		if (GetGame().ConfigIsExisting(path)) IsFertile = GetGame().ConfigGetInt(path);
-
-		path = rootPath + "chanceForCatch";
-		if (GetGame().ConfigIsExisting(path)) ChanceForCatch = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "windModifier";
-		if (GetGame().ConfigIsExisting(path)) WindModifier = GetGame().ConfigGetFloat(path);
-
-		path = rootPath + "vpSurface";
-		if (GetGame().ConfigIsExisting(path)) VehicleSurface = CF_VehicleSurface.Get(GetGame().ConfigGetTextOut(path));
 	}
 	
 	/**
@@ -100,7 +55,8 @@ class CF_Surface
 		auto surf = s_Surfaces[name];
 		if (!surf)
 		{
-			return new CF_Surface(name);
+			s_LastSurface = name;
+			return new CF_Surface();
 		}
 
 		return surf;
@@ -135,6 +91,21 @@ class CF_Surface
 		return CF_Surface.Get(name);
 	}
 
+	/**
+	 * @brief Get the surface at the position in the world at it's maximum height
+	 * 
+	 * @param object The object above the surface of the object 
+	 * 
+	 * @return Global instance of the surface class
+	 */
+	static CF_Surface At(Object object)
+	{
+		string name;
+		int liquidType;
+		GetGame().SurfaceUnderObject(object, name, liquidType);
+		return CF_Surface.Get(name);
+	}
+
 #ifdef CF_DebugUI
 	bool CF_OnDebugUpdate(CF_Debug instance, CF_DebugUI_Type type)
 	{
@@ -158,4 +129,69 @@ class CF_Surface
 		return true;
 	}
 #endif
+	
+	override string GetDebugName()
+	{
+		string str = this.ToString();
+		
+		str += ",\n\tName=\"" + Name + "\""; 
+		str += ",\n\tInterior=\"" + Interior + "\""; 
+		str += ",\n\tDeflection=\"" + Deflection + "\""; 
+		str += ",\n\tFriction=\"" + Friction + "\""; 
+		str += ",\n\tRestitution=\"" + Restitution + "\""; 
+		str += ",\n\tSound Environent=\"" + SoundEnvironent + "\""; 
+		str += ",\n\tSound Hit=\"" + SoundHit + "\""; 
+		str += ",\n\tCharacter=\"" + Character + "\""; 
+		str += ",\n\tFoot Damage=\"" + FootDamage + "\""; ;
+		str += ",\n\tAudibility=\"" + Audibility + "\""; 
+		str += ",\n\tImpact=\"" + Impact + "\""; 
+		str += ",\n\tIs Digable=\"" + IsDigable + "\""; 
+		str += ",\n\tIs Fertile=\"" + IsFertile + "\""; 
+		str += ",\n\tChance For Catch=\"" + ChanceForCatch + "\""; 
+		str += ",\n\tWind Modifier=\"" + WindModifier + "\""; 
+		str += ",\n\tVehicleSurface=\"" + VehicleSurface.GetDebugName() + "\""; 		
+		
+		return str;
+	}
+
+	[CF_EventSubscriber(CF_Surface._GetAllSurfaces, CF_LifecycleEvents.OnMissionCreate)]
+	static void _GetAllSurfaces()
+	{
+		string path = "cfgSurfaces";
+		string name;
+		int count = GetGame().ConfigGetChildrenCount(path);
+
+		for (int index = 0; index < count; index++)
+		{
+			GetGame().ConfigGetChildName(path, index, name);
+
+			CF_Surface.Get(name);
+		}
+	}
+
+	private static int GetValueInt(string param)
+	{
+		string path = "CfgSurfaces" + " " + s_LastSurface + " " + param;
+		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetInt(path);
+		return 0;
+	}
+
+	private static float GetValueFloat(string param)
+	{
+		string path = "CfgSurfaces" + " " + s_LastSurface + " " + param;
+		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetFloat(path);
+		return 0;
+	}
+
+	private static string GetValueString(string param)
+	{
+		string path = "CfgSurfaces" + " " + s_LastSurface + " " + param;
+		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetTextOut(path);
+		return string.Empty;
+	}
+
+	private static CF_VehicleSurface GetValueVehicleSurface(string param)
+	{
+		return CF_VehicleSurface.Get(GetValueString(param));
+	}
 };
