@@ -5,7 +5,7 @@ class CF_Directory
 	 * @param [inout] files An array where the list of files will be written to
 	 * @param flags If it should be looked in directories or .pak files, or both
 	 * 
-	 * @return If the pattern was valid
+	 * @return If any files were found that matched the pattern
 	 */
 	static bool GetFiles(string pattern, inout array<ref CF_File> files, FindFileFlags flags = 2)
 	{
