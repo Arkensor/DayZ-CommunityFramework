@@ -29,6 +29,33 @@ modded class DayZGame
 			return;
 		}
 
+		if (rpc_type == CF_ModuleGame.NETWORKED_VARIABLES_RPC_ID)
+		{
+			// Only allow this RPC to be executed on the client, don't want to allow the client to edit server variables
+			if (GetGame().IsServer())
+			{
+				return;
+			}
+
+			string moduleName;
+			if (!ctx.Read(moduleName))
+			{
+				return;
+			}
+
+			// Check to see if the module can be found
+			CF_ModuleGame module;
+			if (!Class.CastTo(module, CF_ModuleCoreManager.Get(moduleName)))
+			{
+				return;
+			}
+
+			module.m_CF_NetworkedVariables.Read(ctx);
+			module.OnVariablesSynchronized(this, new CF_EventArgs);
+
+			return;
+		}
+
 		auto rpcArgs = new CF_EventRPCArgs();
 		rpcArgs.Sender = sender;
 		rpcArgs.Target = target;
