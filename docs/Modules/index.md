@@ -113,13 +113,15 @@ class SomeModule : CF_ModuleWorld
 		Print("The server module is at " + m_ModuleTimeSynch);
 	}
 
-	override void OnUpdate(float timeslice)
+	override void OnUpdate(Class sender, CF_EventArgs args)
 	{
-		m_ModuleTime += timeslice;
+		auto update = CF_EventUpdateArgs.Cast(args);
+
+		m_ModuleTime += update.DeltaTime;
 
 		if (GetGame().IsServer())
 		{
-			m_ModuleTimeSynch += timeslice;
+			m_ModuleTimeSynch += update.DeltaTime;
 			SetSynchDirty();
 		}
 	}
