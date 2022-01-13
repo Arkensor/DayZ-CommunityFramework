@@ -5,6 +5,8 @@
 #define CF_EXPRESSION
 //#define CF_EXPRESSION_TEST
 
-#define CF_GHOSTICONS
-
 #define CF_MODULES
+
+#define CF_SURFACES
+
+#define CF_GHOSTICONS
