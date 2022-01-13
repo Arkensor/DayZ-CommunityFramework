@@ -1,7 +1,7 @@
 modded class Weapon_Base
 {
 	/**
-	 * @brief Spawns a magazine into the weapon as an attachment or into the internal magazine
+	 * @brief Spawns a magazine into the weapon as an attachment or into the internal magazine. Calls 'CF_AttachMagazine' on the spawned magazine.
 	 * 
 	 * @param magazineType The class type of the magazine, must inherit from Magazine_Base
 	 * @param quantity The amount of ammunition in the stack/magazine, -1 for max
