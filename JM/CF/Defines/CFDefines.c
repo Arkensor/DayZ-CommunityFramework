@@ -7,3 +7,5 @@
 #define CF_SURFACES
 
 #define CF_GHOSTICONS
+
+#define CF_MODULES

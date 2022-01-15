@@ -24,7 +24,9 @@ modded class MissionServer
 			
 			Class.CastTo( logoutCancelParams, params );
 
-			GetModuleManager().OnClientLogoutCancelled( PlayerBase.Cast( logoutCancelParams.param1 ) );
+			auto logoutCancelArgs = new CF_EventPlayerArgs();
+			Class.CastTo(logoutCancelArgs.Player, logoutCancelParams.param1);
+			CF_ModuleWorldManager.OnClientLogoutCancelled(this, logoutCancelArgs);
 
 			break;
 		}
@@ -39,20 +41,20 @@ modded class MissionServer
 	{
 		super.OnMissionStart();
 
-		GetModuleManager().OnSettingsUpdated();
-		GetModuleManager().OnMissionStart();
+		CF_ModuleCoreManager.OnSettingsChanged(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionStart(this, new CF_EventArgs);
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
 
-		GetModuleManager().OnMissionFinish();
+		CF_ModuleCoreManager.OnMissionFinish(this, new CF_EventArgs);
 	}
 
 	void OnMissionLoaded()
 	{
-		GetModuleManager().OnMissionLoaded();
+		CF_ModuleCoreManager.OnMissionLoaded(this, new CF_EventArgs);
 	}
 
 	override void OnUpdate( float timeslice )
@@ -65,54 +67,62 @@ modded class MissionServer
 		
 		super.OnUpdate( timeslice );
 
-		GetModuleManager().OnUpdate( timeslice );
+		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
 	}
 
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
 	{
 		super.InvokeOnConnect( player, identity );
 
-		GetModuleManager().OnInvokeConnect( player, identity );
+		CF_ModuleWorldManager.OnInvokeConnect(this, new CF_EventPlayerArgs(player, identity));
 	}
 
 	override void InvokeOnDisconnect( PlayerBase player )
 	{
 		super.InvokeOnDisconnect( player );
 
-		GetModuleManager().OnInvokeDisconnect( player );
+		CF_ModuleWorldManager.OnInvokeDisconnect(this, new CF_EventPlayerArgs(player));
 	}
 
 	override void OnClientReadyEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientReadyEvent( identity, player );
 
-		GetModuleManager().OnClientReady( player, identity );
+		CF_ModuleWorldManager.OnClientReady(this, new CF_EventPlayerArgs(player, identity));
 	}
 	
 	override void OnClientReconnectEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientReconnectEvent( identity, player );
 
-		GetModuleManager().OnClientReconnect( player, identity );
+		CF_ModuleWorldManager.OnClientReconnect(this, new CF_EventPlayerArgs(player, identity));
 	}
 	
 	override void OnClientRespawnEvent( PlayerIdentity identity, PlayerBase player )
 	{
 		super.OnClientRespawnEvent( identity, player );
 
-		GetModuleManager().OnClientRespawn( player, identity );
+		CF_ModuleWorldManager.OnClientRespawn(this, new CF_EventPlayerArgs(player, identity));
 	}
 	
 	override void OnClientDisconnectedEvent( PlayerIdentity identity, PlayerBase player, int logoutTime, bool authFailed )
 	{
 		super.OnClientDisconnectedEvent( identity, player, logoutTime, authFailed );
 
-		GetModuleManager().OnClientLogout( player, identity, logoutTime, authFailed );
+		auto args = new CF_EventPlayerDisconnectedArgs(player, identity);
+		args.LogoutTime = logoutTime;
+		args.AuthFailed = authFailed;
+
+		CF_ModuleWorldManager.OnClientLogout(this, args);
 	}
 
 	override void PlayerDisconnected( PlayerBase player, PlayerIdentity identity, string uid )
 	{
-		GetModuleManager().OnClientDisconnect( player, identity, uid );
+		auto args = new CF_EventPlayerDisconnectedArgs(player, identity);
+		args.UID = uid;
+
+		// must call before vanilla
+		CF_ModuleWorldManager.OnClientDisconnect(this, args);
 
 		super.PlayerDisconnected( player, identity, uid );
 	}
@@ -121,15 +131,31 @@ modded class MissionServer
 	{
 		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
 
-		GetModuleManager().OnClientNew( player, identity, pos, ctx );
+		auto args = new CF_EventNewPlayerArgs(player, identity, pos, ctx);
+		CF_ModuleWorldManager.OnClientNew(this, args);
+		player = args.Player;
 
 		return player;
 	} 
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-		GetModuleManager().OnClientPrepare( identity, useDB, pos, yaw, preloadTimeout );
+		auto args = new CF_EventPlayerPrepareArgs();
+		args.Identity = identity;
+		args.UseDatabase = useDB;
+		args.Position = pos;
+		args.Yaw = yaw;
+		args.PreloadTimeout = preloadTimeout;
+
+		CF_ModuleWorldManager.OnClientPrepare(this, args);
 		
-		super.OnClientPrepareEvent( identity, useDB, pos, yaw, preloadTimeout );
+		//identity = args.Identity;
+		useDB = args.UseDatabase;
+		pos = args.Position;
+		yaw = args.Yaw;
+		preloadTimeout = args.PreloadTimeout;
+
+		// must call before vanilla
+		super.OnClientPrepareEvent(identity, useDB, pos, yaw, preloadTimeout);
 	}
 }
