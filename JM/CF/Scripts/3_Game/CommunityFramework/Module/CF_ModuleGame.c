@@ -1,6 +1,9 @@
 class CF_ModuleGame : CF_ModuleCore
 {
+	const static int NETWORKED_VARIABLES_RPC_ID = 435022;
+
 	autoptr CF_InputBindings m_CF_Bindings = new CF_InputBindings(this);
+	autoptr CF_NetworkedVariables m_CF_NetworkedVariables = new CF_NetworkedVariables(this);
 
 	int m_CF_RPC_Minimum;
 	int m_CF_RPC_Maximum;
@@ -24,6 +27,37 @@ class CF_ModuleGame : CF_ModuleCore
 		m_CF_Bindings.Bind(binding);
 
 		EnableUpdateInput();
+	}
+	
+	/**
+	 * @note Only call in 'OnInit'
+	 */
+	bool RegisterNetSyncVariable(string name)
+	{
+		return m_CF_NetworkedVariables.Register(name);
+	}
+	
+	void SetSynchDirty()
+	{
+		// Only the server can send data
+		if (!GetGame().IsDedicatedServer())
+		{
+			// No need to serialize in offline mode, just directly call 'OnVariablesSynchronized'
+			if (GetGame().IsServer())
+			{
+				OnVariablesSynchronized(this, new CF_EventArgs);
+			}
+
+			return;
+		}
+
+		ScriptRPC rpc = new ScriptRPC();
+
+		rpc.Write(ClassName());
+
+		m_CF_NetworkedVariables.Write(rpc);
+
+		rpc.Send(null, CF_ModuleGame.NETWORKED_VARIABLES_RPC_ID, true, null);
 	}
 
 	int GetRPCMin()
@@ -55,6 +89,8 @@ class CF_ModuleGame : CF_ModuleCore
 	}
 
 	void OnRPC(Class sender, CF_EventArgs args);
+
+	void OnVariablesSynchronized(Class sender, CF_EventArgs args);
 };
 
 typedef CF_ModuleGame CF_Module;

@@ -81,3 +81,49 @@ class SomeModule : CF_ModuleWorld
 	}
 };
 ```
+
+
+## Variables
+
+Similiar to what is found in [EntityAI](https://github.com/Thurston00/DayZSAEnfScript/blob/8b13d29719fb597de74057ecd4de80ef69e1dfb5/scripts/3_Game/Entities/EntityAI.c#L1747), modules can contain variables that can be synchronized over the network from the server to every client.
+
+A basic implementation for the modules is below. For more advanced examples checkout [Networked Variables](../NetworkedVariables/index.md).
+
+```csharp
+[CF_RegisterModule(SomeModule)]
+class SomeModule : CF_ModuleWorld
+{
+	private float m_ModuleTime;
+	private float m_ModuleTimeSynch;
+
+	override void OnInit()
+	{
+		super.OnInit();
+
+		RegisterNetSyncVariable("m_ModuleTimeSynch");
+
+		EnableUpdate();
+	}
+
+	override void OnVariablesSynchronized(Class sender, CF_EventArgs args)
+	{
+		super.OnVariablesSynchronized(sender, args);
+		
+		Print("The client module is at " + m_ModuleTime);
+		Print("The server module is at " + m_ModuleTimeSynch);
+	}
+
+	override void OnUpdate(Class sender, CF_EventArgs args)
+	{
+		auto update = CF_EventUpdateArgs.Cast(args);
+
+		m_ModuleTime += update.DeltaTime;
+
+		if (GetGame().IsServer())
+		{
+			m_ModuleTimeSynch += update.DeltaTime;
+			SetSynchDirty();
+		}
+	}
+};
+```
