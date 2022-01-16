@@ -272,8 +272,8 @@ class CF_String : string
 	string Reverse()
 	{
 		string result;
-		
-		int index = value.Length() - 2;
+
+		int index = value.Length() - 1;
 		while (index >= 0)
 		{
 			result += value.Substring(index, 1);
