@@ -29,17 +29,28 @@ modded class ModLoader
 		return s_CF_ModStorageMap.Contains(name);
 	}
 
-	static bool _CF_ReadModStorage(Serializer ctx, out CF_ModStorage storage)
+	static bool _CF_ReadModStorage(Serializer ctx, int version, out CF_ModStorage storage)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("ModLoader", "_CF_ReadModStorage").Add(ctx);
+		auto trace = CF_Trace_2("ModLoader", "_CF_ReadModStorage").Add(ctx).Add(version);
 #endif
 
 		LoadMods();
 
 		int hashA, hashB;
-		ctx.Read(hashA);
-		ctx.Read(hashB);
+		if (version > 3)
+		{
+			ctx.Read(hashA);
+			ctx.Read(hashB);
+		}
+		else
+		{
+			CF_String modName;
+			ctx.Read(modName);
+
+			hashA = modName.Hash();
+			hashB = modName.Reverse().Hash();
+		}
 
 		int modVersion;
 		ctx.Read(modVersion);

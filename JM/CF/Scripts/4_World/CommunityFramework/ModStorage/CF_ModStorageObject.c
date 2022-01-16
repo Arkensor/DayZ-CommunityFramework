@@ -94,7 +94,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			modsRead++;
 
 			CF_ModStorage storage;
-			if (ModLoader._CF_ReadModStorage(ctx, storage))
+			if (ModLoader._CF_ReadModStorage(ctx, cf_version, storage))
 			{
 				loadedMods.Insert(storage.GetMod().GetName(), storage);
 

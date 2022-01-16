@@ -6,7 +6,7 @@
  */
 class CF_ModStorage
 {
-	static const int VERSION = 3;
+	static const int VERSION = 4;
 
 	ModStructure m_Mod;
 
