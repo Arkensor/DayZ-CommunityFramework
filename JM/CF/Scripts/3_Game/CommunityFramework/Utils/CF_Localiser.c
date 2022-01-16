@@ -1,5 +1,3 @@
-typedef CF_Localiser StringLocaliser;
-
 /**@class		CF_Localiser
  * @brief		This class handle string formatting over network
  **/
@@ -240,4 +238,9 @@ class CF_Localiser
 	{
 		return Set(9, arg);
 	}
+};
+
+class StringLocaliser : CF_Localiser
+{
+
 };
