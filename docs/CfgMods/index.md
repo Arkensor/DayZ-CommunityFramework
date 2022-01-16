@@ -19,24 +19,16 @@ class CfgMods
 
 ## Advanced Workflow
 
-If you wish, you can set these variables directly in script. This can be done by modding the `ModStructure` class and overriding `CF_OnLoad`.
+If you wish, you can set these variables directly in script. This can be done by creating a class of the same and inherits from `ModStructure`.
 
 ```csharp
-modded class ModStructure
+class NameOfMod : ModStructure
 {
-	static const string NameOfMod = "NameOfMod";
-	static const int NameOfMod_StorageVersion = 1;
-
-	override bool CF_OnLoad(CF_String modName)
+	override void LoadData()
 	{
-		if (!CF_String.EqualsIgnoreCase(modName, NameOfMod))
-		{
-			return super.CF_OnLoad(modName);
-		}
+		super.LoadData();
 
-		SetStorageVersion(NameOfMod_StorageVersion);
-
-		return true;
+		SetStorageVersion(1);
 	}
 }
 ```
