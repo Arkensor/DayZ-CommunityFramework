@@ -1,11 +1,6 @@
-modded class AdvancedCommunication
+modded class BuildingBase
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage;
-
-	void AdvancedCommunication()
-	{
-		m_CF_ModStorage = new CF_ModStorageObject<AdvancedCommunication>(this);
-	}
+	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<BuildingBase>(this);
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
@@ -27,14 +22,14 @@ modded class AdvancedCommunication
 	/**
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreSave
 	 */
-	void CF_OnStoreSave(map<string, CF_ModStorage> storage)
+	void CF_OnStoreSave(CF_ModStorageMap storage)
 	{
 	}
 
 	/**
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreLoad
 	 */
-	bool CF_OnStoreLoad(map<string, CF_ModStorage> storage)
+	bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	{
 		return true;
 	}

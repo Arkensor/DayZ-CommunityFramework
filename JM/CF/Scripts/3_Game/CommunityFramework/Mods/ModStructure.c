@@ -1,6 +1,9 @@
 modded class ModStructure
 {
-	protected string m_CF_Name;
+	protected CF_String m_CF_Name;
+
+	int m_CF_HashA;
+	int m_CF_HashB;
 
 	protected ref array<ref ModInput> m_CF_ModInputs;
 	protected ref JsonDataCredits m_CF_Credits;
@@ -41,26 +44,23 @@ modded class ModStructure
 		return false;
 	}
 
-	override void LoadData()
+	void _CF_Init(int index, string name, string path)
 	{
-		super.LoadData();
+		m_ModIndex = index;
+		m_ModPath = path;
+
+		m_CF_Name = name;
+		m_CF_HashA = m_CF_Name.Hash();
+		m_CF_HashB = m_CF_Name.Reverse().Hash();
 
 		m_CF_ModInputs = new ref array<ref ModInput>;
-
 		m_CF_StorageVersion = 0;
 
 		if (GetGame().ConfigIsExisting(m_ModPath))
 		{
-			GetGame().ConfigGetChildName("CfgMods", m_ModIndex, m_CF_Name);
-
 			if (GetGame().ConfigIsExisting(m_ModPath + " storageVersion"))
 			{
 				SetStorageVersion(GetGame().ConfigGetInt(m_ModPath + " storageVersion"));
-			}
-
-			if (!CF_OnLoad(m_CF_Name))
-			{
-				OnLoad(m_CF_Name);
 			}
 
 			if (GetGame().ConfigIsExisting(m_ModPath + " creditsJson"))
@@ -181,6 +181,13 @@ modded class ModStructure
 						m_CF_ModInputs.Insert(modInput);
 					}
 				}
+			}
+			
+			LoadData();
+
+			if (ClassName() == "ModStructure" && !CF_OnLoad(m_CF_Name))
+			{
+				OnLoad(m_CF_Name);
 			}
 		}
 	}

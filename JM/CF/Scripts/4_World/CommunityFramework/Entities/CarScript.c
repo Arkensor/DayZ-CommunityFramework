@@ -1,12 +1,7 @@
-modded class ZombieBase
+modded class CarScript
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage;
+	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<CarScript>(this);
 
-	void ZombieBase()
-	{
-		m_CF_ModStorage = new CF_ModStorageObject<ZombieBase>(this);
-	}
-	
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);
@@ -16,7 +11,10 @@ modded class ZombieBase
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-		if ( !super.OnStoreLoad(ctx, version)) return false;
+		if (!super.OnStoreLoad(ctx, version))
+		{
+			return false;
+		}
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
@@ -24,14 +22,14 @@ modded class ZombieBase
 	/**
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreSave
 	 */
-	void CF_OnStoreSave(map<string, CF_ModStorage> storage)
+	void CF_OnStoreSave(CF_ModStorageMap storage)
 	{
 	}
 
 	/**
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreLoad
 	 */
-	bool CF_OnStoreLoad(map<string, CF_ModStorage> storage)
+	bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	{
 		return true;
 	}

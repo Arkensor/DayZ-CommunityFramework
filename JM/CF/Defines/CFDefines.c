@@ -1,12 +1,14 @@
 #define CF_MODULE_CONFIG
-#define CF_MODULE_MODSTORAGE
 //#define CF_MODULE_PERMISSIONS
 
 #define CF_EXPRESSION
 //#define CF_EXPRESSION_TEST
 
-#define CF_MODULES
+#define CF_GHOSTICONS
+
+#define CF_MODSTORAGE
+//#define CF_MODSTORAGE_TEST
 
 #define CF_SURFACES
 
-#define CF_GHOSTICONS
+#define CF_MODULES

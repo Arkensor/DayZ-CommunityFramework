@@ -1,11 +1,6 @@
 modded class ItemBase
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage;
-
-	void ItemBase()
-	{
-		m_CF_ModStorage = new CF_ModStorageObject<ItemBase>(this);
-	}
+	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<ItemBase>(this);
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
@@ -17,7 +12,9 @@ modded class ItemBase
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
 		if (!super.OnStoreLoad(ctx, version))
+		{
 			return false;
+		}
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
@@ -28,7 +25,7 @@ modded class ItemBase
 	 * @code
 	 *	modded class KitBase // extends from ItemBase
 	 *	{
-	 *		override void CF_OnStoreSave(map<string, CF_ModStorage> storage)
+	 *		override void CF_OnStoreSave(CF_ModStorageMap storage)
 	 *		{
 	 *			//! Always call super at the start.
 	 *			super.CF_OnStoreSave(storage);
@@ -37,18 +34,12 @@ modded class ItemBase
 	 *			
 	 *			ctx.Write(GetOrientation());
 	 *			ctx.Write(6);
-	 *	
-	 *			//! The version of the mod is set in config 'storageVersion' for 'CfgMods' class
-	 *	
-	 *			//! redundant check for checking if the writing version matches
-	 *			if (ctx.GetVersion() > 1)
-	 *			{
-	 *				ctx.Write("ThisVariableIsAddedWithVersion2");
-	 *			}
+
+	 *			ctx.Write("ThisVariableIsAddedWithVersion2");
 	 *		}
 	 *	}
 	 */
-	void CF_OnStoreSave(map<string, CF_ModStorage> storage)
+	void CF_OnStoreSave(CF_ModStorageMap storage)
 	{
 	}
 
@@ -60,12 +51,12 @@ modded class ItemBase
 	 * @code
 	 * 	modded class KitBase // extends from ItemBase
 	 * 	{
-	 * 		override bool CF_OnStoreLoad(map<string, CF_ModStorage> storage)
+	 * 		override bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	 * 		{
-	 * 			if (!super.CF_OnStoreLoad(storage))
-	 * 				return false;
+	 * 			if (!super.CF_OnStoreLoad(storage)) return false;
 	 * 	
 	 *			auto ctx = storage["JM_CommunityFramework"];
+	 * 			if (!ctx) return true;
 	 * 	
 	 * 			vector orientation;
 	 * 			if (!ctx.Read(orientation)) return false;
@@ -90,7 +81,7 @@ modded class ItemBase
 	 * 	}
 	 * @endcode
 	 */
-	bool CF_OnStoreLoad(map<string, CF_ModStorage> storage)
+	bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	{
 		return true;
 	}
