@@ -4,36 +4,34 @@ Read [Mod Structure](../ModStructure/index.md) if you haven't done so already to
 
 ## 
 
+In `3_Game` script module, create the following class.
+
 ```csharp
-modded class ModStructure
+class NameOfMod : ModStructure
 {
-	static const string NameOfMod = "NameOfMod";
-	static const int NameOfMod_StorageVersion = 2;
-
-	override bool CF_OnLoad(CF_String modName)
+	override void LoadData()
 	{
-		if (!CF_String.EqualsIgnoreCase(modName, NameOfMod))
-		{
-			return super.CF_OnLoad(modName);
-		}
+		super.LoadData();
 
-		SetStorageVersion(NameOfMod_StorageVersion);
-
-		return true;
+		SetStorageVersion(2);
 	}
 };
+```
 
+In `4_Game` script module, mod the entity class you wish to store data to.
+
+```csharp
 modded class KitBase // extends from ItemBase
 {
 	int someIntVariable;
 	string someStringVariable;
 
-	override void CF_OnStoreSave(map<string, CF_ModStorage> storage)
+	override void CF_OnStoreSave(CF_ModStorageMap storage)
 	{
 		//! Always call super at the start.
 		super.CF_OnStoreSave(storage);
 
-		auto ctx = storage[ModStructure.NameOfMod];
+		auto ctx = storage[NameOfMod];
 		// As long as the storage version for the mod is greater than zero, it will exist in the storage map
 		
 		ctx.Write(GetOrientation());
@@ -42,7 +40,7 @@ modded class KitBase // extends from ItemBase
 		ctx.Write(someStringVariable);
 	}
 
-	override bool CF_OnStoreLoad(map<string, CF_ModStorage> storage)
+	override bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	{
 		if (!super.CF_OnStoreLoad(storage))
 		{
@@ -50,7 +48,7 @@ modded class KitBase // extends from ItemBase
 			return false;
 		}
 
-		auto ctx = storage[ModStructure.NameOfMod];
+		auto ctx = storage[NameOfMod];
 		if (!ctx)
 		{
 			// Our mod did not previously exist on this item so there is nothing to load. 

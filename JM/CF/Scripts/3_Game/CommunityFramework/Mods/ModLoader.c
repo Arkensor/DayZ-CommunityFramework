@@ -4,7 +4,7 @@ modded class ModLoader
 	static ref map<string, ModStructure> s_CF_ModMap = new map<string, ModStructure>();
 
 	static ref array<ref CF_ModStorage> s_CF_ModStorages = new array<ref CF_ModStorage>();
-	static ref map<string, CF_ModStorage> s_CF_ModStorageMap = new map<string, CF_ModStorage>();
+	static ref CF_ModStorageMap s_CF_ModStorageMap = new CF_ModStorageMap();
 
 	static CF_ModStorage CF_GetStorage(string name)
 	{
@@ -112,27 +112,39 @@ modded class ModLoader
 
 		m_Mods = new array<ref ModStructure>;
 
-		int mod_count = GetGame().ConfigGetChildrenCount("CfgMods");
-
-		for (int i = 2; i < mod_count; i++)
+		int modCount = GetGame().ConfigGetChildrenCount("CfgMods");
+		for (int i = 2; i < modCount; i++)
 		{
-			string mod_name;
-			GetGame().ConfigGetChildName("CfgMods", i, mod_name);
+			string name;
+			GetGame().ConfigGetChildName("CfgMods", i, name);
 
-			ModStructure mod = new ModStructure(i, "CfgMods " + mod_name);
+			ModStructure mod;
 
-			m_Mods.Insert(mod);
-
-			s_CF_Mods.Insert(mod);
-			s_CF_ModMap.Insert(mod_name, mod);
-
-			if (mod.HasModStorage())
+			typename type = name.ToType();
+			if (!type.IsInherited(ModStructure))
 			{
-				CF_ModStorage storage = new CF_ModStorage(mod);
-				s_CF_ModStorages.Insert(storage);
-				s_CF_ModStorageMap.Insert(mod_name, storage);
+				type = ModStructure;
+			}
+
+			if (Class.CastTo(mod, type.Spawn()))
+			{
+				mod._CF_Init(i, name, "CfgMods " + name);
+
+				m_Mods.Insert(mod);
+
+				s_CF_Mods.Insert(mod);
+				s_CF_ModMap.Insert(name, mod);
+
+				if (mod.HasModStorage())
+				{
+					CF_ModStorage storage = new CF_ModStorage(mod);
+					s_CF_ModStorages.Insert(storage);
+					s_CF_ModStorageMap.Insert(mod, storage);
+				}
 			}
 		}
+
+		m_Mods.Debug();
 
 		m_Loaded = true;
 	}

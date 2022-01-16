@@ -91,7 +91,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		m_UnloadedMods.Resize(numMods);
 
-		map<string, CF_ModStorage> loadedMods();
+		CF_ModStorageMap loadedMods();
 
 		int modsRead;
 		int unloadedModsRead;

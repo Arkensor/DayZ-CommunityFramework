@@ -41,17 +41,17 @@ modded class ModStructure
 		return false;
 	}
 
-	override void LoadData()
+	void _CF_Init(int index, string name, string path)
 	{
-		super.LoadData();
+		m_ModIndex = index;
+		m_ModPath = path;
+		m_CF_Name = name;
 
 		m_CF_ModInputs = new ref array<ref ModInput>;
 		m_CF_StorageVersion = 0;
 
 		if (GetGame().ConfigIsExisting(m_ModPath))
 		{
-			GetGame().ConfigGetChildName("CfgMods", m_ModIndex, m_CF_Name);
-
 			if (GetGame().ConfigIsExisting(m_ModPath + " storageVersion"))
 			{
 				SetStorageVersion(GetGame().ConfigGetInt(m_ModPath + " storageVersion"));
@@ -176,8 +176,10 @@ modded class ModStructure
 					}
 				}
 			}
+			
+			LoadData();
 
-			if (!CF_OnLoad(m_CF_Name))
+			if (ClassName() == "ModStructure" && !CF_OnLoad(m_CF_Name))
 			{
 				OnLoad(m_CF_Name);
 			}
