@@ -222,4 +222,33 @@ class CF_String : string
 
 		return a == b;
 	}
+
+	/**
+	 * @brief	Reverses the string
+	 * 
+	 * @code
+	 * 	CF_String a = "How are you?";
+	 * 	CF_String b = a.Reverse();
+	 * 
+	 * 	Print(a);
+	 * 	>> "How are you?"
+	 * 	Print(b);
+	 * 	>> "?uoy era woH"
+	 * 
+	 * @endcode
+	 */
+	string Reverse()
+	{
+		string result;
+		
+		int index = value.Length() - 2;
+		while (index >= 0)
+		{
+			result += value.Substring(index, 1);
+
+			index--;
+		}
+
+		return result;
+	}
 };

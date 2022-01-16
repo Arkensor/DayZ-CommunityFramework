@@ -1,6 +1,9 @@
 modded class ModStructure
 {
-	protected string m_CF_Name;
+	protected CF_String m_CF_Name;
+
+	int m_CF_HashA;
+	int m_CF_HashB;
 
 	protected ref array<ref ModInput> m_CF_ModInputs;
 	protected ref JsonDataCredits m_CF_Credits;
@@ -45,7 +48,10 @@ modded class ModStructure
 	{
 		m_ModIndex = index;
 		m_ModPath = path;
+
 		m_CF_Name = name;
+		m_CF_HashA = m_CF_Name.Hash();
+		m_CF_HashB = m_CF_Name.Reverse().Hash();
 
 		m_CF_ModInputs = new ref array<ref ModInput>;
 		m_CF_StorageVersion = 0;

@@ -39,18 +39,12 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		foreach (auto mod : ModLoader.s_CF_ModStorages)
 		{
-			ctx.Write(mod.GetMod().GetName());
-			ctx.Write(mod.GetVersion());
-
 			// also resets the stream for next 'OnStoreSave'
 			mod._CopyStreamTo(ctx);
 		}
 
 		foreach (auto unloadedMod : m_UnloadedMods)
 		{
-			ctx.Write(unloadedMod.m_Name);
-			ctx.Write(unloadedMod.m_Version);
-
 			// Since mod is unloaded, the stream is not reset
 			unloadedMod._CopyStreamTo(ctx);
 		}
@@ -102,7 +96,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			CF_ModStorage storage;
 			if (ModLoader._CF_ReadModStorage(ctx, storage))
 			{
-				loadedMods.Insert(storage.m_Name, storage);
+				loadedMods.Insert(storage.GetMod().GetName(), storage);
 
 				// Mod is loaded, we have copied the stream to the storage
 				continue;

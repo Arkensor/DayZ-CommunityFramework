@@ -11,7 +11,9 @@ class CF_ModStorage
 	ModStructure m_Mod;
 
 	int m_Version;
-	string m_Name;
+
+	int m_HashA;
+	int m_HashB;
 
 	string m_Data;
 	string m_Value;
@@ -112,14 +114,21 @@ class CF_ModStorage
 
 	void _CopyStreamTo(Serializer ctx)
 	{
+		string data;
 		if (m_Data.Length() > 0)
 		{
-			m_Data = m_Data.Substring(1, m_Data.Length() - 1);
+			data = m_Data.Substring(1, m_Data.Length() - 1);
 		}
-		
-		ctx.Write(m_Data);
 
+		// force resetting early so we can write the latest version
 		_ResetStream();
+
+		ctx.Write(m_HashA);
+		ctx.Write(m_HashB);
+		
+		ctx.Write(m_Version);
+
+		ctx.Write(data);
 	}
 
 	// Read and Write functions can't be called, so we can't reset the stream
@@ -131,6 +140,10 @@ class CF_ModStorage
 		}
 
 		m_Data = string.Empty;
+
+		m_HashA = m_Mod.m_CF_HashA;
+		m_HashB = m_Mod.m_CF_HashB;
+
 		m_Version = m_Mod.GetStorageVersion();
 	}
 };

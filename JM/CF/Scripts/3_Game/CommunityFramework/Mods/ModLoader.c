@@ -5,6 +5,7 @@ modded class ModLoader
 
 	static ref array<ref CF_ModStorage> s_CF_ModStorages = new array<ref CF_ModStorage>();
 	static ref CF_ModStorageMap s_CF_ModStorageMap = new CF_ModStorageMap();
+	static ref map<int, ref map<int, CF_ModStorage>> s_CF_ModStorageHashedMap = new map<int, ref map<int, CF_ModStorage>>();
 
 	static CF_ModStorage CF_GetStorage(string name)
 	{
@@ -36,19 +37,29 @@ modded class ModLoader
 
 		LoadMods();
 
-		string modName;
-		ctx.Read(modName);
+		int hashA, hashB;
+		ctx.Read(hashA);
+		ctx.Read(hashB);
 
 		int modVersion;
 		ctx.Read(modVersion);
 
-		bool exists = s_CF_ModStorageMap.Find(modName, storage);
+		auto hash = s_CF_ModStorageHashedMap[hashA];
+		bool exists = false;
+		if (hash)
+		{
+			storage = hash[hashB];
+			exists = storage != null;
+		}
+
 		if (!exists)
 		{
 			storage = new CF_ModStorage(null);
+
+			storage.m_HashA = hashA;
+			storage.m_HashB = hashB;
 		}
 
-		storage.m_Name = modName;
 		storage.m_Version = modVersion;
 		ctx.Read(storage.m_Data);
 
@@ -140,6 +151,23 @@ modded class ModLoader
 					CF_ModStorage storage = new CF_ModStorage(mod);
 					s_CF_ModStorages.Insert(storage);
 					s_CF_ModStorageMap.Insert(mod, storage);
+
+					int hashA = mod.m_CF_HashA;
+					int hashB = mod.m_CF_HashB;
+
+					map<int, CF_ModStorage> hashStructures = s_CF_ModStorageHashedMap[hashA];
+					if (!hashStructures)
+					{
+						hashStructures = new map<int, CF_ModStorage>();
+						s_CF_ModStorageHashedMap.Insert(hashA, hashStructures);
+					}
+
+					if (hashStructures.Contains(hashB))
+					{
+						CF_Log.Error("Mod exists with duplicate hashes! Name=%0 A=%1 B=%2", mod.GetName(), hashA.ToString(), hashB.ToString());
+					}
+
+					hashStructures[hashB] = storage;
 				}
 			}
 		}
