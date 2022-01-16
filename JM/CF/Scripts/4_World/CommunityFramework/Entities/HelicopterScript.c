@@ -1,12 +1,7 @@
-modded class DayZPlayerImplement
+modded class HelicopterScript
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage;
+	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<HelicopterScript>(this);
 
-	void DayZPlayerImplement()
-	{
-		m_CF_ModStorage = new CF_ModStorageObject<DayZPlayerImplement>(this);
-	}
-	
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);
@@ -16,7 +11,10 @@ modded class DayZPlayerImplement
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-		if ( !super.OnStoreLoad(ctx, version)) return false;
+		if (!super.OnStoreLoad(ctx, version))
+		{
+			return false;
+		}
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}

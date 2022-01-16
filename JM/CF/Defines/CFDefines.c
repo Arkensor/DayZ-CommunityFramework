@@ -6,3 +6,10 @@
 //#define CF_EXPRESSION_TEST
 
 #define CF_GHOSTICONS
+
+#define CF_MODSTORAGE
+//#define CF_MODSTORAGE_TESTS
+
+#ifdef CF_MODSTORAGE
+#define CF_MODULE_MODSTORAGE
+#endif

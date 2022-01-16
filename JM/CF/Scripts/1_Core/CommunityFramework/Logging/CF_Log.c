@@ -1,6 +1,6 @@
 class CF_Log
 {
-	static int Level = CF_LogLevel.TRACE;
+	static int Level = CF_LogLevel.ERROR;
 
 	static bool IsLogging(CF_LogLevel level)
 	{

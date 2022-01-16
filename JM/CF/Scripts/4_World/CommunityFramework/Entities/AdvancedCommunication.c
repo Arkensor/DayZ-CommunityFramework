@@ -1,11 +1,6 @@
 modded class AdvancedCommunication
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage;
-
-	void AdvancedCommunication()
-	{
-		m_CF_ModStorage = new CF_ModStorageObject<AdvancedCommunication>(this);
-	}
+	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<AdvancedCommunication>(this);
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{

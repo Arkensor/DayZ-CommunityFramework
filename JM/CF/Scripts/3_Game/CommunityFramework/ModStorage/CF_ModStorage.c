@@ -1,6 +1,8 @@
 /**
- * Do not mod this class. Modding this class defeats the purpose of this being in Community Framework.
- * You will break persistence if you mod it. Make a pull request here https://github.com/Jacob-Mango/DayZ-Community-Framework/pulls
+ * @class	CF_ModStorage
+ *
+ * @note	Do not mod this class. Modding this class defeats the purpose of this being in Community Framework.
+ * 			You will break persistence if you mod it. Make a pull request here https://github.com/Jacob-Mango/DayZ-Community-Framework/pulls
  */
 class CF_ModStorage
 {

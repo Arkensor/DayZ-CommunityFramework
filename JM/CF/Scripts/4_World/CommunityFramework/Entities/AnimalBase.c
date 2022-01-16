@@ -1,11 +1,6 @@
 modded class AnimalBase
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage;
-
-	void AnimalBase()
-	{
-		m_CF_ModStorage = new CF_ModStorageObject<AnimalBase>(this);
-	}
+	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<AnimalBase>(this);
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
@@ -16,7 +11,10 @@ modded class AnimalBase
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-		if ( !super.OnStoreLoad(ctx, version)) return false;
+		if (!super.OnStoreLoad(ctx, version))
+		{
+			return false;
+		}
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
