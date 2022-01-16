@@ -7,8 +7,8 @@
 #define CF_GHOSTICONS
 
 #define CF_MODSTORAGE
-//#define CF_MODSTORAGE_TESTS
+//#define CF_MODSTORAGE_TEST
 
-#ifdef CF_MODSTORAGE
-#define CF_MODULE_MODSTORAGE
-#endif
+#define CF_SURFACES
+
+#define CF_MODULES
