@@ -1,5 +1,5 @@
 //TODO: Automate into a framework for other modders to use for their own testing
-#ifdef CF_MODSTORAGE_TESTS
+#ifdef CF_MODSTORAGE_TEST
 class CF_ModStorageTest
 {
 	private string _current;
