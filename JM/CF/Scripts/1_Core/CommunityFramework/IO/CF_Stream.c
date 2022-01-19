@@ -308,6 +308,30 @@ class CF_Stream
 		}
 	}
 
+	void CopyCurrentTo(CF_Stream dest)
+	{
+		CF_PackedByte byte = m_Current;
+
+		while (byte)
+		{
+			dest.Append(byte.m_Value);
+			byte = byte.m_Next;
+		}
+	}
+
+	void CopyCurrentTo(CF_Stream dest, int size)
+	{
+		CF_PackedByte byte = m_Current;
+
+		int index = 0;
+		while (byte && index < size)
+		{
+			dest.Append(byte.m_Value);
+			byte = byte.m_Next;
+			index++;
+		}
+	}
+
 	void Flush()
 	{
 
