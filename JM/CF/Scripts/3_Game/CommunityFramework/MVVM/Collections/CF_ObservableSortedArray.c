@@ -15,8 +15,6 @@ class CF_ObservableSortedArray<Class T> : CF_ObservableCollection
 #endif
 
 		OverrideConverter();
-
-		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
 	override string GetDebugName()

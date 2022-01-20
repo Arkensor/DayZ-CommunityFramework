@@ -10,8 +10,6 @@ class CF_ObservablePriorityQueue<Class T, Class Comparable> : CF_ObservableColle
 #endif
 
 		OverrideConverter();
-
-		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
 	override string GetDebugName()

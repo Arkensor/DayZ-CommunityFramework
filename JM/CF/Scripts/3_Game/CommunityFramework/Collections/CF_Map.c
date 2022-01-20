@@ -17,8 +17,6 @@ class CF_Map<Class TKey, Class TValue> : CF_Collection
 		#endif
 
 		m_Converter = CF_TypeConverter.Get(t);
-
-		CF_Log.Info("m_Converter=%1", "" + m_Converter);
 	}
 
 	override string GetDebugName()
