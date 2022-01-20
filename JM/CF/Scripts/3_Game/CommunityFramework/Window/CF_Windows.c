@@ -12,7 +12,7 @@ enum CF_WindowsInputState
 	PRESS
 };
 
-class CF_Windows
+class CF_Windows : Managed
 {
 	static CF_Window s_Head;
 	static CF_Window s_Tail;
@@ -132,7 +132,7 @@ class CF_Windows
 		s_OverrideState = pState;
 	}
 
-	void Update(CF_TimerBase timer, float dt)
+	void Update(Class sender, CF_EventArgs args)
 	{
 #ifdef SERVER
 		timer.Stop();

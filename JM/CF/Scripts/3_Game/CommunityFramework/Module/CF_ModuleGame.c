@@ -91,6 +91,24 @@ class CF_ModuleGame : CF_ModuleCore
 	void OnRPC(Class sender, CF_EventArgs args);
 
 	void OnVariablesSynchronized(Class sender, CF_EventArgs args);
+	
+	void Open(Widget parent = null)
+	{
+		string layout = GetLayoutFile();
+		if (layout == string.Empty) return;
+
+		CF_MVVM.Create(this, layout, parent);
+	}
+
+	void Close()
+	{
+		CF_MVVM.Destroy(this);
+	}
+
+	string GetLayoutFile()
+	{
+		return string.Empty;
+	}
 };
 
 typedef CF_ModuleGame CF_Module;

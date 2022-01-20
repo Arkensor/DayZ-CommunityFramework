@@ -123,29 +123,3 @@ class CF_TestItemModel : CF_Model
 		return "JM/CF/GUI/layouts/mvvm/testitem.layout";
 	}
 };
-
-class CF_TestModelTester
-{
-	static ref CF_TestModelTester s_Tester;
-
-	static void _Init()
-	{
-		s_Tester = new CF_TestModelTester();
-	}
-
-	private UAInput m_ToggleInput;
-
-	void CF_TestModelTester()
-	{
-		m_ToggleInput = GetUApi().GetInputByName("UACFTEST");
-
-		CF_Timer.Create(this, "Update");
-	}
-
-	void Update(CF_TimerBase timer, float dt)
-	{
-		if (GetGame().GetUIManager().GetMenu())
-		{
-		}
-	}
-};

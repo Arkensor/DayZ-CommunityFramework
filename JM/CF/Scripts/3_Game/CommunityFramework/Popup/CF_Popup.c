@@ -29,7 +29,7 @@ class CF_Popup : CF_Model
 		return s_Instance != null;
 	}
 
-	void OnUpdate(CF_TimerBase timer, float pDt)
+	void OnUpdate(Class sender, CF_EventArgs args)
 	{
 		bool isMouseDown = (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK) != 0;
 

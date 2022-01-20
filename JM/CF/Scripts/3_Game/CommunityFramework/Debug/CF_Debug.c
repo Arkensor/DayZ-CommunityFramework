@@ -358,7 +358,7 @@ class CF_Debug : CF_TimerBase
 		CF_MVVM.NotifyPropertyChanged(this, "m_IsActive");
 	}
 
-	override string GetLayoutFile()
+	string GetLayoutFile()
 	{
 		return "JM/CF/GUI/layouts/debug/entry.layout";
 	}

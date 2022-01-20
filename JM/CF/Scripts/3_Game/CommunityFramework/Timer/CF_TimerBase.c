@@ -1,169 +1,83 @@
-class CF_TimerBase : CF_Model
+class CF_TimerBase : TimerBase
 {
-	private static ref CF_TimerBase s_Head;
-	private ref CF_TimerBase m_Next;
-	private CF_TimerBase m_Prev;
-	private bool m_IsActive;
-	private bool m_Destroy;
+	static ref array<ref CF_TimerBase> s_GlobalTimers = new array<ref CF_TimerBase>();
+	
+	protected bool m_IsDestroyed;
 
-	//! It is recommended to not modify these variables while the timer is active/running.
-	float m_Interval; // Seconds
-	float m_DeltaTime; // Seconds
-	float m_TimeElapsed; // Seconds
-	int m_TimeElapsedMS; // Milliseconds
-
-	protected void CF_TimerBase()
+	void CF_TimerBase()
 	{
-		OnCreate();
+		m_duration = 0;
+		m_loop = true;
+		m_time = 0;
+		m_running = false;
+		m_timerQueue = g_Game.GetTimerQueue(CALL_CATEGORY_SYSTEM);
+
+		s_GlobalTimers.Insert(this);
+
+		Start();
 	}
 
 	void ~CF_TimerBase()
 	{
-		Stop();
+		Destroy();
+	}
 
-		OnDestroy();
+	protected override void SetRunning(bool running)
+	{
+		if (m_running == running)
+		{
+			return;
+		}
+
+		super.SetRunning(running);
+
+		if (m_running)
+		{
+			OnStart();
+		}
+		else
+		{
+			OnStop();
+		}
+	}
+
+	protected override void Tick(float timeslice)
+	{
+		m_time += timeslice;
+
+		if (m_time >= m_duration)
+		{
+			OnTick(m_time);
+
+			m_time = 0;
+		}
 	}
 
 	void Start()
 	{
-		if (m_IsActive) return;
-
-		m_IsActive = true;
-
-		if (s_Head == null)
-		{
-			s_Head = this;
-		}
-		else
-		{
-			m_Next = s_Head;
-			s_Head.m_Prev = this;
-			s_Head = this;
-		}
-
-		OnStart();
-	}
-
-	/**
-	 * Stops the timer, decrementing the reference count.
-	 */
-	void Stop()
-	{
-		if (!m_IsActive) return;
-
-		m_IsActive = false;
-
-		if (s_Head == this)
-		{
-			s_Head = m_Next;
-			if (s_Head) s_Head.m_Prev = null;
-		}
-		else
-		{
-			m_Prev.m_Next = m_Next;
-			if (m_Next) m_Next.m_Prev = m_Prev;
-		}
-
-		OnStop();
-	}
-
-	bool IsActive()
-	{
-		return m_IsActive;
-	}
-
-	bool IsDestroyed()
-	{
-		return m_Destroy;
+		SetRunning(true);
 	}
 
 	void Destroy()
 	{
-		m_Destroy = true;
+		if (m_IsDestroyed) return;
+
+		m_IsDestroyed = true;
+
+		Stop();
+
+		s_GlobalTimers.RemoveItem(this);
 	}
 
-	/**
-	 * The time between each 'OnTick' call, in seconds.
-	 */
-	void SetInterval(float interval)
+	protected void OnTick(float dt)
 	{
-		m_Interval = interval;
-		if (m_Interval < 0) m_Interval = 0;
 	}
 
-	/**
-	 * The time between each 'OnTick' call, in seconds.
-	 */
-	float GetInterval()
+	protected void OnStart()
 	{
-		return m_Interval;
 	}
 
-	/**
-	 * The total time elapsed for this timer, in milliseconds.
-	 */
-	void SetTimeElapsedMS(int elapsed)
+	protected void OnStop()
 	{
-		m_TimeElapsedMS = elapsed;
-	}
-
-	/**
-	 * The total time elapsed for this timer, in milliseconds.
-	 */
-	int GetTimeElapsedMS()
-	{
-		return m_TimeElapsedMS;
-	}
-
-	/**
-	 * The total time elapsed for this timer, in seconds.
-	 */
-	float GetTimeElapsed()
-	{
-		return m_TimeElapsed;
-	}
-
-	protected void OnCreate();
-
-	protected void OnDestroy();
-
-	protected void OnStart();
-
-	protected void OnStop();
-
-	protected void OnTick(float dt);
-
-	protected void OnUpdate(float dt)
-	{
-		m_TimeElapsedMS += dt * 1000.0;
-		m_TimeElapsed = m_TimeElapsedMS / 1000.0;
-		
-		m_DeltaTime += dt;
-
-		if (m_DeltaTime >= m_Interval)
-		{
-			OnTick(m_DeltaTime);
-			m_DeltaTime = 0;
-		}
-	}
-
-	static void _UpdateAll(float dt)
-	{
-		CF_TimerBase current = s_Head;
-		CF_TimerBase next = null;
-		while (current)
-		{
-			next = current.m_Next;
-
-			current.OnUpdate(dt);
-
-			if (current.m_Destroy)
-			{
-				// Destructor will remove the timer from the linked list, joining the adjacent variables.
-				delete current;
-			}
-			
-			current = next;
-		}
 	}
 };
