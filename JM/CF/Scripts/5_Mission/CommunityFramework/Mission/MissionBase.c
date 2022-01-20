@@ -2,6 +2,8 @@ modded class MissionBase
 {
 	void MissionBase()
 	{
+		CF_ModuleGameManager.UpdateGameFlag();
+
 		CreateDiscordManager();
 		CreateSteamManager();
 

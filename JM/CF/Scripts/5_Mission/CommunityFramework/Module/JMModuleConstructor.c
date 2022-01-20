@@ -1,7 +1,8 @@
-class JMModuleConstructor extends JMModuleConstructorBase
+/**
+ * @class JMModuleConstructor
+ * 
+ * @deprecated
+ */
+class JMModuleConstructor : JMModuleConstructorBase
 {
-	override void RegisterModules( out array< typename > modules )
-	{
-		super.RegisterModules( modules );
-	}
-}
+};

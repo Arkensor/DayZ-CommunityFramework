@@ -26,22 +26,22 @@ modded class MissionGameplay
 	{
 		super.OnMissionStart();
 
-		GetModuleManager().OnSettingsUpdated();
-		GetModuleManager().OnMissionStart();
+		CF_ModuleCoreManager.OnSettingsChanged(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionStart(this, new CF_EventArgs);
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
 
-		GetModuleManager().OnMissionFinish();
+		CF_ModuleCoreManager.OnMissionFinish(this, new CF_EventArgs);
 	}
 
 	override void OnMissionLoaded()
 	{
 		super.OnMissionLoaded();
 
-		GetModuleManager().OnMissionLoaded();
+		CF_ModuleCoreManager.OnMissionLoaded(this, new CF_EventArgs);
 	}
 
 	override void OnUpdate( float timeslice )
@@ -54,6 +54,6 @@ modded class MissionGameplay
 		
 		super.OnUpdate( timeslice );
 
-		GetModuleManager().OnUpdate( timeslice );
+		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
 	}	
 }

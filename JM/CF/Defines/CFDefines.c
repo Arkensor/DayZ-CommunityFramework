@@ -6,8 +6,6 @@
 
 //#define CF_TRACE_ENABLED
 
-#define CF_GHOSTICONS
-
 #define CF_MVVM
 //#define CF_MVVM_TRACE
 
@@ -20,3 +18,12 @@
 #ifdef CF_DEBUG
 #define CF_DebugUI
 #endif
+
+#define CF_GHOSTICONS
+
+#define CF_MODSTORAGE
+//#define CF_MODSTORAGE_TEST
+
+#define CF_SURFACES
+
+#define CF_MODULES

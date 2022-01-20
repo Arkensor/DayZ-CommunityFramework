@@ -1,7 +1,6 @@
 typedef string CF_String;
 class CF_String : string
 {
-
 	/**
 	 * @brief	Returns the number of times the specified character exists in the string
 	 * 
@@ -58,6 +57,39 @@ class CF_String : string
 		}
 
 		return count;
+	}
+
+	/**
+	 * @brief	Finds last 'sample' in 'str'. Returns -1 when not found
+	 * 
+	 * @param sample Finding string
+	 * @return Returns position where sample starts, or -1 when sample not found
+	 * 
+	 * @code
+	 * 	CF_String str = "Hello, World!";
+	 * 	Print(str.CF_LastIndexOf("l"));
+	 * 	>> 10
+	 * @endcode
+	 */
+	int CF_LastIndexOf(CF_String sample)
+	{
+		int sampleLength = sample.Length();
+		int length = value.Length();
+		int start = length - sampleLength;
+		if (start <= 0)
+		{
+			return -1;
+		}
+
+		for (int index = start - 1; index >= 0; index--)
+		{
+			if (value.Substring(index, sampleLength) == sample)
+			{
+				return index;
+			}
+		}
+
+		return -1;
 	}
 
 	/**
@@ -221,5 +253,34 @@ class CF_String : string
 		b.ToLower();
 
 		return a == b;
+	}
+
+	/**
+	 * @brief	Reverses the string
+	 * 
+	 * @code
+	 * 	CF_String a = "How are you?";
+	 * 	CF_String b = a.Reverse();
+	 * 
+	 * 	Print(a);
+	 * 	>> "How are you?"
+	 * 	Print(b);
+	 * 	>> "?uoy era woH"
+	 * 
+	 * @endcode
+	 */
+	string Reverse()
+	{
+		string result;
+
+		int index = value.Length() - 1;
+		while (index >= 0)
+		{
+			result += value.Substring(index, 1);
+
+			index--;
+		}
+
+		return result;
 	}
 };
