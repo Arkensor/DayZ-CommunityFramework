@@ -1,67 +1,35 @@
-class CF_WindowButtonArgs : CF_EventArgs
-{
-	CF_WindowButton Button;
-	bool State;
-};
-
 class CF_WindowButton : CF_Model
 {
 	autoptr CF_EventHandler OnClick = new CF_EventHandler();
 
 	private string m_Image;
-	private bool m_Toggled;
+	private bool m_IsVisible;
 
-	private string m_OnImage;
-	private string m_OffImage;
-
-	void CF_WindowButton(string onImage, string offImage)
+	void CF_WindowButton(string image)
 	{
-		m_OnImage = onImage;
-		m_OffImage = offImage;
-
-		SetOn(false, false);
+		m_Image = image;
+		m_IsVisible = true;
 	}
 
-	void SetOn(bool value, bool sendEvent = true)
+	bool IsVisible()
 	{
-#ifdef CF_WINDOWS_TRACE
-		auto trace = CF_Trace_1(this, "Toggle").Add(value);
-#endif
-
-		m_Toggled = value;
-
-		if (m_Toggled)
-		{
-			m_Image = m_OffImage;
-		}
-		else
-		{
-			m_Image = m_OnImage;
-		}
-
-		if (sendEvent)
-		{
-			CF_WindowButtonArgs eventArgs = new CF_WindowButtonArgs();
-			eventArgs.Button = this;
-			eventArgs.State = m_Toggled;
-			OnClick.Invoke(this, eventArgs);
-		}
-
-		NotifyPropertyChanged("m_Image");
+		return m_IsVisible;
 	}
 
-	bool IsToggled()
+	void SetVisible(bool visible)
 	{
-		return m_Toggled;
+		m_IsVisible = visible;
+		
+		NotifyPropertyChanged("m_IsVisible");
 	}
 
-	void Toggle(CF_ModelBase sender, CF_MouseEventArgs args)
+	void OnClickButton(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "Toggle").Add(sender).Add(args);
 #endif
 
-		SetOn(m_Toggled);
+		OnClick.Invoke(this, args);
 	}
 
 	override string GetLayoutFile()

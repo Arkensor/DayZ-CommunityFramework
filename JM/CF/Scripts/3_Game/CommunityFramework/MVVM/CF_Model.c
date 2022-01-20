@@ -41,7 +41,7 @@ class CF_Model : Managed
 
 	override string GetDebugName()
 	{
-		return "";
+		return this.ToString();
 	}
 
 	/**

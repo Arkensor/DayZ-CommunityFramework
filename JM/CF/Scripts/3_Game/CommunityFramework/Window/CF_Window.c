@@ -18,7 +18,11 @@ class CF_Window : CF_Model
 	private Widget content;
 
 	// Buttons
-	private ref CF_ObservableArray<ref CF_WindowButton> m_Buttons;
+	/*private*/ ref CF_ObservableArray<ref CF_WindowButton> m_Buttons;
+
+	private CF_WindowButton m_CloseButton;
+	private CF_WindowButton m_MaximiseButton;
+	private CF_WindowButton m_RestoreButton;
 
 	// Properties
 	private bool m_Visible;
@@ -82,8 +86,17 @@ class CF_Window : CF_Model
 
 		m_Buttons = new CF_ObservableArray<ref CF_WindowButton>();
 
-		AddButton("set:cf_imageset image:close_white").AddSubscriber(this.OnCloseButtonClicked);
-		AddButton("set:cf_imageset image:fullscreen_white", "set:cf_imageset image:window_white").AddSubscriber(this.OnWindowButtonClicked);
+		m_CloseButton = CreateButton("set:cf_imageset image:close_white");
+		m_CloseButton.OnClick.AddSubscriber(this.OnCloseButtonClicked);
+		m_CloseButton.SetVisible(true);
+
+		m_MaximiseButton = CreateButton("set:cf_imageset image:fullscreen_white");
+		m_MaximiseButton.OnClick.AddSubscriber(this.OnMaximiseButtonClicked);
+		m_MaximiseButton.SetVisible(true);
+
+		m_RestoreButton = CreateButton("set:cf_imageset image:window_white");
+		m_RestoreButton.OnClick.AddSubscriber(this.OnRestoreButtonClicked);
+		m_RestoreButton.SetVisible(false);
 
 		m_MinimumWidth = 100;
 		m_MinimumHeight = 25;
@@ -102,6 +115,7 @@ class CF_Window : CF_Model
 		CF_MVVM.Create(this, GetLayoutFile(), CF_Windows._GetContainer());
 
 		SetTitle(title);
+		SetFullscreen(false);
 		SetPosition(0, 0);
 		SetSize(width, height);
 	}
@@ -285,11 +299,26 @@ class CF_Window : CF_Model
 
 	void SetFullscreen(bool fullscreen, bool wasDrag = false)
 	{
-		if (m_FullScreen == fullscreen)
-			return;
+		bool wasSame = m_FullScreen == fullscreen;
 
 		m_FullScreen = fullscreen;
 		NotifyPropertyChanged("m_FullScreen");
+
+		if (m_FullScreen)
+		{
+			m_MaximiseButton.SetVisible(false);
+			m_RestoreButton.SetVisible(true);
+		}
+		else
+		{
+			m_MaximiseButton.SetVisible(true);
+			m_RestoreButton.SetVisible(false);
+		}
+
+		if (wasSame)
+		{
+			return;
+		}
 
 		if (m_FullScreen)
 		{
@@ -308,9 +337,14 @@ class CF_Window : CF_Model
 		else
 		{
 			SetSize(m_PreviousWidth, m_PreviousHeight);
+
 			if (!wasDrag)
+			{
 				SetPosition(m_PreviousPositionX, m_PreviousPositionY);
+			}
 		}
+
+
 	}
 
 	void SetMinimized(bool minimized)
@@ -378,18 +412,11 @@ class CF_Window : CF_Model
 		NotifyPropertyChanged("m_ContentHeight");
 	}
 
-	CF_EventHandler AddButton(string onImage, string offImage, int index = 0)
+	CF_WindowButton CreateButton(string image, int index = 0)
 	{
-		auto button = new CF_WindowButton(onImage, offImage);
+		auto button = new CF_WindowButton(image);
 		m_Buttons.InsertAt(button, index);
-		return button.OnClick;
-	}
-
-	CF_EventHandler AddButton(string image, int index = 0)
-	{
-		auto button = new CF_WindowButton(image, image);
-		m_Buttons.InsertAt(button, index);
-		return button.OnClick;
+		return button;
 	}
 
 	void Destroy()
@@ -420,16 +447,25 @@ class CF_Window : CF_Model
 		SetMinimized(false);
 	}
 
-	void OnWindowButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
+	void OnRestoreButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_WINDOWS_TRACE
-		auto trace = CF_Trace_2(this, "OnWindowButtonClicked").Add(sender).Add(args);
+		auto trace = CF_Trace_2(this, "OnRestoreButtonClicked").Add(sender).Add(args);
 #endif
 
-		SetFullscreen(args.State);
+		SetFullscreen(false);
 	}
 
-	void OnCloseButtonClicked(CF_ModelBase sender, CF_WindowButtonArgs args)
+	void OnMaximiseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
+	{
+#ifdef CF_WINDOWS_TRACE
+		auto trace = CF_Trace_2(this, "OnMaximiseButtonClicked").Add(sender).Add(args);
+#endif
+
+		SetFullscreen(true);
+	}
+
+	void OnCloseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnCloseButtonClicked").Add(sender).Add(args);

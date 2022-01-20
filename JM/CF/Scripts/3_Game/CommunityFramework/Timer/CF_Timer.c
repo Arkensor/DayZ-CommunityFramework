@@ -17,11 +17,6 @@ class CF_Timer : CF_TimerBase
 
 	protected override void OnTick(float dt)
 	{
-		Print("OnTick");
-		Print(m_Owner);
-		Print(m_Function);
-		Print(dt);
-
 		if (m_Owner == null)
 		{
 			Destroy();

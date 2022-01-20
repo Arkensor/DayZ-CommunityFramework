@@ -24,6 +24,7 @@ ButtonWidgetClass window_button {
    image0 "set:cf_imageset image:fullscreen_white"
    mode additive
    "src alpha" 1
+   scriptclass "CF_ImageWidget"
    {
     ScriptParamsClass {
      File "m_Image"
@@ -34,7 +35,8 @@ ButtonWidgetClass window_button {
  {
   ScriptParamsClass {
    Model "CF_WindowButton"
-   Event_Click "Toggle"
+   Event_Click "OnClickButton"
+   Visible "m_IsVisible"
   }
  }
 }
