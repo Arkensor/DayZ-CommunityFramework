@@ -102,14 +102,7 @@ class CF_MVVM_Property : CF_MVVM_PropertyBase
 		CF_TypeConverterBase typeConverterOverride;
 		if (m_TypeConverterType != string.Empty && Class.CastTo(typeConverterOverride, m_TypeConverterType.ToType().Spawn()))
 		{
-			if (typeConverterOverride.IsInherited(m_TypeConverter.Type()))
-			{
-				m_TypeConverter = typeConverterOverride;
-			}
-			else
-			{
-				CF_Log.Warn("Overriding type converter '%1' doesn't inherit from '%2'. Using '%2'.", typeConverterOverride.GetDebugName(), m_TypeConverter.GetDebugName());
-			}
+			m_TypeConverter = typeConverterOverride;
 		}
 
 		EnScript.SetClassVar(m_ViewModel, "_" + m_Name, 0, this);

@@ -1,7 +1,6 @@
-class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
+class CF_ObservablePriorityQueue<Class T, Class Comparable> : CF_ObservableCollection
 {
-	private ref Param2<ref T, float> m_Data[256];
-	private int m_Count;
+	protected ref Param2<T, Comparable> m_Data[256];
 
 	void CF_ObservablePriorityQueue()
 	{
@@ -52,14 +51,9 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 		m_Converter = converter;
 	}
 
-	override int Count()
+	void Enqueue(T item, Comparable priority)
 	{
-		return elements.Count();
-	}
-
-	void Enqueue(T item, float priority)
-	{
-		m_Data[m_Count] = new Param2<ref T, float>(item, priority);
+		m_Data[m_Count] = new Param2<ref T, Comparable>(item, priority);
 
 		NotifyCollectionChanged(new CF_CollectionInsertEventArgs(m_Count));
 
@@ -83,8 +77,6 @@ class CF_ObservablePriorityQueue<Class T> : CF_ObservableCollection
 		NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(bestIndex));
 
 		m_Count--;
-
-		//NotifyCollectionChanged(new CF_CollectionRemoveEventArgs(m_Count));
 
 		m_Data[bestIndex] = m_Data[m_Count];
 		m_Data[m_Count] = null;

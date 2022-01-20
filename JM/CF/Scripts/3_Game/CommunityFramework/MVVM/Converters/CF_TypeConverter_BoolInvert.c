@@ -1,4 +1,4 @@
-class CF_TypeConverter_BoolInvert : CF_TypeConverterBool
+class CF_TypeConverter_BoolInvert : CF_TypeConverterInt
 {
 	override void SetInt(int value)
 	{
@@ -7,19 +7,19 @@ class CF_TypeConverter_BoolInvert : CF_TypeConverterBool
 
 	override int GetInt()
 	{
-		if (m_Value)
+		if (m_Value != 0)
 			return 0;
 		return 1;
 	}
 
 	override void SetBool(bool value)
 	{
-		m_Value = value == false;
+		m_Value = value == 0;
 	}
 
 	override bool GetBool()
 	{
-		return m_Value == false;
+		return m_Value == 0;
 	}
 
 	override void SetFloat(float value)

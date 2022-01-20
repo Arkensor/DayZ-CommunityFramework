@@ -1,7 +1,6 @@
-class CF_PriorityQueue<Class T> : CF_Collection
+class CF_PriorityQueue<Class T, Class Comparable> : CF_Collection
 {
-	private	ref Param2<ref T, float> m_Data[256];
-	private int m_Count;
+	protected ref Param2<T, Comparable> m_Data[256];
 
 	void CF_PriorityQueue()
 	{
@@ -30,14 +29,9 @@ class CF_PriorityQueue<Class T> : CF_Collection
 		return m_Converter;
 	}
 
-	override int Count()
+	void Enqueue(T item, Comparable priority)
 	{
-		return elements.Count();
-	}
-
-	void Enqueue(T item, float priority)
-	{
-		m_Data[m_Count] = new Param2<ref T, float>(item, priority);
+		m_Data[m_Count] = new Param2<ref T, Comparable>(item, priority);
 		m_Count++;
 	}
 

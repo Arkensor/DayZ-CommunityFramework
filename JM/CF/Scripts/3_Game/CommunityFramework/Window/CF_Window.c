@@ -5,6 +5,10 @@ class CF_Window : CF_Model
 	autoptr CF_EventHandler OnFocus = new CF_EventHandler();
 	autoptr CF_EventHandler OnUnfocus = new CF_EventHandler();
 
+	static const int STATE_NONE = 0;
+	static const int STATE_FULLSCREEN = 1;
+	static const int STATE_MINIMIZED = 2;
+
 	// Attached
 	private CF_ModelBase m_Model;
 
@@ -14,15 +18,19 @@ class CF_Window : CF_Model
 	private int m_Sort;
 
 	// Widgets
-	private Widget base_window;
-	private Widget content;
+	Widget cf_window;
+	Widget cf_window_client;
 
-	// Buttons
-	/*private*/ ref CF_ObservableArray<ref CF_WindowButton> m_Buttons;
+	// Title Bar
+	private ref CF_ObservableSortedArray<CF_WindowButton> m_TitleBarButtons = new CF_ObservableSortedArray<CF_WindowButton>();
+	private float m_TitleBarHeight = 25;
+	private float m_BorderWidth = 2;
 
 	private CF_WindowButton m_CloseButton;
-	private CF_WindowButton m_MaximiseButton;
-	private CF_WindowButton m_RestoreButton;
+	private CF_WindowButton m_MinimizeButton;
+	private CF_WindowButton m_MinimizeRestoreButton;
+	private CF_WindowButton m_MaximizeButton;
+	private CF_WindowButton m_MaximizeRestoreButton;
 
 	// Properties
 	private bool m_Visible;
@@ -47,8 +55,7 @@ class CF_Window : CF_Model
 	private bool m_TakesGameFocus;
 
 	// State
-	private bool m_FullScreen;
-	private bool m_Minimized;
+	private int m_State;
 
 	private bool m_IsFocused;
 	private bool m_WasFocused;
@@ -84,22 +91,28 @@ class CF_Window : CF_Model
 
 		m_Visible = true;
 
-		m_Buttons = new CF_ObservableArray<ref CF_WindowButton>();
-
-		m_CloseButton = CreateButton("set:cf_imageset image:close_white");
+		m_CloseButton = CreateButton("set:cf_imageset image:close_white", 10000);
 		m_CloseButton.OnClick.AddSubscriber(this.OnCloseButtonClicked);
 		m_CloseButton.SetVisible(true);
 
-		m_MaximiseButton = CreateButton("set:cf_imageset image:fullscreen_white");
-		m_MaximiseButton.OnClick.AddSubscriber(this.OnMaximiseButtonClicked);
-		m_MaximiseButton.SetVisible(true);
+		m_MaximizeButton = CreateButton("set:cf_imageset image:fullscreen_white", 9000);
+		m_MaximizeButton.OnClick.AddSubscriber(this.OnMaximizeButtonClicked);
+		m_MaximizeButton.SetVisible(true);
 
-		m_RestoreButton = CreateButton("set:cf_imageset image:window_white");
-		m_RestoreButton.OnClick.AddSubscriber(this.OnRestoreButtonClicked);
-		m_RestoreButton.SetVisible(false);
+		m_MaximizeRestoreButton = CreateButton("set:cf_imageset image:window_white", 9000);
+		m_MaximizeRestoreButton.OnClick.AddSubscriber(this.OnMaximizeRestoreButtonClicked);
+		m_MaximizeRestoreButton.SetVisible(false);
 
-		m_MinimumWidth = 100;
-		m_MinimumHeight = 25;
+		m_MinimizeButton = CreateButton("set:cf_imageset image:minimize_white", 8000);
+		m_MinimizeButton.OnClick.AddSubscriber(this.OnMinimizeButtonClicked);
+		m_MinimizeButton.SetVisible(true);
+
+		m_MinimizeRestoreButton = CreateButton("set:cf_imageset image:maximize_white", 8000);
+		m_MinimizeRestoreButton.OnClick.AddSubscriber(this.OnMinimizeRestoreButtonClicked);
+		m_MinimizeRestoreButton.SetVisible(false);
+
+		m_MinimumWidth = m_BorderWidth + m_BorderWidth + 100;
+		m_MinimumHeight = m_BorderWidth + m_BorderWidth + m_TitleBarHeight;
 
 		m_MaximumWidth = 10000;
 		m_MaximumHeight = 10000;
@@ -115,7 +128,7 @@ class CF_Window : CF_Model
 		CF_MVVM.Create(this, GetLayoutFile(), CF_Windows._GetContainer());
 
 		SetTitle(title);
-		SetFullscreen(false);
+		SetState(STATE_NONE);
 		SetPosition(0, 0);
 		SetSize(width, height);
 	}
@@ -151,18 +164,13 @@ class CF_Window : CF_Model
 		return m_Prev;
 	}
 
-	Widget GetWidgetRoot()
-	{
-		return base_window;
-	}
-
 	Widget CreateWidgets(string layoutFile)
 	{
 #ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_1(this, "CreateWidgets").Add(layoutFile);
 #endif
 
-		Widget child = content.GetChildren();
+		Widget child = cf_window_client.GetChildren();
 		while (child != null)
 		{
 			Widget temp = child;
@@ -184,7 +192,7 @@ class CF_Window : CF_Model
 				return null;
 		}
 
-		Widget newContent = wSpace.CreateWidgets(layoutFile, content);
+		Widget newContent = wSpace.CreateWidgets(layoutFile, cf_window_client);
 		if (!newContent)
 			return null;
 
@@ -200,7 +208,7 @@ class CF_Window : CF_Model
 		auto trace = CF_Trace_2(this, "CreateWidgets").Add(model).Add(layoutFile);
 #endif
 
-		Widget child = content.GetChildren();
+		Widget child = cf_window_client.GetChildren();
 		while (child != null)
 		{
 			Widget temp = child;
@@ -210,7 +218,7 @@ class CF_Window : CF_Model
 
 		m_Model = model;
 
-		Widget newContent = CF_MVVM.Create(m_Model, layoutFile, content).GetWidget();
+		Widget newContent = CF_MVVM.Create(m_Model, layoutFile, cf_window_client).GetWidget();
 		if (!newContent)
 			return null;
 
@@ -297,31 +305,30 @@ class CF_Window : CF_Model
 		return m_Model;
 	}
 
-	void SetFullscreen(bool fullscreen, bool wasDrag = false)
+	void SetState(int state)
 	{
-		bool wasSame = m_FullScreen == fullscreen;
-
-		m_FullScreen = fullscreen;
-		NotifyPropertyChanged("m_FullScreen");
-
-		if (m_FullScreen)
+		switch (state)
 		{
-			m_MaximiseButton.SetVisible(false);
-			m_RestoreButton.SetVisible(true);
-		}
-		else
-		{
-			m_MaximiseButton.SetVisible(true);
-			m_RestoreButton.SetVisible(false);
-		}
+		case STATE_NONE:
+			m_MinimizeButton.SetVisible(true);
+			m_MinimizeRestoreButton.SetVisible(false);
 
-		if (wasSame)
-		{
-			return;
-		}
+			m_MaximizeButton.SetVisible(true);
+			m_MaximizeRestoreButton.SetVisible(false);
 
-		if (m_FullScreen)
-		{
+			RemoveState(m_State);
+
+			break;
+		case STATE_FULLSCREEN:
+			m_MaximizeButton.SetVisible(false);
+			m_MaximizeRestoreButton.SetVisible(true);
+			
+			m_MinimizeButton.SetVisible(true);
+			m_MinimizeRestoreButton.SetVisible(false);
+
+			if (state == m_State)
+				break;
+
 			m_PreviousWidth = m_Width;
 			m_PreviousHeight = m_Height;
 
@@ -333,31 +340,56 @@ class CF_Window : CF_Model
 
 			SetSize(w, h);
 			SetPosition(0, 0);
+
+			break;
+		case STATE_MINIMIZED:
+			m_MinimizeButton.SetVisible(false);
+			m_MinimizeRestoreButton.SetVisible(true);
+
+			m_MaximizeButton.SetVisible(true);
+			m_MaximizeRestoreButton.SetVisible(false);
+
+			if (state == m_State)
+				break;
+
+			m_PreviousWidth = m_Width;
+			m_PreviousHeight = m_Height;
+
+			SetSize(m_PreviousWidth, 0);
+
+			break;
 		}
-		else
-		{
-			SetSize(m_PreviousWidth, m_PreviousHeight);
 
-			if (!wasDrag)
-			{
-				SetPosition(m_PreviousPositionX, m_PreviousPositionY);
-			}
-		}
-
-
+		m_State = state;
+		NotifyPropertyChanged("m_State");
 	}
 
-	void SetMinimized(bool minimized)
+	void RemoveState(int state)
 	{
-		m_Minimized = minimized;
-		NotifyPropertyChanged("m_Minimized");
+		switch (state)
+		{
+		case STATE_NONE:
+			break;
+		case STATE_FULLSCREEN:
+			SetSize(m_PreviousWidth, m_PreviousHeight);
+			SetPosition(m_PreviousPositionX, m_PreviousPositionY);
+
+			break;
+		case STATE_MINIMIZED:
+			SetSize(m_PreviousWidth, m_PreviousHeight);
+
+			break;
+		}
 	}
 
 	void UpdateFocus(bool focused)
 	{
 		m_IsFocused = focused;
 		if (m_IsFocused == m_WasFocused)
+		{
 			return;
+		}
+
 		m_WasFocused = m_IsFocused;
 
 		if (m_IsFocused)
@@ -385,6 +417,15 @@ class CF_Window : CF_Model
 		NotifyPropertyChanged("m_PositionY");
 	}
 
+	void SetContentSize(float x, float y)
+	{
+#ifdef CF_WINDOWS_TRACE
+		auto trace = CF_Trace_1(this, "SetContentSize").Add(x).Add(y);
+#endif
+
+		SetSize(x + (m_BorderWidth + m_BorderWidth), y + (m_BorderWidth + m_BorderWidth + m_TitleBarHeight));
+	}
+
 	void SetSize(float x, float y)
 	{
 #ifdef CF_WINDOWS_TRACE
@@ -392,19 +433,20 @@ class CF_Window : CF_Model
 #endif
 
 		m_Width = x;
-		m_Height = y + 29;
+		m_Height = y;
 
 		if (m_Width < m_MinimumWidth)
 			m_Width = m_MinimumWidth;
 		else if (m_Width > m_MaximumWidth)
 			m_Width = m_MaximumWidth;
+
 		if (m_Height < m_MinimumHeight)
 			m_Height = m_MinimumHeight;
 		else if (m_Height > m_MaximumHeight)
 			m_Height = m_MaximumHeight;
 
-		m_ContentWidth = m_Width;
-		m_ContentHeight = m_Height - 29;
+		m_ContentWidth = m_Width - (m_BorderWidth + m_BorderWidth);
+		m_ContentHeight = m_Height - (m_BorderWidth + m_BorderWidth + m_TitleBarHeight);
 
 		NotifyPropertyChanged("m_Width");
 		NotifyPropertyChanged("m_Height");
@@ -412,10 +454,10 @@ class CF_Window : CF_Model
 		NotifyPropertyChanged("m_ContentHeight");
 	}
 
-	CF_WindowButton CreateButton(string image, int index = 0)
+	CF_WindowButton CreateButton(string image, int priority)
 	{
-		auto button = new CF_WindowButton(image);
-		m_Buttons.InsertAt(button, index);
+		CF_WindowButton button = new CF_WindowButton(image);
+		m_TitleBarButtons.Insert(button, priority);
 		return button;
 	}
 
@@ -429,40 +471,40 @@ class CF_Window : CF_Model
 		return m_Destroy;
 	}
 
+	void OnMinimizeRestoreButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
+	{
+#ifdef CF_WINDOWS_TRACE
+		auto trace = CF_Trace_2(this, "OnMinimizeRestoreButtonClicked").Add(sender).Add(args);
+#endif
+
+		SetState(STATE_NONE);
+	}
+
 	void OnMinimizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_WINDOWS_TRACE
 		auto trace = CF_Trace_2(this, "OnMinimizeButtonClicked").Add(sender).Add(args);
 #endif
 
-		SetMinimized(true);
+		SetState(STATE_MINIMIZED);
 	}
 
-	void OnExpandButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
+	void OnMaximizeRestoreButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_WINDOWS_TRACE
-		auto trace = CF_Trace_2(this, "OnExpandButtonClicked").Add(sender).Add(args);
+		auto trace = CF_Trace_2(this, "OnMaximizeRestoreButtonClicked").Add(sender).Add(args);
 #endif
 
-		SetMinimized(false);
+		SetState(STATE_NONE);
 	}
 
-	void OnRestoreButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
+	void OnMaximizeButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
 	{
 #ifdef CF_WINDOWS_TRACE
-		auto trace = CF_Trace_2(this, "OnRestoreButtonClicked").Add(sender).Add(args);
+		auto trace = CF_Trace_2(this, "OnMaximizeButtonClicked").Add(sender).Add(args);
 #endif
 
-		SetFullscreen(false);
-	}
-
-	void OnMaximiseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
-	{
-#ifdef CF_WINDOWS_TRACE
-		auto trace = CF_Trace_2(this, "OnMaximiseButtonClicked").Add(sender).Add(args);
-#endif
-
-		SetFullscreen(true);
+		SetState(STATE_FULLSCREEN);
 	}
 
 	void OnCloseButtonClicked(CF_ModelBase sender, CF_MouseEventArgs args)
@@ -489,7 +531,7 @@ class CF_Window : CF_Model
 		auto trace = CF_Trace_2(this, "OnDrag").Add(sender).Add(args);
 #endif
 
-		if (m_FullScreen)
+		if (m_State == STATE_FULLSCREEN)
 		{
 			float newX = args.X - (m_PreviousWidth * 0.5);
 			if (newX < 0)
@@ -497,13 +539,15 @@ class CF_Window : CF_Model
 			else if (newX > m_Width)
 				newX = m_Width - m_PreviousWidth;
 
-			SetPosition(newX, 0.0);
+			SetSize(m_PreviousWidth, m_PreviousHeight);
+			SetPosition(newX, 0);
+
+			m_State = STATE_NONE;
+			SetState(STATE_NONE);
 		}
 
 		m_DragOffsetX = args.X - m_PositionX;
 		m_DragOffsetY = args.Y - m_PositionY;
-
-		SetFullscreen(false, true);
 	}
 
 	void OnDragging(CF_ModelBase sender, CF_DragEventArgs args)
@@ -549,8 +593,11 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 		if (newPosY + m_MinimumHeight > m_PreviousPositionY + m_PreviousHeight)
+		{
 			newPosY = m_PreviousPositionY + m_PreviousHeight;
-		SetSize(m_PreviousWidth, newSizeY - 29);
+		}
+
+		SetSize(m_PreviousWidth, newSizeY);
 		SetPosition(m_PreviousPositionX, newPosY);
 
 		ResetBorder();
@@ -565,7 +612,7 @@ class CF_Window : CF_Model
 #endif
 
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
-		SetSize(m_PreviousWidth, newSizeY - 29);
+		SetSize(m_PreviousWidth, newSizeY);
 
 		ResetBorder();
 		m_BorderDColor = m_BorderDragColor;
@@ -580,7 +627,7 @@ class CF_Window : CF_Model
 
 		float newSizeX = m_PreviousWidth - (args.X - m_ResizeStartX);
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
-		SetSize(newSizeX, m_PreviousHeight - 29);
+		SetSize(newSizeX, m_PreviousHeight);
 		SetPosition(newPosX, m_PreviousPositionY);
 
 		ResetBorder();
@@ -595,7 +642,7 @@ class CF_Window : CF_Model
 #endif
 
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
-		SetSize(newSizeX, m_PreviousHeight - 29);
+		SetSize(newSizeX, m_PreviousHeight);
 
 		ResetBorder();
 		m_BorderRColor = m_BorderDragColor;
@@ -613,7 +660,7 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY - 29);
+		SetSize(newSizeX, newSizeY);
 		SetPosition(newPosX, newPosY);
 
 		ResetBorder();
@@ -631,7 +678,7 @@ class CF_Window : CF_Model
 		float newSizeY = m_PreviousHeight - (args.Y - m_ResizeStartY);
 		float newPosY = m_PreviousPositionY + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY - 29);
+		SetSize(newSizeX, newSizeY);
 		SetPosition(m_PreviousPositionX, newPosY);
 
 		ResetBorder();
@@ -649,7 +696,7 @@ class CF_Window : CF_Model
 		float newPosX = m_PreviousPositionX + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY - 29);
+		SetSize(newSizeX, newSizeY);
 		SetPosition(newPosX, m_PreviousPositionY);
 
 		ResetBorder();
@@ -666,7 +713,7 @@ class CF_Window : CF_Model
 		float newSizeX = m_PreviousWidth + (args.X - m_ResizeStartX);
 		float newSizeY = m_PreviousHeight + (args.Y - m_ResizeStartY);
 
-		SetSize(newSizeX, newSizeY - 29);
+		SetSize(newSizeX, newSizeY);
 
 		ResetBorder();
 		m_BorderDRColor = m_BorderDragColor;

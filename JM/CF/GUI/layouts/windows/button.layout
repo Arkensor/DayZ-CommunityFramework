@@ -1,4 +1,4 @@
-ButtonWidgetClass window_button {
+ButtonWidgetClass cf_window_button {
  visible 1
  ignorepointer 0
  color 1 0 0 1
@@ -13,7 +13,7 @@ ButtonWidgetClass window_button {
  scriptclass "CF_ButtonWidget"
  style Default
  {
-  ImageWidgetClass window_button_image {
+  ImageWidgetClass cf_window_button_image {
    ignorepointer 1
    position 0 0
    size 0.8 0.8

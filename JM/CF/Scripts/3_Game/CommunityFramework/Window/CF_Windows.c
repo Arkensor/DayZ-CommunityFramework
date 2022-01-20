@@ -89,7 +89,7 @@ class CF_Windows : Managed
 		CF_Window window = s_Tail;
 		while (window != null)
 		{
-			if (widget == window.GetWidgetRoot())
+			if (widget == window.cf_window)
 			{
 				return true;
 			}

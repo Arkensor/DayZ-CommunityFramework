@@ -1,4 +1,4 @@
-PanelWidgetClass base_window {
+PanelWidgetClass cf_window {
  visible 1
  ignorepointer 1
  size 400 400
@@ -9,7 +9,7 @@ PanelWidgetClass base_window {
  scriptclass "CF_PanelWidget"
  style Outline
  {
-  PanelWidgetClass background {
+  PanelWidgetClass cf_window_background {
    visible 1
    ignorepointer 0
    color 0.06 0.08 0.11 0.8
@@ -21,7 +21,7 @@ PanelWidgetClass base_window {
    vexactsize 0
    style rover_sim_colorable
   }
-  PanelWidgetClass content {
+  PanelWidgetClass cf_window_client {
    visible 1
    ignorepointer 0
    color 0 0 0 0
@@ -40,7 +40,7 @@ PanelWidgetClass base_window {
     }
    }
   }
-  PanelWidgetClass title_bar_drag {
+  PanelWidgetClass cf_window_titlebar_dragger {
    visible 1
    ignorepointer 0
    color 0 0 0 0
@@ -61,7 +61,7 @@ PanelWidgetClass base_window {
     }
    }
   }
-  PanelWidgetClass title_wrapper {
+  PanelWidgetClass cf_window_titlebar {
    visible 1
    ignorepointer 1
    color 0.0196 0.0196 0.0196 1
@@ -76,7 +76,7 @@ PanelWidgetClass base_window {
    scriptclass "CF_Widget"
    style rover_sim_colorable
    {
-    WrapSpacerWidgetClass title_buttons {
+    WrapSpacerWidgetClass cf_window_titlebar_right_buttons {
      ignorepointer 1
      size 1 1
      halign right_ref
@@ -93,11 +93,11 @@ PanelWidgetClass base_window {
      content_valign center
      {
       ScriptParamsClass {
-       Children "m_Buttons"
+       Children "m_TitleBarButtons"
       }
      }
     }
-    PanelWidgetClass title_wrapper_fullscreen {
+    PanelWidgetClass cf_window_titlebar_text_container {
      ignorepointer 1
      position 0 0
      size 1 1
@@ -106,10 +106,10 @@ PanelWidgetClass base_window {
      hexactsize 0
      vexactsize 0
      {
-      TextWidgetClass title_text_fullscreen {
+      TextWidgetClass cf_window_titlebar_text {
        ignorepointer 1
        color 1 1 1 1
-       position 32 0
+       position 2 0
        size 1 1
        halign left_ref
        valign center_ref
@@ -128,110 +128,6 @@ PanelWidgetClass base_window {
        {
         ScriptParamsClass {
          Text "m_Title"
-        }
-       }
-      }
-     }
-    }
-    PanelWidgetClass title_wrapper_windowed {
-     ignorepointer 1
-     position 0 0
-     size 1 1
-     hexactpos 0
-     vexactpos 0
-     hexactsize 0
-     vexactsize 0
-     {
-      TextWidgetClass title_text_windowed {
-       ignorepointer 1
-       color 1 1 1 1
-       position 32 0
-       size 1 1
-       halign left_ref
-       valign center_ref
-       hexactpos 1
-       vexactpos 0
-       hexactsize 0
-       vexactsize 0
-       scriptclass "CF_TextWidget"
-       style Normal
-       text "Placeholder Title"
-       font "gui/fonts/sdf_MetronLight24"
-       "exact text" 1
-       "exact text size" 18
-       "text halign" left
-       "text valign" center
-       {
-        ScriptParamsClass {
-         Text "m_Title"
-        }
-       }
-      }
-      ButtonWidgetClass shrink_button {
-       visible 1
-       ignorepointer 0
-       color 1 0 0 1
-       position 2 0
-       size 25 25
-       valign center_ref
-       hexactpos 1
-       vexactpos 1
-       hexactsize 1
-       vexactsize 1
-       scriptclass "CF_ButtonWidget"
-       style Default
-       {
-        ImageWidgetClass shrink_button_image {
-         ignorepointer 1
-         position 0 0
-         size 0.8 0.8
-         halign center_ref
-         valign center_ref
-         hexactsize 0
-         vexactsize 0
-         image0 "set:cf_imageset image:minimize_white"
-         mode additive
-         "src alpha" 1
-        }
-       }
-       {
-        ScriptParamsClass {
-         Event_Click "OnShrinkButtonClicked"
-         Visible "m_Minimized:CF_TypeConverter_BoolInvert"
-        }
-       }
-      }
-      ButtonWidgetClass expand_button {
-       visible 1
-       ignorepointer 0
-       color 1 0 0 1
-       position 2 0
-       size 25 25
-       valign center_ref
-       hexactpos 1
-       vexactpos 1
-       hexactsize 1
-       vexactsize 1
-       scriptclass "CF_ButtonWidget"
-       style Default
-       {
-        ImageWidgetClass expand_button_image {
-         ignorepointer 1
-         position 0 0
-         size 0.8 0.8
-         halign center_ref
-         valign center_ref
-         hexactsize 0
-         vexactsize 0
-         image0 "set:cf_imageset image:maximize_white"
-         mode additive
-         "src alpha" 1
-        }
-       }
-       {
-        ScriptParamsClass {
-         Event_Click "OnExpandButtonClicked"
-         Visible "m_Minimized"
         }
        }
       }
@@ -244,7 +140,7 @@ PanelWidgetClass base_window {
     }
    }
   }
-  PanelWidgetClass border_drag_up {
+  PanelWidgetClass cf_window_border_drag_up {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -264,11 +160,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingUp"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_down {
+  PanelWidgetClass cf_window_border_drag_down {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -289,11 +185,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingDown"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_left {
+  PanelWidgetClass cf_window_border_drag_left {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -313,11 +209,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingLeft"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_right {
+  PanelWidgetClass cf_window_border_drag_right {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -338,11 +234,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingRight"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_up_left {
+  PanelWidgetClass cf_window_border_drag_up_left {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -361,11 +257,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingUpLeft"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_up_right {
+  PanelWidgetClass cf_window_border_drag_up_right {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -385,11 +281,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingUpRight"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_down_left {
+  PanelWidgetClass cf_window_border_drag_down_left {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -409,11 +305,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingDownLeft"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_drag_down_right {
+  PanelWidgetClass cf_window_border_drag_down_right {
    visible 0
    ignorepointer 0
    color 0 0 0 0
@@ -434,11 +330,11 @@ PanelWidgetClass base_window {
      Event_Drag "OnStartResizing"
      Event_Dragging "OnResizingDownRight"
      Event_Drop "OnStopResizing"
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
     }
    }
   }
-  PanelWidgetClass border_up {
+  PanelWidgetClass cf_window_border_up {
    ignorepointer 1
    color 1 0 1 1
    size 1 3
@@ -452,12 +348,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderUColor"
     }
    }
   }
-  PanelWidgetClass border_down {
+  PanelWidgetClass cf_window_border_down {
    ignorepointer 1
    color 1 0 1 1
    size 1 3
@@ -472,12 +368,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderDColor"
     }
    }
   }
-  PanelWidgetClass border_left {
+  PanelWidgetClass cf_window_border_left {
    ignorepointer 1
    color 1 0 1 1
    size 3 1
@@ -491,12 +387,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderLColor"
     }
    }
   }
-  PanelWidgetClass border_right {
+  PanelWidgetClass cf_window_border_right {
    ignorepointer 1
    color 1 0 1 1
    size 3 1
@@ -511,12 +407,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderRColor"
     }
    }
   }
-  PanelWidgetClass border_up_left {
+  PanelWidgetClass cf_window_border_up_left {
    ignorepointer 1
    color 1 0 1 1
    size 8 8
@@ -529,12 +425,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderULColor"
     }
    }
   }
-  PanelWidgetClass border_up_right {
+  PanelWidgetClass cf_window_border_up_right {
    ignorepointer 1
    color 1 0 1 1
    size 8 8
@@ -548,12 +444,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderURColor"
     }
    }
   }
-  PanelWidgetClass border_down_left {
+  PanelWidgetClass cf_window_border_down_left {
    ignorepointer 1
    color 1 0 1 1
    size 8 8
@@ -567,12 +463,12 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderDLColor"
     }
    }
   }
-  PanelWidgetClass border_down_right {
+  PanelWidgetClass cf_window_border_down_right {
    ignorepointer 1
    color 1 0 1 1
    size 8 8
@@ -587,7 +483,7 @@ PanelWidgetClass base_window {
    style rover_sim_colorable
    {
     ScriptParamsClass {
-     Visible "m_FullScreen:CF_TypeConverter_BoolInvert"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
      Color "m_BorderDRColor"
     }
    }

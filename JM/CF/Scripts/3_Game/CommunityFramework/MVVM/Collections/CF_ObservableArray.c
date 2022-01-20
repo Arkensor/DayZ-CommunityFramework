@@ -1,6 +1,6 @@
 class CF_ObservableArray<Class T> : CF_ObservableCollection
 {
-	private ref array<autoptr T> m_Data = new array<autoptr T>();
+	private ref array<ref T> m_Data = new array<ref T>();
 
 	void CF_ObservableArray()
 	{
@@ -130,7 +130,7 @@ class CF_ObservableArray<Class T> : CF_ObservableCollection
 	{
 		int idx = m_Data.InsertAt(value, index);
 
-		NotifyCollectionChanged(new CF_CollectionInsertAtEventArgs(idx));
+		NotifyCollectionChanged(new CF_CollectionInsertAtEventArgs(index));
 
 		return idx;
 	}
