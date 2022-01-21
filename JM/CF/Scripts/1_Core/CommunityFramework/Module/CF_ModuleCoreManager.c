@@ -5,7 +5,7 @@ class CF_ModuleCoreManager
 	static ref array<string> s_ModuleNames = new array<string>();
 
 	static ref map<typename, CF_ModuleCore> s_ModulesMap = new map<typename, CF_ModuleCore>();
-	static ref array<ref CF_ModuleCore> s_Modules = new array<ref CF_ModuleCore>();
+	static ref array<autoptr CF_ModuleCore> s_Modules = new array<autoptr CF_ModuleCore>();
 
 	static bool s_IsCreated;
 
@@ -54,6 +54,11 @@ class CF_ModuleCoreManager
 		auto trace = CF_Trace_0("CF_ModuleCoreManager", "_OnDestroy");
 #endif
 
+		for (int i = s_Modules.Count() - 1; i >= 0; i--)
+		{
+			delete s_Modules[i];
+		}
+
 		s_ModulesMap.Clear();
 		s_Modules.Clear();
 
@@ -87,18 +92,20 @@ class CF_ModuleCoreManager
 		auto trace = CF_Trace_1("CF_ModuleCoreManager", "_Create").Add(className);
 #endif
 
+		typename type = className.ToType();
+
+		if (s_ModulesMap.Contains(type))
+		{
+			return;
+		}
+
 		CF_ModuleCore module;
-		if (!Class.CastTo(module, className.ToType().Spawn()))
+		if (!Class.CastTo(module, type.Spawn()))
 		{
 			return;
 		}
 
-		if (s_ModulesMap.Contains(module.GetType()))
-		{
-			return;
-		}
-
-		s_ModulesMap.Insert(module.GetType(), module);
+		s_ModulesMap.Insert(type, module);
 		s_Modules.Insert(module);
 
 		module.m_CF_GameFlag = 0;
