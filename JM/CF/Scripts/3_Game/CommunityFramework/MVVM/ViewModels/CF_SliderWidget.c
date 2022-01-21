@@ -38,7 +38,7 @@ class CF_SliderWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnView_Min").Add(sender).Add(args);
 #endif
 
-		EnScript.SetClassVar(m_Model, Min, 0, _SliderWidget.GetMin());
+		_Min.SetInt(_SliderWidget.GetMin());
 	}
 
 	void OnModel_Min(CF_ModelBase sender, CF_EventArgs args)
@@ -47,7 +47,7 @@ class CF_SliderWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnModel_Min").Add(sender).Add(args);
 #endif
 
-		OnView_Min(m_Model, args);
+		//OnView_Min(m_Model, args);
 	}
 
 	void OnView_Max(CF_ModelBase sender, CF_EventArgs args)
@@ -56,7 +56,7 @@ class CF_SliderWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnView_Max").Add(sender).Add(args);
 #endif
 
-		EnScript.SetClassVar(m_Model, Max, 0, _SliderWidget.GetMax());
+		_Max.SetInt(_SliderWidget.GetMax());
 	}
 
 	void OnModel_Max(CF_ModelBase sender, CF_EventArgs args)
@@ -65,7 +65,7 @@ class CF_SliderWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnModel_Max").Add(sender).Add(args);
 #endif
 
-		OnView_Max(m_Model, args);
+		//OnView_Max(m_Model, args);
 	}
 
 	void OnView_Current(CF_ModelBase sender, CF_EventArgs args)
@@ -74,8 +74,7 @@ class CF_SliderWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnView_Current").Add(sender).Add(args);
 #endif
 
-		float _value = _SliderWidget.GetCurrent();
-		EnScript.SetClassVar(m_Model, Current, 0, _value);
+		_Current.SetFloat(_SliderWidget.GetCurrent());
 	}
 
 	void OnModel_Current(CF_ModelBase sender, CF_EventArgs args)
@@ -84,8 +83,6 @@ class CF_SliderWidget : CF_UIWidget
 		auto trace = CF_Trace_2(this, "OnModel_Current").Add(sender).Add(args);
 #endif
 
-		float _value;
-		EnScript.GetClassVar(m_Model, Current, 0, _value);
-		_SliderWidget.SetCurrent(_value);
+		_SliderWidget.SetCurrent(_Current.GetFloat());
 	}
 };

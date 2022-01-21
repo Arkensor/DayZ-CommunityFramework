@@ -7,7 +7,14 @@ class CF_ModuleGame : CF_ModuleCore
 
 	int m_CF_RPC_Minimum;
 	int m_CF_RPC_Maximum;
-
+	
+	void ~CF_ModuleGame()
+	{
+#ifndef SERVER
+		CF_MVVM.Destroy(this);
+#endif
+	}
+	
 	void Bind(string function, string input, bool limitMenu = false)
 	{
 		m_CF_Bindings.Bind(function, input, limitMenu);
@@ -103,6 +110,24 @@ class CF_ModuleGame : CF_ModuleCore
 	void Close()
 	{
 		CF_MVVM.Destroy(this);
+	}
+
+	void NotifyPropertyChanged(string property, CF_EventArgs args = null)
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(property).Add(args);
+#endif
+
+		CF_MVVM.NotifyPropertyChanged(this, property, args);
+	}
+
+	void NotifyPropertyChanged()
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_0(this, "NotifyPropertyChanged");
+#endif
+
+		CF_MVVM.NotifyPropertyChanged(this);
 	}
 
 	string GetLayoutFile()

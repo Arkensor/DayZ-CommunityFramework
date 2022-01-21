@@ -135,7 +135,6 @@ class CF_Windows : Managed
 	void Update(Class sender, CF_EventArgs args)
 	{
 #ifdef SERVER
-		timer.Stop();
 		return;
 #endif
 
