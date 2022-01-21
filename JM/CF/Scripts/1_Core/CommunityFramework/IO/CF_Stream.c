@@ -12,6 +12,10 @@ class CF_Stream
 	
 	void ~CF_Stream()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_Stream");
+#endif
+
 		Close();
 	}
 

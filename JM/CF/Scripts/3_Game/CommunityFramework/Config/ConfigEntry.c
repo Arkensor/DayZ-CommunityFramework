@@ -131,7 +131,7 @@ class ConfigEntry : Managed
 		return _entries.Count();
 	}
 
-	ref ConfigEntry Get( int i )
+	ConfigEntry Get( int i )
 	{
 		return _entries[i];
 	}
@@ -150,20 +150,20 @@ class ConfigEntry : Managed
 		return -1;
 	}
 
-	bool Parse( ref ConfigReader reader, ref ConfigFile file )
+	bool Parse( ConfigReader reader, ConfigFile file )
 	{
 		Error( "Not implemented." );
 		return false;
 	}
 
-	ref ConfigEntry Get( string path )
+	ConfigEntry Get( string path )
 	{
 		TStringArray tokens = new TStringArray;
 		path.Split( " ", tokens );
 		return Get( tokens, 0 );
 	}
 
-	ref ConfigEntry Get( TStringArray tokens, int index = 0 )
+	ConfigEntry Get( TStringArray tokens, int index = 0 )
 	{
 		string lowerToken = "" + tokens[ index ];
 		lowerToken.ToLower();

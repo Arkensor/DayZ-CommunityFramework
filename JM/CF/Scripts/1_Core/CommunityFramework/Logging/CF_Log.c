@@ -1,6 +1,10 @@
 class CF_Log
 {
+#ifdef CF_TRACE_ENABLED
+	static int Level = CF_LogLevel.TRACE;
+#else
 	static int Level = CF_LogLevel.ERROR;
+#endif
 
 	static bool IsLogging(CF_LogLevel level)
 	{

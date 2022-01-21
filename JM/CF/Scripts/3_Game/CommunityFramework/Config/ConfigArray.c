@@ -15,7 +15,7 @@ class ConfigArray : ConfigEntry
 		return this;
 	}
 
-	override bool Parse( ref ConfigReader reader, ref ConfigFile file )
+	override bool Parse( ConfigReader reader, ConfigFile file )
 	{
 		string c = reader.SkipWhitespace();
 

@@ -33,7 +33,7 @@ class CF_ModuleCoreManager
 	static void _OnCreate()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("Create");
+		auto trace = CF_Trace_0("CF_ModuleCoreManager", "_OnCreate");
 #endif
 
 		_OnDestroy();
@@ -51,7 +51,7 @@ class CF_ModuleCoreManager
 	static void _OnDestroy()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("Create");
+		auto trace = CF_Trace_0("CF_ModuleCoreManager", "_OnDestroy");
 #endif
 
 		s_ModulesMap.Clear();
@@ -66,7 +66,7 @@ class CF_ModuleCoreManager
 	static void _Insert(typename type)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("Insert").Add(type);
+		auto trace = CF_Trace_1("CF_ModuleCoreManager", "_Insert").Add(type);
 #endif
 
 		string className = type.ToString();
@@ -84,7 +84,7 @@ class CF_ModuleCoreManager
 	static void _Create(string className)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("Create").Add(className);
+		auto trace = CF_Trace_1("CF_ModuleCoreManager", "_Create").Add(className);
 #endif
 
 		CF_ModuleCore module;

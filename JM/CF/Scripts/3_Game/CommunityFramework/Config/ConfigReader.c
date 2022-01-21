@@ -3,19 +3,23 @@ class ConfigReader : Managed
 	private int _arrIdx = 0;
 	private int _bufIdx = -1;
 
-	private ref array< string > _lines;
+	private ref array< string > _lines = new array< string >;
 
 	private void ConfigReader()
-	{
-		_lines = new array< string >;
+	{ 
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "ConfigReader");
+#endif
 	}
 
 	void ~ConfigReader()
 	{
-		delete _lines;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~ConfigReader");
+#endif
 	}
 
-	static ref ConfigReader Open( string path )
+	static ConfigReader Open( string path )
 	{
 		ConfigReader reader = new ConfigReader();
 
