@@ -258,7 +258,7 @@ class RPCManager
 		}
 	}
 
-	void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
+	void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, PlayerIdentity sendToIdentity = NULL, Object sendToTarget = NULL )
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_6(this, "SendRPC").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
@@ -281,7 +281,7 @@ class RPCManager
 			}
 		}
 
-		auto sendData = new ref array< ref Param >;
+		auto sendData = new array< ref Param >;
 		sendData.Insert( new ref Param2< string, string >( modName, funcName ) );
 		sendData.Insert( params );
 		
@@ -292,7 +292,7 @@ class RPCManager
 			{
 				if ( m_RPCActions[ modName ].Contains( funcName ) )
 				{
-					ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
+					RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
 					
 					if ( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
 					{
@@ -308,7 +308,7 @@ class RPCManager
 	/**
 	 * Warning: Does not support "SingleplayerExecutionType.Both"
 	 */
-	void SendRPCs( string modName, string funcName, ref array< ref Param > params, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
+	void SendRPCs( string modName, string funcName, array< ref Param > params, bool guaranteed = false, PlayerIdentity sendToIdentity = NULL, Object sendToTarget = NULL )
 	{
 		#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_6(this, "SendRPCs").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
@@ -331,7 +331,7 @@ class RPCManager
 			}
 		}
 
-		params.InsertAt( new ref Param2< string, string >( modName, funcName ), 0 );
+		params.InsertAt( new Param2< string, string >( modName, funcName ), 0 );
 
 		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, params, guaranteed, sendToIdentity );
 
@@ -341,7 +341,7 @@ class RPCManager
 			{
 				if ( m_RPCActions[ modName ].Contains( funcName ) )
 				{
-					ref RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
+					RPCMetaWrapper wrapper = m_RPCActions[ modName ][ funcName ];
 					
 					if ( ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) )
 					{
@@ -360,10 +360,10 @@ class RPCManager
 
 		if ( !m_RPCActions.Contains( modName ) )
 		{
-			m_RPCActions.Set( modName, new ref map< string, ref RPCMetaWrapper > );
+			m_RPCActions.Set( modName, new map< string, ref RPCMetaWrapper > );
 		}
 		
-		auto wrapper = new ref RPCMetaWrapper( instance, singlePlayerExecType );
+		auto wrapper = new RPCMetaWrapper( instance, singlePlayerExecType );
 		
 		m_RPCActions[ modName ].Set( funcName, wrapper );
 
@@ -380,11 +380,11 @@ class RPCManager
 
 static ref RPCManager g_RPCManager;
 
-static ref RPCManager GetRPCManager()
+static RPCManager GetRPCManager()
 {
 	if ( !g_RPCManager )
 	{
-		g_RPCManager = new ref RPCManager;
+		g_RPCManager = new RPCManager();
 	}
 
 	return g_RPCManager;

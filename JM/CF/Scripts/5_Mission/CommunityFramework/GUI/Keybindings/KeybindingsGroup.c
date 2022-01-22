@@ -30,7 +30,7 @@ modded class KeybindingsGroup
 
 	void AddCFAction( int index, Widget parent, Input input, string displayName )
 	{
-		ref KeybindingElement ele = new ref KeybindingElement( index, parent, this );
+		KeybindingElement ele = new KeybindingElement( index, parent, this );
 		ele.R_WasSet = true;
 		ele.R_DisplayName = displayName;
 		ele.Reload();

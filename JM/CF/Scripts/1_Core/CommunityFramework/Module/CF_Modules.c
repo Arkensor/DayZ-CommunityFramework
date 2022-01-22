@@ -8,7 +8,7 @@ class CF_Modules<Class T>
 		return module;
 	}
 
-	static bool Get(T module)
+	static bool Get(inout T module)
 	{
 		typename type = T;
 		return Class.CastTo(module, CF_ModuleCoreManager.s_ModulesMap[type]);

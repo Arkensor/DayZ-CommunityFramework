@@ -7,16 +7,20 @@ class CF_XML_Reader : Managed
 
 	private bool _wasNewLine;
 
-	private ref array<string> _lines;
+	private ref array<string> _lines = new array<string>;
 
 	void CF_XML_Reader()
 	{
-		_lines = new array<string>;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_XML_Reader");
+#endif
 	}
 
 	void ~CF_XML_Reader()
 	{
-		delete _lines;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_XML_Reader");
+#endif
 	}
 	
 	void GetPosition(out int arrIdx, out int bufIdx)

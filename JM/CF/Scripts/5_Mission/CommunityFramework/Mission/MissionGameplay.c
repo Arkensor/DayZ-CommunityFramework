@@ -4,11 +4,19 @@ modded class MissionGameplay
 
 	void MissionGameplay()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "MissionGameplay");
+#endif
+
 		m_bLoaded = false;
 	}
 
 	void ~MissionGameplay()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~MissionGameplay");
+#endif
+
 	}
 
 	override void OnInit()

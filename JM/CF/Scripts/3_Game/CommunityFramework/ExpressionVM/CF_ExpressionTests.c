@@ -1,4 +1,4 @@
-//TODO: Automate into a framework for other modders to use for their own testing
+#ifdef CF_EXPRESSION_TEST
 class CF_ExpressionTests
 {
 	private string _current;
@@ -580,3 +580,4 @@ class CF_ExpressionTests
 		_assert( expectedNum, actualNum, expectedRPN, actualRPN );
 	}
 };
+#endif

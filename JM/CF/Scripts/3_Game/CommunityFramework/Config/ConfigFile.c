@@ -11,9 +11,9 @@ class ConfigFile : ConfigClass
 		return "FILE";
 	}
 
-	static ref ConfigFile Parse( string fileName )
+	static ConfigFile Parse( string fileName )
 	{
-		ref ConfigFile file = new ConfigFile();
+		ConfigFile file = new ConfigFile();
 
 		file.Parse( ConfigReader.Open( fileName ), file );
 

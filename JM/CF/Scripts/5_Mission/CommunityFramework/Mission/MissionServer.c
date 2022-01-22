@@ -4,6 +4,10 @@ modded class MissionServer
 
 	void MissionServer()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "MissionServer");
+#endif
+
 		m_bLoaded = false;
 
 		GetRPCManager().AddRPC( "CF", "RecieveModList", this, SingeplayerExecutionType.Server );
@@ -11,6 +15,10 @@ modded class MissionServer
 
 	void ~MissionServer()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~MissionServer");
+#endif
+
 	}
 
 	override void OnEvent( EventType eventTypeId, Param params ) 

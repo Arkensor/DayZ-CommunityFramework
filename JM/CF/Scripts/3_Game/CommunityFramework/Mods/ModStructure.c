@@ -53,7 +53,7 @@ modded class ModStructure
 		m_CF_HashA = m_CF_Name.Hash();
 		m_CF_HashB = m_CF_Name.Reverse().Hash();
 
-		m_CF_ModInputs = new ref array<ref ModInput>;
+		m_CF_ModInputs = new array<ref ModInput>;
 		m_CF_StorageVersion = 0;
 
 		if (GetGame().ConfigIsExisting(m_ModPath))

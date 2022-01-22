@@ -6,6 +6,16 @@ class CF_ModuleCore : Managed
 
 	void CF_ModuleCore()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_ModuleCore");
+#endif
+	}
+
+	void ~CF_ModuleCore()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_ModuleCore");
+#endif
 	}
 
 	bool IsServer()
