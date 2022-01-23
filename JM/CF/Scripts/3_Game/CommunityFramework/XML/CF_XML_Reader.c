@@ -37,7 +37,7 @@ class CF_XML_Reader : Managed
 
 	void Err(string message)
 	{
-		Error("[" + (_arrIdx + 1 )+ ":" + _bufIdx + "] " + message);
+		CF_Log.Error("[" + (_arrIdx + 1 ) + ":" + _bufIdx + "] " + message);
 	}
 
 	void AddLine(string line)
@@ -108,7 +108,7 @@ class CF_XML_Reader : Managed
 		{
 			if (EOF())
 			{
-				Error("Unexpected end of file while parsing XML comment!");
+				CF_Log.Error("Unexpected end of file while parsing XML comment!");
 				break;
 			}
 

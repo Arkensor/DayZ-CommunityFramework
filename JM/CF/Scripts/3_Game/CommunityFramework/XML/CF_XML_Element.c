@@ -98,7 +98,7 @@ class CF_XML_Element : Managed
 	{
 		string indent = CF_Indent(level);
 
-		Print(indent + "Tags: count=" + _tags.Count());
+		CF_Log.Info(indent + "Tags: count=" + _tags.Count());
 		for (int i = 0; i < _tags.Count(); ++i)
 		{
 			_tags[i].Debug(level + 1);

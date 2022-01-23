@@ -104,7 +104,7 @@ class CF_XML_Attribute : Managed
 	void Debug(int level = 0)
 	{
 		string indent = CF_Indent(level);
-		Print(indent + " name=" + _name + " value=" + _value);
+		CF_Log.Info(indent + " name=" + _name + " value=" + _value);
 	}
 
 	void OnWrite(FileHandle handle, int depth)

@@ -19,7 +19,7 @@ class CF_StringStream : CF_Stream
 	{
 		if (byte == 0)
 		{
-			Error("Attempted writing null byte in CF_StringStream.");
+			CF_Log.Error("Attempted writing null byte in CF_StringStream.");
 			return;
 		}
 
@@ -32,7 +32,7 @@ class CF_StringStream : CF_Stream
 	{
 		if (byte == 0)
 		{
-			Error("Attempted writing null byte in CF_StringStream.");
+			CF_Log.Error("Attempted writing null byte in CF_StringStream.");
 			return;
 		}
 		
@@ -45,7 +45,7 @@ class CF_StringStream : CF_Stream
 	{
 		if (value == 0)
 		{
-			Error("Attempted writing null byte in CF_StringStream.");
+			CF_Log.Error("Attempted writing null byte in CF_StringStream.");
 			return;
 		}
 		
@@ -58,7 +58,7 @@ class CF_StringStream : CF_Stream
 	{
 		if (value == 0)
 		{
-			Error("Attempted writing null byte in CF_StringStream.");
+			CF_Log.Error("Attempted writing null byte in CF_StringStream.");
 			return;
 		}
 		

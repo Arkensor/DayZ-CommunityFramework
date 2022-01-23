@@ -152,7 +152,7 @@ class ConfigEntry : Managed
 
 	bool Parse( ConfigReader reader, ConfigFile file )
 	{
-		Error( "Not implemented." );
+		CF_Log.Error( "Not implemented." );
 		return false;
 	}
 
