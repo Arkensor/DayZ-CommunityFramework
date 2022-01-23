@@ -3,12 +3,12 @@
 #define CF_EXPRESSION
 //#define CF_EXPRESSION_TEST
 
-#define CF_TRACE_ENABLED
+//#define CF_TRACE_ENABLED
 
 #define CF_GHOSTICONS
 
 #define CF_MODSTORAGE
-#define CF_MODSTORAGE_TEST
+//#define CF_MODSTORAGE_TEST
 
 #define CF_SURFACES
 
