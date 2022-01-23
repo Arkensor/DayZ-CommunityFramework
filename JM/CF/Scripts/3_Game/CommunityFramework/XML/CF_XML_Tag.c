@@ -98,16 +98,16 @@ class CF_XML_Tag : Managed
 	{
 		string indent = CF_Indent(level);
 
-		Print(indent + "Tag:");
-		Print(indent + " name=" + _name);
+		CF_Log.Info(indent + "Tag:");
+		CF_Log.Info(indent + " name=" + _name);
 
-		Print(indent + "Attributes: count=" + _attributes.Count());
+		CF_Log.Info(indent + "Attributes: count=" + _attributes.Count());
 		for (int i = 0; i < _attributes.Count(); ++i)
 		{
 			_attributes.GetElement(i).Debug(level);
 		}
 
-		Print(indent + "Element:");
+		CF_Log.Info(indent + "Element:");
 		_element.Debug(level + 1);
 	}
 

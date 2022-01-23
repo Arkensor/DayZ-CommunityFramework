@@ -53,7 +53,7 @@ class CF_Expression
 			return true;
 
 		//if ( c == "" )
-		//	Error( "Unexpected end of string" );
+		//	CF_Log.Error( "Unexpected end of string" );
 
 		return false;
 	}
@@ -164,6 +164,9 @@ class CF_Expression
 		return 0;
 	}
 
+	/**
+	 * @note Test function
+	 */
 	float CompileEvaluateTest( map< string, float > variables, bool test )
 	{
 		if ( CompileTest( variables.GetKeyArray(), test ) )
@@ -179,6 +182,9 @@ class CF_Expression
 		return true;
 	}
 	
+	/**
+	 * @note Test function
+	 */
 	bool CompileTest( array< string > variables, bool test )
 	{
 		int start = TickCount( 0 );
@@ -187,7 +193,7 @@ class CF_Expression
 		
 		int time = TickCount( start );
 		if ( test )
-			Print( "CF_Expression::Compile took " + time + " ticks to execute." ); 
+			CF_Log.Info( "CF_Expression::Compile took " + time + " ticks to execute." ); 
 		
 		return success;
 	}
@@ -208,6 +214,9 @@ class CF_Expression
 		return _Evaluate(new array<float>());
 	}
 
+	/**
+	 * @note Test function
+	 */
 	float EvaluateTest( array< float > variables, bool test )
 	{
 		int start = TickCount( 0 );
@@ -217,7 +226,7 @@ class CF_Expression
 		
 		int time = TickCount( start );
 		if ( test )
-			Print( "CF_Expression::Evaluate took " + time + " ticks to execute." ); 
+			CF_Log.Info( "CF_Expression::Evaluate took " + time + " ticks to execute." ); 
 		
 		return num;
 	}
@@ -266,6 +275,9 @@ class CF_Expression
 		return _ToRPN();
 	}
 	
+	/**
+	 * @note Test function
+	 */
 	string ToRPN( bool test )
 	{
 		int start = TickCount( 0 );
@@ -273,7 +285,7 @@ class CF_Expression
 		string rpn = _ToRPN();
 		
 		int time = TickCount( start );
-		Print( "CF_Expression::ToRPN took " + time + " ticks to execute." ); 
+		CF_Log.Info( "CF_Expression::ToRPN took " + time + " ticks to execute." ); 
 		
 		return rpn;
 	}

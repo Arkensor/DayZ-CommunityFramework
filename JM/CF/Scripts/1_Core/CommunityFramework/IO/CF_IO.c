@@ -34,7 +34,7 @@ class CF_IO : Managed
 	 */
 	void WriteByte(CF_Byte value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -42,7 +42,7 @@ class CF_IO : Managed
 	 */
 	void WriteChar(string value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -50,7 +50,7 @@ class CF_IO : Managed
 	 */
 	void WriteBool(bool value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -58,7 +58,7 @@ class CF_IO : Managed
 	 */
 	void WriteShort(int value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -66,7 +66,7 @@ class CF_IO : Managed
 	 */
 	void WriteInt(int value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -74,7 +74,7 @@ class CF_IO : Managed
 	 */
 	void WriteFloat(float value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -82,7 +82,7 @@ class CF_IO : Managed
 	 */
 	void WriteVector(vector value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -90,7 +90,7 @@ class CF_IO : Managed
 	 */
 	void WriteString(string value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -98,7 +98,7 @@ class CF_IO : Managed
 	 */
 	void WriteLine(string value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -106,7 +106,7 @@ class CF_IO : Managed
 	 */
 	void WriteCString(string value)
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
@@ -114,7 +114,7 @@ class CF_IO : Managed
 	 */
 	CF_Byte ReadByte()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return 0;
 	}
 
@@ -123,7 +123,7 @@ class CF_IO : Managed
 	 */
 	string ReadChar()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return "";
 	}
 
@@ -132,7 +132,7 @@ class CF_IO : Managed
 	 */
 	bool ReadBool()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return false;
 	}
 
@@ -141,7 +141,7 @@ class CF_IO : Managed
 	 */
 	int ReadShort()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return 0;
 	}
 
@@ -150,7 +150,7 @@ class CF_IO : Managed
 	 */
 	int ReadInt()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return 0;
 	}
 
@@ -159,7 +159,7 @@ class CF_IO : Managed
 	 */
 	float ReadFloat()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return 0;
 	}
 
@@ -168,7 +168,7 @@ class CF_IO : Managed
 	 */
 	vector ReadVector()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return "0 0 0";
 	}
 
@@ -177,7 +177,7 @@ class CF_IO : Managed
 	 */
 	string ReadString()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return "";
 	}
 
@@ -186,7 +186,7 @@ class CF_IO : Managed
 	 */
 	string ReadLine()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return "";
 	}
 
@@ -195,7 +195,7 @@ class CF_IO : Managed
 	 */
 	string ReadCString()
 	{
-		/*CF.Log.*/Error("Not implemented.");
+		CF_Log.Error("Not implemented.");
 		return "";
 	}
 

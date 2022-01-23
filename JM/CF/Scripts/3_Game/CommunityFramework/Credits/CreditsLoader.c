@@ -25,24 +25,22 @@ modded class CreditsLoader
 {
 	override static JsonDataCredits GetData()
 	{
-		#ifdef CF_TRACE_ENABLED
+#ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0("JsonDataCredits", "GetData");
-		#endif
+#endif
 
 		JsonDataCredits data = new JsonDataCredits;
 		data.Departments = new array<ref JsonDataCreditsDepartment>;
 
 		// get all mods
 		array<ref ModStructure> mods = ModLoader.GetMods();
-		foreach ( auto mod: mods )
+		foreach (auto mod : mods)
 		{
-			if ( mod.GetCredits() == NULL ) 
-			{
-				continue;
-			}
+			if (!mod.GetCredits()) continue;
 
-			foreach ( auto department: mod.GetCredits().Departments ) {
-				data.Departments.Insert( department );
+			foreach (auto department : mod.GetCredits().Departments)
+			{
+				data.Departments.Insert(department);
 			}
 		}
 
@@ -55,10 +53,11 @@ modded class CreditsLoader
 		// Append DayZ Game Credits
 		JsonDataCredits dayzCreditsData;
 		JsonFileLoader<ref JsonDataCredits>.JsonLoadFile(JSON_FILE_PATH, dayzCreditsData);
-		foreach(auto b: dayzCreditsData.Departments) {
+		foreach (auto b : dayzCreditsData.Departments)
+		{
 			data.Departments.Insert(b);
 		};
-		
+
 		return data;
 	}
-}
+};

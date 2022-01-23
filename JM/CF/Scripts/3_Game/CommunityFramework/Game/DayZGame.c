@@ -22,6 +22,13 @@ modded class DayZGame
 		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
 #endif
 
+		if (rpc_type == RPCManager.FRAMEWORK_RPC_ID)
+		{
+			GetRPCManager().OnRPC(sender, target, rpc_type, ctx);
+
+			return;
+		}
+
 		if (rpc_type == NotificationSystemRPC.Create)
 		{
 			NotificationSystem.RPC_CreateNotification(sender, target, ctx);

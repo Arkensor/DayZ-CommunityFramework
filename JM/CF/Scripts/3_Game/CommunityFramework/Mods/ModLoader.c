@@ -123,16 +123,17 @@ modded class ModLoader
 
 	override static void LoadMods()
 	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("ModLoader", "LoadMods");
-#endif
-
 		if (m_Loaded)
 		{
 			return;
 		}
 
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0("ModLoader", "LoadMods");
+#endif
+
 		m_Mods = new array<ref ModStructure>;
+		m_Loaded = true;
 
 		int modCount = GetGame().ConfigGetChildrenCount("CfgMods");
 		for (int i = 2; i < modCount; i++)
@@ -182,9 +183,5 @@ modded class ModLoader
 				}
 			}
 		}
-
-		m_Mods.Debug();
-
-		m_Loaded = true;
 	}
 };

@@ -115,7 +115,7 @@ class ConfigReader : Managed
 		{
 			if ( EOF() )
 			{
-				Error( "Unexpected end of file while parsing XML comment!" );
+				CF_Log.Error( "Unexpected end of file while parsing XML comment!" );
 				break;
 			}
 
@@ -277,11 +277,11 @@ class ConfigReader : Managed
 
 	void Error( string msg )
 	{
-		Print( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] ERROR: " + msg );
+		CF_Log.Error( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
 	}
 
 	void Warning( string msg )
 	{
-		Print( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] WARNING: " + msg );
+		CF_Log.Warn( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
 	}
 };

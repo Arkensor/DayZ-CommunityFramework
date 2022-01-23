@@ -476,7 +476,7 @@ class CF_Date : Managed
 		}
 		else
 		{
-			Error("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!");
+			CF_Log.Error("Invalid SetMonth: " + month + ". Expected a value between 1 and 12!");
 		}
 	}
 
@@ -495,7 +495,7 @@ class CF_Date : Managed
 		}
 		else
 		{
-			Error("Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[m_Month - 1] + "!");
+			CF_Log.Error("Invalid SetDay: " + day + ". Expected a value between 1 and " + DAYS_IN_MONTH[m_Month - 1] + "!");
 		}
 	}
 
@@ -507,7 +507,7 @@ class CF_Date : Managed
 		}
 		else
 		{
-			Error("Invalid SetHours: " + hours + ". Expected a value between 0 and 23!");
+			CF_Log.Error("Invalid SetHours: " + hours + ". Expected a value between 0 and 23!");
 		}
 	}
 
@@ -519,7 +519,7 @@ class CF_Date : Managed
 		}
 		else
 		{
-			Error("Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!");
+			CF_Log.Error("Invalid SetMinutes: " + minutes + ". Expected a value between 0 and 59!");
 		}
 	}
 
@@ -531,7 +531,7 @@ class CF_Date : Managed
 		}
 		else
 		{
-			Error("Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!");
+			CF_Log.Error("Invalid SetSeconds: " + seconds + ". Expected a value between 0 and 59!");
 		}
 	}
 };

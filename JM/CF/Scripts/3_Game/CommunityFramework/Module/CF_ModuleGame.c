@@ -28,6 +28,14 @@ class CF_ModuleGame : CF_ModuleCore
 
 		EnableUpdateInput();
 	}
+
+	/**
+	 * @brief Registers functions into legacy RPCFramework
+	 */
+	void AddLegacyRPC(string funcName, int singlePlayerExecType = SingleplayerExecutionType.Server)
+	{
+		GetRPCManager().AddRPC(ClassName(), funcName, this, singlePlayerExecType);
+	}
 	
 	/**
 	 * @note Only call in 'OnInit'
