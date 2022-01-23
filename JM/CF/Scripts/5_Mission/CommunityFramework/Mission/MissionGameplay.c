@@ -1,29 +1,5 @@
 modded class MissionGameplay
 {
-	protected bool m_bLoaded;
-
-	void MissionGameplay()
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "MissionGameplay");
-#endif
-
-		m_bLoaded = false;
-	}
-
-	void ~MissionGameplay()
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~MissionGameplay");
-#endif
-
-	}
-
-	override void OnInit()
-	{
-		super.OnInit();
-	}
-
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
@@ -39,21 +15,17 @@ modded class MissionGameplay
 		CF_ModuleCoreManager.OnMissionFinish(this, new CF_EventArgs);
 	}
 
-	void OnMissionLoaded()
+	override void OnMissionLoaded()
 	{
+		super.OnMissionLoaded();
+
 		CF_ModuleCoreManager.OnMissionLoaded(this, new CF_EventArgs);
 	}
 
 	override void OnUpdate( float timeslice )
 	{
-		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
-		{
-			m_bLoaded = true;
-			OnMissionLoaded();
-		}
+		CF_OnUpdate(timeslice);
 		
 		super.OnUpdate( timeslice );
-
-		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
 	}	
-}
+};

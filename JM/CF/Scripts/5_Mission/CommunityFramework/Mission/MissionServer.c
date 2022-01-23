@@ -1,24 +1,8 @@
 modded class MissionServer
 {
-	protected bool m_bLoaded;
-
 	void MissionServer()
 	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "MissionServer");
-#endif
-
-		m_bLoaded = false;
-
 		GetRPCManager().AddRPC( "CF", "RecieveModList", this, SingeplayerExecutionType.Server );
-	}
-
-	void ~MissionServer()
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~MissionServer");
-#endif
-
 	}
 
 	override void OnEvent( EventType eventTypeId, Param params ) 
@@ -60,22 +44,18 @@ modded class MissionServer
 		CF_ModuleCoreManager.OnMissionFinish(this, new CF_EventArgs);
 	}
 
-	void OnMissionLoaded()
+	override void OnMissionLoaded()
 	{
+		super.OnMissionLoaded();
+
 		CF_ModuleCoreManager.OnMissionLoaded(this, new CF_EventArgs);
 	}
 
 	override void OnUpdate( float timeslice )
 	{
-		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
-		{
-			m_bLoaded = true;
-			OnMissionLoaded();
-		}
-		
-		super.OnUpdate( timeslice );
+		CF_OnUpdate(timeslice);
 
-		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
+		super.OnUpdate( timeslice );
 	}
 
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
@@ -166,4 +146,4 @@ modded class MissionServer
 		// must call before vanilla
 		super.OnClientPrepareEvent(identity, useDB, pos, yaw, preloadTimeout);
 	}
-}
+};
