@@ -87,23 +87,17 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		CF_ModStorageMap loadedMods();
 
-		int modsRead;
 		int unloadedModsRead;
-		while (modsRead < numMods)
+		for (int modsRead = 0; modsRead < numMods; modsRead++)
 		{
-			modsRead++;
-
-			CF_ModStorage storage;
-			if (ModLoader._CF_ReadModStorage(ctx, cf_version, storage))
+			if (!ModLoader._CF_ReadModStorage(ctx, cf_version, m_UnloadedMods, unloadedModsRead, loadedMods))
 			{
-				loadedMods.Insert(storage.GetMod().GetName(), storage);
+				int b1, b2, b3, b4;
+				m_Entity.GetPersistentID(b1, b2, b3, b4);
 
-				// Mod is loaded, we have copied the stream to the storage
-				continue;
+				CF_Log.Error("Failed to read modstorage for entity ID=(%0 %1 %2 %3), Type=%5, Position=%6", b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), m_Entity.GetType(), m_Entity.GetPosition().ToString());
+				return false;
 			}
-			
-			m_UnloadedMods[unloadedModsRead] = storage;
-			unloadedModsRead++;
 		}
 		
 		m_UnloadedMods.Resize(unloadedModsRead);
