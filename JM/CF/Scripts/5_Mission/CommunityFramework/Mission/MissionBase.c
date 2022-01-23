@@ -1,6 +1,6 @@
 modded class MissionBase
 {
-	protected bool m_CF_MissionLoaded = false;
+	protected bool m_bLoaded = false;
 	
 	void MissionBase()
 	{
@@ -24,9 +24,9 @@ modded class MissionBase
 			return;
 		}
 
-		if (!m_CF_MissionLoaded)
+		if (!m_bLoaded)
 		{
-			m_CF_MissionLoaded = true;
+			m_bLoaded = true;
 			OnMissionLoaded();
 		}
 
