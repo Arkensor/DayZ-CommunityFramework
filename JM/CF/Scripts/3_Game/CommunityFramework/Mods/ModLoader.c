@@ -29,7 +29,7 @@ modded class ModLoader
 		return s_CF_ModStorageMap.Contains(name);
 	}
 
-	static bool _CF_ReadModStorage(Serializer ctx, int version, out CF_ModStorage storage)
+	static bool _CF_ReadModStorage(Serializer ctx, int version, inout array<ref CF_ModStorage> unloadedMods, inout int stackIndex, inout CF_ModStorageMap loadedMods)
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_2("ModLoader", "_CF_ReadModStorage").Add(ctx).Add(version);
@@ -38,25 +38,24 @@ modded class ModLoader
 		LoadMods();
 
 		int hashA, hashB;
+		bool exists = false;
+		CF_ModStorage storage;
+
 		if (version > 3)
 		{
-			ctx.Read(hashA);
-			ctx.Read(hashB);
+			if (!ctx.Read(hashA)) return false;
+			if (!ctx.Read(hashB)) return false;
 		}
 		else
 		{
 			CF_String modName;
-			ctx.Read(modName);
+			if (!ctx.Read(modName)) return false;
 
 			hashA = modName.Hash();
 			hashB = modName.Reverse().Hash();
 		}
 
-		int modVersion;
-		ctx.Read(modVersion);
-
 		auto hash = s_CF_ModStorageHashedMap[hashA];
-		bool exists = false;
 		if (hash)
 		{
 			storage = hash[hashB];
@@ -71,10 +70,20 @@ modded class ModLoader
 			storage.m_HashB = hashB;
 		}
 
-		storage.m_Version = modVersion;
-		ctx.Read(storage.m_Data);
+		if (!ctx.Read(storage.m_Version)) return false;
+		if (!ctx.Read(storage.m_Data)) return false;
 
-		return exists;
+		if (exists)
+		{
+			loadedMods.Insert(storage.GetMod().GetName(), storage);
+		}
+		else
+		{
+			unloadedMods[stackIndex] = storage;
+			stackIndex++;
+		}
+
+		return true;
 	}
 
 	static ModStructure Get(string name)
