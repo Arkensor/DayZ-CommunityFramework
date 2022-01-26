@@ -83,11 +83,11 @@ modded class Weapon_Base
 	}
 
 	/**
-	 * @brief Attaches a magazine to the weapon, fills up the internal magazine and chamber for all muzzle points
+	 * @brief Attaches a magazine to the weapon, fills up the internal magazine and chamber for all muzzle points.
 	 * 
 	 * @param magazine The magazine to be attached
 	 * 
-	 * @return true if operation successful
+	 * @return True if operation successful
 	 */
 	bool CF_AttachMagazine(Magazine_Base magazine)
 	{
@@ -160,6 +160,11 @@ modded class Weapon_Base
 		}
 
 		return true;
+	}
+
+	WeaponFSM CF_GetFSM()
+	{
+		return m_fsm;
 	}
 
 	void CF_SyncSelectionState(WeaponStableState state)
