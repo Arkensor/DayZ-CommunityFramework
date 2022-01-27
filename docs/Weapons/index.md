@@ -18,9 +18,9 @@ bool CF_SpawnMagazine(string magazineType, int quantity = -1, float health = 1)
 
 ### Parameters
 
-`magazineType` The class type of the magazine, must inherit from Magazine_Base
-`quantity` The amount of ammunition in the stack/magazine, -1 for max
-`health` The normalized health value, 0 is ruined, 1 is max health 
+`magazineType` The class type of the magazine, must inherit from Magazine_Base  
+`quantity` The amount of ammunition in the stack/magazine, -1 for max  
+`health` The normalized health value, 0 is ruined, 1 is max health  
 
 ### Return
 
@@ -51,7 +51,7 @@ bool CF_AttachMagazine(Magazine_Base magazine)
 
 ### Parameters
 
-`magazine` The magazine to be attached
+`magazine` The magazine to be attached 
 
 ### Return
 
@@ -87,7 +87,7 @@ bool CF_FindBestStableState()
 
 ### Parameters
 
-`magazine` The magazine to be attached
+`magazine` The magazine to be attached  
 
 ### Return
 
