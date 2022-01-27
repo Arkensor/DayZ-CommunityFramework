@@ -1,27 +1,10 @@
 # Table Of Contents
 
-- [CF_Directory](#cf-directory)
-  * [GetFiles](#getfiles)
-  * [CreateDirectory](#createdirectory)
-- [CF_Path](#cf-path)
-  * [GetDirectoryName](#getdirectoryname)
-  * [GetFileName](#getfilename)
-  * [GetFileNameEx](#getfilenameex)
-  * [GetFileNameWithoutExtension](#getfilenamewithoutextension)
-  * [GetFileNameWithoutExtensionEx](#getfilenamewithoutextensionex)
-  * [GetExtension](#getextension)
-- [CF_File](#cf-file)
-  * [GetFullPath](#getfullpath)
-  * [GetFileName](#getfilename-1)
-  * [GetFileNameWithoutExtension](#getfilenamewithoutextension-1)
-  * [GetExtension](#getextension-1)
-  * [GetDirectory](#getdirectory)
-  * [CreateStream](#createstream)
-  * [Delete](#delete)
-  * [Rename](#rename)
-  * [Move](#move)
-  * [Copy](#copy)
-  * [Copy](#copy-1)
+- [Weapon_Base](#weapon-base)
+  * [CF_SpawnMagazine](#cf-spawnmagazine)
+  * [CF_AttachMagazine](#cf-attachmagazine)
+- [WeaponFSM](#weaponfsm)
+  * [CF_FindBestStableState](#cf-findbeststablestate)
 
 # Weapon_Base
 
