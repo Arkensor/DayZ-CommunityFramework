@@ -8,25 +8,91 @@ class CF_ModuleGame : CF_ModuleCore
 	int m_CF_RPC_Minimum;
 	int m_CF_RPC_Maximum;
 
+	/**
+	 * @brief Binds a module function to an input
+	 * 
+	 * @param callback The function within 'm_Instance' to call
+	 * @param input The name of the input
+	 * @param preventCallInMenu If the binding can be called while a menu is open
+	 * 
+	 * @code
+	 *	override void OnInit()
+	 *	{
+	 *		super.OnInit();
+	 * 
+	 *		Bind("Close", "UAUIBack", false);
+	 *	};
+	 * @endcode
+	 */
 	void Bind(string function, string input, bool limitMenu = false)
 	{
 		m_CF_Bindings.Bind(function, input, limitMenu);
-
-		EnableUpdateInput();
 	}
 
+	/**
+	 * @brief Binds a module function to an input
+	 * 
+	 * @param callback The function within 'm_Instance' to call
+	 * @param input The ID of the input. All inputs found within modded inputs is generated as a global int variable of the same name.
+	 * @param preventCallInMenu If the binding can be called while a menu is open
+	 * 
+	 * @code
+	 *	override void OnInit()
+	 *	{
+	 *		super.OnInit();
+	 * 
+	 *		Bind("Close", UAUIBack, false);
+	 *	};
+	 * @endcode
+	 */
+	void Bind(string function, int input, bool limitMenu = false)
+	{
+		m_CF_Bindings.Bind(function, input, limitMenu);
+	}
+
+	/**
+	 * @brief Binds a module function to an input
+	 * 
+	 * @param callback The function within 'm_Instance' to call
+	 * @param input The name of the input
+	 * @param preventCallInMenu If the binding can be called while a menu is open
+	 * 
+	 * @code
+	 *	override void OnInit()
+	 *	{
+	 *		super.OnInit();
+	 * 
+	 *		Bind("Close", "UAUIBack", false);
+	 *	};
+	 * @endcode
+	 */
 	void Bind(string function, UAInput input, bool limitMenu = false)
 	{
 		m_CF_Bindings.Bind(function, input, limitMenu);
-
-		EnableUpdateInput();
 	}
 
+	/**
+	 * @brief Binds a module function to an input
+	 * 
+	 * @param binding The instance of the binding to add to the list
+	 * 
+	 * @code
+	 *	override void OnInit()
+	 *	{
+	 *		super.OnInit();
+	 * 
+	 *		CF_InputBinding binding = new CF_InputBinding();
+	 *		binding.m_Function = "Close";
+	 *		binding.m_Input = GetUApi().GetInputByID(UAUIBack);
+	 *		binding.m_LimitMenu = false;
+	 *		
+	 *		Bind(binding);
+	 *	};
+	 * @endcode
+	 */
 	void Bind(CF_InputBinding binding)
 	{
 		m_CF_Bindings.Bind(binding);
-
-		EnableUpdateInput();
 	}
 
 	/**
@@ -91,10 +157,10 @@ class CF_ModuleGame : CF_ModuleCore
 		CF_ModuleGameManager.s_RPC.Add(this);
 	}
 
-	void EnableUpdateInput()
-	{
-		CF_ModuleGameManager.s_UpdateInput.Add(this);
-	}
+	/**
+	 * @deprecated
+	 */
+	void EnableUpdateInput();
 
 	void OnRPC(Class sender, CF_EventArgs args);
 

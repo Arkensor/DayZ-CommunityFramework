@@ -82,7 +82,6 @@ class SomeModule : CF_ModuleWorld
 };
 ```
 
-
 ## Variables
 
 Similiar to what is found in [EntityAI](https://github.com/Thurston00/DayZSAEnfScript/blob/8b13d29719fb597de74057ecd4de80ef69e1dfb5/scripts/3_Game/Entities/EntityAI.c#L1747), modules can contain variables that can be synchronized over the network from the server to every client.

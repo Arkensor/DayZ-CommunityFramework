@@ -16,6 +16,16 @@ modded class DayZGame
 		GetRPCManager();
 	}
 
+	override void OnUpdate(bool doSim, float timeslice)
+	{
+		super.OnUpdate(doSim, timeslice);
+
+		foreach (auto input : CF_InputBindings.s_All)
+		{
+			input.Update(timeslice);
+		}
+	}
+
 	override void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
 	{
 #ifdef CF_TRACE_ENABLED
