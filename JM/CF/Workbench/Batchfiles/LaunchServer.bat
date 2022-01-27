@@ -87,6 +87,10 @@ for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModBui
 	set modBuildDirectory=%%a
 )
 
+for /F "Tokens=2* skip=2" %%A In ('REG QUERY "HKLM\SOFTWARE\Wow6432Node\Bohemia Interactive\Dayz" /v "main" 2^>nul') do (
+    set "WORKSHOPPATH=%%B\!Workshop\"
+)
+
 setlocal enableextensions enabledelayedexpansion
 
 echo ClientLaunchParams is: "%clientLaunchParams%"
@@ -131,7 +135,7 @@ if "%mods%"=="" (
     
     set mods=%modName%
 ) else (
-    set mods=%mods%;%modName%
+    set mods=%modName%;%mods%
 )
 
 echo Port is: "%port%"
@@ -179,17 +183,23 @@ if "%modBuildDirectory%"=="" (
 	echo ModBuildDirectory parameter was not set in the project.cfg
 )
 
+set "modList="
 for %%a in ("%mods:;=" "%") do (
-    set mod=%%~a
-    if not defined modList (
-        set modList=%modBuildDirectory%!mod!
-    ) else (
-        set modList=!modList!;%modBuildDirectory%!mod!
+    if exist "!WORKSHOPPATH!%%~a" (
+        set "mod=!WORKSHOPPATH!%%~a"
     )
+
+    if exist "%modBuildDirectory%%%~a" (
+        set "mod=%modBuildDirectory%%%~a"
+    )
+
+    set "modList=!modList!;!mod!"
 )
 
 chdir /d "%serverDirectory%"
-echo start %serverEXE% %serverLaunchParams% "-config=%serverConfig%" "%port%" "-profiles=%serverProfileDirectory%" -dologs -adminlog -freezecheck "-scriptDebug=true" "-cpuCount=4" "-mission=%mission%" "-mod=%modList%"
-start %serverEXE% %serverLaunchParams% "-config=%serverConfig%" "%port%" "-profiles=%serverProfileDirectory%" -dologs -adminlog -freezecheck "-scriptDebug=true" "-cpuCount=4" "-mission=%mission%" "-mod=%modList%"
+echo start %serverEXE% %serverLaunchParams% "-config=%serverConfig%" "%port%" "-profiles=%serverProfileDirectory%" -dologs -adminlog -freezecheck "-scriptDebug=true" "-cpuCount=4" "-mission=%mission%" "-mod=!modList!"
+start %serverEXE% %serverLaunchParams% "-config=%serverConfig%" "%port%" "-profiles=%serverProfileDirectory%" -dologs -adminlog -freezecheck "-scriptDebug=true" "-cpuCount=4" "-mission=%mission%" "-mod=!modList!"
 
-TIMEOUT /T 5 /NOBREAK
+endlocal
+
+cd /D "%~dp0"
