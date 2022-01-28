@@ -1,9 +1,9 @@
 modded class WeaponFSM
 {
 	/**
-	 * @brief Finds the best stable state that matches the weapon
+	 * @brief Finds the best stable state that matches the weapon.
 	 * 
-	 * @return true if repair was succesfull
+	 * @return True if the repair was successful
 	 */
 	bool CF_FindBestStableState()
 	{

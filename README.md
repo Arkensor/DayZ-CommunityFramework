@@ -19,6 +19,7 @@ This is a Community framework for DayZ SA.
 * [Streams](docs/Streams/index.md)
 * [Surface](docs/Surface/index.md)
 * [Type Converters](docs/TypeConverters/index.md)
+* [Weapons](docs/Weapons/index.md)
 
 ## Contributors
 
