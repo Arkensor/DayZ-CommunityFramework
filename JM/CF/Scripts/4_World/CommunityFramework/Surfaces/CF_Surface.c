@@ -49,7 +49,7 @@ class CF_Surface
 	/**
 	 * @brief Private constructor to prevent from marking as ref
 	 */
-	private void ~CF_Surface()
+	/*private*/ void ~CF_Surface()
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_Surface");
