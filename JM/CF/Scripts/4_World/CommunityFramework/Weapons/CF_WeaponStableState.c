@@ -23,4 +23,12 @@ class CF_WeaponStableState : WeaponStableState
 	{
 		return m_CF_IsJammed;
 	}
+
+	/**
+	 * @brief Prevents default validation. 'm_muzzleHasBullet' is setup in 'WeaponFSM::CF_FindBestStableState' only.
+	 */
+	override void ValidateMuzzleArray()
+	{
+		return;
+	}
 };
