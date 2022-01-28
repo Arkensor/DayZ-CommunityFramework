@@ -20,9 +20,12 @@ modded class DayZGame
 	{
 		super.OnUpdate(doSim, timeslice);
 
-		foreach (auto input : CF_InputBindings.s_All)
+		if (!GetGame().IsDedicatedServer())
 		{
-			input.Update(timeslice);
+			foreach (auto input : CF_InputBindings.s_All)
+			{
+				input.Update(timeslice);
+			}
 		}
 	}
 
