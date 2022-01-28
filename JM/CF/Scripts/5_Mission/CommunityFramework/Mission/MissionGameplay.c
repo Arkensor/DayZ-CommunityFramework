@@ -27,5 +27,5 @@ modded class MissionGameplay
 		CF_OnUpdate(timeslice);
 		
 		super.OnUpdate( timeslice );
-	}	
+	}
 };

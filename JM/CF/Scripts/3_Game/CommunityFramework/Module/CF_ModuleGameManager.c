@@ -1,7 +1,6 @@
 class CF_ModuleGameManager
 {
 	static ref CF_ModuleGameEvent s_RPC = new CF_ModuleGameEvent();
-	static ref CF_ModuleGameEvent s_UpdateInput = new CF_ModuleGameEvent();
 
 	/**
 	 * @brief Updates the flag for event calling. So server side modules don't get the event called on client and same for client side on server.
@@ -39,11 +38,5 @@ class CF_ModuleGameManager
 		UpdateGameFlag();
 
 		CF_ModuleCoreManager.s_Update.OnUpdate(sender, args);
-
-		// Don't allow input if we are editing an edit box or we are the server
-		if (!GetGame().IsDedicatedServer() && !GetDayZGame().CF_UIInputBlocked())
-		{
-			s_UpdateInput.UpdateGameEventInputs(CF_EventUpdateArgs.Cast(args).DeltaTime);
-		}
 	}
 };

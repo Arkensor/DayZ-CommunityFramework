@@ -9,6 +9,7 @@ This is a Community framework for DayZ SA.
 * [Event Handlers](docs/EventHandler/index.md)
 * [ExpressionVM](docs/ExpressionVM/index.md)
 * [File](docs/File/index.md)
+* [Input Bindings](docs/InputBindings/index.md)
 * [Lifecycle Events](docs/LifecycleEvents/index.md)
 * [Localiser](docs/Localiser/index.md)
 * [Logging](docs/Logging/index.md)
