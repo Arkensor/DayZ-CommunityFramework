@@ -22,6 +22,7 @@ modded class WeaponFSM
 		}
 
 		CF_WeaponStableState comparingState = new CF_WeaponStableState();
+		comparingState.m_muzzleHasBullet.Clear();
 
 		int muzzleCount = weapon.GetMuzzleCount();
 		for (int muzzle = 0; muzzle < muzzleCount; muzzle++)
