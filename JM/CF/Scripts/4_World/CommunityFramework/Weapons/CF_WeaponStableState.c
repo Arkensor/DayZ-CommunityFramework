@@ -27,8 +27,10 @@ class CF_WeaponStableState : WeaponStableState
 	/**
 	 * @brief Prevents default validation. 'm_muzzleHasBullet' is setup in 'WeaponFSM::CF_FindBestStableState' only.
 	 */
+#ifndef DAYZ_1_15
 	override void ValidateMuzzleArray()
 	{
 		return;
 	}
+#endif
 };
