@@ -1,25 +1,11 @@
 modded class MissionGameplay
 {
-	protected bool m_bLoaded;
-
 	void MissionGameplay()
 	{
-		m_bLoaded = false;
-
 		if (GetGame().IsServer())
 		{
 			CF_Debug.SetAllowed(true);
 		}
-	}
-
-	void ~MissionGameplay()
-	{
-        CF._MissionCleanup();
-	}
-
-	override void OnInit()
-	{
-		super.OnInit();
 	}
 
 	override void OnMissionStart()
@@ -46,14 +32,8 @@ modded class MissionGameplay
 
 	override void OnUpdate( float timeslice )
 	{
-		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
-		{
-			m_bLoaded = true;
-			OnMissionLoaded();
-		}
+		CF_OnUpdate(timeslice);
 		
 		super.OnUpdate( timeslice );
-
-		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
-	}	
-}
+	}
+};

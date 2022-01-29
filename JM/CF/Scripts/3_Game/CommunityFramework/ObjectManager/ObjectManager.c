@@ -7,8 +7,19 @@ class CF_ObjectManager_ObjectLink extends OLinkT
 class CF_ObjectManager
 {
     //!Single static instance. Do not create with new or spawn - use CF.ObjectManager for access instead.
-    protected void CF_ObjectManager();
-    protected void ~CF_ObjectManager();
+    protected void CF_ObjectManager()
+    {
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_ObjectManager");
+#endif
+    }
+
+    protected void ~CF_ObjectManager()
+    {
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_ObjectManager");
+#endif
+    }
 
     protected static const int HIDE_OBJECT_AXIS_OFFSET = 10000;
 

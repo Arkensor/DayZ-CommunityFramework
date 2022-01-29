@@ -1,6 +1,6 @@
 class CF_DebugManager : CF_Model
 {
-	private autoptr CF_Map<Class, CF_Debug> m_Instances;
+	private autoptr CF_Map<Class, ref CF_Debug> m_Instances;
 	private bool m_Allowed;
 
 	private string m_InputCombo;
@@ -9,7 +9,7 @@ class CF_DebugManager : CF_Model
 
 	void CF_DebugManager()
 	{
-		m_Instances = new CF_Map<Class, CF_Debug>();
+		m_Instances = new CF_Map<Class, ref CF_Debug>();
 	}
 
 	override string GetLayoutFile()

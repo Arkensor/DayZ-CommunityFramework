@@ -16,7 +16,7 @@ class CF_NetworkedVariables
 
 	string ErrorPrefix()
 	{
-		return "ERROR: (" + m_Instance + ") " + this + "::";
+		return "(" + m_Instance + ") " + this + "::";
 	}
 
 	bool Register(string name)
@@ -24,7 +24,7 @@ class CF_NetworkedVariables
 		// hard limit, no point attempting to sync more variables
 		if (m_Count >= MAX_COUNT)
 		{
-			Error(ErrorPrefix() + "Register('" + name + "') -> More than " + MAX_COUNT + " variables registered, got '" + m_Count + "'");
+			CF_Log.Error(ErrorPrefix() + "Register('" + name + "') -> More than " + MAX_COUNT + " variables registered, got '" + m_Count + "'");
 			return false;
 		}
 
@@ -40,7 +40,7 @@ class CF_NetworkedVariables
 		{
 			if (tokens.Count() >= CF_NetworkVariable.MAX_DEPTH - 1)
 			{
-				Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> Variable depth more than " + (CF_NetworkVariable.MAX_DEPTH - 1) + ", got '" + tokens.Count() + "'");
+				CF_Log.Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> Variable depth more than " + (CF_NetworkVariable.MAX_DEPTH - 1) + ", got '" + tokens.Count() + "'");
 				return false;
 			}
 
@@ -91,7 +91,7 @@ class CF_NetworkedVariables
 
 				if (!variable.m_Converter)
 				{
-					Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> TypeConverter not found for type '" + type + "'");
+					CF_Log.Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> TypeConverter not found for type '" + type + "'");
 					return false;
 				}
 
@@ -112,7 +112,7 @@ class CF_NetworkedVariables
 			}
 		}
 
-		Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> Couldn't find variable '" + variable.m_Name + "'");
+		CF_Log.Error(ErrorPrefix() + "RegisterNetSyncVariable('" + name + "') -> Couldn't find variable '" + variable.m_Name + "'");
 		return false;
 	}
 

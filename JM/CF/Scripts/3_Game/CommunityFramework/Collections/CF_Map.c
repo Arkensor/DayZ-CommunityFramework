@@ -1,7 +1,7 @@
 class CF_Map<Class TKey, Class TValue> : CF_Collection
 {
-	private ref map<ref TKey, int> m_DataMap = new map<ref TKey, int>();
-	private ref array<ref TKey> m_Keys = new array<ref TKey>();
+	private ref map<TKey, int> m_DataMap = new map<TKey, int>();
+	private ref array<TKey> m_Keys = new array<TKey>();
 	private ref array<ref TValue> m_Values = new array<ref TValue>();
 	private TValue m_NullValue;
 

@@ -38,7 +38,7 @@ class ConfigClass : ConfigEntry
 		return _base;
 	}
 
-	private ref ConfigClass SetBase( string name )
+	private ConfigClass SetBase( string name )
 	{
 		int baseIndex = _parent.FindIndex( name );
 		int thisIndex = _parent.FindIndex( _name );
@@ -67,13 +67,13 @@ class ConfigClass : ConfigEntry
 		return NULL;
 	}
 
-	ref ConfigEntry Find( string name, bool checkParent, bool checkBase )
+	ConfigEntry Find( string name, bool checkParent, bool checkBase )
 	{
 		int idx = FindIndex( name, true );
 		if ( idx >= 0 )
 			return _entries[idx];
 
-		ref ConfigEntry entry = NULL;
+		ConfigEntry entry = NULL;
 
 		if ( checkBase && _base != NULL )
 		{
@@ -92,7 +92,7 @@ class ConfigClass : ConfigEntry
 		return NULL;
 	}
 
-	override bool Parse( ref ConfigReader reader, ref ConfigFile file )
+	override bool Parse( ConfigReader reader, ConfigFile file )
 	{
 		for ( int vpp = 0; vpp < 100; vpp++ )
 		{

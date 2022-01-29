@@ -5,6 +5,8 @@ class CF_MVVM
 	//! Do not directly use this variable, interface with the functions..
 	/*private*/ static ref map<CF_ModelBase, ref CF_MVVM_Linker> s_ModelMap;
 
+	static const int MVVM_UI_MENU_ID = 10042;
+
 	static ref array<ref CF_MVVM_Linker> s_Destroying;
 
 #ifdef COMPONENT_SYSTEM
@@ -310,7 +312,7 @@ class CF_MVVM
 			return null;
 
 		CF_MVVM_Menu menu;
-		if (!Class.CastTo(menu, GetGame().GetUIManager().EnterScriptedMenu(__Constants.CF_MVVM_MENU, null)))
+		if (!Class.CastTo(menu, GetGame().GetUIManager().EnterScriptedMenu(CF_MVVM.MVVM_UI_MENU_ID, null)))
 			return null;
 
 		menu.SetModel(model, layoutFile);

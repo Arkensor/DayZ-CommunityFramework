@@ -19,14 +19,22 @@ class CF_VehicleSurface
 	 */
 	private void CF_VehicleSurface()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_VehicleSurface");
+#endif
+
 		s_VehicleSurfaces[s_LastSurface] = this;
 	}
 	
 	/**
 	 * @brief Private constructor to prevent from marking as ref
 	 */
-	private void ~CF_VehicleSurface()
+	/*private*/ void ~CF_VehicleSurface()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_VehicleSurface");
+#endif
+
 	}
 
 	/**
@@ -38,6 +46,10 @@ class CF_VehicleSurface
 	 */
 	static CF_VehicleSurface Get(string name)
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1("CF_VehicleSurface", "Get").Add(name);
+#endif
+
 		auto surf = s_VehicleSurfaces[name];
 		if (!surf)
 		{

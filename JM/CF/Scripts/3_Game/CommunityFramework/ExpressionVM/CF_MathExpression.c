@@ -140,7 +140,7 @@ class CF_MathExpression : CF_Expression
 		{
 			compileToken = stack.Pop();
 			if ( !CF_ExpressionVM.Contains( compileToken.token ) )
-				Error( "No matching right parenthesis" );
+				CF_Log.Error( "No matching right parenthesis" );
 			
 			if (CF_ExpressionVM.Find( compileToken.token, funcDef ))
 			{

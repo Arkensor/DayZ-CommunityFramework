@@ -14,11 +14,19 @@ class CF_TypeConverter
 #endif
 	}
 
+	void ~CF_TypeConverter()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_TypeConverter");
+#endif
+	}
+
 	static void _OnCreate()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("Create");
+		auto trace = CF_Trace_0("CF_TypeConverter", "_OnCreate");
 #endif
+
 
 		_OnDestroy();
 
@@ -33,7 +41,7 @@ class CF_TypeConverter
 	static void _OnDestroy()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("Create");
+		auto trace = CF_Trace_0("CF_TypeConverter", "_OnDestroy");
 #endif
 
 		m_TypeConvertersMap.Clear();

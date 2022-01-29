@@ -1,7 +1,5 @@
 CGame CF_CreateGame()
 {
-	Print("CF_CreateGame()");
-
 	CF_Log.Level = CF_LogLevel.TRACE;
 
 	g_Game = new DayZGame;
@@ -9,26 +7,11 @@ CGame CF_CreateGame()
 	return g_Game;
 }
 
-void CF_CreateWorld()
-{
-	Print("CF_CreateWorld()");
-	CF._WorldInit();
-}
-
-void CF_TestFunction()
-{
-}
-
 typedef CommunityFramework CF;
-
-class CommunityFramework
+class CommunityFramework : ModStructure
 {
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
-
-	#ifdef CF_MODULE_PERMISSIONS
-	static ref CF_Permission_ManagerBase Permission;
-	#endif
 
     static DayZGame Game()
     {
@@ -63,18 +46,6 @@ class CommunityFramework
         CF_Windows._Init();
 	}
 
-    /**
-     * @brief [Internal] CommunityFramework initilization for 4_World
-     *
-     * @return void
-     */
-	static void _WorldInit()
-	{
-		#ifdef CF_MODULE_PERMISSIONS
-		CF_Permission_ManagerBase._Init( Permission );
-		#endif
-	}
-
     static void _MissionInit()
     {
         CF_Windows._MissionInit();
@@ -96,10 +67,6 @@ class CommunityFramework
 		XML._Cleanup();
 
         CF_Windows._Cleanup();
-
-		#ifdef CF_MODULE_PERMISSIONS
-		Permission._Cleanup();
-		#endif
     }
 
     static bool StringToBool(string str)
@@ -110,6 +77,40 @@ class CommunityFramework
         if (str == "false") return false;
         return str.ToInt();
     }
+
+    /**
+     * @brief Checks if the game is host
+     */
+    static bool IsMissionHost()
+    {
+	    if (!g_Game) return false;
+
+	    return g_Game.IsServer() || !g_Game.IsMultiplayer();
+    }
+
+    /**
+     * @brief Checks if the game is client
+     */
+    static bool IsMissionClient()
+    {
+	    if (!g_Game) return false;
+
+	    return g_Game.IsClient() || !g_Game.IsMultiplayer();
+    }
+
+    /**
+     * @brief Checks if the game is singleplayer
+     */
+    static bool IsMissionOffline()
+    {
+	    if (!g_Game) return false;
+
+	    return g_Game.IsServer() && !g_Game.IsMultiplayer();
+    }
+};
+
+class JM_CommunityFramework : CommunityFramework
+{
 };
 
 //--------------------------------------------------------
@@ -331,14 +332,22 @@ static void CF_DumpWidgets( Widget root, int tabs = 0 )
 
 
 
-static void Assert_Log( string str )
+static void Assert_Log( string str, int offset = 1 )
 {
 	Print( "==============================================WARNING=======================================================" );
 	string time = CF_Date.Now( false ).Format( CF_Date.DATETIME );
 	Print( "[WARNING " + time + "] " + str );
 	Print( "Do you see this message? Unless the time is within a second of the crash than this was not the cause." );
+    
+	string dump = "";
+	DumpStackString(dump);
+	array<string> outputs = new array<string>();
+	dump.Split("\n", outputs);
 
-	DumpStack();
+	for (int i = offset; i < outputs.Count(); i++)
+	{
+		Print("\t" + outputs[i]);
+	}
 
 	Print( "============================================================================================================" );
 }
@@ -350,7 +359,7 @@ static bool Assert_Empty( string str, string message = "" )
 		if ( message != "" )
 			message = ": " + message;
 
-		Assert_Log( "ASSERTION STRING EMPTY" + message );
+		Assert_Log( "ASSERTION STRING EMPTY" + message, 2 );
 		return true;
 	}
 	
@@ -364,7 +373,7 @@ static bool Assert_Null( Class cls, string message = "" )
 		if ( message != "" )
 			message = ": " + message;
 
-		Assert_Log( "ASSERTION NULL" + message );
+		Assert_Log( "ASSERTION NULL" + message, 2 );
 		return true;
 	}
 	
@@ -378,7 +387,7 @@ static bool Assert_False( bool cls, string message = "" )
 		if ( message != "" )
 			message = ": " + message;
 
-		Assert_Log( "ASSERTION FALSE" + message );
+		Assert_Log( "ASSERTION FALSE" + message, 2 );
 		return true;
 	}
 	
@@ -392,7 +401,7 @@ static bool Assert_True( bool cls, string message = "" )
 		if ( message != "" )
 			message = ": " + message;
 
-		Assert_Log( "ASSERTION TRUE" + message );
+		Assert_Log( "ASSERTION TRUE" + message, 2 );
 		return true;
 	}
 	

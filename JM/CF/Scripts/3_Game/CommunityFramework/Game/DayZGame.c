@@ -16,11 +16,31 @@ modded class DayZGame
 		GetRPCManager();
 	}
 
+	override void OnUpdate(bool doSim, float timeslice)
+	{
+		super.OnUpdate(doSim, timeslice);
+
+		if (!GetGame().IsDedicatedServer())
+		{
+			foreach (auto input : CF_InputBindings.s_All)
+			{
+				input.Update(timeslice);
+			}
+		}
+	}
+
 	override void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
 #endif
+
+		if (rpc_type == RPCManager.FRAMEWORK_RPC_ID)
+		{
+			GetRPCManager().OnRPC(sender, target, rpc_type, ctx);
+
+			return;
+		}
 
 		if (rpc_type == NotificationSystemRPC.Create)
 		{

@@ -1,9 +1,9 @@
 modded class WeaponFSM
 {
 	/**
-	 * @brief Finds the best stable state that matches the weapon
+	 * @brief Finds the best stable state that matches the weapon.
 	 * 
-	 * @return true if repair was succesfull
+	 * @return True if the repair was successful
 	 */
 	bool CF_FindBestStableState()
 	{
@@ -22,6 +22,7 @@ modded class WeaponFSM
 		}
 
 		CF_WeaponStableState comparingState = new CF_WeaponStableState();
+		comparingState.m_muzzleHasBullet.Clear();
 
 		int muzzleCount = weapon.GetMuzzleCount();
 		for (int muzzle = 0; muzzle < muzzleCount; muzzle++)

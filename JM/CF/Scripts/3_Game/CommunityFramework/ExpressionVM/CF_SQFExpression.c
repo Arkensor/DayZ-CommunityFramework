@@ -98,7 +98,7 @@ class CF_SQFExpression : CF_Expression
 				}
 
 				if (topToken != "(")
-					Error("No matching left parenthesis");
+					CF_Log.Error("No matching left parenthesis");
 			}
 			else
 			{
@@ -125,7 +125,7 @@ class CF_SQFExpression : CF_Expression
 		{
 			compileToken = stack.Pop();
 			if (!CF_ExpressionVM.Contains(compileToken.token))
-				Error("No matching right parenthesis");
+				CF_Log.Error("No matching right parenthesis");
 
 			if (CF_ExpressionVM.Find(compileToken.token, funcDef))
 			{

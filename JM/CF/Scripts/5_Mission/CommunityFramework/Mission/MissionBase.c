@@ -1,33 +1,28 @@
 modded class MissionBase
 {
+	protected bool m_bLoaded = false;
+	
 	void MissionBase()
 	{
 		CF_ModuleGameManager.UpdateGameFlag();
 
-		CreateDiscordManager();
-		CreateSteamManager();
-
-		if ( !ModuleManagerExists() )
+		// Deprecated
+		if (!ModuleManagerExists())
 		{
-			Print( "Creating ModuleManager" );
-
-			CreateModuleManager( new JMModuleConstructor );
-		} else
-		{
-			Print( "Ignoring creation of ModuleManager" );
+			CreateModuleManager(new JMModuleConstructor());
 		}
 
 		GetRPCManager().AddRPC("CF", "CF_DebugUIState", this, SingeplayerExecutionType.Client);
 	}
 
+	void ~MissionBase()
+	{
+        CF._MissionCleanup();
+	}
+
 	void OnMissionLoaded()
 	{
 		CF._MissionInit();
-	}
-
-	override void OnMissionStart()
-	{
-		super.OnMissionStart();
 	}
 
 	override void OnMissionFinish()
@@ -37,13 +32,29 @@ modded class MissionBase
 		CF._MissionCleanup();
 	}
 
+	void CF_OnUpdate(float timeslice)
+	{
+		if (g_Game.IsLoading())
+		{
+			return;
+		}
+
+		if (!m_bLoaded)
+		{
+			m_bLoaded = true;
+			OnMissionLoaded();
+		}
+
+		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
+	}
+
 	override UIScriptedMenu CreateScriptedMenu(int id)
 	{
 		UIScriptedMenu menu = NULL;
 
 		switch (id)
 		{
-		case __Constants.CF_MVVM_MENU:
+		case CF_MVVM.MVVM_UI_MENU_ID:
 			menu = new CF_MVVM_Menu();
 			break;
 		}

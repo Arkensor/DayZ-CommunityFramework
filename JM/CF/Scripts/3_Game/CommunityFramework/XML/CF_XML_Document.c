@@ -230,14 +230,10 @@ class CF_XML_Document : CF_XML_Element
 
 	private void ThreadWrite(string path)
 	{
-		Print("ThreadWrite");
 		FileHandle handle = OpenFile(path, FileMode.WRITE);
-
-		Print(handle);
 		if (handle != 0)
 		{
 			OnWrite(handle, 0);
-
 			CloseFile(handle);
 		}
 	}

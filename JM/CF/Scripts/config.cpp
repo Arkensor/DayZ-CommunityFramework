@@ -9,12 +9,7 @@ class CfgPatches
 		requiredVersion=0.1;
 		requiredAddons[]=
 		{
-			"DZ_Data",
-
-			//! Community Framework
-			#ifdef CF_MODULE_PERMISSIONS
-			"JM_CF_Permissions",
-			#endif
+			"DZ_Data"
 		};
 	};
 };

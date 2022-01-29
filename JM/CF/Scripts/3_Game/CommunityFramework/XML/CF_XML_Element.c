@@ -2,7 +2,7 @@ typedef CF_XML_Element XMLElement;
 
 class CF_XML_Element : Managed
 {
-	protected autoptr array<ref CF_XML_Tag> _tags;
+	protected autoptr array<autoptr CF_XML_Tag> _tags = new array<autoptr CF_XML_Tag>;
 	
 	protected CF_XML_Tag _parentTag;
 	
@@ -10,18 +10,18 @@ class CF_XML_Element : Managed
 
 	void CF_XML_Element(CF_XML_Tag parent = NULL)
 	{
-		_tags = new array<ref CF_XML_Tag>;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_1(this, "CF_XML_Element").Add(parent);
+#endif
+
 		_parentTag = parent;
 	}
 
 	void ~CF_XML_Element()
 	{
-		for (int i = 0; i < _tags.Count(); ++i)
-		{
-			delete _tags[i];
-		}
-
-		delete _tags;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_XML_Element");
+#endif
 	}
 
 	CF_XML_Element Copy(CF_XML_Tag parent = NULL)
@@ -98,7 +98,7 @@ class CF_XML_Element : Managed
 	{
 		string indent = CF_Indent(level);
 
-		Print(indent + "Tags: count=" + _tags.Count());
+		CF_Log.Info(indent + "Tags: count=" + _tags.Count());
 		for (int i = 0; i < _tags.Count(); ++i)
 		{
 			_tags[i].Debug(level + 1);

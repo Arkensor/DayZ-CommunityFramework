@@ -1,13 +1,11 @@
 modded class MissionServer
 {
-	protected bool m_bLoaded;
-
 	void MissionServer()
 	{
-		m_bLoaded = false;
-
 		bool enabled = GetGame().ServerConfigGetInt("cfDebugUI") != 0;
 		CF_Debug.SetAllowed(enabled);
+
+		GetRPCManager().AddRPC( "CF", "RecieveModList", this, SingeplayerExecutionType.Server );
 	}
 
 	void ~MissionServer()
@@ -83,15 +81,9 @@ modded class MissionServer
 
 	override void OnUpdate( float timeslice )
 	{
-		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
-		{
-			m_bLoaded = true;
-			OnMissionLoaded();
-		}
-		
-		super.OnUpdate( timeslice );
+		CF_OnUpdate(timeslice);
 
-		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
+		super.OnUpdate( timeslice );
 	}
 
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
@@ -182,4 +174,4 @@ modded class MissionServer
 		// must call before vanilla
 		super.OnClientPrepareEvent(identity, useDB, pos, yaw, preloadTimeout);
 	}
-}
+};
