@@ -1088,7 +1088,11 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		}
 
 		if (w != m_Widget || m_ChangeEventFiring)
+		{
+			m_ChangeEventFiring = false;
+			
 			return false;
+		}
 
 		m_ChangeEventFiring = true;
 
@@ -1118,8 +1122,6 @@ class CF_ViewModel : ScriptedWidgetEventHandler
 		{
 			return false;
 		}
-
-		m_ChangeEventFiring = false;
 
 		return OnChange(this, args);
 	}

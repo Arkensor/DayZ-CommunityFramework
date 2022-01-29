@@ -85,4 +85,11 @@ class CF_SliderWidget : CF_UIWidget
 
 		_SliderWidget.SetCurrent(_Current.GetFloat());
 	}
+
+	override bool WhatChanged(out string name, out string variable)
+	{
+		name = "Current";
+		variable = Current;
+		return true;
+	}
 };
