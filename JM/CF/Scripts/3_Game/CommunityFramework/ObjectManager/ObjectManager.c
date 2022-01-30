@@ -7,12 +7,25 @@ class CF_ObjectManager_ObjectLink extends OLinkT
 class CF_ObjectManager
 {
     //!Single static instance. Do not create with new or spawn - use CF.ObjectManager for access instead.
-    protected void CF_ObjectManager();
-    protected void ~CF_ObjectManager();
+    protected void CF_ObjectManager()
+    {
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_ObjectManager");
+#endif
+    }
+
+    protected void ~CF_ObjectManager()
+    {
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_ObjectManager");
+#endif
+    }
 
     protected static const int HIDE_OBJECT_AXIS_OFFSET = 10000;
 
     protected static const ref map<Object, ref CF_ObjectManager_ObjectLink> m_HiddenObjects = new map<Object, ref CF_ObjectManager_ObjectLink>();
+
+    protected static const ref array<ref CF_ObjectManager_ObjectLink> m_HiddenObjectsArray = new array<ref CF_ObjectManager_ObjectLink>();
 
     /**
      * @brief Hides a static map object (Houses, Vegetation, etc.) visually and physically.
@@ -38,10 +51,11 @@ class CF_ObjectManager
         link.flags = object.GetFlags();
         link.eventMask = object.GetEventMask();
 
-        object.ClearFlags( link.flags, true );
-        object.ClearEventMask( link.eventMask );
+        object.ClearFlags(link.flags, true);
+        object.ClearEventMask(link.eventMask);
 
         m_HiddenObjects.Set(object, link);
+        m_HiddenObjectsArray.Insert(link);
 
         vector tm[4];
         object.GetTransform(tm);
@@ -150,6 +164,9 @@ class CF_ObjectManager
         if (!link) return NULL; //Object not known as hidden
 
         m_HiddenObjects.Remove(object);
+        
+        auto arrayIdx = m_HiddenObjectsArray.Find(link);
+        if(arrayIdx >= 0) m_HiddenObjectsArray.Remove(arrayIdx);
 
         vector tm[4];
         object.GetTransform(tm);
@@ -238,18 +255,18 @@ class CF_ObjectManager
      */
 	static array<Object> UnhideAllMapObjects(bool updatePathGraph = true)
 	{
-        array<Object> unhidden();
+	    //Expected result would be all the hidden objects
+	    auto unhidden = GetHiddenMapObjects();
 
-		for (int nObject = 0; nObject < m_HiddenObjects.Count(); nObject++)
-		{
-            auto object = m_HiddenObjects.GetKey(nObject);
-            
+        for(int nObject = 0; nObject < unhidden.Count(); nObject++)
+        {
             //Todo potential improvement -> s. HideMapObjects
-            if (UnhideMapObject(object, updatePathGraph))
+            if (!UnhideMapObject(unhidden[nObject], updatePathGraph))
             {
-                unhidden.Insert(object);
+                //If - for what ever reason - the object was not unhidden, remove it from the result collection.
+                unhidden.RemoveOrdered(nObject--);
             }
-		}
+        }
 
         return unhidden;
 	}
@@ -264,7 +281,14 @@ class CF_ObjectManager
      */
 	static array<Object> GetHiddenMapObjects()
 	{
-        return m_HiddenObjects.GetKeyArray();
+        array<Object> objects();
+        
+        foreach(auto link : m_HiddenObjectsArray)
+        {
+            objects.Insert(link.Ptr());
+        }
+        
+        return objects;
 	}
 
     /**
@@ -278,7 +302,7 @@ class CF_ObjectManager
      */
     static bool IsMapObjectHidden(Object object)
     {
-        return m_HiddenObjects.Contains(object));
+        return m_HiddenObjects.Contains(object);
     }
 
     /**
@@ -296,7 +320,7 @@ class CF_ObjectManager
 
         // Added via p3d in TB with no config.
         // Inherits from House in Cfg class -> Building, House, Wreck, Well, Tree, Bush, etc.
-        return ((object.GetType() == string.Empty) && (object.Type() == Object)) || object.IsKindOf("House") || object.IsTree() || object.IsBush();
+        return ((object.GetType() == string.Empty) && (object.Type() == Object)) || object.IsKindOf("House") || object.IsTree() || object.IsBush() || object.IsRock() || object.IsInherited(Static);
     }
 
     /**
@@ -309,5 +333,8 @@ class CF_ObjectManager
         //Cleanup hidden object allocation
         m_HiddenObjects.Clear();
         delete m_HiddenObjects;
+        
+        m_HiddenObjectsArray.Clear();
+        delete m_HiddenObjectsArray;
     }
 }

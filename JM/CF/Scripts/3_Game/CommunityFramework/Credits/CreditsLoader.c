@@ -25,37 +25,39 @@ modded class CreditsLoader
 {
 	override static JsonDataCredits GetData()
 	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0("JsonDataCredits", "GetData");
+#endif
+
 		JsonDataCredits data = new JsonDataCredits;
 		data.Departments = new array<ref JsonDataCreditsDepartment>;
 
 		// get all mods
 		array<ref ModStructure> mods = ModLoader.GetMods();
-		foreach ( ref ModStructure mod: mods )
+		foreach (auto mod : mods)
 		{
-			if ( mod.GetCredits() == NULL ) 
-			{
-				//GetLogger().Log( "Mod Credits is null for " + mod.GetModName(), "JM_CF_Credits" );
-				continue;
-			}
+			if (!mod.GetCredits()) continue;
 
-			foreach ( auto department: mod.GetCredits().Departments ) {
-				data.Departments.Insert( department );
+			foreach (auto department : mod.GetCredits().Departments)
+			{
+				data.Departments.Insert(department);
 			}
 		}
 
 		// Append DayZ Game Credits Header
-		ref JsonDataCreditsDepartment data_department_header = new JsonDataCreditsDepartment;
+		JsonDataCreditsDepartment data_department_header = new JsonDataCreditsDepartment;
 		data_department_header.Sections = new array<ref JsonDataCreditsSection>;
 		data_department_header.DepartmentName = ("				DayZ Standalone");
 		data.Departments.Insert(data_department_header);
 
 		// Append DayZ Game Credits
-		ref JsonDataCredits dayzCreditsData;
+		JsonDataCredits dayzCreditsData;
 		JsonFileLoader<ref JsonDataCredits>.JsonLoadFile(JSON_FILE_PATH, dayzCreditsData);
-		foreach(auto b: dayzCreditsData.Departments) {
+		foreach (auto b : dayzCreditsData.Departments)
+		{
 			data.Departments.Insert(b);
 		};
-		
+
 		return data;
 	}
-}
+};

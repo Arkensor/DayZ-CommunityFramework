@@ -21,11 +21,7 @@ modded class NotificationSystem
 	 */
 	static void Create( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
 	{
-		//Print("NotificationSystem::Create - Start");
-		
 		CreateNotification( title, text, icon, color, time, sendTo );
-		
-		//Print("NotificationSystem::Create - End");
 	}
 
 	/**
@@ -42,8 +38,6 @@ modded class NotificationSystem
 	 */
 	static void CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
 	{
-		//Print("NotificationSystem::CreateNotification - Start");
-		
 		if ( IsMissionHost() )
 		{
 			ScriptRPC rpc = new ScriptRPC();
@@ -57,8 +51,6 @@ modded class NotificationSystem
 		{
 			Exec_CreateNotification( title, text, icon, color, time );
 		}
-		
-		//Print("NotificationSystem::CreateNotification - End");
 	}
 
 	/**
@@ -72,14 +64,10 @@ modded class NotificationSystem
 	 */
 	private static void Exec_CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time )
 	{
-		//Print("NotificationSystem::CreateNotification - Start");
-		
 		ref NotificationRuntimeData data = new NotificationRuntimeData( time, new NotificationData( icon, title.Format() ), text.Format() );
 		data.SetColor( color );
 
 		m_Instance.AddNotif( data );
-		
-		//Print("NotificationSystem::Exec_CreateNotification - End");
 	}
 
 	/**
@@ -91,8 +79,6 @@ modded class NotificationSystem
 	 */
 	static void RPC_CreateNotification( PlayerIdentity sender, Object target, ref ParamsReadContext ctx )
 	{
-		//Print("NotificationSystem::RPC_CreateNotification - Start");
-		
 		ref StringLocaliser title = new StringLocaliser( "" );
 		if ( !ctx.Read( title ) )
 			return;
@@ -114,8 +100,6 @@ modded class NotificationSystem
 			return;
 
 		Exec_CreateNotification( title, text, icon, color, time );
-		
-		//Print("NotificationSystem::RPC_CreateNotification - End");
 	}
 
 	/**
@@ -126,8 +110,6 @@ modded class NotificationSystem
 	 */
 	protected void AddNotif( ref NotificationRuntimeData data )
 	{
-		//Print("NotificationSystem::AddNotif - Start");
-		
 		if ( m_TimeArray.Count() < MAX_NOTIFICATIONS )
 		{
 			float time = GetGame().GetTickTime() + data.GetTime();
@@ -140,8 +122,6 @@ modded class NotificationSystem
 		{
 			m_DeferredArray.Insert( data );
 		}
-		
-		//Print("NotificationSystem::AddNotif - End");
 	}
 
 	/**
@@ -160,7 +140,6 @@ modded class NotificationSystem
 		
 		return null;
 	}
-
 
 	/**
 	 * Vanilla code to get the pre-created notification based on the type
@@ -183,4 +162,4 @@ modded class NotificationSystem
 
 		m_Instance.AddNotif( data );
 	}
-}
+};

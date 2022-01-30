@@ -1,97 +1,32 @@
-# Community Framework for DayZ SA
-This is an Community framework for DayZ SA.
+# Community Framework
 
-This framework allows the use of cross mod RPC calling, better defining of the functions and is less prone to errors with mismatching RPC ID's.
+This is a Community framework for DayZ SA.
 
-This framework also allows you to add credits into the your own mods and it extends the In-Game menu for you to add in your own buttons.
+## Features
 
-## How To Use
-
-This is how you would use this framework within your mod. 
-
-### OUTDATED: Setup
-
-You would want to install the pre-packaged mod found on the steam workshop [here](https://steamcommunity.com/sharedfiles/filedetails/?id=1559212036).
-
-Drag the folder `@Community-Framework` into the root of your game and server directory. It is already signed.
-
-When starting the game and/or server, make sure to add the mod first by using `-mod=@Community-Framework;` and then append the rest of your mods afterwards. Seperate using the `;` character. Enclose the argument in quotation marks.
-
-To use the framework with your mod you would want to add the mod to the config.cpp of your scripts PBO.
-
-e.g.
-
-```cpp
-class CfgPatches
-{
-    class ...
-    {
-        ...
-        requiredAddons[]=
-        {
-            "JM_CF_Scripts",
-            ...
-        };
-    };
-};
-```
-
-### Define an RPC Function
-In a class you would have to define the functions which the RPC will call. 
-
-Within the function, you would need to define the expected Param data that would be sent. You would also add a check to define how the function is being called (on server or on client). 
-
-e.g.
-
-```java
-void TestRPCFunction( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
-{
-    Param1< string > data;
-    if ( !ctx.Read( data ) ) return;
-
-    if( type == CallType.Server )
-    {
-        Print( "Server function called!" );
-    }
-    else
-    {
-        Print( "Client function called!" );
-    }
-}
-```
-
-### Add an RPC Function
-To add an RPC function you would add this line to the constructor of a shared client and server mission file.
-
-e.g.
-
-```java
-GetRPCManager().AddRPC( "RPCTestMod", "TestRPCFunction", this, SingleplayerExecutionType.Both ); 
-```
-
-* For the string variable 'RPCTestMod' you would add the mod name. This would be a namespace. Try to make this as unique as possible.
-* For the class variable 'this' you would add the instance of the Class which the function resides.
-* For the string variable 'TestRPCFunction' you would add the function name. 
-* For the SingleplayerExecutionType variable 'Both' which would define how you would want the function to be called in SinglePlayer (Offline Mode).
-
-### Call an RPC Function
-To call an RPC function you would call the function `SendRPC`. The first argument would be the mod name which you would have defined. The second argument would be the function name you wish to call on the server and the second would be the Params. You must use the Param class to define the arguments.
-
-e.g.
-
-```java
-GetRPCManager().SendRPC( "RPCTestMod", "TestRPCFunction", new Param1< string >( "Hello, World!" ) );  
-```
-
-### Example
-An example project can be found [here](https://github.com/Jacob-Mango/DayZ-SampleMod/blob/master/MyPrefix/MyMod/Scripts/5_Mission/TestGame.c).
-
-## Projects
-
-Almost every script mod on the steam workshop for DayZ SA uses this mod.
+* [Cryptography](docs/Cryptography/index.md)
+* [Date](docs/Date/index.md)
+* [Event Handlers](docs/EventHandler/index.md)
+* [ExpressionVM](docs/ExpressionVM/index.md)
+* [File](docs/File/index.md)
+* [Input Bindings](docs/InputBindings/index.md)
+* [Lifecycle Events](docs/LifecycleEvents/index.md)
+* [Localiser](docs/Localiser/index.md)
+* [Logging](docs/Logging/index.md)
+* [ModStorage](docs/ModStorage/index.md)
+* [Modules](docs/Modules/index.md)
+* [Networked Variables](docs/NetworkedVariables/index.md)
+* [RPC](docs/RPC/index.md)
+* [Streams](docs/Streams/index.md)
+* [Surface](docs/Surface/index.md)
+* [Type Converters](docs/TypeConverters/index.md)
+* [Weapons](docs/Weapons/index.md)
 
 ## Contributors
 
-* [Jacob_Mango](https://github.com/Jacob-Mango)
 * [Arkensor](https://github.com/Arkensor)
 * [Kegan Hollern](https://gitlab.desolationredux.com/kegan)
+* [DaOne](https://github.com/Da0ne)
+* [InclementDab](https://github.com/InclementDab)
+* [MarioE](https://github.com/MarioEDayZ)
+* [Jacob_Mango](https://github.com/Jacob-Mango)
