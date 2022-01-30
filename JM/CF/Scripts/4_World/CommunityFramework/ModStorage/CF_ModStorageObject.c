@@ -51,10 +51,10 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		ctx.Write(ModLoader.s_CF_ModStorages.Count() + m_UnloadedMods.Count());
 
-		foreach (auto mod : ModLoader.s_CF_ModStorages)
+		foreach (auto mod2 : ModLoader.s_CF_ModStorages)
 		{
 			// also resets the stream for next 'OnStoreSave'
-			mod._CopyStreamTo(ctx);
+			mod2._CopyStreamTo(ctx);
 		}
 
 		foreach (auto unloadedMod : m_UnloadedMods)
