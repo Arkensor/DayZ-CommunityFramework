@@ -13,6 +13,7 @@ class CF_Trace : Managed
 	protected int m_Index;
 	protected string m_Strings[10];
 	protected bool m_Flushed;
+	protected bool m_DoLog;
 
 	static string Depth()
 	{
@@ -44,8 +45,10 @@ class CF_Trace : Managed
 		return res;
 	}
 
-	void CF_Trace(string instanceName, string stackName, int count)
+	void CF_Trace(string instanceName, string stackName, int count, bool doLog = true)
 	{
+		m_DoLog = doLog;
+
 		m_InstanceName = instanceName;
 		m_StackName = stackName;
 
@@ -63,7 +66,7 @@ class CF_Trace : Managed
 
 	void ~CF_Trace()
 	{
-		if (!m_Flushed) return;
+		if (!m_DoLog || !m_Flushed) return;
 		
 		s_TraceDepth = s_TraceDepth.Substring(0, s_TraceDepth.Length() - 1);
 
@@ -74,7 +77,7 @@ class CF_Trace : Managed
 
 	void Output()
 	{
-		if (m_Flushed) return;
+		if (!m_DoLog || m_Flushed) return;
 		m_Flushed = true;
 
 		string params;
@@ -350,4 +353,159 @@ static CF_Trace CF_Trace_8(string stackName)
 static CF_Trace CF_Trace_9(string stackName)
 {
 	return new CF_Trace("", stackName, 9);
+}
+
+static CF_Trace CF_Trace_Instance(bool doLog, Class instance)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), string.Empty, 0, doLog);
+}
+
+static CF_Trace CF_Trace_0(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 0, doLog);
+}
+
+static CF_Trace CF_Trace_1(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 1, doLog);
+}
+
+static CF_Trace CF_Trace_2(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 2, doLog);
+}
+
+static CF_Trace CF_Trace_3(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 3, doLog);
+}
+
+static CF_Trace CF_Trace_4(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 4, doLog);
+}
+
+static CF_Trace CF_Trace_5(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 5, doLog);
+}
+
+static CF_Trace CF_Trace_6(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 6, doLog);
+}
+
+static CF_Trace CF_Trace_7(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 7, doLog);
+}
+
+static CF_Trace CF_Trace_8(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 8, doLog);
+}
+
+static CF_Trace CF_Trace_9(bool doLog, Class instance, string stackName)
+{
+	return new CF_Trace(CF_Trace.FormatInstance(instance), stackName, 9, doLog);
+}
+
+static CF_Trace CF_Trace_0(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 0, doLog);
+}
+
+static CF_Trace CF_Trace_1(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 1, doLog);
+}
+
+static CF_Trace CF_Trace_2(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 2, doLog);
+}
+
+static CF_Trace CF_Trace_3(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 3, doLog);
+}
+
+static CF_Trace CF_Trace_4(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 4, doLog);
+}
+
+static CF_Trace CF_Trace_5(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 5, doLog);
+}
+
+static CF_Trace CF_Trace_6(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 6, doLog);
+}
+
+static CF_Trace CF_Trace_7(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 7, doLog);
+}
+
+static CF_Trace CF_Trace_8(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 8, doLog);
+}
+
+static CF_Trace CF_Trace_9(bool doLog, string instance, string stackName)
+{
+	return new CF_Trace(instance, stackName, 9, doLog);
+}
+
+static CF_Trace CF_Trace_0(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 0, doLog);
+}
+
+static CF_Trace CF_Trace_1(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 1, doLog);
+}
+
+static CF_Trace CF_Trace_2(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 2, doLog);
+}
+
+static CF_Trace CF_Trace_3(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 3, doLog);
+}
+
+static CF_Trace CF_Trace_4(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 4, doLog);
+}
+
+static CF_Trace CF_Trace_5(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 5, doLog);
+}
+
+static CF_Trace CF_Trace_6(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 6, doLog);
+}
+
+static CF_Trace CF_Trace_7(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 7, doLog);
+}
+
+static CF_Trace CF_Trace_8(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 8, doLog);
+}
+
+static CF_Trace CF_Trace_9(bool doLog, string stackName)
+{
+	return new CF_Trace("", stackName, 9, doLog);
 }
