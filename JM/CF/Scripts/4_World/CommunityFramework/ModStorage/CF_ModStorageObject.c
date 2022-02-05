@@ -36,9 +36,10 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		int b1, b2, b3, b4;
 		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
-		// Add regardless of vanilla save version	
-		m_Module.AddEntity(b1, b2, b3, b4, m_Entity);
+		// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
+		m_Module.AddEntity(b1, b2, b3, b4);
 
+		// Write the CF modstorage version
 		ctx.Write(CF_ModStorage.VERSION);
 
 		// Reset the stream for 'OnStoreSave'

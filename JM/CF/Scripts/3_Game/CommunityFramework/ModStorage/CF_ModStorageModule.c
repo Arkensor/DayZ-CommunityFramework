@@ -13,7 +13,10 @@ class CF_ModStorageModule : CF_ModuleGame
 
 	protected autoptr FileSerializer m_Serializer;
 
-	void AddEntity(int b1, int b2, int b3, int b4, EntityAI entity)
+	/**
+	 * @brief Checks if the persistent ID is in the map. If they aren't in the map then add and write to the file
+	 */
+	void AddEntity(int b1, int b2, int b3, int b4)
 	{
 		Load();
 
@@ -29,13 +32,8 @@ class CF_ModStorageModule : CF_ModuleGame
 	}
 
 	/**
-	 * @brief Not used.
+	 * @brief Checks to see if the persistent ID is loaded
 	 */
-	void RemoveEntity(int b1, int b2, int b3, int b4)
-	{
-
-	}
-
 	bool IsEntity(int b1, int b2, int b3, int b4)
 	{
 		Load();
@@ -67,12 +65,17 @@ class CF_ModStorageModule : CF_ModuleGame
 		return true;
 	}
 
+	/**
+	 * @brief Reads the modstorage file
+	 */
 	void Load(bool reload = false)
 	{
 		if (m_IsLoaded && !reload)
 		{
 			return;
 		}
+		
+		m_IsLoaded = true;
 
 		int instanceId = g_Game.ServerConfigGetInt("instanceId");
 
@@ -89,16 +92,18 @@ class CF_ModStorageModule : CF_ModuleGame
 		}
 
 		m_FilePath = folder + "cf_modstoragemodule.bin";
-		
-		m_IsLoaded = true;
 
 		if (m_Serializer) m_Serializer.Close();
+
+		// Clear existing ids
+		m_IDs.Clear();
 
 		if (FileExist(m_FilePath))
 		{
 			FileHandle handle = OpenFile(m_FilePath, FileMode.READ);
 			if (handle != 0)
 			{
+				// Reads 4 ints (16 bytes) at a time
 				int data[4];
 				while (ReadFile(handle, data, 16) > 0)
 				{
