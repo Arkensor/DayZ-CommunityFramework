@@ -6,31 +6,29 @@
 [CF_RegisterModule(CF_ModStorageModule)]
 class CF_ModStorageModule : CF_ModuleGame
 {
-	static const string FILEPATH = "$mission:cf_modstoragemodule.txt";
+	protected string m_FilePath;
 
-	autoptr map<int, ref map<int, ref map<int, ref map<int, ref Param1<bool>>>>> m_IDs = new map<int, ref map<int, ref map<int, ref map<int, ref Param1<bool>>>>>();
-	bool m_IsLoaded;
+	protected autoptr map<int, ref map<int, ref map<int, ref map<int, ref Param1<bool>>>>> m_IDs = new map<int, ref map<int, ref map<int, ref map<int, ref Param1<bool>>>>>();
+	protected bool m_IsLoaded;
 
-	ref CF_FileStream m_Stream;
-	ref CF_TextWriter m_Writer;
+	protected autoptr FileSerializer m_Serializer;
 
-	void AddEntity(int b1, int b2, int b3, int b4)
+	void AddEntity(int b1, int b2, int b3, int b4, EntityAI entity)
 	{
 		Load();
+
+		Print("AddEntity");
+		Print(entity);
 
 		if (!_AddEntity(b1, b2, b3, b4, false))
 		{
 			return;
 		}
 
-		m_Writer.WriteInt(b1);
-		m_Writer.WriteInt(b2);
-		m_Writer.WriteInt(b3);
-		m_Writer.WriteInt(b4);
-
-		m_Writer.WriteChar("\n");
-
-		m_Stream.Flush();
+		m_Serializer.Write(b1);
+		m_Serializer.Write(b2);
+		m_Serializer.Write(b3);
+		m_Serializer.Write(b4);
 	}
 
 	/**
@@ -43,6 +41,12 @@ class CF_ModStorageModule : CF_ModuleGame
 
 	bool IsEntity(int b1, int b2, int b3, int b4)
 	{
+		Print("Is entity");
+		Print(b1);
+		Print(b2);
+		Print(b3);
+		Print(b4);
+
 		Load();
 
 		auto map_b1 =  m_IDs[b1];
@@ -63,11 +67,13 @@ class CF_ModStorageModule : CF_ModuleGame
 			return false;
 		}
 
-		auto val_b4 = map_b3[b4] 
+		auto val_b4 = map_b3[b4];
 		if (!val_b4)
 		{
 			return false;
 		}
+
+		Print("yes");
 
 		return true;
 	}
@@ -79,20 +85,52 @@ class CF_ModStorageModule : CF_ModuleGame
 			return;
 		}
 
-		m_IsLoaded = true;
+		Print("Load");
 
-		CF_FileStream stream(FILEPATH, FileMode.READ);
-		CF_TextReader reader(stream);
+		int instanceId = g_Game.ServerConfigGetInt("instanceId");
 
-		while (reader.EOF())
+		string folder = "$mission:storage_" + instanceId + "/";
+		if (!FileExist(folder))
 		{
-			_AddEntity(reader.ReadInt(), reader.ReadInt(), reader.ReadInt(), reader.ReadInt(), true);
+			MakeDirectory(folder);
 		}
 
-		reader.Close();
+		folder += "communityframework/";
+		if (!FileExist(folder))
+		{
+			MakeDirectory(folder);
+		}
 
-		m_Stream = new CF_FileStream(FILEPATH, FileMode.APPEND);
-		m_Writer = new CF_TextWriter(m_Stream);
+		m_FilePath = folder + "cf_modstoragemodule.bin";
+
+		Print(m_FilePath);
+		
+		m_IsLoaded = true;
+
+		if (m_Serializer) m_Serializer.Close();
+
+		if (FileExist(m_FilePath))
+		{
+			FileHandle handle = OpenFile(m_FilePath, FileMode.READ);
+			if (handle != 0)
+			{
+				int data[4];
+				while (ReadFile(handle, data, 16) > 0)
+				{
+					_AddEntity(data[0], data[1], data[2], data[3], true);
+				}
+
+				CloseFile(handle);
+			}
+			
+			m_Serializer = new FileSerializer();
+			m_Serializer.Open(m_FilePath, FileMode.APPEND);
+		}
+		else
+		{
+			m_Serializer = new FileSerializer();
+			m_Serializer.Open(m_FilePath, FileMode.WRITE);
+		}
 	}
 
 	/**
@@ -102,6 +140,12 @@ class CF_ModStorageModule : CF_ModuleGame
 	 */
 	private bool _AddEntity(int b1, int b2, int b3, int b4, bool loaded)
 	{
+		Print("Adding entity");
+		Print(b1);
+		Print(b2);
+		Print(b3);
+		Print(b4);
+
 		auto map_b1 =  m_IDs[b1];
 		if (!map_b1)
 		{
@@ -123,7 +167,7 @@ class CF_ModStorageModule : CF_ModuleGame
 			map_b2[b3] = map_b3;
 		}
 
-		auto val_b4 = map_b3[b4] 
+		auto val_b4 = map_b3[b4];
 		if (!val_b4)
 		{
 			val_b4 = new Param1<bool>(loaded);

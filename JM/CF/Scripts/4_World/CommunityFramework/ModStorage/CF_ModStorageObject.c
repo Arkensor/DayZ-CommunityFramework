@@ -24,7 +24,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MODSTORAGE_TRACE
 		auto trace = CF_Trace_1(this, "OnStoreSave").Add(ctx);
 #endif
 
@@ -37,7 +37,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
 		// Add regardless of vanilla save version	
-		m_Module.AddEntity(b1, b2, b3, b4);
+		m_Module.AddEntity(b1, b2, b3, b4, m_Entity);
 
 		ctx.Write(CF_ModStorage.VERSION);
 
@@ -66,9 +66,13 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MODSTORAGE_TRACE
 		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
 #endif
+		Print("OnStoreLoad");
+		Print(m_Entity.GetType());
+
+		Print(version);
 
 		// Clearing the unloaded mods data
 		m_UnloadedMods.Clear();
@@ -100,6 +104,8 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			return false;
 		}
+
+		Print(cf_version);
 
 		// CF version is prior to ModStorage implementation
 		if (cf_version < CF_ModStorage.MODSTORAGE_INITIAL_IMPLEMENTATION)
