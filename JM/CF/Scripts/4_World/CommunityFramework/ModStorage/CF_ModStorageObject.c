@@ -69,10 +69,6 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 #ifdef CF_MODSTORAGE_TRACE
 		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
 #endif
-		Print("OnStoreLoad");
-		Print(m_Entity.GetType());
-
-		Print(version);
 
 		// Clearing the unloaded mods data
 		m_UnloadedMods.Clear();
@@ -104,8 +100,6 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			return false;
 		}
-
-		Print(cf_version);
 
 		// CF version is prior to ModStorage implementation
 		if (cf_version < CF_ModStorage.MODSTORAGE_INITIAL_IMPLEMENTATION)

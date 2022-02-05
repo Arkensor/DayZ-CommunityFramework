@@ -17,9 +17,6 @@ class CF_ModStorageModule : CF_ModuleGame
 	{
 		Load();
 
-		Print("AddEntity");
-		Print(entity);
-
 		if (!_AddEntity(b1, b2, b3, b4, false))
 		{
 			return;
@@ -41,12 +38,6 @@ class CF_ModStorageModule : CF_ModuleGame
 
 	bool IsEntity(int b1, int b2, int b3, int b4)
 	{
-		Print("Is entity");
-		Print(b1);
-		Print(b2);
-		Print(b3);
-		Print(b4);
-
 		Load();
 
 		auto map_b1 =  m_IDs[b1];
@@ -73,8 +64,6 @@ class CF_ModStorageModule : CF_ModuleGame
 			return false;
 		}
 
-		Print("yes");
-
 		return true;
 	}
 
@@ -84,8 +73,6 @@ class CF_ModStorageModule : CF_ModuleGame
 		{
 			return;
 		}
-
-		Print("Load");
 
 		int instanceId = g_Game.ServerConfigGetInt("instanceId");
 
@@ -102,8 +89,6 @@ class CF_ModStorageModule : CF_ModuleGame
 		}
 
 		m_FilePath = folder + "cf_modstoragemodule.bin";
-
-		Print(m_FilePath);
 		
 		m_IsLoaded = true;
 
@@ -140,12 +125,6 @@ class CF_ModStorageModule : CF_ModuleGame
 	 */
 	private bool _AddEntity(int b1, int b2, int b3, int b4, bool loaded)
 	{
-		Print("Adding entity");
-		Print(b1);
-		Print(b2);
-		Print(b3);
-		Print(b4);
-
 		auto map_b1 =  m_IDs[b1];
 		if (!map_b1)
 		{
