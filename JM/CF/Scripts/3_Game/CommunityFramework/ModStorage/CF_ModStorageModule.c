@@ -6,6 +6,7 @@
 [CF_RegisterModule(CF_ModStorageModule)]
 class CF_ModStorageModule : CF_ModuleGame
 {
+	static const string m_FileName = "modstorageids.bin";
 	protected string m_FilePath;
 
 	protected autoptr map<int, ref map<int, ref map<int, ref map<int, ref Param1<bool>>>>> m_IDs = new map<int, ref map<int, ref map<int, ref map<int, ref Param1<bool>>>>>();
@@ -91,7 +92,7 @@ class CF_ModStorageModule : CF_ModuleGame
 			MakeDirectory(folder);
 		}
 
-		m_FilePath = folder + "cf_modstoragemodule.bin";
+		m_FilePath = folder + m_FileName;
 
 		if (m_Serializer) m_Serializer.Close();
 
