@@ -65,12 +65,11 @@ class ClassTwo
 If you want to programmatically disable logging for methods or classes it can be done via passing a boolean as the first parameter of the trace function. 
 
 ```csharp
-class ClassTwo
+static bool TRACE_FUNCTIONTHREE = false;
+
+void FunctionThree(float pDt)
 {
-	static void MethodFour(string variableOne, int variableTwo)
-	{
-		auto trace = CF_Trace_2("ClassTwo", "MethodFour").Add(variableOne).Add(variableTwo);
-	}
+	auto trace = CF_Trace_1(TRACE_FUNCTIONTHREE, this, "FunctionThree").Add(pDt);
 }
 ```
 
