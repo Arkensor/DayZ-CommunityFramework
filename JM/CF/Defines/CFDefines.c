@@ -9,6 +9,7 @@
 
 #define CF_MODSTORAGE
 //#define CF_MODSTORAGE_TEST
+//#define CF_MODSTORAGE_TRACE
 
 #define CF_SURFACES
 

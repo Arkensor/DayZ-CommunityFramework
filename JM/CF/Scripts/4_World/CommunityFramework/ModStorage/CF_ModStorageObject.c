@@ -4,6 +4,8 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 	autoptr array<ref CF_ModStorage> m_UnloadedMods;
 
+	CF_ModStorageModule m_Module;
+
 	void CF_ModStorageObject(T entity)
 	{
 		m_Entity = entity;
@@ -16,31 +18,44 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			mod._ResetStream();
 		}
+
+		m_Module = CF_Modules<CF_ModStorageModule>.Get();
 	}
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MODSTORAGE_TRACE
 		auto trace = CF_Trace_1(this, "OnStoreSave").Add(ctx);
 #endif
 
-		if (GetGame().SaveVersion() < 116)
+		if (GetGame().SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
 		{
 			return;
 		}
 
+		int b1, b2, b3, b4;
+		m_Entity.GetPersistentID(b1, b2, b3, b4);
+
+		// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
+		m_Module.AddEntity(b1, b2, b3, b4);
+
+		// Write the CF modstorage version
 		ctx.Write(CF_ModStorage.VERSION);
 
-		// 'OnStoreLoad' and 'OnStoreSave' both reset the stream after their operation, we can assume it has been interacted with since
+		// Reset the stream for 'OnStoreSave'
+		foreach (auto mod : ModLoader.s_CF_ModStorages)
+		{
+			mod._ResetStream();
+		}
 
 		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModStorageMap);
 
 		ctx.Write(ModLoader.s_CF_ModStorages.Count() + m_UnloadedMods.Count());
 
-		foreach (auto mod : ModLoader.s_CF_ModStorages)
+		foreach (auto mod2 : ModLoader.s_CF_ModStorages)
 		{
 			// also resets the stream for next 'OnStoreSave'
-			mod._CopyStreamTo(ctx);
+			mod2._CopyStreamTo(ctx);
 		}
 
 		foreach (auto unloadedMod : m_UnloadedMods)
@@ -52,7 +67,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
-#ifdef CF_TRACE_ENABLED
+#ifdef CF_MODSTORAGE_TRACE
 		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
 #endif
 
@@ -60,9 +75,25 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		m_UnloadedMods.Clear();
 
 		// Persistence version is prior to 1.10
-		if (version < 116)
+		if (version < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
 		{
 			return true;
+		}
+
+		int b1, b2, b3, b4;
+		m_Entity.GetPersistentID(b1, b2, b3, b4);
+
+		// If the version is less than the wipe file, the entity will be added automatically in 'OnStoreSave'
+		if (version >= CF_ModStorage.GAME_VERSION_WIPE_FILE)
+		{
+			if (!m_Module.IsEntity(b1, b2, b3, b4))
+			{
+				// Since the entity wasn't found we can assume that CF is freshly loaded
+				// Highly unlikely anything else happened that can cause this
+				// * A new entity won't take the ID of an old entity if it is in circulation
+				// * If this is a new entity, OnStoreSave would've been called at some point before 'OnStoreLoad'
+				return true;
+			}
 		}
 
 		int cf_version;
@@ -72,7 +103,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		}
 
 		// CF version is prior to ModStorage implementation
-		if (cf_version < 2)
+		if (cf_version < CF_ModStorage.MODSTORAGE_INITIAL_IMPLEMENTATION)
 		{
 			return true;
 		}
@@ -92,9 +123,6 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			if (!ModLoader._CF_ReadModStorage(ctx, cf_version, m_UnloadedMods, unloadedModsRead, loadedMods))
 			{
-				int b1, b2, b3, b4;
-				m_Entity.GetPersistentID(b1, b2, b3, b4);
-
 				CF_Log.Error("Failed to read modstorage for entity ID=(%0 %1 %2 %3), Type=%5, Position=%6", b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), m_Entity.GetType(), m_Entity.GetPosition().ToString());
 				return false;
 			}
