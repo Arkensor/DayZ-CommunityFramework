@@ -62,9 +62,22 @@ class ClassTwo
 }
 ```
 
+If you want to programmatically disable logging for methods or classes it can be done via passing a boolean as the first parameter of the trace function. 
+
+```csharp
+static bool TRACE_FUNCTIONTHREE = false;
+
+void FunctionThree(float pDt)
+{
+	auto trace = CF_Trace_1(TRACE_FUNCTIONTHREE, this, "FunctionThree").Add(pDt);
+}
+```
+
 Below is a full example of context tracing.
 
 ```csharp
+static bool SOMEMOD_LOG_SOMECLASS_METHODONE = true;
+
 void SomeGlobalFunction()
 {
 	auto trace = CF_Trace_0("SomeGlobalFunction");
@@ -84,7 +97,7 @@ class SomeClass
 	
 	void MethodOne(float pDt)
 	{
-		auto trace = CF_Trace_1(this, "SomeFunction").Add(pDt);
+		auto trace = CF_Trace_1(SOMEMOD_LOG_SOMECLASS_METHODONE, this, "SomeFunction").Add(pDt);
 
 		MethodTwo("This is a test string", GetGame().GetPlayer().GetParent());
 	}
