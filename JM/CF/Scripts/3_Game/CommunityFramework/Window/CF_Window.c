@@ -149,6 +149,12 @@ class CF_Window : CF_Model
 		}
 	}
 
+	Widget GetWidgetRoot()
+	{
+		// compat with old COT
+		return null;
+	}
+
 	override string GetLayoutFile()
 	{
 		return "JM/CF/GUI/layouts/windows/window.layout";
