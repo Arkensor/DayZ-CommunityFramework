@@ -3,7 +3,7 @@
  * 
  * @brief Does not support unloading CF from the mods. Once loaded it can't be removed
  */
-[CF_RegisterModule(CF_ModStorageModule)]
+//[CF_RegisterModule(CF_ModStorageModule)]
 class CF_ModStorageModule : CF_ModuleGame
 {
 	static const string m_FileName = "modstorageids.bin";
