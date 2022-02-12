@@ -9,7 +9,7 @@ class CF_ModStorage
 	static const int VERSION = 4;
 	
 	static const int GAME_VERSION_FIRST_INSTALL = 116;
-	static const int GAME_VERSION_WIPE_FILE = 127;
+	static const int GAME_VERSION_WIPE_FILE = int.MAX;
 
 	static const int MODSTORAGE_INITIAL_IMPLEMENTATION = 2;
 
