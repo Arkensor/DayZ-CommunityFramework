@@ -4,7 +4,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 	autoptr array<ref CF_ModStorage> m_UnloadedMods;
 
-	CF_ModStorageModule m_Module;
+	//CF_ModStorageModule m_Module;
 
 	void CF_ModStorageObject(T entity)
 	{
@@ -19,7 +19,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			mod._ResetStream();
 		}
 
-		m_Module = CF_Modules<CF_ModStorageModule>.Get();
+		//m_Module = CF_Modules<CF_ModStorageModule>.Get();
 	}
 
 	override void OnStoreSave(ParamsWriteContext ctx)
@@ -36,11 +36,11 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		int b1, b2, b3, b4;
 		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
-		if (m_Module)
-		{
-			// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
-			m_Module.AddEntity(b1, b2, b3, b4);
-		}
+		//if (m_Module)
+		//{
+	//		// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
+		//	//m_Module.AddEntity(b1, b2, b3, b4);
+		//}
 
 		// Write the CF modstorage version
 		ctx.Write(CF_ModStorage.VERSION);
@@ -82,22 +82,21 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			return true;
 		}
-
-		int b1, b2, b3, b4;
-		m_Entity.GetPersistentID(b1, b2, b3, b4);
+//
+	//	int b1, b2, b3, b4;
+	//	m_Entity.GetPersistentID(b1, b2, b3, b4);
 
 		// If the version is less than the wipe file, the entity will be added automatically in 'OnStoreSave'
-		if (version >= CF_ModStorage.GAME_VERSION_WIPE_FILE && m_Module)
-		{
-			if (!m_Module.IsEntity(b1, b2, b3, b4))
-			{
-				// Since the entity wasn't found we can assume that CF is freshly loaded
-				// Highly unlikely anything else happened that can cause this
-				// * A new entity won't take the ID of an old entity if it is in circulation
-				// * If this is a new entity, OnStoreSave would've been called at some point before 'OnStoreLoad'
-				return true;
-			}
-		}
+		///if (version >= CF_ModStorage.GAME_VERSION_WIPE_FILE && m_Module)
+	//	//	if (!m_Module.IsEntity(b1, b2, b3, b4))
+		///	{
+		//		// Since the entity wasn't found we can assume that CF is freshly loaded
+		//		// Highly unlikely anything else happened that can cause this
+	//			// * A new entity won't take the ID of an old entity if it is in circulation
+		///		// * If this is a new entity, OnStoreSave would've been called at some point before 'OnStoreLoad'
+		//		return true;
+	///		}
+	//	}
 
 		int cf_version;
 		if (!ctx.Read(cf_version))
