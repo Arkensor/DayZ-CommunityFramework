@@ -13,7 +13,6 @@ This is a Community framework for DayZ SA.
 * [Lifecycle Events](docs/LifecycleEvents/index.md)
 * [Localiser](docs/Localiser/index.md)
 * [Logging](docs/Logging/index.md)
-* [ModStorage](docs/ModStorage/index.md)
 * [Modules](docs/Modules/index.md)
 * [Networked Variables](docs/NetworkedVariables/index.md)
 * [RPC](docs/RPC/index.md)
