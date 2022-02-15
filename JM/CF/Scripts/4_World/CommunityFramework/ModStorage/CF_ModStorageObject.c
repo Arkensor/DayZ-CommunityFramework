@@ -1,3 +1,4 @@
+#ifndef CF_MODSTORAGE_DISABLE
 class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
@@ -33,11 +34,13 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			return;
 		}
 
+#ifndef CF_MODSTORAGE_MODULE_DISABLE
 		int b1, b2, b3, b4;
 		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
 		// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
 		m_Module.AddEntity(b1, b2, b3, b4);
+#endif
 
 		// Write the CF modstorage version
 		ctx.Write(CF_ModStorage.VERSION);
@@ -80,6 +83,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			return true;
 		}
 
+#ifndef CF_MODSTORAGE_MODULE_DISABLE
 		int b1, b2, b3, b4;
 		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
@@ -95,6 +99,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 				return true;
 			}
 		}
+#endif
 
 		int cf_version;
 		if (!ctx.Read(cf_version))
@@ -123,7 +128,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			if (!ModLoader._CF_ReadModStorage(ctx, cf_version, m_UnloadedMods, unloadedModsRead, loadedMods))
 			{
-				CF_Log.Error("Failed to read modstorage for entity ID=(%0 %1 %2 %3), Type=%5, Position=%6", b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), m_Entity.GetType(), m_Entity.GetPosition().ToString());
+				CF_Log.Error("Failed to read modstorage for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
 				return false;
 			}
 		}
@@ -141,3 +146,4 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		return true;
 	}
 };
+#endif
