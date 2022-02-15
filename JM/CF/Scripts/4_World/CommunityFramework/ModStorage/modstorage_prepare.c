@@ -31,7 +31,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		// If the persistence file is before 1.10, cf data doesn't exist
 		if (GetGame().SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
 		{
-			return;
+			return true;
 		}
 
         int cf_version;
