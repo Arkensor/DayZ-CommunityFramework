@@ -38,6 +38,8 @@ GameProjectClass {
       "scripts/1_Core"
       "JM/CF/Defines"
       "JM/CF/XML/1_Core"
+      "JM/CF/Permissions/1_Core"
+      "JM/CF/ModStorage/1_Core"
       "JM/CF/Scripts/1_Core"
      }
      EntryPoint ""
@@ -46,6 +48,8 @@ GameProjectClass {
      Name "gameLib"
      Paths {
       "scripts/2_GameLib"
+      "JM/CF/Defines"
+      "JM/CF/Scripts/2_GameLib"
      }
      EntryPoint ""
     }
@@ -55,6 +59,8 @@ GameProjectClass {
       "scripts/3_Game"
       "JM/CF/Defines"
       "JM/CF/XML/3_Game"
+      "JM/CF/Permissions/3_Game"
+      "JM/CF/ModStorage/3_Game"
       "JM/CF/Scripts/3_Game"
      }
      EntryPoint "CF_CreateGame"
@@ -65,6 +71,8 @@ GameProjectClass {
       "scripts/4_World"
       "JM/CF/Defines"
       "JM/CF/XML/4_World"
+      "JM/CF/Permissions/4_World"
+      "JM/CF/ModStorage/4_World"
       "JM/CF/Scripts/4_World"
      }
      EntryPoint "CF_CreateWorld"
@@ -75,6 +83,8 @@ GameProjectClass {
       "scripts/5_Mission"
       "JM/CF/Defines"
       "JM/CF/XML/5_Mission"
+      "JM/CF/Permissions/5_Mission"
+      "JM/CF/ModStorage/5_Mission"
       "JM/CF/Scripts/5_Mission"
      }
      EntryPoint "CreateMission"

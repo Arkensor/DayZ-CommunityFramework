@@ -3,19 +3,23 @@ class ConfigReader : Managed
 	private int _arrIdx = 0;
 	private int _bufIdx = -1;
 
-	private ref array< string > _lines;
+	private ref array< string > _lines = new array< string >;
 
 	private void ConfigReader()
-	{
-		_lines = new array< string >;
+	{ 
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "ConfigReader");
+#endif
 	}
 
 	void ~ConfigReader()
 	{
-		delete _lines;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~ConfigReader");
+#endif
 	}
 
-	static ref ConfigReader Open( string path )
+	static ConfigReader Open( string path )
 	{
 		ConfigReader reader = new ConfigReader();
 
@@ -111,7 +115,7 @@ class ConfigReader : Managed
 		{
 			if ( EOF() )
 			{
-				Error( "Unexpected end of file while parsing XML comment!" );
+				CF_Log.Error( "Unexpected end of file while parsing XML comment!" );
 				break;
 			}
 
@@ -273,11 +277,11 @@ class ConfigReader : Managed
 
 	void Error( string msg )
 	{
-		Print( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] ERROR: " + msg );
+		CF_Log.Error( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
 	}
 
 	void Warning( string msg )
 	{
-		Print( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] WARNING: " + msg );
+		CF_Log.Warn( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
 	}
 };

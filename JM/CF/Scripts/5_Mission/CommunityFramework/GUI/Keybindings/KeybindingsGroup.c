@@ -30,7 +30,7 @@ modded class KeybindingsGroup
 
 	void AddCFAction( int index, Widget parent, Input input, string displayName )
 	{
-		ref KeybindingElement ele = new ref KeybindingElement( index, parent, this );
+		KeybindingElement ele = new KeybindingElement( index, parent, this );
 		ele.R_WasSet = true;
 		ele.R_DisplayName = displayName;
 		ele.Reload();
@@ -58,8 +58,6 @@ modded class KeybindingsGroup
 			subgroup_content = subgroup.FindAnyWidget( "subgroup_content" );
 		}
 		
-		//GetLogger().Log( "Attempting: " + mod.GetModPath(), "JM_CF_KeyBindings" );
-
 		for ( int i = 0; i < inActions.Count(); i++ )
 		{
 			string displayName = "";
@@ -90,8 +88,6 @@ modded class KeybindingsGroup
 			{
 				remainingActions.Insert( inActions.Get( i ) );
 			}
-
-			// //GetLogger().Log( "  Found: " + found, "JM_CF_KeyBindings" );
 		}
 		
 		if ( display )

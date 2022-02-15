@@ -1,15 +1,13 @@
 class ConfigArrayParamArray : ConfigArrayParam
 {
-	private ref ConfigArray _value;
-
-	void ConfigArrayParamArray()
-	{
-		_value = new ConfigArray();
-	}
+	private ref ConfigArray _value = new ConfigArray();
 
 	void ~ConfigArrayParamArray()
 	{
-		delete _value;
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~ConfigArrayParamArray");
+#endif
+
 	}
 
 	override string GetType()

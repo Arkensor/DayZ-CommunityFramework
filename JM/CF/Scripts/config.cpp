@@ -9,13 +9,7 @@ class CfgPatches
 		requiredVersion=0.1;
 		requiredAddons[]=
 		{
-			"DZ_Data",
-
-			//! Community Framework
-			#ifdef CF_MODULE_PERMISSIONS
-			"JM_CF_Permissions",
-			#endif
-			"JM_CF_XML"
+			"DZ_Data"
 		};
 	};
 };
@@ -49,8 +43,16 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/1_Core",
 					"JM/CF/Scripts/1_Core"
+				};
+			};
+			class gameLibScriptModule
+			{
+				value = "";
+				files[] =
+				{
+				    "JM/CF/Defines",
+				    "JM/CF/Scripts/2_GameLib"
 				};
 			};
 			class gameScriptModule
@@ -59,7 +61,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/3_Game",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
@@ -69,7 +70,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/4_World",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -79,7 +79,6 @@ class CfgMods
 				files[] =
 				{
 					"JM/CF/Defines",
-					"JM/CF/XML/5_Mission",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};

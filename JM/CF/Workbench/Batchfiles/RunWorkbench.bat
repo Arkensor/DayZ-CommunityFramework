@@ -5,47 +5,64 @@ cd /D "%~dp0"
 set /a failed=0
 
 if exist ../project.cfg (
-    echo Found the project.cfg
+	echo Found the project.cfg
 ) else (
-    echo Failed to find the project.cfg file, exitting.
-    set /a failed=1
+	echo Failed to find the project.cfg file, exitting.
+	set /a failed=1
 )
 
 if exist ../user.cfg (
-    echo Found the user.cfg
+	echo Found the user.cfg
 ) else (
-    echo Failed to find the user.cfg file, exitting.
-    set /a failed=1
+	echo Failed to find the user.cfg file, exitting.
+	set /a failed=1
 )
 
 if %failed%==1 (
     endlocal
 
     echo Failed to package the mod.
-
-    cd %batchFileDirectory%
     goto:eof
 )
 
 set workbenchDirectory=
+set modName=
+set mods=
+set mission=
 set workbenchEXE=
-set workdrive=
-set prefixLinkRoot=
+set clientLaunchParams=
+set modBuildDirectory=
+
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModName') do (
+    set modName=%%a
+)
+
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg AdditionalSPMods') do (
+    set mods=%%a
+)
 
 for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkbenchDirectory') do (
     set workbenchDirectory=%%a
+)
+
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg SPMission') do (
+    set mission=%%a
 )
 
 for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkbenchEXE') do (
     set workbenchEXE=%%a
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkDrive') do (
-	set workDrive=%%a
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ClientLaunchParams') do (
+    set clientLaunchParams=%%a
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg PrefixLinkRoot') do (
-    set prefixLinkRoot=%%a
+for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModBuildDirectory') do (
+	set modBuildDirectory=%%a
+)
+
+for /F "Tokens=2* skip=2" %%A In ('REG QUERY "HKLM\SOFTWARE\Wow6432Node\Bohemia Interactive\Dayz" /v "main" 2^>nul') do (
+    set "WORKSHOPPATH=%%B\!Workshop\"
 )
 
 setlocal enableextensions enabledelayedexpansion
@@ -56,22 +73,36 @@ if "%workbenchEXE%"=="" (
     echo WorkbenchEXE parameter was not set in the project.cfg
 )
 
+echo ClientLaunchParams is: "%clientLaunchParams%"
+if "%clientLaunchParams%"=="" (
+    echo ClientLaunchParams parameter was not set in the project.cfg
+)
+
+echo ModName is: "%modName%"
+if "%modName%"=="" (
+    set /a failed=1
+    echo ModName parameter was not set in the project.cfg
+)
+
+echo AdditionalSPMods is: "%mods%"
+if "%mods%"=="" (
+    echo AdditionalSPMods parameter was not set in the project.cfg, ignoring.
+    
+    set mods=%modName%
+) else (
+    set mods=%modName%;%mods%
+)
+
 echo WorkbenchDirectory is: "%workbenchDirectory%"
 if "%workbenchDirectory%"=="" (
     set /a failed=1
     echo WorkbenchDirectory parameter was not set in the project.cfg
 )
 
-echo WorkDrive is: "%workDrive%"
-if "%workDrive%"=="" (
+echo ModBuildDirectory is: "%modBuildDirectory%"
+if "%modBuildDirectory%"=="" (
 	set /a failed=1
-	echo WorkDrive parameter was not set in the project.cfg
-)
-
-echo PrefixLinkRoot is: "%prefixLinkRoot%"
-if "%prefixLinkRoot%"=="" (
-    set /a failed=1
-    echo PrefixLinkRoot parameter was not set in the project.cfg
+	echo ModBuildDirectory parameter was not set in the project.cfg
 )
 
 if %failed%==1 (
@@ -81,10 +112,27 @@ if %failed%==1 (
     goto:eof
 )
 
-REM call CopyProject.bat
+CALL Exit.bat
 
-chdir /D "%workbenchDirectory%"
-echo start %workbenchEXE% -gproj=%workDrive%%prefixLinkRoot%\Workbench\dayz.gproj
-start %workbenchEXE% -gproj=%workDrive%%prefixLinkRoot%\Workbench\dayz.gproj
+set "modList="
+for %%a in ("%mods:;=" "%") do (
+    if exist "!WORKSHOPPATH!%%~a" (
+        set "mod=!WORKSHOPPATH!%%~a"
+    )
+
+    if exist "%modBuildDirectory%%%~a" (
+        set "mod=%modBuildDirectory%%%~a"
+    )
+
+    set "modList=!modList!;!mod!"
+)
+
+taskkill /F /IM %workbenchEXE% /T
+
+chdir /d "%workbenchDirectory%"
+echo start %workbenchEXE% %clientLaunchParams% "-mod=!modList!" -dologs -nopause -adminlog -freezecheck "-scriptDebug=true"
+start %workbenchEXE% %clientLaunchParams% "-mod=!modList!" -dologs -adminlog -freezecheck "-scriptDebug=true"
 
 endlocal
+
+cd /D "%~dp0"
