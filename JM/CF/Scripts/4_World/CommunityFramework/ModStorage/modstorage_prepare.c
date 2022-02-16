@@ -1,46 +1,183 @@
-#ifdef CF_MODSTORAGE_DISABLE
-class CF_ModStorageObject<Class T> : CF_ModStorageBase
+modded class BuildingBase
 {
-	T m_Entity;
-
-	void CF_ModStorageObject(T entity)
-	{
-		m_Entity = entity;
-	}
-
-	override void OnStoreSave(ParamsWriteContext ctx)
-	{
-#ifdef CF_MODSTORAGE_TRACE
-		auto trace = CF_Trace_1(this, "OnStoreSave").Add(ctx);
-#endif
-
-		if (GetGame().SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
-		{
-			return;
-		}
-
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
         ctx.Write(1);
-	}
+    }
 
-	override bool OnStoreLoad(ParamsReadContext ctx, int version)
-	{
-#ifdef CF_MODSTORAGE_TRACE
-		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
-#endif
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
 
-		// If the persistence file is before 1.10, cf data doesn't exist
-		if (GetGame().SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
-		{
-			return true;
-		}
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
 
         int cf_version;
-        if (!ctx.Read(cf_version))
-		{
-			return false;
-		}
+        if (!ctx.Read( cf_version )) return false;
 
-		return true;
-	}
-};
-#endif
+        return true;
+    }
+}
+
+modded class AnimalBase
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
+
+modded class ZombieBase
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
+
+modded class ItemBase
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
+
+modded class DayZPlayerImplement
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
+
+modded class CarScript
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
+
+modded class HelicopterScript
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
+
+modded class AdvancedCommunication
+{
+    override void OnStoreSave(ParamsWriteContext ctx)
+    {
+        super.OnStoreSave(ctx);
+        ctx.Write(1);
+    }
+
+    override bool OnStoreLoad(ParamsReadContext ctx, int version)
+    {
+        if (!super.OnStoreLoad(ctx,version))
+            return false;
+
+        // If the persistence file is before 1.10, cf data doesn't exist
+        if (version < 116) return true;
+
+        int cf_version;
+        if (!ctx.Read( cf_version )) return false;
+
+        return true;
+    }
+}
