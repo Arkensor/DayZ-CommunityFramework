@@ -4,7 +4,7 @@ class CF_Path
 	static string ALT_DIRECTORY_SEPARATOR = "\\";
 	static string FILESYSTEM_IDENTIFIER = ":";
 
-	static ref array<string> DIRECTORY_CHECKS = { DIRECTORY_SEPARATOR, ALT_DIRECTORY_SEPARATOR, FILESYSTEM_IDENTIFIER };
+	static autoptr array<string> DIRECTORY_CHECKS = { DIRECTORY_SEPARATOR, ALT_DIRECTORY_SEPARATOR, FILESYSTEM_IDENTIFIER };
 
 	/**
 	 * @brief Returns the directory information for the specified path.

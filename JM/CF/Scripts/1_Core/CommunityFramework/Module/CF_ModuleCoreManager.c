@@ -2,31 +2,31 @@ static autoptr CF_ModuleCoreManager g_CF_Module_Manager;
 
 class CF_ModuleCoreManager
 {
-	static ref array<string> s_ModuleNames = new array<string>();
+	static autoptr array<string> s_ModuleNames = new array<string>();
 
-	static ref map<typename, CF_ModuleCore> s_ModulesMap = new map<typename, CF_ModuleCore>();
-	static ref array<autoptr CF_ModuleCore> s_Modules = new array<autoptr CF_ModuleCore>();
+	static autoptr map<typename, CF_ModuleCore> s_ModulesMap = new map<typename, CF_ModuleCore>();
+	static autoptr array<autoptr CF_ModuleCore> s_Modules = new array<autoptr CF_ModuleCore>();
 
 	static bool s_IsCreated;
 
-	static ref CF_ModuleCoreEvent s_MissionStart = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MissionFinish = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MissionLoaded = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_Update = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_SettingsChanged = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_PermissionsChanged = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_WorldCleanup = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MPSessionStart = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MPSessionPlayerReady = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MPSessionFail = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MPSessionEnd = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MPConnectAbort = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_MPConnectionLost = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_Respawn = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_LoginTime = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_LoginStatus = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_Logout = new CF_ModuleCoreEvent();
-	static ref CF_ModuleCoreEvent s_Chat = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MissionStart = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MissionFinish = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MissionLoaded = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_Update = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_SettingsChanged = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_PermissionsChanged = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_WorldCleanup = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MPSessionStart = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MPSessionPlayerReady = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MPSessionFail = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MPSessionEnd = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MPConnectAbort = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_MPConnectionLost = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_Respawn = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_LoginTime = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_LoginStatus = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_Logout = new CF_ModuleCoreEvent();
+	static autoptr CF_ModuleCoreEvent s_Chat = new CF_ModuleCoreEvent();
 
 	static int s_GameFlag;
 
@@ -155,85 +155,119 @@ class CF_ModuleCoreManager
 	static void OnMissionStart(Class sender, CF_EventArgs args)
 	{
 		s_MissionStart.OnMissionStart(sender, args);
+
+		delete args;
 	}
 
 	static void OnMissionFinish(Class sender, CF_EventArgs args)
 	{
 		s_MissionFinish.OnMissionFinish(sender, args);
+
+		delete args;
 	}
 
 	static void OnMissionLoaded(Class sender, CF_EventArgs args)
 	{
 		s_MissionLoaded.OnMissionLoaded(sender, args);
+
+		delete args;
 	}
 
 	static void OnSettingsChanged(Class sender, CF_EventArgs args)
 	{
 		s_SettingsChanged.OnSettingsChanged(sender, args);
+
+		delete args;
 	}
 
 	static void OnPermissionsChanged(Class sender, CF_EventArgs args)
 	{
 		s_PermissionsChanged.OnPermissionsChanged(sender, args);
+
+		delete args;
 	}
 
 	static void OnWorldCleanup(Class sender, CF_EventArgs args)
 	{
 		s_WorldCleanup.OnWorldCleanup(sender, args);
+
+		delete args;
 	}
 
 	static void OnMPSessionStart(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionStart.OnMPSessionStart(sender, args);
+
+		delete args;
 	}
 
 	static void OnMPSessionPlayerReady(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionPlayerReady.OnMPSessionPlayerReady(sender, args);
+
+		delete args;
 	}
 
 	static void OnMPSessionFail(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionFail.OnMPSessionFail(sender, args);
+
+		delete args;
 	}
 
 	static void OnMPSessionEnd(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionEnd.OnMPSessionEnd(sender, args);
+
+		delete args;
 	}
 
 	static void OnMPConnectAbort(Class sender, CF_EventArgs args)
 	{
 		s_MPConnectAbort.OnMPConnectAbort(sender, args);
+
+		delete args;
 	}
 
 	static void OnMPConnectionLost(Class sender, CF_EventArgs args)
 	{
 		s_MPConnectionLost.OnMPConnectionLost(sender, args);
+
+		delete args;
 	}
 
 	static void OnRespawn(Class sender, CF_EventArgs args)
 	{
 		s_Respawn.OnRespawn(sender, args);
+
+		delete args;
 	}
 
 	static void OnLoginTime(Class sender, CF_EventArgs args)
 	{
 		s_LoginTime.OnLoginTime(sender, args);
+
+		delete args;
 	}
 
 	static void OnLoginStatus(Class sender, CF_EventArgs args)
 	{
 		s_LoginStatus.OnLoginStatus(sender, args);
+
+		delete args;
 	}
 
 	static void OnLogout(Class sender, CF_EventArgs args)
 	{
 		s_Logout.OnLogout(sender, args);
+
+		delete args;
 	}
 
 	static void OnChat(Class sender, CF_EventArgs args)
 	{
 		s_Chat.OnChat(sender, args);
+
+		delete args;
 	}
 };

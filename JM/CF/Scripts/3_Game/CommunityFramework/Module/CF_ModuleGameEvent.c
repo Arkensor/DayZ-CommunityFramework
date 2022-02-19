@@ -1,11 +1,11 @@
 class CF_ModuleGameEvent : CF_ModuleCoreEvent
 {
-	void OnRPC(Class sender, CF_EventArgs args)
+	bool OnRPC(Class sender, CF_EventArgs args)
 	{
 		CF_EventRPCArgs rpc;
 		if (!Class.CastTo(rpc, args))
 		{
-			return;
+			return false;
 		}
 
 		auto evt = this.m_Next;
@@ -16,10 +16,12 @@ class CF_ModuleGameEvent : CF_ModuleCoreEvent
 			if ((module.m_CF_GameFlag & CF_ModuleCoreManager.s_GameFlag) != 0 && (module.m_CF_RPC_Minimum <= rpc.ID && rpc.ID < module.m_CF_RPC_Maximum))
 			{
 				module.OnRPC(sender, rpc);
-				break;
+				return true;
 			}
 
 			evt = evt.m_Next;
 		}
+
+		return false;
 	}
 };
