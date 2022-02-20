@@ -1,5 +1,7 @@
 modded class DayZGame
 {
+	ref CF_EventRPCArgs m_CF_EventRPCArgs = new CF_EventRPCArgs();
+
 	void DayZGame()
 	{
 		CF_ModuleGameManager.UpdateGameFlag(this);
@@ -71,18 +73,21 @@ modded class DayZGame
 			}
 
 			module.m_CF_NetworkedVariables.Read(ctx);
-			module.OnVariablesSynchronized(this, new CF_EventArgs);
+
+			module.OnVariablesSynchronized(this, CF_EventArgs.Empty);
 
 			return;
 		}
 
-		auto rpcArgs = new CF_EventRPCArgs();
-		rpcArgs.Sender = sender;
-		rpcArgs.Target = target;
-		rpcArgs.ID = rpc_type;
-		rpcArgs.Context = ctx;
+		m_CF_EventRPCArgs.Sender = sender;
+		m_CF_EventRPCArgs.Target = target;
+		m_CF_EventRPCArgs.ID = rpc_type;
+		m_CF_EventRPCArgs.Context = ctx;
 
-		CF_ModuleGameManager.OnRPC(this, rpcArgs);
+		if (CF_ModuleGameManager.OnRPC(this, m_CF_EventRPCArgs))
+		{
+			return;
+		}
 
 		super.OnRPC(sender, target, rpc_type, ctx);
 	}
@@ -95,25 +100,25 @@ modded class DayZGame
 		{
 		case MPSessionStartEventTypeID:
 		{
-			CF_ModuleCoreManager.OnMPSessionStart(this, new CF_EventArgs);
+			CF_ModuleCoreManager.OnMPSessionStart(this, CF_EventArgs.Empty);
 
 			break;
 		}
 		case MPSessionEndEventTypeID:
 		{
-			CF_ModuleCoreManager.OnMPSessionEnd(this, new CF_EventArgs);
+			CF_ModuleCoreManager.OnMPSessionEnd(this, CF_EventArgs.Empty);
 
 			break;
 		}
 		case MPSessionFailEventTypeID:
 		{
-			CF_ModuleCoreManager.OnMPSessionFail(this, new CF_EventArgs);
+			CF_ModuleCoreManager.OnMPSessionFail(this, CF_EventArgs.Empty);
 
 			break;
 		}
 		case MPSessionPlayerReadyEventTypeID:
 		{
-			CF_ModuleCoreManager.OnMPSessionPlayerReady(this, new CF_EventArgs);
+			CF_ModuleCoreManager.OnMPSessionPlayerReady(this, CF_EventArgs.Empty);
 
 			break;
 		}
@@ -128,7 +133,7 @@ modded class DayZGame
 		}
 		case WorldCleaupEventTypeID:
 		{
-			CF_ModuleCoreManager.OnWorldCleanup(this, new CF_EventArgs);
+			CF_ModuleCoreManager.OnWorldCleanup(this, CF_EventArgs.Empty);
 
 			break;
 		}
@@ -180,7 +185,7 @@ modded class DayZGame
 		}
 		case ConnectingAbortEventTypeID:
 		{
-			CF_ModuleCoreManager.OnMPConnectAbort(this, new CF_EventArgs);
+			CF_ModuleCoreManager.OnMPConnectAbort(this, CF_EventArgs.Empty);
 			break;
 		}
 		}

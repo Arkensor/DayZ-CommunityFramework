@@ -28,9 +28,9 @@ class CF_ModuleGameManager
 		}
 	}
 
-	static void OnRPC(Class sender, CF_EventArgs args)
+	static bool OnRPC(Class sender, CF_EventArgs args)
 	{
-		s_RPC.OnRPC(sender, args);
+		return s_RPC.OnRPC(sender, args);
 	}
 
 	static void OnUpdate(Class sender, CF_EventArgs args)
@@ -38,5 +38,7 @@ class CF_ModuleGameManager
 		UpdateGameFlag();
 
 		CF_ModuleCoreManager.s_Update.OnUpdate(sender, args);
+
+		delete args;
 	}
 };

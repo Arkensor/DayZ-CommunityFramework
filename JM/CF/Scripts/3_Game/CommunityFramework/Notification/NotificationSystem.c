@@ -64,7 +64,7 @@ modded class NotificationSystem
 	 */
 	private static void Exec_CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time )
 	{
-		ref NotificationRuntimeData data = new NotificationRuntimeData( time, new NotificationData( icon, title.Format() ), text.Format() );
+		NotificationRuntimeData data = new NotificationRuntimeData( time, new NotificationData( icon, title.Format() ), text.Format() );
 		data.SetColor( color );
 
 		m_Instance.AddNotif( data );
@@ -79,11 +79,11 @@ modded class NotificationSystem
 	 */
 	static void RPC_CreateNotification( PlayerIdentity sender, Object target, ref ParamsReadContext ctx )
 	{
-		ref StringLocaliser title = new StringLocaliser( "" );
+		StringLocaliser title = new StringLocaliser( "" );
 		if ( !ctx.Read( title ) )
 			return;
 
-		ref StringLocaliser text = new StringLocaliser( "" );
+		StringLocaliser text = new StringLocaliser( "" );
 		if ( !ctx.Read( text ) )
 			return;
 
@@ -150,15 +150,15 @@ modded class NotificationSystem
 	 */
 	override static void AddNotification( NotificationType type, float show_time, string detail_text = "" )
 	{
-		ref NotificationRuntimeData data = new NotificationRuntimeData( show_time, m_Instance.GetNotificationData( type ), detail_text );
+		NotificationRuntimeData data = new NotificationRuntimeData( show_time, m_Instance.GetNotificationData( type ), detail_text );
 
 		m_Instance.AddNotif( data );
 	}
 
 	override static void AddNotificationExtended( float show_time, string title_text, string detail_text = "", string icon = "" )
 	{
-		ref NotificationData temp_data = new NotificationData( icon, title_text );
-		ref NotificationRuntimeData data = new NotificationRuntimeData( show_time, temp_data, detail_text );
+		NotificationData temp_data = new NotificationData( icon, title_text );
+		NotificationRuntimeData data = new NotificationRuntimeData( show_time, temp_data, detail_text );
 
 		m_Instance.AddNotif( data );
 	}

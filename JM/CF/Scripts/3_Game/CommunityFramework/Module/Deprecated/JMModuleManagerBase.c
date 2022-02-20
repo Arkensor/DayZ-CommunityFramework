@@ -31,12 +31,12 @@ class JMModuleManagerBase
 
 	void OnSettingsUpdated()
 	{
-		CF_ModuleCoreManager.OnSettingsChanged(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnSettingsChanged(this, CF_EventArgs.Empty);
 	}
 
 	void OnClientPermissionsUpdated()
 	{
-		CF_ModuleCoreManager.OnPermissionsChanged(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnPermissionsChanged(this, CF_EventArgs.Empty);
 	}
 
 	void OnInit()
@@ -46,17 +46,17 @@ class JMModuleManagerBase
 
 	void OnMissionStart()
 	{
-		CF_ModuleCoreManager.OnMissionStart(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionStart(this, CF_EventArgs.Empty);
 	}
 
 	void OnMissionFinish()
 	{
-		CF_ModuleCoreManager.OnMissionFinish(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionFinish(this, CF_EventArgs.Empty);
 	}
 
 	void OnMissionLoaded()
 	{
-		CF_ModuleCoreManager.OnMissionLoaded(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionLoaded(this, CF_EventArgs.Empty);
 	}
 
 	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx)
@@ -76,32 +76,32 @@ class JMModuleManagerBase
 
 	void OnWorldCleanup()
 	{
-		CF_ModuleCoreManager.OnWorldCleanup(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnWorldCleanup(this, CF_EventArgs.Empty);
 	}
 
 	void OnMPSessionStart()
 	{
-		CF_ModuleCoreManager.OnMPSessionStart(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMPSessionStart(this, CF_EventArgs.Empty);
 	}
 
 	void OnMPSessionPlayerReady()
 	{
-		CF_ModuleCoreManager.OnMPSessionPlayerReady(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMPSessionPlayerReady(this, CF_EventArgs.Empty);
 	}
 
 	void OnMPSessionFail()
 	{
-		CF_ModuleCoreManager.OnMPSessionFail(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMPSessionFail(this, CF_EventArgs.Empty);
 	}
 
 	void OnMPSessionEnd()
 	{
-		CF_ModuleCoreManager.OnMPSessionEnd(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMPSessionEnd(this, CF_EventArgs.Empty);
 	}
 
 	void OnMPConnectAbort()
 	{
-		CF_ModuleCoreManager.OnMPConnectAbort(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMPConnectAbort(this, CF_EventArgs.Empty);
 	}
 
 	void OnMPConnectionLost(int duration)

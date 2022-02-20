@@ -6,7 +6,7 @@ class CF_ExpressionVM
 	static int StackPointer;
 	static array<float> Variables;
 
-	private	static ref map<string, ref CF_ExpressionFunctionDef> s_Functions;
+	private	static autoptr map<string, autoptr CF_ExpressionFunctionDef> s_Functions;
 
 	[CF_EventSubscriber(CF_ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
 	static void Destroy()
@@ -19,7 +19,7 @@ class CF_ExpressionVM
 		//! Init map
 		if (s_Functions == null)
 		{
-			s_Functions = new map<string, ref CF_ExpressionFunctionDef>();
+			s_Functions = new map<string, autoptr CF_ExpressionFunctionDef>();
 		}
 
 		//! Add the function

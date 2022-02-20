@@ -119,7 +119,7 @@ class CF_ModuleGame : CF_ModuleCore
 			// No need to serialize in offline mode, just directly call 'OnVariablesSynchronized'
 			if (GetGame().IsServer())
 			{
-				OnVariablesSynchronized(this, new CF_EventArgs);
+				OnVariablesSynchronized(this, CF_EventArgs.Empty);
 			}
 
 			return;
