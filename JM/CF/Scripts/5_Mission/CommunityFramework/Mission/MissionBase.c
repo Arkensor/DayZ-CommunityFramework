@@ -1,6 +1,8 @@
 modded class MissionBase
 {
 	protected bool m_bLoaded = false;
+
+	ref CF_EventUpdateArgs m_CF_EventUpdateArgs = new CF_EventUpdateArgs();
 	
 	void MissionBase()
 	{
@@ -30,6 +32,7 @@ modded class MissionBase
 			OnMissionLoaded();
 		}
 
-		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
+		m_CF_EventUpdateArgs.DeltaTime = timeslice;
+		CF_ModuleGameManager.OnUpdate(this, m_CF_EventUpdateArgs);
 	}
 };
