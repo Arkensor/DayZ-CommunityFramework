@@ -1,9 +1,9 @@
 class CF_TypeConverter
 {
-	private static ref array<string> m_TypeConverterNames = new array<string>();
+	private static autoptr array<string> m_TypeConverterNames = new array<string>();
 
-	private static ref map<typename, CF_TypeConverterBase> m_TypeConvertersMap = new map<typename, CF_TypeConverterBase>();
-	private static ref array<ref CF_TypeConverterBase> m_TypeConverters = new array<ref CF_TypeConverterBase>();
+	private static autoptr map<typename, CF_TypeConverterBase> m_TypeConvertersMap = new map<typename, CF_TypeConverterBase>();
+	private static autoptr array<autoptr CF_TypeConverterBase> m_TypeConverters = new array<autoptr CF_TypeConverterBase>();
 
 	private static bool m_IsCreated;
 
