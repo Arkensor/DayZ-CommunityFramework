@@ -156,118 +156,118 @@ class CF_ModuleCoreManager
 	{
 		s_MissionStart.OnMissionStart(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMissionFinish(Class sender, CF_EventArgs args)
 	{
 		s_MissionFinish.OnMissionFinish(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMissionLoaded(Class sender, CF_EventArgs args)
 	{
 		s_MissionLoaded.OnMissionLoaded(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnSettingsChanged(Class sender, CF_EventArgs args)
 	{
 		s_SettingsChanged.OnSettingsChanged(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnPermissionsChanged(Class sender, CF_EventArgs args)
 	{
 		s_PermissionsChanged.OnPermissionsChanged(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnWorldCleanup(Class sender, CF_EventArgs args)
 	{
 		s_WorldCleanup.OnWorldCleanup(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMPSessionStart(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionStart.OnMPSessionStart(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMPSessionPlayerReady(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionPlayerReady.OnMPSessionPlayerReady(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMPSessionFail(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionFail.OnMPSessionFail(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMPSessionEnd(Class sender, CF_EventArgs args)
 	{
 		s_MPSessionEnd.OnMPSessionEnd(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMPConnectAbort(Class sender, CF_EventArgs args)
 	{
 		s_MPConnectAbort.OnMPConnectAbort(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnMPConnectionLost(Class sender, CF_EventArgs args)
 	{
 		s_MPConnectionLost.OnMPConnectionLost(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnRespawn(Class sender, CF_EventArgs args)
 	{
 		s_Respawn.OnRespawn(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnLoginTime(Class sender, CF_EventArgs args)
 	{
 		s_LoginTime.OnLoginTime(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnLoginStatus(Class sender, CF_EventArgs args)
 	{
 		s_LoginStatus.OnLoginStatus(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnLogout(Class sender, CF_EventArgs args)
 	{
 		s_Logout.OnLogout(sender, args);
 
-		//delete args;
+		delete args;
 	}
 
 	static void OnChat(Class sender, CF_EventArgs args)
 	{
 		s_Chat.OnChat(sender, args);
 
-		//delete args;
+		delete args;
 	}
 };

@@ -39,6 +39,6 @@ class CF_ModuleGameManager
 
 		CF_ModuleCoreManager.s_Update.OnUpdate(sender, args);
 
-		//delete args;
+		delete args;
 	}
 };
