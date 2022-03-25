@@ -1,7 +1,9 @@
 CGame CF_CreateGame()
 {
-	g_Game = new DayZGame;
-	CF._GameInit(true);
+	// Already assigns 'g_Game'
+	CreateGame();
+	
+	CF._GameInit();
 	return g_Game;
 }
 

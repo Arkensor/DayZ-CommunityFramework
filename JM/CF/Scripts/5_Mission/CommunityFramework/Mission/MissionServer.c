@@ -61,22 +61,22 @@ modded class MissionServer
 	{
 		super.OnMissionStart();
 
-		CF_ModuleCoreManager.OnSettingsChanged(this, new CF_EventArgs);
-		CF_ModuleCoreManager.OnMissionStart(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnSettingsChanged(this, CF_EventArgs.Empty);
+		CF_ModuleCoreManager.OnMissionStart(this, CF_EventArgs.Empty);
 	}
 
 	override void OnMissionFinish()
 	{
 		super.OnMissionFinish();
 
-		CF_ModuleCoreManager.OnMissionFinish(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionFinish(this, CF_EventArgs.Empty);
 	}
 
 	override void OnMissionLoaded()
 	{
 		super.OnMissionLoaded();
 
-		CF_ModuleCoreManager.OnMissionLoaded(this, new CF_EventArgs);
+		CF_ModuleCoreManager.OnMissionLoaded(this, CF_EventArgs.Empty);
 	}
 
 	override void OnUpdate( float timeslice )
