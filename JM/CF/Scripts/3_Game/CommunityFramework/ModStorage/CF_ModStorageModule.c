@@ -88,24 +88,16 @@ class CF_ModStorageModule : CF_ModuleGame
 		m_FileExist = FileExist(m_FilePath);
 		if (m_FileExist)
 		{
-			FileHandle handle = OpenFile(m_FilePath, FileMode.READ);
-			if (handle != 0)
+			m_Serializer = new FileSerializer();
+			m_Serializer.Open(m_FilePath, FileMode.READ);
+			string id;
+			while (true)
 			{
-				// Reads 48 bytes (character count + ID string length) at a time
-				int count[4];
-				string data[44];
-				while (ReadFile(handle, count, 4) > 0 && ReadFile(handle, data, 44) > 0)
-				{
-					string id = "";
-					for (int i = 0; i < 44; i++)
-					{
-						id += data[i];
-					}
-					_AddPlayer(id, true);
-				}
-
-				CloseFile(handle);
+				m_Serializer.Read(id);  // always returns true
+				if (!id) break;
+				_AddPlayer(id, true);
 			}
+			m_Serializer.Close();
 			
 			m_Serializer = new FileSerializer();
 			m_Serializer.Open(m_FilePath, FileMode.APPEND);
