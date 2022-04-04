@@ -1,4 +1,4 @@
-#ifndef CF_MODSTORAGE_DISABLE
+#ifdef CF_MODSTORAGE
 class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
@@ -6,6 +6,8 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 	autoptr array<ref CF_ModStorage> m_UnloadedMods;
 
 	CF_ModStorageModule m_Module;
+
+	bool m_HasModStorage;
 
 	void CF_ModStorageObject(T entity)
 	{
@@ -34,13 +36,16 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			return;
 		}
 
-#ifndef CF_MODSTORAGE_MODULE_DISABLE
-		int b1, b2, b3, b4;
-		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
-		// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
-		m_Module.AddEntity(b1, b2, b3, b4);
+		if (!m_HasModStorage)
+		{
+#ifndef CF_MODSTORAGE_MODULE_DISABLE
+			// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
+			m_Module.AddEntity(m_Entity);
 #endif
+
+			m_HasModStorage = true;
+		}
 
 		// Write the CF modstorage version
 		ctx.Write(CF_ModStorage.VERSION);
@@ -84,13 +89,10 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		}
 
 #ifndef CF_MODSTORAGE_MODULE_DISABLE
-		int b1, b2, b3, b4;
-		m_Entity.GetPersistentID(b1, b2, b3, b4);
-
 		// If the version is less than the wipe file, the entity will be added automatically in 'OnStoreSave'
 		if (version >= CF_ModStorage.GAME_VERSION_WIPE_FILE)
 		{
-			if (!m_Module.IsEntity(b1, b2, b3, b4))
+			if (!m_Module.IsEntity(m_Entity))
 			{
 				// Since the entity wasn't found we can assume that CF is freshly loaded
 				// Highly unlikely anything else happened that can cause this
