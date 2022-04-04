@@ -96,7 +96,7 @@ class CF_ModStorageModule : CF_ModuleGame
 				string data[44];
 				while (ReadFile(handle, count, 4) > 0 && ReadFile(handle, data, 44) > 0)
 				{
-					string id;
+					string id = "";
 					for (int i = 0; i < 44; i++)
 					{
 						id += data[i];
