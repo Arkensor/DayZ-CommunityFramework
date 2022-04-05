@@ -118,7 +118,7 @@ class CF_ModStorageModule : CF_ModuleGame
 	{
 		if (!m_IDs[id])
 		{
-			m_IDs[id] = new Param1<int>(loaded);
+			m_IDs[id] = new Param1<bool>(loaded);
 
 			return true;
 		}
