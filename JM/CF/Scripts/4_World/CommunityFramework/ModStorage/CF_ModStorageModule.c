@@ -6,7 +6,7 @@
 #ifndef CF_MODSTORAGE_MODULE_DISABLE
 [CF_RegisterModule(CF_ModStorageModule)]
 #endif
-class CF_ModStorageModule : CF_ModuleGame
+class CF_ModStorageModule : CF_ModuleWorld
 {
 	static const string m_FileName = "modstorageplayers.bin";
 	protected string m_FilePath;
@@ -43,13 +43,13 @@ class CF_ModStorageModule : CF_ModuleGame
 	{
 		Load();
 
-		Man player = entity.GetHierarchyRootPlayer();
-		if (!player || !player.GetIdentity())
+		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
+		if (!player || !player.CF_GetQueuedIdentityId())
 		{
 			return m_FileExist;
 		}
 
-		return m_IDs[player.GetIdentity().GetId()] != null;
+		return m_IDs[player.CF_GetQueuedIdentityId()] != null;
 	}
 
 	/**
