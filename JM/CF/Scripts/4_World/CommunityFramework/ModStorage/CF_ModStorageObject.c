@@ -58,12 +58,21 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModStorageMap);
 
-		ctx.Write(ModLoader.s_CF_ModStorages.Count() + m_UnloadedMods.Count());
-
+		int modsWithDataCount;
 		foreach (auto mod2 : ModLoader.s_CF_ModStorages)
 		{
-			// also resets the stream for next 'OnStoreSave'
-			mod2._CopyStreamTo(ctx);
+			if (mod2.m_MaxIdx > -1) modsWithDataCount++;
+		}
+
+		ctx.Write(modsWithDataCount + m_UnloadedMods.Count());
+
+		if (modsWithDataCount)
+		{
+			foreach (auto mod3 : ModLoader.s_CF_ModStorages)
+			{
+				// also resets the stream for next 'OnStoreSave'
+				if (mod3.m_MaxIdx > -1) mod3._CopyStreamTo(ctx);
+			}
 		}
 
 		foreach (auto unloadedMod : m_UnloadedMods)
@@ -131,11 +140,14 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			if (!ModLoader._CF_ReadModStorage(ctx, cf_version, m_UnloadedMods, unloadedModsRead, loadedMods))
 			{
 				CF_Log.Error("Failed to read modstorage for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
-				return false;
+				break;
 			}
 		}
 		
 		m_UnloadedMods.Resize(unloadedModsRead);
+
+		if (modsRead < numMods)
+			return false;
 
 		m_Entity.CF_OnStoreLoad(loadedMods);
 
