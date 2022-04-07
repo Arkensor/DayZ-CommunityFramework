@@ -27,13 +27,13 @@ class CF_ModStorageModule : CF_ModuleWorld
 	{
 		Load();
 
-		Man player = entity.GetHierarchyRootPlayer();
-		if (!player || !player.GetIdentity() || !_AddPlayer(player.GetIdentity().GetId(), false))
+		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
+		if (!player || !player.CF_GetQueuedIdentityId() || !_AddPlayer(player.CF_GetQueuedIdentityId(), false))
 		{
 			return;
 		}
 
-		m_Serializer.Write(player.GetIdentity().GetId());
+		m_Serializer.Write(player.CF_GetQueuedIdentityId());
 	}
 
 	/**
