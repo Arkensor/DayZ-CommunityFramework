@@ -25,6 +25,9 @@ class CF_ModStorageModule : CF_ModuleWorld
 	 */
 	void AddEntity(EntityAI entity)
 	{
+		if (!g_Game.IsDedicatedServer())
+			return;
+
 		Load();
 
 		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
@@ -41,6 +44,9 @@ class CF_ModStorageModule : CF_ModuleWorld
 	 */
 	bool IsEntity(EntityAI entity)
 	{
+		if (!g_Game.IsDedicatedServer())
+			return true;
+
 		Load();
 
 		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
