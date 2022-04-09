@@ -7,9 +7,7 @@
 
 #define CF_GHOSTICONS
 
-#ifdef SERVER
 #define CF_MODSTORAGE
-#endif
 //#define CF_MODSTORAGE_TEST
 //#define CF_MODSTORAGE_TRACE
 //#define CF_MODSTORAGE_MODULE_DISABLE
