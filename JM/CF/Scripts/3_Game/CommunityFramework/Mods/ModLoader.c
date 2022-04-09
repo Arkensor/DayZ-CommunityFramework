@@ -106,7 +106,7 @@ modded class ModLoader
 						storage._Insert(f);
 						break;
 					case CF_ModStorageDataType.VECTOR:
-						int x = 0, y = 0, z = 0;
+						float x = 0, y = 0, z = 0;
 						if (!ctx.Read(x)) return false;
 						if (!ctx.Read(y)) return false;
 						if (!ctx.Read(z)) return false;
