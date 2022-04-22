@@ -143,6 +143,10 @@ modded class MissionServer
 		yaw = args.Yaw;
 		preloadTimeout = args.PreloadTimeout;
 
+#ifdef CF_MODSTORAGE
+		PlayerBase.CF_QueueIdentityId(identity.GetId());
+#endif
+
 		// must call before vanilla
 		super.OnClientPrepareEvent(identity, useDB, pos, yaw, preloadTimeout);
 	}

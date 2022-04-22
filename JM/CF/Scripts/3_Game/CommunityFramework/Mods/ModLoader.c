@@ -70,14 +70,69 @@ modded class ModLoader
 			storage.m_HashB = hashB;
 		}
 
+		storage.m_CF_Version = version;
+
 		if (!ctx.Read(storage.m_Version)) return false;
-		if (!ctx.Read(storage.m_Data)) return false;
+		bool hasData;
+		if (version < CF_ModStorage.VERSION)
+		{
+			//! Bail on old ModStorage data to avoid possible CTD if corrupted storage
+			int numberOfBytes;
+			ctx.Read(numberOfBytes);
+			CF_Log.Error("Reading deprecated modstorage v" + version + " is not supported, discarding " + numberOfBytes + " bytes for mod " + storage.GetModName());
+			return false;
+		}
+		else
+		{
+			int entries;
+			if (!ctx.Read(entries)) return false;
+			hasData = entries > 0;
+			while (entries > 0)
+			{
+				int type = -1;
+				if (!ctx.Read(type)) return false;
+				switch (type)
+				{
+					case CF_ModStorageDataType.BOOL:
+						bool b = false;
+						if (!ctx.Read(b)) return false;
+						storage._Insert(b);
+						break;
+					case CF_ModStorageDataType.INT:
+						int i = 0;
+						if (!ctx.Read(i)) return false;
+						storage._Insert(i);
+						break;
+					case CF_ModStorageDataType.FLOAT:
+						float f = 0;
+						if (!ctx.Read(f)) return false;
+						storage._Insert(f);
+						break;
+					case CF_ModStorageDataType.VECTOR:
+						float x = 0, y = 0, z = 0;
+						if (!ctx.Read(x)) return false;
+						if (!ctx.Read(y)) return false;
+						if (!ctx.Read(z)) return false;
+						storage._Insert(Vector(x, y, z));
+						break;
+					case CF_ModStorageDataType.STRING:
+						string s = "";
+						if (!ctx.Read(s)) return false;
+						storage._Insert(s);
+						break;
+					default:
+						CF_Log.Error("Failed to read unknown data type %1 for mod %2", type.ToString(), storage.GetModName());
+						return false;
+				}
+				entries--;
+			}
+		}
 
 		if (exists)
 		{
 			loadedMods.Insert(storage.GetMod().GetName(), storage);
 		}
-		else
+		else if (hasData)
 		{
 			unloadedMods[stackIndex] = storage;
 			stackIndex++;
