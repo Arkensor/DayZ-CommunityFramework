@@ -76,8 +76,11 @@ modded class ModLoader
 		bool hasData;
 		if (version < CF_ModStorage.VERSION)
 		{
-			if (!ctx.Read(storage.m_Data)) return false;
-			hasData = storage.m_Data.Length() > 0;
+			//! Bail on old ModStorage data to avoid possible CTD if corrupted storage
+			int numberOfBytes;
+			ctx.Read(numberOfBytes);
+			CF_Log.Error("Reading deprecated modstorage v" + version + " is not supported, discarding " + numberOfBytes + " bytes for mod " + storage.GetModName());
+			return false;
 		}
 		else
 		{
