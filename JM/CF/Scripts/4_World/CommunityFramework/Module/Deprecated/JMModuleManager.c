@@ -22,7 +22,7 @@ class JMModuleManager : JMModuleManagerBase
 	protected void InitModule(ref JMModuleBase module)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "InitModule").Add(module);
+		auto trace = CF_Trace_1(this).Add(module);
 #endif
 
 		m_ModuleList.Insert(module);

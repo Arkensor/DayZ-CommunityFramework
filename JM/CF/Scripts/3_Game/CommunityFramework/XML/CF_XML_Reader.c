@@ -12,14 +12,14 @@ class CF_XML_Reader : Managed
 	void CF_XML_Reader()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_XML_Reader");
+		auto trace = CF_Trace_0(this);
 #endif
 	}
 
 	void ~CF_XML_Reader()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_XML_Reader");
+		auto trace = CF_Trace_0(this);
 #endif
 	}
 	

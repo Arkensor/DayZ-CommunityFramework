@@ -26,7 +26,7 @@ modded class CreditsLoader
 	override static JsonDataCredits GetData()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("JsonDataCredits", "GetData");
+		auto trace = CF_Trace_0("JsonDataCredits");
 #endif
 
 		JsonDataCredits data = new JsonDataCredits;

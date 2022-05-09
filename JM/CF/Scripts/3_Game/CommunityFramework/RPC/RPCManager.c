@@ -51,7 +51,7 @@ class RPCManager
 	void OnRPC( PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_4(this, "OnRPC").Add(sender).Add(target).Add(rpc_type).Add(ctx);
+		auto trace = CF_Trace_4(this).Add(sender).Add(target).Add(rpc_type).Add(ctx);
 		#endif
 		
 		Param2< string, string > metaData;
@@ -111,7 +111,7 @@ class RPCManager
 	void SendRPC( string modName, string funcName, ref Param params = NULL, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_6(this, "SendRPC").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
+		auto trace = CF_Trace_6(this).Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
 		#endif
 
 		auto sendData = new array< ref Param >;
@@ -144,7 +144,7 @@ class RPCManager
 	void SendRPCs( string modName, string funcName, ref array< ref Param > params, bool guaranteed = false, ref PlayerIdentity sendToIdentity = NULL, ref Object sendToTarget = NULL )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_6(this, "SendRPCs").Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
+		auto trace = CF_Trace_6(this).Add(modName).Add(funcName).Add(params).Add(guaranteed).Add(sendToIdentity).Add(sendToTarget);
 		#endif
 
 		params.InsertAt( new Param2< string, string >( modName, funcName ), 0 );
@@ -171,7 +171,7 @@ class RPCManager
 	bool AddRPC( string modName, string funcName, Class instance, int singlePlayerExecType = SingleplayerExecutionType.Server )
 	{
 		#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_4(this, "AddRPC").Add(modName).Add(funcName).Add(instance).Add(singlePlayerExecType);
+		auto trace = CF_Trace_4(this).Add(modName).Add(funcName).Add(instance).Add(singlePlayerExecType);
 		#endif
 
 		if ( !m_RPCActions.Contains( modName ) )

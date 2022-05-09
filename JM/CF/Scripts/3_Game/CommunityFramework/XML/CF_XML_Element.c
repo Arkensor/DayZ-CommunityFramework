@@ -11,7 +11,7 @@ class CF_XML_Element : Managed
 	void CF_XML_Element(CF_XML_Tag parent = NULL)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1(this, "CF_XML_Element").Add(parent);
+		auto trace = CF_Trace_1(this).Add(parent);
 #endif
 
 		_parentTag = parent;
@@ -20,7 +20,7 @@ class CF_XML_Element : Managed
 	void ~CF_XML_Element()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_XML_Element");
+		auto trace = CF_Trace_0(this);
 #endif
 	}
 
