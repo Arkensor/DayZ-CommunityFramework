@@ -393,6 +393,18 @@ class CF_Date : Managed
 		return "undefined";
 	}
 
+	//! @note 0 = sunday
+	int GetDayOfWeek()
+	{
+		int y = m_Year;
+		int d = m_Day;
+		if (m_Month < 3)
+			d += y--;
+		else
+			d += y - 2;
+		return (23 * m_Month / 9 + d + 4 + y / 4 - y / 100 + y / 400) % 7;
+	}
+
 	int GetDay()
 	{
 		return m_Day;
