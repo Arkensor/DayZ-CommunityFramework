@@ -121,7 +121,9 @@ modded class MissionServer
 
 		auto args = new CF_EventNewPlayerArgs(player, identity, pos, ctx);
 		CF_ModuleWorldManager.OnClientNew(this, args);
-		player = args.Player;
+
+		//TODO: allow the args to override these 'out' variables again, 'CF_ModuleWorldManager.OnClientNew' deletes 'args' before this can be used
+		//player = args.Player;
 
 		return player;
 	} 
@@ -137,13 +139,13 @@ modded class MissionServer
 
 		CF_ModuleWorldManager.OnClientPrepare(this, args);
 		
-		//identity = args.Identity;
-		useDB = args.UseDatabase;
-		pos = args.Position;
-		yaw = args.Yaw;
-		preloadTimeout = args.PreloadTimeout;
+		//TODO: allow the args to override these 'out' variables again, 'CF_ModuleWorldManager.OnClientPrepare' deletes 'args' before this can be used
+		//useDB = args.UseDatabase;
+		//pos = args.Position;
+		//yaw = args.Yaw;
+		//preloadTimeout = args.PreloadTimeout;
 
-		// must call before vanilla
+		// must call module code before vanilla
 		super.OnClientPrepareEvent(identity, useDB, pos, yaw, preloadTimeout);
 	}
 };
