@@ -161,7 +161,7 @@ modded class DayZGame
 			RespawnEventParams respawnParams;
 			if (Class.CastTo(respawnParams, params))
 			{
-				CF_ModuleCoreManager.OnMPConnectionLost(this, new CF_EventTimeArgs(respawnParams.param1));
+				CF_ModuleCoreManager.OnRespawn(this, new CF_EventTimeArgs(respawnParams.param1));
 			}
 			break;
 		}
