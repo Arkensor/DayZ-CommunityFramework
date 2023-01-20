@@ -27,7 +27,7 @@ class CF_ExpressionFunctionValue : CF_ExpressionFunction
 {
 	static string CF_NAME = "#INTERNAL_0";
 
-	[CF_EventSubscriber(CF_ExpressionFunctionValue.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionValue.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionValue, -1));
@@ -48,7 +48,7 @@ class CF_ExpressionFunctionVariable : CF_ExpressionFunction
 {
 	static string CF_NAME = "#INTERNAL_1";
 
-	[CF_EventSubscriber(CF_ExpressionFunctionVariable.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionVariable.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionVariable, -1));
@@ -69,7 +69,7 @@ class CF_ExpressionFunctionPow : CF_ExpressionFunction
 {
 	static string CF_NAME = "^";
 
-	[CF_EventSubscriber(CF_ExpressionFunctionPow.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionPow.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionPow, 0, 4, false));
@@ -90,7 +90,7 @@ class CF_ExpressionFunctionMul : CF_ExpressionFunction
 {
 	static string CF_NAME = "*";
 
-	[CF_EventSubscriber(CF_ExpressionFunctionMul.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionMul.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionMul, 0, 3, true));
@@ -111,7 +111,7 @@ class CF_ExpressionFunctionDiv : CF_ExpressionFunction
 {
 	static string CF_NAME = "/";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionDiv.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionDiv.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionDiv, 0, 3, true));
@@ -133,7 +133,7 @@ class CF_ExpressionFunctionAdd : CF_ExpressionFunction
 {
 	static string CF_NAME = "+";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionAdd.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionAdd.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionAdd, 0, 2, true));
@@ -154,7 +154,7 @@ class CF_ExpressionFunctionSub : CF_ExpressionFunction
 {
 	static string CF_NAME = "-";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionSub.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionSub.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionSub, 0, 2, true));
@@ -176,7 +176,7 @@ class CF_ExpressionFunctionFactor : CF_ExpressionFunction
 {
 	static string CF_NAME = "factor";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionFactor.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionFactor.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionFactor, 2));
@@ -197,7 +197,7 @@ class CF_ExpressionFunctionReverseFactor : CF_ExpressionFunction
 {
 	static string CF_NAME = "#factor_reverse";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionReverseFactor.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionReverseFactor.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionReverseFactor, 2));
@@ -218,7 +218,7 @@ class CF_ExpressionFunctionCos : CF_ExpressionFunction
 {
 	static string CF_NAME = "cos";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionCos.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionCos.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionCos));
@@ -239,7 +239,7 @@ class CF_ExpressionFunctionSin : CF_ExpressionFunction
 {
 	static string CF_NAME = "sin";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionSin.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionSin.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionSin));
@@ -260,7 +260,7 @@ class CF_ExpressionFunctionMin : CF_ExpressionFunction
 {
 	static string CF_NAME = "min";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionMin.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionMin.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionMin));
@@ -281,7 +281,7 @@ class CF_ExpressionFunctionMax : CF_ExpressionFunction
 {
 	static string CF_NAME = "max";
 	
-	[CF_EventSubscriber(CF_ExpressionFunctionMax.Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionFunctionMax.Init), CF_LifecycleEvents.OnGameCreate)]
 	static void Init()
 	{
 		CF_ExpressionVM.AddFunction(CF_NAME, new CF_ExpressionFunctionDef(CF_ExpressionFunctionMax));

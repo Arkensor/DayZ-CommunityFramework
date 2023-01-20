@@ -13,7 +13,11 @@ class CF_MultiEventSubscriber
      * @param events        Array of CF_EventHandler instances to subscribe to. Use the static array initializer syntax: {<data here>}.
      * @return void.
      */
+#ifdef DAYZ_1_19
     void CF_MultiEventSubscriber(func subscriber, array<CF_EventHandlerBase> events)
+#else
+    void CF_MultiEventSubscriber(ScriptCaller subscriber, array<CF_EventHandlerBase> events)
+#endif
     {
         foreach(auto evt : events)
         {

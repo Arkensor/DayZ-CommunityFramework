@@ -8,7 +8,7 @@ class CF_ExpressionVM
 
 	private	static autoptr map<string, autoptr CF_ExpressionFunctionDef> s_Functions;
 
-	[CF_EventSubscriber(CF_ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionVM.Destroy), CF_LifecycleEvents.OnGameDestroy)]
 	static void Destroy()
 	{
 		s_Functions = null;
