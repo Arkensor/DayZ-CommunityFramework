@@ -24,7 +24,7 @@ class CF_TypeConverterConstructor
 		CF_TypeConverter._OnDestroy();
 	}
 		
-	[CF_EventSubscriber(CF_TypeConverterConstructor._Init, CF_LifecycleEvents.OnGameCreate)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_TypeConverterConstructor._Init), CF_LifecycleEvents.OnGameCreate)]
 	static void _Init()
 	{
 		if (g_CF_TypeConverterConstructor)
@@ -35,7 +35,7 @@ class CF_TypeConverterConstructor
 		g_CF_TypeConverterConstructor = new CF_TypeConverterConstructor();
 	}
 
-	[CF_EventSubscriber(CF_TypeConverterConstructor._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+	[CF_EventSubscriber(ScriptCaller.Create(CF_TypeConverterConstructor._Cleanup), CF_LifecycleEvents.OnGameDestroy)]
 	static void _Cleanup()
 	{
 		g_CF_TypeConverterConstructor = null;
