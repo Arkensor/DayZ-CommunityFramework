@@ -18,6 +18,8 @@ class CF_BinaryReader : CF_IO
 	override array<CF_Byte> ReadBytes(int count)
 	{
 		array<CF_Byte> bytes = {};
+		bytes.Reserve(count);
+
 		for (int i = 0; i < count; i++)
 		{
 			CF_Byte byte = m_Stream.Next();
