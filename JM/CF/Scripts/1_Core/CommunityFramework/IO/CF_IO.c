@@ -136,6 +136,14 @@ class CF_IO : Managed
 	}
 
 	/**
+	 * ReadByte an array of byte
+	 */
+	void ReadBytes(int count, inout array<CF_Byte> bytes)
+	{
+		CF_Log.Error("Not implemented.");
+	}
+
+	/**
 	 * ReadChar an ascii character
 	 */
 	string ReadChar()
