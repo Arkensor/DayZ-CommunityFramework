@@ -23,8 +23,12 @@ class CF_ModuleConstructor
 
 		CF_ModuleCoreManager._OnDestroy();
 	}
-		
+
+#ifdef CF_FUNC_OLD
+	[CF_EventSubscriber(CF_ModuleConstructor._Init, CF_LifecycleEvents.OnGameCreate)]
+#else
 	[CF_EventSubscriber(ScriptCaller.Create(CF_ModuleConstructor._Init), CF_LifecycleEvents.OnGameCreate)]
+#endif
 	static void _Init()
 	{
 		if (g_CF_ModuleConstructor)
@@ -35,7 +39,11 @@ class CF_ModuleConstructor
 		g_CF_ModuleConstructor = new CF_ModuleConstructor();
 	}
 
+#ifdef CF_FUNC_OLD
+	[CF_EventSubscriber(CF_ModuleConstructor._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+#else
 	[CF_EventSubscriber(ScriptCaller.Create(CF_ModuleConstructor._Cleanup), CF_LifecycleEvents.OnGameDestroy)]
+#endif
 	static void _Cleanup()
 	{
 		g_CF_ModuleConstructor = null;
