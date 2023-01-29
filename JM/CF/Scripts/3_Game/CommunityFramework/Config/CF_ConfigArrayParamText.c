@@ -1,10 +1,12 @@
-class ConfigValueText : ConfigValue
+typedef CF_ConfigArrayParamText ConfigArrayParamText;
+
+class ConfigArrayParamText : ConfigArrayParam
 {
 	private string _value;
 
 	override string GetType()
 	{
-		return "TEXT";
+		return "TEXT_PARAM";
 	}
 
 	override bool IsText()
@@ -17,7 +19,7 @@ class ConfigValueText : ConfigValue
 		return _value;
 	}
 
-	override void SetText( string value )
+	override void SetText(string value)
 	{
 		_value = value;
 	}

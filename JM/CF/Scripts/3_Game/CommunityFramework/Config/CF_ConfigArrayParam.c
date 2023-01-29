@@ -1,4 +1,6 @@
-class ConfigArrayParam : ConfigEntry
+typedef CF_ConfigArrayParam ConfigArrayParam;
+
+class CF_ConfigArrayParam : CF_ConfigEntry
 {
 	override string GetType()
 	{

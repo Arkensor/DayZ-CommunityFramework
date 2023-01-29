@@ -1,10 +1,12 @@
-class ConfigValueFloat : ConfigValue
+typedef CF_ConfigArrayParamFloat ConfigArrayParamFloat;
+
+class CF_ConfigArrayParamFloat : CF_ConfigArrayParam
 {
 	private float _value;
 
 	override string GetType()
 	{
-		return "FLOAT";
+		return "FLOAT_PARAM";
 	}
 
 	override bool IsFloat()
@@ -17,7 +19,7 @@ class ConfigValueFloat : ConfigValue
 		return _value;
 	}
 
-	override void SetFloat( float value )
+	override void SetFloat(float value)
 	{
 		_value = value;
 	}

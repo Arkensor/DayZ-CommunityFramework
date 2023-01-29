@@ -1,10 +1,12 @@
-class ConfigArrayParamInt : ConfigArrayParam
+typedef CF_ConfigValueInt ConfigValueInt;
+
+class CF_ConfigValueInt : ConfigValue
 {
 	private int _value;
 
 	override string GetType()
 	{
-		return "INT_PARAM";
+		return "INT";
 	}
 
 	override bool IsInt()
@@ -17,7 +19,7 @@ class ConfigArrayParamInt : ConfigArrayParam
 		return _value;
 	}
 
-	override void SetInt( int value )
+	override void SetInt(int value)
 	{
 		_value = value;
 	}

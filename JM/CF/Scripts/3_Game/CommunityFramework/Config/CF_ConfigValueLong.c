@@ -1,10 +1,12 @@
-class ConfigArrayParamLong : ConfigArrayParam
+typedef CF_ConfigValueLong ConfigValueLong;
+
+class ConfigValueLong : ConfigValue
 {
 	private int _value;
 
 	override string GetType()
 	{
-		return "LONG_PARAM";
+		return "LONG";
 	}
 
 	override bool IsLong()
@@ -17,7 +19,7 @@ class ConfigArrayParamLong : ConfigArrayParam
 		return _value;
 	}
 
-	override void SetLong( int value )
+	override void SetLong(int value)
 	{
 		_value = value;
 	}
