@@ -152,7 +152,7 @@ class CF_Token : Class
 	static CF_Token Comma = CF_Token.Create(",");
 	static CF_Token Period = CF_Token.Create(".");
 
-	static CF_Token Attribute = CF_Token.Create("@");
+	static CF_Token At = CF_Token.Create("@");
 
 	static CF_Token Hash = CF_Token.Create("#");
 };
