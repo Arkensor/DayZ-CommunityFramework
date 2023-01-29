@@ -13,7 +13,7 @@ class CF_XML_Tag : Managed
 	void CF_XML_Tag(CF_XML_Element parent, string name, bool isCopy = false)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_3(this, "CF_XML_Tag").Add(parent).Add(name).Add(isCopy);
+		auto trace = CF_Trace_3(this).Add(parent).Add(name).Add(isCopy);
 #endif
 
 		_attributes = new map<string, ref CF_XML_Attribute>;
@@ -27,7 +27,7 @@ class CF_XML_Tag : Managed
 	void ~CF_XML_Tag()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_XML_Tag");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		for (int i = 0; i < _attributes.Count(); ++i)

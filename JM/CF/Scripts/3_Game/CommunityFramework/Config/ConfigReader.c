@@ -8,14 +8,14 @@ class ConfigReader : Managed
 	private void ConfigReader()
 	{ 
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "ConfigReader");
+		auto trace = CF_Trace_0(this);
 #endif
 	}
 
 	void ~ConfigReader()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~ConfigReader");
+		auto trace = CF_Trace_0(this);
 #endif
 	}
 

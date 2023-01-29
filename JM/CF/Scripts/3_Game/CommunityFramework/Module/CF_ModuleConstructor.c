@@ -5,7 +5,7 @@ class CF_ModuleConstructor
 	private void CF_ModuleConstructor()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_ModuleConstructor");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		CF_ModuleCoreManager._OnCreate();
@@ -18,7 +18,7 @@ class CF_ModuleConstructor
 	void ~CF_ModuleConstructor()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_ModuleConstructor");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		CF_ModuleCoreManager._OnDestroy();

@@ -5,7 +5,7 @@ class CF_TypeConverterConstructor
 	private void CF_TypeConverterConstructor()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_TypeConverterConstructor");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		CF_TypeConverter._OnCreate();
@@ -18,7 +18,7 @@ class CF_TypeConverterConstructor
 	void ~CF_TypeConverterConstructor()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_TypeConverterConstructor");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		CF_TypeConverter._OnDestroy();
