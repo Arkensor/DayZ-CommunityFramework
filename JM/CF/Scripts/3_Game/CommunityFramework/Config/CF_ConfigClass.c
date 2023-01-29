@@ -1,6 +1,6 @@
 typedef CF_ConfigClassDeclaration ConfigClassDeclaration;
 
-class ConfigClassDeclaration : ConfigClass
+class CF_ConfigClassDeclaration : CF_ConfigClass
 {
 	override bool IsClassDecl()
 	{
@@ -10,7 +10,7 @@ class ConfigClassDeclaration : ConfigClass
 
 typedef CF_ConfigDelete ConfigDelete;
 
-class ConfigDelete : ConfigEntry
+class CF_ConfigDelete : CF_ConfigEntry
 {
 	override bool IsDelete()
 	{
@@ -18,7 +18,7 @@ class ConfigDelete : ConfigEntry
 	}
 };
 
-typedef CF_ConfigDelete ConfigDelete;
+typedef CF_ConfigClass ConfigClass;
 
 class CF_ConfigClass : CF_ConfigEntry
 {

@@ -1,6 +1,6 @@
 typedef CF_ConfigArrayParamText ConfigArrayParamText;
 
-class ConfigArrayParamText : ConfigArrayParam
+class CF_ConfigArrayParamText : CF_ConfigArrayParam
 {
 	private string _value;
 

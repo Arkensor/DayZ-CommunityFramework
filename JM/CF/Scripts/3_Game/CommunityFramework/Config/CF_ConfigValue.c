@@ -1,6 +1,6 @@
 typedef CF_ConfigValue ConfigValue;
 
-class CF_ConfigValue : ConfigEntry
+class CF_ConfigValue : CF_ConfigEntry
 {
 	override string GetType()
 	{

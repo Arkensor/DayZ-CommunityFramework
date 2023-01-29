@@ -1,4 +1,4 @@
-typedef CF_ConfigArray ConfigClass;
+typedef CF_ConfigArray ConfigArray;
 
 class CF_ConfigArray : CF_ConfigEntry
 {

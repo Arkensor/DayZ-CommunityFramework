@@ -1,6 +1,6 @@
 typedef CF_ConfigValueFloat ConfigValueFloat;
 
-class CF_ConfigValueFloat : ConfigValue
+class CF_ConfigValueFloat : CF_ConfigValue
 {
 	private float _value;
 

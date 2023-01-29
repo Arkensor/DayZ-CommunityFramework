@@ -7,7 +7,7 @@ class CF_ConfigFile : CF_ConfigClass
 		return "FILE";
 	}
 
-	static ConfigFile Parse(string fileName)
+	static CF_ConfigFile Parse(string fileName)
 	{
 		CF_Lexer lexer = CF_Lexer.Load(fileName);
 
@@ -16,11 +16,12 @@ class CF_ConfigFile : CF_ConfigClass
 			return null;
 		}
 
-		if (!Parse(lexer, this))
+		CF_ConfigFile file = new CF_ConfigFile();
+		if (!Parse(lexer, file))
 		{
 			return null;
 		}
 
-		return this;
+		return file;
 	}
 };

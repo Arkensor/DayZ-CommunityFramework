@@ -1,6 +1,6 @@
 typedef CF_ConfigValueText ConfigValueText;
 
-class ConfigValueText : ConfigValue
+class CF_ConfigValueText : CF_ConfigValue
 {
 	private string _value;
 

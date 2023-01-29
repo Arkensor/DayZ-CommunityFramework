@@ -1,4 +1,4 @@
-typedef ConfigArrayParamArray;
+typedef CF_ConfigArrayParamArray ConfigArrayParamArray;
 
 class CF_ConfigArrayParamArray : CF_ConfigArrayParam
 {

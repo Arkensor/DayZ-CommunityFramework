@@ -1,6 +1,6 @@
 typedef CF_ConfigValueLong ConfigValueLong;
 
-class ConfigValueLong : ConfigValue
+class CF_ConfigValueLong : ConfigValue
 {
 	private int _value;
 
