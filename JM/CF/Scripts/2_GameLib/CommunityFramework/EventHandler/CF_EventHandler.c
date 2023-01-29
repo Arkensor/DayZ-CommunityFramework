@@ -1,7 +1,7 @@
-#ifdef DAYZ_1_19
+#ifdef CF_FUNC_OLD
 typedef ScriptInvoker CF_ScriptInvoker;
 #else
-typedef array<ref ScriptCaller> CF_ScriptInvoker;
+typedef array<ScriptCaller> CF_ScriptInvoker;
 #endif
 
 class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler and CF_EventHandlerT as function parameter
@@ -24,7 +24,7 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
 
 	}
 	
-#ifdef DAYZ_1_19
+#ifdef CF_FUNC_OLD
 	void AddSubscriber(func subscriber)
 	{
 #ifdef CF_TRACE_ENABLED
@@ -71,7 +71,7 @@ class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 		auto trace = CF_Trace_2(this, "Invoke").Add(sender).Add(args);
 #endif
 
-#ifdef DAYZ_1_19
+#ifdef CF_FUNC_OLD
         m_Invoker.Invoke(sender, args);
 #else
 		foreach (auto invoker : m_Invoker)
