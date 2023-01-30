@@ -38,6 +38,14 @@ class CF_IO : Managed
 	}
 
 	/**
+	 * Write an array of bytes
+	 */
+	void WriteBytes(array<CF_Byte> bytes)
+	{
+		CF_Log.Error("Not implemented.");
+	}
+
+	/**
 	 * Write an ascii character
 	 */
 	void WriteChar(string value)
@@ -116,6 +124,23 @@ class CF_IO : Managed
 	{
 		CF_Log.Error("Not implemented.");
 		return 0;
+	}
+
+	/**
+	 * ReadByte an array of byte
+	 */
+	array<CF_Byte> ReadBytes(int count)
+	{
+		CF_Log.Error("Not implemented.");
+		return null;
+	}
+
+	/**
+	 * ReadByte an array of byte
+	 */
+	void ReadBytes(int count, inout array<CF_Byte> bytes)
+	{
+		CF_Log.Error("Not implemented.");
 	}
 
 	/**
