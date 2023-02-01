@@ -9,7 +9,7 @@ class CF_ExpressionVM
 	private	static autoptr map<string, autoptr CF_ExpressionFunctionDef> s_Functions;
 
 #ifdef CF_FUNC_OLD
-	[CF_EventSubscriber(CF_ExpressionVM.Init, CF_LifecycleEvents.OnGameDestroy)]
+	[CF_EventSubscriber(CF_ExpressionVM.Destroy, CF_LifecycleEvents.OnGameDestroy)]
 #else
 	[CF_EventSubscriber(ScriptCaller.Create(CF_ExpressionVM.Destroy), CF_LifecycleEvents.OnGameDestroy)]
 #endif
