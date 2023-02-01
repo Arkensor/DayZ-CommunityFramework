@@ -1,3 +1,5 @@
+typedef CF_ConfigEntry ConfigEntry;
+
 class CF_ConfigEntry
 {
 	protected ref array<ref CF_ConfigEntry> _entries;
