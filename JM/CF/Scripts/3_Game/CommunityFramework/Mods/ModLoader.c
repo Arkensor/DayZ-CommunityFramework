@@ -10,7 +10,7 @@ modded class ModLoader
 	static CF_ModStorage CF_GetStorage(string name)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("ModLoader", "CF_GetStorage").Add(name);
+		auto trace = CF_Trace_1("ModLoader").Add(name);
 #endif
 
 		LoadMods();
@@ -21,7 +21,7 @@ modded class ModLoader
 	static bool CF_IsModStorage(string name)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("ModLoader", "CF_IsModStorage").Add(name);
+		auto trace = CF_Trace_1("ModLoader").Add(name);
 #endif
 
 		LoadMods();
@@ -32,7 +32,7 @@ modded class ModLoader
 	static bool _CF_ReadModStorage(Serializer ctx, int version, inout array<ref CF_ModStorage> unloadedMods, inout int stackIndex, inout CF_ModStorageMap loadedMods)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_2("ModLoader", "_CF_ReadModStorage").Add(ctx).Add(version);
+		auto trace = CF_Trace_2("ModLoader").Add(ctx).Add(version);
 #endif
 
 		LoadMods();
@@ -89,7 +89,7 @@ modded class ModLoader
 	static ModStructure Get(string name)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("ModLoader", "Get").Add(name);
+		auto trace = CF_Trace_1("ModLoader").Add(name);
 #endif
 
 		LoadMods();
@@ -100,7 +100,7 @@ modded class ModLoader
 	static bool Contains(string name)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("ModLoader", "Contains").Add(name);
+		auto trace = CF_Trace_1("ModLoader").Add(name);
 #endif
 
 		LoadMods();
@@ -111,7 +111,7 @@ modded class ModLoader
 	static bool Find(string name, out ModStructure mod)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("ModLoader", "Find").Add(name);
+		auto trace = CF_Trace_1("ModLoader").Add(name);
 #endif
 
 		LoadMods();
@@ -122,7 +122,7 @@ modded class ModLoader
 	override static array<ref ModStructure> GetMods()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("ModLoader", "GetMods");
+		auto trace = CF_Trace_0("ModLoader");
 #endif
 
 		LoadMods();
@@ -138,7 +138,7 @@ modded class ModLoader
 		}
 
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0("ModLoader", "LoadMods");
+		auto trace = CF_Trace_0("ModLoader");
 #endif
 
 		m_Mods = new array<ref ModStructure>;

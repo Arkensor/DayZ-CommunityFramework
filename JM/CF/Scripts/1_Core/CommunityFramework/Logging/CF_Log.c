@@ -18,7 +18,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.TRACE) return;
 
-		PrintFormat("[TRACE] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[TRACE]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -28,7 +28,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.DEBUG) return;
 
-		PrintFormat("[DEBUG] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[DEBUG]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -38,7 +38,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.INFO) return;
 
-		PrintFormat("[INFO] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[INFO]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -48,7 +48,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.WARNING) return;
 
-		PrintFormat("[WARNING] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[WARNING]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -58,7 +58,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.ERROR) return;
 
-		PrintFormat("[ERROR] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[ERROR]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 
 		string dump = "";
 		DumpStackString(dump);
@@ -78,7 +78,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.CRITICAL) return;
 
-		PrintFormat("[CRITICAL] %1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[CRITICAL]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 
 		string dump = "";
 		DumpStackString(dump);
