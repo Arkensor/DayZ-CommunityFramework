@@ -13,7 +13,7 @@ class CF_EventSubscriber
      * @param evt1...9      CF_EventHandler instances to subscribe to.
      * @return void.
      */
-#ifdef DAYZ_1_19
+#ifdef CF_FUNC_OLD
     void CF_EventSubscriber(func subscriber,
 #else
     void CF_EventSubscriber(ScriptCaller subscriber,
