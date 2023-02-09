@@ -15,6 +15,14 @@ class CF_BinaryWriter : CF_IO
 		m_Stream.AppendCurrent(value);
 	}
 
+	override void WriteBytes(array<CF_Byte> bytes)
+	{
+		for (int i = 0; i < bytes.Count(); i++)
+		{
+			WriteByte(bytes[i]);
+		}
+	}
+
 	override void WriteChar(string value)
 	{
 		m_Stream.AppendCurrent(value.Hash());

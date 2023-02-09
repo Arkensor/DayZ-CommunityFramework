@@ -5,7 +5,7 @@ class CF_ModuleConstructor
 	private void CF_ModuleConstructor()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_ModuleConstructor");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		CF_ModuleCoreManager._OnCreate();
@@ -18,13 +18,17 @@ class CF_ModuleConstructor
 	void ~CF_ModuleConstructor()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_ModuleConstructor");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		CF_ModuleCoreManager._OnDestroy();
 	}
-		
+
+#ifdef CF_FUNC_OLD
 	[CF_EventSubscriber(CF_ModuleConstructor._Init, CF_LifecycleEvents.OnGameCreate)]
+#else
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ModuleConstructor._Init), CF_LifecycleEvents.OnGameCreate)]
+#endif
 	static void _Init()
 	{
 		if (g_CF_ModuleConstructor)
@@ -35,7 +39,11 @@ class CF_ModuleConstructor
 		g_CF_ModuleConstructor = new CF_ModuleConstructor();
 	}
 
+#ifdef CF_FUNC_OLD
 	[CF_EventSubscriber(CF_ModuleConstructor._Cleanup, CF_LifecycleEvents.OnGameDestroy)]
+#else
+	[CF_EventSubscriber(ScriptCaller.Create(CF_ModuleConstructor._Cleanup), CF_LifecycleEvents.OnGameDestroy)]
+#endif
 	static void _Cleanup()
 	{
 		g_CF_ModuleConstructor = null;

@@ -4,6 +4,7 @@
 //#define CF_EXPRESSION_TEST
 
 //#define CF_TRACE_ENABLED
+#define CF_TRACE_STACK_NAME_ASSUMPTION_FIX
 
 #define CF_GHOSTICONS
 
@@ -16,3 +17,7 @@
 #define CF_SURFACES
 
 #define CF_MODULES
+
+#ifndef DAYZ_1_20 //! DAYZ_1_19 won't be avaliable in 2_GameLib
+#define CF_FUNC_OLD
+#endif

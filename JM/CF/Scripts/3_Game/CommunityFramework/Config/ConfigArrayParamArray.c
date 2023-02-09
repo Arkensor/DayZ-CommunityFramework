@@ -5,7 +5,7 @@ class ConfigArrayParamArray : ConfigArrayParam
 	void ~ConfigArrayParamArray()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~ConfigArrayParamArray");
+		auto trace = CF_Trace_0(this);
 #endif
 
 	}

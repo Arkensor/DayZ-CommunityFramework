@@ -40,7 +40,7 @@ class CF_Surface
 	private void CF_Surface()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_Surface");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		s_Surfaces[s_LastSurface] = this;
@@ -52,7 +52,7 @@ class CF_Surface
 	private void ~CF_Surface()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_Surface");
+		auto trace = CF_Trace_0(this);
 #endif
 
 	}
@@ -67,7 +67,7 @@ class CF_Surface
 	static CF_Surface Get(string name)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("CF_Surface", "Get").Add(name);
+		auto trace = CF_Trace_1("CF_Surface").Add(name);
 #endif
 
 		auto surf = s_Surfaces[name];
@@ -180,7 +180,11 @@ class CF_Surface
 		return str;
 	}
 
+#ifdef CF_FUNC_OLD
 	[CF_EventSubscriber(CF_Surface._GetAllSurfaces, CF_LifecycleEvents.OnMissionCreate)]
+#else
+	[CF_EventSubscriber(ScriptCaller.Create(CF_Surface._GetAllSurfaces), CF_LifecycleEvents.OnMissionCreate)]
+#endif
 	static void _GetAllSurfaces()
 	{
 		string path = "cfgSurfaces";

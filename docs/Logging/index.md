@@ -14,18 +14,18 @@ The following table lists the possible log level values and it's corresponding f
 
 # Context Tracing
 
-Useful for when you have a crash and you just aren't sure where or what is causing it. Add these trace methods in every method. As a precautionary reminder, all outputs heavily impact performance. It is also recommended to place these trace function calls behind preprocessor defines and disabling them in production to improve performance, preventing filling up players drives and so if you ever need to find a new possible cause for crashing you can enable the define.
+Useful for when you have a crash and you just aren't sure where or what is causing it. Add these trace methods in every method. As a precautionary reminder, all outputs heavily impact performance. It is also recommended to place these trace function calls behind preprocessor defines and disabling them in production to improve performance, preventing filling up players storage and so if you ever need to find a new possible cause for crashing you can enable the define.
 
 Make sure to assign the return output of the CF_Trace to a variable that is referenced counted for only the lifetime of the particular scope (function/method/instance). 
 
 The trace method will output when the scope has been entered, and when the scope has been exitted. 
 
-The following is an example of a global function with no parameters. When the function/method has no parameters you use the function ending in `_0`. 
+The following is an example of a global function with no parameters. When the function/method has no parameters use the function ending in `_0`. 
 
 ```csharp
 void FunctionOne()
 {
-	auto trace = CF_Trace_0("FunctionOne");
+	auto trace = CF_Trace_0();
 }
 ```
 
@@ -34,7 +34,7 @@ The number of parameters in the function call determines which trace function sh
 ```csharp
 void FunctionTwo(int variable)
 {
-	auto trace = CF_Trace_1("FunctionTwo").Add(variable);
+	auto trace = CF_Trace_1().Add(variable);
 }
 ```
 
@@ -45,7 +45,7 @@ class ClassOne
 {
 	void MethodThree(string variableOne, int variableTwo)
 	{
-		auto trace = CF_Trace_2(this, "MethodThree").Add(variableOne).Add(variableTwo);
+		auto trace = CF_Trace_2(this).Add(variableOne).Add(variableTwo);
 	}
 }
 ```
@@ -57,7 +57,7 @@ class ClassTwo
 {
 	static void MethodFour(string variableOne, int variableTwo)
 	{
-		auto trace = CF_Trace_2("ClassTwo", "MethodFour").Add(variableOne).Add(variableTwo);
+		auto trace = CF_Trace_2("ClassTwo").Add(variableOne).Add(variableTwo);
 	}
 }
 ```
@@ -69,7 +69,7 @@ static bool TRACE_FUNCTIONTHREE = false;
 
 void FunctionThree(float pDt)
 {
-	auto trace = CF_Trace_1(TRACE_FUNCTIONTHREE, this, "FunctionThree").Add(pDt);
+	auto trace = CF_Trace_1(TRACE_FUNCTIONTHREE, this).Add(pDt);
 }
 ```
 
@@ -80,7 +80,7 @@ static bool SOMEMOD_LOG_SOMECLASS_METHODONE = true;
 
 void SomeGlobalFunction()
 {
-	auto trace = CF_Trace_0("SomeGlobalFunction");
+	auto trace = CF_Trace_0();
 	
 	SomeClass someClass = new SomeClass();
 	someClass.MethodOne(0.5);
@@ -92,26 +92,26 @@ class SomeClass
 	
 	void SomeClass()
 	{
-		auto trace = CF_Trace_0(this, "SomeClass");
+		auto trace = CF_Trace_0(this);
 	}
 	
 	void MethodOne(float pDt)
 	{
-		auto trace = CF_Trace_1(SOMEMOD_LOG_SOMECLASS_METHODONE, this, "SomeFunction").Add(pDt);
+		auto trace = CF_Trace_1(SOMEMOD_LOG_SOMECLASS_METHODONE, this).Add(pDt);
 
 		MethodTwo("This is a test string", GetGame().GetPlayer().GetParent());
 	}
 
 	void MethodTwo(string message, IEntity parent)
 	{
-		auto trace = CF_Trace_2(this, "SomeFunction").Add(message).Add(parent);
+		auto trace = CF_Trace_2(this).Add(message).Add(parent);
 
 		MethodThree();
 	}
 
 	void MethodThree()
 	{
-		auto trace = CF_Trace_0(this, "MethodThree");
+		auto trace = CF_Trace_0(this);
 	}
 }
 ```

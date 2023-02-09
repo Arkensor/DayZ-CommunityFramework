@@ -26,7 +26,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 #ifdef CF_MODSTORAGE_TRACE
-		auto trace = CF_Trace_1(this, "OnStoreSave").Add(ctx);
+		auto trace = CF_Trace_1(this).Add(ctx);
 #endif
 
 		if (GetGame().SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
@@ -71,7 +71,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 	override bool OnStoreLoad(ParamsReadContext ctx, int version)
 	{
 #ifdef CF_MODSTORAGE_TRACE
-		auto trace = CF_Trace_2(this, "OnStoreLoad").Add(ctx).Add(version);
+		auto trace = CF_Trace_2(this).Add(ctx).Add(version);
 #endif
 
 		// Clearing the unloaded mods data

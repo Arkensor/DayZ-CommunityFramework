@@ -13,7 +13,11 @@ class CF_EventSubscriber
      * @param evt1...9      CF_EventHandler instances to subscribe to.
      * @return void.
      */
+#ifdef CF_FUNC_OLD
     void CF_EventSubscriber(func subscriber,
+#else
+    void CF_EventSubscriber(ScriptCaller subscriber,
+#endif
         CF_EventHandlerBase evt1 = NULL,
         CF_EventHandlerBase evt2 = NULL,
         CF_EventHandlerBase evt3 = NULL,

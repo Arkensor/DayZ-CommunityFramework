@@ -20,7 +20,7 @@ class CF_VehicleSurface
 	private void CF_VehicleSurface()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_VehicleSurface");
+		auto trace = CF_Trace_0(this);
 #endif
 
 		s_VehicleSurfaces[s_LastSurface] = this;
@@ -32,7 +32,7 @@ class CF_VehicleSurface
 	private void ~CF_VehicleSurface()
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_VehicleSurface");
+		auto trace = CF_Trace_0(this);
 #endif
 
 	}
@@ -47,7 +47,7 @@ class CF_VehicleSurface
 	static CF_VehicleSurface Get(string name)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("CF_VehicleSurface", "Get").Add(name);
+		auto trace = CF_Trace_1("CF_VehicleSurface").Add(name);
 #endif
 
 		auto surf = s_VehicleSurfaces[name];
@@ -132,7 +132,11 @@ class CF_VehicleSurface
 		return str;
 	}
 
+#ifdef CF_FUNC_OLD
 	[CF_EventSubscriber(CF_VehicleSurface._GetAllSurfaces, CF_LifecycleEvents.OnMissionCreate)]
+#else
+	[CF_EventSubscriber(ScriptCaller.Create(CF_VehicleSurface._GetAllSurfaces), CF_LifecycleEvents.OnMissionCreate)]
+#endif
 	static void _GetAllSurfaces()
 	{
 		string path = "CfgVehicleSurfaces";
