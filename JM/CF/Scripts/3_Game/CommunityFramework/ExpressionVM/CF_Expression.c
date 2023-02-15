@@ -60,7 +60,7 @@ class CF_Expression
 
 	protected bool IsAlphanumeric( string c )
 	{
-		int i = c.Hash();
+		int i = c.ToAscii();
 		
 		if (i >= 42 && i <= 57)
 			return true;
@@ -76,7 +76,7 @@ class CF_Expression
 
 	protected bool IsLetterOrDigit( string c )
 	{
-		int i = c.Hash();
+		int i = c.ToAscii();
 			
 		if ( i >= 48 && i <= 57 )
 			return true;
@@ -140,7 +140,7 @@ class CF_Expression
 
 		for ( int i = 0; i < word.Length(); i++ )
 		{
-			int c = word[i].Hash();
+			int c = word[i].ToAscii();
 			if ( c == 46 )
 			{
 				if ( decimal )
