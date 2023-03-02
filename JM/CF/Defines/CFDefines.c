@@ -21,3 +21,5 @@
 #ifndef DAYZ_1_20 //! DAYZ_1_19 won't be avaliable in 2_GameLib
 #define CF_FUNC_OLD
 #endif
+
+#define CF_ONUPDATE_RATE_LIMIT
