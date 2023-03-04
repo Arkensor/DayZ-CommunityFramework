@@ -1,5 +1,9 @@
 modded class MissionBase
 {
+#ifdef SERVER
+	float m_CF_UpdateTime;
+#endif
+
 	protected bool m_bLoaded = false;
 	
 	void MissionBase()
@@ -19,17 +23,35 @@ modded class MissionBase
 
 	void CF_OnUpdate(float timeslice)
 	{
-		if (g_Game.IsLoading())
+#ifdef SERVER
+		float updateTime = GetGame().GetTickTime();
+		float elapsed = updateTime - m_CF_UpdateTime;
+		bool update = elapsed >= 0.025;
+
+		if (update)
 		{
-			return;
+			m_CF_UpdateTime = updateTime;
 		}
+#endif
 
 		if (!m_bLoaded)
 		{
+			if (g_Game.IsLoading())
+			{
+				return;
+			}
+
 			m_bLoaded = true;
 			OnMissionLoaded();
 		}
 
+#ifdef SERVER
+		if (update)
+		{
+			CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(elapsed));
+		}
+#else
 		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
+#endif
 	}
 };
