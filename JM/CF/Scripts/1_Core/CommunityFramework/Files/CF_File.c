@@ -333,7 +333,7 @@ class CF_File : Managed
 		CF_File file = new CF_File(path);
 		if (!file.IsValid())
 		{
-			return;
+			return string.Empty;
 		}
 		
 		string fileContents;
@@ -360,7 +360,7 @@ class CF_File : Managed
 		CF_File file = new CF_File(path);
 		if (!file.IsValid())
 		{
-			return;
+			return {};
 		}
 		
 		array<string> fileContents = {};
@@ -404,7 +404,7 @@ class CF_File : Managed
 		CF_File file = new CF_File(path);
 		if (!file.IsValid())
 		{
-			return;
+			return {};
 		}
 		
 		array<ref CF_Byte> fileContents = {};
