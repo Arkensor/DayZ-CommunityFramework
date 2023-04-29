@@ -399,7 +399,7 @@ class CF_File : Managed
 	 * 
 	 * @return all contents of the file in a byte array
 	 */
-	static array<ref CF_Byte> ReadAllBytes(string path)
+	static array<CF_Byte> ReadAllBytes(string path)
 	{
 		CF_File file = new CF_File(path);
 		if (!file.IsValid())
@@ -407,7 +407,7 @@ class CF_File : Managed
 			return {};
 		}
 		
-		array<ref CF_Byte> fileContents = {};
+		array<CF_Byte> fileContents = {};
 		CF_FileStream fileStream = file.CreateStream(FileMode.READ);
 		CF_Byte byte = fileStream.Next();
 		while (byte) 
