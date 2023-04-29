@@ -344,9 +344,7 @@ class CF_File : Managed
 			fileContents += byte.AsciiToString();
 			byte = fileStream.Next();
 		}
-		
-		fileStream.Close();
-		
+				
 		return fileContents;
 	}	
 	
@@ -384,9 +382,7 @@ class CF_File : Managed
 			
 			byte = fileStream.Next();
 		}
-		
-		fileStream.Close();
-		
+				
 		// Add final line to the contents
 		if (fileLine != string.Empty)
 		{
@@ -419,9 +415,7 @@ class CF_File : Managed
 			fileContents.Insert(byte);
 			byte = fileStream.Next();
 		}
-		
-		fileStream.Close();
-		
+				
 		return fileContents;
 	}
 
