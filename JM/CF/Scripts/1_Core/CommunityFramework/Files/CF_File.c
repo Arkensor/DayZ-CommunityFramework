@@ -320,6 +320,104 @@ class CF_File : Managed
 
 		return true;
 	}
+	
+	/**
+	 * @brief Opens file and returns all text in a single string
+	 * 
+	 * @param path The path to your file
+	 * 
+	 * @return all contents of the file in a single string
+	 */
+	static string ReadAllText(string path)
+	{
+		CF_File file = new CF_File(path);
+		if (!file.IsValid())
+		{
+			return;
+		}
+		
+		string fileContents;
+		CF_FileStream fileStream = file.CreateStream(FileMode.READ);
+		CF_Byte byte = fileStream.Next();
+		while (byte) 
+		{
+			fileContents += byte.AsciiToString();
+			byte = fileStream.Next();
+		}
+		
+		return fileContents;
+	}	
+	
+	/**
+	 * @brief Opens file and returns all text in an array of strings
+	 * 
+	 * @param path The path to your file
+	 * 
+	 * @return all contents of the file in an array of strings, seperated by newlines
+	 */
+	static array<string> ReadAllLines(string path)
+	{
+		CF_File file = new CF_File(path);
+		if (!file.IsValid())
+		{
+			return;
+		}
+		
+		array<string> fileContents = {};
+		string fileLine;
+		CF_FileStream fileStream = file.CreateStream(FileMode.READ);
+		CF_Byte byte = fileStream.Next();
+		while (byte)
+		{
+			// Carriage Return
+			if (byte == 13)
+			{
+				fileContents.Insert(fileLine);
+				fileLine = string.Empty;
+			}
+			else 
+			{
+				fileLine += byte.AsciiToString();
+			}
+			
+			byte = fileStream.Next();
+		}
+		
+		// Add final line to the contents
+		if (fileLine != string.Empty)
+		{
+			fileContents.Insert(fileLine);
+		}
+		
+		return fileContents;
+	}
+	
+	/**
+	 * @brief Opens file and returns all bytes
+	 * 
+	 * @param path The path to your file
+	 * 
+	 * @return all contents of the file in a byte array
+	 */
+	static array<ref CF_Byte> ReadAllBytes(string path)
+	{
+		CF_File file = new CF_File(path);
+		if (!file.IsValid())
+		{
+			return;
+		}
+		
+		array<ref CF_Byte> fileContents = {};
+		CF_FileStream fileStream = file.CreateStream(FileMode.READ);
+		CF_Byte byte = fileStream.Next();
+		while (byte) 
+		{
+			fileContents.Insert(byte);
+			byte = fileStream.Next();
+		}
+		
+		return fileContents;
+	}
 
 	override string GetDebugName()
 	{
