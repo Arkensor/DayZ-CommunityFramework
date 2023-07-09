@@ -94,7 +94,7 @@ class CF_BinaryWriter : CF_IO
 		
 		for (int i = 0; i < value.Length(); i++)
 		{
-			m_Stream.AppendCurrent(value[i].ToAscii());
+			m_Stream.AppendCurrent(value.Substring(i, 1).ToAscii());
 		}
 	}
 
