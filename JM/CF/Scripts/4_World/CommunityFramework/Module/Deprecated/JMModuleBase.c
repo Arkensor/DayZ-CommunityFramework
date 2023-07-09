@@ -264,7 +264,7 @@ class JMModuleBase : CF_ModuleWorld
 	}
 
 	// Old Events
-	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx);
+	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx);
 	void OnMissionStart();
 	void OnMissionFinish();
 	void OnMissionLoaded();
