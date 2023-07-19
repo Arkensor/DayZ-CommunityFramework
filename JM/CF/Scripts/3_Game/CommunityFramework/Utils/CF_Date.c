@@ -283,6 +283,15 @@ class CF_Date : Managed
 		return iTimestamp;
 	}
 
+    static void CompareDates(CF_Date date1, CF_Date date2, out int hours, out int minutes)
+    {
+        int timestamp1 = date1.GetTimestamp();
+        int timestamp2 = date2.GetTimestamp();
+        int timestampDiff = timestamp2 - timestamp1;
+        hours = timestampDiff / 3600;
+        minutes = (timestampDiff % 3600) / 60;
+    }  
+
 	void EpochToDate(int value)
 	{
 		int iTimestamp;
