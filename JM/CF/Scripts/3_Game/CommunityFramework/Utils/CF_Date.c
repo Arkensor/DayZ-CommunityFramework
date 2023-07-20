@@ -283,10 +283,10 @@ class CF_Date : Managed
 		return iTimestamp;
 	}
 
-    static int Compare(CF_Date date1, CF_Date date2)
+	int Compare(CF_Date other, bool useUTC = false)
 	{
-		int timestamp1 = date1.GetTimestamp();
-		int timestamp2 = date2.GetTimestamp();
+		int timestamp1 = CF_Date.Now(useUTC).GetTimestamp();
+		int timestamp2 = other.GetTimestamp();
 
 		if (timestamp1 < timestamp2) {
 			return -1;
@@ -295,6 +295,16 @@ class CF_Date : Managed
 		} else {
 			return 0;
 		}
+	}
+
+	void CalculateDifference(CF_Date other, out int hoursDiff, out int minutesDiff, bool useUTC = false)
+	{
+		int timestamp1 = CF_Date.Now(useUTC).GetTimestamp();
+		int timestamp2 = other.GetTimestamp();
+		
+		int timestampDiff = timestamp2 - timestamp1;
+		hoursDiff = timestampDiff / 3600;
+		minutesDiff = (timestampDiff % 3600) / 60;
 	} 
 
 	void EpochToDate(int value)
