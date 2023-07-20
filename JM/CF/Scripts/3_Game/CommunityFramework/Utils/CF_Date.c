@@ -283,9 +283,9 @@ class CF_Date : Managed
 		return iTimestamp;
 	}
 
-	int Compare(CF_Date other, bool useUTC = false)
+	int Compare(CF_Date other)
 	{
-		int timestamp1 = CF_Date.Now(useUTC).GetTimestamp();
+		int timestamp1 = this.GetTimestamp();
 		int timestamp2 = other.GetTimestamp();
 
 		if (timestamp1 < timestamp2) {
@@ -297,9 +297,9 @@ class CF_Date : Managed
 		}
 	}
 
-	void CalculateDifference(CF_Date other, out int hoursDiff, out int minutesDiff, bool useUTC = false)
+	void CalculateDifference(CF_Date other, out int hoursDiff, out int minutesDiff)
 	{
-		int timestamp1 = CF_Date.Now(useUTC).GetTimestamp();
+		int timestamp1 = this.GetTimestamp();
 		int timestamp2 = other.GetTimestamp();
 		
 		int timestampDiff = timestamp2 - timestamp1;
