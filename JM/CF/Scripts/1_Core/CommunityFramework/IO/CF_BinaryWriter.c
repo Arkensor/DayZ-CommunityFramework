@@ -25,7 +25,7 @@ class CF_BinaryWriter : CF_IO
 
 	override void WriteChar(string value)
 	{
-		m_Stream.AppendCurrent(value.Hash());
+		m_Stream.AppendCurrent(value.ToAscii());
 	}
 
 	override void WriteBool(bool value)
@@ -94,7 +94,7 @@ class CF_BinaryWriter : CF_IO
 		
 		for (int i = 0; i < value.Length(); i++)
 		{
-			m_Stream.AppendCurrent(value.Substring(i, 1).Hash());
+			m_Stream.AppendCurrent(value.Get(i).ToAscii());
 		}
 	}
 
@@ -102,7 +102,7 @@ class CF_BinaryWriter : CF_IO
 	{
 		for (int i = 0; i < value.Length(); i++)
 		{
-			m_Stream.AppendCurrent(value.Substring(i, 1).Hash());
+			m_Stream.AppendCurrent(value.Get(i).ToAscii());
 		}
 		
 		m_Stream.AppendCurrent(0);
