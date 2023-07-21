@@ -140,14 +140,15 @@ class CF_Expression
 
 		for ( int i = 0; i < word.Length(); i++ )
 		{
-			int c = word[i].ToAscii();
+			int c = word.Get(i).ToAscii();
 			if ( c == 46 )
 			{
 				if ( decimal )
 					return false;
 				
 				decimal = true;
-			} else if ( !( c >= 48 && c <= 57 ) )
+			} 
+			else if ( !( c >= 48 && c <= 57 ) )
 			{
 				return false;
 			}
