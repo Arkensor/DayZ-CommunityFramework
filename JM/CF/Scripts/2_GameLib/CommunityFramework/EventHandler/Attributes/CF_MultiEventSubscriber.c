@@ -5,7 +5,7 @@ class CF_MultiEventSubscriber
      *                  If you only need to subscribe to 9 or less instances, use the regular CF_EventSubscriber attribute instead.
      *
      * @code
-     * [CF_MultiEventSubscriber(HandlerFunction, {Event1, Event2, Event3 ... EventN})]
+     * [CF_MultiEventSubscriber(ScriptCaller.Create(HandlerFunction), {Event1, Event2, Event3 ... EventN})]
      * void HandlerFunction(Class sender, CF_EventArgs args) {}
      * @endcode
      *
@@ -13,17 +13,8 @@ class CF_MultiEventSubscriber
      * @param events        Array of CF_EventHandler instances to subscribe to. Use the static array initializer syntax: {<data here>}.
      * @return void.
      */
-#ifdef CF_FUNC_OLD
-    void CF_MultiEventSubscriber(func subscriber, array<CF_EventHandlerBase> events)
-#else
     void CF_MultiEventSubscriber(ScriptCaller subscriber, array<CF_EventHandlerBase> events)
-#endif
     {
-        foreach(auto evt : events)
-        {
-            //Always remove first, to make sure we do not have the same function subscribed twice
-            evt.RemoveSubscriber(subscriber);
-            evt.AddSubscriber(subscriber);
-        }
+        CF_EventSubscriber.UpdateSubscriptions(subscriber, events);
     }
 };
