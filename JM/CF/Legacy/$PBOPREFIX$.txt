@@ -1,0 +1,6 @@
+﻿//<'legacy.pbo' properties via Mikero's dos tools, dll version 7.46>
+product=dayz ugc;
+version=145;
+prefix=JM\CF\Defines;
+PboType=Arma Addon;
+//</properties>

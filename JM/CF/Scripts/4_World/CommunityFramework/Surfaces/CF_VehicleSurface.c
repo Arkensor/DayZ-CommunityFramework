@@ -132,11 +132,7 @@ class CF_VehicleSurface
 		return str;
 	}
 
-#ifdef CF_FUNC_OLD
-	[CF_EventSubscriber(CF_VehicleSurface._GetAllSurfaces, CF_LifecycleEvents.OnMissionCreate)]
-#else
 	[CF_EventSubscriber(ScriptCaller.Create(CF_VehicleSurface._GetAllSurfaces), CF_LifecycleEvents.OnMissionCreate)]
-#endif
 	static void _GetAllSurfaces()
 	{
 		string path = "CfgVehicleSurfaces";
