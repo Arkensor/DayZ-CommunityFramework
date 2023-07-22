@@ -95,7 +95,7 @@ class CF_TypeConverter
 	static CF_TypeConverterBase Get(typename type)
 	{
 #ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_1("Get").Add(type);
+		auto trace = CF_Trace_1("CF_TypeConverter", "Get").Add(type);
 #endif
 
 		CF_TypeConverterBase converter;

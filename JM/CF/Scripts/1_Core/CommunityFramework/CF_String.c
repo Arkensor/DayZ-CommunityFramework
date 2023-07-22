@@ -108,14 +108,10 @@ class CF_String : string
 	string PadStringFront(int length, CF_String padChar)
 	{
 		string newString = value;
-		length = newString.Length() - length;
 
-		if (length > 0)
+		while (newString.Length() < length)
 		{
-			for (int index = 0; index < length; index++)
-			{
-				newString = padChar + newString;
-			}
+			newString = padChar + newString;
 		}
 
 		return newString;

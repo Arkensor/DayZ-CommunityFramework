@@ -1,0 +1,99 @@
+WrapSpacerWidgetClass cf_debug_panel {
+ ignorepointer 1
+ color 0.1922 0.1922 0.1922 0.2471
+ position 0 0
+ size 400 1
+ hexactpos 1
+ vexactpos 0
+ hexactsize 1
+ vexactsize 0
+ scriptclass "CF_ScrollWidget"
+ style DayZDefaultPanel
+ content_halign center
+ {
+  PanelWidgetClass cf_debug_title_panel {
+   ignorepointer 1
+   color 0.2549 0.2549 0.2549 0.4
+   position 0 0
+   size 1 40
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 1
+   style rover_sim_colorable
+   {
+    TextWidgetClass cf_debug_title {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     style Normal
+     text "Debug"
+     font "gui/fonts/Metron-Bold"
+     "exact text" 1
+     "text halign" center
+     "text valign" center
+    }
+    CheckBoxWidgetClass cf_debug_cursor_toggle {
+     clipchildren 0
+     size 0.204 0.98
+     valign center_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     fixaspect fixwidth
+     scriptclass "CF_CheckBoxWidget"
+     {
+      ScriptParamsClass {
+       Event_Change "Event_ToggleCursor"
+       Enabled "m_CanChangeInputState"
+       Text "m_InputCombo"
+       Checked "m_InputState"
+      }
+     }
+    }
+   }
+  }
+  ScrollWidgetClass cf_debug_scroll {
+   ignorepointer 0
+   size 0.95 1
+   halign center_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style blank
+   "Scrollbar V" 1
+   {
+    WrapSpacerWidgetClass cf_debug_entries {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     scriptclass "CF_WrapSpacerWidget"
+     Padding 3
+     Margin 3
+     "Size To Content V" 1
+     content_halign center
+     {
+      ScriptParamsClass {
+       Children "m_Instances"
+      }
+     }
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Model "CF_DebugManager"
+  }
+ }
+}

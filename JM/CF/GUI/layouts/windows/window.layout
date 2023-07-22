@@ -1,0 +1,505 @@
+PanelWidgetClass cf_window {
+ visible 1
+ ignorepointer 1
+ size 400 400
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ scriptclass "CF_PanelWidget"
+ style Outline
+ {
+  PanelWidgetClass cf_window_background {
+   visible 1
+   ignorepointer 0
+   color 0.06 0.08 0.11 0.8
+   position 0 0
+   size 1 1
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 0
+   style rover_sim_colorable
+  }
+  PanelWidgetClass cf_window_client {
+   visible 1
+   ignorepointer 0
+   color 0 0 0 0
+   position 0 27
+   size 396 398
+   halign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   scriptclass "CF_PanelWidget"
+   {
+    ScriptParamsClass {
+     Width "m_ContentWidth"
+     Height "m_ContentHeight"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_titlebar_dragger {
+   visible 1
+   ignorepointer 0
+   color 0 0 0 0
+   position 0 0
+   size 1 25
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_PanelWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_Drag "OnDrag"
+     Event_Dragging "OnDragging"
+     Event_Drop "OnDragging"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_titlebar {
+   visible 1
+   ignorepointer 1
+   color 0.0196 0.0196 0.0196 1
+   position 0 2
+   size 396 25
+   halign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 0
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    WrapSpacerWidgetClass cf_window_titlebar_right_buttons {
+     ignorepointer 1
+     size 1 1
+     halign right_ref
+     valign center_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     scriptclass "CF_PanelWidget"
+     Padding 0
+     Margin 0
+     "Size To Content H" 1
+     content_halign right
+     content_valign center
+     {
+      ScriptParamsClass {
+       Children "m_TitleBarButtons"
+      }
+     }
+    }
+    PanelWidgetClass cf_window_titlebar_text_container {
+     ignorepointer 1
+     position 0 0
+     size 1 1
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     {
+      TextWidgetClass cf_window_titlebar_text {
+       ignorepointer 1
+       color 1 1 1 1
+       position 2 0
+       size 1 1
+       halign left_ref
+       valign center_ref
+       hexactpos 1
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       scriptclass "CF_TextWidget"
+       style Normal
+       text "Placeholder Title"
+       font "gui/fonts/sdf_MetronLight24"
+       "exact text" 1
+       "exact text size" 18
+       "text halign" left
+       "text valign" center
+       {
+        ScriptParamsClass {
+         Text "m_Title"
+        }
+       }
+      }
+     }
+    }
+   }
+   {
+    ScriptParamsClass {
+     Width "m_ContentWidth"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_up {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 1 3
+   halign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderUp"
+     Event_MouseLeave "OnMouseBorderUp"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingUp"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_down {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 1 3
+   halign center_ref
+   valign bottom_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderDown"
+     Event_MouseLeave "OnMouseBorderDown"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingDown"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_left {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 3 1
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderLeft"
+     Event_MouseLeave "OnMouseBorderLeft"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingLeft"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_right {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 3 1
+   halign right_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderRight"
+     Event_MouseLeave "OnMouseBorderRight"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingRight"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_up_left {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 3 3
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderUpLeft"
+     Event_MouseLeave "OnMouseBorderUpLeft"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingUpLeft"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_up_right {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 3 3
+   halign right_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderUpRight"
+     Event_MouseLeave "OnMouseBorderUpRight"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingUpRight"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_down_left {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 3 3
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderDownLeft"
+     Event_MouseLeave "OnMouseBorderDownLeft"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingDownLeft"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_drag_down_right {
+   visible 0
+   ignorepointer 0
+   color 0 0 0 0
+   size 3 3
+   halign right_ref
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_ButtonWidget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Event_MouseEnter "OnMouseBorderDownRight"
+     Event_MouseLeave "OnMouseBorderDownRight"
+     Event_Drag "OnStartResizing"
+     Event_Dragging "OnResizingDownRight"
+     Event_Drop "OnStopResizing"
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_up {
+   ignorepointer 1
+   color 1 0 1 1
+   size 1 3
+   halign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderUColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_down {
+   ignorepointer 1
+   color 1 0 1 1
+   size 1 3
+   halign center_ref
+   valign bottom_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderDColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_left {
+   ignorepointer 1
+   color 1 0 1 1
+   size 3 1
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderLColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_right {
+   ignorepointer 1
+   color 1 0 1 1
+   size 3 1
+   halign right_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderRColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_up_left {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderULColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_up_right {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   halign right_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderURColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_down_left {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderDLColor"
+    }
+   }
+  }
+  PanelWidgetClass cf_window_border_down_right {
+   ignorepointer 1
+   color 1 0 1 1
+   size 8 8
+   halign right_ref
+   valign bottom_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   draggable 1
+   scriptclass "CF_Widget"
+   style rover_sim_colorable
+   {
+    ScriptParamsClass {
+     Visible "m_State:CF_TypeConverter_BoolInvert"
+     Color "m_BorderDRColor"
+    }
+   }
+  }
+ }
+ {
+  ScriptParamsClass {
+   Model "CF_Window"
+   Event_MouseButtonDown "OnMouseButtonDown"
+   Event_Update "OnUpdate"
+   Visible "m_Visible"
+   Sort "m_Sort"
+   PositionX "m_PositionX"
+   PositionY "m_PositionY"
+   Width "m_Width"
+   Height "m_Height"
+  }
+ }
+}

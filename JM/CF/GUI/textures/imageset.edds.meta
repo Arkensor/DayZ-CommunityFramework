@@ -1,0 +1,16 @@
+MetaFileClass {
+ Name "{3B699C54C62B9938}JM/CF/GUI/textures/imageset.edds"
+ Author "desktop-o6qatll"
+ ChangeDate -1341854970
+ Configurations {
+  TGAResourceClass PC {
+   SourceFile "imageset.tga"
+  }
+  TGAResourceClass XBOX_ONE : PC {
+  }
+  TGAResourceClass PS4 : PC {
+  }
+  TGAResourceClass LINUX : PC {
+  }
+ }
+}

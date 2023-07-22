@@ -1,0 +1,74 @@
+ImageSetClass {
+ Name "cf_imageset"
+ RefSize 1024 1024
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{3B699C54C62B9938}JM/CF/GUI/textures/imageset.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass close_black {
+   Name "close_black"
+   Pos 0 0
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass close_white {
+   Name "close_white"
+   Pos 0 25
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass fullscreen_black {
+   Name "fullscreen_black"
+   Pos 25 0
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass fullscreen_white {
+   Name "fullscreen_white"
+   Pos 25 25
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass window_black {
+   Name "window_black"
+   Pos 50 0
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass window_white {
+   Name "window_white"
+   Pos 50 25
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass minimize_black {
+   Name "minimize_black"
+   Pos 75 0
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass minimize_white {
+   Name "minimize_white"
+   Pos 75 25
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass maximize_black {
+   Name "maximize_black"
+   Pos 100 0
+   Size 25 25
+   Flags 0
+  }
+  ImageSetDefClass maximize_white {
+   Name "maximize_white"
+   Pos 100 25
+   Size 25 25
+   Flags 0
+  }
+ }
+ Groups {
+ }
+}

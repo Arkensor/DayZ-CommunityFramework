@@ -1,0 +1,16 @@
+TextWidgetClass dropdown_element {
+ position 0 0
+ size 1 30
+ vexactpos 0
+ hexactsize 0
+ vexactsize 1
+ scriptclass "CF_TextWidget"
+ style Normal
+ font "gui/fonts/Metron12"
+ {
+  ScriptParamsClass {
+   Model "CF_DropdownElementBase"
+   Text "m_Data"
+  }
+ }
+}

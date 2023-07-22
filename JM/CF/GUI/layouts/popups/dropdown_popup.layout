@@ -1,0 +1,15 @@
+ScrollWidgetClass dropdown_popup {
+ position 0 0
+ size 400 400
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ scriptclass "CF_ScrollWidget"
+ style blank
+ {
+  ScriptParamsClass {
+   Children "m_Elements"
+  }
+ }
+}

@@ -4,7 +4,6 @@ CGame CF_CreateGame()
 	CreateGame();
 	
 	CF._GameInit();
-	
 	return g_Game;
 }
 
@@ -14,14 +13,48 @@ class CommunityFramework : ModStructure
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
 
+    static DayZGame Game()
+    {
+        #ifdef COMPONENT_SYSTEM 
+        if (!g_Game)
+        {
+            CF_TypeConverterConstructor._Cleanup();
+            CF_TypeConverterConstructor._Init();
+            
+            CF_MVVM._Init();
+            
+            #ifdef CF_WINDOWS
+            CF_Windows._Init();
+            #endif
+
+            CF_CreateGame();
+        }
+        #endif
+
+        return g_Game;
+    }
+
     /**
      * @brief [Internal] CommunityFramework initilization for 3_Game
      *
      * @return void
      */
-	static void _GameInit()
+	static void _GameInit(bool realInit = false)
 	{
+        if (!realInit) Game();
+
+        CF_Windows._Init();
 	}
+
+    static void _MissionInit()
+    {
+        CF_Windows._MissionInit();
+    }
+
+    static void _MissionCleanup()
+    {
+        CF_Windows._MissionCleanup();
+    }
 
     /**
      * @brief [Internal] CommunityFramework cleanup
@@ -32,6 +65,17 @@ class CommunityFramework : ModStructure
     {
         ObjectManager._Cleanup();
 		XML._Cleanup();
+
+        CF_Windows._Cleanup();
+    }
+
+    static bool StringToBool(string str)
+    {
+        str.ToLower();
+        str.Trim();
+        if (str == "true") return true;
+        if (str == "false") return false;
+        return str.ToInt();
     }
 
     /**
@@ -67,7 +111,6 @@ class CommunityFramework : ModStructure
 
 class JM_CommunityFramework : CommunityFramework
 {
-
 };
 
 //--------------------------------------------------------

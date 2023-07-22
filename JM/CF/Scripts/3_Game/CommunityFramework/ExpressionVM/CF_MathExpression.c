@@ -4,7 +4,7 @@ class CF_MathExpression : CF_Expression
 	int __Compile(array<string> variables)
 	{
 		array<ref CF_ExpressionCompileToken> dataStackStore();
-		__Stack<CF_ExpressionCompileToken> stack();
+		CF_Stack<CF_ExpressionCompileToken> stack();
 
 		CF_ExpressionFunctionDef funcDef;
 		CF_ExpressionCompileToken compileToken;

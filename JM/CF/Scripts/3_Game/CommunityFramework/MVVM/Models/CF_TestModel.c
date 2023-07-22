@@ -1,0 +1,125 @@
+
+/**
+ * @brief Inheriting from 'CF_Model' is not a requirement, must re-implement the 'GetLayoutFile' method.
+ */
+class CF_TestModel : CF_Model
+{
+	int Index;
+
+	string TextInput = "Input?";
+	bool BlockInput = false;
+
+	string ButtonText = "Press??";
+
+	//ref CF_Dropdown<ref CF_TestColour> Dropdown = new CF_Dropdown<ref CF_TestColour>();
+
+	ref CF_ObservableArray<CF_TestItemModel> Test = new CF_ObservableArray<CF_TestItemModel>();
+
+	void CF_TestModel()
+	{
+		//Dropdown.Insert(new CF_TestColour(0xFFFF0000, "Red"));
+		//Dropdown.Insert(new CF_TestColour(0xFF00FF00, "Green"));
+		//Dropdown.Insert(new CF_TestColour(0xFF0000FF, "Blue"));
+	}
+
+	void OpenWindow()
+	{
+	}
+
+	void CloseWindow()
+	{
+	}
+
+	void OnCheckboxChange(CF_ModelBase sender, CF_ChangeEventArgs args)
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_2(this, "OnCheckboxChange").Add(sender).Add(args.GetDebugName());
+#endif
+
+		args.Continue = true;
+	}
+
+	void OnChange(CF_ModelBase sender, CF_ChangeEventArgs args)
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_2(this, "OnChange").Add(sender).Add(args.GetDebugName());
+#endif
+
+		args.Continue = BlockInput;
+
+		ButtonText = TextInput;
+		NotifyPropertyChanged("ButtonText");
+	}
+
+	void OnClick(CF_ModelBase sender, CF_MouseEventArgs args)
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_2(this, "OnClick").Add(sender).Add(args.GetDebugName());
+#endif
+
+		Index++;
+
+		ButtonText = "Pressed " + Index + " times!";
+		NotifyPropertyChanged("ButtonText");
+
+		// Dropdown.GetSelected()
+		CF_TestItemModel item = new CF_TestItemModel(this, null, Index);
+		Test.Insert(item);
+	}
+
+	override string GetLayoutFile()
+	{
+		return "JM/CF/GUI/layouts/mvvm/test.layout";
+	}
+};
+
+class CF_TestColour : CF_Model
+{
+	int Hex;
+
+	string Name;
+
+	void CF_TestColour(int _hex, string _name)
+	{
+		Hex = _hex;
+		Name = _name;
+	}
+
+	override string GetDebugName()
+	{
+		return Name;
+	}
+};
+
+class CF_TestItemModel : CF_Model
+{
+	string ButtonText = "NOT SET!";
+
+	ref CF_TestColour Colour;
+
+	private CF_TestModel m_Parent;
+
+	void CF_TestItemModel(CF_TestModel parent, CF_TestColour colour, int index)
+	{
+		m_Parent = parent;
+
+		Colour = colour;
+
+		ButtonText = "Press To Remove (" + index + ")";
+	}
+
+	void Remove(CF_ModelBase sender, CF_MouseEventArgs args)
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_2(this, "Remove").Add(sender).Add(args.GetDebugName());
+#endif
+
+		int index = m_Parent.Test.Find(this);
+		m_Parent.Test.RemoveOrdered(index);
+	}
+
+	override string GetLayoutFile()
+	{
+		return "JM/CF/GUI/layouts/mvvm/testitem.layout";
+	}
+};

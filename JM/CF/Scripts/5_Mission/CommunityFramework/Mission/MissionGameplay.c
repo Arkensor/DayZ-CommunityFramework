@@ -1,5 +1,13 @@
 modded class MissionGameplay
 {
+	void MissionGameplay()
+	{
+		if (GetGame().IsServer())
+		{
+			CF_Debug.SetAllowed(true);
+		}
+	}
+
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();

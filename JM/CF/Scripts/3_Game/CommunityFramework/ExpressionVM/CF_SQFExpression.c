@@ -3,7 +3,7 @@ class CF_SQFExpression : CF_Expression
 	protected override int _Compile(array<string> variables)
 	{
 		array<ref CF_ExpressionCompileToken> dataStackStore();
-		__Stack<CF_ExpressionCompileToken> stack();
+		CF_Stack<CF_ExpressionCompileToken> stack();
 
 		ClearInstructions();
 

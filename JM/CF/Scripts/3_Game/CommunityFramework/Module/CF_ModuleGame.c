@@ -7,7 +7,14 @@ class CF_ModuleGame : CF_ModuleCore
 
 	int m_CF_RPC_Minimum;
 	int m_CF_RPC_Maximum;
-
+	
+	void ~CF_ModuleGame()
+	{
+#ifndef SERVER
+		CF_MVVM.Destroy(this);
+#endif
+	}
+	
 	/**
 	 * @brief Binds a module function to an input
 	 * 
@@ -165,6 +172,42 @@ class CF_ModuleGame : CF_ModuleCore
 	void OnRPC(Class sender, CF_EventArgs args);
 
 	void OnVariablesSynchronized(Class sender, CF_EventArgs args);
+	
+	void Open(Widget parent = null)
+	{
+		string layout = GetLayoutFile();
+		if (layout == string.Empty) return;
+
+		CF_MVVM.Create(this, layout, parent);
+	}
+
+	void Close()
+	{
+		CF_MVVM.Destroy(this);
+	}
+
+	void NotifyPropertyChanged(string property, CF_EventArgs args = null)
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_2(this, "NotifyPropertyChanged").Add(property).Add(args);
+#endif
+
+		CF_MVVM.NotifyPropertyChanged(this, property, args);
+	}
+
+	void NotifyPropertyChanged()
+	{
+#ifdef CF_MVVM_TRACE
+		auto trace = CF_Trace_0(this, "NotifyPropertyChanged");
+#endif
+
+		CF_MVVM.NotifyPropertyChanged(this);
+	}
+
+	string GetLayoutFile()
+	{
+		return string.Empty;
+	}
 };
 
 typedef CF_ModuleGame CF_Module;
