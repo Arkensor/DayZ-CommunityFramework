@@ -46,7 +46,8 @@ class CfgMods
             "CF_MODSTORAGE_MODULE_DISABLE",
             "CF_SURFACES",
             "CF_MODULES",
-            "CF_REF_FIX"
+            "CF_REF_FIX",
+            "CF_BUGFIX_REF" // Same as CF_REF_FIX but for mods that already anticipated a different name
         };
         
 		dependencies[] = { "Core", "Game", "World", "Mission" };
