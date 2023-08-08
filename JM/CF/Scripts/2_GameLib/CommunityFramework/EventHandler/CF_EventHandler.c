@@ -11,6 +11,13 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
 		auto trace = CF_Trace_0(this, "AddSubscriber");
 #endif
 
+		// Make sure we do not add the same caller twice
+		foreach (ScriptCaller existingCaller : m_aCallers)
+		{
+			if (existingCaller.IsValid() && existingCaller.Equals(caller))
+				return;
+		}
+
 		m_aCallers.Insert(caller);
 	}
 
@@ -36,7 +43,7 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
 		auto trace = CF_Trace_0(this, "~CF_EventHandlerBase");
 #endif
 	}
-};
+}
 
 class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 {
@@ -46,28 +53,14 @@ class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 		auto trace = CF_Trace_2(this, "Invoke").Add(sender).Add(args);
 #endif
 
-		//array<int> removeIndices();
-		foreach (int idx, auto caller : m_aCallers)
+		foreach (auto caller : m_aCallers)
 		{
-			if (!caller)
-			{
-				//removeIndices.Insert(idx);
-				continue;
-			}
-
-			caller.Invoke(sender, args);
+			if (caller && caller.IsValid())
+				caller.Invoke(sender, args);
 		}
-
-		/*
-		// Remove all invokers that were nulled by the game
-		foreach (int removeIdx : removeIndices)
-		{
-			m_aCallers.RemoveOrdered(removeIdx);
-		}
-		*/
 	}
-};
+}
 
 class CF_EventHandler extends CF_EventHandlerT<CF_EventArgs> 
 {
-};
+}

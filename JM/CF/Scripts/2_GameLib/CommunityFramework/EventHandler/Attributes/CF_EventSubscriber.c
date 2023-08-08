@@ -1,7 +1,5 @@
 class CF_EventSubscriber
 {
-    protected static ref map<string, ScriptCaller> m_mSingletons = new map<string, ScriptCaller>();
-
     /**
      * @brief ATTRIBUTE Register a function as subscriber of up to 9 CF_EventHandler instances.
      *                  If you need more than 9, please use the CF_MultiEventSubscriber attribute instead.
@@ -31,28 +29,10 @@ class CF_EventSubscriber
 
     static void UpdateSubscriptions(ScriptCaller subscriber, array<CF_EventHandlerBase> events)
     {
-        string stackDump;
-        DumpStackString(stackDump);
-        int popInternalCallsIdx = stackDump.IndexOfFrom(stackDump.IndexOf("\n") + 1, "\n");
-        stackDump = stackDump.Substring(popInternalCallsIdx + 1, stackDump.Length() - (popInternalCallsIdx + 2));
-
-        ScriptCaller existingCaller = m_mSingletons.Get(stackDump);
-        if (existingCaller)
-        {
-            return; // Do not add it twice. Currently we keep the one script caller instance alive via a strong ref.
-            
-            //foreach(auto removeEvent : events)
-            //{
-            //    removeEvent.RemoveSubscriber(existingCaller);
-            //}
-        }
-
-        m_mSingletons.Set(stackDump, subscriber);
-
-        foreach(auto addEvent : events)
+        foreach (CF_EventHandlerBase addEvent : events)
         {
             if (addEvent)
                 addEvent.AddSubscriber(subscriber);
         }
     }
-};
+}
