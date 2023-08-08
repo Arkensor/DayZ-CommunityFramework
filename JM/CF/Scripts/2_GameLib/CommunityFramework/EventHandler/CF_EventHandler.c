@@ -11,12 +11,14 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
 		auto trace = CF_Trace_0(this, "AddSubscriber");
 #endif
 
+		#ifndef DAYZ_1_21
 		// Make sure we do not add the same caller twice
 		foreach (ScriptCaller existingCaller : m_aCallers)
 		{
-			if (existingCaller.IsValid() && existingCaller.Equals(caller))
+			if (existingCaller && existingCaller.IsValid() && existingCaller.Equals(caller))
 				return;
 		}
+		#endif
 
 		m_aCallers.Insert(caller);
 	}
@@ -55,7 +57,11 @@ class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 
 		foreach (auto caller : m_aCallers)
 		{
+			#ifndef DAYZ_1_21
 			if (caller && caller.IsValid())
+			#else
+			if (caller)
+			#endif
 				caller.Invoke(sender, args);
 		}
 	}
