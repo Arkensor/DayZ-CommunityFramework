@@ -5,7 +5,7 @@ class CF_EventSubscriber
      *                  If you need more than 9, please use the CF_MultiEventSubscriber attribute instead.
      *
      * @code
-     * [CF_EventSubscriber(HandlerFunction, Event1, Event2, Event3 ... Event9)]
+     * [CF_EventSubscriber(ScriptCaller.Create(HandlerFunction), Event1, Event2, Event3 ... Event9)]
      * void HandlerFunction(Class sender, CF_EventArgs args) {}
      * @endcode
      *
@@ -13,11 +13,7 @@ class CF_EventSubscriber
      * @param evt1...9      CF_EventHandler instances to subscribe to.
      * @return void.
      */
-#ifdef CF_FUNC_OLD
-    void CF_EventSubscriber(func subscriber,
-#else
     void CF_EventSubscriber(ScriptCaller subscriber,
-#endif
         CF_EventHandlerBase evt1 = NULL,
         CF_EventHandlerBase evt2 = NULL,
         CF_EventHandlerBase evt3 = NULL,
@@ -28,15 +24,15 @@ class CF_EventSubscriber
         CF_EventHandlerBase evt8 = NULL,
         CF_EventHandlerBase evt9 = NULL)
     {
-        //Always remove first, to make sure we do not have the same function subscribed twice
-        if (evt1){ evt1.RemoveSubscriber(subscriber); evt1.AddSubscriber(subscriber); }
-        if (evt2){ evt2.RemoveSubscriber(subscriber); evt2.AddSubscriber(subscriber); }
-        if (evt3){ evt3.RemoveSubscriber(subscriber); evt3.AddSubscriber(subscriber); }
-        if (evt4){ evt4.RemoveSubscriber(subscriber); evt4.AddSubscriber(subscriber); }
-        if (evt5){ evt5.RemoveSubscriber(subscriber); evt5.AddSubscriber(subscriber); }
-        if (evt6){ evt6.RemoveSubscriber(subscriber); evt6.AddSubscriber(subscriber); }
-        if (evt7){ evt7.RemoveSubscriber(subscriber); evt7.AddSubscriber(subscriber); }
-        if (evt8){ evt8.RemoveSubscriber(subscriber); evt8.AddSubscriber(subscriber); }
-        if (evt9){ evt9.RemoveSubscriber(subscriber); evt9.AddSubscriber(subscriber); }
+        UpdateSubscriptions(subscriber, {evt1, evt2, evt3, evt4, evt5, evt6, evt7, evt8, evt9});
     }
-};
+
+    static void UpdateSubscriptions(ScriptCaller subscriber, array<CF_EventHandlerBase> events)
+    {
+        foreach (CF_EventHandlerBase addEvent : events)
+        {
+            if (addEvent)
+                addEvent.AddSubscriber(subscriber);
+        }
+    }
+}

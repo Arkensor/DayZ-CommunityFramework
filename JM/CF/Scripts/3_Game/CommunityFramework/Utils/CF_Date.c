@@ -283,6 +283,30 @@ class CF_Date : Managed
 		return iTimestamp;
 	}
 
+	int Compare(CF_Date other)
+	{
+		int timestamp1 = this.GetTimestamp();
+		int timestamp2 = other.GetTimestamp();
+
+		if (timestamp1 < timestamp2) {
+			return -1;
+		} else if (timestamp1 > timestamp2) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	void CalculateDifference(CF_Date other, out int hoursDiff, out int minutesDiff)
+	{
+		int timestamp1 = this.GetTimestamp();
+		int timestamp2 = other.GetTimestamp();
+		
+		int timestampDiff = timestamp2 - timestamp1;
+		hoursDiff = timestampDiff / 3600;
+		minutesDiff = (timestampDiff % 3600) / 60;
+	} 
+
 	void EpochToDate(int value)
 	{
 		int iTimestamp;

@@ -48,7 +48,7 @@ class CF_EventHandlerT_InvokeDemo
 ```
 
 ### Registering subscribers
-Functions that shall be executed when the event is invoked can be registered as subscribers by calling the `AddSubscriber(func subscriber)` method on the EventHandler instance.
+Functions that shall be executed when the event is invoked can be registered as subscribers by calling the `AddSubscriber(ScriptCaller subscriber)` method on the EventHandler instance.
 You can register global and static functions as well as instance methods.
 ```csharp
 void MyGlobalPrimtiveHandler(Class sender, float args) {} //for CF_EventHandlerT<float>
@@ -63,14 +63,14 @@ class CF_EventHandlerT_SubscribeDemo
 void RegisterSubscribersDemo()
 {
     //Global function
-    new CF_EventHandlerT<float>().AddSubscriber(MyGlobalPrimtiveHandler);
+    new CF_EventHandlerT<float>().AddSubscriber(ScriptCaller.Create(MyGlobalPrimtiveHandler));
     
     //Static function
-    new CF_EventHandlerT<MyCustomEventArgs>().AddSubscriber(CF_EventHandlerT_SubscribeDemo.MySubscriberStaticFunction);
+    new CF_EventHandlerT<MyCustomEventArgs>().AddSubscriber(ScriptCaller.Create(CF_EventHandlerT_SubscribeDemo.MySubscriberStaticFunction));
     
     //Instance method
     auto instance = new CF_EventHandlerT_DemoSubscribe(); //Must be kept alive or the subscriber function will be invalid.
-    new CF_EventHandler().AddSubscriber(instance.MySubscriberMethod);
+    new CF_EventHandler().AddSubscriber(ScriptCaller.Create(instance.MySubscriberMethod));
 }
 ```
 You can also subscribe a single function to multiple EventHandlers that have different `TEventArgs` if you use `CF_EventArgs` as `args` type and do a runtime type check.
@@ -94,7 +94,7 @@ If the subscriber function is global or static you may make use of custom attrib
 There are two types of attributes: `CF_EventSubscriber` for subscribing up to 9 EventHandler instances and `CF_MultiEventSubscriber` if you need more.
 ```csharp
 //You can have them in one line
-[CF_EventSubscriber(TestGlobalEventSubscriber, Event1, Event2)] 
+[CF_EventSubscriber(ScriptCaller.Create(TestGlobalEventSubscriber), Event1, Event2)] 
 void TestGlobalEventSubscriber()
 {
     Print("TestGlobalEventSubscriber");
@@ -104,7 +104,7 @@ class StaticWrapper
 {
     //Or across multiple lines.
     //Only the section opening [ and closing ] must be on the same line as the attribute opening ( and closing )
-    [CF_MultiEventSubscriber(StaticWrapper.TestMultiEventSubscriber, 
+    [CF_MultiEventSubscriber(ScriptCaller.Create(StaticWrapper.TestMultiEventSubscriber), 
     {
         Event1,
         Event2,

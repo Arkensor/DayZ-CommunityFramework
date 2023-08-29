@@ -1,55 +1,26 @@
-#ifdef CF_FUNC_OLD
-typedef ScriptInvoker CF_ScriptInvoker;
-#else
-typedef array<ScriptCaller> CF_ScriptInvoker;
-#endif
+// DO NOT REMOVE!!! For some reason without this there is a compile error cf_eventhandler.c(39): Too many parameters for 'Get' method ...
+typedef array<ref ScriptCaller> CF_ScriptInvoker;
 
 class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler and CF_EventHandlerT as function parameter
 {
-	protected autoptr CF_ScriptInvoker m_Invoker = new CF_ScriptInvoker();
+	protected autoptr CF_ScriptInvoker m_aCallers = {};
 
-	void CF_EventHandlerBase()
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "CF_EventHandlerBase");
-#endif
-
-	}
-
-	void ~CF_EventHandlerBase()
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "~CF_EventHandlerBase");
-#endif
-
-	}
-	
-#ifdef CF_FUNC_OLD
-	void AddSubscriber(func subscriber)
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "AddSubscriber");
-#endif
-
-		m_Invoker.Insert(subscriber);
-	}
-
-	void RemoveSubscriber(func subscriber)
-	{
-#ifdef CF_TRACE_ENABLED
-		auto trace = CF_Trace_0(this, "RemoveSubscriber");
-#endif
-
-		m_Invoker.Remove(subscriber);
-	}
-#else
 	void AddSubscriber(ScriptCaller caller)
 	{
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "AddSubscriber");
 #endif
 
-		m_Invoker.Insert(caller);
+		#ifndef DAYZ_1_21
+		// Make sure we do not add the same caller twice
+		foreach (ScriptCaller existingCaller : m_aCallers)
+		{
+			if (existingCaller && existingCaller.IsValid() && existingCaller.Equals(caller))
+				return;
+		}
+		#endif
+
+		m_aCallers.Insert(caller);
 	}
 
 	void RemoveSubscriber(ScriptCaller caller)
@@ -58,10 +29,23 @@ class CF_EventHandlerBase //Base class to be able to accept both CF_EventHandler
 		auto trace = CF_Trace_0(this, "RemoveSubscriber");
 #endif
 
-		m_Invoker.RemoveItem(caller);
+		m_aCallers.RemoveItem(caller);
 	}
+
+	void CF_EventHandlerBase()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "CF_EventHandlerBase");
 #endif
-};
+	}
+
+	void ~CF_EventHandlerBase()
+	{
+#ifdef CF_TRACE_ENABLED
+		auto trace = CF_Trace_0(this, "~CF_EventHandlerBase");
+#endif
+	}
+}
 
 class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 {
@@ -71,15 +55,18 @@ class CF_EventHandlerT<Class TEventArgs> extends CF_EventHandlerBase
 		auto trace = CF_Trace_2(this, "Invoke").Add(sender).Add(args);
 #endif
 
-#ifdef CF_FUNC_OLD
-        m_Invoker.Invoke(sender, args);
-#else
-		foreach (auto invoker : m_Invoker)
+		foreach (auto caller : m_aCallers)
 		{
-			invoker.Invoke(sender, args);
+			#ifndef DAYZ_1_21
+			if (caller && caller.IsValid())
+			#else
+			if (caller)
+			#endif
+				caller.Invoke(sender, args);
 		}
-#endif
 	}
-};
+}
 
-class CF_EventHandler extends CF_EventHandlerT<CF_EventArgs> {};
+class CF_EventHandler extends CF_EventHandlerT<CF_EventArgs> 
+{
+}
