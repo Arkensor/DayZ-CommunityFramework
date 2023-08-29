@@ -37,7 +37,7 @@ class CF_Byte : CF_Uint
 
 	static CF_Byte Set(string char)
 	{
-		CF_Byte byte = char[0].Hash() & 255;
+		CF_Byte byte = char.Get(0).ToAscii() & 255;
 		return byte;
 	}
 

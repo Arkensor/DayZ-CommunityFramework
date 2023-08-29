@@ -1,5 +1,3 @@
-#include "\JM\CF\Defines\CFDefines.c"
-
 class CfgPatches
 {
 	class JM_CF_Scripts
@@ -33,6 +31,25 @@ class CfgMods
 		extra = 0;
 		type = "mod";
 		
+		defines[] = 
+        { 
+            "CF_MODULE_CONFIG",
+            "CF_EXPRESSION",
+            //"CF_EXPRESSION_TEST",
+            //"CF_TRACE_ENABLED",
+            "CF_TRACE_STACK_NAME_ASSUMPTION_FIX",
+            "CF_GHOSTICONS",
+            //"CF_MODSTORAGE",
+            //"CF_MODSTORAGE_TEST",
+            //"CF_MODSTORAGE_TRACE",
+            "CF_MODSTORAGE_DISABLE",
+            "CF_MODSTORAGE_MODULE_DISABLE",
+            "CF_SURFACES",
+            "CF_MODULES",
+            "CF_REF_FIX",
+            "CF_BUGFIX_REF" // Same as CF_REF_FIX but for mods that already anticipated a different name
+        };
+        
 		dependencies[] = { "Core", "Game", "World", "Mission" };
 		
 		class defs
@@ -42,7 +59,6 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Defines",
 					"JM/CF/Scripts/1_Core"
 				};
 			};
@@ -51,7 +67,6 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-				    "JM/CF/Defines",
 				    "JM/CF/Scripts/2_GameLib"
 				};
 			};
@@ -60,7 +75,6 @@ class CfgMods
 				value = "CF_CreateGame";
 				files[] =
 				{
-					"JM/CF/Defines",
 					"JM/CF/Scripts/3_Game"
 				};
 			};
@@ -69,7 +83,6 @@ class CfgMods
 				value = ""; //! Doesn't work
 				files[] =
 				{
-					"JM/CF/Defines",
 					"JM/CF/Scripts/4_World"
 				};
 			};
@@ -78,7 +91,6 @@ class CfgMods
 				value = "";
 				files[] =
 				{
-					"JM/CF/Defines",
 					"JM/CF/Scripts/5_Mission"
 				};
 			};

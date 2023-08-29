@@ -9,7 +9,7 @@ class CF_StringStream : CF_Stream
 		m_String = str;
 		for (int i = 0; i < str.Length(); i++)
 		{
-			Append(str[i].Hash());
+			Append(str.Get(i).ToAscii());
 		}
 		
 		Seek(0, CF_SeekOrigin.SET);

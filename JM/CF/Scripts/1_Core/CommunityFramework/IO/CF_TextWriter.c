@@ -17,7 +17,7 @@ class CF_TextWriter : CF_IO
 
 	override void WriteChar(string value)
 	{
-		WriteByte(value.Hash());
+		WriteByte(value.ToAscii());
 	}
 	
 	override void WriteBool(bool value)

@@ -15,7 +15,7 @@ class LifecycleInstanceDemo
 {
     void LifecycleInstanceDemo()
     {
-        CF_LifecycleEvents.OnGameCreate.AddSubscriber(this.HandleGameCreate);
+        CF_LifecycleEvents.OnGameCreate.AddSubscriber(ScriptCaller.Create(this.HandleGameCreate));
     }
     
     void HandleGameCreate()
@@ -28,31 +28,31 @@ class LifecycleInstanceDemo
 ```csharp
 class LifecycleStaticDemo
 {
-    [CF_EventSubscriber(LifecycleStaticDemo.GameCreate, CF_LifecycleEvents.OnGameCreate)]
+    [CF_EventSubscriber(ScriptCaller.Create(LifecycleStaticDemo.GameCreate), CF_LifecycleEvents.OnGameCreate)]
     static void GameCreate()
     {
         Print("LifecycleStaticDemo::GameCreate");
     }
 
-    [CF_EventSubscriber(LifecycleStaticDemo.GameDestroy, CF_LifecycleEvents.OnGameDestroy)]
+    [CF_EventSubscriber(ScriptCaller.Create(LifecycleStaticDemo.GameDestroy), CF_LifecycleEvents.OnGameDestroy)]
     static void GameDestroy()
     {
         Print("LifecycleStaticDemo::GameDestroy");
     }
 
-    [CF_EventSubscriber(LifecycleStaticDemo.MissionCreate, CF_LifecycleEvents.OnMissionCreate)]
+    [CF_EventSubscriber(ScriptCaller.Create(LifecycleStaticDemo.MissionCreate), CF_LifecycleEvents.OnMissionCreate)]
     static void MissionCreate()
     {
         Print("LifecycleStaticDemo::MissionCreate");
     }
 
-    [CF_EventSubscriber(LifecycleStaticDemo.MissionDestroy, CF_LifecycleEvents.OnMissionDestroy)]
+    [CF_EventSubscriber(ScriptCaller.Create(LifecycleStaticDemo.MissionDestroy), CF_LifecycleEvents.OnMissionDestroy)]
     static void MissionDestroy()
     {
         Print("LifecycleStaticDemo::MissionDestroy");
     }
 
-    [CF_EventSubscriber(LifecycleStaticDemo.OnePrintToRuleThemAll,
+    [CF_EventSubscriber(ScriptCaller.Create(LifecycleStaticDemo.OnePrintToRuleThemAll),
         CF_LifecycleEvents.OnGameCreate,
         CF_LifecycleEvents.OnGameDestroy,
         CF_LifecycleEvents.OnMissionCreate,

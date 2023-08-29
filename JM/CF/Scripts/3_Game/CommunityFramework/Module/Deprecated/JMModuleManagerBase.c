@@ -59,7 +59,7 @@ class JMModuleManagerBase
 		CF_ModuleCoreManager.OnMissionLoaded(this, CF_EventArgs.Empty);
 	}
 
-	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ref ParamsReadContext ctx)
+	void OnRPC(PlayerIdentity sender, Object target, int rpc_type, ParamsReadContext ctx)
 	{
 		auto args = new CF_EventRPCArgs();
 		args.Sender = sender;

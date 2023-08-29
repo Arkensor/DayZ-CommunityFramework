@@ -69,7 +69,7 @@ class CF_Encoding
 		for (int i = 0; i < str.Length() / 2; i++)
 		{
 			int n0 = Find(BASE_16, 16, str[i * 2 + 0]) * 16;
-			int n1 = Find(BASE_16, 16, str[i * 2 + 1]) * 16;
+			int n1 = Find(BASE_16, 16, str[i * 2 + 1]);
 
 			if (n0 < 0 || n1 < 0)
 			{

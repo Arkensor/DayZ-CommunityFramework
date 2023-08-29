@@ -19,7 +19,7 @@ modded class NotificationSystem
 	 * @param time How long the notification will stay on the screen for (in seconds)
 	 * @param sendTo The player to send the notification to (everyone if NULL)
 	 */
-	static void Create( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
+	static void Create( StringLocaliser title, StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
 	{
 		CreateNotification( title, text, icon, color, time, sendTo );
 	}
@@ -36,7 +36,7 @@ modded class NotificationSystem
 	 * @param time How long the notification will stay on the screen for (in seconds)
 	 * @param sendTo The player to send the notification to (everyone if NULL)
 	 */
-	static void CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
+	static void CreateNotification( StringLocaliser title, StringLocaliser text, string icon, int color, float time = 3, PlayerIdentity sendTo = NULL )
 	{
 		if ( IsMissionHost() )
 		{
@@ -62,7 +62,7 @@ modded class NotificationSystem
 	 * @param color The colour of the notification
 	 * @param time How long the notification will stay on the screen for (in seconds)
 	 */
-	private static void Exec_CreateNotification( ref StringLocaliser title, ref StringLocaliser text, string icon, int color, float time )
+	private static void Exec_CreateNotification( StringLocaliser title, StringLocaliser text, string icon, int color, float time )
 	{
 		NotificationRuntimeData data = new NotificationRuntimeData( time, new NotificationData( icon, title.Format() ), text.Format() );
 		data.SetColor( color );
@@ -77,7 +77,7 @@ modded class NotificationSystem
 	 * @param target Always NULL
 	 * @param ctx The data container for the rpc
 	 */
-	static void RPC_CreateNotification( PlayerIdentity sender, Object target, ref ParamsReadContext ctx )
+	static void RPC_CreateNotification( PlayerIdentity sender, Object target, ParamsReadContext ctx )
 	{
 		StringLocaliser title = new StringLocaliser( "" );
 		if ( !ctx.Read( title ) )
@@ -108,7 +108,7 @@ modded class NotificationSystem
 	 * 
 	 * @param data The notification data to be displayed
 	 */
-	protected void AddNotif( ref NotificationRuntimeData data )
+	protected void AddNotif( NotificationRuntimeData data )
 	{
 		if ( m_TimeArray.Count() < MAX_NOTIFICATIONS )
 		{
