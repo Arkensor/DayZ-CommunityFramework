@@ -221,7 +221,7 @@ class CF_Stream
 	void SetPositionAtStart()
 	{
 		m_Current = m_Head;
-		m_Position = -1;
+		m_Position = 0;
 	}
 
 	void SetPositionAtEnd()
