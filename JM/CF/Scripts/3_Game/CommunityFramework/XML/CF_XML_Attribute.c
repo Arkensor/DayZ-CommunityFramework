@@ -109,9 +109,9 @@ class CF_XML_Attribute : Managed
 
 	void OnWrite(FileHandle handle, int depth)
 	{
-		FPrint(handle, _name);
+		FPrint(handle, " " + _name);
 		FPrint(handle, "=\"");
 		FPrint(handle, _value);
-		FPrint(handle, "\" ");
+		FPrint(handle, "\"");
 	}
 };
