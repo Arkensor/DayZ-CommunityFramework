@@ -70,7 +70,7 @@ class CF_XML_Reader : Managed
 
 		if (_bufIdx == 0) _wasNewLine = true;
 
-		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
+		return _lines[_arrIdx].Substring(_bufIdx, 1);
 	}
 
 	private string ReadChar()
@@ -93,7 +93,7 @@ class CF_XML_Reader : Managed
 			}
 		}
 
-		return _lines[_arrIdx].SubstringUtf8(_bufIdx, 1);
+		return _lines[_arrIdx].Substring(_bufIdx, 1);
 	}
 
 	bool EOF()

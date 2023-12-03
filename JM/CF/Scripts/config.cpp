@@ -47,7 +47,8 @@ class CfgMods
             "CF_SURFACES",
             "CF_MODULES",
             "CF_REF_FIX",
-            "CF_BUGFIX_REF" // Same as CF_REF_FIX but for mods that already anticipated a different name
+            "CF_BUGFIX_REF", // Same as CF_REF_FIX but for mods that already anticipated a different name
+            "CF_BUGFIX_XML"
         };
         
 		dependencies[] = { "Core", "Game", "World", "Mission" };

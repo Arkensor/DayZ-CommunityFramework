@@ -38,9 +38,9 @@ class CF_XML_Element : Managed
 		return element;
 	}
 
-	CF_XML_Tag CreateTag(string name)
+	CF_XML_Tag CreateTag(string name, bool isProcessingInstruction = false)
 	{
-		CF_XML_Tag tag = new CF_XML_Tag(this, name);
+		CF_XML_Tag tag = new CF_XML_Tag(this, name, false, isProcessingInstruction);
 
 		_tags.Insert(tag);
 
@@ -109,11 +109,22 @@ class CF_XML_Element : Managed
 	{
 		string indent = CF_XML_Indent(depth);
 
-		FPrint(handle, _data);
+		if (_data)
+			FPrintln(handle, EncodeEntities(_data));
 
 		for (int i = 0; i < _tags.Count(); ++i)
 		{
 			_tags[i].OnWrite(handle, depth);
 		}
+	}
+
+	static string EncodeEntities(string content)
+	{
+		//! Order matters
+		content.Replace("&", "&amp;");
+		content.Replace("<", "&lt;");
+		content.Replace(">", "&gt;");
+
+		return content;
 	}
 };
