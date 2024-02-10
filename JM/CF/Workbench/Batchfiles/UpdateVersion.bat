@@ -1,4 +1,5 @@
 @echo off
+setlocal enableextensions enabledelayedexpansion
 
 cd /D "%~dp0"
 
@@ -25,45 +26,26 @@ if %failed%==1 (
     goto:eof
 )
 
-set workDrive=
-set /a majorVersion=0
-set /a minorVersion=0
-set versionFileLocation=
+if exist "%~dp0..\project.cfg.bat" del "%~dp0..\project.cfg.bat"
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkDrive') do (
-    set workDrive=%%a
+for /f "usebackq delims=" %%a in ( "%~dp0..\project.cfg" ) do (
+	echo set %%a>>"%~dp0..\project.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg MajorVersion') do (
-    set /a majorVersion=%%a
+call "%~dp0..\project.cfg.bat"
+
+if exist "%~dp0..\user.cfg.bat" del "%~dp0..\user.cfg.bat"
+
+for /f "usebackq delims=" %%a in ( "%~dp0..\user.cfg" ) do (
+	echo set %%a>>"%~dp0..\user.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg MinorVersion') do (
-    set /a minorVersion=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg VersionFileLocation') do (
-    set versionFileLocation=%%a
-)
-
-setlocal enableextensions enabledelayedexpansion
+call "%~dp0..\user.cfg.bat"
 
 echo WorkDrive is: "%workDrive%"
 if "%workDrive%"=="" (
     set /a failed=1
     echo WorkDrive parameter was not set in the project.cfg
-)
-
-echo MajorVersion is: "%majorVersion%"
-if "%majorVersion%"==0 (
-    set /a failed=1
-    echo MajorVersion parameter was not set in the project.cfg
-)
-
-echo MinorVersion is: "%minorVersion%"
-if "%minorVersion%"==0 (
-    set /a failed=1
-    echo MinorVersion parameter was not set in the project.cfg
 )
 
 echo VersionFileLocation is: "%versionFileLocation%"
@@ -80,9 +62,19 @@ if %failed%==1 (
 )
 
 for /f "tokens=1-3 delims=." %%a in (%workDrive%%versionFileLocation%) do (
+	set majorVersion=%%a
+	set minorVersion=%%b
+    echo MajorVersion was: %%a
+    echo MinorVersion was: %%b
     echo BuildVersion was: %%c
     set /a build=%%c+1
-    set version=%majorVersion%.%minorVersion%.!build!
+	if !build! GTR 9999 (
+		echo MinorVersion was: !minorVersion!
+		set /a minorVersion+=1
+		echo MinorVersion is: !minorVersion!
+		set build=0
+	)
+    set version=!majorVersion!.!minorVersion!.!build!
     echo BuildVersion is: !build!
 )
 

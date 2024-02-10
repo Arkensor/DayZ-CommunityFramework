@@ -1,4 +1,5 @@
 @echo off
+setlocal enableextensions enabledelayedexpansion
 
 cd /D "%~dp0"
 
@@ -45,45 +46,23 @@ if %failed%==1 (
 	goto:eof
 )
 
-set workDrive=
-set modName=
-set modBuildDirectory=
-set prefixLinkRoot=
-set keyDirectory=
-set keyName=
-set dayzToolsPath=
+if exist "%~dp0..\project.cfg.bat" del "%~dp0..\project.cfg.bat"
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkDrive') do (
-	set workDrive=%%a
+for /f "usebackq delims=" %%a in ( "%~dp0..\project.cfg" ) do (
+	echo set %%a>>"%~dp0..\project.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModName') do (
-	set modName=%%a
+call "%~dp0..\project.cfg.bat"
+
+if exist "%~dp0..\user.cfg.bat" del "%~dp0..\user.cfg.bat"
+
+for /f "usebackq delims=" %%a in ( "%~dp0..\user.cfg" ) do (
+	echo set %%a>>"%~dp0..\user.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModBuildDirectory') do (
-	set modBuildDirectory=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg PrefixLinkRoot') do (
-	set prefixLinkRoot=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg KeyDirectory') do (
-	set keyDirectory=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg KeyName') do (
-	set keyName=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ToolsDirectory') do (
-	set dayzToolsPath=%%a
-)
+call "%~dp0..\user.cfg.bat"
 
 REM @echo on
-
-setlocal enableextensions enabledelayedexpansion
 
 echo KeyDirectory is: "%keyDirectory%"
 if "%keyDirectory%"=="" (
@@ -199,8 +178,8 @@ del %modBuildDirectory%%modName%\Addons\!pboName!.pbo.%keyName%.bisign
 echo Building PBO: !pboName!.pbo
 rem echo START /w %pboProject% %pboProject% +W -F +Stop -P -O -E=dayz "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
 rem START /w %pboProject% %pboProject% +W -F +Stop -P -O -E=dayz "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
-echo START /w %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
-START /w %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
+echo START /w /MIN %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
+START /w /MIN %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
 
 if not errorlevel 1 (
 	set currentFolder=
