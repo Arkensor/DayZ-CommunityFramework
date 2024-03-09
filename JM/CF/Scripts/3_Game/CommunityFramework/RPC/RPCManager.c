@@ -82,7 +82,19 @@ class RPCManager
 			RPCMetaWrapper wrapper;
 			if ( functions.Find( funcName, wrapper ) )
 			{
-				if ( wrapper.GetInstance() )
+                // Safety check based on internal EnScript implementation
+                // Since the Managed-based classes do not affect to the pointer of the instance (Why??), we can check manually if the instance is valid 
+                // Internal EnScript implementation returns "INVALID" string if the instance is destroyed but reference still points to the memory address
+                // Not the best solution, but I don't see any other way to prevent the crash
+                Class instance = wrapper.GetInstance();
+                if (instance.ToString() == "INVALID")
+                {
+                    instance = NULL;
+					// Probably we should remove the reference from the map?
+					// functions.Remove(funcName);
+                }
+
+                if (instance)
 				{
 					auto functionCallData = new Param4< CallType, ParamsReadContext, PlayerIdentity, Object >( CallType.Server, ctx, sender, target );
 				
