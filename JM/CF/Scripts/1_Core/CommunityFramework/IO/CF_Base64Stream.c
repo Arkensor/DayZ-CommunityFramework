@@ -61,6 +61,11 @@ class CF_Base64Stream : CF_Stream
 				
 				for (int j = 0; j < 4; j++)
 				{
+					if (i >= m_String.Length()) 
+					{
+						break;
+					}
+
 					int n = CF_Encoding.Find(CF_Encoding.BASE_64, 64, m_String.Substring(i, 1));
 					i++;
 					if (n == -1)
