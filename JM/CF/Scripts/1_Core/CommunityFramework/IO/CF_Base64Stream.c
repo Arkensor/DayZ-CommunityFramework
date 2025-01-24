@@ -57,7 +57,7 @@ class CF_Base64Stream : CF_Stream
 
 			while (i < m_String.Length())
 			{
-				int value;
+				int value = 0;
 				
 				for (int j = 0; j < 4; j++)
 				{
