@@ -146,16 +146,16 @@ if %failed%==1 (
 set pboProject="%_MIKEDLL%\bin\pboProject.exe"
 set signFile="%_DAYZTOOLSPATH%\Bin\DsUtils\DSSignFile.exe"
 
-IF NOT exist "%licensedModBuildDirectory%%licensedModName%\Addons\" (
-    echo %licensedModBuildDirectory%%licensedModName%\Addons\ does not exist
+IF NOT exist "%licensedModBuildDirectory%%licensedModName%\addons\" (
+    echo %licensedModBuildDirectory%%licensedModName%\addons\ does not exist
     pause
 )
 
 set folderToBuild=%~p1
 set fuckThurston=
 
-echo Copying over "%keyDirectory%%keyName%.bikey" to "%licensedModBuildDirectory%%licensedModName%\Keys\"
-copy "%keyDirectory%%keyName%.bikey" "%licensedModBuildDirectory%%licensedModName%\Keys\" > nul
+echo Copying over "%keyDirectory%%keyName%.bikey" to "%licensedModBuildDirectory%%licensedModName%\keys\"
+copy "%keyDirectory%%keyName%.bikey" "%licensedModBuildDirectory%%licensedModName%\keys\" > nul
 
 echo Packaging %licensedModName% PBO's
 
@@ -175,8 +175,8 @@ set prefixName=%prefixLinkRoot%\!prefixName!
 
 set sourcePath=%workDrive%!prefixName!
 
-del %licensedModBuildDirectory%%licensedModName%\Addons\!pboName!.pbo
-del %licensedModBuildDirectory%%licensedModName%\Addons\!pboName!.pbo.%keyName%.bisign
+del %licensedModBuildDirectory%%licensedModName%\addons\!pboName!.pbo
+del %licensedModBuildDirectory%%licensedModName%\addons\!pboName!.pbo.%keyName%.bisign
 
 echo Building PBO: !pboName!.pbo
 echo START /w %pboProject% %pboProject% +W -F +Stop -P -O +Z -E=dayz "%workDrive%!prefixName!" "+Mod=%licensedModBuildDirectory%%licensedModName%" "-Key"
@@ -188,12 +188,12 @@ if not errorlevel 1 (
 		set "currentFolder=%%~nxI"
 	)
 	
-	cd /D "%licensedModBuildDirectory%%licensedModName%\Addons\"
+	cd /D "%licensedModBuildDirectory%%licensedModName%\addons\"
 
-	echo Renaming PBO to %licensedModBuildDirectory%%licensedModName%\Addons\!pboName!.pbo
-	rename "%licensedModBuildDirectory%%licensedModName%\Addons\!currentFolder!.pbo" "!pboName!.pbo"
+	echo Renaming PBO to %licensedModBuildDirectory%%licensedModName%\addons\!pboName!.pbo
+	rename "%licensedModBuildDirectory%%licensedModName%\addons\!currentFolder!.pbo" "!pboName!.pbo"
 
-	%signFile% "%keyDirectory%%keyName%.biprivatekey" "%licensedModBuildDirectory%%licensedModName%\Addons\!pboName!.pbo"
+	%signFile% "%keyDirectory%%keyName%.biprivatekey" "%licensedModBuildDirectory%%licensedModName%\addons\!pboName!.pbo"
 	goto end
 ) else (
 	echo /////////////////////////////////////////////////////////////

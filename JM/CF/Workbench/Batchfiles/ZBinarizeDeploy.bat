@@ -152,21 +152,21 @@ IF NOT exist "%modBuildDirectory%%modName%\" (
 	mkdir "%modBuildDirectory%%modName%\"
 )
 
-IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
-	echo Creating folder "%modBuildDirectory%%modName%\Addons\"
-	mkdir "%modBuildDirectory%%modName%\Addons\"
+IF NOT exist "%modBuildDirectory%%modName%\addons\" (
+	echo Creating folder "%modBuildDirectory%%modName%\addons\"
+	mkdir "%modBuildDirectory%%modName%\addons\"
 )
 
-IF NOT exist "%modBuildDirectory%%modName%\Keys\" (
-	echo Creating folder "%modBuildDirectory%%modName%\Keys\"
-	mkdir "%modBuildDirectory%%modName%\Keys\"
+IF NOT exist "%modBuildDirectory%%modName%\keys\" (
+	echo Creating folder "%modBuildDirectory%%modName%\keys\"
+	mkdir "%modBuildDirectory%%modName%\keys\"
 )
 
 echo Copying over "%workDrive%%prefixLinkRoot%\mod.cpp" to "%modBuildDirectory%%modName%\"
 copy "%workDrive%%prefixLinkRoot%\mod.cpp" "%modBuildDirectory%%modName%\" > nul
 
-echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
-echo Copying over "%keyDirectory%\%keyName%.biprivatekey" to "%modBuildDirectory%%modName%\Keys\"
+echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\keys\"
+echo Copying over "%keyDirectory%\%keyName%.biprivatekey" to "%modBuildDirectory%%modName%\keys\"
 
 echo Packaging %modName% PBO's
 
@@ -199,6 +199,8 @@ for /R %%D in ( config.cpp ) do (
 		)
 	)
 )
+
+call "%~dp0MakeLowercase.bat" "%modBuildDirectory%%modName%"
 
 goto end
 
