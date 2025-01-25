@@ -1,4 +1,5 @@
 @echo off
+setlocal enableextensions enabledelayedexpansion
 
 cd /D "%~dp0"
 
@@ -26,39 +27,22 @@ if %failed%==1 (
 )
 
 set rootDirectory=%cd%\..\..\..\..\
-set workDrive=
-set prefixLinkRoot=
-set workbenchDirectory=
-set gameDirectory=
-set serverDirectory=
-set modName=
-set modBuildDirectory=
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkDrive') do (
-    set workDrive=%%a
+if exist "%~dp0..\project.cfg.bat" del "%~dp0..\project.cfg.bat"
+
+for /f "usebackq delims=" %%a in ( "%~dp0..\project.cfg" ) do (
+	echo set %%a>>"%~dp0..\project.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg PrefixLinkRoot') do (
-	set prefixLinkRoot=%%a
+call "%~dp0..\project.cfg.bat"
+
+if exist "%~dp0..\user.cfg.bat" del "%~dp0..\user.cfg.bat"
+
+for /f "usebackq delims=" %%a in ( "%~dp0..\user.cfg" ) do (
+	echo set %%a>>"%~dp0..\user.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg GameDirectory') do (
-    set gameDirectory=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ServerDirectory') do (
-    set serverDirectory=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModName') do (
-	set modName=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModBuildDirectory') do (
-	set modBuildDirectory=%%a
-)
-
-setlocal enableextensions enabledelayedexpansion
+call "%~dp0..\user.cfg.bat"
 
 echo WorkDrive is: "%workDrive%"
 if "%workDrive%"=="" (
@@ -96,6 +80,7 @@ if "%modBuildDirectory%"=="" (
 	echo ModBuildDirectory parameter was not set in the project.cfg
 )
 
+
 if %failed%==1 (
     endlocal
 
@@ -104,31 +89,11 @@ if %failed%==1 (
 )
 
 IF exist "%workDrive%%prefixLinkRoot%\" (
-	echo Removing existing link %workDrive%%prefixLinkRoot%\
+	echo Removing existing link "%workDrive%%prefixLinkRoot%\"
 	rmdir "%workDrive%%prefixLinkRoot%\"
 )
 
-echo Creating link %workDrive%%prefixLinkRoot%\
+echo Creating link "%workDrive%%prefixLinkRoot%\"
 mklink /J "%workDrive%%prefixLinkRoot%\" "%rootDirectory%%prefixLinkRoot%\"
-
-for /f "tokens=*" %%D in ('dir /b "%rootDirectory%\Missions\"') do (
-    set missionFolder=%%~D
-
-    IF exist "%gameDirectory%\Missions\!missionFolder!\" (
-        echo.Please remove existing link: "%gameDirectory%\Missions\!missionFolder!\"
-        REM rmdir /s /q "%gameDirectory%\Missions\!missionFolder!\"
-    ) else (
-        echo.Creating link "%gameDirectory%\Missions\!missionFolder!\"
-        mklink /J "%gameDirectory%\Missions\!missionFolder!\" "%rootDirectory%\Missions\\!missionFolder!\"
-    )
-
-    IF exist "%serverDirectory%\MPMissions\!missionFolder!\" (
-        echo.Please remove existing link: "%serverDirectory%\MPMissions\!missionFolder!\"
-        REM rmdir /s /q "%serverDirectory%\MPMissions\!missionFolder!\"
-    ) else (
-        echo.Creating link "%serverDirectory%\MPMissions\!missionFolder!\"
-        mklink /J "%serverDirectory%\MPMissions\!missionFolder!\" "%rootDirectory%\Missions\\!missionFolder!\"
-    )
-)
 
 endlocal

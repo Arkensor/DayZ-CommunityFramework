@@ -1,0 +1,314 @@
+Command line option rebuildAll found - rebuilding all PBOs
+Found the project.cfg
+Found the user.cfg
+KeyDirectory is: "H:\DayZModding\Keys\"
+KeyName is: "Jacob_Mango_V3"
+ModName is: "@Community-Framework"
+WorkDrive is: "P:\"
+ModBuildDirectory is: "H:\DayZModding\Mods\"
+PrefixLinkRoot is: "JM\CF"
+Searching for DayZ Tools...
+Found. "C:\Program Files (x86)\Steam\steamapps\common\DayZ Tools\Bin"
+CI0_SetupFolders "@Community-Framework" running...
+Creating folder "H:\DayZModding\Mods\@Community-Framework\addons\"
+Creating folder "H:\DayZModding\Mods\@Community-Framework\keys\"
+Creating folder "P:\Temp\@Community-Framework\"
+Creating folder "P:\Temp\@Community-Framework\addons\"
+Copying over "H:\DayZModding\Keys\Jacob_Mango_V3.bikey" to "H:\DayZModding\Mods\@Community-Framework\keys\"
+        1 file(s) copied.
+CI0_SetupFolders done
+Packaging @Community-Framework PBOS
+Sat 10/02/2024 23:41:42.83 Getting config paths...
+Sat 10/02/2024 23:41:42.85 ...got config paths
+Sat 10/02/2024 23:41:42.85 Checking config paths...
+"P:\JM\CF\GUI\..\..\..\config.cpp"
+"P:\JM\CF\GUI\..\..\config.cpp"
+"P:\JM\CF\GUI\..\config.cpp"
+"Sat 10/02/2024 23:41:42.86 ERROR: dp1 P:\JM\CF\GUI\"
+"P:\JM\CF\Legacy\..\..\..\config.cpp"
+"P:\JM\CF\Legacy\..\..\config.cpp"
+"P:\JM\CF\Legacy\..\config.cpp"
+"Sat 10/02/2024 23:41:42.87 ERROR: dp1 P:\JM\CF\Legacy\"
+"P:\JM\CF\Scripts\..\..\..\config.cpp"
+"P:\JM\CF\Scripts\..\..\config.cpp"
+"P:\JM\CF\Scripts\..\config.cpp"
+"Sat 10/02/2024 23:41:42.87 ERROR: dp1 P:\JM\CF\Scripts\"
+Sat 10/02/2024 23:41:42.88 ...checked config paths
+Sat 10/02/2024 23:41:42.88 Found 3 config.cpp files for @Community-Framework in "P:\JM\CF"
+Sat 10/02/2024 23:41:42.89 Mirroring "P:\JM\CF\GUI" to "P:\Temp\JM\CF\GUI"...
+
+	    New File  		     197	P:\JM\CF\GUI\config.cpp
+	    New File  		    7535	P:\JM\CF\GUI\layouts\ingamemenu.layout
+	    New File  		     640	P:\JM\CF\GUI\layouts\ingamemenubutton.layout
+	    New File  		    1050	P:\JM\CF\GUI\layouts\keybinding_subgroup.layout
+	    New File  		   86703	P:\JM\CF\GUI\textures\cf_icon.edds
+	    New File  		     311	P:\JM\CF\GUI\textures\cf_icon.edds.meta
+Sat 10/02/2024 23:41:42.92 Changes in "P:\Temp\JM\CF\GUI"
+Sat 10/02/2024 23:41:42.92 Binarizing "P:\Temp\JM\CF\GUI\config.cpp"
+Sat 10/02/2024 23:41:42.94 Deleting temp "P:\Temp\JM\CF\GUI\config.cpp"
+Sat 10/02/2024 23:41:42.96 Binarizing *.p3d and *.wrp from "P:\Temp\JM\CF\GUI" to "P:\Temp\BinarizeCache\@Community-Framework\JM\CF\GUI"...
+FileServer MaxCacheSize = 11374 MB
+Warning: CfgVehicles missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgAmmo missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgNonAIVehicles missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgWeapons missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgMagazines missing in PreloadConfig - may slow down vehicle creation
+BINARIZE rev.154613
+"C:\Program Files (x86)\Steam\steamapps\common\DayZ Tools\Bin\binarize\binarize.exe"  -targetBonesInterval=56 -textures=P:\Temp -binPath=P:\ "P:\Temp\JM\CF\GUI" "P:\Temp\BinarizeCache\@Community-Framework\JM\CF\GUI"
+Binarize started
+Warning: Terrain grid 12.5 will be too slow, should use 30.0
+Warning: Terrain grid 10.0 will be too slow, should use 30.0
+Sat 10/02/2024 23:41:43.52 Restoring "P:\Temp\JM\CF\GUI\config.cpp"
+        1 file(s) copied.
+Sat 10/02/2024 23:41:43.53 PREFIX: JM\CF\GUI
+Sat 10/02/2024 23:41:43.53 Creating "P:\Temp\@Community-Framework\addons\GUI.pbo"...
+        1 file(s) moved.
+Sat 10/02/2024 23:41:43.63 Deleting temp "P:\Temp\JM\CF\GUI\config.bin"
+Moving "P:\Temp\@Community-Framework\addons\GUI.pbo" to "H:\DayZModding\Mods\@Community-Framework\addons\"
+        1 file(s) moved.
+Sat 10/02/2024 23:41:43.64 Signing "H:\DayZModding\Mods\@Community-Framework\addons\GUI.pbo"
+Sat 10/02/2024 23:41:43.67 Mirroring "P:\JM\CF\GUI" to "P:\Temp\JM\CF\GUI"...
+
+Sat 10/02/2024 23:41:43.70 PREFIX: JM\CF\GUI
+Sat 10/02/2024 23:41:43.70 Creating "P:\Temp\@Community-Framework\addons\GUI.pbo"...
+        1 file(s) moved.
+Moving "P:\Temp\@Community-Framework\addons\GUI.pbo" to "H:\DayZModding\Mods\@Community-Framework\addons\"
+        1 file(s) moved.
+Sat 10/02/2024 23:41:43.75 Signing "H:\DayZModding\Mods\@Community-Framework\addons\GUI.pbo"
+Sat 10/02/2024 23:41:43.78 Mirroring "P:\JM\CF\Legacy" to "P:\Temp\JM\CF\Legacy"...
+
+	    New File  		     167	P:\JM\CF\Legacy\$PBOPREFIX$.txt
+	    New File  		      79	P:\JM\CF\Legacy\CFDefines.c
+	    New File  		     279	P:\JM\CF\Legacy\config.cpp
+Sat 10/02/2024 23:41:43.79 Changes in "P:\Temp\JM\CF\Legacy"
+Sat 10/02/2024 23:41:43.79 Binarizing "P:\Temp\JM\CF\Legacy\config.cpp"
+Sat 10/02/2024 23:41:43.81 Deleting temp "P:\Temp\JM\CF\Legacy\config.cpp"
+Sat 10/02/2024 23:41:43.82 Binarizing *.p3d and *.wrp from "P:\Temp\JM\CF\Legacy" to "P:\Temp\BinarizeCache\@Community-Framework\JM\CF\Legacy"...
+FileServer MaxCacheSize = 11374 MB
+Warning: CfgVehicles missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgAmmo missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgNonAIVehicles missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgWeapons missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgMagazines missing in PreloadConfig - may slow down vehicle creation
+BINARIZE rev.154613
+"C:\Program Files (x86)\Steam\steamapps\common\DayZ Tools\Bin\binarize\binarize.exe"  -targetBonesInterval=56 -textures=P:\Temp -binPath=P:\ "P:\Temp\JM\CF\Legacy" "P:\Temp\BinarizeCache\@Community-Framework\JM\CF\Legacy"
+Binarize started
+Warning: Terrain grid 12.5 will be too slow, should use 30.0
+Warning: Terrain grid 10.0 will be too slow, should use 30.0
+Sat 10/02/2024 23:41:44.36 Restoring "P:\Temp\JM\CF\Legacy\config.cpp"
+        1 file(s) copied.
+Sat 10/02/2024 23:41:44.37 PREFIX: JM\CF\Legacy
+Sat 10/02/2024 23:41:44.37 Creating "P:\Temp\@Community-Framework\addons\Legacy.pbo"...
+        1 file(s) moved.
+Sat 10/02/2024 23:41:44.44 Deleting temp "P:\Temp\JM\CF\Legacy\config.bin"
+Moving "P:\Temp\@Community-Framework\addons\Legacy.pbo" to "H:\DayZModding\Mods\@Community-Framework\addons\"
+        1 file(s) moved.
+Sat 10/02/2024 23:41:44.45 Signing "H:\DayZModding\Mods\@Community-Framework\addons\Legacy.pbo"
+Sat 10/02/2024 23:41:44.48 Mirroring "P:\JM\CF\Legacy" to "P:\Temp\JM\CF\Legacy"...
+
+Sat 10/02/2024 23:41:44.51 PREFIX: JM\CF\Legacy
+Sat 10/02/2024 23:41:44.51 Creating "P:\Temp\@Community-Framework\addons\Legacy.pbo"...
+        1 file(s) moved.
+Moving "P:\Temp\@Community-Framework\addons\Legacy.pbo" to "H:\DayZModding\Mods\@Community-Framework\addons\"
+        1 file(s) moved.
+Sat 10/02/2024 23:41:44.59 Signing "H:\DayZModding\Mods\@Community-Framework\addons\Legacy.pbo"
+Sat 10/02/2024 23:41:44.62 Mirroring "P:\JM\CF\Scripts" to "P:\Temp\JM\CF\Scripts"...
+
+	    New File  		    1995	P:\JM\CF\Scripts\config.cpp
+	    New File  		    1003	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_Byte.c
+	    New File  		     191	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_Cast.c
+	    New File  		    3596	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_Encoding.c
+	    New File  		     123	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_Operations.c
+	    New File  		    1969	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_PackedByte.c
+	    New File  		      51	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_SeekOrigin.c
+	    New File  		    6370	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_String.c
+	    New File  		    2994	P:\JM\CF\Scripts\1_Core\CommunityFramework\CF_Uint.c
+	    New File  		     154	P:\JM\CF\Scripts\1_Core\CommunityFramework\EventArgs\CF_EventArgs.c
+	    New File  		     119	P:\JM\CF\Scripts\1_Core\CommunityFramework\EventArgs\CF_EventTimeArgs.c
+	    New File  		     150	P:\JM\CF\Scripts\1_Core\CommunityFramework\EventArgs\CF_EventUpdateArgs.c
+	    New File  		    2298	P:\JM\CF\Scripts\1_Core\CommunityFramework\Files\CF_Directory.c
+	    New File  		    7186	P:\JM\CF\Scripts\1_Core\CommunityFramework\Files\CF_File.c
+	    New File  		    4097	P:\JM\CF\Scripts\1_Core\CommunityFramework\Files\CF_Path.c
+	    New File  		    1766	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_Base16Stream.c
+	    New File  		    2474	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_Base64Stream.c
+	    New File  		    2823	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_BinaryReader.c
+	    New File  		    2700	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_BinaryWriter.c
+	    New File  		    3465	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_FileStream.c
+	    New File  		    3776	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_IO.c
+	    New File  		    1227	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_SerializerStream.c
+	    New File  		    5808	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_Stream.c
+	    New File  		    1790	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_StringStream.c
+	    New File  		    2349	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_TextReader.c
+	    New File  		     917	P:\JM\CF\Scripts\1_Core\CommunityFramework\IO\CF_TextWriter.c
+	    New File  		    3863	P:\JM\CF\Scripts\1_Core\CommunityFramework\Logging\CF_Log.c
+	    New File  		      95	P:\JM\CF\Scripts\1_Core\CommunityFramework\Logging\CF_LogLevel.c
+	    New File  		   11664	P:\JM\CF\Scripts\1_Core\CommunityFramework\Logging\CF_Trace.c
+	    New File  		    4198	P:\JM\CF\Scripts\1_Core\CommunityFramework\Module\CF_ModuleCore.c
+	    New File  		    6363	P:\JM\CF\Scripts\1_Core\CommunityFramework\Module\CF_ModuleCoreEvent.c
+	    New File  		    6360	P:\JM\CF\Scripts\1_Core\CommunityFramework\Module\CF_ModuleCoreManager.c
+	    New File  		     317	P:\JM\CF\Scripts\1_Core\CommunityFramework\Module\CF_Modules.c
+	    New File  		     119	P:\JM\CF\Scripts\1_Core\CommunityFramework\Module\CF_RegisterModule.c
+	    New File  		    1784	P:\JM\CF\Scripts\1_Core\CommunityFramework\proto\EnMath.c
+	    New File  		     129	P:\JM\CF\Scripts\1_Core\CommunityFramework\TypeConverter\CF_RegisterTypeConverter.c
+	    New File  		    3342	P:\JM\CF\Scripts\1_Core\CommunityFramework\TypeConverter\CF_TypeConverter.c
+	    New File  		    2609	P:\JM\CF\Scripts\1_Core\CommunityFramework\TypeConverter\CF_TypeConverterBase.c
+	    New File  		    1767	P:\JM\CF\Scripts\1_Core\CommunityFramework\TypeConverter\CF_TypeConverterT.c
+	    New File  		    4893	P:\JM\CF\Scripts\2_GameLib\CommunityFramework\Cryptography\CF_SHA256.c
+	    New File  		    1724	P:\JM\CF\Scripts\2_GameLib\CommunityFramework\EventHandler\CF_EventHandler.c
+	    New File  		    1444	P:\JM\CF\Scripts\2_GameLib\CommunityFramework\EventHandler\Attributes\CF_EventSubscriber.c
+	    New File  		     909	P:\JM\CF\Scripts\2_GameLib\CommunityFramework\EventHandler\Attributes\CF_MultiEventSubscriber.c
+	    New File  		     772	P:\JM\CF\Scripts\2_GameLib\CommunityFramework\LifecycleEvents\CF_LifecycleEvents.c
+	    New File  		    6316	P:\JM\CF\Scripts\3_Game\CommunityFramework\CommunityFramework.c
+	    New File  		     809	P:\JM\CF\Scripts\3_Game\CommunityFramework\Collections\Stack.c
+	    New File  		    1693	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArray.c
+	    New File  		     155	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArrayParam.c
+	    New File  		     395	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArrayParamArray.c
+	    New File  		     294	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArrayParamFloat.c
+	    New File  		     278	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArrayParamInt.c
+	    New File  		     283	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArrayParamLong.c
+	    New File  		     292	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigArrayParamText.c
+	    New File  		    6518	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigClass.c
+	    New File  		    2494	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigEntry.c
+	    New File  		     335	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigFile.c
+	    New File  		    4264	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigReader.c
+	    New File  		     134	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigValue.c
+	    New File  		     278	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigValueFloat.c
+	    New File  		     262	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigValueInt.c
+	    New File  		     267	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigValueLong.c
+	    New File  		     276	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigValueText.c
+	    New File  		      78	P:\JM\CF\Scripts\3_Game\CommunityFramework\Config\ConfigValueTypes.c
+	    New File  		    1794	P:\JM\CF\Scripts\3_Game\CommunityFramework\Credits\CreditsLoader.c
+	    New File  		     290	P:\JM\CF\Scripts\3_Game\CommunityFramework\EventArgs\CF_EventChatArgs.c
+	    New File  		     178	P:\JM\CF\Scripts\3_Game\CommunityFramework\EventArgs\CF_EventLoginArgs.c
+	    New File  		     119	P:\JM\CF\Scripts\3_Game\CommunityFramework\EventArgs\CF_EventRPCArgs.c
+	    New File  		    6942	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_Expression.c
+	    New File  		     602	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_ExpressionCompileToken.c
+	    New File  		    8291	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_ExpressionFunction.c
+	    New File  		    1231	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_ExpressionInstruction.c
+	    New File  		     359	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_ExpressionStackDebug.c
+	    New File  		   19203	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_ExpressionTests.c
+	    New File  		    1804	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_ExpressionVM.c
+	    New File  		    4054	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_MathExpression.c
+	    New File  		    3704	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\CF_SQFExpression.c
+	    New File  		     443	P:\JM\CF\Scripts\3_Game\CommunityFramework\ExpressionVM\DayZGame.c
+	    New File  		    4801	P:\JM\CF\Scripts\3_Game\CommunityFramework\Game\DayZGame.c
+	    New File  		     580	P:\JM\CF\Scripts\3_Game\CommunityFramework\InputBindings\CF_InputBinding.c
+	    New File  		    3503	P:\JM\CF\Scripts\3_Game\CommunityFramework\InputBindings\CF_InputBindings.c
+	    New File  		     392	P:\JM\CF\Scripts\3_Game\CommunityFramework\LifecycleEvents\DayZGame.c
+	    New File  		      77	P:\JM\CF\Scripts\3_Game\CommunityFramework\Mods\ModInput.c
+	    New File  		    4264	P:\JM\CF\Scripts\3_Game\CommunityFramework\Mods\ModLoader.c
+	    New File  		    6917	P:\JM\CF\Scripts\3_Game\CommunityFramework\Mods\ModStructure.c
+	    New File  		    2450	P:\JM\CF\Scripts\3_Game\CommunityFramework\ModStorage\CF_ModStorage.c
+	    New File  		     625	P:\JM\CF\Scripts\3_Game\CommunityFramework\ModStorage\CF_ModStorageMap.c
+	    New File  		    3360	P:\JM\CF\Scripts\3_Game\CommunityFramework\ModStorage\CF_ModStorageModule.c
+	    New File  		    2381	P:\JM\CF\Scripts\3_Game\CommunityFramework\ModStorage\CF_ModStorageTest.c
+	    New File  		     975	P:\JM\CF\Scripts\3_Game\CommunityFramework\Module\CF_ModuleConstructor.c
+	    New File  		    3910	P:\JM\CF\Scripts\3_Game\CommunityFramework\Module\CF_ModuleGame.c
+	    New File  		     551	P:\JM\CF\Scripts\3_Game\CommunityFramework\Module\CF_ModuleGameEvent.c
+	    New File  		    1048	P:\JM\CF\Scripts\3_Game\CommunityFramework\Module\CF_ModuleGameManager.c
+	    New File  		    2583	P:\JM\CF\Scripts\3_Game\CommunityFramework\Module\Deprecated\JMModuleManagerBase.c
+	    New File  		    4096	P:\JM\CF\Scripts\3_Game\CommunityFramework\Network\CF_NetworkedVariables.c
+	    New File  		     264	P:\JM\CF\Scripts\3_Game\CommunityFramework\Network\CF_NetworkVariable.c
+	    New File  		     719	P:\JM\CF\Scripts\3_Game\CommunityFramework\Notification\NotificationRuntimeData.c
+	    New File  		    5216	P:\JM\CF\Scripts\3_Game\CommunityFramework\Notification\NotificationSystem.c
+	    New File  		   11978	P:\JM\CF\Scripts\3_Game\CommunityFramework\ObjectManager\ObjectManager.c
+	    New File  		    6007	P:\JM\CF\Scripts\3_Game\CommunityFramework\RPC\RPCManager.c
+	    New File  		    1044	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\CF_TypeConverterConstructor.c
+	    New File  		     978	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterBool.c
+	    New File  		     527	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterClass.c
+	    New File  		     838	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterDate.c
+	    New File  		    1013	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterExpression.c
+	    New File  		     537	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterFile.c
+	    New File  		     974	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterFloat.c
+	    New File  		     960	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterInt.c
+	    New File  		     497	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterLocaliser.c
+	    New File  		     499	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterManaged.c
+	    New File  		    1048	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterString.c
+	    New File  		     624	P:\JM\CF\Scripts\3_Game\CommunityFramework\TypeConverter\Converters\CF_TypeConverterVector.c
+	    New File  		   11965	P:\JM\CF\Scripts\3_Game\CommunityFramework\Utils\CF_Date.c
+	    New File  		    4953	P:\JM\CF\Scripts\3_Game\CommunityFramework\Utils\CF_Localiser.c
+	    New File  		    1203	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML.c
+	    New File  		    1782	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML_Attribute.c
+	    New File  		     212	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML_Callback.c
+	    New File  		    5178	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML_Document.c
+	    New File  		    2274	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML_Element.c
+	    New File  		    4293	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML_Reader.c
+	    New File  		    3179	P:\JM\CF\Scripts\3_Game\CommunityFramework\XML\CF_XML_Tag.c
+	    New File  		    7237	P:\JM\CF\Scripts\4_World\CommunityFramework\Classes\JMAnimRegister.c
+	    New File  		     817	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\AdvancedCommunication.c
+	    New File  		     795	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\AnimalBase.c
+	    New File  		     799	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\BuildingBase.c
+	    New File  		     793	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\CarScript.c
+	    New File  		     813	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\DayZPlayerImplement.c
+	    New File  		     807	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\HelicopterScript.c
+	    New File  		    2012	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\ItemBase.c
+	    New File  		     795	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\ZombieBase.c
+	    New File  		    6203	P:\JM\CF\Scripts\4_World\CommunityFramework\Entities\ManBase\DayZPlayerCameras.c
+	    New File  		     842	P:\JM\CF\Scripts\4_World\CommunityFramework\EventArgs\CF_EventPlayerArgs.c
+	    New File  		     164	P:\JM\CF\Scripts\4_World\CommunityFramework\ModStorage\CF_ModStorageBase.c
+	    New File  		    3715	P:\JM\CF\Scripts\4_World\CommunityFramework\ModStorage\CF_ModStorageObject.c
+	    New File  		    4293	P:\JM\CF\Scripts\4_World\CommunityFramework\ModStorage\modstorage_prepare.c
+	    New File  		    2228	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\CF_ModuleWorld.c
+	    New File  		    3291	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\CF_ModuleWorldEvent.c
+	    New File  		    2302	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\CF_ModuleWorldManager.c
+	    New File  		    7591	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\Deprecated\JMModuleBase.c
+	    New File  		     283	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\Deprecated\JMModuleBinding.c
+	    New File  		     396	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\Deprecated\JMModuleConstructorBase.c
+	    New File  		    3099	P:\JM\CF\Scripts\4_World\CommunityFramework\Module\Deprecated\JMModuleManager.c
+	    New File  		    6552	P:\JM\CF\Scripts\4_World\CommunityFramework\Surfaces\CF_Surface.c
+	    New File  		    4833	P:\JM\CF\Scripts\4_World\CommunityFramework\Surfaces\CF_VehicleSurface.c
+	    New File  		     592	P:\JM\CF\Scripts\4_World\CommunityFramework\Weapons\CF_WeaponStableState.c
+	    New File  		    1844	P:\JM\CF\Scripts\4_World\CommunityFramework\Weapons\WeaponFSM.c
+	    New File  		     707	P:\JM\CF\Scripts\4_World\CommunityFramework\Weapons\WeaponStableState.c
+	    New File  		    4744	P:\JM\CF\Scripts\4_World\CommunityFramework\Weapons\Weapon_Base.c
+	    New File  		     191	P:\JM\CF\Scripts\5_Mission\CommunityFramework\GUI\Keybindings\KeybindingElement.c
+	    New File  		    3211	P:\JM\CF\Scripts\5_Mission\CommunityFramework\GUI\Keybindings\KeybindingsGroup.c
+	    New File  		     407	P:\JM\CF\Scripts\5_Mission\CommunityFramework\LifecycleEvents\MissionBase.c
+	    New File  		     538	P:\JM\CF\Scripts\5_Mission\CommunityFramework\Mission\MissionBase.c
+	    New File  		     641	P:\JM\CF\Scripts\5_Mission\CommunityFramework\Mission\MissionGameplay.c
+	    New File  		    4456	P:\JM\CF\Scripts\5_Mission\CommunityFramework\Mission\MissionServer.c
+	    New File  		     122	P:\JM\CF\Scripts\5_Mission\CommunityFramework\Module\JMModuleConstructor.c
+	    New File  		     543	P:\JM\CF\Scripts\Data\Credits.json
+	    New File  		      11	P:\JM\CF\Scripts\Data\Version.hpp
+	    New File  		     350	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\BuildMod.c
+	    New File  		    1169	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\DayZProjectManager.c
+	    New File  		     288	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\LaunchClient.c
+	    New File  		     326	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\LaunchLocalMP.c
+	    New File  		     307	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\LaunchOffline.c
+	    New File  		     288	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\LaunchServer.c
+	    New File  		     277	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\OpenLogs.c
+	    New File  		     197	P:\JM\CF\Scripts\Editor\Plugins\CommunityFramework\PluginErrorMessage.c
+Sat 10/02/2024 23:41:44.88 Changes in "P:\Temp\JM\CF\Scripts"
+Sat 10/02/2024 23:41:44.88 Binarizing "P:\Temp\JM\CF\Scripts\config.cpp"
+Sat 10/02/2024 23:41:44.90 Deleting temp "P:\Temp\JM\CF\Scripts\config.cpp"
+Sat 10/02/2024 23:41:44.97 Binarizing *.p3d and *.wrp from "P:\Temp\JM\CF\Scripts" to "P:\Temp\BinarizeCache\@Community-Framework\JM\CF\Scripts"...
+FileServer MaxCacheSize = 11355 MB
+Warning: CfgVehicles missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgAmmo missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgNonAIVehicles missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgWeapons missing in PreloadConfig - may slow down vehicle creation
+Warning: CfgMagazines missing in PreloadConfig - may slow down vehicle creation
+BINARIZE rev.154613
+"C:\Program Files (x86)\Steam\steamapps\common\DayZ Tools\Bin\binarize\binarize.exe"  -targetBonesInterval=56 -textures=P:\Temp -binPath=P:\ "P:\Temp\JM\CF\Scripts" "P:\Temp\BinarizeCache\@Community-Framework\JM\CF\Scripts"
+Binarize started
+Warning: Terrain grid 12.5 will be too slow, should use 30.0
+Warning: Terrain grid 10.0 will be too slow, should use 30.0
+Sat 10/02/2024 23:41:45.51 Restoring "P:\Temp\JM\CF\Scripts\config.cpp"
+        1 file(s) copied.
+Sat 10/02/2024 23:41:45.53 PREFIX: JM\CF\Scripts
+Sat 10/02/2024 23:41:45.53 Creating "P:\Temp\@Community-Framework\addons\Scripts.pbo"...
+        1 file(s) moved.
+Sat 10/02/2024 23:41:46.35 Deleting temp "P:\Temp\JM\CF\Scripts\config.bin"
+Moving "P:\Temp\@Community-Framework\addons\Scripts.pbo" to "H:\DayZModding\Mods\@Community-Framework\addons\"
+        1 file(s) moved.
+Sat 10/02/2024 23:41:46.35 Signing "H:\DayZModding\Mods\@Community-Framework\addons\Scripts.pbo"
+Sat 10/02/2024 23:41:46.39 Mirroring "P:\JM\CF\Scripts" to "P:\Temp\JM\CF\Scripts"...
+
+Sat 10/02/2024 23:41:46.55 PREFIX: JM\CF\Scripts
+Sat 10/02/2024 23:41:46.55 Creating "P:\Temp\@Community-Framework\addons\Scripts.pbo"...
+        1 file(s) moved.
+Moving "P:\Temp\@Community-Framework\addons\Scripts.pbo" to "H:\DayZModding\Mods\@Community-Framework\addons\"
+        1 file(s) moved.
+Sat 10/02/2024 23:41:46.62 Signing "H:\DayZModding\Mods\@Community-Framework\addons\Scripts.pbo"
+Sat 10/02/2024 23:41:46.67 Successfully packaged @Community-Framework.
+Sat 10/02/2024 23:41:47.46 Successfully packaged all mods.
