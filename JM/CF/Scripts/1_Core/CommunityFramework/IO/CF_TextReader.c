@@ -61,7 +61,12 @@ class CF_TextReader : CF_IO
 		while (!EOF())
 		{
 			int byte = ReadByte();
-			if ( CF_Encoding.IsWhitespace(byte) || (!CF_Encoding.IsNumeric(byte) || (decimal && byte != 46)) ) {
+
+			if (byte == 46) {
+				if (decimal)
+					break;
+				decimal = true;
+			} else if ( CF_Encoding.IsWhitespace(byte) || (!CF_Encoding.IsNumeric(byte) ) ) {
 				break;
 			}
 			str += byte.AsciiToString();
