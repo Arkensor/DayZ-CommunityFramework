@@ -63,6 +63,11 @@ modded class ModStructure
 				SetStorageVersion(GetGame().ConfigGetInt(m_ModPath + " storageVersion"));
 			}
 
+			GetGame().ConfigGetText(m_ModPath + " name", m_ModName);
+
+			JsonDataCreditsDepartment mod_department_header;
+			JsonDataCreditsSection mod_section_modheader;
+
 			if (GetGame().ConfigIsExisting(m_ModPath + " creditsJson"))
 			{
 				string creditsPath;
@@ -70,7 +75,41 @@ modded class ModStructure
 
 				string errorMessage;
 				if (!JsonFileLoader<JsonDataCredits>.LoadFile(creditsPath, m_CF_Credits, errorMessage))
+				{
 					CF_Log.Warn("%1: %2", creditsPath, errorMessage);
+				}
+				else if (m_CF_Credits.Departments.Count() > 0)
+				{
+					//! Check if 1st department name contains mod name or vice versa, and if not, insert it
+
+					string departmentName = m_CF_Credits.Departments[0].DepartmentName;
+					string modName = m_ModName;
+
+					departmentName.ToLower();
+					modName.ToLower();
+
+					departmentName.Replace("-", " ");
+					departmentName.Replace("_", " ");
+					modName.Replace("-", " ");
+					modName.Replace("_", " ");
+
+					if (!departmentName.Contains(modName) && !modName.Contains(departmentName))
+					{
+						if (m_CF_Credits.Departments.Count() == 1)
+						{
+							//! If there is only one department in this mod's credits, overwrite department name with mod name
+							m_CF_Credits.Departments[0].DepartmentName = m_ModName;
+						}
+						else
+						{
+							//! If there is more than one department in this mod's credits, insert a new department with mod name at the top
+							mod_department_header = new JsonDataCreditsDepartment;
+							mod_department_header.Sections = new array<ref JsonDataCreditsSection>;
+							mod_department_header.DepartmentName = m_ModName;
+							m_CF_Credits.Departments.InsertAt(mod_department_header, 0);
+						}
+					}
+				}
 			}
 			else if (GetGame().ConfigIsExisting(m_ModPath + " credits"))
 			{
@@ -79,9 +118,9 @@ modded class ModStructure
 				m_CF_Credits = new JsonDataCredits;
 				m_CF_Credits.Departments = new array<ref JsonDataCreditsDepartment>;
 
-				JsonDataCreditsDepartment mod_department_header = new JsonDataCreditsDepartment;
+				mod_department_header = new JsonDataCreditsDepartment;
 				mod_department_header.Sections = new array<ref JsonDataCreditsSection>;
-				mod_department_header.DepartmentName = "				" + m_ModName;
+				mod_department_header.DepartmentName = m_ModName;
 
 				string author = "";
 				bool hasAuthor = GetGame().ConfigIsExisting(m_ModPath + " author");
@@ -102,7 +141,7 @@ modded class ModStructure
 
 				if (credits != "")
 				{
-					JsonDataCreditsSection mod_section_modheader = new JsonDataCreditsSection;
+					mod_section_modheader = new JsonDataCreditsSection;
 					mod_section_modheader.SectionLines = new array<string>;
 					mod_section_modheader.SectionName = ("Credits");
 
@@ -121,6 +160,14 @@ modded class ModStructure
 			else
 			{
 				m_CF_Credits = new JsonDataCredits;
+			}
+
+			if (mod_department_header && mod_department_header.Sections.Count() == 0)
+			{
+				//! Need to have at least one section (can be empty), else the red line below department header is misaligned in credits scroller
+				mod_section_modheader = new JsonDataCreditsSection;
+				mod_section_modheader.SectionLines = {};
+				mod_department_header.Sections.Insert(mod_section_modheader);
 			}
 
 			if (GetGame().ConfigIsExisting(m_ModPath + " versionPath"))

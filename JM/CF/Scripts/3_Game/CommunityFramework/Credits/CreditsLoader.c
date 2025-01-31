@@ -50,7 +50,11 @@ modded class CreditsLoader
 		// Append DayZ Game Credits Header
 		JsonDataCreditsDepartment dayzDepartmentHeader();
 		dayzDepartmentHeader.Sections = {};
-		dayzDepartmentHeader.DepartmentName = ("				DayZ Standalone");
+		// Need to have at least one section (can be empty), else the red line below department header is misaligned in credits scroller
+		JsonDataCreditsSection section = new JsonDataCreditsSection;
+		section.SectionLines = {};
+		dayzDepartmentHeader.Sections.Insert(section);
+		dayzDepartmentHeader.DepartmentName = "DayZ Standalone";
 		data.Departments.Insert(dayzDepartmentHeader);
 
 		// Append DayZ Game Credits
