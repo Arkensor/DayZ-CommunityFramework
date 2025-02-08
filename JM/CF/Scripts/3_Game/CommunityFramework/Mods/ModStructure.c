@@ -65,6 +65,9 @@ modded class ModStructure
 
 			GetGame().ConfigGetText(m_ModPath + " name", m_ModName);
 
+			if (m_ModName.Trim() == "")
+				m_ModName = name;
+
 			JsonDataCreditsDepartment mod_department_header;
 			JsonDataCreditsSection mod_section_modheader;
 
