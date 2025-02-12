@@ -92,7 +92,7 @@ class CF_ModuleCoreManager
 				s_ModulesMap.Remove(type);
 				s_Modules.Remove(i);
 
-				delete module;
+				module.UnloadModule();
 			}
 		}
 	}

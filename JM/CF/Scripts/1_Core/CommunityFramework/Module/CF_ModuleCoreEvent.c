@@ -30,7 +30,7 @@ class CF_ModuleCoreEvent: Managed
 	#ifndef DAYZ_1_26
 		//! 1.27+
 		newEvent.m_Prev = current;
-		module.m_Events.Insert(newEvent);
+		module.m_CF_Events.Insert(newEvent);
 	#endif
 
 		current.m_Next = newEvent;
