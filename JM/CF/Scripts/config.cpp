@@ -46,7 +46,8 @@ class CfgMods
             "CF_MODULES",
             "CF_REF_FIX",
             "CF_BUGFIX_REF", // Same as CF_REF_FIX but for mods that already anticipated a different name
-            "CF_BUGFIX_XML"
+            "CF_BUGFIX_XML",
+            "CF_DOUBLYLINKEDNODES"
         };
         
 		dependencies[] = { "Core", "Game", "World", "Mission" };
