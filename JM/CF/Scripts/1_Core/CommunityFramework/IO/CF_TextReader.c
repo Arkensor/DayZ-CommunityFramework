@@ -41,11 +41,13 @@ class CF_TextReader : CF_IO
 	{
 		string str;
 
-		int byte = ReadByte();
-		while (!CF_Encoding.IsWhitespace(byte) && CF_Encoding.IsNumeric(byte) && !EOF())
+		while (!EOF())
 		{
+			int byte = ReadByte();
+			if (CF_Encoding.IsWhitespace(byte) || !CF_Encoding.IsNumeric(byte)) {
+				break;
+			}
 			str += byte.AsciiToString();
-			byte = ReadByte();
 		}
 
 		return str.ToInt();
@@ -55,12 +57,19 @@ class CF_TextReader : CF_IO
 	{
 		string str;
 
-		int byte = ReadByte();
 		bool decimal = false;
-		while (!CF_Encoding.IsWhitespace(byte) && (CF_Encoding.IsNumeric(byte) || (!decimal && byte == 46)) && !EOF())
+		while (!EOF())
 		{
+			int byte = ReadByte();
+
+			if (byte == 46) {
+				if (decimal)
+					break;
+				decimal = true;
+			} else if ( CF_Encoding.IsWhitespace(byte) || (!CF_Encoding.IsNumeric(byte) ) ) {
+				break;
+			}
 			str += byte.AsciiToString();
-			byte = ReadByte();
 		}
 
 		return str.ToFloat();
@@ -101,10 +110,13 @@ class CF_TextReader : CF_IO
 		string str;
 
 		int byte = ReadByte();
-		while (!CF_Encoding.IsLine(byte) && !EOF())
+		while (!EOF())
 		{
-			str += byte.AsciiToString();
 			byte = ReadByte();
+			if (!CF_Encoding.IsLine(byte)) {
+				break;
+			}
+			str += byte.AsciiToString();
 		}
 
 		return str;
@@ -114,11 +126,13 @@ class CF_TextReader : CF_IO
 	{
 		string str;
 
-		int byte = m_Stream.Next();
-		while (!CF_Encoding.IsWhitespace(byte) && CF_Encoding.IsAlphanumeric(byte) && !EOF())
+		while (!EOF())
 		{
+			int byte = m_Stream.Next();			
+			if (CF_Encoding.IsWhitespace(byte) || !CF_Encoding.IsAlphanumeric(byte)) {
+				break;
+			}
 			str += byte.AsciiToString();
-			byte = m_Stream.Next();
 		}
 
 		m_Stream.Previous();
@@ -130,11 +144,13 @@ class CF_TextReader : CF_IO
 	{
 		string str;
 
-		int byte = ReadByte();
-		while (CF_Encoding.IsWhitespace(byte) && !EOF())
+		while (!EOF())
 		{
+			int byte = ReadByte();
+			if (!CF_Encoding.IsWhitespace(byte)) {
+				break;
+			}
 			str += byte.AsciiToString();
-			byte = ReadByte();
 		}
 
 		m_Stream.Previous();

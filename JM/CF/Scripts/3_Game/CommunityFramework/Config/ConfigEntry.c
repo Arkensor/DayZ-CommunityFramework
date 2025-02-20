@@ -15,6 +15,16 @@ class ConfigEntry : Managed
 		_name = "";
 	}
 
+	void Unlink()
+	{
+		foreach (ConfigEntry entry: _entries)
+		{
+			entry.Unlink();
+		}
+
+		_parent = null;
+	}
+
 	string GetType()
 	{
 		return "ENTRY";

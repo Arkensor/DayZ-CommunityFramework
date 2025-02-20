@@ -23,6 +23,18 @@ class ConfigClass : ConfigEntry
 
 	}
 
+	void ~ConfigClass()
+	{
+		Unlink();
+	}
+
+	override void Unlink()
+	{
+		super.Unlink();
+
+		_base = null;
+	}
+
 	override string GetType()
 	{
 		return "CLASS";

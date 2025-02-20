@@ -29,12 +29,17 @@ class CF_ModStorageModule : CF_ModuleWorld
 		Load();
 
 		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
-		if (!player || !player.CF_GetQueuedIdentityId() || !_AddPlayer(player.CF_GetQueuedIdentityId(), false))
-		{
+		if (!player)
 			return;
-		}
 
-		m_Serializer.Write(player.CF_GetQueuedIdentityId());
+		string id = player.CF_GetQueuedIdentityId();
+		if (!id)
+			return;
+
+		if (!_AddPlayer(id, false))
+			return;
+
+		m_Serializer.Write(id);
 	}
 
 	/**
@@ -48,12 +53,14 @@ class CF_ModStorageModule : CF_ModuleWorld
 		Load();
 
 		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
-		if (!player || !player.CF_GetQueuedIdentityId())
-		{
+		if (!player)
 			return m_FileExist;
-		}
 
-		return m_IDs[player.CF_GetQueuedIdentityId()] != null;
+		string id = player.CF_GetQueuedIdentityId();
+		if (!id)
+			return m_FileExist;
+
+		return m_IDs[id] != null;
 	}
 
 	/**

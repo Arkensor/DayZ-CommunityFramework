@@ -146,21 +146,21 @@ IF NOT exist "%modBuildDirectory%%modName%\" (
 	mkdir "%modBuildDirectory%%modName%\"
 )
 
-IF NOT exist "%modBuildDirectory%%modName%\Keys\" (
-	echo Creating folder "%modBuildDirectory%%modName%\Keys\"
-	mkdir "%modBuildDirectory%%modName%\Keys\"
+IF NOT exist "%modBuildDirectory%%modName%\keys\" (
+	echo Creating folder "%modBuildDirectory%%modName%\keys\"
+	mkdir "%modBuildDirectory%%modName%\keys\"
 )
 
-IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
-	echo Creating folder "%modBuildDirectory%%modName%\Addons\"
-	mkdir "%modBuildDirectory%%modName%\Addons\"
+IF NOT exist "%modBuildDirectory%%modName%\addons\" (
+	echo Creating folder "%modBuildDirectory%%modName%\addons\"
+	mkdir "%modBuildDirectory%%modName%\addons\"
 )
 
 echo Copying over "%workDrive%%prefixLinkRoot%\mod.cpp" to "%modBuildDirectory%%modName%\"
 copy "%workDrive%%prefixLinkRoot%\mod.cpp" "%modBuildDirectory%%modName%\" > nul
 
-echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
-copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > nul
+echo Copying over "%keyDirectory%\%keyName%.bikey" to "%modBuildDirectory%%modName%\keys\"
+copy "%keyDirectory%\%keyName%.bikey" "%modBuildDirectory%%modName%\keys\" > nul
 
 IF exist "%workDrive%Temp\%prefixLinkRoot%\" (
 	echo Removing folder "%workDrive%Temp\%prefixLinkRoot%\"
@@ -191,7 +191,7 @@ for /R %%D in ( config.cpp ) do (
 								IF !pboName:~-1!==\ SET pboName=!pboName:~0,-1!
 								set pboName=!pboName:\Temp\%prefixLinkRoot%\=!
 								set pboName=!pboName:\=_!
-								set pboName="%modBuildDirectory%%modName%\Addons\!pboName!.pbo
+								set pboName="%modBuildDirectory%%modName%\addons\!pboName!.pbo
 
 								set prefixName=%%~pD
 								IF !prefixName:~-1!==\ SET prefixName=!prefixName:~0,-1!

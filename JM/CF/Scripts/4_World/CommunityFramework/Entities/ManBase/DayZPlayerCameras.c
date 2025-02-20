@@ -1,8 +1,9 @@
-
 modded class DayZPlayerCameras
 {
 	static override void RegisterCameras( DayZPlayerType pType )
 	{
+		//! TODO: Very ugly to have to do that here, since the whole function body needs to be kept in sync with vanilla, which is easily forgotten.
+		//! Wish there was super for static methods :-/
 		JMAnimRegister.Register( pType );
 
 		pType.ResetCameraCreators();
@@ -66,6 +67,10 @@ modded class DayZPlayerCameras
 		RegisterTransitionTime(DAYZCAMERA_3RD_PRO_RAISED, DAYZCAMERA_3RD_CRO_RAISED, 0.7, false);
 		RegisterTransitionTime(DAYZCAMERA_3RD_PRO_RAISED, DAYZCAMERA_3RD_ERC, 0.9, false);
 		RegisterTransitionTime(DAYZCAMERA_3RD_PRO_RAISED, DAYZCAMERA_3RD_ERC_RAISED, 0.9, false);
+		RegisterTransitionTime(DAYZCAMERA_3RD_PRO_RAISED, DAYZCAMERA_3RD_ERC_RAISED_MELEE, 0.9, false);
+		
+		//! vehicle cameras
+		RegisterTransitionTime(DAYZCAMERA_3RD_VEHICLE, DAYZCAMERA_3RD_ERC, 0.7, false);
 
 		//! ironsights camera transitions
 		RegisterTransitionTime(DAYZCAMERA_3RD_ERC_RAISED, DAYZCAMERA_IRONSIGHTS, TIME_CAMERACHANGE_02, true);
@@ -87,6 +92,12 @@ modded class DayZPlayerCameras
 		RegisterTransitionTime(DAYZCAMERA_3RD_ERC, DAYZCAMERA_OPTICS, TIME_CAMERACHANGE_02, true);	//handheld optics only
 		RegisterTransitionTime(DAYZCAMERA_3RD_CRO, DAYZCAMERA_OPTICS, TIME_CAMERACHANGE_02, true);	//handheld optics only
 		RegisterTransitionTime(DAYZCAMERA_3RD_PRO, DAYZCAMERA_OPTICS, TIME_CAMERACHANGE_02, true);	//handheld optics only
+		
+		//Uncon camera transitions
+		RegisterTransitionTime(DAYZCAMERA_1ST_UNCONSCIOUS, DAYZCAMERA_3RD_PRO, 1.0, false);
+		RegisterTransitionTime(DAYZCAMERA_1ST_UNCONSCIOUS, DAYZCAMERA_1ST, 0.1, false);
+		RegisterTransitionTime(DAYZCAMERA_1ST_UNCONSCIOUS, DAYZCAMERA_1ST_VEHICLE, 0.5, false);
+		RegisterTransitionTime(DAYZCAMERA_1ST_UNCONSCIOUS, DAYZCAMERA_3RD_VEHICLE, 1.0, false);
 		
 		//! register function to handle camera changes 
 		pType.RegisterCameraOnChangeFnStatic(DayZPlayerCameras, "OnCameraChange");

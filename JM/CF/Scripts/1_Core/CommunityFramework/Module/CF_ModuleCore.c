@@ -4,6 +4,10 @@ class CF_ModuleCore : Managed
 
 	int m_CF_GameFlag;
 
+	ref array<CF_ModuleCoreEvent> m_CF_Events = {};
+
+	bool m_CF_UnloadModuleOnDestroy = true;
+
 	void CF_ModuleCore()
 	{
 #ifdef CF_TRACE_ENABLED
@@ -16,7 +20,30 @@ class CF_ModuleCore : Managed
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this, "~CF_ModuleCore");
 #endif
+
+		if (m_CF_UnloadModuleOnDestroy)
+			UnloadModule();
 	}
+
+	void UnloadModule()
+	{
+		OnUnloadModule();
+
+	#ifndef DAYZ_1_26
+		//! 1.27+
+		foreach (CF_ModuleCoreEvent evt: m_CF_Events)
+		{
+			if (evt.m_Prev)
+				evt.m_Prev.m_Next = evt.m_Next;
+		}
+
+		m_CF_Events.Clear();
+	#endif
+
+		m_CF_UnloadModuleOnDestroy = false;
+	}
+
+	void OnUnloadModule();
 
 	bool IsServer()
 	{

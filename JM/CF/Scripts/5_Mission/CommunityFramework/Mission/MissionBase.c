@@ -17,6 +17,14 @@ modded class MissionBase
 		}
 	}
 
+#ifndef DAYZ_1_26
+	//! 1.27+
+	void ~MissionBase()
+	{
+		CF_ModuleCoreManager._UnloadScriptModules({"Mission"});
+	}
+#endif
+
 	void OnMissionLoaded()
 	{
 	}

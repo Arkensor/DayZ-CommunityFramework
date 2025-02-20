@@ -22,7 +22,8 @@ modded class PlayerBase
 		{
 			if (m_CF_QueuedIdentityID != GetIdentity().GetId())
 			{
-				CF_Log.Warn("Queued identity ID %1 doesn't match actual ID %2 for player %3", m_CF_QueuedIdentityID, GetIdentity().GetId(), ToString());
+				if (m_CF_QueuedIdentityID)
+					CF_Log.Warn("Queued identity ID %1 doesn't match actual ID %2 for player %3", m_CF_QueuedIdentityID, GetIdentity().GetId(), ToString());
 				m_CF_QueuedIdentityID = GetIdentity().GetId();
 			}
 		}
