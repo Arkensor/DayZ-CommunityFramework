@@ -109,11 +109,11 @@ class CF_TextReader : CF_IO
 	{
 		string str;
 
-		int byte = ReadByte();
+		int byte;
 		while (!EOF())
 		{
 			byte = ReadByte();
-			if (!CF_Encoding.IsLine(byte)) {
+			if (CF_Encoding.IsLine(byte)) {
 				break;
 			}
 			str += byte.AsciiToString();
