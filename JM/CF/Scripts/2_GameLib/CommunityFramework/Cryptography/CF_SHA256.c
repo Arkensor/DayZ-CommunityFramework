@@ -57,22 +57,16 @@ class CF_SHA256
 		}
 
         CF_Uint i = s_DataLength;
-        if (s_DataLength < 56)
-        {
-            s_Data[i++] = 0x80;
-
-            while (i < 56)
-                s_Data[i++] = 0x00;
-        }
-        else
-        {
-            s_Data[i++] = 0x80;
-
-            while (i < 64)
-                s_Data[i++] = 0x00;
-
-            _Transform();
-        }
+		s_Data[i++] = 0x80;
+		while (i != 56)
+		{
+			if (i == 64)
+			{
+				_Transform();
+				i = 0;
+			}
+			s_Data[i++] = 0;
+		}
 
 		_AdjustBitLength(s_DataLength * 8);
 
