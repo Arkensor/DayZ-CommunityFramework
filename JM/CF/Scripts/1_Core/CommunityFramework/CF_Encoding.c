@@ -156,7 +156,7 @@ class CF_Encoding
 
 	static bool IsLine(string char)
 	{
-		return IsNumeric(CF_Byte.Set(char));
+		return IsLine(CF_Byte.Set(char));
 	}
 
 	static bool IsLine(CF_Byte byte)
