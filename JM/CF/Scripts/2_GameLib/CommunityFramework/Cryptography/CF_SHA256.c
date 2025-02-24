@@ -16,7 +16,7 @@ class CF_SHA256
 	static CF_Byte s_M[64];
 	static CF_Uint s_BitLen[2];
 	static CF_Uint s_State[8];
-	static CF_Byte s_Hash[64];
+	static CF_Byte s_Hash[32];
 
 	static void Process(CF_IO input, CF_IO output)
 	{
