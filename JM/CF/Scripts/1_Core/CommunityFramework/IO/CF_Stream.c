@@ -1,4 +1,4 @@
-class CF_Stream
+class CF_Stream: Managed
 {
 	ref CF_PackedByte m_Head;
 	CF_PackedByte m_Tail;
