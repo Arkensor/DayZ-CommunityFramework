@@ -348,7 +348,7 @@ class CF_Stream
 
 		Flush();
 
-		m_IsOpen = true;
+		m_IsOpen = false;
 	}
 	
 	override string GetDebugName()
