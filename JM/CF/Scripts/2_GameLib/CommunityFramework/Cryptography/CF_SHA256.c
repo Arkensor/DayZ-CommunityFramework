@@ -16,7 +16,7 @@ class CF_SHA256
 	static CF_Byte s_M[64];
 	static CF_Uint s_BitLen[2];
 	static CF_Uint s_State[8];
-	static CF_Byte s_Hash[64];
+	static CF_Byte s_Hash[32];
 
 	static void Process(CF_IO input, CF_IO output)
 	{
@@ -57,22 +57,16 @@ class CF_SHA256
 		}
 
         CF_Uint i = s_DataLength;
-        if (s_DataLength < 56)
-        {
-            s_Data[i++] = 0x80;
-
-            while (i < 56)
-                s_Data[i++] = 0x00;
-        }
-        else
-        {
-            s_Data[i++] = 0x80;
-
-            while (i < 64)
-                s_Data[i++] = 0x00;
-
-            _Transform();
-        }
+		s_Data[i++] = 0x80;
+		while (i != 56)
+		{
+			if (i == 64)
+			{
+				_Transform();
+				i = 0;
+			}
+			s_Data[i++] = 0;
+		}
 
 		_AdjustBitLength(s_DataLength * 8);
 
