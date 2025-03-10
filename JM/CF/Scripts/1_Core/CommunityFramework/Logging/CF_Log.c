@@ -3,7 +3,15 @@ class CF_Log
 #ifdef CF_TRACE_ENABLED
 	static int Level = CF_LogLevel.TRACE;
 #else
+#ifdef DIAG_DEVELOPER
+	static int Level = CF_LogLevel.DEBUG;
+#else
+#ifdef BUILD_EXPERIMENTAL
+	static int Level = CF_LogLevel.INFO;
+#else
 	static int Level = CF_LogLevel.ERROR;
+#endif
+#endif
 #endif
 
 	static bool IsLogging(CF_LogLevel level)
