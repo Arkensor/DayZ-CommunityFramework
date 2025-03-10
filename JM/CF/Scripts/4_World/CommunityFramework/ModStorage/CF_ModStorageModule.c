@@ -19,6 +19,45 @@ class CF_ModStorageModule : CF_ModuleWorld
 	protected autoptr FileSerializer m_Serializer;
 
 	/**
+	 * @note order of operations during connect/disconnect/respawn for reference
+	 * (times measured from start of previous step to start of current where applicable and may vary, differences smaller than 100 ms not included)
+	 * 
+	 * On connect (new character):
+	 * 1) MissionServer::OnClientPrepareEvent
+	 * 2) EOnClientPrepare (engine, not exposed in script)
+	 * 3) OnIdentityCreated (engine, not exposed in script)
+	 * 4) 14 s MissionServer::OnClientNewEvent
+	 * 5) PlayerBase::OnSelectPlayer
+	 * 6) MissionServer::InvokeOnConnect
+	 * 
+	 * On connect (existing character):
+	 * 1) MissionServer::OnClientPrepareEvent
+	 * 2) EOnClientPrepare (engine, not exposed in script)
+	 * 3) OnIdentityCreated (engine, not exposed in script)
+	 * 4) 15 s PlayerBase::OnStoreLoad -> CF_ModStorageObject::OnStoreLoad -> CF_ModStorageModule::IsEntity (PlayerBase::GetIdentity already available)
+	 * 5) ItemBase::OnStoreLoad -> CF_ModStorageObject::OnStoreLoad -> CF_ModStorageModule::IsEntity (for each item on player)
+	 * 6) MissionServer::OnClientReadyEvent
+	 * 7) PlayerBase::OnSelectPlayer
+	 * 8) MissionServer::InvokeOnConnect
+	 * 
+	 * On respawn:
+	 * 1) MissionServer::OnClientPrepareEvent
+	 * 2) EOnClientPrepare (engine, not exposed in script)
+	 * 3) -- s MissionServer::OnClientNewEvent (time varies based on respawnTime)
+	 * 4) PlayerBase::OnSelectPlayer
+	 * 5) MissionServer::InvokeOnConnect
+	 * 
+	 * On logout:
+	 * 1) MissionServer::OnClientDisconnectedEvent (calls OnClientLogout for CF modules)
+	 * 2) MissionServer::OnEvent LogoutCancelEventTypeID (if player cancels logout countdown, calls OnClientLogoutCancelled for CF modules)
+	 * 
+	 * On disconnect (if logout countdown runs out or player early disconnects):
+	 * 1) MissionServer::PlayerDisconnected (calls OnClientDisconnect for CF modules)
+	 * 2) MissionServer::InvokeOnDisconnect (called by PlayerDisconnected, only if player character not yet deleted)
+	 * 3) PlayerBase::OnStoreSave -> CF_ModStorageObject::OnStoreSave -> CF_ModStorageModule::AddEntity (only if player character not yet deleted)
+	 */
+
+	/**
 	 * @brief Checks if the item has a player root and if the player ID is in the map. If they aren't in the map then add and write to the file
 	 */
 	void AddEntity(EntityAI entity)
@@ -32,12 +71,30 @@ class CF_ModStorageModule : CF_ModuleWorld
 		if (!player)
 			return;
 
-		string id = player.CF_GetQueuedIdentityId();
+#ifdef DIAG_DEVELOPER
+		PrintFormat(GetGame().GetTickTime().ToString() + " [CF_ModStorageModule] AddEntity %1 player %2", entity, player);
+#endif
+
+		string id = player.CF_GetIdentityId(false);
+
+#ifdef DIAG_DEVELOPER
+		PrintFormat("  identity ID '%1'", id);
+#endif
+
 		if (!id)
 			return;
 
 		if (!_AddPlayer(id, false))
+		{
+#ifdef DIAG_DEVELOPER
+			PrintFormat("  already added (OK)");
+#endif
 			return;
+		}
+
+#ifdef DIAG_DEVELOPER
+		PrintFormat("  added");
+#endif
 
 		m_Serializer.Write(id);
 	}
@@ -56,9 +113,27 @@ class CF_ModStorageModule : CF_ModuleWorld
 		if (!player)
 			return m_FileExist;
 
-		string id = player.CF_GetQueuedIdentityId();
+#ifdef DIAG_DEVELOPER
+		PrintFormat(GetGame().GetTickTime().ToString() + " [CF_ModStorageModule] IsEntity %1 player %2", entity, player);
+#endif
+
+		string id = player.CF_GetIdentityId();
+
+#ifdef DIAG_DEVELOPER
+		PrintFormat("  identity ID '%1'", id);
+#endif
+
 		if (!id)
+		{
+#ifdef DIAG_DEVELOPER
+			PrintFormat("  %1", m_FileExist.ToString());
+#endif
 			return m_FileExist;
+		}
+
+#ifdef DIAG_DEVELOPER
+		PrintFormat("  %1", m_IDs[id]);
+#endif
 
 		return m_IDs[id] != null;
 	}

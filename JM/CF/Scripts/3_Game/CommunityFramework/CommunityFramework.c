@@ -63,6 +63,61 @@ class CommunityFramework : ModStructure
 
 	    return g_Game.IsServer() && !g_Game.IsMultiplayer();
     }
+
+    /**
+     * @brief Check if calling function is in list
+	 * 
+	 * @param callers   List of callers (function names)
+	 * @param logError  If true, logs error if caller not in list
+	 * 
+	 * @return true if in list, false if not
+	 * 
+	 * @note Use sparsely (performance impact) and only to communicate intent
+	 * 
+	 * @code
+	 * class ExampleA
+	 * {
+	 *     void Poke()
+	 *     {
+	 *         if (CF.IsCallFrom({"PokeOther"}))
+	 *             Print("Hello friend");
+	 *         else
+	 *             Print("I don't know you");
+	 *     }
+	 * }
+	 * 
+	 * class ExampleB
+	 * {
+	 *     void PokeOther(ExampleA other)
+	 *     {
+	 *         other.Poke();  // OK
+	 *     }
+	 * 
+	 *     void PokeOther2(ExampleA other)
+	 *     {
+	 *         other.Poke();  // Error
+	 *     }
+	 * }
+	 * @endcode
+     */
+	static bool IsCallFrom(TStringArray callers, bool logError = true)
+	{
+		string tmp;
+		DumpStackString(tmp);
+		TStringArray stack = {};
+		tmp.Split("\n", stack);
+
+		foreach (string caller: callers)
+		{
+			if (stack[2].IndexOf(caller + "() ") == 0)
+				return true;
+		}
+
+		if (logError)
+			CF_Log.Error("Invalid caller.");
+
+		return false;
+	}
 };
 
 class JM_CommunityFramework : CommunityFramework
