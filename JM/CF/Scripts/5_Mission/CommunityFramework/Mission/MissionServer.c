@@ -60,9 +60,7 @@ modded class MissionServer
 
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] InvokeOnConnect %1 %2 - ID '%3' - player.GetIdentity() = %4", player, identity, identity.GetId(), player.GetIdentity());
-#endif
+		CF_Log.Debug("[CF] MissionServer::InvokeOnConnect %1 %2 - ID '%3' - player.GetIdentity() = %4", "" + player, "" + identity, identity.GetId(), "" + player.GetIdentity());
 
 		super.InvokeOnConnect( player, identity );
 
@@ -71,9 +69,7 @@ modded class MissionServer
 
 	override void InvokeOnDisconnect( PlayerBase player )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] InvokeOnDisconnect %1", player);
-#endif
+		CF_Log.Debug("[CF] MissionServer::InvokeOnDisconnect %1", "" + player);
 
 		super.InvokeOnDisconnect( player );
 
@@ -82,9 +78,7 @@ modded class MissionServer
 
 	override void OnClientReadyEvent( PlayerIdentity identity, PlayerBase player )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] OnClientReadyEvent - %1 %2 - ID '%3' - player.GetIdentity() = %4", identity, player, identity.GetId(), player.GetIdentity());
-#endif
+		CF_Log.Debug("[CF] MissionServer::OnClientReadyEvent - %1 %2 - ID '%3' - player.GetIdentity() = %4", "" + identity, "" + player, identity.GetId(), "" + player.GetIdentity());
 
 		super.OnClientReadyEvent( identity, player );
 
@@ -93,9 +87,7 @@ modded class MissionServer
 	
 	override void OnClientReconnectEvent( PlayerIdentity identity, PlayerBase player )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] OnClientReconnectEvent - %1 %2 - ID '%3' - %4 - player.GetIdentity() = %4", identity, player, identity.GetId(), player.GetIdentity());
-#endif
+		CF_Log.Debug("[CF] MissionServer::OnClientReconnectEvent - %1 %2 - ID '%3' - %4 - player.GetIdentity() = %4", "" + identity, "" + player, identity.GetId(), "" + player.GetIdentity());
 
 		super.OnClientReconnectEvent( identity, player );
 
@@ -111,9 +103,7 @@ modded class MissionServer
 	
 	override void OnClientDisconnectedEvent( PlayerIdentity identity, PlayerBase player, int logoutTime, bool authFailed )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] OnClientDisconnectedEvent - %1 %2 - ID '%3' - player.GetIdentity() = %4", identity, player, identity.GetId(), player.GetIdentity());
-#endif
+		CF_Log.Debug("[CF] MissionServer::OnClientDisconnectedEvent - %1 %2 - ID '%3' - player.GetIdentity() = %4", "" + identity, "" + player, identity.GetId(), "" + player.GetIdentity());
 
 		super.OnClientDisconnectedEvent( identity, player, logoutTime, authFailed );
 
@@ -126,9 +116,7 @@ modded class MissionServer
 
 	override void PlayerDisconnected( PlayerBase player, PlayerIdentity identity, string uid )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] PlayerDisconnected %1 %2 UID '%3'", player, identity, uid);
-#endif
+		CF_Log.Debug("[CF] MissionServer::PlayerDisconnected %1 %2 UID '%3'", "" + player, "" + identity, uid);
 
 		if (player)
 		{
@@ -136,8 +124,8 @@ modded class MissionServer
 			if (id != uid)
 			{
 				if (id)
-					CF_Log.Error("PlayerDisconnected - Previously set identity ID '%1' doesn't match UID '%2' for player %3", id, uid, player.ToString());  //! Shouldn't be possible to happen
-				CF_Log.Info(GetGame().GetTickTime().ToString() + " [CF] PlayerDisconnected - using UID %1", uid);
+					CF_Log.Error("[CF] MissionServer::PlayerDisconnected - previously set identity ID '%1' doesn't match UID '%2' for player %3", id, uid, player.ToString());  //! Shouldn't be possible to happen
+				CF_Log.Debug("[CF] MissionServer::PlayerDisconnected - using UID %1", uid);
 				player.CF_SetIdentityId(uid);
 			}
 		}
@@ -153,9 +141,7 @@ modded class MissionServer
 
 	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] OnClientNewEvent %1 - ID '%2'", identity, identity.GetId());
-#endif
+		CF_Log.Debug("[CF] MissionServer::OnClientNewEvent %1 - ID '%2'", "" + identity, identity.GetId());
 
 		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
 
@@ -170,9 +156,7 @@ modded class MissionServer
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] OnClientPrepareEvent %1 - ID '%2'", identity, identity.GetId());
-#endif
+		CF_Log.Debug("[CF] MissionServer::OnClientPrepareEvent %1 - ID '%2'", "" + identity, identity.GetId());
 
 		PlayerBase.CF_QueueIdentityId(identity.GetId());
 

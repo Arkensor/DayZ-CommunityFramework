@@ -6,10 +6,12 @@
 [CF_RegisterModule(CF_ModStorageModule)]
 class CF_ModStorageModule : CF_ModuleWorld
 {
-	static const string m_FileName = "modstorageplayers.bin";
+	static const string FILENAME = "modstorageplayers";
+	protected string m_Folder;
 	protected string m_FilePath;
+	protected string m_LockFilePath;
 
-	//! We only need to keep track of players, because if m_FileName exists,
+	//! We only need to keep track of players, because if FILENAME exists,
 	//! we already know that all items that are not in player inventory are OK to load from modstorage
 	//! because they have been saved prior (as long as the server ran for a couple minutes at least)
 	protected autoptr map<string, ref Param1<bool>> m_IDs = new map<string, ref Param1<bool>>();
@@ -17,6 +19,7 @@ class CF_ModStorageModule : CF_ModuleWorld
 	protected bool m_FileExist;
 
 	protected autoptr FileSerializer m_Serializer;
+	protected FileHandle m_LockFileHandle;
 
 	/**
 	 * @note order of operations during connect/disconnect/respawn for reference
@@ -55,7 +58,31 @@ class CF_ModStorageModule : CF_ModuleWorld
 	 * 1) MissionServer::PlayerDisconnected (calls OnClientDisconnect for CF modules)
 	 * 2) MissionServer::InvokeOnDisconnect (called by PlayerDisconnected, only if player character not yet deleted)
 	 * 3) PlayerBase::OnStoreSave -> CF_ModStorageObject::OnStoreSave -> CF_ModStorageModule::AddEntity (only if player character not yet deleted)
+	 * 4) ItemBase::OnStoreSave -> CF_ModStorageObject::OnStoreSave -> CF_ModStorageModule::AddEntity (for each item on player)
 	 */
+
+	override void OnInit()
+	{
+		super.OnInit();
+
+		EnableMissionFinish();
+	}
+
+	override void OnMissionFinish(Class sender, CF_EventArgs args)
+	{
+		super.OnMissionFinish(sender, args);
+
+		if (m_Serializer)
+		{
+			m_Serializer.Close();
+
+			if (m_LockFileHandle)
+			{
+				CloseFile(m_LockFileHandle);
+				DeleteFile(m_LockFilePath);
+			}
+		}
+	}
 
 	/**
 	 * @brief Checks if the item has a player root and if the player ID is in the map. If they aren't in the map then add and write to the file
@@ -71,32 +98,25 @@ class CF_ModStorageModule : CF_ModuleWorld
 		if (!player)
 			return;
 
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF_ModStorageModule] AddEntity %1 player %2", entity, player);
-#endif
+		CF_Log.Debug("[CF] CF_ModStorageModule::AddEntity %1 player %2", "" + entity, "" + player);
 
 		string id = player.CF_GetIdentityId(false);
 
-#ifdef DIAG_DEVELOPER
-		PrintFormat("  identity ID '%1'", id);
-#endif
+		CF_Log.Debug("  identity ID '%1'", id);
 
 		if (!id)
 			return;
 
 		if (!_AddPlayer(id, false))
 		{
-#ifdef DIAG_DEVELOPER
-			PrintFormat("  already added (OK)");
-#endif
+			CF_Log.Debug("  already added (OK)");
 			return;
 		}
 
-#ifdef DIAG_DEVELOPER
-		PrintFormat("  added");
-#endif
+		CF_Log.Debug("  added");
 
 		m_Serializer.Write(id);
+		_Flush();
 	}
 
 	/**
@@ -113,27 +133,19 @@ class CF_ModStorageModule : CF_ModuleWorld
 		if (!player)
 			return m_FileExist;
 
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF_ModStorageModule] IsEntity %1 player %2", entity, player);
-#endif
+		CF_Log.Debug("[CF] CF_ModStorageModule::IsEntity %1 player %2", "" + entity, "" + player);
 
 		string id = player.CF_GetIdentityId();
 
-#ifdef DIAG_DEVELOPER
-		PrintFormat("  identity ID '%1'", id);
-#endif
+		CF_Log.Debug("  identity ID '%1'", id);
 
 		if (!id)
 		{
-#ifdef DIAG_DEVELOPER
-			PrintFormat("  %1", m_FileExist.ToString());
-#endif
+			CF_Log.Debug("  %1", m_FileExist.ToString());
 			return m_FileExist;
 		}
 
-#ifdef DIAG_DEVELOPER
-		PrintFormat("  %1", m_IDs[id]);
-#endif
+		CF_Log.Debug("  %1", "" + m_IDs[id]);
 
 		return m_IDs[id] != null;
 	}
@@ -152,21 +164,35 @@ class CF_ModStorageModule : CF_ModuleWorld
 
 		int instanceId = g_Game.ServerConfigGetInt("instanceId");
 
-		string folder = "$mission:storage_" + instanceId + "/";
-		if (!FileExist(folder))
+		m_Folder = "$mission:storage_" + instanceId + "/";
+		if (!FileExist(m_Folder))
 		{
-			MakeDirectory(folder);
+			MakeDirectory(m_Folder);
 		}
 
-		folder += "communityframework/";
-		if (!FileExist(folder))
+		m_Folder += "communityframework/";
+		if (!FileExist(m_Folder))
 		{
-			MakeDirectory(folder);
+			MakeDirectory(m_Folder);
 		}
 
-		m_FilePath = folder + m_FileName;
+		m_FilePath = m_Folder + FILENAME + ".bin";
+		m_LockFilePath = m_Folder + FILENAME + ".lock";
 
-		if (m_Serializer) m_Serializer.Close();
+		if (!reload)
+		{
+			if (FileExist(m_LockFilePath))
+				CF_Log.Warn("File \"%1\" was not closed. Always shut down the server gracefully to prevent data loss.", m_FilePath);
+
+			m_LockFileHandle = OpenFile(m_LockFilePath, FileMode.WRITE);
+			if (!m_LockFileHandle)
+				CF_Log.Error("Could not create lockfile \"%1\"!", m_LockFilePath);
+		}
+
+		if (m_Serializer)
+			m_Serializer.Close();
+		else
+			m_Serializer = new FileSerializer();
 
 		// Clear existing ids
 		m_IDs.Clear();
@@ -174,25 +200,79 @@ class CF_ModStorageModule : CF_ModuleWorld
 		m_FileExist = FileExist(m_FilePath);
 		if (m_FileExist)
 		{
-			m_Serializer = new FileSerializer();
-			m_Serializer.Open(m_FilePath, FileMode.READ);
-			string id;
-			while (true)
+			string backup1 = m_Folder + FILENAME + ".001";
+			string backup2 = m_Folder + FILENAME + ".002";
+
+			TStringArray filePaths = {m_FilePath};
+
+			if (FileExist(backup1))
+				filePaths.Insert(backup1);
+
+			if (FileExist(backup2))
+				filePaths.Insert(backup2);
+
+			int failuresCount;
+
+			foreach (string filePath: filePaths)
 			{
-				m_Serializer.Read(id);  // always returns true
-				if (!id) break;
-				_AddPlayer(id, true);
+				FileHandle handle = OpenFile(filePath, FileMode.READ);
+				if (handle)
+				{
+					int len[1];
+					string id;
+					while (ReadFile(handle, len, 4) > 0 && ReadFile(handle, id, len[0]) > 0)
+					{
+						if (id.Length() == len[0])
+							_AddPlayer(id, true);
+						else
+							CF_Log.Error("Invalid player ID \"%1\" in \"%2\"", id, filePath);
+					}
+					CloseFile(handle);
+					CF_Log.Info("Added %1 player IDs from \"%2\"", m_IDs.Count().ToString(), filePath);
+					break;
+				}
+				else
+				{
+					CF_Log.Error("Failed to open \"" + filePath + "\" for reading!");
+					failuresCount++;
+				}
 			}
-			m_Serializer.Close();
+
+			if (failuresCount == filePaths.Count())
+			{
+				_CriticalError("Failed to open \"" + m_FilePath + "\" for reading!");
+			}
+			else if (!reload)
+			{
+				//! Cycle backups
+
+				if (FileExist(backup1))
+					CopyFile(backup1, backup2);
+
+				CopyFile(m_FilePath, backup1);
+			}
 			
-			m_Serializer = new FileSerializer();
-			m_Serializer.Open(m_FilePath, FileMode.APPEND);
+			if (!m_Serializer.Open(m_FilePath, FileMode.APPEND))
+				_CriticalError("Failed to open \"" + m_FilePath + "\" for appending!");
 		}
 		else
 		{
-			m_Serializer = new FileSerializer();
-			m_Serializer.Open(m_FilePath, FileMode.WRITE);
+			if (!m_Serializer.Open(m_FilePath, FileMode.WRITE))
+				_CriticalError("Failed to open \"" + m_FilePath + "\" for writing!");
 		}
+	}
+
+	private void _CriticalError(string message)
+	{
+		Error("[CRITICAL]\t" + message);
+		GetGame().RequestExit(1);
+	}
+
+	private void _Flush()
+	{
+		m_Serializer.Close();
+		if (!m_Serializer.Open(m_FilePath, FileMode.APPEND))
+			Error("Failed to open \"" + m_FilePath + "\" for appending!");
 	}
 
 	/**
@@ -210,5 +290,26 @@ class CF_ModStorageModule : CF_ModuleWorld
 		}
 
 		return false;
+	}
+
+	void DumpPlayerIDsToFile()
+	{
+		if (!m_IsLoaded)
+		{
+			CF_Log.Error("File not loaded");
+			return;
+		}
+
+		string filePath = m_Folder + FILENAME + "_dump.bin";
+
+		FileSerializer serializer = new FileSerializer();
+		if (serializer.Open(filePath, FileMode.WRITE))
+		{
+			foreach (string id, Param1<bool> loaded: m_IDs)
+			{
+				serializer.Write(id);
+			}
+			serializer.Close();
+		}
 	}
 };
