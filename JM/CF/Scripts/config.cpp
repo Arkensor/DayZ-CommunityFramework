@@ -48,7 +48,8 @@ class CfgMods
             "CF_BUGFIX_REF", // Same as CF_REF_FIX but for mods that already anticipated a different name
             "CF_BUGFIX_XML",
             "CF_DOUBLYLINKEDNODES",
-            "CF_ONUPDATE_RATE_LIMIT"
+            "CF_ONUPDATE_RATE_LIMIT",
+			"CF_LOG_TIMESTAMP"
         };
         
 		dependencies[] = { "Core", "Game", "World", "Mission" };
