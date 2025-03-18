@@ -5,9 +5,7 @@ modded class PlayerBase
 
 	override void OnSelectPlayer()
 	{
-#ifdef DIAG_DEVELOPER
-		PrintFormat(GetGame().GetTickTime().ToString() + " [CF] OnSelectPlayer");
-#endif
+		CF_Log.Debug("[CF] PlayerBase::OnSelectPlayer");
 
 		super.OnSelectPlayer();
 
@@ -20,15 +18,15 @@ modded class PlayerBase
 			if (m_CF_IdentityID != id)
 			{
 				if (m_CF_IdentityID)
-					CF_LogWarn("OnSelectPlayer - Previously set identity ID %1 doesn't match current ID %2 for player %3", m_CF_IdentityID, id, ToString());  //! Shouldn't be possible to happen
-				CF_Log.Info("OnSelectPlayer - using ID %1", id);
+					CF_Log.Warn("[CF] PlayerBase::OnSelectPlayer - previously set identity ID %1 doesn't match current ID %2 for player %3", m_CF_IdentityID, id, ToString());  //! Shouldn't be possible to happen
+				CF_Log.Debug("[CF] PlayerBase::OnSelectPlayer - using ID %1", id);
 				m_CF_IdentityID = id;
 			}
 			s_CF_QueuedIdentityIDs.RemoveItem(id);
 		}
 		else
 		{
-			CF_Log.Error("OnSelectPlayer - Player without identity has been selected");  //! Shouldn't be possible to happen
+			CF_Log.Warn("[CF] PlayerBase::OnSelectPlayer - Player without identity has been selected");  //! Shouldn't be possible to happen
 		}
 	}
 
@@ -62,8 +60,8 @@ modded class PlayerBase
 			if (m_CF_IdentityID != id)
 			{
 				if (m_CF_IdentityID)
-					CF_LogWarn("CF_GetIdentityId - Previously set identity ID %1 doesn't match current ID %2 for player %3", m_CF_IdentityID, id, ToString());  //! Shouldn't be possible to happen
-				CF_Log.Info("CF_GetIdentityId - using ID %1", id);
+					CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - previously set identity ID %1 doesn't match current ID %2 for player %3", m_CF_IdentityID, id, ToString());  //! Shouldn't be possible to happen
+				CF_Log.Debug("[CF] PlayerBase::CF_GetIdentityId - using ID %1", id);
 				m_CF_IdentityID = id;
 			}
 		}
@@ -84,27 +82,16 @@ modded class PlayerBase
 				{
 					if (id == identity.GetId())
 					{
-						CF_LogWarn("CF_GetIdentityId - using queued ID %1", id);
+						CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - using queued ID %1", id);
 						m_CF_IdentityID = id;
 						return m_CF_IdentityID;
 					}
 				}
-				CF_LogWarn("CF_GetIdentityId - discarded queued ID %1", id);
+				CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - discarded queued ID %1", id);
 			}
-			CF_LogWarn("CF_GetIdentityId - discarded %1 queued IDs", count.ToString());
+			CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - discarded %1 queued IDs", count.ToString());
 		}
 
 		return m_CF_IdentityID;
-	}
-
-	/**
-	 * @brief forced warning irrespective of log level
-	 */
-	void CF_LogWarn(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
-	{
-		int logLevel = CF_Log.Level;
-		CF_Log.Level = CF_LogLevel.WARNING;
-		CF_Log.Warn(message, param1, param2, param3, param4, param5, param6, param7, param8, param9);
-		CF_Log.Level = logLevel;
 	}
 };

@@ -6,10 +6,14 @@ class CF_Log
 #ifdef DIAG_DEVELOPER
 	static int Level = CF_LogLevel.DEBUG;
 #else
-#ifdef BUILD_EXPERIMENTAL
+#ifdef CF_DEBUG_ENABLED
+	static int Level = CF_LogLevel.DEBUG;
+#else
+#ifdef CF_INFO_ENABLED
 	static int Level = CF_LogLevel.INFO;
 #else
-	static int Level = CF_LogLevel.ERROR;
+	static int Level = CF_LogLevel.WARNING;
+#endif
 #endif
 #endif
 #endif
