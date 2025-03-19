@@ -158,8 +158,6 @@ modded class MissionServer
 	{
 		CF_Log.Debug("[CF] MissionServer::OnClientPrepareEvent %1 - ID '%2'", "" + identity, identity.GetId());
 
-		PlayerBase.CF_QueueIdentityId(identity.GetId());
-
 		auto args = new CF_EventPlayerPrepareArgs();
 		args.Identity = identity;
 		args.UseDatabase = useDB;

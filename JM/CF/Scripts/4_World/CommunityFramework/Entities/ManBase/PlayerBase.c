@@ -1,6 +1,5 @@
 modded class PlayerBase
 {
-	protected static ref TStringArray s_CF_QueuedIdentityIDs = new TStringArray();
 	protected string m_CF_IdentityID;
 
 	override void OnSelectPlayer()
@@ -22,24 +21,11 @@ modded class PlayerBase
 				CF_Log.Debug("[CF] PlayerBase::OnSelectPlayer - using ID %1", id);
 				m_CF_IdentityID = id;
 			}
-			s_CF_QueuedIdentityIDs.RemoveItem(id);
 		}
 		else
 		{
 			CF_Log.Warn("[CF] PlayerBase::OnSelectPlayer - Player without identity has been selected");  //! Shouldn't be possible to happen
 		}
-	}
-
-	static void CF_QueueIdentityId(string id)
-	{
-		s_CF_QueuedIdentityIDs.Insert(id);
-	}
-
-	static string CF_DequeueIdentityId()
-	{
-		string id = s_CF_QueuedIdentityIDs[0];
-		s_CF_QueuedIdentityIDs.RemoveOrdered(0);
-		return id;
 	}
 
 	void CF_SetIdentityId(string id)
@@ -65,33 +51,69 @@ modded class PlayerBase
 				m_CF_IdentityID = id;
 			}
 		}
-		else if (!m_CF_IdentityID && s_CF_QueuedIdentityIDs.Count() && fallBackToQueue)
-		{
-			//! TODO: This code path may not actually be used/needed anymore?
-
-			array<PlayerIdentity> identities();
-			GetDayZGame().GetPlayerIndentities(identities);
-			int count = s_CF_QueuedIdentityIDs.Count();
-			while (s_CF_QueuedIdentityIDs.Count())
-			{
-				id = CF_DequeueIdentityId();
-				if (!id) break;
-				//! Make sure this is not a stale ID. If it's not in the list,
-				//! the player didn't finish connecting (client crash, connection error etc)
-				foreach (PlayerIdentity identity: identities)
-				{
-					if (id == identity.GetId())
-					{
-						CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - using queued ID %1", id);
-						m_CF_IdentityID = id;
-						return m_CF_IdentityID;
-					}
-				}
-				CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - discarded queued ID %1", id);
-			}
-			CF_Log.Warn("[CF] PlayerBase::CF_GetIdentityId - discarded %1 queued IDs", count.ToString());
-		}
 
 		return m_CF_IdentityID;
+	}
+
+	override bool OnStoreLoadLifespan(ParamsReadContext ctx, int version)
+	{
+		int lifespan_state = 0;
+		if (!ctx.Read(lifespan_state))
+			return false;
+
+		//! Attempt fix if player is not in modstorageplayers.bin, but read data indicates it has been saved before with CF loaded
+		//! It is still unclear why this can happen
+		if (lifespan_state > LifeSpanState.COUNT - 1)
+		{
+			CF_Log.Warn("[CF] Lifespan state " + lifespan_state + " exceeds valid range " + (LifeSpanState.COUNT - 1));
+
+			if (lifespan_state <= CF_ModStorage.VERSION && !m_CF_ModStorage.m_Module.IsEntity(this))
+			{
+				int cf_version = lifespan_state;
+				CF_Log.Warn("[CF] Assuming CF ModStorage version " + cf_version);
+
+				if (!m_CF_ModStorage.OnStoreLoad_CF(ctx, cf_version))
+					return false;
+
+				m_CF_ModStorage.m_Module.AddEntity(this);
+
+				return super.OnStoreLoadLifespan(ctx, version);
+			}
+		}
+
+		m_LifeSpanState = lifespan_state;
+		
+		int last_shaved = 0;
+		if (!ctx.Read(last_shaved))
+			return false;
+		m_LastShavedSeconds = last_shaved;
+		
+		if (version < 122)
+		{
+			bool bloody_hands_old;
+			if (!ctx.Read(bloody_hands_old))
+			return false;
+			m_HasBloodyHandsVisible = bloody_hands_old;
+		}
+		else
+		{
+			int bloody_hands = 0;
+			if (!ctx.Read(bloody_hands))
+				return false;
+			m_HasBloodyHandsVisible = bloody_hands;
+		}
+		
+		
+		bool blood_visible = false;
+		if (!ctx.Read(blood_visible))
+			return false;
+		m_HasBloodTypeVisible = blood_visible;
+		
+		int blood_type = 0;
+		if (!ctx.Read(blood_type))
+			return false;
+		m_BloodType = blood_type;
+
+		return true;
 	}
 };
