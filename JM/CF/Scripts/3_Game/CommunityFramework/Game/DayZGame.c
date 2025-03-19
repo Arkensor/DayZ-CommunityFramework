@@ -5,6 +5,29 @@ modded class DayZGame
 	void DayZGame()
 	{
 		CF_ModuleGameManager.UpdateGameFlag(this);
+
+		int hours;
+		int minutes;
+		int seconds;
+		int secondsPrev = -1;
+
+		int ticks = TickCount(0);
+		while (!CF_Log.s_TimestampHelper)
+		{
+			GetHourMinuteSecond(hours, minutes, seconds);
+
+			if (secondsPrev == -1)
+				secondsPrev = seconds;
+			else if (seconds != secondsPrev)
+				CF_Log.s_TimestampHelper = new CF_TimestampHelper(this);
+		}
+		ticks = TickCount(ticks);
+		CF_Log.Debug("[CF] Timestamp helper instantiated after %1 s", (ticks / 10000000.0).ToString());
+	}
+
+	void ~DayZGame()
+	{
+		CF_Log.s_TimestampHelper = null;
 	}
 
 	override void DeferredInit()
