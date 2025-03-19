@@ -13,7 +13,7 @@
 modded class Math
 {
 	/**
-	 * @brief Returns the direction the number is facing, 0 if zero
+	 * @brief Returns the direction the number is facing, 1 if zero
 	 * 
 	 * @return float
 	 */
