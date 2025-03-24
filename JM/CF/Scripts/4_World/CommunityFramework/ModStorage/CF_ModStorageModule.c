@@ -116,7 +116,6 @@ class CF_ModStorageModule : CF_ModuleWorld
 		CF_Log.Debug("  added");
 
 		m_Serializer.Write(id);
-		_Flush();
 	}
 
 	/**
@@ -266,13 +265,6 @@ class CF_ModStorageModule : CF_ModuleWorld
 	{
 		Error("[CRITICAL]\t" + message);
 		GetGame().RequestExit(1);
-	}
-
-	private void _Flush()
-	{
-		m_Serializer.Close();
-		if (!m_Serializer.Open(m_FilePath, FileMode.APPEND))
-			Error("Failed to open \"" + m_FilePath + "\" for appending!");
 	}
 
 	/**
