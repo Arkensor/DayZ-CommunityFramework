@@ -62,7 +62,7 @@ modded class PlayerBase
 			return false;
 
 		//! Attempt fix if player is not in modstorageplayers.bin, but read data indicates it has been saved before with CF loaded
-		//! It is still unclear why this can happen
+		//! This can happen under Linux due to vanilla bug T190201 (FileMode.APPEND without function)
 		if (lifespan_state > LifeSpanState.COUNT - 1)
 		{
 			CF_Log.Warn("[CF] Lifespan state " + lifespan_state + " exceeds valid range " + (LifeSpanState.COUNT - 1));
