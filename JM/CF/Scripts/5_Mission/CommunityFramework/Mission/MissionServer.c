@@ -60,6 +60,8 @@ modded class MissionServer
 
 	override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
 	{
+		CF_Log.Debug("[CF] MissionServer::InvokeOnConnect %1 %2 - ID '%3' - player.GetIdentity() = %4", "" + player, "" + identity, identity.GetId(), "" + player.GetIdentity());
+
 		super.InvokeOnConnect( player, identity );
 
 		CF_ModuleWorldManager.OnInvokeConnect(this, new CF_EventPlayerArgs(player, identity));
@@ -67,6 +69,8 @@ modded class MissionServer
 
 	override void InvokeOnDisconnect( PlayerBase player )
 	{
+		CF_Log.Debug("[CF] MissionServer::InvokeOnDisconnect %1", "" + player);
+
 		super.InvokeOnDisconnect( player );
 
 		CF_ModuleWorldManager.OnInvokeDisconnect(this, new CF_EventPlayerArgs(player));
@@ -74,6 +78,8 @@ modded class MissionServer
 
 	override void OnClientReadyEvent( PlayerIdentity identity, PlayerBase player )
 	{
+		CF_Log.Debug("[CF] MissionServer::OnClientReadyEvent - %1 %2 - ID '%3' - player.GetIdentity() = %4", "" + identity, "" + player, identity.GetId(), "" + player.GetIdentity());
+
 		super.OnClientReadyEvent( identity, player );
 
 		CF_ModuleWorldManager.OnClientReady(this, new CF_EventPlayerArgs(player, identity));
@@ -81,6 +87,8 @@ modded class MissionServer
 	
 	override void OnClientReconnectEvent( PlayerIdentity identity, PlayerBase player )
 	{
+		CF_Log.Debug("[CF] MissionServer::OnClientReconnectEvent - %1 %2 - ID '%3' - %4 - player.GetIdentity() = %4", "" + identity, "" + player, identity.GetId(), "" + player.GetIdentity());
+
 		super.OnClientReconnectEvent( identity, player );
 
 		CF_ModuleWorldManager.OnClientReconnect(this, new CF_EventPlayerArgs(player, identity));
@@ -95,6 +103,8 @@ modded class MissionServer
 	
 	override void OnClientDisconnectedEvent( PlayerIdentity identity, PlayerBase player, int logoutTime, bool authFailed )
 	{
+		CF_Log.Debug("[CF] MissionServer::OnClientDisconnectedEvent - %1 %2 - ID '%3' - player.GetIdentity() = %4", "" + identity, "" + player, identity.GetId(), "" + player.GetIdentity());
+
 		super.OnClientDisconnectedEvent( identity, player, logoutTime, authFailed );
 
 		auto args = new CF_EventPlayerDisconnectedArgs(player, identity);
@@ -106,6 +116,20 @@ modded class MissionServer
 
 	override void PlayerDisconnected( PlayerBase player, PlayerIdentity identity, string uid )
 	{
+		CF_Log.Debug("[CF] MissionServer::PlayerDisconnected %1 %2 UID '%3'", "" + player, "" + identity, uid);
+
+		if (player)
+		{
+			string id = player.CF_GetIdentityId(false);
+			if (id != uid)
+			{
+				if (id)
+					CF_Log.Error("[CF] MissionServer::PlayerDisconnected - previously set identity ID '%1' doesn't match UID '%2' for player %3", id, uid, player.ToString());  //! Shouldn't be possible to happen
+				CF_Log.Debug("[CF] MissionServer::PlayerDisconnected - using UID %1", uid);
+				player.CF_SetIdentityId(uid);
+			}
+		}
+
 		auto args = new CF_EventPlayerDisconnectedArgs(player, identity);
 		args.UID = uid;
 
@@ -117,6 +141,8 @@ modded class MissionServer
 
 	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
 	{
+		CF_Log.Debug("[CF] MissionServer::OnClientNewEvent %1 - ID '%2'", "" + identity, identity.GetId());
+
 		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
 
 		auto args = new CF_EventNewPlayerArgs(player, identity, pos, ctx);
@@ -130,6 +156,8 @@ modded class MissionServer
 
 	override void OnClientPrepareEvent( PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int preloadTimeout )
 	{
+		CF_Log.Debug("[CF] MissionServer::OnClientPrepareEvent %1 - ID '%2'", "" + identity, identity.GetId());
+
 		auto args = new CF_EventPlayerPrepareArgs();
 		args.Identity = identity;
 		args.UseDatabase = useDB;
@@ -144,10 +172,6 @@ modded class MissionServer
 		//pos = args.Position;
 		//yaw = args.Yaw;
 		//preloadTimeout = args.PreloadTimeout;
-
-#ifdef CF_MODSTORAGE
-		PlayerBase.CF_QueueIdentityId(identity.GetId());
-#endif
 
 		// must call module code before vanilla
 		super.OnClientPrepareEvent(identity, useDB, pos, yaw, preloadTimeout);

@@ -5,8 +5,6 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 	autoptr array<ref CF_ModStorage> m_UnloadedMods;
 
-	CF_ModStorageModule m_Module;
-
 	bool m_HasModStorage;
 
 	void CF_ModStorageObject(T entity)
@@ -111,9 +109,15 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		int cf_version;
 		if (!ctx.Read(cf_version))
 		{
+			CF.FormatError("Failed to read CF version for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
 			return false;
 		}
 
+		return OnStoreLoad_CF(ctx, cf_version);
+	}
+
+	override bool OnStoreLoad_CF(ParamsReadContext ctx, int cf_version)
+	{
 		// CF version is prior to ModStorage implementation
 		if (cf_version < CF_ModStorage.MODSTORAGE_INITIAL_IMPLEMENTATION)
 		{
@@ -123,6 +127,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		int numMods;
 		if (!ctx.Read(numMods))
 		{
+			CF.FormatError("Failed to read number of mods for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
 			return false;
 		}
 
@@ -135,7 +140,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			if (!ModLoader._CF_ReadModStorage(ctx, cf_version, m_UnloadedMods, unloadedModsRead, loadedMods))
 			{
-				CF_Log.Error("Failed to read modstorage for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
+				CF.FormatError("Failed to read modstorage for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
 				break;
 			}
 		}

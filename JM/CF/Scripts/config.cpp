@@ -37,6 +37,8 @@ class CfgMods
             "CF_EXPRESSION",
             //"CF_EXPRESSION_TEST",
             //"CF_TRACE_ENABLED",
+			//"CF_DEBUG_ENABLED",
+			//"CF_INFO_ENABLED",
             "CF_TRACE_STACK_NAME_ASSUMPTION_FIX",
             "CF_GHOSTICONS",
             "CF_MODSTORAGE",
