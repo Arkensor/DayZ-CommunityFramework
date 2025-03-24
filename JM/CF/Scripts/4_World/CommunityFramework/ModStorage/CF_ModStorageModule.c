@@ -72,10 +72,15 @@ class CF_ModStorageModule : CF_ModuleWorld
 	{
 		super.OnMissionFinish(sender, args);
 
-		if (m_LockFileHandle)
+		if (m_Serializer)
 		{
-			CloseFile(m_LockFileHandle);
-			DeleteFile(m_LockFilePath);
+			m_Serializer.Close();
+
+			if (m_LockFileHandle)
+			{
+				CloseFile(m_LockFileHandle);
+				DeleteFile(m_LockFilePath);
+			}
 		}
 	}
 
@@ -110,15 +115,7 @@ class CF_ModStorageModule : CF_ModuleWorld
 
 		CF_Log.Debug("  added");
 
-		if (!m_Serializer.Open(m_FilePath, FileMode.APPEND))
-		{
-			Error("Failed to open \"" + m_FilePath + "\" for appending!");
-		}
-		else
-		{
-			m_Serializer.Write(id);
-			m_Serializer.Close();
-		}
+		m_Serializer.Write(id);
 	}
 
 	/**
@@ -191,7 +188,9 @@ class CF_ModStorageModule : CF_ModuleWorld
 				CF_Log.Error("Could not create lockfile \"%1\"!", m_LockFilePath);
 		}
 
-		if (!m_Serializer)
+		if (m_Serializer)
+			m_Serializer.Close();
+		else
 			m_Serializer = new FileSerializer();
 
 		// Clear existing ids
@@ -251,14 +250,14 @@ class CF_ModStorageModule : CF_ModuleWorld
 
 				CopyFile(m_FilePath, backup1);
 			}
+			
+			if (!m_Serializer.Open(m_FilePath, FileMode.APPEND))
+				_CriticalError("Failed to open \"" + m_FilePath + "\" for appending!");
 		}
 		else
 		{
-			//! Create the file
 			if (!m_Serializer.Open(m_FilePath, FileMode.WRITE))
 				_CriticalError("Failed to open \"" + m_FilePath + "\" for writing!");
-			else
-				m_Serializer.Close();
 		}
 	}
 
