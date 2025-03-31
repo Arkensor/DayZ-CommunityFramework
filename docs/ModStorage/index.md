@@ -177,7 +177,7 @@ modded class KitBase
 	override bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	{
 		if (!super.CF_OnStoreLoad(storage))
-			return true;
+			return false;
 
 		auto ctx = storage["NameOfYourMod"];
 		if (!ctx) return true;
