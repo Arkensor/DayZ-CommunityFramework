@@ -1,3 +1,4 @@
+#ifndef CF_MODSTORAGE
 modded class BuildingBase
 {
     override void OnStoreSave(ParamsWriteContext ctx)
@@ -181,3 +182,4 @@ modded class AdvancedCommunication
         return true;
     }
 }
+#endif

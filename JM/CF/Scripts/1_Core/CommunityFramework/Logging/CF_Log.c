@@ -3,8 +3,22 @@ class CF_Log
 #ifdef CF_TRACE_ENABLED
 	static int Level = CF_LogLevel.TRACE;
 #else
-	static int Level = CF_LogLevel.ERROR;
+#ifdef DIAG_DEVELOPER
+	static int Level = CF_LogLevel.DEBUG;
+#else
+#ifdef CF_DEBUG_ENABLED
+	static int Level = CF_LogLevel.DEBUG;
+#else
+#ifdef CF_INFO_ENABLED
+	static int Level = CF_LogLevel.INFO;
+#else
+	static int Level = CF_LogLevel.WARNING;
 #endif
+#endif
+#endif
+#endif
+
+	static ref CF_TimestampHelperCore s_TimestampHelper;
 
 	static bool IsLogging(CF_LogLevel level)
 	{
@@ -18,7 +32,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.TRACE) return;
 
-		PrintFormat("[TRACE]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("%1 [TRACE]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -28,7 +42,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.DEBUG) return;
 
-		PrintFormat("[DEBUG]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("%1 [DEBUG]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -38,7 +52,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.INFO) return;
 
-		PrintFormat("[INFO]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("%1 [INFO]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -48,7 +62,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.WARNING) return;
 
-		PrintFormat("[WARNING]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("%1 [WARNING]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	}
 
 	/**
@@ -58,7 +72,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.ERROR) return;
 
-		PrintFormat("[ERROR]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("%1 [ERROR]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 
 		string dump = "";
 		DumpStackString(dump);
@@ -78,7 +92,7 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.CRITICAL) return;
 
-		PrintFormat("[CRITICAL]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("%1 [CRITICAL]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 
 		string dump = "";
 		DumpStackString(dump);
@@ -89,5 +103,22 @@ class CF_Log
 		{
 			Print("\t" + outputs[i]);
 		}
+	}
+
+	static string FormatTime(bool useUTC = false, string delimHMS = ":")
+	{
+		if (s_TimestampHelper)
+			return s_TimestampHelper.FormatTime(useUTC, delimHMS);
+
+		int hours;
+		int minutes;
+		int seconds;
+
+		if (useUTC)
+			GetHourMinuteSecondUTC(hours, minutes, seconds);
+		else
+			GetHourMinuteSecond(hours, minutes, seconds);
+
+		return hours.ToStringLen(2) + delimHMS + minutes.ToStringLen(2) + delimHMS + seconds.ToStringLen(2);
 	}
 };

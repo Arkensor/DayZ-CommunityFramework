@@ -1,4 +1,5 @@
 @echo off
+setlocal enableextensions enabledelayedexpansion
 
 cd /D "%~dp0"
 
@@ -45,45 +46,23 @@ if %failed%==1 (
 	goto:eof
 )
 
-set workDrive=
-set modName=
-set modBuildDirectory=
-set prefixLinkRoot=
-set keyDirectory=
-set keyName=
-set dayzToolsPath=
+if exist "%~dp0..\project.cfg.bat" del "%~dp0..\project.cfg.bat"
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg WorkDrive') do (
-	set workDrive=%%a
+for /f "usebackq delims=" %%a in ( "%~dp0..\project.cfg" ) do (
+	echo set %%a>>"%~dp0..\project.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModName') do (
-	set modName=%%a
+call "%~dp0..\project.cfg.bat"
+
+if exist "%~dp0..\user.cfg.bat" del "%~dp0..\user.cfg.bat"
+
+for /f "usebackq delims=" %%a in ( "%~dp0..\user.cfg" ) do (
+	echo set %%a>>"%~dp0..\user.cfg.bat"
 )
 
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ModBuildDirectory') do (
-	set modBuildDirectory=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg PrefixLinkRoot') do (
-	set prefixLinkRoot=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg KeyDirectory') do (
-	set keyDirectory=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg KeyName') do (
-	set keyName=%%a
-)
-
-for /f "delims=" %%a in ('call ExtractData.bat ../project.cfg ../user.cfg ToolsDirectory') do (
-	set dayzToolsPath=%%a
-)
+call "%~dp0..\user.cfg.bat"
 
 REM @echo on
-
-setlocal enableextensions enabledelayedexpansion
 
 echo KeyDirectory is: "%keyDirectory%"
 if "%keyDirectory%"=="" (
@@ -164,16 +143,16 @@ if %failed%==1 (
 set pboProject="%_MIKEDLL%\bin\pboProject.exe"
 set signFile="%_DAYZTOOLSPATH%\Bin\DsUtils\DSSignFile.exe"
 
-IF NOT exist "%modBuildDirectory%%modName%\Addons\" (
-    echo %modBuildDirectory%%modName%\Addons\ does not exist
+IF NOT exist "%modBuildDirectory%%modName%\addons\" (
+    echo %modBuildDirectory%%modName%\addons\ does not exist
     pause
 )
 
 set folderToBuild=%~p1
 set fuckThurston=
 
-echo Copying over "%keyDirectory%%keyName%.bikey" to "%modBuildDirectory%%modName%\Keys\"
-copy "%keyDirectory%%keyName%.bikey" "%modBuildDirectory%%modName%\Keys\" > nul
+echo Copying over "%keyDirectory%%keyName%.bikey" to "%modBuildDirectory%%modName%\keys\"
+copy "%keyDirectory%%keyName%.bikey" "%modBuildDirectory%%modName%\keys\" > nul
 
 echo Packaging %modName% PBO's
 
@@ -193,14 +172,14 @@ set prefixName=%prefixLinkRoot%\!prefixName!
 
 set sourcePath=%workDrive%!prefixName!
 
-del %modBuildDirectory%%modName%\Addons\!pboName!.pbo
-del %modBuildDirectory%%modName%\Addons\!pboName!.pbo.%keyName%.bisign
+del %modBuildDirectory%%modName%\addons\!pboName!.pbo
+del %modBuildDirectory%%modName%\addons\!pboName!.pbo.%keyName%.bisign
 
 echo Building PBO: !pboName!.pbo
 rem echo START /w %pboProject% %pboProject% +W -F +Stop -P -O -E=dayz "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
 rem START /w %pboProject% %pboProject% +W -F +Stop -P -O -E=dayz "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
-echo START /w %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
-START /w %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
+echo START /w /MIN %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
+START /w /MIN %pboProject% %pboProject% +W -F +Stop -P %compression% -O -E=dayz +R "%workDrive%!prefixName!" "+Mod=%modBuildDirectory%%modName%" "-Key"
 
 if not errorlevel 1 (
 	set currentFolder=
@@ -208,12 +187,14 @@ if not errorlevel 1 (
 		set "currentFolder=%%~nxI"
 	)
 	
-	cd /D "%modBuildDirectory%%modName%\Addons\"
+	cd /D "%modBuildDirectory%%modName%\addons\"
 
-	echo Renaming PBO to %modBuildDirectory%%modName%\Addons\!pboName!.pbo
-	rename "%modBuildDirectory%%modName%\Addons\!currentFolder!.pbo" "!pboName!.pbo"
+	echo Renaming PBO to %modBuildDirectory%%modName%\addons\!pboName!.pbo
+	rename "%modBuildDirectory%%modName%\addons\!currentFolder!.pbo" "!pboName!.pbo"
 
-	%signFile% "%keyDirectory%%keyName%.biprivatekey" "%modBuildDirectory%%modName%\Addons\!pboName!.pbo"
+	%signFile% "%keyDirectory%%keyName%.biprivatekey" "%modBuildDirectory%%modName%\addons\!pboName!.pbo"
+
+	call "%~dp0CI_MakeLowercase.bat" "%modBuildDirectory%%modName%"
 	goto end
 ) else (
 	echo /////////////////////////////////////////////////////////////

@@ -37,17 +37,21 @@ class CfgMods
             "CF_EXPRESSION",
             //"CF_EXPRESSION_TEST",
             //"CF_TRACE_ENABLED",
+			//"CF_DEBUG_ENABLED",
+			//"CF_INFO_ENABLED",
             "CF_TRACE_STACK_NAME_ASSUMPTION_FIX",
             "CF_GHOSTICONS",
-            //"CF_MODSTORAGE",
+            "CF_MODSTORAGE",
             //"CF_MODSTORAGE_TEST",
             //"CF_MODSTORAGE_TRACE",
-            "CF_MODSTORAGE_DISABLE",
-            "CF_MODSTORAGE_MODULE_DISABLE",
             "CF_SURFACES",
             "CF_MODULES",
             "CF_REF_FIX",
-            "CF_BUGFIX_REF" // Same as CF_REF_FIX but for mods that already anticipated a different name
+            "CF_BUGFIX_REF", // Same as CF_REF_FIX but for mods that already anticipated a different name
+            "CF_BUGFIX_XML",
+            "CF_DOUBLYLINKEDNODES",
+            "CF_ONUPDATE_RATE_LIMIT",
+			"CF_LOG_TIMESTAMP"
         };
         
 		dependencies[] = { "Core", "Game", "World", "Mission" };

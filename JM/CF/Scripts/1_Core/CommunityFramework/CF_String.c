@@ -108,7 +108,7 @@ class CF_String : string
 	string PadStringFront(int length, CF_String padChar)
 	{
 		string newString = value;
-		length = newString.Length() - length;
+		length = length - newString.Length();
 
 		if (length > 0)
 		{
@@ -137,7 +137,7 @@ class CF_String : string
 	string PadStringBack(int length, CF_String padChar)
 	{
 		string newString = value;
-		length = newString.Length() - length;
+		length = length - newString.Length();
 
 		if (length > 0)
 		{

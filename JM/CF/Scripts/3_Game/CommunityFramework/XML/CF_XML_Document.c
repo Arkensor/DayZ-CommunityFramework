@@ -17,15 +17,15 @@ class CF_XML_Document : CF_XML_Element
 		_entities.Insert("&gt;", ">");
 	}
 
-	override CF_XML_Tag CreateTag(string name)
+	override CF_XML_Tag CreateTag(string name, bool isProcessingInstruction = false)
 	{
 		if (_currentTag)
 		{
-			_currentTag = _currentTag.CreateTag(name);
+			_currentTag = _currentTag.CreateTag(name, isProcessingInstruction);
 		}
 		else
 		{
-			_currentTag = super.CreateTag(name);
+			_currentTag = super.CreateTag(name, isProcessingInstruction);
 		}
 
 		return _currentTag;
@@ -52,9 +52,9 @@ class CF_XML_Document : CF_XML_Element
 		}
 
 		bool isQuoted;
-		string name = _reader.GetWord();
+		string name = _reader.GetWord({ "-" });
 		string eq = _reader.GetCharacter();
-		string value = _reader.GetQuotedWord(isQuoted);
+		string value = _reader.GetQuotedWord({ "-" }, isQuoted);
 
 		if (eq != "=")
 		{
@@ -91,7 +91,7 @@ class CF_XML_Document : CF_XML_Element
 			c = _reader.GetCharacter();
 			if (c == "/")
 			{
-				tagName = _reader.GetWord();
+				tagName = _reader.GetWord({ "-" });
 
 				if (_currentTag == NULL)
 				{
@@ -109,12 +109,15 @@ class CF_XML_Document : CF_XML_Element
 				return true;
 			}
 
+			bool isProcessingInstruction;
 			if (c != "?")
 				_reader.BackChar();
+			else
+				isProcessingInstruction = true;
 
-			tagName = _reader.GetWord();
+			tagName = _reader.GetWord({ "-" });
 
-			CreateTag(tagName);
+			CreateTag(tagName, isProcessingInstruction);
 
 			c = _reader.SkipWhitespace();
 			while (c != "/" && c != "?" && c != ">")
@@ -167,7 +170,7 @@ class CF_XML_Document : CF_XML_Element
 						_reader.Err("Expected '/' for inline closing tag, got: " + c);
 					}
 
-					tagName = _reader.GetWord();
+					tagName = _reader.GetWord({ "-" });
 					
 					if (tagName != _currentTag.GetName())
 					{
@@ -178,7 +181,7 @@ class CF_XML_Document : CF_XML_Element
 				}
 
 				foreach (string ent_key, string ent_val : _entities)
-					content.Replace(ent_key, ent_val);
+					_SafeReplace(content, ent_key, ent_val);
 
 				_currentTag.GetContent().SetContent(content);
 
@@ -203,6 +206,23 @@ class CF_XML_Document : CF_XML_Element
 		// could just be non-tagged content.
 
 		return true;
+	}
+
+	//! Vanilla string.Replace truncates long text >:-(
+	private int _SafeReplace(inout string content, string search, string replace)
+	{
+		int count;
+		int searchLen = search.Length();
+		int replaceLen = replace.Length();
+		int index = content.IndexOf(search);
+		while (index > -1)
+		{
+			content = content.Substring(0, index) + replace + content.Substring(index + searchLen, content.Length() - index - searchLen);
+			count++;
+			index = content.IndexOfFrom(index + replaceLen, search);
+		}
+
+		return count;
 	}
 
 	bool Read(CF_XML_Reader reader)

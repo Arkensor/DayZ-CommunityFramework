@@ -1,11 +1,11 @@
-#ifndef CF_MODSTORAGE_DISABLE
+#ifdef CF_MODSTORAGE
 class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
 
 	autoptr array<ref CF_ModStorage> m_UnloadedMods;
 
-	CF_ModStorageModule m_Module;
+	bool m_HasModStorage;
 
 	void CF_ModStorageObject(T entity)
 	{
@@ -34,13 +34,14 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			return;
 		}
 
-#ifndef CF_MODSTORAGE_MODULE_DISABLE
-		int b1, b2, b3, b4;
-		m_Entity.GetPersistentID(b1, b2, b3, b4);
 
-		// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
-		m_Module.AddEntity(b1, b2, b3, b4);
-#endif
+		if (!m_HasModStorage)
+		{
+			// Add the entity to the file so on next load the game knows that it can read the modstorage for the entity
+			m_Module.AddEntity(m_Entity);
+
+			m_HasModStorage = true;
+		}
 
 		// Write the CF modstorage version
 		ctx.Write(CF_ModStorage.VERSION);
@@ -53,12 +54,21 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 
 		m_Entity.CF_OnStoreSave(ModLoader.s_CF_ModStorageMap);
 
-		ctx.Write(ModLoader.s_CF_ModStorages.Count() + m_UnloadedMods.Count());
-
+		int modsWithDataCount;
 		foreach (auto mod2 : ModLoader.s_CF_ModStorages)
 		{
-			// also resets the stream for next 'OnStoreSave'
-			mod2._CopyStreamTo(ctx);
+			if (mod2.m_MaxIdx > -1) modsWithDataCount++;
+		}
+
+		ctx.Write(modsWithDataCount + m_UnloadedMods.Count());
+
+		if (modsWithDataCount)
+		{
+			foreach (auto mod3 : ModLoader.s_CF_ModStorages)
+			{
+				// also resets the stream for next 'OnStoreSave'
+				if (mod3.m_MaxIdx > -1) mod3._CopyStreamTo(ctx);
+			}
 		}
 
 		foreach (auto unloadedMod : m_UnloadedMods)
@@ -83,14 +93,10 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			return true;
 		}
 
-#ifndef CF_MODSTORAGE_MODULE_DISABLE
-		int b1, b2, b3, b4;
-		m_Entity.GetPersistentID(b1, b2, b3, b4);
-
 		// If the version is less than the wipe file, the entity will be added automatically in 'OnStoreSave'
 		if (version >= CF_ModStorage.GAME_VERSION_WIPE_FILE)
 		{
-			if (!m_Module.IsEntity(b1, b2, b3, b4))
+			if (!m_Module.IsEntity(m_Entity))
 			{
 				// Since the entity wasn't found we can assume that CF is freshly loaded
 				// Highly unlikely anything else happened that can cause this
@@ -99,14 +105,19 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 				return true;
 			}
 		}
-#endif
 
 		int cf_version;
 		if (!ctx.Read(cf_version))
 		{
+			CF.FormatError("Failed to read CF version for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
 			return false;
 		}
 
+		return OnStoreLoad_CF(ctx, cf_version);
+	}
+
+	override bool OnStoreLoad_CF(ParamsReadContext ctx, int cf_version)
+	{
 		// CF version is prior to ModStorage implementation
 		if (cf_version < CF_ModStorage.MODSTORAGE_INITIAL_IMPLEMENTATION)
 		{
@@ -116,6 +127,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		int numMods;
 		if (!ctx.Read(numMods))
 		{
+			CF.FormatError("Failed to read number of mods for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
 			return false;
 		}
 
@@ -128,14 +140,18 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		{
 			if (!ModLoader._CF_ReadModStorage(ctx, cf_version, m_UnloadedMods, unloadedModsRead, loadedMods))
 			{
-				CF_Log.Error("Failed to read modstorage for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
-				return false;
+				CF.FormatError("Failed to read modstorage for entity Type=%1, Position=%2", m_Entity.GetType(), m_Entity.GetPosition().ToString());
+				break;
 			}
 		}
 		
 		m_UnloadedMods.Resize(unloadedModsRead);
 
-		m_Entity.CF_OnStoreLoad(loadedMods);
+		if (modsRead < numMods)
+			return false;
+
+		if (!m_Entity.CF_OnStoreLoad(loadedMods))
+			ErrorEx(m_Entity.ToString() + "::CF_OnStoreLoad failed", ErrorExSeverity.WARNING);
 
 		// Reset the stream for 'OnStoreSave'
 		foreach (auto mod : ModLoader.s_CF_ModStorages)

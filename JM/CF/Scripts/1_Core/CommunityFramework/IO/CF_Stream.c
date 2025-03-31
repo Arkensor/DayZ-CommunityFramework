@@ -1,4 +1,4 @@
-class CF_Stream
+class CF_Stream: Managed
 {
 	ref CF_PackedByte m_Head;
 	CF_PackedByte m_Tail;
@@ -220,8 +220,8 @@ class CF_Stream
 
 	void SetPositionAtStart()
 	{
-		m_Current = null;
-		m_Position = -1;
+		m_Current = m_Head;
+		m_Position = 0;
 	}
 
 	void SetPositionAtEnd()
@@ -348,7 +348,7 @@ class CF_Stream
 
 		Flush();
 
-		m_IsOpen = true;
+		m_IsOpen = false;
 	}
 	
 	override string GetDebugName()

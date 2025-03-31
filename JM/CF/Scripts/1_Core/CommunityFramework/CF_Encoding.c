@@ -86,11 +86,16 @@ class CF_Encoding
 
 	static string ToBase64(array<CF_Byte> bytes)
 	{
-		string str = "";
-		for (int i = 0; i < bytes.Count(); i++)
-		{
-			str += bytes[i].ToHex();
-		}
+		CF_Base64Stream stream = new CF_Base64Stream();
+		CF_BinaryWriter writer = new CF_BinaryWriter(stream);
+
+		writer.WriteBytes(bytes);
+		writer.Close();
+
+		string str = stream.Encode();
+
+		delete stream;
+
 		return str;
 	}
 
@@ -151,7 +156,7 @@ class CF_Encoding
 
 	static bool IsLine(string char)
 	{
-		return IsNumeric(CF_Byte.Set(char));
+		return IsLine(CF_Byte.Set(char));
 	}
 
 	static bool IsLine(CF_Byte byte)

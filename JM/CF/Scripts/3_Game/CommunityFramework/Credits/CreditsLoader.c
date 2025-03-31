@@ -50,16 +50,27 @@ modded class CreditsLoader
 		// Append DayZ Game Credits Header
 		JsonDataCreditsDepartment dayzDepartmentHeader();
 		dayzDepartmentHeader.Sections = {};
-		dayzDepartmentHeader.DepartmentName = ("				DayZ Standalone");
+		// Need to have at least one section (can be empty), else the red line below department header is misaligned in credits scroller
+		JsonDataCreditsSection section = new JsonDataCreditsSection;
+		section.SectionLines = {};
+		dayzDepartmentHeader.Sections.Insert(section);
+		dayzDepartmentHeader.DepartmentName = "DayZ Standalone";
 		data.Departments.Insert(dayzDepartmentHeader);
 
 		// Append DayZ Game Credits
 		JsonDataCredits dayzCreditsData;
-		JsonFileLoader<ref JsonDataCredits>.JsonLoadFile(JSON_FILE_PATH, dayzCreditsData);
-		foreach (auto dayzDepartment : dayzCreditsData.Departments)
+		string errorMessage;
+		if (JsonFileLoader<ref JsonDataCredits>.LoadFile(JSON_FILE_PATH, dayzCreditsData, errorMessage))
 		{
-			data.Departments.Insert(dayzDepartment);
-		};
+			foreach (auto dayzDepartment : dayzCreditsData.Departments)
+			{
+				data.Departments.Insert(dayzDepartment);
+			}
+		}
+		else
+		{
+			CF_Log.Warn("%1: %2", JSON_FILE_PATH, errorMessage);
+		}
 
 		return data;
 	}

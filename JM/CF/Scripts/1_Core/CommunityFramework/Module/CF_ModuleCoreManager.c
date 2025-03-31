@@ -65,6 +65,39 @@ class CF_ModuleCoreManager
 		s_IsCreated = false;
 	}
 
+#ifndef DAYZ_1_26
+	//! 1.27+
+	/**
+	 * @brief Unload all modules belonging to given script module(s)
+	 * 
+	 * @param scriptModuleNames The names of the script modules (any combination of Core, GameLib, Game, World or Mission)
+	 */
+	static void _UnloadScriptModules(array<string> scriptModuleNames)
+	{
+		CF_Log.Debug("Unloading CF modules of script module(s) %1", scriptModuleNames.ToString());
+
+		for (int i = s_Modules.Count() - 1; i >= 0; i--)
+		{
+			auto module = s_Modules[i];
+			typename type = module.GetType();
+
+			if (scriptModuleNames.Find(type.GetModule()) > -1)
+			{
+				string className = type.ToString();
+
+				CF_Log.Debug("Unloading CF module %1", className);
+
+				s_ModuleNames.RemoveItem(className);
+	
+				s_ModulesMap.Remove(type);
+				s_Modules.Remove(i);
+
+				module.UnloadModule();
+			}
+		}
+	}
+#endif
+
 	/**
 	 * @brief Inserts the module typename into the list of modules to create, creates if already instantiated
 	 */

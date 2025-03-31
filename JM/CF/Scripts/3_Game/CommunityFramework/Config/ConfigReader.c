@@ -192,11 +192,7 @@ class ConfigReader : Managed
 
 	bool IsLetterOrDigit( string c, bool isQuoted )
 	{
-		int i = _cf_characters.Find( c );
-		if ( i == -1 )
-		{
-			return false;
-		}
+		int i = c.ToAscii();
 
 		if ( isQuoted )
 		{
@@ -207,6 +203,12 @@ class ConfigReader : Managed
 		{
 			return true;
 		}
+		
+		if ( i == 46 )
+			return true;
+
+		if ( i == 95 )
+			return true;
 
 		if ( i > 90 )
 			i -= 32;

@@ -26,6 +26,14 @@ class JMModuleManager : JMModuleManagerBase
 		m_ModuleList.Insert(module);
 	}
 
+#ifndef DAYZ_1_26
+	//! 1.27+
+	void RemoveModule(JMModuleBase module)
+	{
+		m_ModuleList.RemoveItem(module);
+	}
+#endif
+
 	/**
 	 * @note Can't remove protected from 'InitModule'' without compile errors
 	 */

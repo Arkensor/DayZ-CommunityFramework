@@ -5,6 +5,17 @@
  */
 class JMModuleBase : CF_ModuleWorld
 {
+#ifndef DAYZ_1_26
+	//! 1.27+
+	override void UnloadModule()
+	{
+		super.UnloadModule();
+
+		if (g_JMModuleManager)
+			g_JMModuleManager.RemoveModule(this);
+	}
+#endif
+
 	/**
 	 * Any module that inherits from 'JMModuleBase' probably expects all events to be enabled
 	 */

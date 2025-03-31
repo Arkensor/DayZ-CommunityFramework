@@ -8,7 +8,7 @@ class CF_NetworkVariable
 
 	int m_Count; // MAX_DEPTH
 	int m_AccessorIndices[MAX_DEPTH];
-	typename m_AccessorTypes[MAX_DEPTH];
+	ref map<int, typename> m_AccessorTypes = new map<int, typename>;
 
 	CF_TypeConverterBase m_Converter;
 };
