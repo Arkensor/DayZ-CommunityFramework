@@ -29,6 +29,6 @@ class CF_ModStorageMap
 
 	void Insert(ModStructure mod, CF_ModStorage storage)
 	{
-		m_Map.Insert(mod.ClassName(), storage);
+		m_Map.Insert(mod.GetName(), storage);
 	}
 };
