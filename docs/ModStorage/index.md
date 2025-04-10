@@ -174,9 +174,10 @@ modded class KitBase
 {
 	ref array<int> someArray = new array<int>();
 
-	override void CF_OnStoreSave(CF_ModStorageMap storage)
+	override bool CF_OnStoreLoad(CF_ModStorageMap storage)
 	{
-		super.CF_OnStoreSave(storage);
+		if (!super.CF_OnStoreLoad(storage))
+			return false;
 
 		auto ctx = storage["NameOfYourMod"];
 		if (!ctx) return true;
