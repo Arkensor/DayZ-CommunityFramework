@@ -1,6 +1,5 @@
 modded class CarScript
 {
-#ifdef CF_MODSTORAGE
 	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<CarScript>(this);
 
 	override void OnStoreSave(ParamsWriteContext ctx)
@@ -19,7 +18,6 @@ modded class CarScript
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
-#endif
 
 	/**
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreSave

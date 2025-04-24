@@ -226,7 +226,7 @@ modded class ModLoader
 				{
 					CF_ModStorage storage = new CF_ModStorage(mod);
 					s_CF_ModStorages.Insert(storage);
-					s_CF_ModStorageMap.Insert(mod, storage);
+					s_CF_ModStorageMap.Insert(name, storage);
 
 					int hashA = mod.m_CF_HashA;
 					int hashB = mod.m_CF_HashB;

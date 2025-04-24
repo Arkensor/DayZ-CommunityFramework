@@ -94,6 +94,14 @@ class CF_ModStorageModule : CF_ModuleWorld
 
 		Load();
 
+		if (!m_FileExist)
+		{
+			//! Make sure to not set this to true before all other entities have been loaded
+			MissionBaseWorld mission;
+			if (Class.CastTo(mission, GetGame().GetMission()) && mission.CF_IsLoaded())
+				m_FileExist = true;
+		}
+
 		PlayerBase player = PlayerBase.Cast(entity.GetHierarchyRootPlayer());
 		if (!player)
 			return;

@@ -1,4 +1,3 @@
-#ifdef CF_MODSTORAGE
 class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
@@ -162,4 +161,3 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		return true;
 	}
 };
-#endif

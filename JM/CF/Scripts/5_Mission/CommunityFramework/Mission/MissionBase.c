@@ -62,4 +62,9 @@ modded class MissionBase
 		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
 #endif
 	}
+
+	override bool CF_IsLoaded()
+	{
+		return m_bLoaded;
+	}
 };
