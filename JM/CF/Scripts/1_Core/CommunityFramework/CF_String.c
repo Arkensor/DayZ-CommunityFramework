@@ -283,4 +283,21 @@ class CF_String : string
 
 		return result;
 	}
+
+	//! Vanilla string.Replace truncates long text >:-(
+	int CF_Replace(string search, string replace)
+	{
+		int count;
+		int searchLen = search.Length();
+		int replaceLen = replace.Length();
+		int index = value.IndexOf(search);
+		while (index > -1)
+		{
+			value = value.Substring(0, index) + replace + value.Substring(index + searchLen, value.Length() - index - searchLen);
+			count++;
+			index = value.IndexOfFrom(index + replaceLen, search);
+		}
+
+		return count;
+	}
 };
