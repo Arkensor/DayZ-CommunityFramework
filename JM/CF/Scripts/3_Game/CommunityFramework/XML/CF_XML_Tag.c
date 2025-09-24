@@ -140,21 +140,21 @@ class CF_XML_Tag : Managed
 
 		if (_element.Count() > 0 || _element.GetContent())
 		{
-			FPrint(handle, ">\n");
+			FPrintln(handle, ">");
 
 			_element.OnWrite(handle, depth + 1);
 
 			FPrint(handle, indent);
 			FPrint(handle, "</");
 			FPrint(handle, _name);
-			FPrint(handle, ">\n");
+			FPrintln(handle, ">");
 		}
 		else
 		{
 			if (_isProcessingInstruction)
-				FPrint(handle, "?>\n");
+				FPrintln(handle, "?>");
 			else
-				FPrint(handle, " />\n");
+				FPrintln(handle, " />");
 		}
 	}
 };
