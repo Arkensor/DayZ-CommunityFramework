@@ -153,9 +153,9 @@ class CF_XML_Document : CF_XML_Element
 
 				while (true)
 				{
+					c = _reader.GetCharacter();
 					bool wasNewLine = _reader.WasNewLine();
 					if (wasNewLine) c = _reader.SkipWhitespace();
-					else c = _reader.GetCharacter();
 
 					if (c != "<")
 					{
