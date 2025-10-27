@@ -273,12 +273,9 @@ class CF_String : string
 	{
 		string result;
 
-		int index = value.Length() - 1;
-		while (index >= 0)
+		for (int i = value.Length() - 1; i >= 0; --i)
 		{
-			result += value.Substring(index, 1);
-
-			index--;
+			result += value[i];
 		}
 
 		return result;
