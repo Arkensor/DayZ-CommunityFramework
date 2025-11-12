@@ -51,7 +51,7 @@ class CF_Encoding
 		string str = "";
 		for (int i = 0; i < bytes.Count(); i++)
 		{
-			str += bytes[i].ToHex();
+			str += bytes[i].CF_ToHex();
 		}
 		return str;
 	}
