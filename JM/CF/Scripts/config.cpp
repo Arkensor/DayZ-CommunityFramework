@@ -25,7 +25,6 @@ class CfgMods
 		credits = "Jacob_Mango, Arkensor";
 		creditsJson = "JM/CF/Scripts/Data/Credits.json";
 		version = "0.0.0";
-		versionPath = "JM/CF/scripts/Data/Version.hpp";
 		author = "Jacob_Mango";
 		authorID = "76561198103677868"; 
 		extra = 0;
