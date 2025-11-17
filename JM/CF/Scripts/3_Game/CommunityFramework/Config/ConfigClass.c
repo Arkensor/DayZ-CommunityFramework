@@ -318,7 +318,7 @@ class ConfigClass : ConfigEntry
 					_entries.Insert( entry );
 				} else
 				{
-					reader.Error( "'" + entry._name + "' already defined" );
+					reader.Warning( "'" + entry._name + "' already defined" );
 				}
 			}
 		}
