@@ -53,7 +53,7 @@ class ConfigReader : Managed
 		return _lines[_arrIdx].Substring( _bufIdx, 1 );
 	}
 
-	private string ReadChar()
+	string ReadChar()
 	{
 		_bufIdx++;
 

@@ -263,7 +263,11 @@ class ConfigClass : ConfigEntry
 					bool quoted;
 					string value = reader.GetQuotedWord( quoted );
 
-					c = reader.SkipWhitespace();
+					c = reader.ReadChar();
+					while (reader.IsWhitespace(c))
+					{
+						c = reader.ReadChar();
+					}
 
 					if (c == "}" )
 					{
@@ -271,6 +275,7 @@ class ConfigClass : ConfigEntry
 						reader.BackChar();
 					} else if (c != ";" )
 					{
+						reader.BackChar();
 						reader.Error( "Missing ';' at the end of the line" );
 						return false;
 
