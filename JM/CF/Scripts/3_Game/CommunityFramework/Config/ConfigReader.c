@@ -282,7 +282,7 @@ class ConfigReader : Managed
 	string GetContextHint()
 	{
 		string contextHint;
-		int idx = _arrIdx - 3;
+		int idx = _arrIdx - 2;
 
 		while (idx <= _arrIdx)
 		{
