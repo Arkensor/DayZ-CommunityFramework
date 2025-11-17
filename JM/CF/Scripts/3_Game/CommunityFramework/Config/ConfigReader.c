@@ -279,13 +279,39 @@ class ConfigReader : Managed
 		return word;
 	}
 
+	string GetContextHint()
+	{
+		string contextHint;
+		int idx = _arrIdx - 3;
+
+		while (idx <= _arrIdx)
+		{
+			if (idx >= 0)
+				contextHint += _lines[idx] + "\n";
+
+			++idx;
+		}
+
+		int len;
+
+		while (len < _bufIdx)
+		{
+			contextHint += "-";
+			++len;
+		}
+
+		contextHint += "^";
+
+		return contextHint;
+	}
+
 	void Error( string msg )
 	{
-		CF_Log.Error( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
+		CF_Log.Error( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint() );
 	}
 
 	void Warning( string msg )
 	{
-		CF_Log.Warn( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
+		CF_Log.Warn( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint() );
 	}
 };
