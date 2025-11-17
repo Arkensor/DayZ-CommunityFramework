@@ -126,7 +126,28 @@ class CommunityFramework : ModStructure
 
 	static void FormatErrorEx(string err, ErrorExSeverity severity = ErrorExSeverity.ERROR, string p1 = "", string p2 = "", string p3 = "", string p4 = "", string p5 = "", string p6 = "", string p7 = "", string p8 = "", string p9 = "")
 	{
-		ErrorEx(string.Format(err, p1, p2, p3, p4, p5, p6, p7, p8, p9), severity);
+		err = string.Format(err, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+
+		if (severity != ErrorExSeverity.INFO)
+		{
+			ErrorEx(err, severity);
+		}
+		else
+		{
+			string stack;
+			DumpStackString(stack);
+
+			TStringArray lines = {};
+			stack.Split("\n", lines);
+
+			string caller = lines[1];
+
+			int lastIndex = caller.LastIndexOf("/") + 1;
+			string filename = caller.Substring(lastIndex, caller.LastIndexOf(":") - 1 - lastIndex);
+			string funcname = caller.Substring(0, caller.IndexOf("("));
+			
+			PrintFormat("[%1::%2] :: [INFO] :: %3", filename, funcname, err);
+		}
 	}
 };
 
