@@ -63,6 +63,8 @@ class ConfigReader : Managed
 			{
 				return "";
 			}
+
+			_bufIdx++;
 		}
 
 		return _lines[_arrIdx].Substring( _bufIdx, 1 );
@@ -70,7 +72,7 @@ class ConfigReader : Managed
 
 	bool NextLine()
 	{
-		_bufIdx = 0;
+		_bufIdx = -1;
 
 		_arrIdx++;
 
