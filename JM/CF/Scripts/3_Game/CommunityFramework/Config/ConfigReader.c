@@ -157,7 +157,7 @@ class ConfigReader : Managed
 				} else
 				{
 					BackChar();
-					return c;
+					return "/";
 				}
 			} else
 			{
