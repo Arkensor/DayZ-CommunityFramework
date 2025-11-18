@@ -5,11 +5,14 @@ class ConfigReader : Managed
 
 	private ref array< string > _lines = new array< string >;
 
-	private void ConfigReader()
+	private string m_Path;
+
+	private void ConfigReader(string path)
 	{ 
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this);
 #endif
+		m_Path = path;
 	}
 
 	void ~ConfigReader()
@@ -21,7 +24,7 @@ class ConfigReader : Managed
 
 	static ConfigReader Open( string path )
 	{
-		ConfigReader reader = new ConfigReader();
+		ConfigReader reader = new ConfigReader(path);
 
 		FileHandle fileHandle = OpenFile( path, FileMode.READ );
 
@@ -37,6 +40,11 @@ class ConfigReader : Managed
 		CloseFile( fileHandle );
 
 		return reader;
+	}
+
+	string GetPath()
+	{
+		return m_Path;
 	}
 
 	string BackChar()
@@ -307,11 +315,11 @@ class ConfigReader : Managed
 
 	void Error( string msg )
 	{
-		CF_Log.Error( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint() );
+		CF_Log.ErrorNoTrace( m_Path + "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint() );
 	}
 
 	void Warning( string msg )
 	{
-		CF_Log.Warn( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint() );
+		CF_Log.Warn( m_Path + "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint() );
 	}
 };
