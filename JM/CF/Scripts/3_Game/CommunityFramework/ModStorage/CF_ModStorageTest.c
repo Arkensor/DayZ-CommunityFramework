@@ -65,7 +65,7 @@ class CF_ModStorageTest
 
 		_cpu = TickCount(0);
 
-		GetGame().GameScript.CallFunction(this, _current, null, null);
+		g_Game.GameScript.CallFunction(this, _current, null, null);
 	}
 
 	private void _assert(string expected, string actual)
@@ -99,7 +99,7 @@ class CF_ModStorageTest
 	void CreateEntity()
 	{
 		string objectType = "Apple";
-		object = EntityAI.Cast(GetGame().CreateObject(objectType, "0 0 0"));
+		object = EntityAI.Cast(g_Game.CreateObject(objectType, "0 0 0"));
 	}
 	
 	void TestEntity()
@@ -110,7 +110,7 @@ class CF_ModStorageTest
 		ScriptReadWriteContext ctx = new ScriptReadWriteContext;
 		
 		object.OnStoreSave(ctx.GetWriteContext());
-		object.OnStoreLoad(ctx.GetReadContext(), GetGame().SaveVersion());
+		object.OnStoreLoad(ctx.GetReadContext(), g_Game.SaveVersion());
 
 		_assert(prev, object.GetDebugName());
 	}

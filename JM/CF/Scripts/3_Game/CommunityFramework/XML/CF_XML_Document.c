@@ -228,7 +228,7 @@ class CF_XML_Document : CF_XML_Element
 	void Save(string path)
 	{
 		ThreadWrite(path);
-		//GetGame().GameScript.Call( this, "ThreadWrite", path );
+		//g_Game.GameScript.Call( this, "ThreadWrite", path );
 	}
 
 	private void ThreadWrite(string path)

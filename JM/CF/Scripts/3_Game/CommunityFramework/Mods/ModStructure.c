@@ -56,14 +56,14 @@ modded class ModStructure
 		m_CF_ModInputs = new array<ref ModInput>;
 		m_CF_StorageVersion = 0;
 
-		if (GetGame().ConfigIsExisting(m_ModPath))
+		if (g_Game.ConfigIsExisting(m_ModPath))
 		{
-			if (GetGame().ConfigIsExisting(m_ModPath + " storageVersion"))
+			if (g_Game.ConfigIsExisting(m_ModPath + " storageVersion"))
 			{
-				SetStorageVersion(GetGame().ConfigGetInt(m_ModPath + " storageVersion"));
+				SetStorageVersion(g_Game.ConfigGetInt(m_ModPath + " storageVersion"));
 			}
 
-			GetGame().ConfigGetText(m_ModPath + " name", m_ModName);
+			g_Game.ConfigGetText(m_ModPath + " name", m_ModName);
 
 			if (m_ModName.Trim() == "")
 				m_ModName = name;
@@ -71,10 +71,10 @@ modded class ModStructure
 			JsonDataCreditsDepartment mod_department_header;
 			JsonDataCreditsSection mod_section_modheader;
 
-			if (GetGame().ConfigIsExisting(m_ModPath + " creditsJson"))
+			if (g_Game.ConfigIsExisting(m_ModPath + " creditsJson"))
 			{
 				string creditsPath;
-				GetGame().ConfigGetText(m_ModPath + " creditsJson", creditsPath);
+				g_Game.ConfigGetText(m_ModPath + " creditsJson", creditsPath);
 
 				string errorMessage;
 				if (!JsonFileLoader<JsonDataCredits>.LoadFile(creditsPath, m_CF_Credits, errorMessage))
@@ -114,7 +114,7 @@ modded class ModStructure
 					}
 				}
 			}
-			else if (GetGame().ConfigIsExisting(m_ModPath + " credits"))
+			else if (g_Game.ConfigIsExisting(m_ModPath + " credits"))
 			{
 				string credits = "";
 
@@ -126,8 +126,8 @@ modded class ModStructure
 				mod_department_header.DepartmentName = m_ModName;
 
 				string author = "";
-				bool hasAuthor = GetGame().ConfigIsExisting(m_ModPath + " author");
-				GetGame().ConfigGetText(m_ModPath + " author", author);
+				bool hasAuthor = g_Game.ConfigIsExisting(m_ModPath + " author");
+				g_Game.ConfigGetText(m_ModPath + " author", author);
 
 				if (hasAuthor && author != "")
 				{
@@ -140,7 +140,7 @@ modded class ModStructure
 					mod_department_header.Sections.Insert(mod_section_modheader_author);
 				}
 
-				GetGame().ConfigGetText(m_ModPath + " credits", credits);
+				g_Game.ConfigGetText(m_ModPath + " credits", credits);
 
 				if (credits != "")
 				{
@@ -173,10 +173,10 @@ modded class ModStructure
 				mod_department_header.Sections.Insert(mod_section_modheader);
 			}
 
-			if (GetGame().ConfigIsExisting(m_ModPath + " versionPath"))
+			if (g_Game.ConfigIsExisting(m_ModPath + " versionPath"))
 			{
 				string versionPath;
-				GetGame().ConfigGetText(m_ModPath + " versionPath", versionPath);
+				g_Game.ConfigGetText(m_ModPath + " versionPath", versionPath);
 
 				FileHandle file_handle = OpenFile(versionPath, FileMode.READ);
 
@@ -185,15 +185,15 @@ modded class ModStructure
 
 				CloseFile(file_handle);
 			}
-			else if (GetGame().ConfigIsExisting(m_ModPath + " version"))
+			else if (g_Game.ConfigIsExisting(m_ModPath + " version"))
 			{
-				GetGame().ConfigGetText(m_ModPath + " version", m_CF_ModVersion);
+				g_Game.ConfigGetText(m_ModPath + " version", m_CF_ModVersion);
 			}
 
-			if (GetGame().ConfigIsExisting(m_ModPath + " inputs"))
+			if (g_Game.ConfigIsExisting(m_ModPath + " inputs"))
 			{
 				string inputPath;
-				GetGame().ConfigGetText(m_ModPath + " inputs", inputPath);
+				g_Game.ConfigGetText(m_ModPath + " inputs", inputPath);
 
 				CF_XML_Document document;
 				if (inputPath != "" && CF.XML.ReadDocument(inputPath, document))

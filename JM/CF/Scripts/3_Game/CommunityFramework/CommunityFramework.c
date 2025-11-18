@@ -171,26 +171,26 @@ static string CF_XML_Indent( int level )
 
 static bool IsMissionHost()
 {
-	if ( !GetGame() )
+	if ( !g_Game )
 		return false;
 
-	return GetGame().IsServer() || !GetGame().IsMultiplayer();
+	return g_Game.IsServer() || !g_Game.IsMultiplayer();
 }
 
 static bool IsMissionClient()
 {
-	if ( !GetGame() )
+	if ( !g_Game )
 		return false;
 
-	return GetGame().IsClient() || !GetGame().IsMultiplayer();
+	return g_Game.IsClient() || !g_Game.IsMultiplayer();
 }
 
 static bool IsMissionOffline()
 {
-	if ( !GetGame() )
+	if ( !g_Game )
 		return false;
 
-	return GetGame().IsServer() && !GetGame().IsMultiplayer();
+	return g_Game.IsServer() && !g_Game.IsMultiplayer();
 }
 
 static string CF_Indent( int level )

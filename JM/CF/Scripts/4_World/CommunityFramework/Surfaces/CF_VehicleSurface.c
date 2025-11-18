@@ -96,7 +96,7 @@ class CF_VehicleSurface
 	{
 		string name;
 		int liquidType;
-		GetGame().SurfaceUnderObject(object, name, liquidType);
+		g_Game.SurfaceUnderObject(object, name, liquidType);
 		return CF_Surface.Get(name).VehicleSurface;
 	}
 
@@ -137,11 +137,11 @@ class CF_VehicleSurface
 	{
 		string path = "CfgVehicleSurfaces";
 		string name;
-		int count = GetGame().ConfigGetChildrenCount(path);
+		int count = g_Game.ConfigGetChildrenCount(path);
 
 		for (int index = 0; index < count; index++)
 		{
-			GetGame().ConfigGetChildName(path, index, name);
+			g_Game.ConfigGetChildName(path, index, name);
 
 			CF_VehicleSurface.Get(name);
 		}
@@ -150,21 +150,21 @@ class CF_VehicleSurface
 	private static int GetValueInt(string param)
 	{
 		string path = "CfgVehicleSurfaces" + " " + s_LastSurface + " " + param;
-		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetInt(path);
+		if (g_Game.ConfigIsExisting(path)) return g_Game.ConfigGetInt(path);
 		return 0;
 	}
 
 	private static float GetValueFloat(string param)
 	{
 		string path = "CfgVehicleSurfaces" + " " + s_LastSurface + " " + param;
-		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetFloat(path);
+		if (g_Game.ConfigIsExisting(path)) return g_Game.ConfigGetFloat(path);
 		return 0;
 	}
 
 	private static string GetValueString(string param)
 	{
 		string path = "CfgVehicleSurfaces" + " " + s_LastSurface + " " + param;
-		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetTextOut(path);
+		if (g_Game.ConfigIsExisting(path)) return g_Game.ConfigGetTextOut(path);
 		return string.Empty;
 	}
 };

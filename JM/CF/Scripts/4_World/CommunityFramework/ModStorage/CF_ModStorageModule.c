@@ -98,7 +98,7 @@ class CF_ModStorageModule : CF_ModuleWorld
 		{
 			//! Make sure to not set this to true before all other entities have been loaded
 			MissionBaseWorld mission;
-			if (Class.CastTo(mission, GetGame().GetMission()) && mission.CF_IsLoaded())
+			if (Class.CastTo(mission, g_Game.GetMission()) && mission.CF_IsLoaded())
 				m_FileExist = true;
 		}
 
@@ -272,7 +272,7 @@ class CF_ModStorageModule : CF_ModuleWorld
 	private void _CriticalError(string message)
 	{
 		Error("[CRITICAL]\t" + message);
-		GetGame().RequestExit(1);
+		g_Game.RequestExit(1);
 	}
 
 	/**

@@ -101,7 +101,7 @@ class CF_InputBindings
 	 */
 	void Update(float dt)
 	{
-		bool inMenu = GetGame().GetUIManager().GetMenu() || CF_ModuleGame.s_PreventInput;
+		bool inMenu = g_Game.GetUIManager().GetMenu() || CF_ModuleGame.s_PreventInput;
 		
 		CF_InputBinding binding = m_Head;
 		while (binding)

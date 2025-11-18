@@ -65,7 +65,7 @@ class RPCManager
 		string funcName = metaData.param2;
 
 		string recievedFrom = "server";
-		if ( GetGame().IsDedicatedServer() )
+		if ( g_Game.IsDedicatedServer() )
 		{
 			if ( sender == NULL )
 			{
@@ -86,16 +86,16 @@ class RPCManager
 				{
 					auto functionCallData = new Param4< CallType, ParamsReadContext, PlayerIdentity, Object >( CallType.Server, ctx, sender, target );
 				
-					if ( ( GetGame().IsServer() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Server || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
+					if ( ( g_Game.IsServer() && g_Game.IsMultiplayer() ) || ( g_Game.IsServer() && !g_Game.IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Server || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
 					{
-						GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
+						g_Game.GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
 					}
 
-					if ( ( GetGame().IsClient() && GetGame().IsMultiplayer() ) || ( GetGame().IsServer() && !GetGame().IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Client || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
+					if ( ( g_Game.IsClient() && g_Game.IsMultiplayer() ) || ( g_Game.IsServer() && !g_Game.IsMultiplayer() && ( wrapper.GetSPExecutionType() == SingleplayerExecutionType.Client || wrapper.GetSPExecutionType() == SingleplayerExecutionType.Both ) ) ) 
 					{
 						//Update call type
 						functionCallData.param1 = CallType.Client;
-						GetGame().GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
+						g_Game.GameScript.CallFunctionParams( wrapper.GetInstance(), funcName, NULL, functionCallData );
 					}
 				}
 			} else
@@ -119,7 +119,7 @@ class RPCManager
 		sendData.Insert( params );
 		
 		//In case we are in the singleplayer and the data is consumed twice for both client and server, we need to add it twice. Better than making a deep copy with more complicated rules on receiving
-		if ( !GetGame().IsMultiplayer() )
+		if ( !g_Game.IsMultiplayer() )
 		{
 			if ( m_RPCActions.Contains( modName ) )
 			{
@@ -135,7 +135,7 @@ class RPCManager
 			}
 		}
 
-		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
+		g_Game.RPC( sendToTarget, FRAMEWORK_RPC_ID, sendData, guaranteed, sendToIdentity );
 	}	
 
 	/**
@@ -149,9 +149,9 @@ class RPCManager
 
 		params.InsertAt( new Param2< string, string >( modName, funcName ), 0 );
 
-		GetGame().RPC( sendToTarget, FRAMEWORK_RPC_ID, params, guaranteed, sendToIdentity );
+		g_Game.RPC( sendToTarget, FRAMEWORK_RPC_ID, params, guaranteed, sendToIdentity );
 
-		if ( !GetGame().IsMultiplayer() )
+		if ( !g_Game.IsMultiplayer() )
 		{
 			if ( m_RPCActions.Contains( modName ) )
 			{

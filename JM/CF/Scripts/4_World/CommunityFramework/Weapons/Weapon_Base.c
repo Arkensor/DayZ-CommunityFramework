@@ -11,7 +11,7 @@ modded class Weapon_Base
 	 */
 	bool CF_SpawnMagazine(string magazineType, int quantity = -1, float health = 1)
 	{
-		if (!GetGame().IsKindOf(magazineType, "Magazine_Base"))
+		if (!g_Game.IsKindOf(magazineType, "Magazine_Base"))
 		{
 			return false;
 		}
@@ -20,7 +20,7 @@ modded class Weapon_Base
 
 		Magazine_Base magazine;
 
-		bool isMagazine = !GetGame().IsKindOf(magazineType, "Ammunition_Base");
+		bool isMagazine = !g_Game.IsKindOf(magazineType, "Ammunition_Base");
 		bool success;
 
 		if (isMagazine)
@@ -42,7 +42,7 @@ modded class Weapon_Base
 				}
 				else
 				{
-					success = Class.CastTo(magazine, GetGame().CreateObjectEx(magazineType, GetWorldPosition(), ECE_PLACE_ON_SURFACE));
+					success = Class.CastTo(magazine, g_Game.CreateObjectEx(magazineType, GetWorldPosition(), ECE_PLACE_ON_SURFACE));
 				}
 			}
 		}
@@ -74,7 +74,7 @@ modded class Weapon_Base
 			else
 			{
 				// delete overfill
-				GetGame().ObjectDelete(magazine);
+				g_Game.ObjectDelete(magazine);
 				magazine = null; // may be delayed
 			}
 		}
@@ -93,11 +93,11 @@ modded class Weapon_Base
 	{
 		bool isMagazine = !magazine.IsInherited(Ammunition_Base);
 
-		if (GetGame().IsDedicatedServer())
+		if (g_Game.IsDedicatedServer())
 		{
 			// Delete the entities from clients
-			GetGame().RemoteObjectDelete(this);
-			GetGame().RemoteObjectDelete(magazine);
+			g_Game.RemoteObjectDelete(this);
+			g_Game.RemoteObjectDelete(magazine);
 		}
 
 		// Magazine has to attach into the attachment slot
@@ -148,14 +148,14 @@ modded class Weapon_Base
 
 		m_fsm.CF_FindBestStableState();
 
-		if (GetGame().IsDedicatedServer())
+		if (g_Game.IsDedicatedServer())
 		{
-			GetGame().RemoteObjectCreate(this);
+			g_Game.RemoteObjectCreate(this);
 
 			// When ammoCount reaches zero the magazine is deleted
 			if (magazine)
 			{
-				GetGame().RemoteObjectCreate(magazine);
+				g_Game.RemoteObjectCreate(magazine);
 			}
 		}
 
