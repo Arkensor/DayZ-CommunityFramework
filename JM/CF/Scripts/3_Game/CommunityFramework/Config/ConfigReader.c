@@ -31,10 +31,7 @@ class ConfigReader : Managed
 		string lineContent;
 		while ( FGets( fileHandle, lineContent ) >= 0 )
 		{
-			if ( lineContent.Length() != 0 )
-			{
-				reader._lines.Insert( lineContent );
-			}
+			reader._lines.Insert( lineContent );
 		}
 
 		CloseFile( fileHandle );
