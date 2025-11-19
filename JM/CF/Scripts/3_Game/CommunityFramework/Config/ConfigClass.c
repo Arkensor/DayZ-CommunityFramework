@@ -276,7 +276,7 @@ class ConfigClass : ConfigEntry
 					} else if (c != ";" )
 					{
 						reader.BackChar();
-						reader.Error( "Missing ';' at the end of the line" );
+						reader.ErrorEOL( "Missing ';' at the end of the line" );
 						return false;
 
 						// TODO: resolve
