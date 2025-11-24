@@ -37,6 +37,7 @@ class CF_Surface
 	/**
 	 * @brief Private constructor to prevent outside creation of the class
 	 */
+	[Obsolete("DEPRECATED, use SurfaceInfo")]
 	private void CF_Surface()
 	{
 #ifdef CF_TRACE_ENABLED
