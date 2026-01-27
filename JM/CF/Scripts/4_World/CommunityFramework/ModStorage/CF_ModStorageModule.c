@@ -106,22 +106,22 @@ class CF_ModStorageModule : CF_ModuleWorld
 		if (!player)
 			return;
 
-		CF_Log.Debug("[CF] CF_ModStorageModule::AddEntity %1 player %2", "" + entity, "" + player);
+		CF_Log.Trace("[CF] CF_ModStorageModule::AddEntity %1 player %2", "" + entity, "" + player);
 
 		string id = player.CF_GetIdentityId(false);
 
-		CF_Log.Debug("  identity ID '%1'", id);
+		CF_Log.Trace("  identity ID '%1'", id);
 
 		if (!id)
 			return;
 
 		if (!_AddPlayer(id, false))
 		{
-			CF_Log.Debug("  already added (OK)");
+			CF_Log.Trace("  already added (OK)");
 			return;
 		}
 
-		CF_Log.Debug("  added");
+		CF_Log.Trace("  added");
 
 		m_Serializer.Write(id);
 	}
@@ -140,19 +140,19 @@ class CF_ModStorageModule : CF_ModuleWorld
 		if (!player)
 			return m_FileExist;
 
-		CF_Log.Debug("[CF] CF_ModStorageModule::IsEntity %1 player %2", "" + entity, "" + player);
+		CF_Log.Trace("[CF] CF_ModStorageModule::IsEntity %1 player %2", "" + entity, "" + player);
 
 		string id = player.CF_GetIdentityId();
 
-		CF_Log.Debug("  identity ID '%1'", id);
+		CF_Log.Trace("  identity ID '%1'", id);
 
 		if (!id)
 		{
-			CF_Log.Debug("  %1", m_FileExist.ToString());
+			CF_Log.Trace("  %1", m_FileExist.ToString());
 			return m_FileExist;
 		}
 
-		CF_Log.Debug("  %1", "" + m_IDs[id]);
+		CF_Log.Trace("  %1", "" + m_IDs[id]);
 
 		return m_IDs[id] != null;
 	}
