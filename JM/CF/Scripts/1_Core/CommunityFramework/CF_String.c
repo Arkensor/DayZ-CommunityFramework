@@ -273,14 +273,28 @@ class CF_String : string
 	{
 		string result;
 
-		int index = value.Length() - 1;
-		while (index >= 0)
+		for (int i = value.Length() - 1; i >= 0; --i)
 		{
-			result += value.Substring(index, 1);
-
-			index--;
+			result += value[i];
 		}
 
 		return result;
+	}
+
+	//! Vanilla string.Replace truncates long text >:-(
+	int CF_Replace(string search, string replace)
+	{
+		int count;
+		int searchLen = search.Length();
+		int replaceLen = replace.Length();
+		int index = value.IndexOf(search);
+		while (index > -1)
+		{
+			value = value.Substring(0, index) + replace + value.Substring(index + searchLen, value.Length() - index - searchLen);
+			count++;
+			index = value.IndexOfFrom(index + replaceLen, search);
+		}
+
+		return count;
 	}
 };

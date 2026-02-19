@@ -199,11 +199,11 @@ modded class ModLoader
 		m_Mods = new array<ref ModStructure>;
 		m_Loaded = true;
 
-		int modCount = GetGame().ConfigGetChildrenCount("CfgMods");
+		int modCount = g_Game.ConfigGetChildrenCount("CfgMods");
 		for (int i = 2; i < modCount; i++)
 		{
 			string name;
-			GetGame().ConfigGetChildName("CfgMods", i, name);
+			g_Game.ConfigGetChildName("CfgMods", i, name);
 
 			ModStructure mod;
 

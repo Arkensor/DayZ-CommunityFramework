@@ -125,11 +125,11 @@ class CF_ObjectManager
 
         if (limitHeight)
         {
-            GetGame().GetObjectsAtPosition3D(centerPosition, radius, objects, NULL);
+            g_Game.GetObjectsAtPosition3D(centerPosition, radius, objects, NULL);
         }
         else
         {
-            GetGame().GetObjectsAtPosition(centerPosition, radius, objects, NULL);
+            g_Game.GetObjectsAtPosition(centerPosition, radius, objects, NULL);
         }
 
         array<Object> hidden();
@@ -234,11 +234,11 @@ class CF_ObjectManager
 
         if (limitHeight)
         {
-            GetGame().GetObjectsAtPosition3D(centerPosition, radius, objects, NULL);
+            g_Game.GetObjectsAtPosition3D(centerPosition, radius, objects, NULL);
         }
         else
         {
-            GetGame().GetObjectsAtPosition(centerPosition, radius, objects, NULL);
+            g_Game.GetObjectsAtPosition(centerPosition, radius, objects, NULL);
         }
 
         return UnhideMapObjects(objects, updatePathGraph);

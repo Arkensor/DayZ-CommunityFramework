@@ -45,6 +45,10 @@ class ConfigClass : ConfigEntry
 		return this;
 	}
 
+	void SetBase(ConfigClass new_base) {
+		_base = new_base;
+	}
+
 	ConfigClass GetBase()
 	{
 		return _base;
@@ -61,9 +65,9 @@ class ConfigClass : ConfigEntry
 
 		ConfigEntry possibleEntry = NULL;
 
-		if ( _parent.GetClass()._base != NULL )
+		if ( _parent.GetClass().GetBase() != NULL )
 		{
-			possibleEntry = _parent.GetClass()._base.Find( name, true, true );
+			possibleEntry = _parent.GetClass().GetBase().Find( name, true, true );
 		}
 
 		if ( possibleEntry == NULL && _parent._parent != NULL )
@@ -187,7 +191,7 @@ class ConfigClass : ConfigEntry
 							return false;
 						}
 
-						entry.GetClass()._base = baseEntry.GetClass();
+						entry.GetClass().SetBase(baseEntry.GetClass());
 						c = reader.GetCharacter();
 					}
 
@@ -259,7 +263,11 @@ class ConfigClass : ConfigEntry
 					bool quoted;
 					string value = reader.GetQuotedWord( quoted );
 
-					c = reader.SkipWhitespace();
+					c = reader.ReadChar();
+					while (reader.IsWhitespace(c))
+					{
+						c = reader.ReadChar();
+					}
 
 					if (c == "}" )
 					{
@@ -267,7 +275,8 @@ class ConfigClass : ConfigEntry
 						reader.BackChar();
 					} else if (c != ";" )
 					{
-						reader.Error( "Missing ';' at the end of the line" );
+						reader.BackChar();
+						reader.ErrorEOL( "Missing ';' at the end of the line" );
 						return false;
 
 						// TODO: resolve
@@ -318,7 +327,7 @@ class ConfigClass : ConfigEntry
 					_entries.Insert( entry );
 				} else
 				{
-					reader.Error( "'" + entry._name + "' already defined" );
+					reader.Warning( "'" + entry._name + "' already defined" );
 				}
 			}
 		}

@@ -114,10 +114,10 @@ class CF_ModuleGame : CF_ModuleCore
 	void SetSynchDirty()
 	{
 		// Only the server can send data
-		if (!GetGame().IsDedicatedServer())
+		if (!g_Game.IsDedicatedServer())
 		{
 			// No need to serialize in offline mode, just directly call 'OnVariablesSynchronized'
-			if (GetGame().IsServer())
+			if (g_Game.IsServer())
 			{
 				OnVariablesSynchronized(this, CF_EventArgs.Empty);
 			}

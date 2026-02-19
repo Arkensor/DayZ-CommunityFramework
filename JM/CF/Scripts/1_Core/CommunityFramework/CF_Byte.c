@@ -41,7 +41,7 @@ class CF_Byte : CF_Uint
 		return byte;
 	}
 
-	string ToHex()
+	string CF_ToHex()
 	{
 		int ascii = value & 255;
 

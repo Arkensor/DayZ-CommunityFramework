@@ -66,6 +66,16 @@ class CF_Log
 	}
 
 	/**
+	 * @brief Logs that highlight when an error occured that does not stop the current flow of execution. Does not produce a stack trace.
+	 */
+	static void ErrorNoTrace(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")
+	{
+		if (Level > CF_LogLevel.ERROR) return;
+
+		PrintFormat("%1 [ERROR]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	}
+
+	/**
 	 * @brief Logs that highlight when the current flow of execution is stopped due to a failure. This should indicate if the current activity has a failure and will not result in the game shutting down. Produces a stack trace.
 	 */
 	static void Error(string message, string param1 = "", string param2 = "", string param3 = "", string param4 = "", string param5 = "", string param6 = "", string param7 = "", string param8 = "", string param9 = "")

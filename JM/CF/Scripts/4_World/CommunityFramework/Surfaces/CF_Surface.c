@@ -37,6 +37,7 @@ class CF_Surface
 	/**
 	 * @brief Private constructor to prevent outside creation of the class
 	 */
+	[Obsolete("DEPRECATED, use SurfaceInfo")]
 	private void CF_Surface()
 	{
 #ifdef CF_TRACE_ENABLED
@@ -90,7 +91,7 @@ class CF_Surface
 	static CF_Surface At(vector position)
 	{
 		string name;
-		GetGame().SurfaceGetType3D(position[0], position[1], position[2], name);
+		g_Game.SurfaceGetType3D(position[0], position[1], position[2], name);
 		return CF_Surface.Get(name);
 	}
 
@@ -105,7 +106,7 @@ class CF_Surface
 	static CF_Surface At(float x, float z)
 	{
 		string name;
-		GetGame().SurfaceGetType(x, z, name);
+		g_Game.SurfaceGetType(x, z, name);
 		return CF_Surface.Get(name);
 	}
 
@@ -120,7 +121,7 @@ class CF_Surface
 	{
 		string name;
 		int liquidType;
-		GetGame().SurfaceUnderObject(object, name, liquidType);
+		g_Game.SurfaceUnderObject(object, name, liquidType);
 		return CF_Surface.Get(name);
 	}
 
@@ -185,11 +186,11 @@ class CF_Surface
 	{
 		string path = "cfgSurfaces";
 		string name;
-		int count = GetGame().ConfigGetChildrenCount(path);
+		int count = g_Game.ConfigGetChildrenCount(path);
 
 		for (int index = 0; index < count; index++)
 		{
-			GetGame().ConfigGetChildName(path, index, name);
+			g_Game.ConfigGetChildName(path, index, name);
 
 			CF_Surface.Get(name);
 		}
@@ -198,21 +199,21 @@ class CF_Surface
 	private static int GetValueInt(string param)
 	{
 		string path = "CfgSurfaces" + " " + s_LastSurface + " " + param;
-		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetInt(path);
+		if (g_Game.ConfigIsExisting(path)) return g_Game.ConfigGetInt(path);
 		return 0;
 	}
 
 	private static float GetValueFloat(string param)
 	{
 		string path = "CfgSurfaces" + " " + s_LastSurface + " " + param;
-		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetFloat(path);
+		if (g_Game.ConfigIsExisting(path)) return g_Game.ConfigGetFloat(path);
 		return 0;
 	}
 
 	private static string GetValueString(string param)
 	{
 		string path = "CfgSurfaces" + " " + s_LastSurface + " " + param;
-		if (GetGame().ConfigIsExisting(path)) return GetGame().ConfigGetTextOut(path);
+		if (g_Game.ConfigIsExisting(path)) return g_Game.ConfigGetTextOut(path);
 		return string.Empty;
 	}
 

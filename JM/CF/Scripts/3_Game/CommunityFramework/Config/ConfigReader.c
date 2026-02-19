@@ -5,11 +5,14 @@ class ConfigReader : Managed
 
 	private ref array< string > _lines = new array< string >;
 
-	private void ConfigReader()
+	private string m_Path;
+
+	private void ConfigReader(string path)
 	{ 
 #ifdef CF_TRACE_ENABLED
 		auto trace = CF_Trace_0(this);
 #endif
+		m_Path = path;
 	}
 
 	void ~ConfigReader()
@@ -21,22 +24,24 @@ class ConfigReader : Managed
 
 	static ConfigReader Open( string path )
 	{
-		ConfigReader reader = new ConfigReader();
+		ConfigReader reader = new ConfigReader(path);
 
 		FileHandle fileHandle = OpenFile( path, FileMode.READ );
 
 		string lineContent;
 		while ( FGets( fileHandle, lineContent ) >= 0 )
 		{
-			if ( lineContent.Length() != 0 )
-			{
-				reader._lines.Insert( lineContent );
-			}
+			reader._lines.Insert( lineContent );
 		}
 
 		CloseFile( fileHandle );
 
 		return reader;
+	}
+
+	string GetPath()
+	{
+		return m_Path;
 	}
 
 	string BackChar()
@@ -53,7 +58,7 @@ class ConfigReader : Managed
 		return _lines[_arrIdx].Substring( _bufIdx, 1 );
 	}
 
-	private string ReadChar()
+	string ReadChar()
 	{
 		_bufIdx++;
 
@@ -63,6 +68,8 @@ class ConfigReader : Managed
 			{
 				return "";
 			}
+
+			_bufIdx++;
 		}
 
 		return _lines[_arrIdx].Substring( _bufIdx, 1 );
@@ -70,7 +77,7 @@ class ConfigReader : Managed
 
 	bool NextLine()
 	{
-		_bufIdx = 0;
+		_bufIdx = -1;
 
 		_arrIdx++;
 
@@ -155,7 +162,7 @@ class ConfigReader : Managed
 				} else
 				{
 					BackChar();
-					return c;
+					return "/";
 				}
 			} else
 			{
@@ -277,13 +284,44 @@ class ConfigReader : Managed
 		return word;
 	}
 
+	string GetContextHint(int bufIdx)
+	{
+		string contextHint;
+		int idx = _arrIdx - 2;
+
+		while (idx <= _arrIdx)
+		{
+			if (idx >= 0)
+				contextHint += _lines[idx] + "\n";
+
+			++idx;
+		}
+
+		int len;
+
+		while (len < bufIdx)
+		{
+			contextHint += "-";
+			++len;
+		}
+
+		contextHint += "^";
+
+		return contextHint;
+	}
+
 	void Error( string msg )
 	{
-		CF_Log.Error( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
+		CF_Log.ErrorNoTrace( m_Path + "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint(_bufIdx) );
+	}
+
+	void ErrorEOL( string msg )
+	{
+		CF_Log.ErrorNoTrace( m_Path + "[" + ( _arrIdx + 1 ) + ":" + ( _bufIdx + 1) + "] " + msg + "\n" + GetContextHint(_bufIdx + 1) );
 	}
 
 	void Warning( string msg )
 	{
-		CF_Log.Warn( "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg );
+		CF_Log.Warn( m_Path + "[" + ( _arrIdx + 1 ) + ":" + _bufIdx + "] " + msg + "\n" + GetContextHint(_bufIdx) );
 	}
 };

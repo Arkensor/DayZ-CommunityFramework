@@ -91,7 +91,7 @@ class CF_Base16Stream : CF_Stream
 
 		while (m_Current)
 		{
-			m_String += m_Current.m_Value.ToHex();
+			m_String += m_Current.m_Value.CF_ToHex();
 
 			m_Current = m_Current.m_Next;
 		}

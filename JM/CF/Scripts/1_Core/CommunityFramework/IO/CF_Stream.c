@@ -363,7 +363,7 @@ class CF_Stream: Managed
 
 		while (m_Current)
 		{
-			str += m_Current.m_Value.ToHex();
+			str += m_Current.m_Value.CF_ToHex();
 
 			m_Current = m_Current.m_Next;
 		}

@@ -11,7 +11,7 @@ modded class KeybindingsGroup
 		{
 			ModStructure mod = ModLoader.GetMods().Get( i );
 
-			bool display = GetGame().ConfigIsExisting( mod.GetModPath() + " inputs" );
+			bool display = g_Game.ConfigIsExisting( mod.GetModPath() + " inputs" );
 
 			TIntArray tempActions = new TIntArray;
 
@@ -48,11 +48,11 @@ modded class KeybindingsGroup
 
 		if ( display )
 		{
-			Widget subgroup = GetGame().GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/keybinding_subgroup.layout", parent );
+			Widget subgroup = g_Game.GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/keybinding_subgroup.layout", parent );
 			TextWidget subgroup_name = TextWidget.Cast( subgroup.FindAnyWidget( "subgroup_text" ) );
 
 			string modDisplayName = "";
-			GetGame().ConfigGetText( mod.GetModPath() + " name", modDisplayName );
+			g_Game.ConfigGetText( mod.GetModPath() + " name", modDisplayName );
 
 			subgroup_name.SetText( modDisplayName );
 			subgroup_content = subgroup.FindAnyWidget( "subgroup_content" );
@@ -98,7 +98,7 @@ modded class KeybindingsGroup
 
 	void AddDayZSubgroup( Widget parent, Input input, TIntArray inActions )
 	{
-		Widget subgroup = GetGame().GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/keybinding_subgroup.layout", parent );
+		Widget subgroup = g_Game.GetWorkspace().CreateWidgets( "JM/CF/GUI/layouts/keybinding_subgroup.layout", parent );
 		TextWidget subgroup_name = TextWidget.Cast( subgroup.FindAnyWidget( "subgroup_text" ) );
 		
 		subgroup_name.SetText( "DayZ Standalone" );

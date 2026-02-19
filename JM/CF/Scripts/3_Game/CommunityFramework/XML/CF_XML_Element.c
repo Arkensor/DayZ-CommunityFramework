@@ -107,10 +107,17 @@ class CF_XML_Element : Managed
 
 	void OnWrite(FileHandle handle, int depth)
 	{
-		string indent = CF_XML_Indent(depth);
-
 		if (_data)
-			FPrintln(handle, EncodeEntities(_data));
+		{
+			string indent = CF_XML_Indent(depth);
+
+			TStringArray lines = {};
+			_data.Split("\n", lines);
+			foreach (string line: lines)
+			{
+				FPrintln(handle, indent + EncodeEntities(line));
+			}
+		}
 
 		for (int i = 0; i < _tags.Count(); ++i)
 		{

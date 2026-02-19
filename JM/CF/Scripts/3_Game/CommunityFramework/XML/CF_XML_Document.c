@@ -149,13 +149,13 @@ class CF_XML_Document : CF_XML_Element
 					return true;
 				}
 
-				string content = c;
+				CF_String content = c;
 
 				while (true)
 				{
+					c = _reader.GetCharacter();
 					bool wasNewLine = _reader.WasNewLine();
 					if (wasNewLine) c = _reader.SkipWhitespace();
-					else c = _reader.GetCharacter();
 
 					if (c != "<")
 					{
@@ -181,7 +181,7 @@ class CF_XML_Document : CF_XML_Element
 				}
 
 				foreach (string ent_key, string ent_val : _entities)
-					_SafeReplace(content, ent_key, ent_val);
+					content.CF_Replace(ent_key, ent_val);
 
 				_currentTag.GetContent().SetContent(content);
 
@@ -208,23 +208,6 @@ class CF_XML_Document : CF_XML_Element
 		return true;
 	}
 
-	//! Vanilla string.Replace truncates long text >:-(
-	private int _SafeReplace(inout string content, string search, string replace)
-	{
-		int count;
-		int searchLen = search.Length();
-		int replaceLen = replace.Length();
-		int index = content.IndexOf(search);
-		while (index > -1)
-		{
-			content = content.Substring(0, index) + replace + content.Substring(index + searchLen, content.Length() - index - searchLen);
-			count++;
-			index = content.IndexOfFrom(index + replaceLen, search);
-		}
-
-		return count;
-	}
-
 	bool Read(CF_XML_Reader reader)
 	{
 		_reader = reader;
@@ -245,7 +228,7 @@ class CF_XML_Document : CF_XML_Element
 	void Save(string path)
 	{
 		ThreadWrite(path);
-		//GetGame().GameScript.Call( this, "ThreadWrite", path );
+		//g_Game.GameScript.Call( this, "ThreadWrite", path );
 	}
 
 	private void ThreadWrite(string path)
