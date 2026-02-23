@@ -111,7 +111,7 @@ modded class ModItemRegisterCallbacks
 };
 */
 
-// 107 compatibility
+// 107 compatibility - DEPRECATED, no longer used
 class JMAnimRegister
 {
 	static JMAnimRegister Register( DayZPlayerType pType )
