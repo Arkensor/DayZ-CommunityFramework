@@ -333,7 +333,7 @@ class CF_File : Managed
 
 	void _SetFileName(CF_String fileName)
 	{
-		int index = fileName.CF_LastIndexOf(".");
+		int index = fileName.LastIndexOf(".");
 		if (index == -1)
 		{
 			m_FileName = fileName;
