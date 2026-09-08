@@ -9,13 +9,13 @@ class CF_InputBinding
 	ref CF_InputBinding m_Next;
 
 	string m_Function;
-	int m_InputID;
+	UAIDWrapper m_InputWrapper;
 	int m_InputLimits;
 	bool m_LimitMenu;
 
 	void UpdateLimits()
 	{
-		UAInput input = GetUApi().GetInputByID(m_InputID);
+		UAInput input = m_InputWrapper.InputP();
 		m_InputLimits = 0;
 		m_InputLimits &= input.IsPressLimit() << 1;
 		m_InputLimits &= input.IsReleaseLimit() << 2;

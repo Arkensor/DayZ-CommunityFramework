@@ -72,7 +72,7 @@ class CF_InputBindings
 	{
 		CF_InputBinding binding = new CF_InputBinding();
 		binding.m_Function = callback;
-		binding.m_InputID = input.ID();
+		binding.m_InputWrapper = input.GetPersistentWrapper();
 		binding.m_LimitMenu = preventCallInMenu;
 
 		Bind(binding);
@@ -108,7 +108,7 @@ class CF_InputBindings
 		{
 			if (!inMenu || (inMenu && !binding.m_LimitMenu))
 			{
-				UAInput input = GetUApi().GetInputByID(binding.m_InputID);
+				UAInput input = binding.m_InputWrapper.InputP();
 				bool isModified = input.LocalValue() != 0.0 || input.LocalRelease();
 				
 				if (binding.m_InputLimits != 0)
