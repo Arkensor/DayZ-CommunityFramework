@@ -1,4 +1,3 @@
-#ifdef CF_MODSTORAGE
 class CF_ModStorageObject<Class T> : CF_ModStorageBase
 {
 	T m_Entity;
@@ -29,7 +28,7 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		auto trace = CF_Trace_1(this).Add(ctx);
 #endif
 
-		if (GetGame().SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
+		if (g_Game.SaveVersion() < CF_ModStorage.GAME_VERSION_FIRST_INSTALL)
 		{
 			return;
 		}
@@ -162,4 +161,3 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 		return true;
 	}
 };
-#endif

@@ -72,7 +72,7 @@ class CF_InputBindings
 	{
 		CF_InputBinding binding = new CF_InputBinding();
 		binding.m_Function = callback;
-		binding.m_Input = input;
+		binding.m_InputWrapper = input.GetPersistentWrapper();
 		binding.m_LimitMenu = preventCallInMenu;
 
 		Bind(binding);
@@ -101,14 +101,14 @@ class CF_InputBindings
 	 */
 	void Update(float dt)
 	{
-		bool inMenu = GetGame().GetUIManager().GetMenu() || CF_ModuleGame.s_PreventInput;
+		bool inMenu = g_Game.GetUIManager().GetMenu() || CF_ModuleGame.s_PreventInput;
 		
 		CF_InputBinding binding = m_Head;
 		while (binding)
 		{
 			if (!inMenu || (inMenu && !binding.m_LimitMenu))
 			{
-				UAInput input = binding.m_Input;
+				UAInput input = binding.m_InputWrapper.InputP();
 				bool isModified = input.LocalValue() != 0.0 || input.LocalRelease();
 				
 				if (binding.m_InputLimits != 0)

@@ -1,6 +1,5 @@
 modded class ItemBase
 {
-#ifdef CF_MODSTORAGE
 	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<ItemBase>(this);
 
 	override void OnStoreSave(ParamsWriteContext ctx)
@@ -19,7 +18,6 @@ modded class ItemBase
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
-#endif
 
 	/**
 	 * @param storage	Map of 'CF_ModStorage' classes

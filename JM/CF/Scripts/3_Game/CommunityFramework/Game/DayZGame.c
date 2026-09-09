@@ -45,7 +45,7 @@ modded class DayZGame
 	{
 		super.OnUpdate(doSim, timeslice);
 
-		if (!GetGame().IsDedicatedServer())
+		if (!g_Game.IsDedicatedServer())
 		{
 			foreach (auto input : CF_InputBindings.s_All)
 			{
@@ -77,7 +77,7 @@ modded class DayZGame
 		if (rpc_type == CF_ModuleGame.NETWORKED_VARIABLES_RPC_ID)
 		{
 			// Only allow this RPC to be executed on the client, don't want to allow the client to edit server variables
-			if (GetGame().IsServer())
+			if (g_Game.IsServer())
 			{
 				return;
 			}
@@ -219,7 +219,7 @@ modded class DayZGame
 	 */
 	bool CF_UIInputBlocked()
 	{
-		if (GetGame().IsDedicatedServer())
+		if (g_Game.IsDedicatedServer())
 		{
 			return false;
 		}

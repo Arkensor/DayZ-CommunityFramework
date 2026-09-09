@@ -4,6 +4,8 @@ modded class MissionBase
 	float m_CF_UpdateTime;
 #endif
 
+	CF_EventUpdateArgs m_CF_EventUpdateArgs = new CF_EventUpdateArgs;
+
 	protected bool m_bLoaded = false;
 	
 	void MissionBase()
@@ -17,13 +19,15 @@ modded class MissionBase
 		}
 	}
 
-#ifndef DAYZ_1_26
-	//! 1.27+
 	void ~MissionBase()
 	{
+#ifndef DAYZ_1_26
+		//! 1.27+
 		CF_ModuleCoreManager._UnloadScriptModules({"Mission"});
-	}
 #endif
+
+		delete m_CF_EventUpdateArgs;
+	}
 
 	void OnMissionLoaded()
 	{
@@ -32,7 +36,7 @@ modded class MissionBase
 	void CF_OnUpdate(float timeslice)
 	{
 #ifdef SERVER
-		float updateTime = GetGame().GetTickTime();
+		float updateTime = g_Game.GetTickTime();
 		float elapsed = updateTime - m_CF_UpdateTime;
 		bool update = elapsed >= 0.025;
 
@@ -50,16 +54,24 @@ modded class MissionBase
 			}
 
 			m_bLoaded = true;
+			CF_ModuleGameManager.UpdateGameFlag();
 			OnMissionLoaded();
 		}
 
 #ifdef SERVER
 		if (update)
 		{
-			CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(elapsed));
+			m_CF_EventUpdateArgs.DeltaTime = elapsed;
+			CF_ModuleGameManager.OnUpdate(this, m_CF_EventUpdateArgs);
 		}
 #else
-		CF_ModuleGameManager.OnUpdate(this, new CF_EventUpdateArgs(timeslice));
+		m_CF_EventUpdateArgs.DeltaTime = timeslice;
+		CF_ModuleGameManager.OnUpdate(this, m_CF_EventUpdateArgs);
 #endif
+	}
+
+	override bool CF_IsLoaded()
+	{
+		return m_bLoaded;
 	}
 };

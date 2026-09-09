@@ -112,7 +112,7 @@ modded class NotificationSystem
 	{
 		if ( m_TimeArray.Count() < MAX_NOTIFICATIONS )
 		{
-			float time = GetGame().GetTickTime() + data.GetTime();
+			float time = g_Game.GetTickTime() + data.GetTime();
 			data.SetTime( time + NOTIFICATION_FADE_TIME );
 
 			m_TimeArray.Insert( data );

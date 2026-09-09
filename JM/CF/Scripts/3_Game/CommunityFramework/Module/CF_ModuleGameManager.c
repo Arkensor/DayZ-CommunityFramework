@@ -35,10 +35,6 @@ class CF_ModuleGameManager
 
 	static void OnUpdate(Class sender, CF_EventArgs args)
 	{
-		UpdateGameFlag();
-
 		CF_ModuleCoreManager.s_Update.OnUpdate(sender, args);
-
-		delete args;
 	}
 };

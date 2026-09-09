@@ -8,4 +8,4 @@ overview = "This is a Community Framework for DayZ SA. One notable feature is it
 action = "https://github.com/Arkensor/DayZ-CommunityFramework";
 author = "CF Mod Team";
 authorID = "76561198103677868";
-version = "1.5.5";
+version = "1.5.9";

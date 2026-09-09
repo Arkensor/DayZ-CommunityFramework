@@ -71,25 +71,11 @@ class CF_String : string
 	 * 	>> 10
 	 * @endcode
 	 */
+	[Obsolete("Use string::LastIndexOf")]
 	int CF_LastIndexOf(CF_String sample)
 	{
-		int sampleLength = sample.Length();
-		int length = value.Length();
-		int start = length - sampleLength;
-		if (start <= 0)
-		{
-			return -1;
-		}
-
-		for (int index = start - 1; index >= 0; index--)
-		{
-			if (value.Substring(index, sampleLength) == sample)
-			{
-				return index;
-			}
-		}
-
-		return -1;
+		string s = sample;
+		return value.LastIndexOf(s);
 	}
 
 	/**
@@ -273,14 +259,33 @@ class CF_String : string
 	{
 		string result;
 
-		int index = value.Length() - 1;
-		while (index >= 0)
+		for (int i = value.Length() - 1; i >= 0; --i)
 		{
-			result += value.Substring(index, 1);
-
-			index--;
+			result += value[i];
 		}
 
 		return result;
+	}
+
+	//! Vanilla string.Replace truncates long text >:-(
+	int CF_Replace(string search, string replace)
+	{
+		int count;
+		int searchLen = search.Length();
+		int replaceLen = replace.Length();
+		int index = value.IndexOf(search);
+		while (index > -1)
+		{
+			if (index > 8191)
+				Error("Index exceeds string::Substring max of 8191");
+			int remainingLen = value.Length() - index - searchLen;
+			if (remainingLen > 8191)
+				Error("Remaining length exceeds string::Substring max of 8191");
+			value = value.Substring(0, index) + replace + value.Substring(index + searchLen, remainingLen);
+			count++;
+			index = value.IndexOfFrom(index + replaceLen, search);
+		}
+
+		return count;
 	}
 };

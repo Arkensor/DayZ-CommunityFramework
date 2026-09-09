@@ -24,8 +24,7 @@ class CfgMods
 		name = "Community Framework";
 		credits = "Jacob_Mango, Arkensor";
 		creditsJson = "JM/CF/Scripts/Data/Credits.json";
-		version = "0.0.0";
-		versionPath = "JM/CF/scripts/Data/Version.hpp";
+		version = "1.5.8";
 		author = "Jacob_Mango";
 		authorID = "76561198103677868"; 
 		extra = 0;
@@ -49,6 +48,7 @@ class CfgMods
             "CF_REF_FIX",
             "CF_BUGFIX_REF", // Same as CF_REF_FIX but for mods that already anticipated a different name
             "CF_BUGFIX_XML",
+            "CF_VIRTUALSTORAGE_FIX",
             "CF_DOUBLYLINKEDNODES",
             "CF_ONUPDATE_RATE_LIMIT",
 			"CF_LOG_TIMESTAMP"

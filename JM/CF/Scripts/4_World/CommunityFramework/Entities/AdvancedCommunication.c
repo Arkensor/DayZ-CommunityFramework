@@ -1,11 +1,13 @@
 modded class AdvancedCommunication
 {
-#ifdef CF_MODSTORAGE
-	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<AdvancedCommunication>(this);
+	autoptr CF_ModStorageBase m_CF_ModStorage;
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);
+
+		if (!m_CF_ModStorage)
+			m_CF_ModStorage = new CF_ModStorageObject<AdvancedCommunication>(this);
 
 		m_CF_ModStorage.OnStoreSave(ctx);
 	}
@@ -17,9 +19,11 @@ modded class AdvancedCommunication
 			return false;
 		}
 
+		if (!m_CF_ModStorage)
+			m_CF_ModStorage = new CF_ModStorageObject<AdvancedCommunication>(this);
+
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}
-#endif
 
 	/**
 	 * @brief Refer to CF/ModStorage implementation of ItemBase::CF_OnStoreSave
