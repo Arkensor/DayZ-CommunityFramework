@@ -71,25 +71,11 @@ class CF_String : string
 	 * 	>> 10
 	 * @endcode
 	 */
+	[Obsolete("Use string::LastIndexOf")]
 	int CF_LastIndexOf(CF_String sample)
 	{
-		int sampleLength = sample.Length();
-		int length = value.Length();
-		int start = length - sampleLength;
-		if (start <= 0)
-		{
-			return -1;
-		}
-
-		for (int index = start - 1; index >= 0; index--)
-		{
-			if (value.Substring(index, sampleLength) == sample)
-			{
-				return index;
-			}
-		}
-
-		return -1;
+		string s = sample;
+		return value.LastIndexOf(s);
 	}
 
 	/**
@@ -290,7 +276,12 @@ class CF_String : string
 		int index = value.IndexOf(search);
 		while (index > -1)
 		{
-			value = value.Substring(0, index) + replace + value.Substring(index + searchLen, value.Length() - index - searchLen);
+			if (index > 8191)
+				Error("Index exceeds string::Substring max of 8191");
+			int remainingLen = value.Length() - index - searchLen;
+			if (remainingLen > 8191)
+				Error("Remaining length exceeds string::Substring max of 8191");
+			value = value.Substring(0, index) + replace + value.Substring(index + searchLen, remainingLen);
 			count++;
 			index = value.IndexOfFrom(index + replaceLen, search);
 		}

@@ -1,10 +1,13 @@
 modded class ZombieBase
 {
-	autoptr CF_ModStorageBase m_CF_ModStorage = new CF_ModStorageObject<ZombieBase>(this);
+	autoptr CF_ModStorageBase m_CF_ModStorage;
 
 	override void OnStoreSave(ParamsWriteContext ctx)
 	{
 		super.OnStoreSave(ctx);
+
+		if (!m_CF_ModStorage)
+			m_CF_ModStorage = new CF_ModStorageObject<ZombieBase>(this);
 
 		m_CF_ModStorage.OnStoreSave(ctx);
 	}
@@ -15,6 +18,9 @@ modded class ZombieBase
 		{
 			return false;
 		}
+
+		if (!m_CF_ModStorage)
+			m_CF_ModStorage = new CF_ModStorageObject<ZombieBase>(this);
 
 		return m_CF_ModStorage.OnStoreLoad(ctx, version);
 	}

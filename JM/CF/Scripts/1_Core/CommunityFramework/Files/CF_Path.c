@@ -17,13 +17,13 @@ class CF_Path
 	{
 		path.Replace(CF_Path.ALT_DIRECTORY_SEPARATOR, CF_Path.DIRECTORY_SEPARATOR);
 
-		int index = path.CF_LastIndexOf(CF_Path.DIRECTORY_SEPARATOR);
+		int index = path.LastIndexOf(CF_Path.DIRECTORY_SEPARATOR);
 		if (index != -1)
 		{
 			return path.Substring(0, index) + CF_Path.DIRECTORY_SEPARATOR;
 		}
 
-		index = path.CF_LastIndexOf(CF_Path.FILESYSTEM_IDENTIFIER);
+		index = path.LastIndexOf(CF_Path.FILESYSTEM_IDENTIFIER);
 		if (index != -1)
 		{
 			return path.Substring(0, index) + CF_Path.FILESYSTEM_IDENTIFIER;
@@ -103,7 +103,7 @@ class CF_Path
 
 		CF_String fileName = path.Substring(start, end);
 
-		int index = fileName.CF_LastIndexOf(".");
+		int index = fileName.LastIndexOf(".");
 		if (index != -1)
 		{
 			fileName = fileName.Substring(0, index);
@@ -121,7 +121,7 @@ class CF_Path
 	 */
 	static string GetExtension(CF_String path)
 	{
-		int index = path.CF_LastIndexOf(".");
+		int index = path.LastIndexOf(".");
 		if (index == -1)
 		{
 			return string.Empty;
