@@ -203,24 +203,27 @@ class ConfigReader : Managed
 
 		if ( isQuoted )
 		{
-			return i >= 32 && i <= 126;
+			return i >= 32 && i <= 126;  //! any printable character (including space)
 		}
 			
-		if ( i >= 48 && i <= 57 )
+		if ( i >= 48 && i <= 57 )  //! digits 0-9
 		{
 			return true;
 		}
 		
-		if ( i == 46 )
+		if ( i == 45 )  //! hyphen-minus (-)
+			return true;
+		
+		if ( i == 46 )  //! period (.)
 			return true;
 
-		if ( i == 95 )
+		if ( i == 95 )  //! underscore (_)
 			return true;
 
 		if ( i > 90 )
-			i -= 32;
+			i -= 32;  //! convert lowercase to uppercase range
 
-		if ( i >= 65 && i <= 90 )
+		if ( i >= 65 && i <= 90 )  //! uppercase A-Z
 		{
 			return true;
 		}
