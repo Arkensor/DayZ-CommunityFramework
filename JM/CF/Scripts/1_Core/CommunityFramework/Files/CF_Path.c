@@ -60,7 +60,8 @@ class CF_Path
 			return string.Empty;
 		}
 
-		if (DIRECTORY_CHECKS.Find(path[end]) != -1)
+		int lastCharIdx = path.Length() - 1;
+		if (DIRECTORY_CHECKS.Find(path[lastCharIdx]) != -1)
 		{
 			return string.Empty;
 		}
