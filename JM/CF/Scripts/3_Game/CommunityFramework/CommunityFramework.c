@@ -10,6 +10,7 @@ CGame CF_CreateGame()
 
 enum CF_ResolvePath
 {
+	INVALID,
 	MISSION,
 	PROFILE,
 	SAVES,
@@ -179,8 +180,7 @@ class CommunityFramework : ModStructure
 		string pathLower = path;
 		pathLower.ToLower();
 
-		int resolve;
-		int lastCharIdx;
+		CF_ResolvePath resolve;
 		string relPath;
 
 		if (pathLower.IndexOf("$profile:") == 0)
@@ -196,22 +196,18 @@ class CommunityFramework : ModStructure
 		{
 			if (!s_ProfileFolder)
 			{
-				string profileParam;
+				CF_String profileParam;
 				if (GetCLIParam("profiles", profileParam))
 				{
 					profileParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
-
-					lastCharIdx = profileParam.Length() - 1;
-					if (profileParam[lastCharIdx] == "/")
-						profileParam = profileParam.Substring(0, lastCharIdx);
+					profileParam.TrimEndInPlace("/");
 
 				#ifdef DIAG_DEVELOPER
 					FormatErrorEx( "Profile param %1", ErrorExSeverity.INFO, profileParam);
 				#endif
 
-					int index = profileParam.LastIndexOf("/");
-					if (index > -1)
-						profileParam = profileParam.Substring(index + 1, profileParam.Length() - index - 1);
+					if (CF_Path.IsAbsolute(profileParam))
+						profileParam = CF_Path.GetBaseName(profileParam);
 
 					s_ProfileFolder = profileParam;
 					
@@ -266,14 +262,25 @@ class CommunityFramework : ModStructure
 		{
 			if (!s_MissionFolder)
 			{
-				string missionParam;
-				if (GetCLIParam("mission", missionParam))
+				//! @note DayZGame::GetMissionPath will return empty string during early game init, it's set by the engine at mission creation
+				//!       DayZGame::GetMissionFolderPath is not reliable since DayZGame::SetMissionPath expects backslash as directory separator
+				CF_String missionPath = g_Game.GetMissionPath();
+				CF_String missionParam;
+				if (missionPath)
+				{
+					missionPath.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+
+					//! Strip '/mission.c' from the end
+					int index = missionPath.LastIndexOf("/");
+					if (index > -1)
+						missionPath = missionPath.Substring(0, index);
+
+					s_MissionFolder = missionPath;
+				}
+				else if (GetCLIParam("mission", missionParam))
 				{
 					missionParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
-
-					lastCharIdx = missionParam.Length() - 1;
-					if (missionParam[lastCharIdx] == "/")
-						missionParam = missionParam.Substring(0, lastCharIdx);
+					missionParam.TrimEndInPlace("/");
 
 				#ifdef DIAG_DEVELOPER
 					FormatErrorEx("Mission param %1", ErrorExSeverity.INFO, missionParam);
@@ -350,8 +357,26 @@ class CommunityFramework : ModStructure
 				{
 					if (!s_StorageFolder)
 					{
+						string storageRoot = s_MissionFolder;
+
+						CF_String storageParam;
+						if (GetCLIParam("storage", storageParam))
+						{
+							storageParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+							storageParam.TrimEndInPlace("/");
+
+						#ifdef DIAG_DEVELOPER
+							FormatErrorEx( "Storage param %1", ErrorExSeverity.INFO, storageParam);
+						#endif
+
+							if (CF_Path.IsAbsolute(storageParam))
+								storageParam = CF_Path.GetBaseName(storageParam);
+
+							storageRoot = storageParam;
+						}
+
 						int instanceId = g_Game.ServerConfigGetInt("instanceId");
-						s_StorageFolder = string.Format("%1/storage_%2", s_MissionFolder, instanceId);
+						s_StorageFolder = string.Format("%1/storage_%2", storageRoot, instanceId);
 						FormatErrorEx("Using storage folder %1", ErrorExSeverity.INFO, s_StorageFolder);
 					}
 

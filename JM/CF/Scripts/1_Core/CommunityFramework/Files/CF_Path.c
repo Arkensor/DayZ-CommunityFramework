@@ -45,6 +45,14 @@ class CF_Path
 	}
 
 	/**
+	 * @brief Alias for GetFileName
+	 */
+	static string GetBaseName(string path)
+	{
+		return GetFileNameEx(path, GetDirectoryName(path));
+	}
+
+	/**
 	 * @brief Returns the file name and extension of the specified path string.
 	 * 
 	 * @param path The path string from which to obtain the file name and extension.
@@ -129,5 +137,18 @@ class CF_Path
 		}
 
 		return path.Substring(index, path.Length() - index);
+	}
+
+	static bool IsAbsolute(string path)
+	{
+		path.Replace(CF_Path.ALT_DIRECTORY_SEPARATOR, CF_Path.DIRECTORY_SEPARATOR);
+
+		if (path[0] == "/")
+			return true;
+
+		if (path.IndexOf(":/") == 1)
+			return true;
+
+		return false;
 	}
 };
