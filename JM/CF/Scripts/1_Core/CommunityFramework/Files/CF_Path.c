@@ -62,8 +62,8 @@ class CF_Path
 	static string GetFileNameEx(string path, string folder)
 	{
 		int start = folder.Length();
-		int end = path.Length() - folder.Length();
-		if (end <= 0)
+		int newLength = path.Length() - folder.Length();
+		if (newLength <= 0)
 		{
 			return string.Empty;
 		}
@@ -74,7 +74,7 @@ class CF_Path
 			return string.Empty;
 		}
 
-		return path.Substring(start, end);
+		return path.Substring(start, newLength);
 	}
 
 	/**
