@@ -192,6 +192,12 @@ class CommunityFramework : ModStructure
 		else if (pathLower.IndexOf("$storage:") == 0)
 			resolve = CF_ResolvePath.STORAGE;
 
+	#ifdef SERVER
+		ErrorExSeverity errorSeverity = ErrorExSeverity.ERROR;
+	#else
+		ErrorExSeverity errorSeverity = ErrorExSeverity.INFO;
+	#endif
+
 		if (resolve == CF_ResolvePath.PROFILE || resolve == CF_ResolvePath.SAVES)
 		{
 			if (!s_ProfileFolder)
@@ -213,11 +219,11 @@ class CommunityFramework : ModStructure
 					
 					if (!s_ProfileFolder)
 					{
-						Error("Could not determine profile folder, please use -profiles parameter");
+						ErrorEx("Could not determine profile folder, please use -profiles parameter",errorSeverity);
 					}
 					else if (!FileExist(s_ProfileFolder))
 					{
-						FormatError("Profile folder %1 does not exist inside game directory", s_ProfileFolder);
+						FormatErrorEx("Profile folder %1 does not exist inside game directory", errorSeverity, s_ProfileFolder);
 					}
 					else
 					{
@@ -334,11 +340,11 @@ class CommunityFramework : ModStructure
 
 				if (!s_MissionFolder)
 				{
-					Error("Could not determine mission folder, please use -mission parameter");
+					ErrorEx("Could not determine mission folder, please use -mission parameter", errorSeverity);
 				}
 				else if (!FileExist(s_MissionFolder))
 				{
-					FormatError("Mission folder %1 does not exist inside game directory", s_MissionFolder);
+					FormatErrorEx("Mission folder %1 does not exist inside game directory", errorSeverity, s_MissionFolder);
 				}
 				else
 				{
