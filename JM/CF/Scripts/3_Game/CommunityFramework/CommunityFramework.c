@@ -214,6 +214,8 @@ class CommunityFramework : ModStructure
 
 					if (CF_Path.IsAbsolute(profileParam))
 						profileParam = CF_Path.GetBaseName(profileParam);
+					else
+						profileParam.TrimStartInPlace("./");
 
 					s_ProfileFolder = profileParam;
 					
@@ -287,6 +289,7 @@ class CommunityFramework : ModStructure
 				{
 					missionParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
 					missionParam.TrimEndInPlace("/");
+					missionParam.TrimStartInPlace("./");
 
 				#ifdef DIAG_DEVELOPER
 					FormatErrorEx("Mission param %1", ErrorExSeverity.INFO, missionParam);
@@ -377,6 +380,8 @@ class CommunityFramework : ModStructure
 
 							if (CF_Path.IsAbsolute(storageParam))
 								storageParam = CF_Path.GetBaseName(storageParam);
+							else
+								storageParam.TrimStartInPlace("./");
 
 							storageRoot = storageParam;
 						}
