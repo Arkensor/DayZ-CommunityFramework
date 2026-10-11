@@ -406,7 +406,7 @@ class CommunityFramework : ModStructure
 	#ifndef DAYZ_1_29
 		//! 1.30 Experimental broke $ placeholders and bwd slash usage in FindFile, see https://report.bistudio.com/issues/DZEXP-134
 		//! Since this will be fixed later on 1.30 stable, test if we can read from mission dir. If we can't, apply our workaround
-		//! by resolving filesystem prefixes ourselves.
+		//! by passing -1 for flags
 		if (!s_FindFile_DZ130_Tested)
 		{
 			string testFileName = "cf_findfile_dz130_test";
@@ -428,7 +428,7 @@ class CommunityFramework : ModStructure
 		}
 
 		if (s_FindFileEx_ResolvePath)
-			pattern = ResolvePath(pattern);
+			flags = -1;
 	#endif
 
 		return FindFile(pattern, fileName, fileAttributes, flags);
