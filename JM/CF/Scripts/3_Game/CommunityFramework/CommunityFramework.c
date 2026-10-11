@@ -421,6 +421,8 @@ class CommunityFramework : ModStructure
 			FindFileHandle findFileHandle = FindFile(testPath, fileName, fileAttributes, FindFileFlags.ALL);
 			if (!findFileHandle || fileName != testFileName)
 				s_FindFileEx_ResolvePath = true;
+			if (findFileHandle)
+				CloseFindFile(findFileHandle);
 
 			s_FindFile_DZ130_Tested = true;
 		}
