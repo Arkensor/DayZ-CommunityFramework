@@ -32,7 +32,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.TRACE) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [TRACE]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [TRACE]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 	}
 
 	/**
@@ -42,7 +46,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.DEBUG) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [DEBUG]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [DEBUG]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 	}
 
 	/**
@@ -52,7 +60,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.INFO) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [INFO]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [INFO]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 	}
 
 	/**
@@ -62,7 +74,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.WARNING) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [WARNING]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [WARNING]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 	}
 
 	/**
@@ -72,7 +88,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.ERROR) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [ERROR]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [ERROR]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 	}
 
 	/**
@@ -82,7 +102,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.ERROR) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [ERROR]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [ERROR]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 
 		string dump = "";
 		DumpStackString(dump);
@@ -102,7 +126,11 @@ class CF_Log
 	{
 		if (Level > CF_LogLevel.CRITICAL) return;
 
+	#ifdef DAYZ_1_29
 		PrintFormat("%1 [CRITICAL]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#else
+		PrintFormat("%1 [CRITICAL]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+	#endif
 
 		string dump = "";
 		DumpStackString(dump);
