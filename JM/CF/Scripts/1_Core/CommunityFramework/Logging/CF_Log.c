@@ -35,7 +35,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [TRACE]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [TRACE]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[TRACE]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 	}
 
@@ -49,7 +49,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [DEBUG]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [DEBUG]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[DEBUG]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 	}
 
@@ -63,7 +63,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [INFO]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [INFO]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[INFO]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 	}
 
@@ -77,7 +77,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [WARNING]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [WARNING]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[WARNING]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 	}
 
@@ -91,7 +91,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [ERROR]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [ERROR]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[ERROR]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 	}
 
@@ -105,7 +105,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [ERROR]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [ERROR]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[ERROR]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 
 		string dump = "";
@@ -129,7 +129,7 @@ class CF_Log
 	#ifdef DAYZ_1_29
 		PrintFormat("%1 [CRITICAL]\t%2", FormatTime(), string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#else
-		PrintFormat("%1 [CRITICAL]\t%2", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
+		PrintFormat("[CRITICAL]\t%1", string.Format(message, param1, param2, param3, param4, param5, param6, param7, param8, param9));
 	#endif
 
 		string dump = "";
