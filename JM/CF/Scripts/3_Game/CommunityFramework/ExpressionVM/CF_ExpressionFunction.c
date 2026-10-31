@@ -77,7 +77,8 @@ class CF_ExpressionFunctionPow : CF_ExpressionFunction
 
 	override void Call()
 	{
-		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Pow(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer--], CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer]);
+		CF_ExpressionVM.StackPointer--;
+		CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer] = Math.Pow(CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer], CF_ExpressionVM.Stack[CF_ExpressionVM.StackPointer + 1]);
 	}
 
 	override string GetDebugName()
