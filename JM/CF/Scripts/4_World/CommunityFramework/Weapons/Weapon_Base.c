@@ -59,7 +59,7 @@ modded class Weapon_Base
 
 		magazine.SetHealth01("", "", health);
 
-		if (CF_AttachMagazine(magazine))
+		if (!CF_AttachMagazine(magazine))
 		{
 			return false;
 		}
@@ -112,6 +112,13 @@ modded class Weapon_Base
 			// If false, then the magazine is already properly attached to the desired slot
 			if (!dstLocation.CompareLocationOnly(srcLocation) && !GameInventory.LocationMoveEntity(srcLocation, dstLocation))
 			{
+				if (g_Game.IsDedicatedServer())
+				{
+					// Nothing moved, so put both back on the clients
+					g_Game.RemoteObjectCreate(this);
+					g_Game.RemoteObjectCreate(magazine);
+				}
+
 				return false;
 			}
 		}

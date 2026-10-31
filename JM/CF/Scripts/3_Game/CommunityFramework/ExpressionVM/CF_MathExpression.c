@@ -15,6 +15,10 @@ class CF_MathExpression : CF_Expression
 
 			token = token.Trim();
 
+			//! Only trailing whitespace was left
+			if (token == "")
+				continue;
+
 			if (token == ",")
 				break;
 
@@ -62,6 +66,13 @@ class CF_MathExpression : CF_Expression
 							token = SkipWhitespace();
 						}
 						paramidx++;
+
+						//! Unterminated parameter list
+						if (token != ")" && EOF())
+						{
+							CF_Log.Error("Expected ')' in \"" + m_Source + "\"");
+							break;
+						}
 					}
 				}
 				else
