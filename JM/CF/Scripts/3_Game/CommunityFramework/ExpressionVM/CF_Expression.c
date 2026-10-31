@@ -129,6 +129,15 @@ class CF_Expression
 				break;
 		}
 
+		//! Nothing matched: consume the character instead of reading it again forever
+		if ( word == "" )
+		{
+			if ( c == "\0" || IsWhitespace( c ) )
+				return "";
+
+			return c;
+		}
+
 		m_Position--;
 
 		return word;

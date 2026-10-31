@@ -16,6 +16,10 @@ class CF_SQFExpression : CF_Expression
 
 			token = token.Trim();
 
+			//! Only trailing whitespace was left
+			if (token == "")
+				continue;
+
 			if (token == "]" || token == ",")
 				break;
 
@@ -63,6 +67,13 @@ class CF_SQFExpression : CF_Expression
 
 						m_Position = nPos - 1;
 						token = SkipWhitespace();
+
+						//! Unterminated parameter list
+						if (token != "]" && EOF())
+						{
+							CF_Log.Error("Expected ']' in \"" + m_Source + "\"");
+							break;
+						}
 					}
 
 					//! factor function optimization
