@@ -14,6 +14,7 @@ This is a Community framework for DayZ SA.
 * [Localiser](docs/Localiser/index.md)
 * [Logging](docs/Logging/index.md)
 * [Modules](docs/Modules/index.md)
+* [Mod Storage](docs/ModStorage/index.md)
 * [Networked Variables](docs/NetworkedVariables/index.md)
 * [RPC](docs/RPC/index.md)
 * [Streams](docs/Streams/index.md)
@@ -29,3 +30,4 @@ This is a Community framework for DayZ SA.
 * [InclementDab](https://github.com/InclementDab)
 * [MarioE](https://github.com/MarioEDayZ)
 * [Jacob_Mango](https://github.com/Jacob-Mango)
+* [lava aka liquidrock](https://github.com/lava76)
