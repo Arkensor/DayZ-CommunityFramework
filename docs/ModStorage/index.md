@@ -1,5 +1,7 @@
 # Mod Storage
 
+Enables to write/read custom variables for your mod to any object in a safe way that will not corrupt the storage when your mod is removed (and will retain all the data that your mod wrote, so that it can be accessed again if your mod is added back).
+
 ## Setup
 
 Before getting started with ModStorage, you need the `CfgMods` parameters to be configured correctly. Here is where we will be applying the global storage version for your mod. `ModStorage` will only be registered for the mod once it has a storage version greater than zero.
