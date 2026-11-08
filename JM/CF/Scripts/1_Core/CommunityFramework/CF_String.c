@@ -192,6 +192,150 @@ class CF_String : string
 	}
 
 	/**
+	 * @brief	Returns trimmed string with removed leading 'trimChars'
+	 * 
+	 * @param trimChars The characters to be trimmed (defaults to whitepace if not given)
+	 * 
+	 * @code
+	 * 	string str = " Hello World "
+	 * 	Print( str );
+	 * 	Print( str.TrimStart() );
+	 * 
+	 * 	>> ' Hello World '
+	 * 	>> 'Hello World '
+	 * @endcode
+	 */
+	string TrimStart(string trimChars = "")
+	{
+		if (!trimChars)
+			trimChars = " \n\r\t";
+
+		int length = value.Length();
+		int index;
+
+		while (index < length)
+		{
+			string c = value[index];
+			bool found = false;
+
+			for (int i = 0; i < trimChars.Length(); ++i)
+			{
+				if (c == trimChars[i])
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				break;
+
+			++index;
+		}
+
+		if (index > 0)
+			return value.Substring(index, length - index);
+
+		return value;
+	}
+
+	/**
+	 * @brief	Removes leading 'trimChars'
+	 *
+	 * @param trimChars The characters to be trimmed (defaults to whitepace if not given)
+	 * @return New length of string
+	 * 
+	 * @code
+	 *  string str = " Hello World ";
+	 *  int i = str.TrimStartInPlace();
+	 *  Print(str);
+	 *  Print(i);
+	 *  
+	 *  >> str = 'Hello World '
+	 *  >> i = 12
+	 * @endcode
+	 */
+	int TrimStartInPlace(string trimChars = "")
+	{
+		CF_String toTrim = value;
+		value = toTrim.TrimStart(trimChars);
+		return value.Length();
+	}
+
+	/**
+	 * @brief	Returns trimmed string with removed trailing 'trimChars'
+	 * 
+	 * @param trimChars The characters to be trimmed (defaults to whitepace if not given)
+	 * 
+	 * @code
+	 * 	string str = " Hello World "
+	 * 	Print( str );
+	 * 	Print( str.TrimEnd() );
+	 * 
+	 * 	>> ' Hello World '
+	 * 	>> ' Hello World'
+	 * @endcode
+	 */
+	string TrimEnd(string trimChars = "")
+	{
+		if (!trimChars)
+			trimChars = " \n\r\t";
+
+		int length = value.Length();
+		int index = length - 1;
+
+		while (index >= 0)
+		{
+			string c = value[index];
+			bool found = false;
+
+			for (int i = 0; i < trimChars.Length(); ++i)
+			{
+				if (c == trimChars[i])
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				break;
+
+			--index;
+		}
+
+		int newLength = index + 1;
+		if (newLength < length)
+			return value.Substring(0, newLength);
+
+		return value;
+	}
+
+	/**
+	 * @brief	Removes trailing 'trimChars'
+	 *
+	 * @param trimChars The characters to be trimmed (defaults to whitepace if not given)
+	 * @return New length of string
+	 * 
+	 * @code
+	 *  string str = " Hello World ";
+	 *  int i = str.TrimEndInPlace();
+	 *  Print(str);
+	 *  Print(i);
+	 *  
+	 *  >> str = ' Hello World'
+	 *  >> i = 12
+	 * @endcode
+	 */
+	int TrimEndInPlace(string trimChars = "")
+	{
+		
+		CF_String toTrim = value;
+		value = toTrim.TrimEnd(trimChars);
+		return value.Length();
+	}
+
+	/**
 	 * @brief	Checks to see if the two string matches
 	 * 
 	 * @param a The first string to be checked

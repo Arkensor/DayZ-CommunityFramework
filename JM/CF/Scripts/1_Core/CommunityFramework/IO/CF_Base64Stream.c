@@ -133,7 +133,7 @@ class CF_Base64Stream : CF_Stream
 		}
 		
 		int pad = 3 - (m_Size % 3);
-		int len = m_String.Length() - pad
+		int len = m_String.Length() - pad;
 		if (len > 8191)
 			Error("Length exceeds string::Substring max of 8191");
 		m_String = m_String.Substring(0, len) + s_Padding[pad];

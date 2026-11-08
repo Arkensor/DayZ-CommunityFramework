@@ -130,6 +130,15 @@ class CF_ModStorageObject<Class T> : CF_ModStorageBase
 			return false;
 		}
 
+		//! Check if garbage was read.
+		//! Upper limit of 256 for numMods was chosen arbitrarily but should be plenty (usually numMods is expected to be in single digits
+		//! since it's only counting the mods that actually use ModStorage)
+		if (cf_version > CF_ModStorage.VERSION || numMods < 0 || numMods > 256)
+		{
+			CF.FormatError("Corrupt modstorage header, unsupported CF version (%1) or too many mods (%2) for entity Type=%3, Position=%4", cf_version.ToString(), numMods.ToString(), m_Entity.GetType(), m_Entity.GetPosition().ToString());
+			return false;
+		}
+
 		m_UnloadedMods.Resize(numMods);
 
 		CF_ModStorageMap loadedMods();

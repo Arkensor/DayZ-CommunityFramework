@@ -8,11 +8,26 @@ CGame CF_CreateGame()
 	return g_Game;
 }
 
+enum CF_ResolvePath
+{
+	INVALID,
+	MISSION,
+	PROFILE,
+	SAVES,
+	STORAGE
+}
+
 typedef CommunityFramework CF;
 class CommunityFramework : ModStructure
 {
     static CF_ObjectManager ObjectManager;
 	static CF_XML XML;
+	static bool s_FindFile_DZ130_Tested;
+	static bool s_FindFileEx_ResolvePath;
+	static string s_MissionFolder;
+	static string s_ProfileFolder;
+	static string s_SavesFolder;
+	static string s_StorageFolder;
 
     /**
      * @brief [Internal] CommunityFramework initilization for 3_Game
@@ -148,6 +163,280 @@ class CommunityFramework : ModStructure
 			
 			PrintFormat("[%1::%2] :: [INFO] :: %3", filename, funcname, err);
 		}
+	}
+
+	/**
+	 * @brief Resolves filesystem prefixes ('$mission', '$profile', '$saves', '$storage') in path.
+	 * Guessing might be involved.
+	 *
+	 * @note only works if the respective directories are under the game directory
+	 *
+	 * @return path with prefixes resolved (relative to game directory) and all backslashes converted to forward slashes
+	 */
+	static string ResolvePath(string path)
+	{
+		path.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+
+		string pathLower = path;
+		pathLower.ToLower();
+
+		CF_ResolvePath resolve;
+		string relPath;
+
+		if (pathLower.IndexOf("$profile:") == 0)
+			resolve = CF_ResolvePath.PROFILE;
+		else if (pathLower.IndexOf("$saves:") == 0)
+			resolve = CF_ResolvePath.SAVES;
+		else if (pathLower.IndexOf("$mission:") == 0)
+			resolve = CF_ResolvePath.MISSION;
+		else if (pathLower.IndexOf("$storage:") == 0)
+			resolve = CF_ResolvePath.STORAGE;
+
+	#ifdef SERVER
+		ErrorExSeverity errorSeverity = ErrorExSeverity.ERROR;
+	#else
+		ErrorExSeverity errorSeverity = ErrorExSeverity.INFO;
+	#endif
+
+		if (resolve == CF_ResolvePath.PROFILE || resolve == CF_ResolvePath.SAVES)
+		{
+			if (!s_ProfileFolder)
+			{
+				CF_String profileParam;
+				if (GetCLIParam("profiles", profileParam))
+				{
+					profileParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+					profileParam.TrimEndInPlace("/");
+
+				#ifdef DIAG_DEVELOPER
+					FormatErrorEx( "Profile param %1", ErrorExSeverity.INFO, profileParam);
+				#endif
+
+					if (CF_Path.IsAbsolute(profileParam))
+						profileParam = CF_Path.GetBaseName(profileParam);
+					else
+						profileParam.TrimStartInPlace("./");
+
+					s_ProfileFolder = profileParam;
+					
+					if (!s_ProfileFolder)
+					{
+						ErrorEx("Could not determine profile folder, please use -profiles parameter",errorSeverity);
+					}
+					else if (!FileExist(s_ProfileFolder))
+					{
+						FormatErrorEx("Profile folder %1 does not exist inside game directory", errorSeverity, s_ProfileFolder);
+					}
+					else
+					{
+						FormatErrorEx("Using profile folder %1", ErrorExSeverity.INFO, s_ProfileFolder);
+					}
+				}
+			}
+
+			if (s_ProfileFolder)
+			{
+				if (resolve == CF_ResolvePath.PROFILE)
+				{
+					relPath = path.Substring(9, path.Length() - 9);
+					path = string.Format("%1/%2", s_ProfileFolder, relPath);
+				}
+				else if (resolve == CF_ResolvePath.SAVES)
+				{
+					if (!s_SavesFolder)
+					{
+						string userName;
+					#ifdef SERVER
+						userName = "Server";
+					#else
+						BiosUserManager userMgr = g_Game.GetUserManager();
+						if (userMgr)
+						{
+							BiosUser user = userMgr.GetSelectedUser();
+							if (user)
+								userName = user.GetName();
+						}
+					#endif
+
+						s_SavesFolder = string.Format("%1/Users/%2", s_ProfileFolder, userName);
+					}
+
+					relPath = path.Substring(7, path.Length() - 7);
+					path = string.Format("%1/%2", s_SavesFolder, relPath);
+				}
+			}
+		}
+		else if (resolve == CF_ResolvePath.MISSION || resolve == CF_ResolvePath.STORAGE)
+		{
+			if (!s_MissionFolder)
+			{
+				//! @note DayZGame::GetMissionPath will return empty string during early game init, it's set by the engine at mission creation
+				//!       DayZGame::GetMissionFolderPath is not reliable since DayZGame::SetMissionPath expects backslash as directory separator
+				CF_String missionPath = g_Game.GetMissionPath();
+				CF_String missionParam;
+				if (missionPath)
+				{
+					missionPath.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+
+					//! Strip '/mission.c' from the end
+					int index = missionPath.LastIndexOf("/");
+					if (index > -1)
+						missionPath = missionPath.Substring(0, index);
+
+					s_MissionFolder = missionPath;
+				}
+				else if (GetCLIParam("mission", missionParam))
+				{
+					missionParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+					missionParam.TrimEndInPlace("/");
+					missionParam.TrimStartInPlace("./");
+
+				#ifdef DIAG_DEVELOPER
+					FormatErrorEx("Mission param %1", ErrorExSeverity.INFO, missionParam);
+				#endif
+
+					s_MissionFolder = missionParam;
+				}
+				else
+				{
+					string configParam;
+					if (GetCLIParam("config", configParam))
+					{
+						if (FileExist(configParam))
+						{
+							ConfigFile cfg = ConfigFile.Parse(configParam);
+							if (cfg)
+							{
+								ConfigEntry entry = cfg.Get("Missions DayZ template");
+								if (entry)
+									s_MissionFolder = entry.GetText();
+							}
+						}
+					}
+
+					if (!s_MissionFolder)
+					{
+						//! Best we can do with what we have is guess from world name
+						string worldName;
+						g_Game.GetWorldName(worldName);
+
+						TStringArray candidates = {};
+
+						candidates.Insert(string.Format("mpmissions/dayzOffline.%1", worldName));
+						candidates.Insert(string.Format("mpmissions/empty.%1", worldName));
+						candidates.Insert(string.Format("mpmissions/hardcore.%1", worldName));
+						candidates.Insert(string.Format("mpmissions/main.%1", worldName));
+						candidates.Insert(string.Format("mpmissions/offline.%1", worldName));
+						candidates.Insert(string.Format("mpmissions/regular.%1", worldName));
+						candidates.Insert(string.Format("mpmissions/summer.%1", worldName));
+
+						foreach (string candidate: candidates)
+						{
+							if (FileExist(candidate))
+							{
+								s_MissionFolder = candidate;
+								break;
+							}
+						}
+					}
+				}
+
+				if (!s_MissionFolder)
+				{
+					ErrorEx("Could not determine mission folder, please use -mission parameter", errorSeverity);
+				}
+				else if (!FileExist(s_MissionFolder))
+				{
+					FormatErrorEx("Mission folder %1 does not exist inside game directory", errorSeverity, s_MissionFolder);
+				}
+				else
+				{
+					FormatErrorEx("Using mission folder %1", ErrorExSeverity.INFO, s_MissionFolder);
+				}
+			}
+
+			if (s_MissionFolder)
+			{
+				if (resolve == CF_ResolvePath.MISSION)
+				{
+					relPath = path.Substring(9, path.Length() - 9);
+					path = string.Format("%1/%2", s_MissionFolder, relPath);
+				}
+				else if (resolve == CF_ResolvePath.STORAGE)
+				{
+					if (!s_StorageFolder)
+					{
+						string storageRoot = s_MissionFolder;
+
+						CF_String storageParam;
+						if (GetCLIParam("storage", storageParam))
+						{
+							storageParam.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+							storageParam.TrimEndInPlace("/");
+
+						#ifdef DIAG_DEVELOPER
+							FormatErrorEx( "Storage param %1", ErrorExSeverity.INFO, storageParam);
+						#endif
+
+							if (CF_Path.IsAbsolute(storageParam))
+								storageParam = CF_Path.GetBaseName(storageParam);
+							else
+								storageParam.TrimStartInPlace("./");
+
+							storageRoot = storageParam;
+						}
+
+						int instanceId = g_Game.ServerConfigGetInt("instanceId");
+						s_StorageFolder = string.Format("%1/storage_%2", storageRoot, instanceId);
+						FormatErrorEx("Using storage folder %1", ErrorExSeverity.INFO, s_StorageFolder);
+					}
+
+					relPath = path.Substring(9, path.Length() - 9);
+					path = string.Format("%1/%2", s_StorageFolder, relPath);
+				}
+			}
+		}
+		else if (pathLower.IndexOf("$currentdir:") == 0)
+		{
+			path = path.Substring(12, path.Length() - 12);
+		}
+		
+		return path;
+	}
+
+	static FindFileHandle FindFileEx(string pattern, out string fileName, out FileAttr fileAttributes, FindFileFlags flags)
+	{
+		pattern.Replace("\\", "/");  //! Important, have to use fwd slash not backslash, won't find files otherwise under 1.30
+
+	#ifndef DAYZ_1_29
+		//! 1.30 Experimental broke $ placeholders and bwd slash usage in FindFile, see https://report.bistudio.com/issues/DZEXP-134
+		//! Since this will be fixed later on 1.30 stable, test if we can read from mission dir. If we can't, apply our workaround
+		//! by passing -1 for flags
+		if (!s_FindFile_DZ130_Tested)
+		{
+			string testFileName = "cf_findfile_dz130_test";
+			string testPath = string.Format("$profile:%1", testFileName);
+
+			if (!FileExist(testPath))
+			{
+				FileHandle testFile = OpenFile(testPath, FileMode.WRITE);
+				CloseFile(testFile);
+			}
+			
+			FindFileHandle findFileHandle = FindFile(testPath, fileName, fileAttributes, FindFileFlags.ALL);
+			if (!findFileHandle || fileName != testFileName)
+				s_FindFileEx_ResolvePath = true;
+			if (findFileHandle)
+				CloseFindFile(findFileHandle);
+
+			s_FindFile_DZ130_Tested = true;
+		}
+
+		if (s_FindFileEx_ResolvePath)
+			flags = -1;
+	#endif
+
+		return FindFile(pattern, fileName, fileAttributes, flags);
 	}
 };
 

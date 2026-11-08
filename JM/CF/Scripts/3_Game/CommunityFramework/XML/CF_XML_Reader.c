@@ -278,8 +278,11 @@ class CF_XML_Reader : Managed
 
 		string c = SkipWhitespace();
 
-		if (c == "\"")
+		string quoteChar;
+
+		if (c == "\"" || c == "'")
 		{
+			quoteChar = c;
 			c = "";
 			isQuoted = true;
 		}
@@ -288,7 +291,7 @@ class CF_XML_Reader : Managed
 		{
 			word = word + c;
 			c = GetCharacter();
-			if (isQuoted && c == "\"")
+			if (isQuoted && c == quoteChar)
 			{
 				break;
 			}
